@@ -1,0 +1,47 @@
+.Skills{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 19%;
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 25px;
+}
+
+.Skills h1{
+  font-size:11pt;
+  font-family:arial, "lucida console", sans-serif;
+  text-align: center;
+}
+
+        .FormularZeile {
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        .FormularLabel {
+            display: inline-block;
+            margin-left: 10px;
+            width: 45%;
+            font-weight: bold;
+        }
+        .FormularInput {
+            display: inline-block;
+            margin-left: 10px;
+            width: 40%;
+            text-align: left;
+        }
+        .FormularButton {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .Button {
+            width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }

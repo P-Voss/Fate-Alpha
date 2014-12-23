@@ -1,0 +1,77 @@
+  #Menu{
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    vertical-align: top;
+    padding-top: 5px;      
+  }
+  .Unterpunkt {
+    display: inline-block;
+    width: 200px;
+    vertical-align: top;
+    font-size:12pt;
+    font-family:arial, "lucida console", sans-serif;
+    text-align: center;         
+  }
+  .linkeHaelfte{
+    display: inline-block;
+    min-height: 40%;
+    width: 47.5%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    border-top : 1px solid black;
+    vertical-align: top;
+    padding-top: 15px;
+  }
+  .rechteHaelfte{
+    display: inline-block;
+    min-height: 40%;
+    width: 47.5%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    border-top : 1px solid black;
+    vertical-align: top;
+    padding-top: 15px;
+  }  
+        .FormularZeile {
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        .FormularLabel {
+            display: inline-block;
+            margin-left: 10px;
+            width: 100%;
+            font-weight: bold;
+        }
+        .FormularInput {
+            display: inline-block;
+            margin-left: 10px;
+            width: 100%;
+            text-align: left;
+        }
+        .FormularButton {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .Button {
+            width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        #Titel{
+            font-weight: bold;
+        }

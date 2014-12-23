@@ -1,0 +1,34 @@
+<?php
+$news = $this->news;
+?>
+<h1>
+    Neuigkeiten
+</h1>
+<?php
+foreach ($news as $nachricht){
+    /* @var $nachricht Application_Model_News */
+?>
+    <div class="News">
+        <div class="NewsTitel">
+            <h2><?= htmlentities($nachricht->getTitel()); ?></h2>
+        </div>
+        <div class="NewsNachricht">
+            <?= nl2br(htmlentities($nachricht->getNachricht())); ?>
+        </div>
+        <div class="NewsBottom">
+            <a href="<?= $this->baseUrl(); ?>/charakter/id/<?= $nachricht->getVerfasser(); ?>">
+                <div class="NewsVerfasser">
+                    Verfasst von: <?= htmlentities($nachricht->getVerfasserName()); ?>
+                </div>
+            </a>
+            <div class="NewsEdit">
+                Editiert von: <?= htmlentities($nachricht->getEditorName()); ?>
+            </div>
+            <div class="NewsDatum">
+                Verfasst am <?= $nachricht->getDatum(); ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>

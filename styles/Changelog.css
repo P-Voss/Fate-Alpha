@@ -1,0 +1,47 @@
+
+        .Zeile {
+            width: 97%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .Label {
+            width: 15%;
+            display: inline-block;
+            font-weight: bold;
+            vertical-align: top;
+        }
+        .Vergleich {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+            margin-left: 2%;
+        }
+        .VergleichZ {
+            width: 60%;
+            display: inline-block;
+            margin-left: 5%;
+            text-align: center;
+        }
+        .VergleichS {
+            width: 60%;
+            margin-left: 15%;
+            display: inline-block;
+        }
+        .VergleichZS {
+            width: 60%;
+            margin-left: 15%;
+            display: inline-block;
+            text-align: center;
+        }
+        .Uberschrift {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+            text-align: center;
+            font-weight: bold;
+        }

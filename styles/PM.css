@@ -1,0 +1,44 @@
+.Nachrichtenzeile{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;   
+}
+
+.Status{
+    width: 75px;
+    text-align: center;
+    display: inline-block;
+}
+
+.Betreff{
+    width: 175px;
+    text-align: left;
+    display: inline-block;
+}
+
+.Spieler{
+    width: 275px;
+    text-align: center;
+    display: inline-block;
+}
+
+.Datum{
+    width: 275px;
+    text-align: right;
+    display: inline-block;
+}
+
+.Nachricht{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    margin-top: 15px;
+    vertical-align: top;
+    text-align: left;
+    border: 1px solid black;
+    background-color: #00FFFF;
+}
