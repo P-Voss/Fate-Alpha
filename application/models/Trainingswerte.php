@@ -7,61 +7,59 @@
  */
 class Application_Model_Trainingswerte {
     
-    protected $strTraining;
-    protected $agiTraining;
-    protected $ausTraining;
-    protected $disTraining;
-    protected $konTraining;
-    protected $praTraining;
+    protected $staerke;
+    protected $agilitaet;
+    protected $ausdauer;
+    protected $disziplin;
+    protected $kontrolle;
+    protected $uebung;
     
     public function getStrTraining() {
-        return $this->strTraining;
+        return $this->staerke;
     }
 
     public function getAgiTraining() {
-        return $this->agiTraining;
+        return $this->agilitaet;
     }
 
     public function getAusTraining() {
-        return $this->ausTraining;
+        return $this->ausdauer;
     }
 
     public function getDisTraining() {
-        return $this->disTraining;
+        return $this->disziplin;
     }
 
     public function getKonTraining() {
-        return $this->konTraining;
+        return $this->kontrolle;
     }
 
     public function getPraTraining() {
-        return $this->praTraining;
+        return $this->uebung;
     }
 
     public function setStrTraining($strTraining) {
-        $this->strTraining = $strTraining;
+        $this->staerke = $strTraining;
     }
 
     public function setAgiTraining($agiTraining) {
-        $this->agiTraining = $agiTraining;
+        $this->agilitaet = $agiTraining;
     }
 
     public function setAusTraining($ausTraining) {
-        $this->ausTraining = $ausTraining;
+        $this->ausdauer = $ausTraining;
     }
 
     public function setDisTraining($disTraining) {
-        $this->disTraining = $disTraining;
+        $this->disziplin = $disTraining;
     }
 
     public function setKonTraining($konTraining) {
-        $this->konTraining = $konTraining;
+        $this->kontrolle = $konTraining;
     }
 
     public function setPraTraining($praTraining) {
-        $this->praTraining = $praTraining;
+        $this->uebung = $praTraining;
     }
 
-
-    
 }

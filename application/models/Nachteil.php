@@ -10,6 +10,7 @@ class Application_Model_Nachteil {
     protected $id;
     protected $name;
     protected $bezeichnung;
+    protected $beschreibung;
     protected $kosten;
     protected $gruppe;
     
@@ -24,6 +25,10 @@ class Application_Model_Nachteil {
 
     public function getBezeichnung() {
         return $this->bezeichnung;
+    }
+
+    public function getBeschreibung() {
+        return $this->beschreibung;
     }
 
     public function getKosten() {
@@ -44,6 +49,10 @@ class Application_Model_Nachteil {
 
     public function setBezeichnung($bezeichnung) {
         $this->bezeichnung = $bezeichnung;
+    }
+
+    public function setBeschreibung($beschreibung) {
+        $this->beschreibung = $beschreibung;
     }
 
     public function setKosten($kosten) {

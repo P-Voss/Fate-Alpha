@@ -7,32 +7,41 @@
  */
 class TrainingController extends Zend_Controller_Action{
     
-    protected $userService;
-    protected $trainingService;
-    protected $charakterService;
-    protected $trainingswerte;
-
+    protected $_userService;
+    protected $_trainingService;
+    protected $_charakterService;
+    protected $_trainingswerte;
+    private $_auth;
 
     public function init(){
-        $this->userService = new Application_Service_User();
-        $this->layoutService = new Application_Service_Layout();
-        $this->charakterService = new Application_Service_Charakter();
-        $this->trainingService = new Application_Service_Training();
+        $this->_userService = new Application_Service_User();
+        $this->_layoutService = new Application_Service_Layout();
+        $this->_charakterService = new Application_Service_Charakter();
+        $this->_trainingService = new Application_Service_Training();
         
         $layout = $this->_helper->layout();
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        if($auth === null){
+        $this->_auth = Zend_Auth::getInstance()->getIdentity();
+        if($this->_auth === null){
             $layout->setLayout('offline');
         }  else {
-            $this->trainingswerte = $this->trainingService->getTrainingswerte($this->userService->getCharakter($auth->ID)->getCharakterid());
+            $this->_trainingswerte = $this->_trainingService->getTrainingswerte($this->_userService->getCharakter($this->_auth->ID));
             
-            $this->view->layoutData = $this->layoutService->getLayoutData($auth);
+            $this->view->layoutData = $this->_layoutService->getLayoutData($this->_auth);
             $layout->setLayout('online');
         }
     }
     
     public function indexAction(){
-        
+        $this->view->trainingswerte = $this->_trainingswerte;
+    }
+    
+    public function trainingAction() {
+        if($this->getRequest()->isPost()){
+            if(!$this->_trainingService->startTraining($this->_userService->getCharakter($this->_auth->ID), $this->_trainingswerte, $this->getRequest())){
+                $this->view->fehlermeldung = 'Es wurden fehlerhafte Werte übertragen. Try Again.';
+            }
+        }
+        $this->redirect('training');
     }
     
 }

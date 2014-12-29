@@ -17,7 +17,6 @@ class Application_Service_Layout {
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->ID));
         $layoutModel->setUsergruppe($auth->Usergruppe);
         $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($layoutModel->getCharakter()->getCharakterid()));
-        
         return $layoutModel;
     }
 }

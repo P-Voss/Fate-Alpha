@@ -22,7 +22,10 @@ foreach ($news as $nachricht){
                 </div>
             </a>
             <div class="NewsEdit">
-                Editiert von: <?= htmlentities($nachricht->getEditorName()); ?>
+                <?php if($nachricht->getEditorName() !== null){
+                    echo 'Editiert von: ' . htmlentities($nachricht->getEditorName());
+                }
+                ?>
             </div>
             <div class="NewsDatum">
                 Verfasst am <?= $nachricht->getDatum(); ?>

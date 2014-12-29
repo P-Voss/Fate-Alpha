@@ -23,7 +23,7 @@ class LoginController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $login = $this->service->login($this->getRequest());
             if ($login === true) {
-                $this->_redirect('index');
+                $this->_redirect('index/index');
             } else {
                 $this->view->fehlermeldung = $login;
             }

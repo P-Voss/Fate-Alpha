@@ -41,8 +41,9 @@ class Application_Model_Mapper_NewsMapper{
                 $model->setTitel($row->Titel);
                 $model->setVerfasser($row->Verfasser);
                 $model->setVerfasserName($usermapper->getAdminnameById($row->Verfasser));
-                $model->setEditorName($usermapper->getAdminnameById($row->Edit));
-                
+                if($row->Edit !== null){
+                    $model->setEditorName($usermapper->getAdminnameById($row->Edit));
+                }
                 $return[] = $model;
             }
             return $return;
