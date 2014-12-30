@@ -1,0 +1,77 @@
+<h1>
+    Registrieren
+</h1>
+<style type="text/css">
+    .container{
+        width: 500px;
+        margin: 0 auto;
+    }
+    fieldset{
+        padding: 5px 10px;
+    }
+    .row2ColumnsLabel{
+        width: 150px;
+        display: inline-block;
+    }
+    .row2ColumnsInput{
+        width: 250px;
+        display: inline-block;
+        float: right;
+    }
+    .submit{
+        width: 200px;
+        margin: 5px auto;
+        display: block;
+    }
+</style>
+<form method="post" action="<?= $this->baseUrl() ?>/user/create">
+    <div class="container">
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                Loginname
+            </label>
+            <input class="row2ColumnsInput" name="loginname" type="text" required="true" placeholder="Wird nur zum Login verwendet.">
+        </fieldset>
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                Profilname
+            </label>
+            <input class="row2ColumnsInput" name="profilname" type="text" required="true" placeholder="Name, den andere Spieler sehen.">
+        </fieldset>
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                E-Mail
+            </label>
+            <input class="row2ColumnsInput" name="mail" type="text" required="true" placeholder="Wird anderen nicht angezeigt.">
+        </fieldset>
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                Passwort
+            </label>
+            <input class="row2ColumnsInput" name="password" type="password" required="true">
+        </fieldset>
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                Passwort bestätigen
+            </label>
+            <input class="row2ColumnsInput" name="passwordVerified" type="password" required="true">
+        </fieldset>
+        <fieldset>
+            <h3>
+                Anmeldebedingungen
+            </h3>
+            <p>
+                Die regeln folgen noch
+            </p>
+        </fieldset>
+        <fieldset>
+            <label class="row2ColumnsLabel">
+                Regeln akzeptieren:
+            </label>
+            <input class="row2ColumnsInput" name="rules" type="checkbox" required="true">
+        </fieldset>
+        <fieldset>
+            <input class="submit" name="Submit" type="submit" value="Registrieren">
+        </fieldset>
+    </div>
+</form>

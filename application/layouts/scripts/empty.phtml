@@ -1,0 +1,139 @@
+<?php 
+echo $this->doctype();
+$layoutData = $this->layoutData;
+
+if($layoutData->getHasChara() === true){
+    $charaData = $layoutData->getCharakter();
+    $training = $layoutData->charakterTraining;
+}
+$displayTraining = array(
+    'staerke' => 'Stärke',
+    'agilitaet' => 'Agilität',
+    'ausdauer' => 'Ausdauer',
+    'uebung' => 'Übung',
+    'kontrolle' => 'Kontrolle',
+    'disziplin' => 'Disziplin',
+)
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Fate/Alpha</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/charakterErstellung.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/style.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div id="header-logo">
+
+        </div>
+    </div>
+    <div id="seitenbereich1">
+        <div id="beschreibungRechts">
+            <p>
+                Verfügbare Erstellungspunkte <span id="Erstellungspunkte"></span>
+            </p>
+            <hr/>
+            <p id="Beschreibung">
+
+            </p>
+        </div>
+        <div id="beschreibungLinks">
+            <p id="namen">
+                <span id="Vorname">
+
+                </span>
+                <span id="Nachname">
+
+                </span>
+                <span id="Geschlecht">
+
+                </span>
+            </p>
+            <p>
+                <span id="Geburtsdatum">
+
+                </span>
+            </p>
+            <p>
+                <span id="Augenfarbe">
+
+                </span>
+            </p>
+            <p>
+                <span id="Körpergröße">
+
+                </span>
+            </p>
+            <p>
+                <span id="Sexualität">
+
+                </span>
+            </p>
+            <p>
+                <span id="Wohnort">
+
+                </span>
+            </p>
+        </div>
+        <div id="seitenbereich2">
+            <div id="steuerung">
+                <ul>
+                    <li><a href="<?= $this->baseUrl() ?>/index">Startseite</a></li>
+                    <li>
+                        <a href="" onclick="return false;">Informationen</a>
+                            <ul>
+                                <li><a href="<?= $this->baseUrl() ?>/changelog">Changelog</a></li>
+                                <?php
+//                                    foreach ($Informationen as $Information){
+//                                        echo '<li><a href="Informationen.php?ID='.$Information['ID'].'">'.htmlentities($Information['Name']).'</a></li>';
+//                                    }
+                                ?>
+                            </ul>
+                    </li>
+                    <li>
+                        <a href="" onclick="return false;">Community</a>
+                            <ul>
+                                <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
+                                <li><a href="http://alpha.mainchat.de/" target="_blank">Chat</a></li>
+                                <li><a href="<?= $this->baseUrl() ?>/spielergruppen">Spielergruppen</a></li>
+                                <li><a href="<?= $this->baseUrl() ?>/npc">NPCs</a></li>
+                            </ul>
+                    </li>
+                    <li><a href="<?= $this->baseUrl() ?>/charakter/bekannte">Userliste</a></li>
+                    <li>
+                        <a href="" onclick="return false;">
+                            Profil   
+                            <?php 
+                                if($layoutData->getUnreadPmCount() > 0){
+                                    echo ' ('.$layoutData->getUnreadPmCount().'&#9993;)';
+                                }
+                            ?>
+
+                        </a>
+                            <ul>
+                                <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
+                                <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
+                                <li><a href="<?= $this->baseUrl() ?>/pm">Nachrichten</a></li>
+
+                            </ul>
+                    </li>
+                    <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
+                </ul>
+            </div>
+            <div id="inhalt">
+                <?php echo $this->layout()->content; ?>
+            </div>
+            <div id="footer">
+                <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>

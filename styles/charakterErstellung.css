@@ -1,0 +1,76 @@
+        
+        .FormularZeile {
+            width: 95%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            margin-bottom: 25px;
+            vertical-align: top;
+            border: none;
+        }
+        .FormularLabel {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            vertical-align: middle;
+        }
+        .FormularInput {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40%;
+            text-align: right;
+        }
+        .titel{
+            display: block;
+            font-weight: bold;
+        }
+        .label{
+            font-style: italic;
+            vertical-align: middle;
+        }
+        .Ausgabe {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 20%;
+            font-weight: bold;
+            vertical-align: top;
+        }
+        .FormularButton {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .Button {
+            width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .Select{
+            width: 200px;
+            display: block;
+        }
+
+        input{
+            background: none;
+            border: none;
+            border-bottom: dotted black;
+        }
+
+        #Beschreibung{
+            vertical-align: middle;
+        }
+        
+        label{
+            vertical-align: middle;
+        }
+        
+ a:link {text-decoration: none; color: #000000;}
+ a:visited {text-decoration: none; color: #000000;}
+ a:active {text-decoration: underline; color: #0000FF;}
+ a:hover {text-decoration: underline; color: red;}

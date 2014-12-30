@@ -1,11 +1,10 @@
 <?php
 
-class Application_Model_Mapper_UserMapper{
-    
+class Application_Model_Mapper_UserMapper {
+
     protected $dbTableUser;
     protected $dbTablePm;
 
-    
     public function getDbTableUser() {
         if (null === $this->dbTableUser) {
             $this->setDbTableUser('Application_Model_DbTable_User');
@@ -42,20 +41,19 @@ class Application_Model_Mapper_UserMapper{
         return $this;
     }
 
-    
-    public function hasChara($userid){
+    public function hasChara($userid) {
         $select = $this->getDbTableUser()->select();
         $select->setIntegrityCheck(false);
         $select->from('Charakter');
         $select->where('userID = ?', $userid);
         $result = $this->getDbTableUser()->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function countNewPm($userid) {
         $select = $this->getDbTablePm()->select();
         $select->setIntegrityCheck(false);
@@ -64,26 +62,49 @@ class Application_Model_Mapper_UserMapper{
         $result = $this->getDbTablePm()->fetchAll($select);
         return $result->count();
     }
-    
+
     public function getAdminnameById($userid) {
         $select = $this->getDbTableUser()->select();
         $select->setIntegrityCheck(false);
         $select->from('Benutzerdaten');
         $select->where('id = ?', $userid);
         $result = $this->getDbTableUser()->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 return $row->Profilname;
             }
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public function getCharakterById($userid){
+
+    public function getCharakterById($userid) {
         
     }
-    
+
+    public function createUser(Application_Model_User $user, $ip) {
+        $datetime = new DateTime();
+        $data['Username'] = $user->getUsername();
+        $data['Profilname'] = $user->getProfilname();
+        $data['Passwort'] = $this->generateHash($user->getPasswort());
+        $data['Email'] = $user->getEmail();
+        $data['Usergruppe'] = $user->getUsergruppe();
+        $data['Adminname'] = null;
+        $data['Loginzeitpunkt'] = null;
+        $data['Logoutzeitpunkt'] = null;
+        $data['Anmeldedatum'] = $datetime->format('Y-m-d H:i:s');
+        $data['ip'] = $ip;
+        $this->getDbTableUser()->insert($data);
+    }
+
+    function generateHash($password) {
+        return md5($password);
+        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+            $salt = '$2y$11$' . substr(md5(uniqid(rand(), true)), 0, 22);
+            return crypt($password, $salt);
+        }
+    }
+
 }
 
 ?>

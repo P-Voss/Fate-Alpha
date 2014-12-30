@@ -11,6 +11,7 @@ class Application_Model_User {
     protected $username;
     protected $profilname;
     protected $email;
+    protected $passwort;
     protected $usergruppe;
     
     public function getId() {
@@ -32,6 +33,10 @@ class Application_Model_User {
     public function getUsergruppe() {
         return $this->usergruppe;
     }
+    
+    public function getPasswort() {
+        return $this->passwort;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -52,7 +57,9 @@ class Application_Model_User {
     public function setUsergruppe($usergruppe) {
         $this->usergruppe = $usergruppe;
     }
-
-
+    
+    public function setPasswort($passwort) {
+        $this->passwort = $passwort;
+    }
     
 }

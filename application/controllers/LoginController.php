@@ -15,8 +15,7 @@ class LoginController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->nachricht = 'hallo';
-        // action body
+        
     }
 
     public function loginAction() {
@@ -41,8 +40,11 @@ class LoginController extends Zend_Controller_Action
         Zend_Debug::dump($this->getRequest());exit;
         // action body
     }
-
-
+    
+    public function registrierungAction() {
+        
+    }
+    
 }
 
 
