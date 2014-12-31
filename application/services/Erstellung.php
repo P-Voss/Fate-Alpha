@@ -26,4 +26,8 @@ class Application_Service_Erstellung {
         return $creationParamContainer;
     }
     
+    public function calculatePoints(Zend_Controller_Request_Http $request) {
+        
+    }
+    
 }

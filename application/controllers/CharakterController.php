@@ -41,9 +41,20 @@ class CharakterController extends Zend_Controller_Action{
         $this->view->creationParams = $erstellungsService->getCreationParams();
     }
     
-    public function validateAction() {
-        Zend_Debug::dump($this->getRequest()->getPost());
-        exit;
+    public function punkteAction() {
+        $layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        
+    }
+    
+    public function beschreibungAction() {
+        $layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+    }
+    
+    public function vorteilcountAction() {
+        $layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
     }
     
 }

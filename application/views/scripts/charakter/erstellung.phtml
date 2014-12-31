@@ -390,7 +390,7 @@ $(document).ready(function() {
         wert = $(this).val();
         $.ajax({
           type: "POST",
-          url: "validate",
+          url: "<?= $this->baseUrl() ?>/Validation/ajax",
           data: {
               type: 'Vorname',
               value: wert
@@ -412,8 +412,11 @@ $(document).ready(function() {
         wert = $(this).val();
         $.ajax({
           type: "POST",
-          url: "ajax/charaktererstellung.php",
-          data: {nachname: wert}
+          url: "<?= $this->baseUrl() ?>/Validation/ajax",
+          data: {
+              type: 'Nachname',
+              value: wert
+          }
         })
             .success(function( msg ) {
                 if(msg.toLocaleLowerCase() === wert.toLocaleLowerCase()){
@@ -458,8 +461,6 @@ $(document).ready(function() {
         minDate: "-90y",
         yearRange: "c-90:+0"
     });
-    
-    
     $("#klasse").change(function(){
         wert = $(this).val();
         if(klassenPunkte !== 0){
@@ -467,18 +468,22 @@ $(document).ready(function() {
         }
         $.ajax({
           type: "POST",
-          url: "ajax/charaktererstellung.php",
-          data: {klassenid: wert}
+          url: "<?= $this->baseUrl() ?>/Charakter/beschreibung",
+          data: {
+              type: 'klasse',
+              id: wert
+            }
         })
             .success(function( msg ) {
                 $("#Beschreibung").html(msg);
             });
         $.ajax({
           type: "POST",
-          url: "ajax/punkte.php",
+          url: "<?= $this->baseUrl() ?>/Charakter/punkte",
           data: {
-              klassenid: wert
-          }
+              type: 'klasse',
+              id: wert
+            }
         })
             .success(function( msg ) {
                 klassenPunkte = msg;
@@ -487,10 +492,11 @@ $(document).ready(function() {
             });
         $.ajax({
           type: "POST",
-          url: "ajax/charaktererstellung.php",
+          url: "<?= $this->baseUrl() ?>/Charakter/vorteilcount",
           data: {
-              klasse: wert
-          }
+              type: 'klasse',
+              id: wert
+            }
         })
             .success(function( msg ) {
                 if(msg === '2'){
@@ -525,14 +531,6 @@ $(document).ready(function() {
         if(odoPunkte !== 0){
             erstellungspunkte = +erstellungspunkte + +odoPunkte;
         }
-//        $.ajax({
-//          type: "POST",
-//          url: "ajax/charaktererstellung.php",
-//          data: {odoid: wert}
-//        })
-//            .success(function( msg ) {
-//                $("#Beschreibung").html(msg);
-//            });
         $.ajax({
           type: "POST",
           url: "ajax/punkte.php",

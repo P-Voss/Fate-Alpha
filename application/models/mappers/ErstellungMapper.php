@@ -307,7 +307,8 @@ class Application_Model_Mapper_ErstellungMapper {
                 $model->setId($row->ID);
                 $model->setKategorie($row->Kategorie);
                 $model->setBeschreibung($row->Besonderheit);
-                $model->setKosten($row->Menge);
+                $model->setMenge($row->Menge);
+                $model->setKosten($row->Kosten);
                 $return[] = $model;
             }
             return $return;
