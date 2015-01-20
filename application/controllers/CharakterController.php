@@ -9,10 +9,13 @@ class CharakterController extends Zend_Controller_Action{
     
     protected $_charakterService;
     protected $_layoutService;
-    
+    protected $_erstellungsService;
+
+
     public function init() {
         $this->_charakterService = new Application_Service_Charakter();
         $this->_layoutService = new Application_Service_Layout();
+        $this->_erstellungsService = new Application_Service_Erstellung();
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
@@ -42,17 +45,20 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function punkteAction() {
+        $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        
+        echo json_encode($this->_erstellungsService->calculatePointsByRequest($this->getRequest()));
     }
     
     public function beschreibungAction() {
+        $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
     }
     
     public function vorteilcountAction() {
+        $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
     }

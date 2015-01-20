@@ -461,6 +461,9 @@ $(document).ready(function() {
         minDate: "-90y",
         yearRange: "c-90:+0"
     });
+    
+    
+    
     $("#klasse").change(function(){
         wert = $(this).val();
         if(klassenPunkte !== 0){
@@ -608,6 +611,23 @@ $(document).ready(function() {
             });
     });
     $("#vorteile").on("click", "option", function () {
+        var vorteile = new Array();
+        $.each($("#vorteile :selected"), function(id, value){
+            vorteile[id] = value['value'];
+        })
+        $.ajax({
+          type: "POST",
+          url: "<?= $this->baseUrl() ?>/Charakter/punkte",
+          data: {
+              type: 'vorteil',
+              value: vorteile}
+        })
+            .success(function( msg ) {
+                console.log(msg);
+                vorteilPunkte = msg;
+                erstellungspunkte = +erstellungspunkte + +vorteilPunkte;
+                $("#Erstellungspunkte").html(erstellungspunkte);
+            });
         $("#nachteile :disabled").removeAttr("disabled");
         $("#vorteile :disabled").removeAttr("disabled");
 //        if ( nachteilCount <= $("#nachteile :selected").length ) {
