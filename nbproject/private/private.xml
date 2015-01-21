@@ -4,22 +4,33 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Projekte/FateNeu/application/views/scripts/index/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Mapper/VorteilMapper.php</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/IndexController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/layouts/scripts/empty.phtml</file>
             <file>file:/F:/Projekte/FateNeu/application/services/Training.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Validation.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Vorteil.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Validation/Factory.php</file>
             <file>file:/F:/Projekte/FateNeu/application/services/User.php</file>
             <file>file:/F:/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/styles/style.css</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Validation/ValidationInterface.php</file>
             <file>file:/F:/Projekte/FateNeu/application/views/scripts/training/index.phtml</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/LoginController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/login/registrierung.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/controllers/TrainingController.php</file>
-            <file>file:/F:/Projekte/FateNeu/styles/charakterErstellung.css</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/mappers/ErstellungMapper.php</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
+        </group>
+        <group name="PHP">
+            <file>file:/F:/Projekte/FateNeu/application/views/scripts/training/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Training.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/User.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/LoginController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/views/scripts/index/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/IndexController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Validation/ValidationInterface.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Validation/Factory.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Mapper/VorteilMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
         </group>
     </open-files>
 </project-private>
