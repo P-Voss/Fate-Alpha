@@ -1,10 +1,15 @@
 <?php
 
 /**
- * Description of Charakter
+ * Description of Application_Service_Charakter
  *
- * @author Vosser
+ * @author Philipp Voß <voss.ph@web.de>
  */
 class Application_Service_Charakter {
-    //put your code here
+    
+    public function getCharakterByUserid($userId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharakterById($userId);
+    }
+    
 }

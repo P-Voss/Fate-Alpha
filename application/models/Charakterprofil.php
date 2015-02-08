@@ -1,68 +1,83 @@
 <?php
 
 /**
- * Description of Charakterprofil
+ * Description of Application_Model_Charakterprofil
  *
- * @author Vosser
+ * @author Philipp Voß <voss.ph@web.de>
  */
 class Application_Model_Charakterprofil {
     
-    protected $charakterid;
-    protected $charaktergeschichte;
-    protected $privatdaten;
-    protected $profilpic;
-    protected $charpic;
-    protected $kennenlerncode;
-    protected $privatcode;
+    protected $_charakterid;
+    protected $_charaktergeschichte;
+    protected $_privatdaten;
+    protected $_sldaten;
+    protected $_profilpic;
+    protected $_charpic;
+    protected $_kennenlerncode;
+    protected $_privatcode;
     
     public function getCharaktergeschichte() {
-        return $this->charaktergeschichte;
+        return $this->_charaktergeschichte;
     }
 
     public function getPrivatdaten() {
-        return $this->privatdaten;
+        return $this->_privatdaten;
     }
 
     public function getProfilpic() {
-        return $this->profilpic;
+        return $this->_profilpic;
     }
 
     public function getCharpic() {
-        return $this->charpic;
+        return $this->_charpic;
     }
 
     public function getKennenlerncode() {
-        return $this->kennenlerncode;
+        return $this->_kennenlerncode;
     }
 
     public function getPrivatcode() {
-        return $this->privatcode;
+        return $this->_privatcode;
     }
 
     public function setCharaktergeschichte($charaktergeschichte) {
-        $this->charaktergeschichte = $charaktergeschichte;
+        $this->_charaktergeschichte = $charaktergeschichte;
     }
 
     public function setPrivatdaten($privatdaten) {
-        $this->privatdaten = $privatdaten;
+        $this->_privatdaten = $privatdaten;
     }
 
     public function setProfilpic($profilpic) {
-        $this->profilpic = $profilpic;
+        $this->_profilpic = $profilpic;
     }
 
     public function setCharpic($charpic) {
-        $this->charpic = $charpic;
+        $this->_charpic = $charpic;
     }
 
     public function setKennenlerncode($kennenlerncode) {
-        $this->kennenlerncode = $kennenlerncode;
+        $this->_kennenlerncode = $kennenlerncode;
     }
 
     public function setPrivatcode($privatcode) {
-        $this->privatcode = $privatcode;
+        $this->_privatcode = $privatcode;
+    }
+    
+    public function getCharakterid() {
+        return $this->_charakterid;
     }
 
+    public function getSldaten() {
+        return $this->_sldaten;
+    }
 
+    public function setCharakterid($charakterid) {
+        $this->_charakterid = $charakterid;
+    }
+
+    public function setSldaten($sldaten) {
+        $this->_sldaten = $sldaten;
+    }
     
 }

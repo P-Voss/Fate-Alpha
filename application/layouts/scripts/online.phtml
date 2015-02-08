@@ -1,8 +1,8 @@
-<?php 
+<?php
 echo $this->doctype();
 $layoutData = $this->layoutData;
 
-if($layoutData->getHasChara() === true){
+if ($layoutData->getHasChara() === true) {
     $charaData = $layoutData->getCharakter();
     $training = $layoutData->charakterTraining;
 }
@@ -13,103 +13,104 @@ $displayTraining = array(
     'uebung' => 'Übung',
     'kontrolle' => 'Kontrolle',
     'disziplin' => 'Disziplin',
-)
+        )
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Fate/Alpha</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/style.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Admin.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Changelog.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Charakter.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/PM.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Profil.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Skills.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Wetter.css" />
-</head>
-<body>
-    <div id="header">
-        <div id="header-logo">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Fate/Alpha</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/style.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Admin.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Changelog.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Charakter.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/PM.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Profil.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Skills.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/styles/Wetter.css" />
+        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-2.1.3.min.js"></script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="header-logo">
 
+            </div>
         </div>
-    </div>
-    <div id="seitenbereich1">
-        <div id="navigation">
-            <?php
-            if($layoutData->getHasChara() !== true){
-            ?>
-            <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
-            <p class="Meldung"><a href="<?= $this->baseUrl() ?>/charakter/erstellung">Zur Charaktererstellung</a></p>
-
-            <?php
-            }else{
-            ?>
-                <ul style="list-style-type: none;">
-                    <li>
-                        <h3>
-                            <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
-                        </h3>
-                    </li>
-                    <li>
-                        <br />
-                    </li>
-                    <li>
-                        Aktuelles Training: 
-                    <?php
-                        if($training['dauer'] < 1){
-                            echo " - ";
-                        }
-                    ?> 
-                    </li>
+        <div id="seitenbereich1">
+            <div id="navigation">
                 <?php
-                    if($training['dauer'] == 1){
-                        echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tag)</li>';
-                    }
-                    if($training['dauer'] > 1){
-                        echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tage)</li>';
-                    }
+                if ($layoutData->getHasChara() !== true) {
+                    ?>
+                    <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
+                    <p class="Meldung"><a href="<?= $this->baseUrl() ?>/charakter/erstellung">Zur Charaktererstellung</a></p>
+
+                    <?php
+                } else {
+                    ?>
+                    <ul style="list-style-type: none;">
+                        <li>
+                            <h3>
+                                <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
+                            </h3>
+                        </li>
+                        <li>
+                            <br />
+                        </li>
+                        <li>
+                            Aktuelles Training: 
+                            <?php
+                            if ($training['dauer'] < 1) {
+                                echo " - ";
+                            }
+                            ?> 
+                        </li>
+                        <?php
+                        if ($training['dauer'] == 1) {
+                            echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tag)</li>';
+                        }
+                        if ($training['dauer'] > 1) {
+                            echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tage)</li>';
+                        }
+                        ?>
+                        <li><hr></li>
+                        <li><br /></li>
+                        <li><br /></li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/training">Training</a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/magic">Magie</a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/skill">Fähigkeiten</a>
+                        </li>
+                    </ul>
+                    <?php
+                }
                 ?>
-                    <li><hr></li>
-                    <li><br /></li>
-                    <li><br /></li>
-                    <li>
-                        <a href="<?= $this->baseUrl() ?>/training">Training</a>
-                    </li>
-                    <li>
-                        <a href="<?= $this->baseUrl() ?>/magic">Magie</a>
-                    </li>
-                    <li>
-                        <a href="<?= $this->baseUrl() ?>/skill">Fähigkeiten</a>
-                    </li>
-                </ul>
-            <?php
-            }
-            ?>
-        </div>
-        <div id="navigationrechts">
-            <p></p>
+            </div>
+            <div id="navigationrechts">
+                <p></p>
                 <h3>Fuyuki-City</h3>
-            <ul style="list-style-type: none;">
-                <li><a href="<?= $this->baseUrl() ?>/news">Fuyuki-News</a></li>
-                <li><a href="<?= $this->baseUrl() ?>/wetter">Wetterbericht</a></li>
-            <?php
-            if($layoutData->getUsergruppe() === 'Admin'){ ?>
-                <li><br /></li>
-                <li><br /></li>
-                <li><hr /></li>
-                <li>
-                    <a href="<?= $this->baseUrl() ?>/admin">Admincenter</a>
-                </li>
-            <?php } ?> 
-            </ul>
-        </div>
-        <div id="seitenbereich2">
-            <div id="steuerung">
-                <ul>
-                    <li><a href="<?= $this->baseUrl() ?>/index">Startseite</a></li>
-                    <li>
-                        <a href="" onclick="return false;">Informationen</a>
+                <ul style="list-style-type: none;">
+                    <li><a href="<?= $this->baseUrl() ?>/news">Fuyuki-News</a></li>
+                    <li><a href="<?= $this->baseUrl() ?>/wetter">Wetterbericht</a></li>
+                    <?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
+                        <li><br /></li>
+                        <li><br /></li>
+                        <li><hr /></li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/admin">Admincenter</a>
+                        </li>
+                    <?php } ?> 
+                </ul>
+            </div>
+            <div id="seitenbereich2">
+                <div id="steuerung">
+                    <ul>
+                        <li><a href="<?= $this->baseUrl() ?>/index">Startseite</a></li>
+                        <li>
+                            <a href="" onclick="return false;">Informationen</a>
                             <ul>
                                 <li><a href="<?= $this->baseUrl() ?>/changelog">Changelog</a></li>
                                 <?php
@@ -118,48 +119,48 @@ $displayTraining = array(
 //                                    }
                                 ?>
                             </ul>
-                    </li>
-                    <li>
-                        <a href="" onclick="return false;">Community</a>
+                        </li>
+                        <li>
+                            <a href="" onclick="return false;">Community</a>
                             <ul>
                                 <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
                                 <li><a href="http://alpha.mainchat.de/" target="_blank">Chat</a></li>
                                 <li><a href="<?= $this->baseUrl() ?>/spielergruppen">Spielergruppen</a></li>
                                 <li><a href="<?= $this->baseUrl() ?>/npc">NPCs</a></li>
                             </ul>
-                    </li>
-                    <li><a href="<?= $this->baseUrl() ?>/charakter/bekannte">Userliste</a></li>
-                    <li>
-                        <a href="" onclick="return false;">
-                            Profil   
-                            <?php 
-                                if($layoutData->getUnreadPmCount() > 0){
-                                    echo ' ('.$layoutData->getUnreadPmCount().'&#9993;)';
+                        </li>
+                        <li><a href="<?= $this->baseUrl() ?>/charakter/bekannte">Userliste</a></li>
+                        <li>
+                            <a href="" onclick="return false;">
+                                Profil   
+                                <?php
+                                if ($layoutData->getUnreadPmCount() > 0) {
+                                    echo ' (' . $layoutData->getUnreadPmCount() . '&#9993;)';
                                 }
-                            ?>
+                                ?>
 
-                        </a>
+                            </a>
                             <ul>
                                 <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
                                 <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
                                 <li><a href="<?= $this->baseUrl() ?>/pm">Nachrichten</a></li>
 
                             </ul>
-                    </li>
-                    <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
-                </ul>
-            </div>
-            <div id="inhalt">
-                
-                <?php echo $this->layout()->content; ?>
-                
-            </div>
-            <div id="footer">
-                <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>
+                        </li>
+                        <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
+                    </ul>
+                </div>
+                <div id="inhalt">
+
+                    <?php echo $this->layout()->content; ?>
+
+                </div>
+                <div id="footer">
+                    <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>
+                </div>
             </div>
         </div>
-    </div>
-    
-</body>
+
+    </body>
 
 </html>

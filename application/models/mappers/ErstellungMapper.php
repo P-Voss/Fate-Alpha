@@ -257,6 +257,76 @@ class Application_Model_Mapper_ErstellungMapper {
         }
     }
     
+    public function getVorteilIncompatibilities($vorteilIds = null, $nachteilIds = null) {
+        $disabledVorteile = array();
+        foreach ($vorteilIds as $vorteilId){
+            $select1 = $this->getDbTableVorteilToVorteil()->select();
+            $select1->from('InkVorteilToVorteil', array('id' => 'id2'));
+            $select1->where('id1 = ?', $vorteilId);
+
+            $select2 = $this->getDbTableVorteilToVorteil()->select();
+            $select2->from('InkVorteilToVorteil', array('id' => 'id1'));
+            $select2->Where('id2 = ?', $vorteilId);
+
+            $select = $this->getDbTableVorteilToVorteil()->select();
+            $select->union(array($select1, $select2));
+            $result = $this->getDbTableVorteilToVorteil()->fetchAll($select);
+            if($result->count() > 0){
+                foreach ($result as $row){
+                    $disabledVorteile[] = $row->id;
+                }
+            }
+        }
+        foreach ($nachteilIds as $nachteilId){
+            $select = $this->getDbTableNachteilToVorteil()->select();
+            $select->from('InkNachteilToVorteil', array('id' => 'vorteil_id'));
+            $select->where('nachteil_id = ?', $nachteilId);
+
+            $result = $this->getDbTableNachteilToVorteil()->fetchAll($select);
+            if($result->count() > 0){
+                foreach ($result as $row){
+                    $disabledVorteile[] = $row->id;
+                }
+            }
+        }
+        return $disabledVorteile;
+    }
+    
+    public function getNachteilIncompatibilities($nachteilIds = null, $vorteilIds = null) {
+        $disabledNachteile = array();
+        foreach ($nachteilIds as $nachteilId){
+            $select1 = $this->getDbTableNachteilToNachteil()->select();
+            $select1->from('InkNachteilToNachteil', array('id' => 'id2'));
+            $select1->where('id1 = ?', $nachteilId);
+
+            $select2 = $this->getDbTableNachteilToNachteil()->select();
+            $select2->from('InkNachteilToNachteil', array('id' => 'id1'));
+            $select2->Where('id2 = ?', $nachteilId);
+
+            $select = $this->getDbTableNachteilToNachteil()->select();
+            $select->union(array($select1, $select2));
+            $result = $this->getDbTableNachteilToNachteil()->fetchAll($select);
+            if($result->count() > 0){
+                foreach ($result as $row){
+                    $disabledNachteile[] = $row->id;
+                }
+            }
+        }
+        foreach ($vorteilIds as $vorteilId){
+            $select = $this->getDbTableVorteilToNachteil()->select();
+            $select->from('InkVorteilToNachteil', array('id' => 'nachteil_id'));
+            $select->where('vorteil_id = ?', $vorteilId);
+
+            $result = $this->getDbTableVorteilToNachteil()->fetchAll($select);
+            if($result->count() > 0){
+                foreach ($result as $row){
+                    $disabledNachteile[] = $row->id;
+                }
+            }
+        }
+        return $disabledNachteile;
+    }
+    
     public function getAllNachteile() {
         $select = $this->getDbTableNachteil()->select();
         $result = $this->getDbTableNachteil()->fetchAll($select);

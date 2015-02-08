@@ -14,7 +14,8 @@ class Application_Service_Layout {
         
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->ID));
         $layoutModel->setUsergruppe($auth->Usergruppe);
-        if($layoutModel->setHasChara($userMapper->hasChara($auth->ID))){
+        if($userMapper->hasChara($auth->ID)){
+            $layoutModel->setHasChara(true);
             $layoutModel->setCharakter($charakterMapper->getCharakterById($auth->ID));
             $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($layoutModel->getCharakter()->getCharakterid()));
         }

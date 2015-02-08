@@ -8,13 +8,8 @@
 class Application_Service_Erstellung {
     
     private $_mapper;
-    private $_punkteFactory;
-    private $_beschreibungFactory;
-    
-    public function init() {
-        $this->_mapper = new Application_Model_Mapper_ErstellungMapper();
-        $this->_beschreibungFactory = new Application_Model_Erstellung_BeschreibungFactory();
-    }
+    private $_informationMapper;
+    private $_informationFactory;
     
     public function getCreationParams() {
         $this->_mapper = new Application_Model_Mapper_ErstellungMapper();
@@ -29,16 +24,151 @@ class Application_Service_Erstellung {
         return $creationParamContainer;
     }
     
-    public function calculatePointsByRequest(Zend_Controller_Request_Http $request) {
-        $this->_punkteFactory = new Application_Model_Erstellung_Punkte_PunkteFactory();
-        $mapper = $this->_punkteFactory->getConcrete($request->getPost('type'));
-        return $mapper->getPunkte($request->getPost('value'));
+    public function getKlassengruppe(Zend_Controller_Request_Http $request) {
+        $klasseMapper = new Application_Model_Mapper_KlasseMapper();
+        $returnArray = array('gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id')));
+        if($returnArray['gruppe'] == 1){
+            $returnArray['familienname'] = $klasseMapper->getFamilienname($request->getPost('id'));
+        }
+        echo json_encode($returnArray);
     }
     
-    public function fetchBeschreibungByRequest(Zend_Controller_Request_Http $request) {
-        $this->_beschreibungFactory = new Application_Model_Erstellung_BeschreibungFactory();
-        $mapper = $this->_beschreibungFactory->getConcrete($request->getPost('type'));
-        return $validator->validate($request->getPost('value'));
+    public function getCharakteristics(Zend_Controller_Request_Http $request) {
+        $this->_informationFactory = new Application_Model_Erstellung_Information_InformationFactory();
+        $informationMapper = $this->_informationFactory->getConcrete($request->getPost('type'));
+        $returnArray = array(
+            'punkte' => $this->_calculatePoints($request->getPost()),
+            'beschreibung' => $informationMapper->getBeschreibung($request->getPost('id')),
+        );
+        if(key_exists('vorteile', $request->getPost())){
+            $vorteile = $request->getPost('vorteile');
+        }else{
+            $vorteile = array();
+        }
+        if(key_exists('nachteile', $request->getPost())){
+            $nachteile = $request->getPost('nachteile');
+        }else{
+            $nachteile = array();
+        }
+        $returnArray['forms'] = $this->_getUserinterface($request->getPost('klasse'), $vorteile, $nachteile);
+        
+        return json_encode($returnArray);
+    }
+    
+    private function _getVorteilForm($klassenId, $disabledIds, array $selectedIds){
+        $vorteile = $this->_mapper->getAllVorteile();
+        $html = '';
+        foreach ($vorteile as $vorteil){
+            /* @var $vorteil Application_Model_Vorteil */
+            $selected = (in_array($vorteil->getId(), $selectedIds)) ? 'selected=""' : '';
+            $disabled = (in_array($vorteil->getId(), $disabledIds)) ? 'disabled=""' : '';
+            $kosten = ($this->_specialCosts($klassenId, $vorteil->getId())) ? $this->_specialCosts($klassenId, $vorteil->getId()) : $vorteil->getKosten();
+            $html .= '<option value="' . $vorteil->getId() . '" ' . $selected . $disabled . '>' . $vorteil->getBezeichnung() . ' (' . $kosten . ')</option>';
+        }
+        return $html;
+    }
+    
+    private function _getNachteilForm($klassenIds, $disabledIds, array $selectedIds){
+        $nachteile = $this->_mapper->getAllNachteile();
+        $html = '';
+        foreach ($nachteile as $nachteil){
+            /* @var $nachteil Application_Model_Nachteil */
+            $selected = (in_array($nachteil->getId(), $selectedIds)) ? 'selected=""' : '';
+            $disabled = (in_array($nachteil->getId(), $disabledIds)) ? 'disabled=""' : '';
+            $html .= '<option value="' . $nachteil->getId() . '" ' . $selected . $disabled . '>' . $nachteil->getBezeichnung() . ' (' . $nachteil->getKosten() . ')</option>';
+        }
+        return $html;
+    }
+    
+    private function _getUserinterface($klassenId, array $vorteilIds, array $nachteilIds){
+        $this->_mapper = new Application_Model_Mapper_ErstellungMapper();
+        $disabledVorteile = $this->_mapper->getVorteilIncompatibilities($vorteilIds, $nachteilIds);
+        $disabledNachteile = $this->_mapper->getNachteilIncompatibilities($nachteilIds, $vorteilIds);
+        $userInterface['vorteile'] = $this->_getVorteilForm($klassenId, $disabledVorteile, $vorteilIds);
+        $userInterface['nachteile'] = $this->_getNachteilForm($klassenId, $disabledNachteile, $nachteilIds);
+        return $userInterface;
+    }
+    
+    private function _calculatePoints($paramsArray){
+        $punkte = 0;
+        if(key_exists('vorteile', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Vorteil');
+            foreach ($paramsArray['vorteile'] as $vorteilId){
+                $punkte += $this->_informationMapper->getPunkte($vorteilId);
+            }
+        }
+        if(key_exists('nachteile', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Nachteil');
+            foreach ($paramsArray['nachteile'] as $nachteilId){
+                $punkte -= $this->_informationMapper->getPunkte($nachteilId);
+            }
+        }
+        if(key_exists('odo', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Odo');
+            $punkte += $this->_informationMapper->getPunkte($paramsArray['odo']);
+        }
+        if(key_exists('luck', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Luck');
+            $punkte += $this->_informationMapper->getPunkte($paramsArray['luck']);
+        }
+        if(key_exists('circuit', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Circuit');
+            $punkte += $this->_informationMapper->getPunkte($paramsArray['circuit']);
+        }
+        if(key_exists('element', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Element');
+            $punkte += $this->_informationMapper->getPunkte($paramsArray['element']);
+        }
+        if(key_exists('klasse', $paramsArray)){
+            $this->_informationMapper = $this->_informationFactory->getConcrete('Klasse');
+            $punkte += $this->_informationMapper->getPunkte($paramsArray['klasse']);
+        }
+        return (30 - $punkte);
+    }
+    
+    private function _specialCosts($klassenId, $vorteilIds){
+        
+    }
+    
+    public function createCharakter(Zend_Controller_Request_Http $request) {
+        $validationService = new Application_Service_Validation();
+        if(!$validationService->validateCreation($request->getPost())){
+            return false;
+        }
+        $charakter = new Application_Model_Charakter();
+        $charakter->setUserid(Zend_Auth::getInstance()->getIdentity()->ID);
+        $charakter->setVorname($request->getPost('vorname'));
+        $charakter->setNachname($request->getPost('nachname'));
+        $charakter->setNickname('');
+        $charakter->setGeburtsdatum($request->getPost('geburtsdatum'));
+        $charakter->setGeschlecht($request->getPost('sex'));
+        $charakter->setAugenfarbe($request->getPost('augenfarbe'));
+        $charakter->setSize($request->getPost('size'));
+        $charakter->setWohnort($request->getPost('wohnort'));
+        $charakter->setKlasse($request->getPost('klasse'));
+        $charakter->addElement($request->getPost('element'));
+        $charakter->setOdo($request->getPost('odo'));
+        $charakter->setLuck($request->getPost('luck'));
+        if(!is_null($request->getPost('circuit'))){
+            $charakter->setMagiccircuit($request->getPost('circuit'));
+        }
+        if(!is_null($request->getPost('nachteile'))){
+            $charakter->setNachteile($request->getPost('nachteile'));
+        }
+        if(!is_null($request->getPost('vorteile'))){
+            $charakter->setVorteile($request->getPost('vorteile'));
+        }
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        if($charakterId = $mapper->createCharakter($charakter)){
+            foreach ($charakter->getVorteile() as $vorteil){
+                $mapper->saveCharakterVorteil($vorteil, $charakterId);
+            }
+            foreach ($charakter->getNachteile() as $nachteil){
+                $mapper->saveCharakterNachteil($nachteil, $charakterId);
+            }
+            $mapper->saveCharakterWerte($charakterId);
+            return true;
+        }
     }
     
 }

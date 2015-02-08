@@ -28,6 +28,20 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function indexAction() {
+//        Zend_Debug::dump($this->_charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->ID));
+//        exit;
+        $this->view->charakter = $this->_charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->ID);
+    }
+    
+    public function profilAction() {
+        
+    }
+    
+    public function abilitiesAction() {
+        
+    }
+    
+    public function inventarAction() {
         
     }
     
@@ -44,23 +58,12 @@ class CharakterController extends Zend_Controller_Action{
         $this->view->creationParams = $erstellungsService->getCreationParams();
     }
     
-    public function punkteAction() {
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        echo json_encode($this->_erstellungsService->calculatePointsByRequest($this->getRequest()));
-    }
-    
-    public function beschreibungAction() {
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-    }
-    
-    public function vorteilcountAction() {
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
+    public function createAction() {
+        $this->_erstellungService = new Application_Service_Erstellung();
+        if(!$this->_erstellungService->createCharakter($this->getRequest())){
+            $this->redirect('Charakter/Erstellung');
+        }
+        $this->redirect('Charakter/index');
     }
     
 }
