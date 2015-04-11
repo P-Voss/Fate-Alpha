@@ -2,47 +2,39 @@
 
 class Application_Model_Mapper_NewsMapper{
     
-    protected $dbTableNews;
-
-    public function getDbTableNews() {
-        if (null === $this->dbTableNews) {
-            $this->setDbTableNews('Application_Model_DbTable_News');
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableNews;
-    }
-
-    public function setDbTableNews($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableNews = $dbTable;
-        return $this;
+        return $dbTable;
     }
     
     public function getNews() {
-        $select = $this->getDbTableNews()->select();
+        $select = $this->getDbTable('News')->select();
         $select->setIntegrityCheck(false);
-        $select->from('News');
-        $select->order('ID DESC');
-        $result = $this->getDbTableNews()->fetchAll($select);
+        $select->from('news');
+        $select->order('newsId DESC');
+        $result = $this->getDbTable('News')->fetchAll($select);
         
         $usermapper = new Application_Model_Mapper_UserMapper();
         if($result->count() > 0){
             foreach ($result as $row){
                 $model = new Application_Model_News();
-                $model->setId($row->ID);
-                $model->setDatum($row->Datum);
-                $model->setEditdatum($row->Editdatum);
-                $model->setEditor($row->Edit);
-                $model->setNachricht($row->Nachricht);
-                $model->setTitel($row->Titel);
-                $model->setVerfasser($row->Verfasser);
-                $model->setVerfasserName($usermapper->getAdminnameById($row->Verfasser));
+                $model->setId($row->newsId);
+                $model->setDatum($row->creationDate);
+                $model->setEditdatum($row->editDate);
+                $model->setEditor($row->editUserId);
+                $model->setNachricht($row->nachricht);
+                $model->setTitel($row->titel);
+                $model->setVerfasser($row->verfasserUserId);
+                $model->setVerfasserName($usermapper->getAdminnameById($row->verfasserUserId));
                 if($row->Edit !== null){
-                    $model->setEditorName($usermapper->getAdminnameById($row->Edit));
+                    $model->setEditorName($usermapper->getAdminnameById($row->editUserId));
                 }
                 $return[] = $model;
             }

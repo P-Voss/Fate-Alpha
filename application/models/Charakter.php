@@ -8,27 +8,59 @@
  */
 class Application_Model_Charakter {
     
+    /**
+     * @var int
+     */
     protected $_charakterid;
     protected $_userid;
+    /**
+     * @var string
+     */
     protected $_vorname;
     protected $_nachname;
     protected $_nickname;
     protected $_alter;
-    protected $_geburtsdatum;
     protected $_augenfarbe;
     protected $_geschlecht;
     protected $_wohnort;
     protected $_size;
+    /**
+     *
+     * @var Application_Model_Klasse
+     */
     protected $_klasse;
     protected $_klassengruppe;
+    /**
+     *
+     * @var Application_Model_Luck
+     */
+    protected $_luck;
+    /**
+     *
+     * @var type Application_Model_Circuit
+     */
+    protected $_magiccircuit;
+    /**
+     *
+     * @var Application_Model_Odo
+     */
+    protected $_odo;
+    /**
+     *
+     * @var DateTime
+     */
+    protected $_geburtsdatum;
+    /**
+     * @var Application_Model_Charakterwerte 
+     */
+    protected $_charakterwerte;
+    /**
+     * @var Application_Model_Charakterprofil
+     */
+    protected $_charakterprofil;
     protected $_vorteile = array();
     protected $_nachteile = array();
     protected $_elemente = array();
-    protected $_luck;
-    protected $_magiccircuit;
-    protected $_odo;
-    protected $_charakterwerte;
-    protected $_charakterprofil;
 
 
     public function getCharakterid() {

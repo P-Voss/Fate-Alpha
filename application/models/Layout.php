@@ -7,7 +7,13 @@
  */
 class Application_Model_Layout {
     
+    /**
+     * @var boolean
+     */
     public $hasChara;
+    /**
+     * @var Application_Model_Charakter
+     */
     public $charakter;
     public $charakterTraining;
     public $unreadPmCount;
@@ -34,7 +40,7 @@ class Application_Model_Layout {
         $this->hasChara = $hasChara;
     }
 
-    public function setCharakter($charakter) {
+    public function setCharakter(Application_Model_Charakter $charakter) {
         $this->charakter = $charakter;
     }
 

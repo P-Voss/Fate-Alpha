@@ -2,6 +2,6 @@
 
 class Application_Model_DbTable_NachteilToVorteil extends Zend_Db_Table_Abstract{
 
-    protected $_name = 'InkNachteilToVorteil';
+    protected $_name = 'inkNachteilToVorteil';
     
 }

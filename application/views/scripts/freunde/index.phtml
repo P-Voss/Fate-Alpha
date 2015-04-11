@@ -1,0 +1,36 @@
+<?php
+$profile = $this->profile;
+?>
+<div class="Zentriert">
+    <form method="post" action="<?= $this->baseUrl() ?>/Freunde/Add">
+        <input type="text" name="Charaktercode" >
+        <input type="submit" name="Freischalten" value="Charakter freischalten">
+    </form>
+    <p>
+        Der Code für deine grundlegenden Charakterdaten: 
+        <strong>
+            <?= htmlspecialchars($profile->getKennenlerncode()) ?>
+        </strong>.
+        <br />
+        Der Code für deine privaten Charakterdaten: 
+        <strong>
+            <?= htmlspecialchars($profile->getPrivatcode()) ?>
+        </strong>.
+    </p>
+</div>
+<hr>
+<h1>Dir bekannte Charaktere</h1>
+<ul class="userlist">
+<?php
+foreach ($this->friendlist as $charakter) {
+?>
+    <li class="charakter" id="<?= $charakter->getCharakterId() ?>">
+        <a href="<?= $this->baseUrl() ?>/Charakter/<?= $charakter->getCharakterId() ?>">
+            <?= htmlspecialchars($charakter->getVorname()) . ' '
+                . htmlspecialchars($charakter->getNachname()) ?>
+        </a>
+    </li>
+<?php
+}
+?>
+</ul>

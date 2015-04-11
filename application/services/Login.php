@@ -6,9 +6,9 @@ class Application_Service_Login{
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
         $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
 
-        $authAdapter->setTableName('Benutzerdaten')
-                    ->setIdentityColumn('Username')
-                    ->setCredentialColumn('Passwort')
+        $authAdapter->setTableName('benutzerdaten')
+                    ->setIdentityColumn('username')
+                    ->setCredentialColumn('passwort')
                     ->setCredentialTreatment('MD5(?)');
         
         $authAdapter->setIdentity($request->getPost('username'));

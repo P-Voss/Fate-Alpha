@@ -7,7 +7,6 @@
  */
 class Application_Model_Charakterprofil {
     
-    protected $_charakterid;
     protected $_charaktergeschichte;
     protected $_privatdaten;
     protected $_sldaten;
@@ -63,17 +62,9 @@ class Application_Model_Charakterprofil {
     public function setPrivatcode($privatcode) {
         $this->_privatcode = $privatcode;
     }
-    
-    public function getCharakterid() {
-        return $this->_charakterid;
-    }
 
     public function getSldaten() {
         return $this->_sldaten;
-    }
-
-    public function setCharakterid($charakterid) {
-        $this->_charakterid = $charakterid;
     }
 
     public function setSldaten($sldaten) {

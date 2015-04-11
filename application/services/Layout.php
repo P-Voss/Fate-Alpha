@@ -12,11 +12,11 @@ class Application_Service_Layout {
         $userMapper = new Application_Model_Mapper_UserMapper();
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
         
-        $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->ID));
-        $layoutModel->setUsergruppe($auth->Usergruppe);
-        if($userMapper->hasChara($auth->ID)){
+        $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
+        $layoutModel->setUsergruppe($auth->usergruppe);
+        if($userMapper->hasChara($auth->userId)){
             $layoutModel->setHasChara(true);
-            $layoutModel->setCharakter($charakterMapper->getCharakterById($auth->ID));
+            $layoutModel->setCharakter($charakterMapper->getCharakterByUserId($auth->userId));
             $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($layoutModel->getCharakter()->getCharakterid()));
         }
         return $layoutModel;

@@ -2,27 +2,6 @@
     Profil
 </h1>
 <div class="submenu">
-    <ul>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/charakter">
-                Charakterdaten
-            </a>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/charakter/profil">
-                Charakterprofil
-            </a>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/charakter/abilities">
-                Magien und Fähigkeiten
-            </a>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/charakter/inventar">
-                Ausrüstung
-            </a>
-        </li>
-    </ul>
+    <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 </div>
 

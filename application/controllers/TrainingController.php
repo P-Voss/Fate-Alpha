@@ -12,6 +12,11 @@ class TrainingController extends Zend_Controller_Action{
     protected $_charakterService;
     protected $_trainingswerte;
     private $_auth;
+    /**
+     *
+     * @var Application_Model_Charakter
+     */
+    private $_charakter;
 
     public function init(){
         $this->_userService = new Application_Service_User();
@@ -24,10 +29,10 @@ class TrainingController extends Zend_Controller_Action{
         if($this->_auth === null){
             $layout->setLayout('offline');
         }  else {
-            $this->_trainingswerte = $this->_trainingService->getTrainingswerte($this->_userService->getCharakter($this->_auth->ID));
-            
+            $this->_charakter = $this->_charakterService->getCharakterByUserid($this->_auth->userId);
+            $this->_trainingswerte = $this->_trainingService->getTrainingswerte($this->_charakter);
             $this->view->layoutData = $this->_layoutService->getLayoutData($this->_auth);
-            $layout->setLayout('online');
+            $layout->setLayout('training');
         }
     }
     
@@ -37,7 +42,7 @@ class TrainingController extends Zend_Controller_Action{
     
     public function trainingAction() {
         if($this->getRequest()->isPost()){
-            if(!$this->_trainingService->startTraining($this->_userService->getCharakter($this->_auth->ID), $this->_trainingswerte, $this->getRequest())){
+            if(!$this->_trainingService->startTraining($this->_charakter, $this->_trainingswerte, $this->getRequest())){
                 $this->view->fehlermeldung = 'Es wurden fehlerhafte Werte übertragen. Try Again.';
             }
         }

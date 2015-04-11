@@ -2,32 +2,25 @@
 
 class Application_Model_Mapper_ElementMapper implements Application_Model_Erstellung_Information_InformationInterface{
 
-    protected $dbTableElement;
-
-    public function getDbTableElement() {
-        if (null === $this->dbTableElement) {
-            $this->setDbTableElement('Application_Model_DbTable_Element');
+    
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableElement;
-    }
-
-    public function setDbTableElement($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableElement = $dbTable;
-        return $this;
+        return $dbTable;
     }
     
     public function getPunkte($ids){
-        $select = $this->getDbTableElement()->select();
+        $select = $this->getDbTable('Element')->select();
         $select->setIntegrityCheck(false);
         $select->from('Elemente', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
         $select->where('ID IN(?)', $ids);
-        $result = $this->getDbTableElement()->fetchAll($select);
+        $result = $this->getDbTable('Element')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Punkte;
@@ -39,11 +32,11 @@ class Application_Model_Mapper_ElementMapper implements Application_Model_Erstel
     }
     
     public function getBeschreibung($ids) {
-        $select = $this->getDbTableElement()->select();
+        $select = $this->getDbTable('Element')->select();
         $select->setIntegrityCheck('false');
         $select->from('Elemente', array('Beschreibung' => 'Charakterisierung'));
         $select->where('ID IN (?)', $ids);
-        $result = $this->getDbTableElement()->fetchAll($select);
+        $result = $this->getDbTable('Element')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Beschreibung;

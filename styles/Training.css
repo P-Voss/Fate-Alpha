@@ -1,0 +1,29 @@
+.container{
+    width: 600px;
+    margin: 0 auto;
+}
+fieldset{
+    padding: 5px 10px;
+}
+.columnLabel{
+    width: 100px;
+    display: inline-block;
+}
+.columnValue{
+    width: 100px;
+    display: inline-block;
+    font-weight: bold;
+}
+.trainingInput{
+    width: 45px;
+    display: inline-block;
+}
+.trainingSubmit{
+    display: inline-block;
+    float: right;
+    width: 120px;
+    margin-right: 50px;
+}
+form{
+    margin: 0;
+}

@@ -2,32 +2,25 @@
 
 class Application_Model_Mapper_NachteilMapper implements Application_Model_Erstellung_Information_InformationInterface{
 
-    protected $dbTableNachteil;
 
-    public function getDbTableNachteil() {
-        if (null === $this->dbTableNachteil) {
-            $this->setDbTableNachteil('Application_Model_DbTable_Nachteil');
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableNachteil;
-    }
-
-    public function setDbTableNachteil($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableNachteil = $dbTable;
-        return $this;
+        return $dbTable;
     }
     
     public function getPunkte($ids){
-        $select = $this->getDbTableNachteil()->select();
+        $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck(false);
         $select->from('Nachteile', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
         $select->where('NachteilID IN(?)', $ids);
-        $result = $this->getDbTableNachteil()->fetchAll($select);
+        $result = $this->getDbTable('Nachteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Punkte;
@@ -39,11 +32,11 @@ class Application_Model_Mapper_NachteilMapper implements Application_Model_Erste
     }
     
     public function getBeschreibung($ids) {
-        $select = $this->getDbTableNachteil()->select();
+        $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck('false');
         $select->from('Nachteile', array('Beschreibung' => 'Beschreibung'));
         $select->where('NachteilID IN (?)', $ids);
-        $result = $this->getDbTableNachteil()->fetchAll($select);
+        $result = $this->getDbTable('Nachteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Beschreibung;

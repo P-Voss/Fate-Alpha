@@ -68,6 +68,13 @@ class Application_Service_Erstellung {
         return $html;
     }
     
+    /**
+     * 
+     * @param type $klassenIds
+     * @param type $disabledIds
+     * @param array $selectedIds
+     * @return string
+     */
     private function _getNachteilForm($klassenIds, $disabledIds, array $selectedIds){
         $nachteile = $this->_mapper->getAllNachteile();
         $html = '';
@@ -80,6 +87,12 @@ class Application_Service_Erstellung {
         return $html;
     }
     
+    /**
+     * @param int $klassenId
+     * @param array $vorteilIds
+     * @param array $nachteilIds
+     * @return array
+     */
     private function _getUserinterface($klassenId, array $vorteilIds, array $nachteilIds){
         $this->_mapper = new Application_Model_Mapper_ErstellungMapper();
         $disabledVorteile = $this->_mapper->getVorteilIncompatibilities($vorteilIds, $nachteilIds);
@@ -89,7 +102,11 @@ class Application_Service_Erstellung {
         return $userInterface;
     }
     
-    private function _calculatePoints($paramsArray){
+    /**
+     * @param array $paramsArray
+     * @return int
+     */
+    private function _calculatePoints(array $paramsArray){
         $punkte = 0;
         if(key_exists('vorteile', $paramsArray)){
             $this->_informationMapper = $this->_informationFactory->getConcrete('Vorteil');
@@ -130,6 +147,11 @@ class Application_Service_Erstellung {
         
     }
     
+    /**
+     * 
+     * @param Zend_Controller_Request_Http $request
+     * @return boolean
+     */
     public function createCharakter(Zend_Controller_Request_Http $request) {
         $validationService = new Application_Service_Validation();
         if(!$validationService->validateCreation($request->getPost())){
@@ -159,7 +181,8 @@ class Application_Service_Erstellung {
             $charakter->setVorteile($request->getPost('vorteile'));
         }
         $mapper = new Application_Model_Mapper_CharakterMapper();
-        if($charakterId = $mapper->createCharakter($charakter)){
+        $charakterId = $mapper->createCharakter($charakter);
+        if($charakter != false){
             foreach ($charakter->getVorteile() as $vorteil){
                 $mapper->saveCharakterVorteil($vorteil, $charakterId);
             }
@@ -167,6 +190,7 @@ class Application_Service_Erstellung {
                 $mapper->saveCharakterNachteil($nachteil, $charakterId);
             }
             $mapper->saveCharakterWerte($charakterId);
+            $mapper->createCharakterProfile($charakterId);
             return true;
         }
     }

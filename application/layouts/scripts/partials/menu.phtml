@@ -1,0 +1,49 @@
+<?php
+if ($layoutData->getHasChara() !== true) {
+    ?>
+    <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
+    <p class="Meldung"><a href="<?= $this->baseUrl() ?>/charakter/erstellung">Zur Charaktererstellung</a></p>
+    <?php
+} else {
+    ?>
+    <ul style="list-style-type: none;">
+        <li>
+            <h3>
+                <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
+            </h3>
+        </li>
+        <li>
+            <br />
+        </li>
+        <li>
+            Aktuelles Training: 
+            <?php
+            if ($training['dauer'] < 1) {
+                echo " - ";
+            }
+            ?> 
+        </li>
+        <?php
+        if ($training['dauer'] == 1) {
+            echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tag)</li>';
+        }
+        if ($training['dauer'] > 1) {
+            echo '<li>' . $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tage)</li>';
+        }
+        ?>
+        <li><hr></li>
+        <li><br /></li>
+        <li><br /></li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/training">Training</a>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/magic">Magie</a>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/skill">Fähigkeiten</a>
+        </li>
+    </ul>
+    <?php
+}
+?>

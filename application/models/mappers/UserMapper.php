@@ -2,51 +2,25 @@
 
 class Application_Model_Mapper_UserMapper {
 
-    protected $dbTableUser;
-    protected $dbTablePm;
-
-    public function getDbTableUser() {
-        if (null === $this->dbTableUser) {
-            $this->setDbTableUser('Application_Model_DbTable_User');
+    
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableUser;
-    }
-
-    public function setDbTableUser($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableUser = $dbTable;
-        return $this;
-    }
-
-    public function getDbTablePm() {
-        if (null === $this->dbTablePm) {
-            $this->setDbTablePm('Application_Model_DbTable_Pm');
-        }
-        return $this->dbTablePm;
-    }
-
-    public function setDbTablePm($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception('Invalid table data gateway provided');
-        }
-        $this->dbTablePm = $dbTable;
-        return $this;
+        return $dbTable;
     }
 
     public function hasChara($userid) {
-        $select = $this->getDbTableUser()->select();
+        $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Charakter');
-        $select->where('userID = ?', $userid);
-        $result = $this->getDbTableUser()->fetchAll($select);
+        $select->from('charakter');
+        $select->where('userId = ?', $userid);
+        $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             return true;
         } else {
@@ -55,20 +29,20 @@ class Application_Model_Mapper_UserMapper {
     }
 
     public function countNewPm($userid) {
-        $select = $this->getDbTablePm()->select();
+        $select = $this->getDbTable('Pm')->select();
         $select->setIntegrityCheck(false);
-        $select->from('NachrichtenEingang');
+        $select->from('nachrichtenEingang');
         $select->where('Empfaenger = ? AND Status = "Ungelesen"', $userid);
-        $result = $this->getDbTablePm()->fetchAll($select);
+        $result = $this->getDbTable('Pm')->fetchAll($select);
         return $result->count();
     }
 
     public function getAdminnameById($userid) {
-        $select = $this->getDbTableUser()->select();
+        $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
         $select->from('Benutzerdaten');
         $select->where('id = ?', $userid);
-        $result = $this->getDbTableUser()->fetchAll($select);
+        $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             foreach ($result as $row) {
                 return $row->Profilname;
@@ -94,7 +68,7 @@ class Application_Model_Mapper_UserMapper {
         $data['Logoutzeitpunkt'] = null;
         $data['Anmeldedatum'] = $datetime->format('Y-m-d H:i:s');
         $data['ip'] = $ip;
-        $this->getDbTableUser()->insert($data);
+        $this->getDbTable('User')->insert($data);
     }
 
     function generateHash($password) {

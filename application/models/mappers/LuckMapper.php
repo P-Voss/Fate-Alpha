@@ -2,32 +2,25 @@
 
 class Application_Model_Mapper_LuckMapper implements Application_Model_Erstellung_Information_InformationInterface{
 
-    protected $dbTableLuck;
 
-    public function getDbTableLuck() {
-        if (null === $this->dbTableLuck) {
-            $this->setDbTableLuck('Application_Model_DbTable_Luck');
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableLuck;
-    }
-
-    public function setDbTableLuck($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableLuck = $dbTable;
-        return $this;
+        return $dbTable;
     }
     
     public function getPunkte($ids){
-        $select = $this->getDbTableLuck()->select();
+        $select = $this->getDbTable('Luck')->select();
         $select->setIntegrityCheck(false);
         $select->from('Luck', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
         $select->where('ID IN(?)', $ids);
-        $result = $this->getDbTableLuck()->fetchAll($select);
+        $result = $this->getDbTable('Luck')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Punkte;
@@ -39,11 +32,11 @@ class Application_Model_Mapper_LuckMapper implements Application_Model_Erstellun
     }
     
     public function getBeschreibung($ids) {
-        $select = $this->getDbTableLuck()->select();
+        $select = $this->getDbTable('Luck')->select();
         $select->setIntegrityCheck('false');
         $select->from('Luck', array('Beschreibung' => 'Beschreibung'));
         $select->where('ID IN (?)', $ids);
-        $result = $this->getDbTableLuck()->fetchAll($select);
+        $result = $this->getDbTable('Luck')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Beschreibung;

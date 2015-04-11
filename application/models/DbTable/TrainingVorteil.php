@@ -3,7 +3,7 @@
 class Application_Model_DbTable_TrainingVorteil extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'VorteilToTraining';
+    protected $_name = 'vorteilToTraining';
 
 
 }

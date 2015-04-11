@@ -18,19 +18,21 @@
             <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
         </group>
         <group name="PHP">
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/training/index.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Training.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/User.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/controllers/LoginController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/index/index.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/ErrorController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/TrainingMapper.php</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/IndexController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Validation/ValidationInterface.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Validation/Factory.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Mapper/VorteilMapper.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/FreundeController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Training.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/UserController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/TrainingKlassengruppe.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Login.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/LoginController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/TrainingController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/NewsMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/ErstellungController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Layout.php</file>
         </group>
     </open-files>
 </project-private>

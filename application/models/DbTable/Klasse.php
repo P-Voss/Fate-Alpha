@@ -2,6 +2,6 @@
 
 class Application_Model_DbTable_Klasse extends Zend_Db_Table_Abstract{
 
-    protected $_name = 'Klassen';
+    protected $_name = 'klassen';
     
 }

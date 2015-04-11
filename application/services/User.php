@@ -14,7 +14,7 @@ class Application_Service_User {
     
     public function getCharakter($userid){
         $mapper = new Application_Model_Mapper_CharakterMapper();
-        return $mapper->getCharakterById($userid);
+        return $mapper->getCharakterByUserId($userid);
     }
     
     public function createUser(Zend_Controller_Request_Http $request) {

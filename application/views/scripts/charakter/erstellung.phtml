@@ -22,7 +22,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <input type="text" name="vorname" id="vorname" size="35">
+            <input type="text" name="vorname" id="vorname" size="35" required="">
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -35,7 +35,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <input type="text" name="nachname" id="nachname" size="35">
+            <input type="text" name="nachname" id="nachname" size="35" required="">
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -48,11 +48,8 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="geschlecht" id="geschlecht" >
-                <option selected="" value="">bitte auswählen</option>
-                <option value="m">Männlich</option>
-                <option value="w">Weiblich</option>
-            </select>
+            <input type="radio" id="geschlecht" name="geschlecht" required="" value="m"> Männlich 
+            <input type="radio" id="geschlecht" name="geschlecht" required="" value="w"> Weiblich
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -67,7 +64,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <input name="geburtsdatum" id="geburtsdatum" size="10">
+            <input name="geburtsdatum" id="geburtsdatum" size="10" required="">
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -80,7 +77,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="augenfarbe" id="augenfarbe" >
+            <select name="augenfarbe" id="augenfarbe" required="">
                 <option selected="" value="">bitte auswählen</option>
                 <option>Blau</option>
                 <option>Grün</option>
@@ -95,20 +92,11 @@ $elemente = $this->creationParams['elemente'];
                 Körpergröße
             </span>
             <span class="label">
-
+                Der Charakter kann zwischen 130cm und 210cm groß sein.
             </span>
         </label>
         <div class="FormularInput">
-            <select name="size" id="körpergröße" >
-                <option selected="" value="">bitte auswählen</option>
-                <?php
-                $Size = 130;
-                while ($Size < 206) {
-                    echo '<option value="' . $Size . '">' . $Size . ' cm</option>';
-                    $Size++;
-                }
-                ?>
-            </select>
+            <input type="number" name="size" id="körpergröße" required="" style="width: 50px" />cm
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -121,7 +109,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="sex" id="sexualität" >
+            <select name="sex" id="sexualität" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <option>Heterosexuell</option>
                 <option>Homosexuell</option>
@@ -137,7 +125,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="wohnort" id="wohnort" >
+            <select name="wohnort" id="wohnort" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <option>Miyama Nord</option>
                 <option>Miyama Süd</option>
@@ -170,7 +158,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="klasse" id="klasse" >
+            <select name="klasse" id="klasse" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <?php
                 foreach ($klassen as $klasse) {
@@ -195,7 +183,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="element" id="element" >
+            <select name="element" id="element" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <?php
                 foreach ($elemente as $element) {
@@ -223,7 +211,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput ui-widget">
-            <select name="odo" id="odo" >
+            <select name="odo" id="odo" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <?php
                 foreach ($odo as $odo) {
@@ -273,11 +261,11 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="luck" id="luck" >
+            <select name="luck" id="luck" required="" >
                 <option selected="" value="">bitte auswählen</option>
                 <?php
                 foreach ($luck as $luck) {
-                    $luck->getKosten() === null ? $disabled = 'disabled=""' : $disabled = '';
+                    $disabled = ($luck->getKosten() === null) ? 'disabled=""' : '';
                     ?>
                     <option value="<?= $luck->getID() ?>" <?= $disabled ?> >
                         <?= $luck->getKategorie() . ' (' . $luck->getKosten() . ')' ?>
@@ -351,6 +339,10 @@ $elemente = $this->creationParams['elemente'];
             }
             if ($("#geschlecht").val().length < 1) {
                 alert('M or W?');
+                return false;
+            }
+            if ($("#körpergröße").val() < 130 || $("#körpergröße").val() > 210) {
+                alert('Wie groß genau ist der Charakter?');
                 return false;
             }
             if ($("#geburtsdatum").val().length < 1) {
@@ -479,7 +471,7 @@ $elemente = $this->creationParams['elemente'];
                             $("#circuit").val(0);
                             $("#circuit").attr('disabled', true);
                         }
-                        if(result.familienname !== undefined){
+                        if(result.familienname !== ""){
                             $("#nachname").val(result.familienname);
                             $("#Nachname").html(result.familienname);
                             $("#nachname").attr('disabled', true);

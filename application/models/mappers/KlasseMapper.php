@@ -2,51 +2,25 @@
 
 class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstellung_Information_InformationInterface{
 
-    protected $dbTableKlasse;
-    protected $dbTableKlassenGruppe;
-
-    public function getDbTableKlasse() {
-        if (null === $this->dbTableKlasse) {
-            $this->setDbTableKlasse('Application_Model_DbTable_Klasse');
+    
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
         }
-        return $this->dbTableKlasse;
-    }
-
-    public function setDbTableKlasse($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
             throw new Exception('Invalid table data gateway provided');
         }
-        $this->dbTableKlasse = $dbTable;
-        return $this;
-    }
-
-    public function getDbTableKlassengruppe() {
-        if (null === $this->dbTableKlassengruppe) {
-            $this->setDbTableKlassengruppe('Application_Model_DbTable_Klassengruppe');
-        }
-        return $this->dbTableKlassengruppe;
-    }
-
-    public function setDbTableKlassengruppe($dbTable) {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception('Invalid table data gateway provided');
-        }
-        $this->dbTableKlassengruppe = $dbTable;
-        return $this;
+        return $dbTable;
     }
     
     public function getPunkte($ids){
-        $select = $this->getDbTableKlasse()->select();
+        $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
         $select->from('Klassen', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
         $select->where('KlassenID IN(?)', $ids);
-        $result = $this->getDbTableKlasse()->fetchAll($select);
+        $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Punkte;
@@ -58,11 +32,11 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
     }
     
     public function getBeschreibung($ids) {
-        $select = $this->getDbTableKlasse()->select();
+        $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
         $select->from('Klassen', array('Beschreibung' => 'Beschreibung'));
         $select->where('KlassenID IN (?)', $ids);
-        $result = $this->getDbTableKlasse()->fetchAll($select);
+        $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Beschreibung;
@@ -75,11 +49,11 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
     
     public function getKlassengruppe($klassenId) {
         $return = false;
-        $select = $this->getDbTableKlasse()->select();
+        $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
         $select->from('Klassen', array('Gruppe'));
         $select->where('KlassenID = ?', $klassenId);
-        $result = $this->getDbTableKlasse()->fetchAll($select);
+        $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $return = $row->Gruppe;
@@ -90,11 +64,11 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
     
     public function getFamilienname($klassenId) {
         $return = '';
-        $select = $this->getDbTableKlasse()->select();
+        $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
         $select->from('Klassen', array('KlassenID', 'Klasse'));
         $select->where('KlassenID = ?', $klassenId);
-        $result = $this->getDbTableKlasse()->fetchAll($select);
+        $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 if($row->KlassenID !== 1){

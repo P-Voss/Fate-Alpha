@@ -7,8 +7,17 @@
  */
 class CharakterController extends Zend_Controller_Action{
     
+    /**
+     * @var Application_Service_Charakter
+     */
     protected $_charakterService;
+    /**
+     * @var Application_Service_Layout
+     */
     protected $_layoutService;
+    /**
+     * @var Application_Service_Erstellung
+     */
     protected $_erstellungsService;
 
 
@@ -22,15 +31,14 @@ class CharakterController extends Zend_Controller_Action{
         if($auth === null){
             $this->redirect('index');
         }  else {
+            $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
             $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
             $layout->setLayout('online');
         }
     }
     
     public function indexAction() {
-//        Zend_Debug::dump($this->_charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->ID));
-//        exit;
-        $this->view->charakter = $this->_charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->ID);
+        
     }
     
     public function profilAction() {
@@ -45,10 +53,6 @@ class CharakterController extends Zend_Controller_Action{
         
     }
     
-    public function friendsAction() {
-        
-    }
-    
     public function erstellungAction() {
         $auth = Zend_Auth::getInstance()->getIdentity();
         $layout = $this->_helper->layout();
@@ -59,8 +63,8 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function createAction() {
-        $this->_erstellungService = new Application_Service_Erstellung();
-        if(!$this->_erstellungService->createCharakter($this->getRequest())){
+        $charakter = $this->_erstellungsService->createCharakter($this->getRequest());
+        if($charakter === false){
             $this->redirect('Charakter/Erstellung');
         }
         $this->redirect('Charakter/index');
