@@ -2,7 +2,11 @@
 
 class Application_Model_Mapper_CharakterMapper{
     
-    
+    /**
+     * @param string $tablename
+     * @return \Zend_Db_Table_Abstract
+     * @throws Exception
+     */
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){
@@ -16,7 +20,15 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
+     * @param Application_Model_Charakter $charakter
+     * @return int
+     */
+    public function deleteCharakter(Application_Model_Charakter $charakter) {
+        $data['active'] = 0;
+        return $this->getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+    }
+    
+    /**
      * @param Application_Model_Charakter $charakter
      * @return int
      */
@@ -40,7 +52,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $elementId
      * @param int $charakterId
      * @return int
@@ -53,7 +64,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $vorteilId
      * @param int $charakterId
      * @return int
@@ -66,7 +76,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $nachteilId
      * @param int $charakterId
      * @return int
@@ -79,7 +88,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param type $charakterId
      * @return int
      */
@@ -97,7 +105,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $userId
      * @return boolean|\Application_Model_Charakter
      */
@@ -116,7 +123,7 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setCharakterid($row->charakterId);
                 $model->setAugenfarbe($row->augenfarbe);
                 $model->setGeburtsdatum($row->geburtsdatum);
-                $model->setGeschlecht($row->sex);
+                $model->setGeschlecht($row->geschlecht);
                 $model->setMagiccircuit($row->circuit);
                 $model->addElement($row->naturelement);
                 $model->setNickname($row->nickname);
@@ -124,14 +131,6 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setWohnort($row->wohnort);
                 $model->setKlasse($row->klassenId);
                 $model->setKlassengruppe($row->klassengruppenId);
-//                $model->setVorteile($this->getVorteileByCharakterId($row->charakterId));
-//                $model->setNachteile($this->getNachteileByCharakterId($row->charakterId));
-//                if(!is_null($this->getCharakterwerte($row->charakterId))){
-//                    $model->setCharakterwerte($this->getCharakterwerte($row->charakterId));
-//                }
-//                if(!is_null($this->getCharakterProfil($row->charakterId))){
-//                    $model->setCharakterprofil($this->getCharakterProfil($row->charakterId));
-//                }
             }
             return $model;
         }else{
@@ -150,7 +149,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return \Application_Model_Charakterprofil
      */
@@ -174,16 +172,27 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return null;
     }
-    
+
     /**
-     * 
+     * @param int $profilId
+     * @param int $charakterId
+     * @return array
      */
-    public function getVisibleProfile($profileId, $charakterId) {
-        $select = $this->getDbTable('CharakterProfil')->select();
+    public function getDatenfreigabe($profilId, $charakterId) {
+        $freigabe = array('public' => 0, 'privat' => 0);
+        $select = $this->getDbTable('Beziehungen')->select();
+        $select->from('beziehungen');
+        $select->where('profilId = ?', $profilId);
+        $select->where('charakterId = ?', $charakterId);
+        $result = $this->getDbTable('Beziehungen')->fetchRow($select);
+        if($result !== null){
+            $freigabe['public'] = $result->public;
+            $freigabe['privat'] = $result->privat;
+        }
+        return $freigabe;
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return \Application_Model_Charakterwerte
      */
@@ -210,7 +219,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return boolean
      */
@@ -233,7 +241,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return \Application_Model_Vorteil
      */
@@ -259,7 +266,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return \Application_Model_Nachteil
      */
@@ -285,7 +291,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      */
     public function getFriendlist($charakterId) {
@@ -297,30 +302,51 @@ class Application_Model_Mapper_CharakterMapper{
         $result = $this->getDbTable('Beziehungen')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $returnArray[] = $this->getCharakter($row->charakterId);
+                $returnArray[] = $this->getCharakter($row->profilId);
             }
         }
         return $returnArray;
     }
     
     /**
-     * 
      * @param int $charakterId
      * @return \Application_Model_Charakter
      * @throws Exception
      */
     public function getCharakter($charakterId) {
+        $model = new Application_Model_Charakter();
         $select = $this->getDbTable('Charakter')->select();
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if($row !== null){
-            $model = new Application_Model_Charakter();
             $model->setVorname($row->vorname);
             $model->setNachname($row->nachname);
             $model->setCharakterid($row->charakterId);
-            return $model;
+            $model->setSize($row->size);
+            $model->setAugenfarbe($row->augenfarbe);
+            $model->setGeburtsdatum($row->geburtsdatum);
+            $model->setGeschlecht($row->geschlecht);
+            $model->setNickname($row->nickname);
+            $model->setWohnort($row->wohnort);
+        }
+        return $model;
+    }
+    
+    /**
+     * 
+     * @param int $charakterId
+     * @param int $charakterIdToCheck
+     * @return boolean
+     */
+    public function checkAssociation($charakterId, $charakterIdToCheck) {
+        $select = $this->getDbTable('Beziehungen')->select();
+        $select->where('charakterId = ?', $charakterId);
+        $select->where('profilId = ?', $charakterIdToCheck);
+        $row = $this->getDbTable('Beziehungen')->fetchRow($select);
+        if($row !== null){
+            return true;
         }else{
-            throw new Exception('Zu der ID gibt es keinen Charakter');
+            return false;
         }
     }
     

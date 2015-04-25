@@ -25,7 +25,7 @@ $profile = $this->profile;
 foreach ($this->friendlist as $charakter) {
 ?>
     <li class="charakter" id="<?= $charakter->getCharakterId() ?>">
-        <a href="<?= $this->baseUrl() ?>/Charakter/<?= $charakter->getCharakterId() ?>">
+        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getCharakterId() ?>">
             <?= htmlspecialchars($charakter->getVorname()) . ' '
                 . htmlspecialchars($charakter->getNachname()) ?>
         </a>

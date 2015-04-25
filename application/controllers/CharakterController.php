@@ -56,7 +56,7 @@ class CharakterController extends Zend_Controller_Action{
     public function erstellungAction() {
         $auth = Zend_Auth::getInstance()->getIdentity();
         $layout = $this->_helper->layout();
-        $layout->setLayout('empty');
+        $layout->setLayout('erstellung');
         $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
         $erstellungsService = new Application_Service_Erstellung();
         $this->view->creationParams = $erstellungsService->getCreationParams();

@@ -78,6 +78,10 @@ html, body {
     border-bottom: 1px solid black;
 }
 
+#navigation ul{
+    padding: 0;
+}
+
 #navigationrechts {
     position: fixed;
     z-index: 2;
@@ -94,6 +98,10 @@ html, body {
     border-right: 0px solid black;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
+}
+
+#navigationrechts ul{
+    padding: 0;
 }
 
 
@@ -238,7 +246,7 @@ html, body {
 #inhalt h1, h2, h3, p, ul {
     padding-bottom: .5em;
 }
-#inhalt ul {
+ul {
     padding-left: 2em;
 } 
 
@@ -374,6 +382,7 @@ html, body {
 .userlist{
     list-style-type: none;
     text-align: center;
+    padding-left: 0;
 }
 
 #footer {
@@ -438,6 +447,12 @@ form{
     margin-bottom: 25px; 
     margin-top: 25px; 
 }
+
+#dialog {
+    display: none;
+    height: 0;
+}
+
 a:link {text-decoration: none; color: #000000;}
 a:visited {text-decoration: none; color: #000000;}
 a:active {text-decoration: underline; color: #0000FF;}

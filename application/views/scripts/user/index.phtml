@@ -1,0 +1,58 @@
+<?php
+/* @var $user Application_Model_User */
+$user = $this->user;
+$this->headLink()->prependStylesheet($this->baseUrl() . '/styles/Profil.css');
+$this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headScript()->prependFile($this->baseUrl() . '/js/user/profile.js');
+?>
+<div id='dialog'></div>
+<h1>
+    Deine Benutzerdaten
+</h1>
+<div>
+    <p>
+        <span style="float: left; width: 50%">
+            <label>
+                Profilname
+            </label>
+            <span>
+                <?= $user->getProfilname() ?>
+            </span>
+        </span>
+        <span style="float: right; width: 50%">
+            <label>
+                Loginname
+            </label>
+            <span>
+                <?= $user->getUsername() ?>
+            </span>
+        </span>
+    </p>
+</div>
+<div style="clear: both">
+    <button id="password">
+        Passwort ändern
+    </button>
+    <button id="mail">
+        E-Mail ändern
+    </button>
+    <button id="charakter">
+        Charakter löschen
+    </button>
+    <button id="account">
+        Account löschen
+    </button>
+</div>
+<hr />
+<div>
+    <hr />
+    <p>
+        <label>
+            aktuelle Email-Adresse
+        </label>
+        <span>
+            <?= $user->getEmail() ?>
+        </span>
+    </p>
+    <hr />
+</div>

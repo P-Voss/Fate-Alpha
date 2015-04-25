@@ -1,0 +1,17 @@
+<fieldset>
+    <form method="POST" action="<?= $this->baseUrl() ?>/user/account">
+        <p>
+            <label>
+                Passwort eingeben
+            </label>
+            <input type="password" name="password" />
+        </p>
+        <p>
+            <label>
+                Passwort bestätigen
+            </label>
+            <input type="password" name="passwordConfirm" />
+        </p>
+        <input type="submit" value="Account löschen" name="deleteAccount" />
+    </form>
+</fieldset>

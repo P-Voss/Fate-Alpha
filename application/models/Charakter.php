@@ -12,23 +12,59 @@ class Application_Model_Charakter {
      * @var int
      */
     protected $_charakterid;
+    /**
+     *
+     * @var int
+     */
     protected $_userid;
     /**
      * @var string
      */
     protected $_vorname;
+    /**
+     *
+     * @var string
+     */
     protected $_nachname;
+    /**
+     *
+     * @var string
+     */
     protected $_nickname;
+    /**
+     *
+     * @var DateInterval
+     */
     protected $_alter;
+    /**
+     *
+     * @var string
+     */
     protected $_augenfarbe;
+    /**
+     *
+     * @var string
+     */
     protected $_geschlecht;
+    /**
+     *
+     * @var string
+     */
     protected $_wohnort;
+    /**
+     *
+     * @var int
+     */
     protected $_size;
     /**
      *
      * @var Application_Model_Klasse
      */
     protected $_klasse;
+    /**
+     *
+     * @var int
+     */
     protected $_klassengruppe;
     /**
      *
@@ -58,8 +94,20 @@ class Application_Model_Charakter {
      * @var Application_Model_Charakterprofil
      */
     protected $_charakterprofil;
+    /**
+     *
+     * @var array
+     */
     protected $_vorteile = array();
+    /**
+     *
+     * @var array
+     */
     protected $_nachteile = array();
+    /**
+     *
+     * @var array
+     */
     protected $_elemente = array();
 
 
@@ -83,8 +131,11 @@ class Application_Model_Charakter {
         return $this->_nickname;
     }
 
-    public function getAlter() {
-        return $this->_alter;
+    public function getAlter($modifier = null) {
+        if($this->_alter === null){
+            $this->calcAlter();
+        }
+        return $this->_alter->$modifier;
     }
 
     public function getGeburtsdatum() {
@@ -164,8 +215,10 @@ class Application_Model_Charakter {
         return $this;
     }
 
-    public function setAlter($alter) {
-        $this->_alter = $alter;
+    public function calcAlter() {
+        $currentDate = new DateTime();
+        $birthDate = new DateTime($this->getGeburtsdatum());
+        $this->_alter = $currentDate->diff($birthDate);
         return $this;
     }
 

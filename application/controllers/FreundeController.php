@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of UserController
+ * Description of FreundeController
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
@@ -43,17 +43,40 @@ class FreundeController extends Zend_Controller_Action {
     }
     
     public function previewAction() {
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
+        $this->_helper->layout()->disableLayout();
         $this->_helper-> viewRenderer-> setNoRender();
-        $profile = $this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid());
-        Zend_Debug::dump($profile);
-        exit;
-        echo 'sddsf';
+        $preview = $this->_charakterService->getPreview($this->getRequest());
+        echo $preview;
     }
     
     public function addAction() {
         
+    }
+    
+    public function profilAction() {
+        $charakter = $this->_charakterService->getCharakter($this->getRequest());
+        $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid()));
+        $this->view->charakter = $charakter;
+    }
+    
+    public function passAction() {
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+        $charakter = $this->_charakterService->getCharakter($this->getRequest());
+        if($charakter->getCharakterid() !== null 
+            && 
+            $this->_charakterService->isAssociated($this->_charakter, $charakter)
+        ) {
+            $charakter->setCharakterprofil(
+                $this->_charakterService->getVisibleProfile(
+                    $this->getRequest(), 
+                    $this->_charakter->getCharakterid()
+                )
+            );
+            $this->view->charakter = $charakter;
+        } else {
+            $this->view->charakter = null;
+        }
     }
 
 }

@@ -1,0 +1,29 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+$charakter = $this->charakter;
+$this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headScript()->appendScript('var id = ' . $charakter->getCharakterid(), 'text/javascript');
+$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
+?>
+<div id="dialog" title="<?= htmlspecialchars($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>">
+    
+</div>
+<h1>
+    <?= htmlspecialchars($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+</h1>
+<div class="img">
+    <img src="<?= htmlentities($charakter->getCharakterprofil()->getCharpic()) ?>" width="700" />
+</div>
+<p>
+    <?= $charakter->getCharakterprofil()->outputCharaktergeschichte() ?>
+</p>
+<div class="Zentriert">
+    <h2>
+        <a id="pass">
+        Pass
+        </a>
+    </h2>
+</div>
+<p>
+    <?= $charakter->getCharakterprofil()->outputPrivatdaten() ?>
+</p>

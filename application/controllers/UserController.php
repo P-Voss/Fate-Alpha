@@ -9,10 +9,12 @@ class UserController extends Zend_Controller_Action {
 
     protected $_userService;
     protected $_layoutService;
+    protected $_charakterService;
 
     public function init(){
         $this->_userService = new Application_Service_User();
         $this->_layoutService = new Application_Service_Layout();
+        $this->_charakterService = new Application_Service_Charakter();
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
@@ -26,7 +28,7 @@ class UserController extends Zend_Controller_Action {
     }
 
     public function indexAction(){
-        
+        $this->view->user = $this->_userService->getUserById(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
     public function createAction(){
@@ -37,6 +39,54 @@ class UserController extends Zend_Controller_Action {
                 $this->redirect('login/registrierung');
             }
         }
+    }
+    
+    public function passwordAction() {
+        if($this->getRequest()->getParam('newPw') !== null){
+            $this->_userService->changePassword(
+                $this->getRequest(),
+                Zend_Auth::getInstance()->getIdentity()->userId
+            );
+            $this->redirect('/user');
+        }
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+    }
+    
+    public function mailAction() {
+        if($this->getRequest()->getParam('newMail') !== null){
+            $this->_userService->changeEmail(
+                $this->getRequest(),
+                Zend_Auth::getInstance()->getIdentity()->userId
+            );
+            $this->redirect('/user');
+        }
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+    }
+    
+    public function charakterAction() {
+        if($this->getRequest()->getParam('deleteCharakter') !== null){
+            $this->_userService->deleteCharakter(
+                $this->getRequest(),
+                Zend_Auth::getInstance()->getIdentity()->userId
+            );
+            $this->redirect('/user');
+        }
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+    }
+    
+    public function accountAction() {
+        if($this->getRequest()->getParam('deleteAccount') !== null){
+            $this->_userService->deleteAccount(
+                $this->getRequest(),
+                Zend_Auth::getInstance()->getIdentity()->userId
+            );
+            $this->redirect('/user');
+        }
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
     }
 
 }

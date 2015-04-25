@@ -1,0 +1,101 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+$charakter = $this->charakter;
+if($charakter === null){
+    echo '<p>Diesen Charakter kennst du noch nicht.</p>';
+}
+?>
+<table cellspacing="15" border="2" cellpadding="3" bgcolor="#008080">
+<colgroup>
+<col width="200"/>
+<col width="90"/>
+<col width="100"/>
+<col width="105"/>
+<col width="140"/>
+</colgroup>
+    <tr>
+        <td rowspan="8">
+            <img src="<?= $charakter->getCharakterprofil()->getProfilpic() ?>" border="0" height="260" width="200" />
+        </td>
+        <td style="border: 0;">
+        <b>Vorname</b>
+        </td>
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getVorname() ?>
+        </td>
+        <td style="border: 0;">
+        <b>Nachname</b>
+        </td>
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getNachname() ?>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 0;">
+        <b>Geschlecht</b>
+        </td>
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getGeschlecht() ?>
+        </td>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+    </tr>
+    <tr>
+        <td style="border: none;"></td>
+        <td style="border: none;"></td>
+        <td style="border: 0;">
+        <b>Wohnort</b>
+        </td>
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getWohnort() ?>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 0;">
+        <b>Alter</b>
+        </td>
+        <td align="right" bgcolor="#C0C0C0">
+        <?= $charakter->getAlter('y') ?>
+        </td>
+        <td style="border: 0;">
+        <b>Geburtsdatum</b>
+        </td>        
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getGeburtsdatum() ?>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 0;">
+        <b>Augenfarbe</b>
+        </td>
+        <td bgcolor="#C0C0C0">
+        <?= $charakter->getAugenfarbe() ?>
+        </td>
+        <td style="border: 0;">
+        <b>Größe</b>
+        </td>
+        <td bgcolor="#C0C0C0" align="right">
+        <?= $charakter->getSize() ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border: 0;" align="center">
+        <b>Künstler-, Religions-, Ordensname</b>
+        </td>
+        <td bgcolor="#C0C0C0">        
+        <?= $charakter->getNickname() ?>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+    </tr>
+    <tr>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+        <td style="border: 0;"></td>
+    </tr>
+</table>

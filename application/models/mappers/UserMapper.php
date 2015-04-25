@@ -15,11 +15,11 @@ class Application_Model_Mapper_UserMapper {
         return $dbTable;
     }
 
-    public function hasChara($userid) {
+    public function hasChara($userId) {
         $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakter');
-        $select->where('userId = ?', $userid);
+        $select->where('userId = ?', $userId);
         $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             return true;
@@ -28,49 +28,69 @@ class Application_Model_Mapper_UserMapper {
         }
     }
 
-    public function countNewPm($userid) {
+    public function countNewPm($userId) {
         $select = $this->getDbTable('Pm')->select();
         $select->setIntegrityCheck(false);
         $select->from('nachrichtenEingang');
-        $select->where('Empfaenger = ? AND Status = "Ungelesen"', $userid);
+        $select->where('Empfaenger = ? AND Status = "Ungelesen"', $userId);
         $result = $this->getDbTable('Pm')->fetchAll($select);
         return $result->count();
     }
 
-    public function getAdminnameById($userid) {
+    public function getAdminnameById($userId) {
         $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Benutzerdaten');
-        $select->where('id = ?', $userid);
+        $select->from('benutzerdaten');
+        $select->where('id = ?', $userId);
         $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             foreach ($result as $row) {
-                return $row->Profilname;
+                return $row->profilname;
             }
         } else {
             return false;
         }
     }
 
-    public function getCharakterById($userid) {
-        
-    }
-
     public function createUser(Application_Model_User $user, $ip) {
         $datetime = new DateTime();
-        $data['Username'] = $user->getUsername();
-        $data['Profilname'] = $user->getProfilname();
-        $data['Passwort'] = $this->generateHash($user->getPasswort());
-        $data['Email'] = $user->getEmail();
-        $data['Usergruppe'] = $user->getUsergruppe();
-        $data['Adminname'] = null;
-        $data['Loginzeitpunkt'] = null;
-        $data['Logoutzeitpunkt'] = null;
-        $data['Anmeldedatum'] = $datetime->format('Y-m-d H:i:s');
+        $data['username'] = $user->getUsername();
+        $data['profilname'] = $user->getProfilname();
+        $data['passwort'] = $this->generateHash($user->getPasswort());
+        $data['email'] = $user->getEmail();
+        $data['usergruppe'] = $user->getUsergruppe();
+        $data['adminname'] = null;
+        $data['loginzeitpunkt'] = null;
+        $data['logoutzeitpunkt'] = null;
+        $data['anmeldedatum'] = $datetime->format('Y-m-d H:i:s');
         $data['ip'] = $ip;
         $this->getDbTable('User')->insert($data);
     }
+    
+    /**
+     * @param type $userId
+     * @return \Application_Model_User
+     */
+    public function getUserById($userId) {
+        $user = new Application_Model_User();
+        $select = $this->getDbTable('User')->select();
+        $select->where('userId = ?', $userId);
+        $result = $this->getDbTable('User')->fetchRow($select);
+        if($result !== false){
+            $user->setId ($userId);
+            $user->setProfilname($result['profilname']);
+            $user->setUsername($result['username']);
+            $user->setPasswort($result['passwort']);
+            $user->setEmail($result['mail']);
+            $user->setUsergruppe($result['usergruppe']);
+        }
+        return $user;
+    }
 
+    /**
+     * @param string $password
+     * @return string
+     */
     function generateHash($password) {
         return md5($password);
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
@@ -78,7 +98,50 @@ class Application_Model_Mapper_UserMapper {
             return crypt($password, $salt);
         }
     }
+    
+    /**
+     * @param int $userId
+     * @param string $newMail
+     * @return int
+     */
+    public function changeEmail($userId, $newMail) {
+        $data['mail'] = $newMail;
+        return $this->getDbTable('User')->update($data, array('userId = ?' => $userId));
+    }
+    
+    /**
+     * @param int $userId
+     * @param string $newPassword
+     * @return int
+     */
+    public function changePassword($userId, $newPassword) {
+        $data['passwort'] = $this->generateHash($newPassword);
+        return $this->getDbTable('User')->update($data, array('userId = ?' => $userId));
+    }
+    
+    /**
+     * @param int $userId
+     * @return int
+     */
+    public function deleteUser($userId) {
+        $data['active'] = 0;
+        return $this->getDbTable('User')->update($data, array('userId = ?' => $userId));
+    }
+    
+    /**
+     * @param int $userId
+     * @param string $password
+     * @return boolean
+     */
+    public function verifyPassword($userId, $password) {
+        $select = $this->getDbTable('User')->select();
+        $select->from('benutzerdaten', array('passwort'));
+        $select->where('userId = ?', $userId);
+        $result = $this->getDbTable('User')->fetchRow();
+        if($result !== null){
+            return $this->generateHash($password) === $result['passwort'];
+        }
+        return false;
+    }
 
 }
-
-?>

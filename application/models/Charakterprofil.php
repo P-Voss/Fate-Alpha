@@ -7,20 +7,49 @@
  */
 class Application_Model_Charakterprofil {
     
+    /**
+     * @var string
+     */
     protected $_charaktergeschichte;
+    /**
+     * @var string
+     */
     protected $_privatdaten;
+    /**
+     * @var string
+     */
     protected $_sldaten;
+    /**
+     * @var string
+     */
     protected $_profilpic;
+    /**
+     * @var string
+     */
     protected $_charpic;
+    /**
+     * @var string
+     */
     protected $_kennenlerncode;
+    /**
+     * @var string
+     */
     protected $_privatcode;
     
     public function getCharaktergeschichte() {
         return $this->_charaktergeschichte;
     }
+    
+    public function outputCharaktergeschichte() {
+        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_charaktergeschichte));
+    }
 
     public function getPrivatdaten() {
         return $this->_privatdaten;
+    }
+    
+    public function outputPrivatdaten() {
+        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_privatdaten));
     }
 
     public function getProfilpic() {
@@ -65,6 +94,10 @@ class Application_Model_Charakterprofil {
 
     public function getSldaten() {
         return $this->_sldaten;
+    }
+    
+    public function outputSldaten() {
+        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_sldaten));
     }
 
     public function setSldaten($sldaten) {
