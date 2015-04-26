@@ -16,7 +16,10 @@ class FreundeController extends Zend_Controller_Action {
      */
     protected $_layoutService;
     /**
-     *
+     * @var Application_Service_User
+     */
+    protected $_userService;
+    /**
      * @var Application_Model_Charakter
      */
     protected $_charakter;
@@ -25,10 +28,11 @@ class FreundeController extends Zend_Controller_Action {
     public function init() {
         $this->_charakterService = new Application_Service_Charakter();
         $this->_layoutService = new Application_Service_Layout();
+        $this->_userService = new Application_Service_User();
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
-        if($auth === null){
+        if($auth === null || !$this->_userService->hasChara($auth->userId)){
             $this->redirect('index');
         }  else {
             $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
@@ -50,7 +54,8 @@ class FreundeController extends Zend_Controller_Action {
     }
     
     public function addAction() {
-        
+        $this->_charakterService->addAssociate($this->getRequest(), $this->_charakter->getCharakterid());
+        $this->redirect('freunde');
     }
     
     public function profilAction() {

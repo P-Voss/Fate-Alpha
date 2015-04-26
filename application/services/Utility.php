@@ -19,4 +19,8 @@ class Application_Service_Utility {
         return $str;
     }
     
+    public static function generateShortHash() {
+        return substr(md5(rand()), 0, 7);
+    }
+    
 }

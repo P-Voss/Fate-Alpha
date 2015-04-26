@@ -16,6 +16,17 @@ class Application_Service_Charakter {
         return $mapper->getCharakterByUserId($userId);
     }
     
+    
+    public function addAssociate(Zend_Controller_Request_Http $request, $charakterId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        $profileToUnlock = $mapper->verifyProfilecode($request->getParam('Charaktercode'), $charakterId);
+        if($profileToUnlock !== false){
+            if($mapper->setAssociation($profileToUnlock, $charakterId)){
+                $mapper->setNewProfileCode($profileToUnlock['charakterId']);
+            }
+        }
+    }
+    
     /**
      * @param int $charakterId
      * @return array

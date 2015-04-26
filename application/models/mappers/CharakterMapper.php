@@ -143,8 +143,8 @@ class Application_Model_Mapper_CharakterMapper{
      */
     public function createCharakterProfile($charakterId) {
         $data['charakterId'] = $charakterId;
-        $data['kennenlernCode'] = md5($charakterId);
-        $data['privatCode'] = md5('privat' . $charakterId);
+        $data['kennenlernCode'] = Application_Service_Utility::generateShortHash();
+        $data['privatCode'] = Application_Service_Utility::generateShortHash();
         return $this->getDbTable('charakterProfil')->insert($data);
     }
     
@@ -333,7 +333,6 @@ class Application_Model_Mapper_CharakterMapper{
     }
     
     /**
-     * 
      * @param int $charakterId
      * @param int $charakterIdToCheck
      * @return boolean
@@ -348,6 +347,92 @@ class Application_Model_Mapper_CharakterMapper{
         }else{
             return false;
         }
+    }
+    
+    /**
+     * @param array $profile
+     * @param int $charakterId
+     * @return int
+     */
+    public function setAssociation(array $profile, $charakterId) {
+        $data = [
+            'charakterId' => $charakterId,
+            'profilId' => $profile['charakterId']
+        ];
+        if($profile['type'] === 'public'){
+            $data['public'] = 1;
+        }
+        if($profile['type'] === 'private'){
+            $data['private'] = 1;
+        }
+        $select = $this->getDbTable('Beziehungen')->select();
+        $select->where('charakterId = ?', $charakterId);
+        $select->where('profilId = ?', $profile['charakterId']);
+        $result = $this->getDbTable('Beziehungen')->fetchRow();
+        if($result !== null){
+            $return = $this->updateAssociation($data, $result['zuordnungId']);
+        } else {
+            $return = $this->createAssociation($data);
+        }
+        return $return;
+    }
+    
+    /**
+     * @param array $data
+     * @param int $associateId
+     * @return int
+     */
+    private function updateAssociation(array $data, $associateId) {
+        return $this->getDbTable('Beziehungen')->update($data, array('zuordnungId =?' => $associateId));
+    }
+    
+    /**
+     * @param array $data
+     * @return int
+     */
+    private function createAssociation(array $data) {
+        return $this->getDbTable('Beziehungen')->insert($data);
+    }
+    
+    /**
+     * @param string $profileCode
+     * @param int $charakterId
+     * @return array|boolean
+     */
+    public function verifyProfilecode($profileCode, $charakterId) {
+        $selectPublic = $this->getDbTable('CharakterProfil')->select();
+        $selectPublic->setIntegrityCheck(false);
+        $selectPublic->from(array('cp' => 'charakterProfil'), array(new Zend_Db_Expr('"public" AS type'), 'charakterId'));
+        $selectPublic->where('kennenlernCode = ?', $profileCode);
+        $selectPublic->where('charakterId != ?', $charakterId);
+        
+        $selectPrivate = $this->getDbTable('CharakterProfil')->select();
+        $selectPrivate->setIntegrityCheck(false);
+        $selectPrivate->from(array('cp' => 'charakterProfil'), array(new Zend_Db_Expr('"private" AS type'), 'charakterId'));
+        $selectPrivate->where('privatCode = ?', $profileCode);
+        $selectPrivate->where('charakterId != ?', $charakterId);
+        
+        $select = $this->getDbTable('CharakterProfil')->select();
+        $select->union(array($selectPrivate, $selectPublic));
+        $result = $this->getDbTable('CharakterProfil')->fetchRow($select);
+        if($result !== null){
+            $return['charakterId'] = $result['charakterId'];
+            $return['type'] = $result['type'];
+            return $return;
+        }
+        return false;
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return int
+     */
+    public function setNewProfileCode($charakterId) {
+        $data = [
+            'kennenlernCode' => Application_Service_Utility::generateShortHash(),
+            'privatCode' => Application_Service_Utility::generateShortHash(),
+        ];
+        return $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
 }
