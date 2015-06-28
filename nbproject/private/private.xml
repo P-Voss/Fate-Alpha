@@ -18,18 +18,17 @@
             <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
         </group>
         <group name="PHP">
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/freunde/pass.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/js/charakter/profile.js</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterProfil.php</file>
             <file>file:/F:/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/controllers/FreundeController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/layouts/scripts/online.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/Charakter.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/User.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterVorteil.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/ErstellungMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterElement.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterNachteil.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/UserController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/freunde/profil.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Layout.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/views/scripts/user/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Charakter.php</file>
         </group>
     </open-files>
 </project-private>

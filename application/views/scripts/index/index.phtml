@@ -1,5 +1,7 @@
 <?php
 $news = $this->news;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 ?>
 <h1>
     Neuigkeiten
@@ -11,10 +13,10 @@ if($news !== false){
     ?>
         <div class="News">
             <div class="NewsTitel">
-                <h2><?= htmlentities($nachricht->getTitel()); ?></h2>
+                <h2><?= htmlspecialchars($nachricht->getTitel()); ?></h2>
             </div>
             <div class="NewsNachricht">
-                <?= nl2br(htmlentities($nachricht->getNachricht())); ?>
+                <?= $purifier->purify($nachricht->getNachricht()) ?>
             </div>
             <div class="NewsBottom">
                 <a href="<?= $this->baseUrl(); ?>/charakter/id/<?= $nachricht->getVerfasser(); ?>">
@@ -23,10 +25,10 @@ if($news !== false){
                     </div>
                 </a>
                 <div class="NewsEdit">
-                    <?php if($nachricht->getEditorName() !== null){
-                        echo 'Editiert von: ' . htmlentities($nachricht->getEditorName());
-                    }
-                    ?>
+                    <?php if($nachricht->getEditorName() !== null): ?>
+                        Editiert von: <?= htmlentities($nachricht->getEditorName()) ?>
+                        am <?= $nachricht->getEditdatum() ?>
+                    <?php endif ?>
                 </div>
                 <div class="NewsDatum">
                     Verfasst am <?= $nachricht->getDatum(); ?>

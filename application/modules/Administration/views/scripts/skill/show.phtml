@@ -1,0 +1,64 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+/* @var $skill Administration_Model_Skill */
+$skill = $this->skill;
+?>
+<h1>Fähigkeit anpassen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
+    <fieldset>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
+            <label for="kosten">FP-Kosten</label>
+            <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
+        </p>
+        <p>
+            <label for="skillart">
+                Fähigkeitenart
+            </label>
+            <select name="skillart">
+                <option>Schützenfähigkeit</option>
+                <option>Kämpferfähigkeit</option>
+                <option>Übungsfähigkeit</option>
+                <option>Spezialfähigkeit</option>
+            </select>
+        </p>
+        <p>
+            <label for="rang">
+                Rang
+            </label>
+            <select name="rang">
+                <option>EX</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+            </select>
+        </p>
+        <p>
+            <label for="uebung">
+                benötigte Übung
+            </label>
+            <input type="number" name="uebung" value="<?= $skill->getUebung() ?>" />
+        </p>
+        <p>
+            <label for="disziplin">
+                benötigte Disziplin
+            </label>
+            <input type="number" name="disziplin" value="<?= $skill->getDisziplin() ?>" />
+        </p>
+        <label for="beschreibung">
+            Beschreibung
+        </label>
+        <textarea name="beschreibung" cols="80" rows="10">
+            <?= $skill->getBeschreibung() ?>
+        </textarea>
+    </fieldset>
+    <div align="center">
+        <input type="hidden" name="skillId" value="<?= $this->skill->getId() ?>">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Speichern" />
+    </div>
+</form>

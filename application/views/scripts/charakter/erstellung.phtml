@@ -1,4 +1,9 @@
 <?php
+$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/erstellung/charaktererstellung.js');
+//$this->headScript()->prependFile($this->baseUrl() . '/js/erstellung/map.js');
 $creationParamContainer = $this->creationParams;
 $klassen = $this->creationParams['klassen'];
 $vorteile = $this->creationParams['vorteile'];
@@ -11,6 +16,9 @@ $elemente = $this->creationParams['elemente'];
 <h1>
     Neuen Charakter erstellen
 </h1>
+<div id="dialog">
+    
+</div>
 <form method="post" action="<?= $this->baseUrl() ?>/charakter/create">
     <fieldset class="FormularZeile">
         <label class="FormularLabel">
@@ -83,6 +91,11 @@ $elemente = $this->creationParams['elemente'];
                 <option>Grün</option>
                 <option>Braun</option>
                 <option>Grau</option>
+                <option>Schwarz</option>
+                <option>Rot</option>
+                <option>Lila</option>
+                <option>Gelb</option>
+                <option>Türkis</option>
             </select>
         </div>
     </fieldset>
@@ -127,12 +140,12 @@ $elemente = $this->creationParams['elemente'];
         <div class="FormularInput">
             <select name="wohnort" id="wohnort" required="" >
                 <option selected="" value="">bitte auswählen</option>
-                <option>Miyama Nord</option>
-                <option>Miyama Süd</option>
-                <option>Miyamachou</option>
-                <option>Shinto City</option>
-                <option>Shinto Kurokizaka</option>
-                <option>Shinto Kizaka</option>
+                <option value="Miyama-Nord">Miyama Nord</option>
+                <option value="Miyama-Sued">Miyama Süd</option>
+                <option value="Miyamachou">Miyamachou</option>
+                <option value="City">Shinto City</option>
+                <option value="Kurokizaka">Shinto Kurokizaka</option>
+                <option value="Kizaka">Shinto Kizaka</option>
             </select>
         </div>
     </fieldset>
@@ -320,246 +333,3 @@ $elemente = $this->creationParams['elemente'];
     </fieldset>
     <input id="newchara" type="submit" name="newchara" value="Charakter anlegen"/>
 </form>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var erstellungspunkte = 30;
-        var vorteilCount = 3;
-        var nachteilCount = 2;
-        $("#beschreibungLinks").hide();
-        $("#Erstellungspunkte").html(erstellungspunkte);
-
-        $("#newchara").click(function () {
-            if ($("#vorname").val().length < 1) {
-                alert('Der Vorname sieht nicht richtig aus.');
-                return false;
-            }
-            if ($("#nachname").val().length < 1) {
-                alert('Der Nachname sieht nicht richtig aus.');
-                return false;
-            }
-            if ($("#geschlecht").val().length < 1) {
-                alert('M or W?');
-                return false;
-            }
-            if ($("#körpergröße").val() < 130 || $("#körpergröße").val() > 210) {
-                alert('Wie groß genau ist der Charakter?');
-                return false;
-            }
-            if ($("#geburtsdatum").val().length < 1) {
-                alert('Age?');
-                return false;
-            }
-            if ($("#augenfarbe").val().length < 1) {
-                alert('Beautiful ...eyes... wait, what kind of color is that actually?');
-                return false;
-            }
-            if ($("#sexualität").val().length < 1) {
-                alert('Worauf steht dein Charakter denn so?');
-                return false;
-            }
-            if ($("#wohnort").val().length < 1) {
-                alert('Location?');
-                return false;
-            }
-            if ($("#vorteile :selected").length > vorteilCount) {
-                alert('Zu viele Vorteile ausgewählt.');
-                return false;
-            }
-            if ($("#nachteile :selected").length > nachteilCount) {
-                alert('Zu viele Nachteile ausgewählt.');
-                return false;
-            }
-            $("#nachname").removeAttr('disabled');
-        });
-
-        $("#vorname").change(function () {
-            wert = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "<?= $this->baseUrl() ?>/Erstellung/namevalidation",
-                data: {
-                    type: 'Vorname',
-                    value: wert
-                }
-            })
-                    .success(function (msg) {
-                        var returnValue = $.parseJSON(msg);
-                        if (returnValue.result.toLocaleLowerCase() === wert.toLocaleLowerCase()) {
-                            $("#beschreibungLinks").show(1000);
-                            $("#Vorname").html('Name: ' + returnValue.result);
-                            $("#vorname").val(returnValue.result);
-                        } else {
-                            $("#vorname").val('');
-                            $("#vorname").attr('placeholder', returnValue.result);
-                            $("#Vorname").html('');
-                        }
-                    });
-        });
-
-        $("#nachname").change(function () {
-            wert = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "<?= $this->baseUrl() ?>/Erstellung/namevalidation",
-                data: {
-                    type: 'Nachname',
-                    value: wert
-                }
-            })
-                    .success(function (msg) {
-                        var returnValue = $.parseJSON(msg);
-                        if (returnValue.result.toLocaleLowerCase() === wert.toLocaleLowerCase()) {
-                            $("#Nachname").html(returnValue.result);
-                            $("#nachname").val(returnValue.result);
-                        } else {
-                            $("#nachname").val('');
-                            $("#nachname").attr('placeholder', returnValue.result);
-                            $("#Nachname").html('');
-                        }
-                    });
-        });
-        $("#geburtsdatum").change(function () {
-            wert = $(this).val();
-            $("#Geburtsdatum").html('Geboren am: ' + wert);
-        });
-        $("#geschlecht").change(function () {
-            wert = $(this).val();
-            $("#Geschlecht").html('(' + wert + ')');
-        });
-        $("#augenfarbe").change(function () {
-            wert = $(this).val();
-            $("#Augenfarbe").html('Augenfarbe: ' + wert);
-        });
-        $("#körpergröße").change(function () {
-            wert = $(this).val();
-            $("#Körpergröße").html('Körpergröße: ' + wert + 'cm');
-        });
-        $("#sexualität").change(function () {
-            wert = $(this).val();
-            $("#Sexualität").html('Sexualität: ' + wert);
-        });
-        $("#wohnort").change(function () {
-            wert = $(this).val();
-            $("#Wohnort").html('Wohnt in ' + wert);
-        });
-        $("#geburtsdatum").datepicker({
-            dateFormat: "dd.mm.yy",
-            changeMonth: true,
-            changeYear: true,
-            maxDate: "-12y",
-            minDate: "-90y",
-            yearRange: "c-90:+0"
-        });
-
-        $("#klasse").change(function () {
-            $.ajax({
-                type: "POST",
-                url: "<?= $this->baseUrl() ?>/Erstellung/class",
-                data: {
-                    id: $(this).val()
-                }
-            })
-                    .success(function (msg) {
-                        result = $.parseJSON(msg);
-                        $("#circuit").removeAttr('disabled');
-                        if(result.gruppe === '2'){
-                            vorteilCount = 4;
-                        }else{
-                            vorteilCount = 3;
-                        }
-                        if(result.gruppe !== '1'){
-                            $("#circuit").val(0);
-                            $("#circuit").attr('disabled', true);
-                        }
-                        if(result.familienname !== ""){
-                            $("#nachname").val(result.familienname);
-                            $("#Nachname").html(result.familienname);
-                            $("#nachname").attr('disabled', true);
-                        }else{
-                            $("#nachname").removeAttr('disabled');
-                        }
-                    });
-            refreshInterface($(this).val(), 'klasse');
-        });
-        $("#odo").change(function () {
-            refreshInterface($(this).val(), 'odo');
-        });
-        $("#circuit").change(function () {
-            refreshInterface($(this).val(), 'circuit');
-        });
-        $("#luck").change(function () {
-            refreshInterface($(this).val(), 'luck');
-        });
-        $("#element").change(function () {
-            refreshInterface($(this).val(), 'element');
-        });
-
-        $("#vorteile").on("click", "option", function () {
-            if (vorteilCount > $(this).siblings(":selected").length) {
-                refreshInterface($(this).val(), 'vorteil');
-            } else {
-                $(this).removeAttr("selected");
-            }
-        });
-
-        $("#nachteile").on("click", "option", function () {
-            if (nachteilCount > $(this).siblings(":selected").length) {
-                refreshInterface($(this).val(), 'nachteil');
-            } else {
-                $(this).removeAttr("selected");
-            }
-        });
-
-        function refreshInterface(latestId, latestType) {
-            vorteile = getSelectedVorteile();
-            nachteile = getSelectedNachteile();
-//            klasse = $("#klasse").val();
-            $.ajax({
-                type: "POST",
-                url: "<?= $this->baseUrl() ?>/Erstellung/info",
-                data: {
-                    vorteile: vorteile,
-                    nachteile: nachteile,
-                    klasse: $("#klasse").val(),
-                    odo: $("#odo").val(),
-                    luck: $("#luck").val(),
-                    circuit: $("#circuit").val(),
-                    element: $("#element").val(),
-                    type: latestType,
-                    id: latestId
-                }
-            })
-                    .success(function (msg) {
-                        result = $.parseJSON(msg);
-                        setBeschreibung(result.beschreibung);
-                        setPunkte(result.punkte);
-                        $("#vorteile").html(result.forms.vorteile);
-                        $("#nachteile").html(result.forms.nachteile);
-                    });
-        }
-
-        function getSelectedVorteile() {
-            var vorteile = [];
-            vorteileSelected = $.makeArray($("#vorteile :selected"));
-            $.each(vorteileSelected, function (id, value) {
-                vorteile.push(value['value']);
-            });
-            return vorteile;
-        }
-        function getSelectedNachteile() {
-            var nachteile = [];
-            nachteileSelected = $.makeArray($("#nachteile :selected"));
-            $.each(nachteileSelected, function (id, value) {
-                nachteile.push(value['value']);
-            });
-            return nachteile;
-        }
-
-        function setBeschreibung(msg) {
-            $('#Beschreibung').html(msg);
-        }
-        function setPunkte(msg) {
-            $('#Erstellungspunkte').html(msg);
-        }
-    });
-</script>

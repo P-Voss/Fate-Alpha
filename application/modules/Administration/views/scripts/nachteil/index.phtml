@@ -1,0 +1,24 @@
+<?php
+/* @var $nachteil Administration_Model_Nachteil */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Nachteile
+</h1>
+<?php
+foreach ($this->list as $nachteil){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/nachteil/show/id/<?= $nachteil->getId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($nachteil->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($nachteil->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($nachteil->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

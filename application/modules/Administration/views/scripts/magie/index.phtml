@@ -1,0 +1,24 @@
+<?php
+/* @var $magie Administration_Model_Magie */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Magien
+</h1>
+<?php
+foreach ($this->list as $magie){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($magie->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($magie->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

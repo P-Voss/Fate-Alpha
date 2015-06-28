@@ -18,11 +18,19 @@ class Application_Service_User {
     }
     
     /**
-     * @param int $userid
+     * @param int $userId
      * @return boolean
      */
-    public function hasChara($userid){
-        return $this->userMapper->hasChara($userid);
+    public function hasChara($userId){
+        return $this->userMapper->hasChara($userId);
+    }
+    
+    /**
+     * @param int $userId
+     * @return boolean
+     */
+    public function isAdmin($userId) {
+        return $this->userMapper->isAdmin($userId);
     }
     
     /**

@@ -18,8 +18,8 @@ class Application_Model_Mapper_NachteilMapper implements Application_Model_Erste
     public function getPunkte($ids){
         $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Nachteile', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
-        $select->where('NachteilID IN(?)', $ids);
+        $select->from('nachteile', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
+        $select->where('nachteilId IN(?)', $ids);
         $result = $this->getDbTable('Nachteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -34,12 +34,12 @@ class Application_Model_Mapper_NachteilMapper implements Application_Model_Erste
     public function getBeschreibung($ids) {
         $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck('false');
-        $select->from('Nachteile', array('Beschreibung' => 'Beschreibung'));
-        $select->where('NachteilID IN (?)', $ids);
+        $select->from('nachteile', array('beschreibung'));
+        $select->where('nachteilId IN (?)', $ids);
         $result = $this->getDbTable('Nachteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->Beschreibung;
+                $return = $row->beschreibung;
             }
             return $return;
         }else{

@@ -26,6 +26,8 @@ class FreundeController extends Zend_Controller_Action {
 
 
     public function init() {
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
         $this->_charakterService = new Application_Service_Charakter();
         $this->_layoutService = new Application_Service_Layout();
         $this->_userService = new Application_Service_User();

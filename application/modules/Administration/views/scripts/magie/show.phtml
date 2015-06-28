@@ -1,0 +1,101 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+/* @var $magie Administration_Model_Magie */
+/* @var $magieOption Administration_Model_Magie */
+/* @var $element Administration_Model_Element */
+/* @var $schule Administration_Model_Schule */
+$magie = $this->magie;
+?>
+<h1>Magie anpassen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/magie/edit" method="post">
+    <fieldset>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
+            <label for="fp">FP-Kosten</label>
+            <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
+        </p>
+        <p>
+            <label for="element">
+                Element
+            </label>
+            <select name="element">
+                <?php foreach ($this->elemente as $element) { ?>
+                <option value="<?= $element->getId() ?>">
+                    <?= $element->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <p>
+            <label for="magieschule">
+                Magieschule
+            </label>
+            <select name="magieschule">
+                <?php foreach ($this->schulen as $schule) { ?>
+                <option value="<?= $schule->getId() ?>">
+                    <?= $schule->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <p>
+            <label for="prana">Prana-Kosten</label>
+            <input type="number" name="prana" value="<?= $magie->getPrana() ?>" />
+        </p>
+        <p>
+            <label for="stufe">
+                Stufe
+            </label>
+            <select name="stufe">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+        </p>
+        <p>
+            <label for="rang">
+                Rang
+            </label>
+            <select name="rang">
+                <option>EX</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+            </select>
+        </p>
+        <p>
+            <label for="lernbedingung">
+                Lernbedingung
+            </label>
+            <select name="lernbedingung">
+                <option>Standard</option>
+                <option>RPG-Ereignis</option>
+                <option>Lehrer</option>
+            </select>
+        </p>
+        <p>
+            <label for="magien">
+                benötigte Magien
+            </label>
+            <select name="magien[]" multiple="true" size="8">
+                <?php foreach ($this->magieList as $magieOption) { ?>
+                <option value="<?= $magieOption->getId() ?>">
+                    <?= $magieOption->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <textarea name="beschreibung" cols="80" rows="10">
+            <?= $magie->getBeschreibung() ?>
+        </textarea>
+    </fieldset>
+    <div align="center">
+        <input type="hidden" name="magieId" value="<?= $magie->getId() ?>">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Magie ändern" />
+    </div>
+</form>

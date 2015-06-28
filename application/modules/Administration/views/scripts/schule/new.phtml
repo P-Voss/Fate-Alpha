@@ -1,0 +1,85 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular.js');
+?>
+<h1>Neue Magieschule erstellen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/schule/create" method="post">
+    <fieldset>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" />
+        </p>
+        <textarea name="beschreibung" cols="80" rows="10"></textarea>
+        <fieldset>
+            <legend>
+                Vorraussetzungen
+            </legend>
+            <p>
+                <label for="staerke">Stärke</label>
+                <input type="checkbox" name="str" id="str">
+                <input type="text" size="30" name="staerke" id="staerke" disabled="true" />
+            </p>
+            <p>
+                <label for="agilitaet">Agilität</label>
+                <input type="checkbox" name="agi" id="agi">
+                <input type="text" size="30" name="agilitaet" id="agilitaet" disabled="true" />
+            </p>
+            <p>
+                <label for="ausdauer">Ausdauer</label>
+                <input type="checkbox" name="aus" id="aus">
+                <input type="text" size="30" name="ausdauer" id="ausdauer" disabled="true" />
+            </p>
+            <p>
+                <label for="uebung">Übung</label>
+                <input type="checkbox" name="pra" id="pra">
+                <input type="text" size="30" name="uebung" id="uebung" disabled="true" />
+            </p>
+            <p>
+                <label for="kontrolle">Kontrolle</label>
+                <input type="checkbox" name="kon" id="kon">
+                <input type="text" size="30" name="kontrolle" id="kontrolle" disabled="true" />
+            </p>
+            <p>
+                <label for="disziplin">Disziplin</label>
+                <input type="checkbox" name="dis" id="dis">
+                <input type="text" size="30" name="disziplin" id="disziplin" disabled="true" />
+            </p>
+            <label for="gruppen">
+                Klassengruppen:
+            </label>
+            <select name="gruppen[]" multiple="true" size="8">
+                <?php foreach ($this->klassengruppen as $gruppe) { ?>
+                <option value="<?= $gruppe->getId() ?>">
+                    <?= $gruppe->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+            <br />
+            <label for="klassen">
+                Klassen:
+            </label>
+            <select name="klassen[]" multiple="true" size="8">
+                <?php foreach ($this->klassen as $klasse) { ?>
+                <option value="<?= $klasse->getId() ?>">
+                    <?= $klasse->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+            <br />
+            <label for="skills">
+                Fähigkeiten:
+            </label>
+            <select name="skills[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                <option value="<?= $skill->getId() ?>">
+                    <?= $skill->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </fieldset>
+    </fieldset>
+    <div align="center">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+    </div>
+</form>

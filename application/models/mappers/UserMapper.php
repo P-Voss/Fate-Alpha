@@ -28,6 +28,17 @@ class Application_Model_Mapper_UserMapper {
         }
     }
 
+    public function isAdmin($userId) {
+        $select = $this->getDbTable('Admins')->select();
+        $select->where('userId = ?', $userId);
+        $result = $this->getDbTable('Admins')->fetchAll($select);
+        if ($result->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function countNewPm($userId) {
         $select = $this->getDbTable('Pm')->select();
         $select->setIntegrityCheck(false);
@@ -41,7 +52,7 @@ class Application_Model_Mapper_UserMapper {
         $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
         $select->from('benutzerdaten');
-        $select->where('id = ?', $userId);
+        $select->where('userId = ?', $userId);
         $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             foreach ($result as $row) {
@@ -57,12 +68,12 @@ class Application_Model_Mapper_UserMapper {
         $data['username'] = $user->getUsername();
         $data['profilname'] = $user->getProfilname();
         $data['passwort'] = $this->generateHash($user->getPasswort());
-        $data['email'] = $user->getEmail();
+        $data['mail'] = $user->getEmail();
         $data['usergruppe'] = $user->getUsergruppe();
         $data['adminname'] = null;
-        $data['loginzeitpunkt'] = null;
-        $data['logoutzeitpunkt'] = null;
-        $data['anmeldedatum'] = $datetime->format('Y-m-d H:i:s');
+        $data['logintime'] = null;
+        $data['logouttime'] = null;
+        $data['registertime'] = $datetime->format('Y-m-d H:i:s');
         $data['ip'] = $ip;
         $this->getDbTable('User')->insert($data);
     }

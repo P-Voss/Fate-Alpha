@@ -41,8 +41,9 @@ class Application_Model_Mapper_CharakterMapper{
         $data['geschlecht'] = $charakter->getGeschlecht();
         $data['augenfarbe'] = $charakter->getAugenfarbe();
         $data['size'] = $charakter->getSize();
-        $data['sex'] = $charakter->getGeschlecht();
+        $data['geschlecht'] = $charakter->getGeschlecht();
         $data['wohnort'] = $charakter->getWohnort();
+        $data['naturElement'] = $charakter->getElemente()[0];
         $data['klassenId'] = $charakter->getKlasse();
         $data['odo'] = $charakter->getOdo();
         $data['circuit'] = $charakter->getMagiccircuit();
@@ -145,7 +146,7 @@ class Application_Model_Mapper_CharakterMapper{
         $data['charakterId'] = $charakterId;
         $data['kennenlernCode'] = Application_Service_Utility::generateShortHash();
         $data['privatCode'] = Application_Service_Utility::generateShortHash();
-        return $this->getDbTable('charakterProfil')->insert($data);
+        return $this->getDbTable('CharakterProfil')->insert($data);
     }
     
     /**

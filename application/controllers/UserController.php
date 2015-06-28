@@ -12,6 +12,8 @@ class UserController extends Zend_Controller_Action {
     protected $_charakterService;
 
     public function init(){
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
         $this->_userService = new Application_Service_User();
         $this->_layoutService = new Application_Service_Layout();
         $this->_charakterService = new Application_Service_Charakter();

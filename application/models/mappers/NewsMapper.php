@@ -15,6 +15,7 @@ class Application_Model_Mapper_NewsMapper{
     }
     
     public function getNews() {
+        $return = array();
         $select = $this->getDbTable('News')->select();
         $select->setIntegrityCheck(false);
         $select->from('news');
@@ -33,15 +34,13 @@ class Application_Model_Mapper_NewsMapper{
                 $model->setTitel($row->titel);
                 $model->setVerfasser($row->verfasserUserId);
                 $model->setVerfasserName($usermapper->getAdminnameById($row->verfasserUserId));
-                if($row->Edit !== null){
+                if($row->editUserId !== null){
                     $model->setEditorName($usermapper->getAdminnameById($row->editUserId));
                 }
                 $return[] = $model;
             }
-            return $return;
-        }else{
-            return false;
         }
+        return $return;
     }
     
 }

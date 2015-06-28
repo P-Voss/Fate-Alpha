@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', 1);
+error_reporting(-1);
 // Enable Garbage Collection
 gc_enable();
 
@@ -19,12 +20,12 @@ set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../externals'),
     realpath(APPLICATION_PATH . '/../conf'),
     realpath(APPLICATION_PATH . '/../modules'),
-    realpath(APPLICATION_PATH . '/../modules/CSVMapper'),
     get_include_path(),
 )));
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
+require_once realpath(APPLICATION_PATH . '/../library/HTMLPurifier/HTMLPurifier.auto.php');
 
 //register_shutdown_function("shutdown_error");
 // Create application, bootstrap, and run

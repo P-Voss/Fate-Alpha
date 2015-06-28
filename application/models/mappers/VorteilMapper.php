@@ -18,8 +18,8 @@ class Application_Model_Mapper_VorteilMapper implements Application_Model_Erstel
     public function getPunkte($ids){
         $select = $this->getDbTable('Vorteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Vorteile', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
-        $select->where('VorteilID IN(?)', $ids);
+        $select->from('vorteile', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
+        $select->where('vorteilId IN(?)', $ids);
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -34,12 +34,12 @@ class Application_Model_Mapper_VorteilMapper implements Application_Model_Erstel
     public function getBeschreibung($ids) {
         $select = $this->getDbTable('Vorteil')->select();
         $select->setIntegrityCheck('false');
-        $select->from('Vorteile', array('Beschreibung' => 'Beschreibung'));
-        $select->where('VorteilID IN (?)', $ids);
+        $select->from('vorteile', array('beschreibung'));
+        $select->where('vorteilId IN (?)', $ids);
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->Beschreibung;
+                $return = $row->beschreibung;
             }
             return $return;
         }else{

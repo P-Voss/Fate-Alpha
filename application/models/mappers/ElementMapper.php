@@ -18,8 +18,8 @@ class Application_Model_Mapper_ElementMapper implements Application_Model_Erstel
     public function getPunkte($ids){
         $select = $this->getDbTable('Element')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Elemente', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
-        $select->where('ID IN(?)', $ids);
+        $select->from('elemente', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
+        $select->where('elementId IN(?)', $ids);
         $result = $this->getDbTable('Element')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -34,8 +34,8 @@ class Application_Model_Mapper_ElementMapper implements Application_Model_Erstel
     public function getBeschreibung($ids) {
         $select = $this->getDbTable('Element')->select();
         $select->setIntegrityCheck('false');
-        $select->from('Elemente', array('Beschreibung' => 'Charakterisierung'));
-        $select->where('ID IN (?)', $ids);
+        $select->from('elemente', array('Beschreibung' => 'charakterisierung'));
+        $select->where('elementId IN (?)', $ids);
         $result = $this->getDbTable('Element')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

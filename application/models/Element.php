@@ -11,37 +11,46 @@ class Application_Model_Element {
     protected $bezeichnung;
     protected $beschreibung;
     protected $charakterisierung;
+    protected $kosten;
     
-    function getId() {
+    public function getId() {
         return $this->id;
     }
 
-    function getBezeichnung() {
+    public function getBezeichnung() {
         return $this->bezeichnung;
     }
 
-    function getBeschreibung() {
+    public function getBeschreibung() {
         return $this->beschreibung;
     }
 
-    function getCharakterisierung() {
+    public function getCharakterisierung() {
         return $this->charakterisierung;
     }
 
-    function setId($id) {
+    public function getKosten() {
+        return $this->kosten;
+    }
+
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setBezeichnung($bezeichnung) {
+    public function setBezeichnung($bezeichnung) {
         $this->bezeichnung = $bezeichnung;
     }
 
-    function setBeschreibung($beschreibung) {
+    public function setBeschreibung($beschreibung) {
         $this->beschreibung = $beschreibung;
     }
 
-    function setCharakterisierung($charakterisierung) {
+    public function setCharakterisierung($charakterisierung) {
         $this->charakterisierung = $charakterisierung;
+    }
+
+    public function setKosten($kosten) {
+        $this->kosten = $kosten;
     }
     
 }

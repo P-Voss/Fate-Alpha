@@ -22,6 +22,8 @@ class CharakterController extends Zend_Controller_Action{
 
 
     public function init() {
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
         $this->_charakterService = new Application_Service_Charakter();
         $this->_layoutService = new Application_Service_Layout();
         $this->_erstellungsService = new Application_Service_Erstellung();
@@ -38,36 +40,48 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function indexAction() {
-        
+        if($this->_charakter === false){
+            $this->redirect('charakter/erstellung');
+        }
     }
     
     public function profilAction() {
-        
+        if($this->_charakter === false){
+            $this->redirect('charakter/erstellung');
+        }
     }
     
     public function abilitiesAction() {
-        
+        if($this->_charakter === false){
+            $this->redirect('charakter/erstellung');
+        }
     }
     
     public function inventarAction() {
-        
+        if($this->_charakter === false){
+            $this->redirect('charakter/erstellung');
+        }
     }
     
     public function erstellungAction() {
-        $auth = Zend_Auth::getInstance()->getIdentity();
+//        $auth = Zend_Auth::getInstance()->getIdentity();
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
-        $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
-        $erstellungsService = new Application_Service_Erstellung();
-        $this->view->creationParams = $erstellungsService->getCreationParams();
+//        $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
+        $this->view->creationParams = $this->_erstellungsService->getCreationParams();
+    }
+    
+    public function mapAction() {
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
     }
     
     public function createAction() {
         $charakter = $this->_erstellungsService->createCharakter($this->getRequest());
         if($charakter === false){
-            $this->redirect('Charakter/Erstellung');
+            $this->redirect('charakter/erstellung');
         }
-        $this->redirect('Charakter/index');
+        $this->redirect('charakter/index');
     }
     
 }

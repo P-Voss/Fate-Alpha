@@ -34,7 +34,8 @@ class Application_Model_News {
     }
 
     public function getDatum() {
-        return $this->datum;
+        $date = new DateTime($this->datum);
+        return $date->format('d.m.Y H:i');
     }
 
     public function getEditor() {
@@ -42,7 +43,8 @@ class Application_Model_News {
     }
 
     public function getEditdatum() {
-        return $this->editdatum;
+        $date = new DateTime($this->editdatum);
+        return $date->format('d.m.Y H:i');
     }
 
     public function setId($id) {

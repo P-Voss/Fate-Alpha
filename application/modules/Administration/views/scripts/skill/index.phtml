@@ -1,0 +1,24 @@
+<?php
+/* @var $skill Administration_Model_Skill */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Fähigkeiten
+</h1>
+<?php
+foreach ($this->list as $skill){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($skill->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($skill->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

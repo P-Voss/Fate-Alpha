@@ -22,6 +22,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $autoloader->registerNamespace('Spreadsheet_');
         $autoloader->registerNamespace('Spreadsheet');
         Zend_Registry::set('autoloader', $autoloader);
+        
     }
     
     protected function _initDoctype(){
@@ -37,6 +38,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         foreach ($resource->getOptions() as $key => $value) {
             Zend_Registry::set($key, $resource->getDb($key));
         }
+    }
+    
+    public function _initHelpers() {
+        require_once APPLICATION_PATH . '/controllers/helpers/Logincheck.php';
+        require_once APPLICATION_PATH . '/controllers/helpers/Admincheck.php';
+        Zend_Controller_Action_HelperBroker::addHelper(new Application_Controller_Helpers_Logincheck());
+        Zend_Controller_Action_HelperBroker::addHelper(new Application_Controller_Helpers_Admincheck());
     }
 
 }

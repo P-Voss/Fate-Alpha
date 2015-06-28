@@ -8,6 +8,8 @@ class LoginController extends Zend_Controller_Action
 
     public function init()
     {
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
         $this->service = new Application_Service_Login();
         $layout = $this->_helper->layout();
         $layout->setLayout('offline');

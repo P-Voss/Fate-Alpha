@@ -27,9 +27,9 @@ class Application_Service_Erstellung {
     public function getKlassengruppe(Zend_Controller_Request_Http $request) {
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
         $returnArray = array('gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id')));
-        if($returnArray['gruppe'] == 1){
+//        if($returnArray['gruppe'] == 1){
             $returnArray['familienname'] = $klasseMapper->getFamilienname($request->getPost('id'));
-        }
+//        }
         echo json_encode($returnArray);
     }
     
@@ -158,7 +158,7 @@ class Application_Service_Erstellung {
             return false;
         }
         $charakter = new Application_Model_Charakter();
-        $charakter->setUserid(Zend_Auth::getInstance()->getIdentity()->ID);
+        $charakter->setUserid(Zend_Auth::getInstance()->getIdentity()->userId);
         $charakter->setVorname($request->getPost('vorname'));
         $charakter->setNachname($request->getPost('nachname'));
         $charakter->setNickname('');
@@ -181,18 +181,38 @@ class Application_Service_Erstellung {
             $charakter->setVorteile($request->getPost('vorteile'));
         }
         $mapper = new Application_Model_Mapper_CharakterMapper();
-        $charakterId = $mapper->createCharakter($charakter);
-        if($charakter != false){
+        $newCharakter = $mapper->createCharakter($charakter);
+        if($newCharakter != false){
             foreach ($charakter->getVorteile() as $vorteil){
-                $mapper->saveCharakterVorteil($vorteil, $charakterId);
+                $mapper->saveCharakterVorteil($vorteil, $newCharakter['charakterId']);
             }
             foreach ($charakter->getNachteile() as $nachteil){
-                $mapper->saveCharakterNachteil($nachteil, $charakterId);
+                $mapper->saveCharakterNachteil($nachteil, $newCharakter['charakterId']);
             }
-            $mapper->saveCharakterWerte($charakterId);
-            $mapper->createCharakterProfile($charakterId);
+            $mapper->saveCharakterWerte($newCharakter['charakterId']);
+            $mapper->createCharakterProfile($newCharakter['charakterId']);
             return true;
+        }else{
+            throw new Exception('Konnte Charakter nicht anlegen');
         }
+    }
+    
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    public function getOrtePreview(Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_OrteMapper();
+        return $mapper->getOrtePreview($request->getPost('name'));
+    }
+    
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    public function getStadtteilePreview(Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_OrteMapper();
+        return $mapper->getStadtteilPreview($request->getPost('name'));
     }
     
 }

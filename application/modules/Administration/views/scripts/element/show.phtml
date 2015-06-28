@@ -1,0 +1,32 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+$element = $this->element;
+?>
+<h1>Element anpassen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/element/edit" method="post">
+    <fieldset>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="<?= $element->getBezeichnung() ?>" />
+            <label for="kosten">Kosten</label>
+            <input type="number" name="kosten" value="<?= $element->getKosten() ?>" />
+        </p>
+        <label for="beschreibung">
+            Beschreibung
+        </label>
+        <textarea name="beschreibung" cols="80" rows="10">
+            <?= $element->getBeschreibung() ?>
+        </textarea>
+        <label for="charakter">
+            Charakter
+        </label>
+        <textarea name="charakter" cols="80" rows="10">
+            <?= $element->getCharakterisierung() ?>
+        </textarea>
+    </fieldset>
+    <div align="center">
+        <input type="hidden" name="elementId" value="<?= $element->getId() ?>">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Element ändern" />
+    </div>
+</form>

@@ -18,8 +18,8 @@ class Application_Model_Mapper_OdoMapper implements Application_Model_Erstellung
     public function getPunkte($ids){
         $select = $this->getDbTable('Odo')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Odo', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
-        $select->where('ID IN(?)', $ids);
+        $select->from('odo', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
+        $select->where('odoID IN(?)', $ids);
         $result = $this->getDbTable('Odo')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -34,12 +34,12 @@ class Application_Model_Mapper_OdoMapper implements Application_Model_Erstellung
     public function getBeschreibung($ids) {
         $select = $this->getDbTable('Odo')->select();
         $select->setIntegrityCheck('false');
-        $select->from('Odo', array('Beschreibung' => 'Menge'));
-        $select->where('ID IN (?)', $ids);
+        $select->from('odo', array('menge'));
+        $select->where('odoID IN (?)', $ids);
         $result = $this->getDbTable('Odo')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->Beschreibung;
+                $return = $row->menge;
             }
             return $return;
         }else{

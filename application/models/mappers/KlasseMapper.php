@@ -18,8 +18,8 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
     public function getPunkte($ids){
         $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Klassen', array('Punkte' => new Zend_Db_Expr('SUM(Kosten)')));
-        $select->where('KlassenID IN(?)', $ids);
+        $select->from('klassen', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
+        $select->where('klassenID IN(?)', $ids);
         $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -34,12 +34,12 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
     public function getBeschreibung($ids) {
         $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Klassen', array('Beschreibung' => 'Beschreibung'));
-        $select->where('KlassenID IN (?)', $ids);
+        $select->from('klassen', array('beschreibung'));
+        $select->where('klassenID IN (?)', $ids);
         $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->Beschreibung;
+                $return = $row->beschreibung;
             }
             return $return;
         }else{
@@ -51,12 +51,12 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
         $return = false;
         $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Klassen', array('Gruppe'));
-        $select->where('KlassenID = ?', $klassenId);
+        $select->from('klassen', array('klassengruppenId'));
+        $select->where('klassenID = ?', $klassenId);
         $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->Gruppe;
+                $return = $row->klassengruppenId;
             }
         }
         return $return;
@@ -66,17 +66,15 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
         $return = '';
         $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
-        $select->from('Klassen', array('KlassenID', 'Klasse'));
-        $select->where('KlassenID = ?', $klassenId);
+        $select->from('klassen', array('klassenId', 'familienname'));
+        $select->where('klassenId = ?', $klassenId);
         $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                if($row->KlassenID !== 1){
-                    if($row->KlassenID == 10){
-                        $return = (rand(0, 1)) ? 'Makiri' : 'Matou';
-                    }else{
-                        $return = $row->Klasse;
-                    }
+                if($row->klassenId == 10){
+                    $return = (rand(0, 1)) ? 'Makiri' : 'Matou';
+                }else{
+                    $return = $row->familienname;
                 }
             }
         }

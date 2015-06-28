@@ -1,0 +1,28 @@
+<?php
+/* @var $news Administration_Model_News */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Nachrichtenarchiv
+</h1>
+<?php
+foreach ($this->newsList as $news){
+?>
+<fieldset>
+    <a href="<?= $this->baseUrl() ?>/Administration/news/show/id/<?= $news->getId() ?>">
+        <?= $purifier->purify($news->getTitel()) ?>
+    </a>
+    <p>
+        <?= $purifier->purify($news->getNachricht()) ?>
+    </p>
+    <p>
+        von: <?= $news->getVerfasserName() ?>
+    </p>
+    <form method="POST" action="<?= $this->baseUrl() ?>/Administration/news/delete">
+        <input type="hidden" name="newsId" value="<?= $news->getId() ?>">
+        <input type="submit" value="News löschen">
+    </form>
+</fieldset>
+<?php
+}

@@ -26,11 +26,11 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Vorteil();
-                $model->setId($row->VorteilID);
-                $model->setBezeichnung($row->Vorteil);
-                $model->setBeschreibung($row->Beschreibung);
-                $model->setKosten($row->Kosten);
-                $model->setGruppe($row->Kombo);
+                $model->setId($row->vorteilId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setKosten($row->kosten);
+                $model->setGruppe($row->kombo);
                 $return[] = $model;
             }
             return $return;
@@ -43,12 +43,12 @@ class Application_Model_Mapper_ErstellungMapper {
         $disabledVorteile = array();
         foreach ($vorteilIds as $vorteilId){
             $select1 = $this->getDbTable('VorteilToVorteil')->select();
-            $select1->from('InkVorteilToVorteil', array('id' => 'id2'));
-            $select1->where('id1 = ?', $vorteilId);
+            $select1->from('inkVorteilToVorteil', array('id' => 'vorteilId2'));
+            $select1->where('vorteilId1 = ?', $vorteilId);
 
             $select2 = $this->getDbTable('VorteilToVorteil')->select();
-            $select2->from('InkVorteilToVorteil', array('id' => 'id1'));
-            $select2->Where('id2 = ?', $vorteilId);
+            $select2->from('inkVorteilToVorteil', array('id' => 'vorteilId1'));
+            $select2->Where('vorteilId2 = ?', $vorteilId);
 
             $select = $this->getDbTable('VorteilToVorteil')->select();
             $select->union(array($select1, $select2));
@@ -61,8 +61,8 @@ class Application_Model_Mapper_ErstellungMapper {
         }
         foreach ($nachteilIds as $nachteilId){
             $select = $this->getDbTable('NachteilToVorteil')->select();
-            $select->from('InkNachteilToVorteil', array('id' => 'vorteil_id'));
-            $select->where('nachteil_id = ?', $nachteilId);
+            $select->from('inkNachteilToVorteil', array('id' => 'vorteilId'));
+            $select->where('nachteilId = ?', $nachteilId);
 
             $result = $this->getDbTable('NachteilToVorteil')->fetchAll($select);
             if($result->count() > 0){
@@ -78,12 +78,12 @@ class Application_Model_Mapper_ErstellungMapper {
         $disabledNachteile = array();
         foreach ($nachteilIds as $nachteilId){
             $select1 = $this->getDbTable('NachteilToNachteil')->select();
-            $select1->from('InkNachteilToNachteil', array('id' => 'id2'));
-            $select1->where('id1 = ?', $nachteilId);
+            $select1->from('inkNachteilToNachteil', array('id' => 'nachteilId2'));
+            $select1->where('nachteilId1 = ?', $nachteilId);
 
             $select2 = $this->getDbTable('NachteilToNachteil')->select();
-            $select2->from('InkNachteilToNachteil', array('id' => 'id1'));
-            $select2->Where('id2 = ?', $nachteilId);
+            $select2->from('inkNachteilToNachteil', array('id' => 'nachteilId1'));
+            $select2->Where('nachteilId2 = ?', $nachteilId);
 
             $select = $this->getDbTable('NachteilToNachteil')->select();
             $select->union(array($select1, $select2));
@@ -96,8 +96,8 @@ class Application_Model_Mapper_ErstellungMapper {
         }
         foreach ($vorteilIds as $vorteilId){
             $select = $this->getDbTable('VorteilToNachteil')->select();
-            $select->from('InkVorteilToNachteil', array('id' => 'nachteil_id'));
-            $select->where('vorteil_id = ?', $vorteilId);
+            $select->from('inkVorteilToNachteil', array('id' => 'nachteilId'));
+            $select->where('vorteilId = ?', $vorteilId);
 
             $result = $this->getDbTable('VorteilToNachteil')->fetchAll($select);
             if($result->count() > 0){
@@ -110,23 +110,18 @@ class Application_Model_Mapper_ErstellungMapper {
     }
     
     public function getAllNachteile() {
+        $return = array();
         $select = $this->getDbTable('Nachteil')->select();
         $result = $this->getDbTable('Nachteil')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
-                $model = new Application_Model_Nachteil();
-                $model->setId($row->NachteilID);
-                $model->setBezeichnung($row->Nachteil);
-                $model->setBeschreibung($row->Beschreibung);
-                $model->setKosten($row->Kosten);
-                $model->setGruppe($row->Kombo);
-                $return[] = $model;
-            }
-            return $return;
-        }else{
-            return null;
+        foreach ($result as $row){
+            $model = new Application_Model_Nachteil();
+            $model->setId($row->nachteilId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setKosten($row->kosten);
+            $return[] = $model;
         }
+        return $return;
     }
     
     public function getAllClasses() {
@@ -136,11 +131,29 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Klasse();
-                $model->setId($row->KlassenID);
-                $model->setBezeichnung($row->Klasse);
-                $model->setBeschreibung($row->Beschreibung);
-                $model->setKosten($row->Kosten);
-                $model->setGruppe($row->Gruppe);
+                $model->setId($row->klassenId);
+                $model->setBezeichnung($row->klasse);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setKosten($row->kosten);
+                $model->setGruppe($row->klassengruppenId);
+                $return[] = $model;
+            }
+            return $return;
+        }else{
+            return null;
+        }
+    }
+    
+    public function getAllClassgroups() {
+        $select = $this->getDbTable('Klassengruppe')->select();
+        $result = $this->getDbTable('Klassengruppe')->fetchAll($select);
+        if($result->count() > 0){
+            $return = array();
+            foreach ($result as $row){
+                $model = new Application_Model_Klassengruppe();
+                $model->setId($row->klassengruppenId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
                 $return[] = $model;
             }
             return $return;
@@ -156,11 +169,11 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Circuit();
-                $model->setId($row->ID);
-                $model->setKategorie($row->Kategorie);
-                $model->setBeschreibung($row->Besonderheit);
-                $model->setMenge($row->Menge);
-                $model->setKosten($row->Kosten);
+                $model->setId($row->circuitId);
+                $model->setKategorie($row->kategorie);
+                $model->setBeschreibung($row->besonderheit);
+                $model->setMenge($row->menge);
+                $model->setKosten($row->kosten);
                 $return[] = $model;
             }
             return $return;
@@ -176,10 +189,10 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Luck();
-                $model->setId($row->ID);
-                $model->setKategorie($row->Kategorie);
-                $model->setBeschreibung($row->Beschreibung);
-                $model->setKosten($row->Kosten);
+                $model->setId($row->luckId);
+                $model->setKategorie($row->kategorie);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setKosten($row->kosten);
                 $return[] = $model;
             }
             return $return;
@@ -195,10 +208,10 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Element();
-                $model->setId($row->ID);
-                $model->setBezeichnung($row->Element);
-                $model->setBeschreibung($row->Beschreibung);
-                $model->setCharakterisierung($row->Charakterisierung);
+                $model->setId($row->elementId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setCharakterisierung($row->charakterisierung);
                 $return[] = $model;
             }
             return $return;
@@ -214,10 +227,10 @@ class Application_Model_Mapper_ErstellungMapper {
             $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Odo();
-                $model->setId($row->ID);
-                $model->setKategorie($row->Kategorie);
-                $model->setMenge($row->Menge);
-                $model->setKosten($row->Kosten);
+                $model->setId($row->odoId);
+                $model->setKategorie($row->kategorie);
+                $model->setMenge($row->menge);
+                $model->setKosten($row->kosten);
                 $return[] = $model;
             }
             return $return;

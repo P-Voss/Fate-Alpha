@@ -13,6 +13,8 @@ class ErstellungController extends Zend_Controller_Action{
     protected $_validationService;
 
     public function init() {
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
@@ -36,6 +38,25 @@ class ErstellungController extends Zend_Controller_Action{
     public function classAction() {
         $this->_erstellungService = new Application_Service_Erstellung($this->getRequest());
         echo $this->_erstellungService->getKlassengruppe($this->getRequest());
+    }
+    
+    public function orteAction() {
+        $this->_erstellungService = new Application_Service_Erstellung($this->getRequest());
+        echo json_encode($this->_erstellungService->getOrtePreview($this->getRequest()));
+        
+//        echo json_encode(array(
+//            'Name' => 'Test',
+//            'img' => $this->getRequest()->getPost('name')
+//        ));
+    }
+    
+    public function stadtteileAction() {
+        $this->_erstellungService = new Application_Service_Erstellung($this->getRequest());
+        echo json_encode($this->_erstellungService->getStadtteilePreview($this->getRequest()));
+//        echo json_encode(array(
+//            'Name' => 'Test',
+//            'img' => $this->getRequest()->getPost('name')
+//        ));
     }
     
 }
