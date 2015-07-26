@@ -2,7 +2,9 @@
 
 class Application_Model_Mapper_TrainingMapper{
     
-    
+    private $changesContainer = array();
+
+
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){
@@ -136,7 +138,7 @@ class Application_Model_Mapper_TrainingMapper{
             foreach ($result as $row){
                 $value[$row->wert]['Effekt'] = $row->effekt;
                 $value[$row->wert]['Art'] = $row->effektArt;
-                $return = $value;
+                $return[] = $value;
             }
             return $return;
         }else{

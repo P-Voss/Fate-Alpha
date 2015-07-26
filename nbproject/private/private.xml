@@ -18,17 +18,25 @@
             <file>file:/F:/Projekte/FateNeu/application/models/Erstellung/Beschreibung/BeschreibungFactory.php</file>
         </group>
         <group name="PHP">
-            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterProfil.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterVorteil.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/mappers/ErstellungMapper.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterElement.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
-            <file>file:/F:/Projekte/FateNeu/application/models/DbTable/CharakterNachteil.php</file>
+            <file>file:/F:/Projekte/FateNeu/js/erstellung/charaktererstellung.js</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/views/scripts/item/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/SkillController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/OrteMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/views/scripts/skill/index.phtml</file>
             <file>file:/F:/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
-            <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/controllers/UserController.php</file>
             <file>file:/F:/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/F:/Projekte/FateNeu/js/erstellung/map.js</file>
+            <file>file:/F:/Projekte/FateNeu/application/layouts/scripts/partials/menu.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/ItemController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/models/mappers/ErstellungMapper.php</file>
+            <file>file:/F:/Projekte/FateNeu/index.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/views/scripts/magie/index.phtml</file>
+            <file>file:/F:/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/Bootstrap.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
     </open-files>
 </project-private>

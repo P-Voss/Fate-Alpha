@@ -81,6 +81,7 @@ $werte = $this->trainingswerte;
         }
         ?>
     </fieldset>
+    <?php if($werte->getKonTraining() !== null OR $werte->getDisTraining() !== null): ?>
     <fieldset>
         <legend>
             Klassenwerte
@@ -123,4 +124,5 @@ $werte = $this->trainingswerte;
         }
         ?>
     </fieldset>
+    <?php endif; ?>
 </div>

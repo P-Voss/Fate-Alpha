@@ -45,12 +45,12 @@ class Administration_SchuleController extends Zend_Controller_Action {
     }
     
     public function editAction() {
-        $this->service->editNachteil($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->editSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     
     public function createAction() {
-        $this->service->createNachteil($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->createSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     

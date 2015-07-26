@@ -31,21 +31,29 @@ class Administration_Service_Skill {
     public function editMagie(Zend_Controller_Request_Http $request, $userId) {
         $magie = new Administration_Model_Magie();
         $date = new DateTime();
+        $element = new Administration_Model_Element();
+        $element->setId($request->getPost('element'));
+        $schule = new Administration_Model_Schule();
+        $schule->setId($request->getPost('magieschule'));
+        $magie->setId($request->getPost('magieId'));
         $magie->setEditDate($date->format('Y-m-d H:i:s'));
         $magie->setEditor($userId);
         $magie->setBezeichnung($request->getPost('name'));
+        $magie->setBeschreibung($request->getPost('beschreibung'));
         $magie->setFp($request->getPost('fp'));
-        $magie->setElement($request->getPost('element'));
-        $magie->setSchule($request->getPost('magieschule'));
+        $magie->setElement($element);
+        $magie->setSchule($schule);
         $magie->setPrana($request->getPost('prana'));
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
         
-        $dependencies = $request->getPost('magien');
         $this->mapper->deleteDependencies($magie);
         $result = $this->mapper->updateMagie($magie);
-        $this->mapper->setDependencies($dependencies, $magie);
+        if($request->getPost('magien') !== null){
+            $dependencies = $request->getPost('magien');
+            $this->mapper->setDependencies($dependencies, $magie);
+        }
     }
     
     public function createMagie(Zend_Controller_Request_Http $request, $userId) {
@@ -86,7 +94,7 @@ class Administration_Service_Skill {
         $skill->setUebung($request->getPost('uebung'));
         $skill->setDisziplin($request->getPost('disziplin'));
         
-        $this->mapper->updateSkill($magie);
+        $this->mapper->updateSkill($skill);
     }
     
     public function createSkill(Zend_Controller_Request_Http $request, $userId) {

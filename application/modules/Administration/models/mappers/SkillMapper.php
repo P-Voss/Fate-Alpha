@@ -157,9 +157,9 @@ class Administration_Model_Mapper_SkillMapper {
         $data['fp'] = $magie->getFp();
         $data['prana'] = $magie->getPrana();
         $data['rang'] = $magie->getRang();
-        $data['element'] = $magie->getElement();
+        $data['element'] = $magie->getElement()->getId();
         $data['stufe'] = $magie->getStufe();
-        $data['schule'] = $magie->getSchule();
+        $data['magieschuleId'] = $magie->getSchule()->getId();
         $data['gruppe'] = $magie->getGruppe();
         $data['lernbedingung'] = $magie->getLernbedingung();
         $data['createDate'] = $magie->getEditDate('Y-m-d H:i:s');

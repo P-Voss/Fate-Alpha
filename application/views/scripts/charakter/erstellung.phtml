@@ -56,8 +56,8 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <input type="radio" id="geschlecht" name="geschlecht" required="" value="m"> Männlich 
-            <input type="radio" id="geschlecht" name="geschlecht" required="" value="w"> Weiblich
+            <input type="radio" id="m" name="geschlecht" required="" value="m"> <label for="m">Männlich</label>
+            <input type="radio" id="w" name="geschlecht" required="" value="w"> <label for="w">Weiblich</label>
         </div>
     </fieldset>
     <fieldset class="FormularZeile">
@@ -138,15 +138,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <select name="wohnort" id="wohnort" required="" >
-                <option selected="" value="">bitte auswählen</option>
-                <option value="Miyama-Nord">Miyama Nord</option>
-                <option value="Miyama-Sued">Miyama Süd</option>
-                <option value="Miyamachou">Miyamachou</option>
-                <option value="City">Shinto City</option>
-                <option value="Kurokizaka">Shinto Kurokizaka</option>
-                <option value="Kizaka">Shinto Kizaka</option>
-            </select>
+            <input type="text" name="wohnort" id="wohnort" readonly="" required=""><button id="chooseWohnort" type="button">Wohnort wählen</button>
         </div>
     </fieldset>
 

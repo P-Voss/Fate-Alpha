@@ -52,6 +52,9 @@ class Application_Model_Magie {
         return $this->prana;
     }
 
+    /**
+     * @return Application_Model_Element
+     */
     public function getElement() {
         return $this->element;
     }
@@ -72,6 +75,9 @@ class Application_Model_Magie {
         return $this->stufe;
     }
 
+    /**
+     * @return Application_Model_Schule
+     */
     public function getSchule() {
         return $this->schule;
     }
@@ -120,7 +126,7 @@ class Application_Model_Magie {
         $this->stufe = $stufe;
     }
 
-    public function setSchule(Application_Model_Magieschule $schule) {
+    public function setSchule(Application_Model_Schule $schule) {
         $this->schule = $schule;
     }
 
