@@ -31,6 +31,7 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 Magieschule
             </label>
             <select name="magieschule">
+                <option value="0">ohne Schule</option>
                 <?php foreach ($this->schulen as $schule) { ?>
                 <option value="<?= $schule->getId() ?>">
                     <?= $schule->getBezeichnung() ?>

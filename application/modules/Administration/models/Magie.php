@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Nachteil
+ * Description of Magie
  *
  * @author Vosser
  */

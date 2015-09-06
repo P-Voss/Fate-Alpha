@@ -43,20 +43,11 @@ class ErstellungController extends Zend_Controller_Action{
     public function orteAction() {
         $this->_erstellungService = new Application_Service_Erstellung($this->getRequest());
         echo json_encode($this->_erstellungService->getOrtePreview($this->getRequest()));
-        
-//        echo json_encode(array(
-//            'Name' => 'Test',
-//            'img' => $this->getRequest()->getPost('name')
-//        ));
     }
     
     public function stadtteileAction() {
         $this->_erstellungService = new Application_Service_Erstellung($this->getRequest());
         echo json_encode($this->_erstellungService->getStadtteilePreview($this->getRequest()));
-//        echo json_encode(array(
-//            'Name' => 'Test',
-//            'img' => $this->getRequest()->getPost('name')
-//        ));
     }
     
 }

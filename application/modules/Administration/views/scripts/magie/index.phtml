@@ -2,6 +2,8 @@
 /* @var $magie Administration_Model_Magie */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+Zend_Debug::dump($this->list);
+exit;
 ?>
 <h1>
     Magien
@@ -16,7 +18,7 @@ foreach ($this->list as $magie){
         </p>
         <p>
             <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($magie->getBeschreibung()) > 100) ? '...' : '' ?>
+            <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
         </p>
     </fieldset>
 </a>

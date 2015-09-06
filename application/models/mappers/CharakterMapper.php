@@ -24,8 +24,23 @@ class Application_Model_Mapper_CharakterMapper{
      * @return int
      */
     public function deleteCharakter(Application_Model_Charakter $charakter) {
-        $data['active'] = 0;
-        return $this->getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+        $db = $this->getDbTable('Charakter')->getAdapter();
+        $db->beginTransaction();
+        $db->delete('charakter', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterElemente', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterItemAusruestung', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterItemRPG', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterItems', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterMagien', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterMagieschulen', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterNachteile', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterProfil', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterSkillarten', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterSkills', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterVermoegen', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterVorteile', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterWerte', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->commit();
     }
     
     /**
@@ -249,9 +264,9 @@ class Application_Model_Mapper_CharakterMapper{
         $returnArray = array();
         $select = $this->getDbTable('Vorteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('CV' => 'charakterVorteil'), array('V.vorteilId', 'V.name', 'V.beschreibung'));
+        $select->from(array('CV' => 'charakterVorteile'), array('V.vorteilId', 'V.name', 'V.beschreibung'));
         $select->where('CV.charakterId = ?', $charakterId);
-        $select->join(array('V' => 'Vorteile'), 'CV.vorteilId = V.vorteilId');
+        $select->join(array('V' => 'vorteile'), 'CV.vorteilId = V.vorteilId');
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -274,7 +289,7 @@ class Application_Model_Mapper_CharakterMapper{
         $returnArray = array();
         $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('CN' => 'charakterNachteil'), array('N.nachteilId', 'N.name', 'N.beschreibung'));
+        $select->from(array('CN' => 'charakterNachteile'), array('N.nachteilId', 'N.name', 'N.beschreibung'));
         $select->where('CN.charakterId = ?', $charakterId);
         $select->join(array('N' => 'nachteile'), 'CN.nachteilId = N.nachteilId');
         $result = $this->getDbTable('Nachteil')->fetchAll($select);

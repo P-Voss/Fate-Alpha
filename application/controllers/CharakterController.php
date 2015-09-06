@@ -8,6 +8,10 @@
 class CharakterController extends Zend_Controller_Action{
     
     /**
+     * @var Application_Model_Charakter
+     */
+    protected $_charakter;
+    /**
      * @var Application_Service_Charakter
      */
     protected $_charakterService;
@@ -64,10 +68,8 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function erstellungAction() {
-//        $auth = Zend_Auth::getInstance()->getIdentity();
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
-//        $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
         $this->view->creationParams = $this->_erstellungsService->getCreationParams();
     }
     

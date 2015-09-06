@@ -2,7 +2,11 @@
 
 class Application_Model_Mapper_SchuleMapper {
 
-    
+    /**
+     * @param string $tablename
+     * @return \Zend_Db_Table_Abstract
+     * @throws Exception
+     */
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){

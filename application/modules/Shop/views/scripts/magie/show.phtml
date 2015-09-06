@@ -1,0 +1,24 @@
+<?php
+/* @var $magie Shop_Model_Magie */
+$magien = $this->magien;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+foreach ($magien as $magie):
+    if($magie->getLearned() === true){
+        continue;
+    }
+?>
+<div>
+    <p>
+        <?= $purifier->purify($magie->getBezeichnung()) ?>
+    </p>
+    <p>
+        <?= $purifier->purify($magie->getBeschreibung()) ?>
+    </p>
+    <div class="unlock">
+        <button id="<?= $magie->getId() ?>" class="magie">Magie freischalten</button>
+    </div>
+</div>
+<hr />
+<?php endforeach; ?>
+<input type="hidden" value="<?= $this->magieschuleId ?>" id="magieschule">

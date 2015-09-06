@@ -108,7 +108,7 @@ class Application_Model_Mapper_TrainingMapper{
     }
     
     protected function _checkVorteil($vorteilId) {
-        $select = $this->getDbTable('trainingVorteil')->select();
+        $select = $this->getDbTable('TrainingVorteil')->select();
         $select->setIntegrityCheck(false);
         $select->from('vorteilToTraining');
         $select->where('vorteilId = ?', $vorteilId);
@@ -128,11 +128,11 @@ class Application_Model_Mapper_TrainingMapper{
     }
     
     protected function _checkNachteil($nachteilId) {
-        $select = $this->getDbTable('trainingNachteil')->select();
+        $select = $this->getDbTable('TrainingNachteil')->select();
         $select->setIntegrityCheck(false);
         $select->from('nachteilToTraining');
         $select->where('nachteilId = ?', $nachteilId);
-        $result = $this->getDbTable('trainingNachteil')->fetchAll($select);
+        $result = $this->getDbTable('TrainingNachteil')->fetchAll($select);
         if($result->count() > 0){
             $return = array();
             foreach ($result as $row){

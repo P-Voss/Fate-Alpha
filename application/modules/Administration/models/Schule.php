@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Nachteil
+ * Description of Schule
  *
  * @author Vosser
  */

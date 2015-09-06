@@ -13,7 +13,14 @@ class Application_Service_Charakter {
      */
     public function getCharakterByUserid($userId) {
         $mapper = new Application_Model_Mapper_CharakterMapper();
-        return $mapper->getCharakterByUserId($userId);
+        $charakter = $mapper->getCharakterByUserId($userId);
+        if($charakter !== false){
+            $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
+            $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setUserid($userId);
+        }
+        return $charakter;
     }
     
     /**

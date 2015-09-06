@@ -166,6 +166,9 @@ class Application_Model_Charakter {
         return $this->_klassengruppe;
     }
 
+    /**
+     * @return Application_Model_Vorteil
+     */
     public function getVorteile() {
         return $this->_vorteile;
     }
@@ -195,8 +198,8 @@ class Application_Model_Charakter {
         return $this;
     }
 
-    public function setUserid($userid) {
-        $this->_userid = $userid;
+    public function setUserid($userId) {
+        $this->_userid = $userId;
         return $this;
     }
 

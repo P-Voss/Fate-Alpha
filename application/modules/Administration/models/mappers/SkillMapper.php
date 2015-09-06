@@ -86,10 +86,15 @@ class Administration_Model_Mapper_SkillMapper {
         ));
     }
     
+    /**
+     * @return array Administration_Model_Magie
+     */
     public function getMagien() {
+        $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
         $returnArray = array();
         $select = $this->getDbTable('Magie')->select();
         $select->distinct();
+        $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -101,6 +106,7 @@ class Administration_Model_Mapper_SkillMapper {
                 $model->setPrana($row->prana);
                 $model->setRang($row->rang);
                 $model->setStufe($row->stufe);
+                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
                 $model->setLernbedingung($row->lernbedingung);
                 $returnArray[] = $model;
             }
@@ -108,6 +114,10 @@ class Administration_Model_Mapper_SkillMapper {
         return $returnArray;
     }
     
+    /**
+     * @param int $magieId
+     * @return \Administration_Model_Magie
+     */
     public function getMagieById($magieId) {
         $model = new Administration_Model_Magie();
         $select = $this->getDbTable('Magie')->select();
@@ -175,7 +185,7 @@ class Administration_Model_Mapper_SkillMapper {
      * @return int
      */
     public function deleteDependencies(Administration_Model_Magie $magie) {
-        return $this->getDbTable('MagieVorraussetzungen')->delete(array(
+        return $this->getDbTable('MagieVoraussetzungen')->delete(array(
             'magieId = ?' => $magie->getId()
         ));
     }
@@ -188,8 +198,8 @@ class Administration_Model_Mapper_SkillMapper {
     public function setDependencies(Array $dependencies, Administration_Model_Magie $magie) {
         $data['magieId'] = $magie->getId();
         foreach ($dependencies as $dependency) {
-            $data['vorraussetzungMagieId'] = $dependency;
-            $this->getDbTable('MagieVorraussetzungen')->insert($data);
+            $data['voraussetzungMagieId'] = $dependency;
+            $this->getDbTable('MagieVoraussetzungen')->insert($data);
         }
     }
     
