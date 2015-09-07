@@ -33,18 +33,18 @@ class Application_Model_News {
         return $this->verfasser;
     }
 
-    public function getDatum() {
+    public function getDatum($format = 'd.m.Y H:i') {
         $date = new DateTime($this->datum);
-        return $date->format('d.m.Y H:i');
+        return $date->format($format);
     }
 
     public function getEditor() {
         return $this->editor;
     }
 
-    public function getEditdatum() {
+    public function getEditdatum($format = 'd.m.Y H:i') {
         $date = new DateTime($this->editdatum);
-        return $date->format('d.m.Y H:i');
+        return $date->format($format);
     }
 
     public function setId($id) {

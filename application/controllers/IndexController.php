@@ -16,7 +16,7 @@ class IndexController extends Zend_Controller_Action {
         $this->view->news = $this->_newsService->getNews();
     }
     
-    public function testAction(){
+    public function introAction(){
         
     }
     
