@@ -24,14 +24,13 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/SkillMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/index/intro.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/login/passwort.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/views/scripts/magie/index.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Magie.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/js/shop/magieschulen.js</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/views/scripts/magie/show.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/SchuleMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/magie/index.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/MagieMapper.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/MagieController.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/SchuleMapper.php</file>

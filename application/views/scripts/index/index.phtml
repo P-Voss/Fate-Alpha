@@ -13,20 +13,18 @@ if($news !== false){
     ?>
         <div class="News">
             <div class="NewsTitel">
-                <h2><?= htmlspecialchars($nachricht->getTitel()); ?></h2>
+                <h2><?= $purifier->purify($nachricht->getTitel()); ?></h2>
             </div>
             <div class="NewsNachricht">
                 <?= $purifier->purify($nachricht->getNachricht()) ?>
             </div>
             <div class="NewsBottom">
-                <a href="<?= $this->baseUrl(); ?>/charakter/id/<?= $nachricht->getVerfasser(); ?>">
-                    <div class="NewsVerfasser">
-                        Verfasst von: <?= htmlentities($nachricht->getVerfasserName()); ?>
-                    </div>
-                </a>
+                <div class="NewsVerfasser">
+                    Verfasst von: <?= $purifier->purify($nachricht->getVerfasserName()); ?>
+                </div>
                 <div class="NewsEdit">
                     <?php if($nachricht->getEditorName() !== null): ?>
-                        Editiert von: <?= htmlentities($nachricht->getEditorName()) ?>
+                        Editiert von: <?= $purifier->purify($nachricht->getEditorName()) ?>
                         am <?= $nachricht->getEditdatum() ?>
                     <?php endif ?>
                 </div>

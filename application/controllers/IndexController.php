@@ -23,7 +23,14 @@ class IndexController extends Zend_Controller_Action {
     public function impressumAction() {
         
     }
-
-
+    
+    public function newsAction() {
+        
+    }
+    
+    public function wetterAction() {
+        
+    }
+    
 }
 

@@ -169,24 +169,22 @@ class Application_Model_Mapper_CharakterMapper{
      * @return \Application_Model_Charakterprofil
      */
     public function getCharakterProfil($charakterId) {
+        $model = new Application_Model_Charakterprofil();
         $select = $this->getDbTable('CharakterProfil')->select();
         $select->from('charakterProfil');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterProfil')->fetchAll($select);
         if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Application_Model_Charakterprofil();
-                $model->setCharaktergeschichte($row->charaktergeschichte);
-                $model->setProfilpic($row->profilpic);
-                $model->setCharpic($row->charpic);
-                $model->setPrivatdaten($row->privatDaten);
-                $model->setSldaten($row->slDaten);
-                $model->setKennenlerncode($row->kennenlernCode);
-                $model->setPrivatcode($row->privatCode);
-            }
-            return $model;
+            $row = $result->current();
+            $model->setCharaktergeschichte($row->charaktergeschichte);
+            $model->setProfilpic($row->profilpic);
+            $model->setCharpic($row->charpic);
+            $model->setPrivatdaten($row->privatDaten);
+            $model->setSldaten($row->slDaten);
+            $model->setKennenlerncode($row->kennenlernCode);
+            $model->setPrivatcode($row->privatCode);
         }
-        return null;
+        return $model;
     }
 
     /**
