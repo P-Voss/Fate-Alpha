@@ -189,6 +189,7 @@ class Application_Service_Erstellung {
             foreach ($charakter->getNachteile() as $nachteil){
                 $mapper->saveCharakterNachteil($nachteil, $newCharakter['charakterId']);
             }
+            $mapper->setInitalSkillarten($newCharakter['charakterId']);
             $mapper->saveCharakterWerte($newCharakter['charakterId']);
             $mapper->createCharakterProfile($newCharakter['charakterId']);
             return true;

@@ -8,7 +8,7 @@
 class Shop_Model_Skillart {
     
     private $id;
-    private $name;
+    private $bezeichnung;
     private $beschreibung;
     private $skills = array();
     private $requirementList;
@@ -22,8 +22,8 @@ class Shop_Model_Skillart {
         $this->id = $id;
     }
 
-    public function getName() {
-        return $this->name;
+    public function getBezeichnung() {
+        return $this->bezeichnung;
     }
 
     public function getBeschreibung() {
@@ -45,8 +45,8 @@ class Shop_Model_Skillart {
         return $this->learned;
     }
 
-    public function setName($name) {
-        $this->name = $name;
+    public function setBezeichnung($bezeichnung) {
+        $this->bezeichnung = $bezeichnung;
     }
 
     public function setBeschreibung($beschreibung) {

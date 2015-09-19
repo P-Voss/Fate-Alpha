@@ -1,0 +1,23 @@
+<?php
+/* @var $magie Shop_Model_Skill */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+foreach ($this->skills as $skill):
+    if($skill->getLearned() === true){
+        continue;
+    }
+?>
+<div>
+    <p>
+        <?= $purifier->purify($skill->getBezeichnung()) ?>
+    </p>
+    <p>
+        <?= $purifier->purify($skill->getBeschreibung()) ?>
+    </p>
+    <div class="unlock">
+        <button id="<?= $skill->getId() ?>" class="skill">Fähigkeit lernen</button>
+    </div>
+</div>
+<hr />
+<?php endforeach; ?>
+<input type="hidden" value="<?= $this->skillartId ?>" id="skillart">

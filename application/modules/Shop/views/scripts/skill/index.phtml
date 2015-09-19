@@ -1,1 +1,50 @@
 <?php
+$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/shop/skillarten.js');
+/* @var $skillart Shop_Model_Skillart */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Fähigkeiten
+</h1>
+<?php
+$lockedSkillarten = array();
+foreach ($this->skillarten as $skillart):
+    if($skillart->getLearned() === false){
+        $lockedSkillarten[] = $skillart;
+        continue;
+    }
+?>
+<div>
+    <p>
+        <?= $purifier->purify($skillart->getBezeichnung()) ?>
+    </p>
+    <p>
+        <?= $purifier->purify($skillart->getBeschreibung()) ?>
+    </p>
+    <input type="button" class="school" value="Fähigkeiten anzeigen" id="<?= $skillart->getId() ?>">
+</div>
+<hr />
+<?php endforeach;
+foreach ($lockedSkillarten as $skillart):
+?>
+<div>
+    <p>
+        <?= $purifier->purify($skillart->getBezeichnung()) ?>
+    </p>
+    <p>
+        <?= $purifier->purify($skillart->getBeschreibung()) ?>
+    </p>
+    <form method="POST" action="<?= $this->baseUrl() ?>/Shop/skill/unlockskillart">
+        <input type="hidden" value="<?= $skillart->getId() ?>" name="skillartId">
+        <input type="submit" value="Kategorie freischalten - 50FP">
+    </form>
+</div>
+<hr />
+<?php
+endforeach;
+?>
+<div id="dialog"></div>

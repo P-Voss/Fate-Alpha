@@ -32,7 +32,27 @@ class Shop_SkillController extends Zend_Controller_Action {
     
     public function indexAction() {
         $service = new Shop_Service_Skill();
-        $skillArten = $service->getSkillArtenForCharakter($this->charakter);
+        $this->view->skillarten = $service->getSkillArtenForCharakter($this->charakter);
+    }
+    
+    public function showAction() {
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+        $service = new Shop_Service_Skill();
+        $this->view->skills = $service->getUnlearnedSkillsByArtId($this->charakter, $this->getRequest()->getParam('id'));
+    }
+    
+    public function unlockskillartAction() {
+        $service = new Shop_Service_Skill();
+        $service->unlockSkillart($this->charakter, $this->getRequest()->getPost('skillartId'));
+        $this->redirect('Shop/skill/index');
+    }
+    
+    public function unlockAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout();
+        $service = new Shop_Service_Skill();
+        echo json_encode($service->unlockSkill($this->charakter, $this->getRequest()->getParam('id')));
     }
     
 }

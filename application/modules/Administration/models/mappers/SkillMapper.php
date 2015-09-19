@@ -28,7 +28,7 @@ class Administration_Model_Mapper_SkillMapper {
                 $model->setBeschreibung($row->beschreibung);
                 $model->setFp($row->fp);
                 $model->setRang($row->rang);
-                $model->setSkillArt($row->skillart);
+                $model->setSkillArt($row->skillartId);
                 $model->setDisziplin($row->disziplin);
                 $model->setUebung($row->uebung);
                 $returnArray[] = $model;
@@ -59,7 +59,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['name'] = $skill->getBezeichnung();
         $data['beschreibung'] = $skill->getBeschreibung();
         $data['fp'] = $skill->getFp();
-        $data['skillart'] = $skill->getSkillArt();
+        $data['skillartId'] = $skill->getSkillArt();
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();
@@ -74,7 +74,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['name'] = $skill->getBezeichnung();
         $data['beschreibung'] = $skill->getBeschreibung();
         $data['fp'] = $skill->getFp();
-        $data['skillart'] = $skill->getSkillArt();
+        $data['skillartId'] = $skill->getSkillArt();
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();

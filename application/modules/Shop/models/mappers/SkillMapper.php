@@ -24,12 +24,17 @@ class Shop_Model_Mapper_SkillMapper {
      */
     public function getSkillsBySkillArtId($skillArtId) {
         $returnArray = array();
-        
+        $select = $this->getDbTable('Skill')->select();
+        $select->where('skillartId = ?', $skillArtId);
         $result = $this->getDbTable('Skill')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                
-                
+                $skill = new Shop_Model_Skill();
+                $skill->setId($row->skillId);
+                $skill->setBezeichnung($row->name);
+                $skill->setBeschreibung($row->beschreibung);
+                $skill->setSkillArt($skillArtId);
+                $skill->setRequirementList($this->getRequirements($row->skillId));
                 $returnArray[] = $skill;
             }
         }
@@ -41,14 +46,21 @@ class Shop_Model_Mapper_SkillMapper {
      * @return 
      */
     public function getSkillById($skillId) {
-        $magie = new Shop_Model_Magie();
-        
+        $skill = new Shop_Model_Skill();
+        $select = $this->getDbTable('Skill')->select();
+        $select->where('skillId = ?', $skillId);
         $result = $this->getDbTable('Skill')->fetchRow($select);
         if($result !== null){
             $row = $result->getIterator();
-            
+            $skill->setId($skillId);
+            $skill->setBezeichnung($row['name']);
+            $skill->setBeschreibung($row['beschreibung']);
+            $skill->setSkillArt($row['skillartId']);
+            $skill->setRequirementList($this->getRequirements($skillId));
+            $skill->setRang($row['rang']);
+            $skill->setFp($row['fp']);
         }
-        return $magie;
+        return $skill;
     }
     
     /**
@@ -56,38 +68,39 @@ class Shop_Model_Mapper_SkillMapper {
      * @param Shop_Model_Magie $magie
      * @return int
      */
-    public function unlockSkill(Application_Model_Charakter $charakter) {
+    public function unlockSkill(Application_Model_Charakter $charakter, Shop_Model_Skill $skill) {
         $data = array(
             'charakterId' => $charakter->getCharakterid(),
-            'magieId' => $magie->getId(),
+            'skillId' => $skill->getId(),
         );
-        $this->getDbTable('charakterWerte')->getDefaultAdapter()
-                ->query('UPDATE charakterWerte SET fp = fp - ' . $magie->getFp() . ' WHERE charakterId = ' . $charakter->getCharakterid());
-        return $this->getDbTable('charakterMagie')->insert($data);
+        $this->getDbTable('CharakterWerte')->getDefaultAdapter()
+                ->query('UPDATE charakterWerte SET fp = fp - ' . $skill->getFp() . ' WHERE charakterId = ' . $charakter->getCharakterid());
+        return $this->getDbTable('CharakterSkill')->insert($data);
     }
     
     /**
+     * 
      * @param int $charakterId
-     * @param int $magieId
+     * @param int $skillartId
      * @return boolean
      */
-    public function checkIfLearned($charakterId, $magieId) {
-        $select = $this->getDbTable('CharakterMagie')->select();
+    public function checkIfLearned($charakterId, $skillartId) {
+        $select = $this->getDbTable('CharakterSkill')->select();
         $select->where('charakterId = ?', $charakterId);
-        $select->where('magieId = ?', $magieId);
-        $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
+        $select->where('skillId = ?', $skillartId);
+        $result = $this->getDbTable('CharakterSkill')->fetchAll($select);
         return $result->count() > 0;
     }
 
     /**
-     * @param int $magieId
+     * @param int $skillId
      * @return \Shop_Model_Requirementlist
      */
-    public function getRequirements($magieId) {
+    public function getRequirements($skillId) {
         $requirementList = new Shop_Model_Requirementlist();
-        $select = $this->getDbTable('MagieVoraussetzungen')->select();
-        $select->where('magieId = ?', $magieId);
-        $result = $this->getDbTable('MagieVoraussetzungen')->fetchAll($select);
+        $select = $this->getDbTable('SkillVoraussetzung')->select();
+        $select->where('skillId = ?', $skillId);
+        $result = $this->getDbTable('SkillVoraussetzung')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $requirement = new Shop_Model_Requirement();

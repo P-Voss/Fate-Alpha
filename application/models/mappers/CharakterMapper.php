@@ -449,4 +449,15 @@ class Application_Model_Mapper_CharakterMapper{
         return $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
+    
+    public function setInitalSkillarten($charakterId) {
+        $data = [
+            'charakterId' => $charakterId,
+            'skillartId' => 3,
+        ];
+        $this->getDbTable('CharakterSkillart')->insert($data);
+        $data['skillartId'] = 4;
+        $this->getDbTable('CharakterSkillart')->insert($data);
+    }
+    
 }
