@@ -37,7 +37,7 @@ class Shop_Service_Magie {
                 $magieschule->setRequirementList($this->mapper->getRequirements($magieschule->getId()));
                 $magieschule->setLearned(false);
             }
-            if($this->requirementValidator->validate($magieschule->getRequirementList())){
+            if($this->requirementValidator->validate($magieschule->getRequirementList()) === true){
                 $schulen[] = $magieschule;
             }
         }
@@ -51,15 +51,24 @@ class Shop_Service_Magie {
     public function unlockSchool(Application_Model_Charakter $charakter, $schuleId) {
         $this->requirementValidator->setCharakter($charakter);
         $magieschule = $this->mapper->getMagieschuleById($schuleId);
-        if($this->requirementValidator->validate($this->mapper->getRequirements($magieschule->getId()))){
+        if($this->requirementValidator->validate($this->mapper->getRequirements($magieschule->getId())) === true){
             $this->mapper->unlockMagieschuleForCharakter($charakter, $magieschule);
         }
     }
     
-    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param int $magieId
+     * @return array
+     */
     public function unlockMagie(Application_Model_Charakter $charakter, $magieId) {
         $this->requirementValidator->setCharakter($charakter);
         $magie = $this->magieMapper->getMagieById($magieId);
+        if($magie->getStufe() > $charakter->getMagieStufe()){
+            return array(
+                'failure' => 'Du musst noch deine Kenntnisse dieser Schule vertiefen!',
+            );
+        }
         if($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()) === true){
             return array(
                 'failure' => 'Magie wurde schon erlernt!',
@@ -70,7 +79,7 @@ class Shop_Service_Magie {
                 'failure' => 'Du hast nicht genug FP!'
             );
         }
-        if($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId())) === false){
+        if($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId())) !== true){
             return array(
                 'failure' => 'Der Charakter erfüllt nicht alle Voraussetzungen zum Erlernen der Magie!',
             );
@@ -96,8 +105,11 @@ class Shop_Service_Magie {
         $magien = $this->magieMapper->getMagienByMagieschuleId($magieschuleId);
         $returnMagien = array();
         foreach ($magien as $magie){
+            if($magie->getStufe() > $charakter->getMagieStufe()){
+                continue;
+            }
             $magie->setLearned($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()));
-            if($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))){
+            if($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId())) === true){
                 $returnMagien[] = $magie;
             }
         }

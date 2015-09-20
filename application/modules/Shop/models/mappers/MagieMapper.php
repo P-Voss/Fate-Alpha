@@ -167,9 +167,9 @@ class Shop_Model_Mapper_MagieMapper {
      */
     public function getRequirements($magieId) {
         $requirementList = new Shop_Model_Requirementlist();
-        $select = $this->getDbTable('MagieVoraussetzungen')->select();
+        $select = $this->getDbTable('MagieCharakterVoraussetzungen')->select();
         $select->where('magieId = ?', $magieId);
-        $result = $this->getDbTable('MagieVoraussetzungen')->fetchAll($select);
+        $result = $this->getDbTable('MagieCharakterVoraussetzungen')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $requirement = new Shop_Model_Requirement();

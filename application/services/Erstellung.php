@@ -24,22 +24,25 @@ class Application_Service_Erstellung {
         return $creationParamContainer;
     }
     
+    /**
+     * @param Zend_Controller_Request_Http $request
+     */
     public function getKlassengruppe(Zend_Controller_Request_Http $request) {
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
-        $returnArray = array('gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id')));
-//        if($returnArray['gruppe'] == 1){
-            $returnArray['familienname'] = $klasseMapper->getFamilienname($request->getPost('id'));
-//        }
+        $returnArray = [
+            'gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id')->getId()),
+            'familienname' => $klasseMapper->getFamilienname($request->getPost('id')),
+        ];
         echo json_encode($returnArray);
     }
     
     public function getCharakteristics(Zend_Controller_Request_Http $request) {
         $this->_informationFactory = new Application_Model_Erstellung_Information_InformationFactory();
         $informationMapper = $this->_informationFactory->getConcrete($request->getPost('type'));
-        $returnArray = array(
+        $returnArray = [
             'punkte' => $this->_calculatePoints($request->getPost()),
             'beschreibung' => $informationMapper->getBeschreibung($request->getPost('id')),
-        );
+        ];
         if(key_exists('vorteile', $request->getPost())){
             $vorteile = $request->getPost('vorteile');
         }else{

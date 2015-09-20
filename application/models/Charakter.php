@@ -11,314 +11,365 @@ class Application_Model_Charakter {
     /**
      * @var int
      */
-    protected $_charakterid;
+    protected $charakterid;
     /**
-     *
      * @var int
      */
-    protected $_userid;
+    protected $userid;
     /**
      * @var string
      */
-    protected $_vorname;
+    protected $vorname;
     /**
-     *
      * @var string
      */
-    protected $_nachname;
+    protected $nachname;
     /**
-     *
      * @var string
      */
-    protected $_nickname;
+    protected $nickname;
     /**
-     *
      * @var DateInterval
      */
-    protected $_alter;
+    protected $alter;
     /**
-     *
      * @var string
      */
-    protected $_augenfarbe;
+    protected $augenfarbe;
     /**
-     *
      * @var string
      */
-    protected $_geschlecht;
+    protected $geschlecht;
     /**
-     *
      * @var string
      */
-    protected $_wohnort;
+    protected $wohnort;
     /**
-     *
      * @var int
      */
-    protected $_size;
+    protected $size;
     /**
-     *
      * @var Application_Model_Klasse
      */
-    protected $_klasse;
+    protected $klasse;
     /**
-     *
      * @var int
      */
-    protected $_klassengruppe;
+    protected $klassengruppe;
     /**
-     *
      * @var Application_Model_Luck
      */
-    protected $_luck;
+    protected $luck;
     /**
-     *
      * @var type Application_Model_Circuit
      */
-    protected $_magiccircuit;
+    protected $magiccircuit;
     /**
-     *
      * @var Application_Model_Odo
      */
-    protected $_odo;
+    protected $odo;
     /**
-     *
      * @var DateTime
      */
-    protected $_geburtsdatum;
+    protected $geburtsdatum;
     /**
      * @var Application_Model_Charakterwerte 
      */
-    protected $_charakterwerte;
+    protected $charakterwerte;
     /**
      * @var Application_Model_Charakterprofil
      */
-    protected $_charakterprofil;
+    protected $charakterprofil;
     /**
-     *
+     * @var string
+     */
+    protected $magieStufe;
+    /**
      * @var array
      */
-    protected $_vorteile = array();
+    protected $vorteile = array();
     /**
-     *
      * @var array
      */
-    protected $_nachteile = array();
+    protected $nachteile = array();
     /**
-     *
      * @var array
      */
-    protected $_elemente = array();
+    protected $elemente = array();
+    /**
+     * @var array 
+     */
+    protected $magieschulen = array();
+    /**
+     * @var array
+     */
+    protected $skills = array();
 
 
     public function getCharakterid() {
-        return $this->_charakterid;
+        return $this->charakterid;
     }
     
     public function getUserid() {
-        return $this->_userid;
+        return $this->userid;
     }
 
     public function getVorname() {
-        return $this->_vorname;
+        return $this->vorname;
     }
 
     public function getNachname() {
-        return $this->_nachname;
+        return $this->nachname;
     }
 
     public function getNickname() {
-        return $this->_nickname;
+        return $this->nickname;
     }
 
     public function getAlter($modifier = null) {
-        if($this->_alter === null){
+        if($this->alter === null){
             $this->calcAlter();
         }
-        return $this->_alter->$modifier;
+        return $this->alter->$modifier;
     }
 
     public function getGeburtsdatum() {
-        return $this->_geburtsdatum;
+        return $this->geburtsdatum;
     }
 
     public function getAugenfarbe() {
-        return $this->_augenfarbe;
+        return $this->augenfarbe;
     }
 
     public function getGeschlecht() {
-        return $this->_geschlecht;
+        return $this->geschlecht;
     }
 
     public function getWohnort() {
-        return $this->_wohnort;
+        return $this->wohnort;
     }
 
     public function getSize() {
-        return $this->_size;
+        return $this->size;
     }
 
     public function getKlasse() {
-        return $this->_klasse;
+        return $this->klasse;
     }
 
     public function getKlassengruppe() {
-        return $this->_klassengruppe;
+        return $this->klassengruppe;
     }
 
     /**
      * @return Application_Model_Vorteil
      */
     public function getVorteile() {
-        return $this->_vorteile;
+        return $this->vorteile;
     }
 
     public function getNachteile() {
-        return $this->_nachteile;
+        return $this->nachteile;
     }
 
     public function getElemente() {
-        return $this->_elemente;
+        return $this->elemente;
     }
 
     public function getLuck() {
-        return $this->_luck;
+        return $this->luck;
     }
 
     public function getMagiccircuit() {
-        return $this->_magiccircuit;
+        return $this->magiccircuit;
     }
 
     public function getOdo() {
-        return $this->_odo;
+        return $this->odo;
     }
 
     public function setCharakterid($charakterid) {
-        $this->_charakterid = $charakterid;
+        $this->charakterid = $charakterid;
         return $this;
     }
 
     public function setUserid($userId) {
-        $this->_userid = $userId;
+        $this->userid = $userId;
         return $this;
     }
 
     public function setVorname($vorname) {
-        $this->_vorname = $vorname;
+        $this->vorname = $vorname;
         return $this;
     }
 
     public function setNachname($nachname) {
-        $this->_nachname = $nachname;
+        $this->nachname = $nachname;
         return $this;
     }
 
     public function setNickname($nickname) {
-        $this->_nickname = $nickname;
+        $this->nickname = $nickname;
         return $this;
     }
 
     public function calcAlter() {
         $currentDate = new DateTime();
         $birthDate = new DateTime($this->getGeburtsdatum());
-        $this->_alter = $currentDate->diff($birthDate);
+        $this->alter = $currentDate->diff($birthDate);
         return $this;
     }
 
     public function setGeburtsdatum($geburtsdatum) {
-        $this->_geburtsdatum = $geburtsdatum;
+        $this->geburtsdatum = $geburtsdatum;
         return $this;
     }
 
     public function setAugenfarbe($augenfarbe) {
-        $this->_augenfarbe = $augenfarbe;
+        $this->augenfarbe = $augenfarbe;
         return $this;
     }
 
     public function setGeschlecht($geschlecht) {
-        $this->_geschlecht = $geschlecht;
+        $this->geschlecht = $geschlecht;
         return $this;
     }
 
     public function setWohnort($wohnort) {
-        $this->_wohnort = $wohnort;
+        $this->wohnort = $wohnort;
         return $this;
     }
 
     public function setSize($size) {
-        $this->_size = $size;
+        $this->size = $size;
         return $this;
     }
 
-    public function setKlasse($klasse) {
-        $this->_klasse = $klasse;
+    public function setKlasse(Application_Model_Klasse $klasse) {
+        $this->klasse = $klasse;
         return $this;
     }
 
-    public function setKlassengruppe($klassengruppe) {
-        $this->_klassengruppe = $klassengruppe;
+    public function setKlassengruppe(Application_Model_Klassengruppe $klassengruppe) {
+        $this->klassengruppe = $klassengruppe;
         return $this;
     }
 
-    public function setVorteile($vorteile) {
-        $this->_vorteile = $vorteile;
+    public function setVorteile($vorteile = array()) {
+        foreach ($vorteile as $vorteil){
+            if($vorteil instanceof Application_Model_Vorteil){
+                $this->addVorteil($vorteil);
+            }
+        }
         return $this;
     }
     
-    public function addVorteil($vorteil){
-        $this->_vorteile[] = $vorteil;
+    public function addVorteil(Application_Model_Vorteil $vorteil){
+        $this->vorteile[] = $vorteil;
     }
 
     public function setNachteile($nachteile) {
-        $this->_nachteile = $nachteile;
+        foreach ($nachteile as $nachteil){
+            if($nachteil instanceof Application_Model_Nachteil){
+                $this->addNachteil($nachteil);
+            }
+        }
         return $this;
     }
     
-    public function addNachteil($nachteil){
-        $this->_nachteile[] = $nachteil;
+    public function addNachteil(Application_Model_Nachteil $nachteil){
+        $this->nachteile[] = $nachteil;
     }
 
-    public function setElemente($elemente) {
-        $this->_elemente = $elemente;
+    public function setElemente($elemente = array()) {
+        foreach ($elemente as $element){
+            if($element instanceof Application_Model_Element){
+                $this->addElement($element);
+            }
+        }
         return $this;
     }
 
-    public function addElement($element) {
-        $this->_elemente[] = $element;
+    public function addElement(Application_Model_Element $element) {
+        $this->elemente[] = $element;
         return $this;
     }
 
     public function setLuck($luck) {
-        $this->_luck = $luck;
+        $this->luck = $luck;
         return $this;
     }
 
     public function setMagiccircuit($magiccircuit) {
-        $this->_magiccircuit = $magiccircuit;
+        $this->magiccircuit = $magiccircuit;
         return $this;
     }
 
     public function setOdo($odo) {
-        $this->_odo = $odo;
+        $this->odo = $odo;
         return $this;
     }
     
     public function getCharakterwerte() {
-        return $this->_charakterwerte;
+        return $this->charakterwerte;
     }
 
     public function setCharakterwerte(Application_Model_Charakterwerte $charakterwerte) {
-        $this->_charakterwerte = $charakterwerte;
+        $this->charakterwerte = $charakterwerte;
     }
     
     public function getCharakterprofil() {
-        return $this->_charakterprofil;
+        return $this->charakterprofil;
     }
 
     public function setCharakterprofil(Application_Model_Charakterprofil $charakterprofil) {
-        $this->_charakterprofil = $charakterprofil;
+        $this->charakterprofil = $charakterprofil;
+    }
+    
+    public function getMagieStufe() {
+        return $this->magieStufe;
     }
 
+    public function setMagieStufe($magieStufe) {
+        $this->magieStufe = $magieStufe;
+    }
+    
+    /**
+     * @return Application_Model_Schule
+     */
+    public function getMagieschulen() {
+        return $this->magieschulen;
+    }
 
+    public function setMagieschulen($magieschulen = array()) {
+        foreach ($magieschulen as $magieschule) {
+            if($magieschule instanceof Application_Model_Schule){
+                $this->addMagieschule($magieschule);
+            }
+        }
+    }
+    
+    public function addMagieschule(Application_Model_Schule $magieschule) {
+        $this->magieschulen[] = $magieschule;
+    }
+    
+    /**
+     * @return Application_Model_Schule
+     */
+    public function getSkills() {
+        return $this->skills;
+    }
 
+    public function setSkills($skills = array()) {
+        foreach ($skills as $skill) {
+            if($skill instanceof Application_Model_Skill){
+                $this->addSkill($skill);
+            }
+        }
+    }
+    
+    public function addSkill(Application_Model_Skill $skill) {
+        $this->skills[] = $skill;
+    }
+    
 }

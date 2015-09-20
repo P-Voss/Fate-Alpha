@@ -52,16 +52,16 @@ class Application_Model_Mapper_TrainingMapper{
             }
         }
         if($charakter->getKlasse() !== null){
-            if($this->_checkKlasse($charakter->getKlasse())){
-                $changes = $this->_checkKlasse($charakter->getKlasse());
+            if($this->_checkKlasse($charakter->getKlasse()->getId())){
+                $changes = $this->_checkKlasse($charakter->getKlasse()->getId());
                 if(count($changes) > 0){
                     $this->changesContainer[] = $changes;
                 }
             }
         }
-        if($charakter->getKlassengruppe() !== null){
-            if($this->_checkKlassengruppe($charakter->getKlassengruppe())){
-                $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe());
+        if($charakter->getKlassengruppe()->getId() !== null){
+            if($this->_checkKlassengruppe($charakter->getKlassengruppe()->getId())){
+                $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe()->getId());
                 if(count($changes) > 0){
                     $this->changesContainer[] = $changes;
                 }
@@ -74,7 +74,7 @@ class Application_Model_Mapper_TrainingMapper{
     }
     
     public function setOtherValuesNull(Application_Model_Trainingswerte $trainingswerte, Application_Model_Charakter $charakter) {
-        if($charakter->getKlassengruppe() == 2){
+        if($charakter->getKlassengruppe()->getId() == 2){
             $trainingswerte->setDisTraining(null);
             $trainingswerte->setKonTraining(null);
         }

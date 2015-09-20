@@ -141,17 +141,39 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setGeburtsdatum($row->geburtsdatum);
                 $model->setGeschlecht($row->geschlecht);
                 $model->setMagiccircuit($row->circuit);
-                $model->addElement($row->naturelement);
                 $model->setNickname($row->nickname);
                 $model->setSize($row->size);
                 $model->setWohnort($row->wohnort);
-                $model->setKlasse($row->klassenId);
-                $model->setKlassengruppe($row->klassengruppenId);
+//                $model->setKlasse($row->klassenId);
+//                $model->setKlassengruppe($row->klassengruppenId);
             }
             return $model;
         }else{
             return false;
         }
+    }
+    
+    /**
+     * @param type $charakterId
+     */
+    public function getCharakterElemente($charakterId) {
+        $returnArray = array();
+        $select = $this->getDbTable('CharakterElement')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakterElemente'), array());
+        $select->joinInner('elemente', 'elemente.elementId = zuo.elementId', ['elementId', 'name', 'beschreibung']);
+        $select->where('charakterId = ?', $charakterId);
+        $result = $this->getDbTable('CharakterElement')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $element = new Application_Model_Element();
+                $element->setId($row->elementId);
+                $element->setBezeichnung($row->name);
+                $element->setBeschreibung($row->beschreibung);
+                $returnArray[] = $element;
+            }
+        }
+        return $returnArray;
     }
     
     /**
@@ -449,7 +471,9 @@ class Application_Model_Mapper_CharakterMapper{
         return $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
-    
+    /**
+     * @param int $charakterId
+     */
     public function setInitalSkillarten($charakterId) {
         $data = [
             'charakterId' => $charakterId,
@@ -458,6 +482,109 @@ class Application_Model_Mapper_CharakterMapper{
         $this->getDbTable('CharakterSkillart')->insert($data);
         $data['skillartId'] = 4;
         $this->getDbTable('CharakterSkillart')->insert($data);
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Klasse
+     * @throws Exception
+     */
+    public function getCharakterKlasse($charakterId) {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakter', array());
+        $select->joinInner('klassen', 'charakter.klassenId = klassen.klassenId');
+        $select->where('charakterId = ?', $charakterId);
+        $result = $this->getDbTable('Charakter')->fetchAll($select)->current();
+        if($result !== null){
+            $klasse = new Application_Model_Klasse();
+            $klasse->setBezeichnung($result['klasse']);
+            $klasse->setBeschreibung($result['beschreibung']);
+            $klasse->setId($result['klassenId']);
+            $klasse->setKosten($result['kosten']);
+            return $klasse;
+        }else{
+            throw new Exception('Klasse konnte nicht gefunden werden');
+        }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param int $schuleId
+     * @return int
+     */
+    public function getCharakterMagieStufe($charakterId, $schuleId) {
+        $select = $this->getDbTable('CharakterSchule')->select();
+        $select->where('charakterId = ?', $charakterId);
+        $select->where('magieschuleId = ?', $schuleId);
+        $result = $this->getDbTable('CharakterSchule')->fetchAll($select);
+        switch ($result->count()) {
+            case 0:
+                $rang = 0;
+                break;
+            case 1:
+                $rang = 1;
+                break;
+            case 2:
+                $rang = 2;
+                break;
+            default:
+                $rang = 3;
+                break;
+        }
+        return $rang;
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Schule
+     */
+    public function getCharakterMagieschulen($charakterId) {
+        $returnArray = array();
+        $select = $this->getDbTable('CharakterSchule')->select();
+        $select->setIntegrityCheck(false);
+        $select->distinct();
+        $select->from('charakterMagieschulen', array('magieschuleId'));
+        $select->joinInner('magieschulen', 
+                            'charakterMagieschulen.magieschuleId = magieschulen.magieschuleId',
+                            array('name', 'beschreibung')
+                );
+        $select->where('charakterId = ?', $charakterId);
+        $result = $this->getDbTable('CharakterSchule')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $magieschule = new Application_Model_Schule();
+                $magieschule->setId($row->magieschuleId);
+                $magieschule->setBezeichnung($row->name);
+                $magieschule->setBeschreibung($row->beschreibung);
+                $returnArray[] = $magieschule;
+            }
+        }
+        return $returnArray;
+    }
+    
+    
+    public function getCharakterSkills($charakterId) {
+        $returnArray = array();
+        $select = $this->getDbTable('CharakterSkill')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakterSkills', array());
+        $select->joinInner('skills', 
+                            'charakterSkills.skillId = skills.skillId',
+                            array('skillId', 'name', 'beschreibung')
+                );
+        $select->where('charakterSkills.charakterId = ?', $charakterId);
+        $result = $this->getDbTable('CharakterSkill')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $skill = new Application_Model_Skill();
+                $skill->setId($row->skillId);
+                $skill->setBezeichnung($row->name);
+                $skill->setBeschreibung($row->beschreibung);
+                $returnArray[] = $skill;
+            }
+        }
+        return $returnArray;
     }
     
 }

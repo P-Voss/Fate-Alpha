@@ -23,6 +23,7 @@ class Shop_SkillController extends Zend_Controller_Action {
         $this->charakterService = new Application_Service_Charakter();
         $auth = Zend_Auth::getInstance()->getIdentity();
         $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+        $this->charakter->setSkills($this->charakterService->getSkills($this->charakter->getCharakterid()));
         if($this->charakter === false){
             $this->redirect('index/index');
         }

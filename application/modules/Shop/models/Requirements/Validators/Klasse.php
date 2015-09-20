@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Gruppe
+ * Description of Klasse
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Validators_Gruppe implements Shop_Model_Requirements_ValidationInterface {
+class Shop_Model_Requirements_Validators_Klasse implements Shop_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -13,7 +13,7 @@ class Shop_Model_Requirements_Validators_Gruppe implements Shop_Model_Requiremen
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        return $charakter->getKlassengruppe()->getId() == $value;
+        return $charakter->getKlasse()->getId() == $value;
     }
     
 }

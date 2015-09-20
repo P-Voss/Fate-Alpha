@@ -61,7 +61,7 @@ class Shop_Service_Skill {
             if($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId()) === true){
                 continue;
             }
-            if($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId()))){
+            if($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId())) === true){
                 $returnSkills[] = $skill;
             }
         }
@@ -72,7 +72,7 @@ class Shop_Service_Skill {
     public function unlockSkillart(Application_Model_Charakter $charakter, $skillartId) {
         $this->requirementValidator->setCharakter($charakter);
         $skillart = $this->skillartMapper->getSkillartById($skillartId);
-        if($this->requirementValidator->validate($this->mapper->getRequirements($skillart->getId()))){
+        if($this->requirementValidator->validate($this->mapper->getRequirements($skillart->getId())) === true){
             $this->skillartMapper->unlockSkillartForCharakter($charakter, $skillart);
         }
     }
@@ -95,7 +95,7 @@ class Shop_Service_Skill {
                 'failure' => 'Du hast nicht genug FP!'
             );
         }
-        if($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId())) === false){
+        if($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId())) !== true){
             return array(
                 'failure' => 'Der Charakter erfüllt nicht alle Voraussetzungen zum Erlernen der Magie!',
             );

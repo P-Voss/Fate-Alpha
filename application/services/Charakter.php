@@ -13,8 +13,12 @@ class Application_Service_Charakter {
      */
     public function getCharakterByUserid($userId) {
         $mapper = new Application_Model_Mapper_CharakterMapper();
+        $klassenMapper = new Application_Model_Mapper_KlasseMapper();
         $charakter = $mapper->getCharakterByUserId($userId);
         if($charakter !== false){
+            $charakter->setKlasse($mapper->getCharakterKlasse($charakter->getCharakterid()));
+            $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
+            $charakter->setElemente($mapper->getCharakterElemente($charakter->getCharakterid()));
             $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
             $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
             $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
@@ -156,4 +160,31 @@ HTML;
         return $html;
     }
     
+    /**
+     * @param int $charakterId
+     * @param int $magieschuleId
+     * @return int
+     */
+    public function getMagieStufe($charakterId, $magieschuleId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharakterMagieStufe($charakterId, $magieschuleId);
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return array
+     */
+    public function getMagieschulen($charakterId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharakterMagieschulen($charakterId);
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return array
+     */
+    public function getSkills($charakterId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharakterSkills($charakterId);
+    }
 }

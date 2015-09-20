@@ -47,19 +47,36 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
         }
     }
     
+    /**
+     * @param int $klassenId
+     * @return \Application_Model_Klassengruppe
+     * @throws Exception
+     */
     public function getKlassengruppe($klassenId) {
-        $return = false;
         $select = $this->getDbTable('Klasse')->select();
         $select->setIntegrityCheck(false);
         $select->from('klassen', array('klassengruppenId'));
+        $select->joinInner('klassengruppen', 'klassengruppen.klassengruppenId = klassen.klassengruppenId', array(
+            'name',
+            'beschreibung'
+        ));
         $select->where('klassenID = ?', $klassenId);
         $result = $this->getDbTable('Klasse')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
-                $return = $row->klassengruppenId;
+                $klassengruppe = new Application_Model_Klassengruppe();
+                $klassengruppe->setId($row->klassengruppenId);
+                $klassengruppe->setBezeichnung($row->name);
+                $klassengruppe->setBeschreibung($row->beschreibung);
             }
+            return $klassengruppe;
+        }else{
+            throw new Exception('Klassengruppe konnte nicht gefunden werden');
         }
-        return $return;
+    }
+    
+    public function getKlasseById($klassenId) {
+        
     }
     
     public function getFamilienname($klassenId) {

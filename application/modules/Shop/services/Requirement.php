@@ -37,12 +37,19 @@ class Shop_Service_Requirement {
      * @return boolean
      */
     public function validate(Shop_Model_Requirementlist $requirementList) {
+        $errors = array();
         $requirements = $requirementList->getRequirements();
         foreach ($requirements as $requirement){
             $validator = $this->factory->getValidator($requirement->getArt());
             if($validator->check($this->charakter, $requirement->getRequiredValue()) === false){
-                return false;
+                $errors[] = [
+                    'art' => $requirement->getArt(),
+                    'wert' => $requirement->getRequiredValue(),
+                ];
             }
+        }
+        if(count($errors) > 0){
+            return $errors;
         }
         return true;
     }

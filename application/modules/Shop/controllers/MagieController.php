@@ -23,6 +23,7 @@ class Shop_MagieController extends Zend_Controller_Action {
         $this->charakterService = new Application_Service_Charakter();
         $auth = Zend_Auth::getInstance()->getIdentity();
         $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+        $this->charakter->setMagieschulen($this->charakterService->getMagieschulen($this->charakter->getCharakterid()));
         if($this->charakter === false){
             $this->redirect('index/index');
         }
@@ -43,6 +44,7 @@ class Shop_MagieController extends Zend_Controller_Action {
     }
     
     public function showAction() {
+        $this->charakter->setMagieStufe($this->charakterService->getMagieStufe($this->charakter->getCharakterid(), $this->getRequest()->getParam('id')));
         $layout = $this->_helper->layout();
         $layout->setLayout('partials');
         $service = new Shop_Service_Magie();
@@ -50,6 +52,7 @@ class Shop_MagieController extends Zend_Controller_Action {
     }
     
     public function unlockAction() {
+        $this->charakter->setMagieStufe($this->charakterService->getMagieStufe($this->charakter->getCharakterid()));
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Magie();
