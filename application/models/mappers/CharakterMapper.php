@@ -59,7 +59,7 @@ class Application_Model_Mapper_CharakterMapper{
         $data['geschlecht'] = $charakter->getGeschlecht();
         $data['wohnort'] = $charakter->getWohnort();
         $data['naturElement'] = $charakter->getElemente()[0];
-        $data['klassenId'] = $charakter->getKlasse();
+        $data['klassenId'] = $charakter->getKlasse()->getId();
         $data['odo'] = $charakter->getOdo();
         $data['circuit'] = $charakter->getMagiccircuit();
         $data['luck'] = $charakter->getLuck();

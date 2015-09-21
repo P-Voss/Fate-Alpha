@@ -75,8 +75,20 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
         }
     }
     
+    /**
+     * @param int $klassenId
+     * @return \Application_Model_Klasse
+     */
     public function getKlasseById($klassenId) {
-        
+        $select = $this->getDbTable('Klasse')->select();
+        $select->where('klassenId = ?', $klassenId);
+        $result = $this->getDbTable('Klasse')->fetchAll($select)->current();
+        $klasse = new Application_Model_Klasse();
+        $klasse->setId($klassenId);
+        $klasse->setBezeichnung($result['klasse']);
+        $klasse->setBeschreibung($result['beschreibung']);
+        $klasse->setKosten($result['kosten']);
+        return $klasse;
     }
     
     public function getFamilienname($klassenId) {

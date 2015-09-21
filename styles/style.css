@@ -450,6 +450,8 @@ form{
 
 #dialog {
     display: none;
+    max-height: 700px;
+    overflow: auto;
     height: 0;
 }
 

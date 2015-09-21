@@ -156,6 +156,7 @@ class Application_Service_Erstellung {
      * @return boolean
      */
     public function createCharakter(Zend_Controller_Request_Http $request) {
+        $klasseMapper = new Application_Model_Mapper_KlasseMapper();
         $validationService = new Application_Service_Validation();
         if(!$validationService->validateCreation($request->getPost())){
             return false;
@@ -170,8 +171,7 @@ class Application_Service_Erstellung {
         $charakter->setAugenfarbe($request->getPost('augenfarbe'));
         $charakter->setSize($request->getPost('size'));
         $charakter->setWohnort($request->getPost('wohnort'));
-        $charakter->setKlasse($request->getPost('klasse'));
-        $charakter->addElement($request->getPost('element'));
+        $charakter->setKlasse($klasseMapper->getKlasseById($request->getPost('klasse')));
         $charakter->setOdo($request->getPost('odo'));
         $charakter->setLuck($request->getPost('luck'));
         if(!is_null($request->getPost('circuit'))){
@@ -195,6 +195,7 @@ class Application_Service_Erstellung {
             $mapper->setInitalSkillarten($newCharakter['charakterId']);
             $mapper->saveCharakterWerte($newCharakter['charakterId']);
             $mapper->createCharakterProfile($newCharakter['charakterId']);
+            $mapper->saveCharakterElement($request->getPost('element'), $newCharakter['charakterId']);
             return true;
         }else{
             throw new Exception('Konnte Charakter nicht anlegen');
