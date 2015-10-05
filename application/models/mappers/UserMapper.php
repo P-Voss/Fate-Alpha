@@ -154,5 +154,15 @@ class Application_Model_Mapper_UserMapper {
         }
         return false;
     }
+    
+    /**
+     * @param int $userId
+     * @return int
+     */
+    public function logAction($userId) {
+        $datetime = new DateTime();
+        $data['logintime'] = $datetime->format('Y-m-d H:i:s');
+        return $this->getDbTable('User')->update($data, array('userId = ?' => $userId));
+    }
 
 }

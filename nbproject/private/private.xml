@@ -24,23 +24,17 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Skill.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/js/shop/skillarten.js</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/js/shop/magieschulen.js</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/style.css</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Erstellung.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Factory.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/views/scripts/skill/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/SkillController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/KlasseMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Magie.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/SkillartMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/MagieMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/Faehigkeit.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Layout.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Layout.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/styles/Profil.css</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/helpers/Logincheck.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/styles/Charakter.css</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/UserMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/index.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
         </group>
     </open-files>
 </project-private>

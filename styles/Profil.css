@@ -82,6 +82,6 @@ label {
 }
 
 input[type=submit] {
-    display: block;
+    /*display: block;*/
     margin: 0 auto;
 }

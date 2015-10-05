@@ -156,6 +156,8 @@ class Application_Service_Erstellung {
      * @return boolean
      */
     public function createCharakter(Zend_Controller_Request_Http $request) {
+//        Zend_Debug::dump($request->getParams());
+//        exit;
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
         $validationService = new Application_Service_Validation();
         if(!$validationService->validateCreation($request->getPost())){
@@ -167,7 +169,8 @@ class Application_Service_Erstellung {
         $charakter->setNachname($request->getPost('nachname'));
         $charakter->setNickname('');
         $charakter->setGeburtsdatum($request->getPost('geburtsdatum'));
-        $charakter->setGeschlecht($request->getPost('sex'));
+        $charakter->setGeschlecht($request->getPost('geschlecht'));
+        $charakter->setSexualitaet($request->getPost('sex'));
         $charakter->setAugenfarbe($request->getPost('augenfarbe'));
         $charakter->setSize($request->getPost('size'));
         $charakter->setWohnort($request->getPost('wohnort'));
@@ -209,15 +212,6 @@ class Application_Service_Erstellung {
     public function getOrtePreview(Zend_Controller_Request_Http $request) {
         $mapper = new Application_Model_Mapper_OrteMapper();
         return $mapper->getOrtePreview($request->getPost('name'));
-    }
-    
-    /**
-     * @param Zend_Controller_Request_Http $request
-     * @return string
-     */
-    public function getStadtteilePreview(Zend_Controller_Request_Http $request) {
-        $mapper = new Application_Model_Mapper_OrteMapper();
-        return $mapper->getStadtteilPreview($request->getPost('name'));
     }
     
 }

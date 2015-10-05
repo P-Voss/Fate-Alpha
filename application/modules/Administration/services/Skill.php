@@ -11,9 +11,14 @@ class Administration_Service_Skill {
      * @var Administration_Model_Mapper_SkillMapper
      */
     private $mapper;
+    /**
+     * @var Administration_Service_Requirement
+     */
+    private $requirementService;
     
     public function __construct() {
         $this->mapper = new Administration_Model_Mapper_SkillMapper();
+        $this->requirementService = new Administration_Service_Requirement();
     }
     
     public function getMagieList() {
@@ -35,6 +40,7 @@ class Administration_Service_Skill {
         $element->setId($request->getPost('element'));
         $schule = new Administration_Model_Schule();
         $schule->setId($request->getPost('magieschule'));
+        
         $magie->setId($request->getPost('magieId'));
         $magie->setEditDate($date->format('Y-m-d H:i:s'));
         $magie->setEditor($userId);
@@ -48,32 +54,54 @@ class Administration_Service_Skill {
         $magie->setRang($request->getPost('rang'));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
         
-        $this->mapper->deleteDependencies($magie);
+        $magie->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'Schule' => $request->getPost('magieschule'),
+                    'FP' => $request->getPost('fp'),
+                    'Element' => $request->getPost('element'),
+                    'Magie' => $request->getPost('magien'),
+                )
+            )
+        );
         $result = $this->mapper->updateMagie($magie);
-        if($request->getPost('magien') !== null){
-            $dependencies = $request->getPost('magien');
-            $this->mapper->setDependencies($dependencies, $magie);
-        }
+        $this->mapper->deleteDependencies($magie);
+        $this->mapper->setDependencies($magie);
     }
     
     public function createMagie(Zend_Controller_Request_Http $request, $userId) {
         $magie = new Administration_Model_Magie();
         $date = new DateTime();
+        $element = new Administration_Model_Element();
+        $element->setId($request->getPost('element'));
+        $schule = new Administration_Model_Schule();
+        $schule->setId($request->getPost('magieschule'));
+        
         $magie->setCreateDate($date->format('Y-m-d H:i:s'));
         $magie->setCreator($userId);
         $magie->setBezeichnung($request->getPost('name'));
+        $magie->setBeschreibung($request->getPost('beschreibung'));
         $magie->setFp($request->getPost('fp'));
-        $magie->setElement($request->getPost('element'));
-        $magie->setSchule($request->getPost('magieschule'));
+        $magie->setElement($element);
+        $magie->setSchule($schule);
         $magie->setPrana($request->getPost('prana'));
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
         
-        $dependencies = $request->getPost('magien');
+        $magie->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'Schule' => $request->getPost('magieschule'),
+                    'FP' => $request->getPost('fp'),
+                    'Element' => $request->getPost('element'),
+                    'Magie' => $request->getPost('magien'),
+                )
+            )
+        );
         $magie->setId($this->mapper->createMagie($magie));
         $this->mapper->deleteDependencies($magie);
-        $this->mapper->setDependencies($dependencies, $magie);
+        $this->mapper->setDependencies($magie);
     }
     
     public function getSkillById($skillId) {
@@ -94,6 +122,17 @@ class Administration_Service_Skill {
         $skill->setUebung($request->getPost('uebung'));
         $skill->setDisziplin($request->getPost('disziplin'));
         
+        $skill->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'FP' => $request->getPost('fp'),
+                    'Uebung' => $request->getPost('fp'),
+                    'Disziplin' => $request->getPost('disziplin'),
+                    'Faehigkeit' => $request->getPost('skills'),
+                )
+            )
+        );
+        
         $this->mapper->updateSkill($skill);
     }
     
@@ -110,6 +149,16 @@ class Administration_Service_Skill {
         $skill->setUebung($request->getPost('uebung'));
         $skill->setDisziplin($request->getPost('disziplin'));
         
+        $skill->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'FP' => $request->getPost('fp'),
+                    'Uebung' => $request->getPost('fp'),
+                    'Disziplin' => $request->getPost('disziplin'),
+                    'Faehigkeit' => $request->getPost('skills'),
+                )
+            )
+        );
         $this->mapper->createSkill($skill);
     }
     

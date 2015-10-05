@@ -187,4 +187,31 @@ HTML;
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->getCharakterSkills($charakterId);
     }
+    
+    
+    public function getMagien($charakterId) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharakterMagien($charakterId);
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Zend_Controller_Request_Http $request
+     * @return int
+     */
+    public function saveCharpic(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        $mapper->saveCharakterpic($charakter->getCharakterid(), $request->getParam('charpic'));
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Zend_Controller_Request_Http $request
+     * @return int
+     */
+    public function saveProfilpic(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        $mapper->saveProfilpic($charakter->getCharakterid(), $request->getParam('profilpic'));
+    }
+    
 }

@@ -15,10 +15,15 @@ class Administration_Service_Schule {
      * @var Administration_Model_Mapper_ErstellungMapper
      */
     private $erstellungMapper;
+    /**
+     * @var Administration_Service_Requirement
+     */
+    private $requirementService;
     
     public function __construct() {
         $this->mapper = new Administration_Model_Mapper_SchuleMapper();
         $this->erstellungMapper = new Administration_Model_Mapper_ErstellungMapper();
+        $this->requirementService = new Administration_Service_Requirement();
     }
     
     public function getSchulList() {
@@ -32,7 +37,24 @@ class Administration_Service_Schule {
         $schule->setBezeichnung($request->getPost('name'));
         $schule->setBeschreibung($request->getPost('beschreibung'));
         $schule->setCreator($userId);
-        return $this->mapper->createSchule($schule);
+        
+        $schule->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'Staerke' => $request->getPost('staerke'),
+                    'Agilitaet' => $request->getPost('agilitaet'),
+                    'Ausdauer' => $request->getPost('ausdauer'),
+                    'Uebung' => $request->getPost('uebung'),
+                    'Kontrolle' => $request->getPost('kontrolle'),
+                    'Disziplin' => $request->getPost('disziplin'),
+                    'Faehigkeit' => $request->getPost('skills'),
+                    'Gruppe' => $request->getPost('gruppen'),
+                    'Klasse' => $request->getPost('klassen'),
+                )
+            )
+        );
+        $schule->setId($this->mapper->createSchule($schule));
+        $this->mapper->setDependencies($schule);
     }
     
     public function editSchule(Zend_Controller_Request_Http $request, $userId) {
@@ -43,6 +65,24 @@ class Administration_Service_Schule {
         $schule->setBezeichnung($request->getPost('name'));
         $schule->setBeschreibung($request->getPost('beschreibung'));
         $schule->setEditor($userId);
+        
+        $schule->setRequirementList(
+            $this->requirementService->createRequirementListFromArray(
+                array(
+                    'Staerke' => $request->getPost('staerke'),
+                    'Agilitaet' => $request->getPost('agilitaet'),
+                    'Ausdauer' => $request->getPost('ausdauer'),
+                    'Uebung' => $request->getPost('uebung'),
+                    'Kontrolle' => $request->getPost('kontrolle'),
+                    'Disziplin' => $request->getPost('disziplin'),
+                    'Faehigkeit' => $request->getPost('skills'),
+                    'Gruppe' => $request->getPost('gruppen'),
+                    'Klasse' => $request->getPost('klassen'),
+                )
+            )
+        );
+        $this->mapper->deleteDependencies($schule);
+        $this->mapper->setDependencies($schule);
         return $this->mapper->updateSchule($schule);
     }
     

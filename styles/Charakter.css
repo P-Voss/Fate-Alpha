@@ -2,6 +2,28 @@ h1{
     margin-bottom: 0px;
 }
 
+.contentLeft{
+    float: left;
+    width: 40%;
+}
+
+.contentRight{
+    float: right;
+    width: 50%;
+}
+
+.clearRight{
+    clear: right;
+}
+
+.clearLeft{
+    clear: left;
+}
+
+.clearBoth{
+    clear: both;
+}
+
 .FormularZeile {
     width: 90%;
     margin-left: auto;
@@ -69,4 +91,10 @@ h1{
     border-left: 1px solid black;
     display: block;
     cursor: pointer;
+}
+
+legend{
+    padding: 5px;
+    cursor: default;
+    font-weight: bold;
 }

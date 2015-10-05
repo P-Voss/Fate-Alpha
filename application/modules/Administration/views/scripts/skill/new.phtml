@@ -48,6 +48,39 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
             </label>
             <input type="number" name="disziplin" />
         </p>
+        <label for="gruppen">
+            Klassengruppen:
+        </label>
+        <select name="gruppen[]" multiple="true" size="8">
+            <?php foreach ($this->klassengruppen as $gruppe) { ?>
+            <option value="<?= $gruppe->getId() ?>">
+                <?= $gruppe->getBezeichnung() ?>
+            </option>
+            <?php } ?>
+        </select>
+        <br />
+        <label for="klassen">
+            Klassen:
+        </label>
+        <select name="klassen[]" multiple="true" size="8">
+            <?php foreach ($this->klassen as $klasse) { ?>
+            <option value="<?= $klasse->getId() ?>">
+                <?= $klasse->getBezeichnung() ?>
+            </option>
+            <?php } ?>
+        </select>
+        <br />
+        <label for="skills">
+            Fähigkeiten:
+        </label>
+        <select name="skills[]" multiple="true" size="8">
+            <?php foreach ($this->skills as $skill) { ?>
+            <option value="<?= $skill->getId() ?>">
+                <?= $skill->getBezeichnung() ?>
+            </option>
+            <?php } ?>
+        </select>
+        <br />
         <label for="beschreibung">
             Beschreibung
         </label>

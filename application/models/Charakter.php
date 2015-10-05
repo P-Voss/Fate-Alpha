@@ -43,6 +43,10 @@ class Application_Model_Charakter {
     /**
      * @var string
      */
+    protected $sexualitaet;
+    /**
+     * @var string
+     */
     protected $wohnort;
     /**
      * @var int
@@ -104,6 +108,14 @@ class Application_Model_Charakter {
      * @var array
      */
     protected $skills = array();
+    /**
+     * @var array
+     */
+    protected $magien = array();
+    /**
+     * @var DateTime
+     */
+    protected $createDate;
 
 
     public function getCharakterid() {
@@ -126,15 +138,15 @@ class Application_Model_Charakter {
         return $this->nickname;
     }
 
-    public function getAlter($modifier = null) {
+    public function getAlter($modifier = 'y') {
         if($this->alter === null){
             $this->calcAlter();
         }
         return $this->alter->$modifier;
     }
 
-    public function getGeburtsdatum() {
-        return $this->geburtsdatum;
+    public function getGeburtsdatum($format = 'Y-m-d') {
+        return $this->geburtsdatum->format($format);
     }
 
     public function getAugenfarbe() {
@@ -162,16 +174,22 @@ class Application_Model_Charakter {
     }
 
     /**
-     * @return Application_Model_Vorteil
+     * @return Application_Model_Vorteil[]
      */
     public function getVorteile() {
         return $this->vorteile;
     }
 
+    /**
+     * @return Application_Model_Nachteil[]
+     */
     public function getNachteile() {
         return $this->nachteile;
     }
 
+    /**
+     * @return Application_Model_Element
+     */
     public function getElemente() {
         return $this->elemente;
     }
@@ -221,7 +239,8 @@ class Application_Model_Charakter {
     }
 
     public function setGeburtsdatum($geburtsdatum) {
-        $this->geburtsdatum = $geburtsdatum;
+        $datum = new DateTime($geburtsdatum);
+        $this->geburtsdatum = $datum;
         return $this;
     }
 
@@ -335,7 +354,7 @@ class Application_Model_Charakter {
     }
     
     /**
-     * @return Application_Model_Schule
+     * @return Application_Model_Schule[]
      */
     public function getMagieschulen() {
         return $this->magieschulen;
@@ -354,7 +373,7 @@ class Application_Model_Charakter {
     }
     
     /**
-     * @return Application_Model_Schule
+     * @return Application_Model_Skill[]
      */
     public function getSkills() {
         return $this->skills;
@@ -370,6 +389,53 @@ class Application_Model_Charakter {
     
     public function addSkill(Application_Model_Skill $skill) {
         $this->skills[] = $skill;
+    }
+    
+    /**
+     * @return Application_Model_Magie[]
+     */
+    public function getMagien() {
+        return $this->magien;
+    }
+    
+    public function setMagien($magien = array()) {
+        foreach ($magien as $magie){
+            if($magie instanceof Application_Model_Magie){
+                $this->addMagie($magie);
+            }
+        }
+    }
+    
+    /**
+     * @param Application_Model_Magie $magie
+     */
+    public function addMagie(Application_Model_Magie $magie) {
+        $this->magien[] = $magie;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedate($format = 'Y-m-d') {
+        return $this->createDate->format($format);
+    }
+
+    /**
+     * @param DateTime $createDate
+     * @return \Application_Model_Charakter
+     */
+    public function setCreatedate(DateTime $createDate) {
+        $datum = new DateTime($createDate);
+        $this->createDate = $createDate;
+        return $this;
+    }
+    
+    public function getSexualitaet() {
+        return $this->sexualitaet;
+    }
+
+    public function setSexualitaet($sexualitaet) {
+        $this->sexualitaet = $sexualitaet;
     }
     
 }

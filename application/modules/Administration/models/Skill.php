@@ -17,6 +17,10 @@ class Administration_Model_Skill extends Application_Model_Skill {
      * @var DateTime
      */
     private $editDate;
+    /**
+     * @var Administration_Model_Requirementlist
+     */
+    private $requirementList;
     
     public function getCreator() {
         return $this->creator;
@@ -50,6 +54,14 @@ class Administration_Model_Skill extends Application_Model_Skill {
 
     public function setEditDate($editDate) {
         $this->editDate = $editDate;
+    }
+    
+    public function getRequirementList() {
+        return $this->requirementList;
+    }
+
+    public function setRequirementList(Administration_Model_Requirementlist $requirementList) {
+        $this->requirementList = $requirementList;
     }
     
 }

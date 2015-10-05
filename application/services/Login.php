@@ -17,6 +17,8 @@ class Application_Service_Login{
         $result = $auth->authenticate($authAdapter);
         if($result->isValid()){
             $auth->getStorage()->write($authAdapter->getResultRowObject());
+            $mapper = new Application_Model_Mapper_UserMapper();
+            $mapper->logAction($auth->getIdentity()->userId);
             return true;
         } else {
             switch ($result->getCode()) {

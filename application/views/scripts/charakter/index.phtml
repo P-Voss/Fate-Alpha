@@ -1,5 +1,10 @@
 <?php
+/* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
+/* @var $werte Application_Model_Charakterwerte */
+$werte = $charakter->getCharakterwerte();
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 ?>
 <h1>
     Charakterdaten
@@ -7,4 +12,97 @@ $charakter = $this->charakter;
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 </div>
-
+<br />
+<div>
+    <div class="contentLeft">
+        <fieldset>
+            <legend>Charakterdaten</legend>
+            <p>
+                <label>
+                    Name
+                </label>
+                <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+            </p>
+            <p>
+                <label>
+                    Geburtsdatum
+                </label>
+                <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
+            </p>
+            <p>
+                <label>
+                    Wohnort
+                </label>
+                <?= $charakter->getWohnort() ?>
+            </p>
+            <p>
+                <label>
+                    Sexuelle Orientierung
+                </label>
+                <?= $charakter->getSexualitaet() ?>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Profilbild</legend>
+            <form method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
+                <input type="text" name="profilpic">
+                <input type="submit" value="Profilbild speichern">
+            </form>
+            <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" height="200px" width="200px">
+        </fieldset>
+        <fieldset>
+            <legend>Werte</legend>
+            <p>
+                <label>
+                    Stärke
+                </label>
+                <?= $werte->getStaerke() ?>
+            </p>
+            <p>
+                <label>
+                    Agilität
+                </label>
+                <?= $werte->getAgilitaet() ?>
+            </p>
+            <p>
+                <label>
+                    Ausdauer
+                </label>
+                <?= $werte->getAusdauer() ?>
+            </p>
+            <p>
+                <label>
+                    Übung
+                </label>
+                <?= $werte->getUebung() ?>
+            </p>
+            <p>
+                <label>
+                    Kontrolle
+                </label>
+                <?= $werte->getKontrolle() ?>
+            </p>
+            <p>
+                <label>
+                    Disziplin
+                </label>
+                <?= $werte->getDisziplin() ?>
+            </p>
+        </fieldset>
+    </div>
+    <div class="clearRight"></div>
+    <div class="contentRight">
+        <fieldset>
+            <legend>Charakterbild</legend>
+            <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
+                <input type="text" name="charpic">
+                <input type="submit" value="Charakterbild speichern">
+            </form>
+            <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
+        </fieldset>
+    <fieldset>
+        <legend>Statistik</legend>
+    </fieldset>
+    </div>
+    <div class="clearBoth"></div>
+</div>

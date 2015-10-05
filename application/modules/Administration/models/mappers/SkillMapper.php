@@ -146,9 +146,9 @@ class Administration_Model_Mapper_SkillMapper {
         $data['fp'] = $magie->getFp();
         $data['prana'] = $magie->getPrana();
         $data['rang'] = $magie->getRang();
-        $data['element'] = $magie->getElement();
+        $data['element'] = $magie->getElement()->getId();
         $data['stufe'] = $magie->getStufe();
-        $data['schule'] = $magie->getSchule();
+        $data['magieschuleId'] = $magie->getSchule()->getId();
         $data['gruppe'] = $magie->getGruppe();
         $data['lernbedingung'] = $magie->getLernbedingung();
         $data['createDate'] = $magie->getCreateDate('Y-m-d H:i:s');
@@ -185,21 +185,21 @@ class Administration_Model_Mapper_SkillMapper {
      * @return int
      */
     public function deleteDependencies(Administration_Model_Magie $magie) {
-        return $this->getDbTable('MagieVoraussetzungen')->delete(array(
+        return $this->getDbTable('MagieCharakterVoraussetzungen')->delete(array(
             'magieId = ?' => $magie->getId()
         ));
     }
     
     /**
-     * @param array $dependencies
      * @param Administration_Model_Magie $magie
      * @return int
      */
-    public function setDependencies(Array $dependencies, Administration_Model_Magie $magie) {
+    public function setDependencies(Administration_Model_Magie $magie) {
         $data['magieId'] = $magie->getId();
-        foreach ($dependencies as $dependency) {
-            $data['voraussetzungMagieId'] = $dependency;
-            $this->getDbTable('MagieVoraussetzungen')->insert($data);
+        foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
+            $data['art'] = $requirement->getArt();
+            $data['voraussetzung'] = $requirement->getRequiredValue();
+            $this->getDbTable('MagieCharakterVoraussetzungen')->insert($data);
         }
     }
     

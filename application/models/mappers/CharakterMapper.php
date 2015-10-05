@@ -48,6 +48,7 @@ class Application_Model_Mapper_CharakterMapper{
      * @return int
      */
     public function createCharakter(Application_Model_Charakter $charakter) {
+        $date = new DateTime();
         $data = array();
         $data['userId'] = $charakter->getUserid();
         $data['vorname'] = $charakter->getVorname();
@@ -57,13 +58,14 @@ class Application_Model_Mapper_CharakterMapper{
         $data['augenfarbe'] = $charakter->getAugenfarbe();
         $data['size'] = $charakter->getSize();
         $data['geschlecht'] = $charakter->getGeschlecht();
+        $data['sexualitaet'] = $charakter->getSexualitaet();
         $data['wohnort'] = $charakter->getWohnort();
         $data['naturElement'] = $charakter->getElemente()[0];
         $data['klassenId'] = $charakter->getKlasse()->getId();
         $data['odo'] = $charakter->getOdo();
         $data['circuit'] = $charakter->getMagiccircuit();
         $data['luck'] = $charakter->getLuck();
-        $data['tage'] = 1;
+        $data['createDate'] = $date->format('Y-m-d H:i:s');
         return $this->getDbTable('Charakter')->insert($data);
     }
     
@@ -140,12 +142,11 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setAugenfarbe($row->augenfarbe);
                 $model->setGeburtsdatum($row->geburtsdatum);
                 $model->setGeschlecht($row->geschlecht);
+                $model->setSexualitaet($row->sexualitaet);
                 $model->setMagiccircuit($row->circuit);
                 $model->setNickname($row->nickname);
                 $model->setSize($row->size);
                 $model->setWohnort($row->wohnort);
-//                $model->setKlasse($row->klassenId);
-//                $model->setKlassengruppe($row->klassengruppenId);
             }
             return $model;
         }else{
@@ -537,7 +538,7 @@ class Application_Model_Mapper_CharakterMapper{
     
     /**
      * @param int $charakterId
-     * @return \Application_Model_Schule
+     * @return Application_Model_Schule[]
      */
     public function getCharakterMagieschulen($charakterId) {
         $returnArray = array();
@@ -563,7 +564,10 @@ class Application_Model_Mapper_CharakterMapper{
         return $returnArray;
     }
     
-    
+    /**
+     * @param type $charakterId
+     * @return Application_Model_Skill[]
+     */
     public function getCharakterSkills($charakterId) {
         $returnArray = array();
         $select = $this->getDbTable('CharakterSkill')->select();
@@ -585,6 +589,51 @@ class Application_Model_Mapper_CharakterMapper{
             }
         }
         return $returnArray;
+    }
+    
+    /**
+     * @param type $charakterId
+     * @return Application_Model_Magie[]
+     */
+    public function getCharakterMagien($charakterId) {
+        $returnArray = array();
+        $select = $this->getDbTable('CharakterMagie')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakterMagien', array());
+        $select->joinInner('magien', 
+                            'charakterMagien.magieId = magien.magieId',
+                            array('magieId', 'name', 'beschreibung')
+                );
+        $select->where('charakterMagien.charakterId = ?', $charakterId);
+        $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $magie = new Application_Model_Magie();
+                $magie->setId($row->magieId);
+                $magie->setBezeichnung($row->name);
+                $magie->setBeschreibung($row->beschreibung);
+                $returnArray[] = $magie;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param string $picUrl
+     */
+    public function saveCharakterpic($charakterId, $picUrl) {
+        $data = ['charpic' => $picUrl];
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param string $picUrl
+     */
+    public function saveProfilpic($charakterId, $picUrl) {
+        $data = ['profilpic' => $picUrl];
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
     }
     
 }

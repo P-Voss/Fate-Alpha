@@ -10,59 +10,66 @@ class CharakterController extends Zend_Controller_Action{
     /**
      * @var Application_Model_Charakter
      */
-    protected $_charakter;
+    protected $charakter;
     /**
      * @var Application_Service_Charakter
      */
-    protected $_charakterService;
+    protected $charakterService;
     /**
      * @var Application_Service_Layout
      */
-    protected $_layoutService;
+    protected $layoutService;
     /**
      * @var Application_Service_Erstellung
      */
-    protected $_erstellungsService;
+    protected $erstellungsService;
 
 
     public function init() {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->_charakterService = new Application_Service_Charakter();
-        $this->_layoutService = new Application_Service_Layout();
-        $this->_erstellungsService = new Application_Service_Erstellung();
+        $this->charakterService = new Application_Service_Charakter();
+        $this->layoutService = new Application_Service_Layout();
+        $this->erstellungsService = new Application_Service_Erstellung();
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null){
             $this->redirect('index');
         }  else {
-            $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
-            $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
+            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+            if($this->charakter !== false){
+                $this->charakter->setMagien($this->charakterService->getMagien($this->charakter->getCharakterid()));
+                $this->charakter->setMagieschulen($this->charakterService->getMagieschulen($this->charakter->getCharakterid()));
+                $this->charakter->setSkills($this->charakterService->getSkills($this->charakter->getCharakterid()));
+                $this->charakter->setCharakterprofil($this->charakterService->getProfile($this->charakter->getCharakterid()));
+            }
+            $this->view->layoutData = $this->layoutService->getLayoutData($auth);
             $layout->setLayout('online');
         }
     }
     
     public function indexAction() {
-        if($this->_charakter === false){
+        if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
+        $this->view->charakter = $this->charakter;
     }
     
     public function profilAction() {
-        if($this->_charakter === false){
+        if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
     }
     
     public function abilitiesAction() {
-        if($this->_charakter === false){
+        if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
     }
     
     public function inventarAction() {
-        if($this->_charakter === false){
+        if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
     }
@@ -70,7 +77,7 @@ class CharakterController extends Zend_Controller_Action{
     public function erstellungAction() {
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
-        $this->view->creationParams = $this->_erstellungsService->getCreationParams();
+        $this->view->creationParams = $this->erstellungsService->getCreationParams();
     }
     
     public function mapAction() {
@@ -79,10 +86,26 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function createAction() {
-        $charakter = $this->_erstellungsService->createCharakter($this->getRequest());
+        $charakter = $this->erstellungsService->createCharakter($this->getRequest());
         if($charakter === false){
             $this->redirect('charakter/erstellung');
         }
+        $this->redirect('charakter/index');
+    }
+    
+    public function charpicAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->charakterService->saveCharpic($this->charakter, $this->getRequest());
+        $this->redirect('charakter/index');
+    }
+    
+    public function profilpicAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->charakterService->saveProfilpic($this->charakter, $this->getRequest());
         $this->redirect('charakter/index');
     }
     

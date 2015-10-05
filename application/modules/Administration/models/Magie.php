@@ -17,6 +17,10 @@ class Administration_Model_Magie extends Application_Model_Magie {
      * @var DateTime
      */
     private $editDate;
+    /**
+     * @var Administration_Model_Requirementlist
+     */
+    private $requirementList;
     
     public function getCreator() {
         return $this->creator;
@@ -50,6 +54,22 @@ class Administration_Model_Magie extends Application_Model_Magie {
 
     public function setEditDate($editDate) {
         $this->editDate = $editDate;
+    }
+    
+    public function getLearned() {
+        return $this->learned;
+    }
+
+    public function setLearned($learned) {
+        $this->learned = $learned;
+    }
+    
+    public function getRequirementList() {
+        return $this->requirementList;
+    }
+
+    public function setRequirementList(Administration_Model_Requirementlist $requirementList) {
+        $this->requirementList = $requirementList;
     }
     
 }

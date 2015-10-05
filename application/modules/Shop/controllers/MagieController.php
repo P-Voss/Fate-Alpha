@@ -24,6 +24,7 @@ class Shop_MagieController extends Zend_Controller_Action {
         $auth = Zend_Auth::getInstance()->getIdentity();
         $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
         $this->charakter->setMagieschulen($this->charakterService->getMagieschulen($this->charakter->getCharakterid()));
+        $this->charakter->setMagien($this->charakterService->getMagien($this->charakter->getCharakterid()));
         if($this->charakter === false){
             $this->redirect('index/index');
         }

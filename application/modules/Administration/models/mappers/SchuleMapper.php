@@ -45,4 +45,27 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         return parent::getDbTable('Schule')->update($data, array('magieschuleId = ?' => $schule->getId()));
     }
     
+    /**
+     * @param Administration_Model_Schule $schule
+     * @return int
+     */
+    public function deleteDependencies(Administration_Model_Schule $schule) {
+        return $this->getDbTable('SchuleVoraussetzung')->delete(array(
+            'magieschuleId = ?' => $schule->getId()
+        ));
+    }
+    
+    /**
+     * @param Administration_Model_Schule $schule
+     * @return int
+     */
+    public function setDependencies(Administration_Model_Schule $schule) {
+        $data['magieschuleId'] = $schule->getId();
+        foreach ($schule->getRequirementList()->getRequirements() as $requirement) {
+            $data['art'] = $requirement->getArt();
+            $data['voraussetzung'] = $requirement->getRequiredValue();
+            $this->getDbTable('SchuleVoraussetzung')->insert($data);
+        }
+    }
+    
 }
