@@ -78,10 +78,20 @@
 
 label {
     display: inline-block;
-    width: 200px;
+    width: 180px;
 }
 
 input[type=submit] {
     /*display: block;*/
     margin: 0 auto;
+}
+
+.subContent{
+    height: 0;
+    display: block;
+    overflow: hidden;
+}
+
+.subContent span{
+    padding-left: 30px;
 }

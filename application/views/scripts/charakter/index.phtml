@@ -1,4 +1,5 @@
 <?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/charakter.js');
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
 /* @var $werte Application_Model_Charakterwerte */
@@ -44,64 +45,100 @@ $purifier = $this->purifier;
         </fieldset>
         <fieldset>
             <legend>Profilbild</legend>
-            <form method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
-                <input type="text" name="profilpic">
-                <input type="submit" value="Profilbild speichern">
-            </form>
-            <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" height="200px" width="200px">
+            <div class="subContent">
+                <form method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
+                    <input type="text" name="profilpic" placeholder="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
+                    <input type="submit" value="Profilbild speichern">
+                </form>
+                <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" height="200px" width="200px">
+            </div>
         </fieldset>
         <fieldset>
             <legend>Werte</legend>
-            <p>
-                <label>
-                    Stärke
-                </label>
-                <?= $werte->getStaerke() ?>
-            </p>
-            <p>
-                <label>
-                    Agilität
-                </label>
-                <?= $werte->getAgilitaet() ?>
-            </p>
-            <p>
-                <label>
-                    Ausdauer
-                </label>
-                <?= $werte->getAusdauer() ?>
-            </p>
-            <p>
-                <label>
-                    Übung
-                </label>
-                <?= $werte->getUebung() ?>
-            </p>
-            <p>
-                <label>
-                    Kontrolle
-                </label>
-                <?= $werte->getKontrolle() ?>
-            </p>
-            <p>
-                <label>
-                    Disziplin
-                </label>
-                <?= $werte->getDisziplin() ?>
-            </p>
+            <div class="subContent">
+                <p>
+                    <label>
+                        Stärke
+                    </label>
+                    <span>
+                        <?= $werte->getStaerke() ?>
+                    </span>
+                    <span>
+                        <?= $werte->getCategory($werte->getStaerke()) ?>
+                    </span>
+                </p>
+                <p>
+                    <label>
+                        Agilität
+                    </label>
+                    <span>
+                        <?= $werte->getAgilitaet() ?>
+                    </span>
+                    <span>
+                        <?= $werte->getCategory($werte->getAgilitaet()) ?>
+                    </span>
+                </p>
+                <p>
+                    <label>
+                        Ausdauer
+                    </label>
+                    <span>
+                        <?= $werte->getAusdauer() ?>
+                    </span>
+                    <span>
+                        <?= $werte->getCategory($werte->getAusdauer()) ?>
+                    </span>
+                </p>
+                <p>
+                    <label>
+                        Kontrolle
+                    </label>
+                    <span>
+                        <?= $werte->getKontrolle() ?>
+                    </span>
+                    <span>
+                        <?= $werte->getCategory($werte->getKontrolle()) ?>
+                    </span>
+                </p>
+                <p>
+                    <label>
+                        Disziplin
+                    </label>
+                    <span>
+                        <?= $werte->getDisziplin() ?>
+                    </span>
+                    <span>
+                        <?= $werte->getCategory($werte->getDisziplin()) ?>
+                    </span>
+                </p>
+                <p>
+                    <label>
+                        Übung
+                    </label>
+                    <span>
+                        <?= $werte->getUebung() ?>
+                    </span>
+                </p>
+            </div>
         </fieldset>
     </div>
     <div class="clearRight"></div>
     <div class="contentRight">
         <fieldset>
             <legend>Charakterbild</legend>
-            <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
-                <input type="text" name="charpic">
-                <input type="submit" value="Charakterbild speichern">
-            </form>
-            <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
+            <div class="subContent">
+                <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
+                    <input type="text" name="charpic"  placeholder="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
+                    <input type="submit" value="Charakterbild speichern">
+                </form>
+                <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
+            </div>
         </fieldset>
     <fieldset>
         <legend>Statistik</legend>
+        <div class="subContent">
+            
+        </div>
     </fieldset>
     </div>
     <div class="clearBoth"></div>
