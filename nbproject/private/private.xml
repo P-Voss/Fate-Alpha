@@ -25,15 +25,12 @@
         </group>
         <group>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Layout.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Layout.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/CharakterController.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/styles/Profil.css</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/helpers/Logincheck.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/Charakter.css</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/index.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/js/charakter/charakter.js</file>
         </group>
     </open-files>
 </project-private>

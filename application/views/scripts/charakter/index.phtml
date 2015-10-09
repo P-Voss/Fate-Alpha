@@ -44,7 +44,7 @@ $purifier = $this->purifier;
             </p>
         </fieldset>
         <fieldset>
-            <legend>Profilbild</legend>
+            <legend>Profilbild <span class="indicator">+</span></legend>
             <div class="subContent">
                 <form method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
                     <input type="text" name="profilpic" placeholder="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
@@ -54,7 +54,7 @@ $purifier = $this->purifier;
             </div>
         </fieldset>
         <fieldset>
-            <legend>Werte</legend>
+            <legend>Werte <span class="indicator">+</span></legend>
             <div class="subContent">
                 <p>
                     <label>
@@ -125,7 +125,7 @@ $purifier = $this->purifier;
     <div class="clearRight"></div>
     <div class="contentRight">
         <fieldset>
-            <legend>Charakterbild</legend>
+            <legend>Charakterbild <span class="indicator">+</span></legend>
             <div class="subContent">
                 <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
                     <input type="text" name="charpic"  placeholder="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
@@ -135,7 +135,7 @@ $purifier = $this->purifier;
             </div>
         </fieldset>
     <fieldset>
-        <legend>Statistik</legend>
+        <legend>Statistik <span class="indicator">+</span></legend>
         <div class="subContent">
             
         </div>
