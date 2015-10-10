@@ -1,7 +1,41 @@
+<?php
+$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/editor.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/charakter.js');
+/* @var $purifier HTMLpurifier */
+$purifier = $this->purifier;
+/* @var $charakter Application_Model_Charakter */
+$charakter = $this->charakter;
+?>
 <h1>
     Profil
 </h1>
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 </div>
-
+<br />
+<div>
+    <fieldset>
+        <legend>Charaktergeschichte <span class="indicator"></span></legend>
+        <div class="subContent">
+            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/story">
+                <textarea class="data" id="story" name="story" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></textarea>
+                <br />
+                <input type="submit" class="save" value="Charaktergeschichte speichern">
+            </form>
+        </div>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend>Private Chrakterdaten <span class="indicator"></span></legend>
+        <div class="subContent">
+            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/private">
+                <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>
+                <br />
+                <input type="submit" class="save" value="Charaktergeschichte speichern">
+            </form>
+        </div>
+    </fieldset>
+</div>

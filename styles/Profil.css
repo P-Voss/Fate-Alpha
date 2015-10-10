@@ -95,3 +95,7 @@ input[type=submit] {
 .subContent span{
     padding-left: 30px;
 }
+
+.subContent textarea{
+    width: 100%;
+}

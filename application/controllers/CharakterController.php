@@ -60,6 +60,7 @@ class CharakterController extends Zend_Controller_Action{
         if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
+        $this->view->charakter = $this->charakter;
     }
     
     public function abilitiesAction() {
@@ -107,6 +108,20 @@ class CharakterController extends Zend_Controller_Action{
         $layout->disableLayout();
         $this->charakterService->saveProfilpic($this->charakter, $this->getRequest());
         $this->redirect('charakter/index');
+    }
+    
+    public function storyAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->charakterService->saveStory($this->charakter, $this->getRequest());
+    }
+    
+    public function privateAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->charakterService->savePrivate($this->charakter, $this->getRequest());
     }
     
 }

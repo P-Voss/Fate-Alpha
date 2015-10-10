@@ -214,4 +214,16 @@ HTML;
         $mapper->saveProfilpic($charakter->getCharakterid(), $request->getParam('profilpic'));
     }
     
+    
+    public function saveStory(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_ProfilMapper();
+        $mapper->saveStory($charakter->getCharakterid(), $request->getPost('story'));
+    }
+    
+    
+    public function savePrivate(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_ProfilMapper();
+        $mapper->savePrivate($charakter->getCharakterid(), $request->getPost('private'));
+    }
+    
 }
