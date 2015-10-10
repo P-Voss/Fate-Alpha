@@ -1,5 +1,4 @@
 
-
 jQuery(document).ready(function () {
     
     tinymce.init({

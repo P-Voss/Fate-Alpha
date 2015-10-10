@@ -1,6 +1,66 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/charakter.js');
+
+function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
+$sortorder = ['Übungsfähigkeiten' => 1, 
+    'Schützenfähigkeiten' => 2, 
+    'Kämpferfähigkeiten' => 3, 
+    'Spezialfähigkeiten' => 4,
+    ];
+    if($sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()]){
+        return 1;
+    }
+}
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $skillart Application_Model_Skillart */
+$skillarten = $this->skillarten;
+usort($skillarten, "order");
+/* @var $schule Application_Model_Schule */
+$magieschulen = $this->magieschulen;
+?>
 <h1>
     Fähigkeiten und Magien
 </h1>
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
+</div>
+<br />
+<div>
+    <fieldset>
+        <legend>Fähigkeiten</legend>
+        <?php foreach ($skillarten as $skillart): ?>
+        <fieldset>
+            <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
+            <div class="subContent">
+                <?php foreach ($skillart->getSkills() as $skill): ?>
+                <p>
+                    <span>
+                        <?= $skill->getBezeichnung() ?>
+                    </span>
+                </p>
+                <?php endforeach; ?>
+            </div>
+        </fieldset>
+        <?php endforeach; ?>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend>Magien</legend>
+        <?php foreach ($magieschulen as $schule): ?>
+            <fieldset>
+                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <div class="subContent">
+                    <?php foreach ($schule->getMagien() as $magie): ?>
+                    <p>
+                        <span>
+                            <?= $magie->getBezeichnung() ?>
+                        </span>
+                    </p>
+                    <?php endforeach; ?>
+                </div>
+            </fieldset>
+        <?php endforeach; ?>
+    </fieldset>
 </div>

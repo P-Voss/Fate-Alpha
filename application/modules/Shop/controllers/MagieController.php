@@ -53,7 +53,7 @@ class Shop_MagieController extends Zend_Controller_Action {
     }
     
     public function unlockAction() {
-        $this->charakter->setMagieStufe($this->charakterService->getMagieStufe($this->charakter->getCharakterid()));
+        $this->charakter->setMagieStufe($this->charakterService->getMagieStufe($this->charakter->getCharakterid(), $this->getRequest()->getParam('id')));
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Magie();

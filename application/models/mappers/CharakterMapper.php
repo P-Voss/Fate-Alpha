@@ -521,16 +521,16 @@ class Application_Model_Mapper_CharakterMapper{
         $result = $this->getDbTable('CharakterSchule')->fetchAll($select);
         switch ($result->count()) {
             case 0:
-                $rang = 0;
-                break;
-            case 1:
                 $rang = 1;
                 break;
-            case 2:
+            case 1:
                 $rang = 2;
                 break;
-            default:
+            case 2:
                 $rang = 3;
+                break;
+            default:
+                $rang = 4;
                 break;
         }
         return $rang;

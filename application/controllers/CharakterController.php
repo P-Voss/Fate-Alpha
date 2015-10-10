@@ -39,9 +39,6 @@ class CharakterController extends Zend_Controller_Action{
         }  else {
             $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
             if($this->charakter !== false){
-                $this->charakter->setMagien($this->charakterService->getMagien($this->charakter->getCharakterid()));
-                $this->charakter->setMagieschulen($this->charakterService->getMagieschulen($this->charakter->getCharakterid()));
-                $this->charakter->setSkills($this->charakterService->getSkills($this->charakter->getCharakterid()));
                 $this->charakter->setCharakterprofil($this->charakterService->getProfile($this->charakter->getCharakterid()));
             }
             $this->view->layoutData = $this->layoutService->getLayoutData($auth);
@@ -67,6 +64,27 @@ class CharakterController extends Zend_Controller_Action{
         if($this->charakter === false){
             $this->redirect('charakter/erstellung');
         }
+        $magieService = new Shop_Service_Magie();
+        $magieschulen = $magieService->getMagieschulenForCharakter($this->charakter);
+        $schulen = array();
+        foreach ($magieschulen as $schule){
+            if($schule->getLearned() === true){
+                $schule->setMagien($magieService->getLearnedMagieBySchule($this->charakter->getCharakterid(), $schule));
+                $schulen[] = $schule;
+            }
+        }
+        $this->view->magieschulen = $schulen;
+        
+        $skillService = new Shop_Service_Skill();
+        $skillarten = $skillService->getSkillArtenForCharakter($this->charakter);
+        foreach ($skillarten as $skillart) {
+            if($skillart->getLearned() === false){
+                unset($skillart);
+            }else{
+                $skillart->setSkills($skillService->getLearnedSkillBySkillart($this->charakter->getCharakterid(), $skillart));
+            }
+        }
+        $this->view->skillarten = $skillarten;
     }
     
     public function inventarAction() {

@@ -81,13 +81,13 @@ class Shop_Model_Mapper_SkillMapper {
     /**
      * 
      * @param int $charakterId
-     * @param int $skillartId
+     * @param int $skillId
      * @return boolean
      */
-    public function checkIfLearned($charakterId, $skillartId) {
+    public function checkIfLearned($charakterId, $skillId) {
         $select = $this->getDbTable('CharakterSkill')->select();
         $select->where('charakterId = ?', $charakterId);
-        $select->where('skillId = ?', $skillartId);
+        $select->where('skillId = ?', $skillId);
         $result = $this->getDbTable('CharakterSkill')->fetchAll($select);
         return $result->count() > 0;
     }
