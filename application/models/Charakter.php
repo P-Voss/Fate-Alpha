@@ -425,9 +425,14 @@ class Application_Model_Charakter {
      * @return \Application_Model_Charakter
      */
     public function setCreatedate(DateTime $createDate) {
-        $datum = new DateTime($createDate);
         $this->createDate = $createDate;
         return $this;
+    }
+    
+    
+    public function getCreateInterval() {
+        $currentDate = new DateTime();
+        return $currentDate->diff($this->createDate)->format('%d');
     }
     
     public function getSexualitaet() {

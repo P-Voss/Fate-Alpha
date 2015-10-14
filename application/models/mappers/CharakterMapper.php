@@ -147,6 +147,8 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setNickname($row->nickname);
                 $model->setSize($row->size);
                 $model->setWohnort($row->wohnort);
+                $date = new DateTime($row->createDate);
+                $model->setCreatedate($date);
             }
             return $model;
         }else{
@@ -365,6 +367,8 @@ class Application_Model_Mapper_CharakterMapper{
             $model->setGeschlecht($row->geschlecht);
             $model->setNickname($row->nickname);
             $model->setWohnort($row->wohnort);
+            $date = new DateTime($row->createDate);
+            $model->setCreatedate($date);
         }
         return $model;
     }

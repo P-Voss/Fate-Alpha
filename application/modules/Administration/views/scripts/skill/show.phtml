@@ -3,6 +3,8 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
 /* @var $skill Administration_Model_Skill */
 $skill = $this->skill;
+//Zend_Debug::dump($skill);
+//exit;
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">

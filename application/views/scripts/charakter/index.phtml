@@ -137,7 +137,12 @@ $purifier = $this->purifier;
     <fieldset>
         <legend>Statistik <span class="indicator"></span></legend>
         <div class="subContent">
-            
+            <p>
+                <label>Überlebt seit:</label>
+                <span>
+                    <?= $charakter->getCreatedate('d.m.Y') ?>
+                </span>
+            </p>
         </div>
     </fieldset>
     </div>

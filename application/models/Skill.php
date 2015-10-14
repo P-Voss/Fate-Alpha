@@ -5,7 +5,7 @@
  *
  * @author Vosser
  */
-class Application_Model_Skill {
+class Application_Model_Skill implements JsonSerializable {
     
     protected $id;
     protected $bezeichnung;
@@ -78,6 +78,14 @@ class Application_Model_Skill {
 
     public function setDisziplin($disziplin) {
         $this->disziplin = $disziplin;
+    }
+    
+    public function jsonSerialize() {
+        $return = array();
+        foreach (get_object_vars($this) as $key => $property){
+            $return[$key] = $property;
+        }
+        return $return;
     }
 
 }

@@ -81,9 +81,46 @@ class Administration_Model_Mapper_SkillMapper {
         $data['editDate'] = $skill->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $skill->getEditor();
         
+        $this->deleteRequirementsSkill($skill);
+        $this->setRequirementsSkill($skill);
         return $this->getDbTable('Skill')->update($data, array(
             'skillId = ?' => $skill->getId()
         ));
+    }
+    
+    
+    public function setRequirementsSkill(Administration_Model_Skill $skill) {
+        $data['skillId'] = $skill->getId();
+        foreach ($skill->getRequirementList()->getRequirements() as $requirement) {
+            $data['art'] = $requirement->getArt();
+            $data['voraussetzung'] = $requirement->getRequiredValue();
+            $this->getDbTable('SkillVoraussetzung')->insert($data);
+        }
+    }
+    
+    
+    public function deleteRequirementsSkill(Administration_Model_Skill $skill) {
+        $this->getDbTable('SkillVoraussetzung')->delete(['skillId = ?' => $skill->getId()]);
+    }
+    
+    /**
+     * @param int $skillId
+     * @return \Administration_Model_Requirementlist
+     */
+    public function getRequirementsSkill($skillId) {
+        $requirementList = new Administration_Model_Requirementlist();
+        $select = $this->getDbTable('SkillVoraussetzung')->select();
+        $select->where('skillId = ?', $skillId);
+        $result = $this->getDbTable('SkillVoraussetzung')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $requirement = new Administration_Model_Requirement();
+                $requirement->setArt($row->art);
+                $requirement->setRequiredValue($row->voraussetzung);
+                $requirementList->addRequirement($requirement);
+            }
+        }
+        return $requirementList;
     }
     
     /**

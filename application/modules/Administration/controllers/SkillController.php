@@ -25,6 +25,7 @@ class Administration_SkillController extends Zend_Controller_Action {
     }
     
     public function showAction() {
+        $this->view->skill = $this->skillService->getSkillById($this->getRequest()->getParam('id'));
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();

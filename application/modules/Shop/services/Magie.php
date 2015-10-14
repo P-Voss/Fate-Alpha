@@ -131,4 +131,20 @@ class Shop_Service_Magie {
         return $returnMagien;
     }
     
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param int $magieId
+     * @return Shop_Model_MAgie
+     */
+    public function getMagieById(Application_Model_Charakter $charakter, $magieId) {
+        $magie = $this->magieMapper->getMagieById($magieId);
+        if($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()) === false){
+            return array(
+                'failure' => 'Charakter beherrscht die Magie nicht!',
+            );
+        }else{
+            return $magie;
+        }
+    }
+    
 }

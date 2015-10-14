@@ -56,4 +56,11 @@ class Shop_SkillController extends Zend_Controller_Action {
         echo json_encode($service->unlockSkill($this->charakter, $this->getRequest()->getParam('id')));
     }
     
+    public function previewAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout();
+        $service = new Shop_Service_Skill();
+        echo json_encode($service->getSkillById($this->charakter, $this->getRequest()->getPost('id')));
+    }
+    
 }

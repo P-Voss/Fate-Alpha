@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Description of Nachteil
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
@@ -56,12 +55,7 @@ class Administration_Service_Skill {
         
         $magie->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                array(
-                    'Schule' => $request->getPost('magieschule'),
-                    'FP' => $request->getPost('fp'),
-                    'Element' => $request->getPost('element'),
-                    'Magie' => $request->getPost('magien'),
-                )
+                $this->buildRequirementArray($request)
             )
         );
         $result = $this->mapper->updateMagie($magie);
@@ -91,12 +85,7 @@ class Administration_Service_Skill {
         
         $magie->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                array(
-                    'Schule' => $request->getPost('magieschule'),
-                    'FP' => $request->getPost('fp'),
-                    'Element' => $request->getPost('element'),
-                    'Magie' => $request->getPost('magien'),
-                )
+                $this->buildRequirementArray($request)
             )
         );
         $magie->setId($this->mapper->createMagie($magie));
@@ -105,7 +94,9 @@ class Administration_Service_Skill {
     }
     
     public function getSkillById($skillId) {
-        return $this->mapper->getSkillById($skillId);
+        $skill = $this->mapper->getSkillById($skillId);
+        $skill->setRequirementList($this->requirementService->getRequirementListSkill($skillId));
+        return $skill;
     }
     
     public function editSkill(Zend_Controller_Request_Http $request, $userId) {
@@ -124,12 +115,7 @@ class Administration_Service_Skill {
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                array(
-                    'FP' => $request->getPost('fp'),
-                    'Uebung' => $request->getPost('fp'),
-                    'Disziplin' => $request->getPost('disziplin'),
-                    'Faehigkeit' => $request->getPost('skills'),
-                )
+                $this->buildRequirementArray($request)
             )
         );
         
@@ -151,15 +137,60 @@ class Administration_Service_Skill {
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                array(
-                    'FP' => $request->getPost('fp'),
-                    'Uebung' => $request->getPost('fp'),
-                    'Disziplin' => $request->getPost('disziplin'),
-                    'Faehigkeit' => $request->getPost('skills'),
-                )
+                $this->buildRequirementArray($request)
             )
         );
         $this->mapper->createSkill($skill);
     }
     
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @return array
+     */
+    public function buildRequirementArray(Zend_Controller_Request_Http $request) {
+        $requirements = array();
+        if($request->getParam('fp') !== null){
+            $requirements['FP'] = $request->getParam('fp');
+        }
+        if($request->getParam('uebung') !== null){
+            $requirements['Uebung'] = $request->getParam('uebung');
+        }
+        if($request->getParam('disziplin') !== null){
+            $requirements['Disziplin'] = $request->getParam('disziplin');
+        }
+        if($request->getParam('fp') !== null){
+            $requirements['Element'] = $request->getParam('fp');
+        }
+        if($request->getParam('skills') !== null){
+            $requirements['Faehigkeit'] = $request->getParam('skills');
+        }
+        if($request->getParam('magien') !== null){
+            $requirements['Magie'] = $request->getParam('magien');
+        }
+        if($request->getParam('magieschule') !== null){
+            $requirements['Schule'] = $request->getParam('magieschule');
+        }
+        if($request->getParam('gruppen') !== null){
+            $requirements['Gruppe'] = $request->getParam('gruppen');
+        }
+        if($request->getParam('klassen') !== null){
+            $requirements['Klasse'] = $request->getParam('klassen');
+        }
+        if($request->getParam('staerke') !== null){
+            $requirements['Staerke'] = $request->getParam('staerke');
+        }
+        if($request->getParam('agilitaet') !== null){
+            $requirements['Agilitaet'] = $request->getParam('agilitaet');
+        }
+        if($request->getParam('kontrolle') !== null){
+            $requirements['Kontrolle'] = $request->getParam('kontrolle');
+        }
+        if($request->getParam('vorteile') !== null){
+            $requirements['Vorteil'] = $request->getParam('vorteile');
+        }
+        if($request->getParam('nachteile') !== null){
+            $requirements['Nachteil'] = $request->getParam('nachteile');
+        }
+        return $requirements;
+    }
 }

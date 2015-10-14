@@ -33,4 +33,10 @@ class Administration_Service_Requirement {
         return $requirementList;
     }
     
+    
+    public function getRequirementListSkill($skillId) {
+        $mapper = new Administration_Model_Mapper_SkillMapper();
+        return $mapper->getRequirementsSkill($skillId);
+    }
+    
 }

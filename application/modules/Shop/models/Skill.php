@@ -32,4 +32,12 @@ class Shop_Model_Skill extends Application_Model_Skill {
         $this->requirementList = $requirementList;
     }
     
+    public function jsonSerialize() {
+        $return = array();
+        foreach (get_object_vars($this) as $key => $property){
+            $return[$key] = $property;
+        }
+        return $return;
+    }
+    
 }

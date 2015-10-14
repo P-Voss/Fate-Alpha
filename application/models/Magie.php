@@ -5,7 +5,7 @@
  *
  * @author Vosser
  */
-class Application_Model_Magie {
+class Application_Model_Magie implements JsonSerializable {
     
     protected $id;
     protected $bezeichnung;
@@ -132,6 +132,14 @@ class Application_Model_Magie {
 
     public function setLernbedingung($lernbedingung) {
         $this->lernbedingung = $lernbedingung;
+    }
+    
+    public function jsonSerialize() {
+        $return = array();
+        foreach (get_object_vars($this) as $key => $property){
+            $return[$key] = $property;
+        }
+        return $return;
     }
     
 }

@@ -60,4 +60,11 @@ class Shop_MagieController extends Zend_Controller_Action {
         echo json_encode($service->unlockMagie($this->charakter, $this->getRequest()->getParam('id')));
     }
     
+    public function previewAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout();
+        $service = new Shop_Service_Magie();
+        echo json_encode($service->getMagieById($this->charakter, $this->getRequest()->getPost('id')));
+    }
+    
 }

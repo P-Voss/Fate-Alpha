@@ -126,4 +126,20 @@ class Shop_Service_Skill {
         }
     }
     
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param int $skillId
+     * @return Shop_Model_Skill
+     */
+    public function getSkillById(Application_Model_Charakter $charakter, $skillId) {
+        $skill = $this->mapper->getSkillById($skillId);
+        if($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId()) === false){
+            return array(
+                'failure' => 'Charakter beherrscht die Fähigkeit nicht!',
+            );
+        }else{
+            return $skill;
+        }
+    }
+    
 }

@@ -19,15 +19,17 @@ jQuery(document).ready(function () {
     
     jQuery("legend").on('click', function(){
         element = jQuery(this).parent().children(".subContent");
-        indicator = jQuery(this).children(".indicator");
-        if(element.height() > 0){
-            element.animate({height: 0}, {duration: 400, queue: false});
-        }else{
-            element.animate({height: element.get(0).scrollHeight}, {duration: 400, queue: false});
-        }
+        if(element.length !== 0){
+            indicator = jQuery(this).children(".indicator");
+            if(element.height() > 0){
+                element.animate({height: 0}, {duration: 400, queue: false});
+            }else{
+                element.animate({height: element.get(0).scrollHeight}, {duration: 400, queue: false});
+            }
 
-        if(element.get(0).scrollHeight > 0){
-            indicator.text(element.height() === element.get(0).scrollHeight ? "+" : "-");
+            if(element.get(0).scrollHeight > 0){
+                indicator.text(element.height() === element.get(0).scrollHeight ? "+" : "-");
+            }
         }
     });
     
