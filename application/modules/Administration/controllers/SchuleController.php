@@ -9,7 +9,7 @@ class Administration_SchuleController extends Zend_Controller_Action {
 
     protected $erstellungService;
     protected $skillService;
-    private $service;
+    private $schulService;
 
     public function init(){
         $this->_helper->logincheck();
@@ -18,26 +18,36 @@ class Administration_SchuleController extends Zend_Controller_Action {
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->service = new Administration_Service_Schule();
+        $this->schulService = new Administration_Service_Schule();
         $this->erstellungService = new Administration_Service_Erstellung();
         $this->skillService = new Administration_Service_Skill();
     }
     
     public function indexAction() {
-        $this->view->list = $this->service->getSchulList();
+        $this->view->list = $this->schulService->getSchulList();
     }
     
     public function showAction() {
-        $this->view->schule = $this->service->getSchuleById($this->getRequest()->getParam('id'));
+        $this->view->schule = $this->schulService->getSchuleById($this->getRequest()->getParam('id'));
+        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
-        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
     }
     
     public function newAction() {
+        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
-        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
     }
     
     public function deleteAction() {
@@ -45,12 +55,12 @@ class Administration_SchuleController extends Zend_Controller_Action {
     }
     
     public function editAction() {
-        $this->service->editSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->schulService->editSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     
     public function createAction() {
-        $this->service->createSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->schulService->createSchule($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     

@@ -16,6 +16,7 @@ class Administration_SkillController extends Zend_Controller_Action {
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
+        $this->schulService = new Administration_Service_Schule();
         $this->erstellungService = new Administration_Service_Erstellung();
         $this->skillService = new Administration_Service_Skill();
     }
@@ -26,15 +27,26 @@ class Administration_SkillController extends Zend_Controller_Action {
     
     public function showAction() {
         $this->view->skill = $this->skillService->getSkillById($this->getRequest()->getParam('id'));
+        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
-        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
     }
     
     public function newAction() {
         $this->view->skills = $this->skillService->getSkillList();
-        $this->view->klassen = $this->erstellungService->getKlassenList();
+        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function deleteAction() {

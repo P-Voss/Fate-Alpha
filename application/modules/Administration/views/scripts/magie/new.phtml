@@ -4,6 +4,13 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 /* @var $magieOption Administration_Model_Magie */
 /* @var $element Administration_Model_Element */
 /* @var $schule Administration_Model_Schule */
+/* @var $magie Administration_Model_Magie */
+/* @var $magieOption Administration_Model_Magie */
+/* @var $element Administration_Model_Element */
+/* @var $schule Administration_Model_Schule */
+/* @var $requirement Administration_Model_Requirement */
+/* @var $vorteil Application_Model_Vorteil */
+/* @var $nachteil Application_Model_Nachteil */
 ?>
 <h1>Magie erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
@@ -86,6 +93,30 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                     <?= $magieOption->getBezeichnung() ?>
                 </option>
                 <?php } ?>
+            </select>
+        </p>
+        <p>
+            <label for="vorteile">
+                benötigte Vorteile
+            </label>
+            <select name="vorteile[]" multiple="true" size="8">
+                <?php foreach ($this->vorteile as $vorteil): ?>
+                <option value="<?= $vorteil->getId() ?>">
+                    <?= $vorteil->getBezeichnung() ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="nachteile">
+                benötigte Nachteile
+            </label>
+            <select name="nachteile[]" multiple="true" size="8">
+                <?php foreach ($this->nachteile as $nachteil): ?>
+                <option value="<?= $nachteil->getId() ?>">
+                    <?= $nachteil->getBezeichnung() ?>
+                </option>
+                <?php endforeach; ?>
             </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>

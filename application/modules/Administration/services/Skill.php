@@ -29,7 +29,9 @@ class Administration_Service_Skill {
     }
     
     public function getMagieById($magieId) {
-        return $this->mapper->getMagieById($magieId);
+        $magie = $this->mapper->getMagieById($magieId);
+        $magie->setRequirementList($this->mapper->getRequirementsMagie($magieId));
+        return $magie;
     }
     
     public function editMagie(Zend_Controller_Request_Http $request, $userId) {

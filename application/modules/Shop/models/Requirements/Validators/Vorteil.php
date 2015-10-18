@@ -13,12 +13,19 @@ class Shop_Model_Requirements_Validators_Vorteil implements Shop_Model_Requireme
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        foreach ($charakter->getVorteile() as $vorteil){
-            if($vorteil->getId() == $value){
-                return true;
+        $values = explode(':', $value);
+        foreach ($values as $value){
+            $result = false;
+            foreach ($charakter->getVorteile() as $vorteil){
+                if($vorteil->getId() == $value){
+                    $result = true;
+                }
+            }
+            if($result === false){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     
 }

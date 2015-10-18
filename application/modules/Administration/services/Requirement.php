@@ -16,19 +16,14 @@ class Administration_Service_Requirement {
             if($value === null){
                 continue;
             }
+            $requirement = new Administration_Model_Requirement();
             if(is_array($value)){
-                foreach ($value as $subValue){
-                    $requirement = new Administration_Model_Requirement();
-                    $requirement->setArt($validator);
-                    $requirement->setRequiredValue($subValue);
-                    $requirementList->addRequirement($requirement);
-                }
+                    $requirement->setRequiredValue(implode(':', $value));
             }else{
-                $requirement = new Administration_Model_Requirement();
-                $requirement->setArt($validator);
                 $requirement->setRequiredValue($value);
-                $requirementList->addRequirement($requirement);
             }
+            $requirement->setArt($validator);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }

@@ -33,6 +33,10 @@ class Administration_MagieController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function newAction() {
@@ -40,6 +44,10 @@ class Administration_MagieController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function deleteAction() {

@@ -5,7 +5,36 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 /* @var $magieOption Administration_Model_Magie */
 /* @var $element Administration_Model_Element */
 /* @var $schule Administration_Model_Schule */
+/* @var $requirement Administration_Model_Requirement */
+/* @var $vorteil Application_Model_Vorteil */
+/* @var $nachteil Application_Model_Nachteil */
 $magie = $this->magie;
+foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
+    if($requirement->getArt() === 'Element'){
+        $elementReq = $requirement->getRequiredValue();
+    }
+    if($requirement->getArt() === 'Magie'){
+        $magienReq = explode(':', $requirement->getRequiredValue());
+    }
+    if($requirement->getArt() === 'Schule'){
+        $schuleReq = $requirement->getRequiredValue();
+    }
+    if($requirement->getArt() === 'Faehigkeit'){
+        $faehigkeitenReq = explode(':', $requirement->getRequiredValue());
+    }
+    if($requirement->getArt() === 'Gruppe'){
+        $gruppenReq = explode(':', $requirement->getRequiredValue());
+    }
+    if($requirement->getArt() === 'Klasse'){
+        $klasseReq = $requirement->getRequiredValue();
+    }
+    if($requirement->getArt() === 'Vorteil'){
+        $vorteileReq = explode(':', $requirement->getRequiredValue());
+    }
+    if($requirement->getArt() === 'Nachteil'){
+        $nachteileReq = explode(':', $requirement->getRequiredValue());
+    }
+}
 ?>
 <h1>Magie anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/magie/edit" method="post">
@@ -21,11 +50,13 @@ $magie = $this->magie;
                 Element
             </label>
             <select name="element">
-                <?php foreach ($this->elemente as $element) { ?>
-                <option value="<?= $element->getId() ?>">
+                <?php foreach ($this->elemente as $element):
+                    $selected = ($element->getId() == $elementReq) ? 'selected=""' : '';
+                ?>
+                <option value="<?= $element->getId() ?>" <?= $selected ?>>
                     <?= $element->getBezeichnung() ?>
                 </option>
-                <?php } ?>
+                <?php endforeach; ?>
             </select>
         </p>
         <p>
@@ -33,11 +64,13 @@ $magie = $this->magie;
                 Magieschule
             </label>
             <select name="magieschule">
-                <?php foreach ($this->schulen as $schule) { ?>
-                <option value="<?= $schule->getId() ?>">
+                <?php foreach ($this->schulen as $schule):
+                    $selected = ($schule->getId() == $schuleReq) ? 'selected=""' : '';
+                ?>
+                <option value="<?= $schule->getId() ?>" <?= $selected ?>>
                     <?= $schule->getBezeichnung() ?>
                 </option>
-                <?php } ?>
+                <?php endforeach; ?>
             </select>
         </p>
         <p>
@@ -83,11 +116,41 @@ $magie = $this->magie;
                 benötigte Magien
             </label>
             <select name="magien[]" multiple="true" size="8">
-                <?php foreach ($this->magieList as $magieOption) { ?>
-                <option value="<?= $magieOption->getId() ?>">
+                <?php foreach ($this->magieList as $magieOption):
+                    $selected = (in_array($magieOption->getId(), $magienReq)) ? 'selected=""' : '';
+                ?>
+                <option value="<?= $magieOption->getId() ?>" <?= $selected ?>>
                     <?= $magieOption->getBezeichnung() ?>
                 </option>
-                <?php } ?>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="vorteile">
+                benötigte Vorteile
+            </label>
+            <select name="vorteile[]" multiple="true" size="8">
+                <?php foreach ($this->vorteile as $vorteil):
+                    $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
+                ?>
+                <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                    <?= $vorteil->getBezeichnung() ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="nachteile">
+                benötigte Nachteile
+            </label>
+            <select name="nachteile[]" multiple="true" size="8">
+                <?php foreach ($this->nachteile as $nachteil):
+                    $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
+                ?>
+                <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                    <?= $nachteil->getBezeichnung() ?>
+                </option>
+                <?php endforeach; ?>
             </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10">

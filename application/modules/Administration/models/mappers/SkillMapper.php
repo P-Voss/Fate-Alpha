@@ -240,4 +240,24 @@ class Administration_Model_Mapper_SkillMapper {
         }
     }
     
+    /**
+     * @param int $magieId
+     * @return \Administration_Model_Requirementlist
+     */
+    public function getRequirementsMagie($magieId) {
+        $requirementList = new Administration_Model_Requirementlist();
+        $select = $this->getDbTable('MagieCharakterVoraussetzungen')->select();
+        $select->where('magieId = ?', $magieId);
+        $result = $this->getDbTable('MagieCharakterVoraussetzungen')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $requirement = new Administration_Model_Requirement();
+                $requirement->setArt($row->art);
+                $requirement->setRequiredValue($row->voraussetzung);
+                $requirementList->addRequirement($requirement);
+            }
+        }
+        return $requirementList;
+    }
+    
 }
