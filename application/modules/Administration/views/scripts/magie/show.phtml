@@ -9,6 +9,25 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 /* @var $vorteil Application_Model_Vorteil */
 /* @var $nachteil Application_Model_Nachteil */
 $magie = $this->magie;
+$lernbedingungen = [
+    'Standard',
+    'RPG-Ereignis',
+    'Lehrer',
+];
+$raenge = [
+    'EX',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+];
+$stufen = [
+    1,
+    2,
+    3,
+];
 foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
     if($requirement->getArt() === 'Element'){
         $elementReq = $requirement->getRequiredValue();
@@ -82,9 +101,9 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
                 Stufe
             </label>
             <select name="stufe">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <?php foreach($stufen as $stufe): ?>
+                <option <?= ($magie->getStufe() == $stufe) ? 'selected=""' : '' ?>><?= $stufe ?></option>
+                <?php endforeach; ?>
             </select>
         </p>
         <p>
@@ -92,13 +111,9 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
                 Rang
             </label>
             <select name="rang">
-                <option>EX</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>E</option>
-                <option>F</option>
+                <?php foreach($raenge as $rang): ?>
+                <option <?= ($magie->getRang() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+                <?php endforeach; ?>
             </select>
         </p>
         <p>
@@ -106,9 +121,9 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
                 Lernbedingung
             </label>
             <select name="lernbedingung">
-                <option>Standard</option>
-                <option>RPG-Ereignis</option>
-                <option>Lehrer</option>
+                <?php foreach($lernbedingungen as $bedingung): ?>
+                <option <?= ($magie->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+                <?php endforeach; ?>
             </select>
         </p>
         <p>

@@ -19,7 +19,7 @@ class Application_Controller_Helpers_Logincheck extends Zend_Controller_Action_H
         if($auth === null){
             $layout->setLayout('offline');
             return false;
-        }  else {
+        } else {
             $layout->setLayout('online');
             $viewRenderer->view->layoutData = $this->_layoutService->getLayoutData($auth);
         }
