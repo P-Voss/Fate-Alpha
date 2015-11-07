@@ -3,7 +3,7 @@
 class Application_Model_DbTable_Pm extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'nachrichtenEingang';
+    protected $_name = 'nachrichten';
 
 
 }

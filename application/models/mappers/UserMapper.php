@@ -42,8 +42,8 @@ class Application_Model_Mapper_UserMapper {
     public function countNewPm($userId) {
         $select = $this->getDbTable('Pm')->select();
         $select->setIntegrityCheck(false);
-        $select->from('nachrichtenEingang');
-        $select->where('Empfaenger = ? AND Status = "Ungelesen"', $userId);
+        $select->from('nachrichten');
+        $select->where('empfaengerId = ? AND status = "ungelesen"', $userId);
         $result = $this->getDbTable('Pm')->fetchAll($select);
         return $result->count();
     }
@@ -163,6 +163,22 @@ class Application_Model_Mapper_UserMapper {
         $datetime = new DateTime();
         $data['logintime'] = $datetime->format('Y-m-d H:i:s');
         return $this->getDbTable('User')->update($data, array('userId = ?' => $userId));
+    }
+    
+    /**
+     * @return \Application_Model_User
+     */
+    public function getUsers() {
+        $returnArray = array();
+        $result = $this->getDbTable('User')->fetchAll();
+        foreach ($result as $row) {
+            $user = new Application_Model_User();
+            $user->setUsername($row->username);
+            $user->setProfilname($row->profilname);
+            $user->setId($row->userId);
+            $returnArray[] = $user;
+        }
+        return $returnArray;
     }
 
 }

@@ -1,0 +1,37 @@
+<?php
+/* @var $nachricht Nachrichten_Model_Nachricht */
+$nachricht = $this->nachricht;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Nachricht
+</h1>
+<div class="submenu">
+    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+</div>
+<br />
+<fieldset id="nachrichtencenter">
+    <legend>
+        <?= $purifier->purify($nachricht->getBetreff()) ?>
+    </legend>
+    <p class="details">
+        <span>
+            von: <?= $purifier->purify($nachricht->getVerfasser()->getProfilname()) ?>
+        </span>
+        <span>
+            gesendet am: <?= $nachricht->getCreationDate() ?>
+        </span>
+        <span>
+            an: <?= $purifier->purify($nachricht->getEmpfaenger()->getProfilname()) ?>
+        </span>
+    </p>
+    <p>
+        <textarea rows="20" cols="95" disabled="true"><?= $purifier->purify($nachricht->getNachricht()) ?></textarea>
+    </p>
+    <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/id/<?= $nachricht->getVerfasser()->getId() ?>">
+        <button>
+            Antworten
+        </button>
+    </a>
+</fieldset>

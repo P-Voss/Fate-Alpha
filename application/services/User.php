@@ -110,4 +110,11 @@ class Application_Service_User {
         }
     }
     
+    /**
+     * @return \Application_Model_User
+     */
+    public function getUsers() {
+        return $this->userMapper->getUsers();
+    }
+    
 }

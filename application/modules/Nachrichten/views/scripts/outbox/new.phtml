@@ -1,0 +1,38 @@
+<?php
+/* @var $users Application_Model_User */
+$users = $this->users;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Nachricht verfassen
+</h1>
+<div class="submenu">
+    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+</div>
+<br />
+<fieldset>
+    <form method="post" action="<?= $this->baseUrl() ?>/Nachrichten/index/send">
+        <p>
+            <label for="user">
+                An:
+            </label>
+            <select name="user" <?= ($this->respondTo !== null) ?  'disabled=""' : '' ?>>
+                <?php foreach ($users as $user) : ?>
+                <option <?= ($this->respondTo == $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
+                    <?= $purifier->purify($user->getProfilname()) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="betreff">Betreff</label>
+            <input type="text" name="betreff">
+        </p>
+        <?php if($this->respondTo !== null): ?>
+        <input type="hidden" name="user" value="<?= $this->respondTo ?>">
+        <?php endif ?>
+        <textarea rows="20" cols="95" name="nachricht"></textarea>
+        <input type="submit" value="Nachricht senden">
+    </form>
+</fieldset>

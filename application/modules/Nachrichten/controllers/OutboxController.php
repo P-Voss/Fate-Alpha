@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of IndexController
+ * Description of OutboxController
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Nachrichten_IndexController extends Zend_Controller_Action {
+class Nachrichten_OutboxController extends Zend_Controller_Action {
 
     private $service;
     
@@ -17,14 +17,7 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        $this->redirect('Nachrichten/inbox/');
-    }
-    
-    public function showAction() {
-        if($this->getRequest()->getParam('read') == true){
-            $this->service->readMessage($this->getRequest()->getParam('id'));
-        }
-        $this->view->nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
+        $this->view->nachrichten = $this->service->getNachrichtenSentByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
     public function newAction() {
@@ -37,12 +30,7 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
     }
     
     public function sendAction() {
-        $this->service->saveMessage($this->getRequest());
-        $this->redirect('Nachrichten');
-    }
-    
-    public function archivAction() {
-        
+        $this->service->saveMessage();
     }
     
 }
