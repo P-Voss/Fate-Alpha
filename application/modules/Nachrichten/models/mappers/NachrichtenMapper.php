@@ -32,6 +32,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
         $returnArray = array();
         $select = $this->getDbTable('Pm')->select();
         $select->where('empfaengerId = ?', $userId);
+        $select->where('status != ?', 'archiv');
         $select->order('creationDate DESC');
         $result = $this->getDbTable('Pm')->fetchAll($select);
         foreach ($result as $row) {
@@ -72,6 +73,35 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
         return $returnArray;
     }
 
+    /**
+     * @param int $userId
+     * @return \Nachrichten_Model_Nachricht
+     */
+    public function getNachrichtenarchivById($userId) {
+        $returnArray = array();
+        $select = $this->getDbTable('Pm')->select();
+        $select->where('empfaengerId = ?', $userId);
+        $select->where('status = ?', 'archiv');
+        $select->order('creationDate DESC');
+        $result = $this->getDbTable('Pm')->fetchAll($select);
+        foreach ($result as $row) {
+            $nachricht = new Nachrichten_Model_Nachricht();
+            $nachricht->setId($row->nachrichtId);
+            $nachricht->setVerfasserId($row->verfasserId);
+            $nachricht->setEmpfaengerId($row->empfaengerId);
+            $nachricht->setBetreff($row->betreff);
+            $nachricht->setNachricht($row->nachricht);
+            $nachricht->setCreationDate($row->creationDate);
+            $nachricht->setStatus($row->status);
+            $returnArray[] = $nachricht;
+        }
+        return $returnArray;
+    }
+
+    /**
+     * @param int $nachrichtId
+     * @return \Nachrichten_Model_Nachricht
+     */
     public function getNachrichtById($nachrichtId) {
         $nachricht = new Nachrichten_Model_Nachricht();
         $select = $this->getDbTable('Pm')->select();
@@ -89,7 +119,9 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
         return $nachricht;
     }
     
-    
+    /**
+     * @param Nachrichten_Model_Nachricht $nachricht
+     */
     public function saveMessage(Nachrichten_Model_Nachricht $nachricht) {
         $date = new DateTime();
         $data = [
@@ -102,10 +134,22 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
         $this->getDbTable('Pm')->insert($data);
     }
     
-    
+    /**
+     * @param int $nachrichtId
+     * @return int
+     */
     public function setRead($nachrichtId) {
         $data = array('status' => 'gelesen');
         return $this->getDbTable('Pm')->update($data, array('nachrichtId = ?' => $nachrichtId));
+    }
+    
+    /**
+     * @param Nachrichten_Model_Nachricht $nachricht
+     * @return int
+     */
+    public function deleteMessage(Nachrichten_Model_Nachricht $nachricht) {
+        $data = array('status' => 'archiv');
+        return $this->getDbTable('Pm')->update($data, array('nachrichtId = ?' => $nachricht->getId()));
     }
 
 }

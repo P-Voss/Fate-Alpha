@@ -24,9 +24,9 @@ class Nachrichten_OutboxController extends Zend_Controller_Action {
         $userService = new Application_Service_User();
         $this->view->users = $userService->getUsers();
         if($this->getRequest()->getParam('id') !== null){
-            $this->view->respondTo = $this->getRequest()->getParam('id');
+            $this->view->respondTo = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
+//            $this->view->respondTo = $this->getRequest()->getParam('id');
         }
-        
     }
     
     public function sendAction() {

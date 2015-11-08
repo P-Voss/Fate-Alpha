@@ -23,18 +23,11 @@
     <li><a href="<?= $this->baseUrl() ?>/freunde">Userliste</a></li>
     <li>
         <a href="" onclick="return false;">
-            Profil   
-            <?php
-            if ($layoutData->getUnreadPmCount() > 0) {
-                echo ' (' . $layoutData->getUnreadPmCount() . '&#9993;)';
-            }
-            ?>
+            Profil
         </a>
         <ul>
             <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
             <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
-            <li><a href="<?= $this->baseUrl() ?>/Nachrichten">Nachrichten</a></li>
-
         </ul>
     </li>
     <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>

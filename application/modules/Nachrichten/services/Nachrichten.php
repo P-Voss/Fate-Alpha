@@ -49,6 +49,16 @@ class Nachrichten_Service_Nachrichten {
         return $nachrichten;
     }
     
+    
+    public function getNachrichtenArchivByUserId($userId) {
+        $nachrichten = $this->mapper->getNachrichtenarchivById($userId);
+        foreach ($nachrichten as $nachricht) {
+            $nachricht->setVerfasser($this->userMapper->getUserById($nachricht->getVerfasserId()));
+            $nachricht->setEmpfaenger($this->userMapper->getUserById($nachricht->getEmpfaengerId()));
+        }
+        return $nachrichten;
+    }
+    
     /**
      * @param int $nachrichtId
      * @return Nachrichten_Model_Nachricht
@@ -70,6 +80,16 @@ class Nachrichten_Service_Nachrichten {
         $nachricht->setEmpfaengerId($request->getPost('user'));
         $nachricht->setBetreff($request->getPost('betreff'));
         $this->mapper->saveMessage($nachricht);
+    }
+    
+    /**
+     * @param Zend_Controller_Request_Http $request
+     */
+    public function deleteMessage(Zend_Controller_Request_Http $request) {
+        $nachricht = $this->mapper->getNachrichtById($request->getParam('id'));
+        if($nachricht->getEmpfaengerId() === Zend_Auth::getInstance()->getIdentity()->userId){
+            $this->mapper->deleteMessage($nachricht);
+        }
     }
     
     /**

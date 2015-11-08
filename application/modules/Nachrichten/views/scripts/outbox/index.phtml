@@ -26,6 +26,9 @@ $purifier = $this->purifier;
             <span class="date">
                 Datum
             </span>
+            <span class="actions">
+                
+            </span>
         </div>
         <div class="body">
             <?php foreach ($nachrichten as $nachricht): ?>
@@ -43,6 +46,9 @@ $purifier = $this->purifier;
                     </span>
                     <span class="date">
                         <?= $nachricht->getCreationDate() ?>
+                    </span>
+                    <span class="actions">
+                        
                     </span>
                 </div>
             <?php endforeach; ?>

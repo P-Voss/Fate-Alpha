@@ -26,10 +26,10 @@ $purifier = $this->purifier;
             an: <?= $purifier->purify($nachricht->getEmpfaenger()->getProfilname()) ?>
         </span>
     </p>
-    <p>
-        <textarea rows="20" cols="95" disabled="true"><?= $purifier->purify($nachricht->getNachricht()) ?></textarea>
-    </p>
-    <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/id/<?= $nachricht->getVerfasser()->getId() ?>">
+    <div class="message">
+        <?= $purifier->purify($nachricht->getNachricht()) ?>
+    </div>
+    <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/id/<?= $nachricht->getId() ?>">
         <button>
             Antworten
         </button>

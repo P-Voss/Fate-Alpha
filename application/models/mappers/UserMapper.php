@@ -170,11 +170,12 @@ class Application_Model_Mapper_UserMapper {
      */
     public function getUsers() {
         $returnArray = array();
-        $result = $this->getDbTable('User')->fetchAll();
+        $result = $this->getDbTable('User')->fetchAll(null, array('usergruppe', 'username'));
         foreach ($result as $row) {
             $user = new Application_Model_User();
             $user->setUsername($row->username);
             $user->setProfilname($row->profilname);
+            $user->setUsergruppe($row->usergruppe);
             $user->setId($row->userId);
             $returnArray[] = $user;
         }

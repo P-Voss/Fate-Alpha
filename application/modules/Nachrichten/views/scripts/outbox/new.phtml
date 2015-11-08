@@ -1,8 +1,12 @@
 <?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/nachrichtencenter/editor.js');
 /* @var $users Application_Model_User */
 $users = $this->users;
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+/* @var $respondTo Nachrichten_Model_Nachricht */
+$respondTo = $this->respondTo;
 ?>
 <h1>
     Nachricht verfassen
@@ -17,20 +21,20 @@ $purifier = $this->purifier;
             <label for="user">
                 An:
             </label>
-            <select name="user" <?= ($this->respondTo !== null) ?  'disabled=""' : '' ?>>
+            <select class="userSelect" name="user" <?= ($respondTo !== null) ?  'disabled=""' : '' ?>>
                 <?php foreach ($users as $user) : ?>
-                <option <?= ($this->respondTo == $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
-                    <?= $purifier->purify($user->getProfilname()) ?>
+                <option <?= ($respondTo !== null AND $respondTo->getVerfasserId() == $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
+                    <?= $purifier->purify($user->getProfilname()) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
                 </option>
                 <?php endforeach; ?>
             </select>
         </p>
         <p>
             <label for="betreff">Betreff</label>
-            <input type="text" name="betreff">
+            <input class="betreffInput" type="text" name="betreff" value="<?= ($respondTo !== null && $respondTo->getBetreff() !== null) ? 'RE: ' . $respondTo->getBetreff() : '' ?>">
         </p>
-        <?php if($this->respondTo !== null): ?>
-        <input type="hidden" name="user" value="<?= $this->respondTo ?>">
+        <?php if($respondTo !== null): ?>
+        <input type="hidden" name="user" value="<?= $respondTo->getVerfasserId() ?>">
         <?php endif ?>
         <textarea rows="20" cols="95" name="nachricht"></textarea>
         <input type="submit" value="Nachricht senden">

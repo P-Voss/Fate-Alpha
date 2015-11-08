@@ -27,22 +27,18 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
         $this->view->nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
     }
     
-    public function newAction() {
-        $userService = new Application_Service_User();
-        $this->view->users = $userService->getUsers();
-        if($this->getRequest()->getParam('id') !== null){
-            $this->view->respondTo = $this->getRequest()->getParam('id');
-        }
-        
-    }
-    
     public function sendAction() {
         $this->service->saveMessage($this->getRequest());
         $this->redirect('Nachrichten');
     }
     
+    public function deleteAction() {
+        $this->service->deleteMessage($this->getRequest());
+        $this->redirect('Nachrichten');
+    }
+    
     public function archivAction() {
-        
+        $this->view->nachrichten = $this->service->getNachrichtenArchivByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
 }

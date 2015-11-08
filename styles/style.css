@@ -464,17 +464,27 @@ form{
     display: inline-block;
     padding: 1px;
 }
+#nachrichtencenter .head .date{
+    width: 15%;
+    display: inline-block;
+    padding: 1px;
+}
 #nachrichtencenter .head .betreff{
     width: 35%;
     display: inline-block;
     padding: 1px;
 }
 #nachrichtencenter .head .user{
-    width: 25%;
+    width: 15%;
     display: inline-block;
     padding: 1px;
 }
 #nachrichtencenter .body .status{
+    width: 15%;
+    display: inline-block;
+    padding: 1px;
+}
+#nachrichtencenter .body .date{
     width: 15%;
     display: inline-block;
     padding: 1px;
@@ -485,7 +495,7 @@ form{
     padding: 1px;
 }
 #nachrichtencenter .body .user{
-    width: 25%;
+    width: 15%;
     display: inline-block;
     padding: 1px;
 }
@@ -495,7 +505,22 @@ form{
     width: 33%;
 }
 
+.userSelect{
+    width: 200px;
+}
+
+.betreffInput{
+    width: 200px;
+}
+
+.message{
+    width: 100%; 
+    min-height: 400px; 
+    height: auto; 
+    background-color: #fff;
+}
+
 a:link {text-decoration: none; color: #000000;}
 a:visited {text-decoration: none; color: #000000;}
 a:active {text-decoration: underline; color: #0000FF;}
-a:hover {text-decoration: underline; color: red;}
+a:hover {text-decoration: none; color: red;}

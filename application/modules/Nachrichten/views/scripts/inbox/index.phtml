@@ -26,6 +26,9 @@ $purifier = $this->purifier;
             <span class="date">
                 Datum
             </span>
+            <span class="actions">
+                
+            </span>
         </div>
         <div class="body">
             <?php foreach ($nachrichten as $nachricht): ?>
@@ -34,15 +37,20 @@ $purifier = $this->purifier;
                         <?= ($nachricht->getStatus() === 'ungelesen') ? '! ! !' : '' ?>
                     </span>
                     <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>/read/true">
-                        <span class="betreff">
-                            <?= $purifier->purify($nachricht->getBetreff()) ?>
-                        </span>
+                        <span class="betreff"><?= $purifier->purify($nachricht->getBetreff()) ?></span>
                     </a>
                     <span class="user">
                         <?= $purifier->purify($nachricht->getVerfasser()->getProfilname()) ?>
                     </span>
                     <span class="date">
                         <?= $nachricht->getCreationDate() ?>
+                    </span>
+                    <span class="actions">
+                        <a href="<?= $this->baseUrl() ?>/Nachrichten/index/delete/id/<?= $nachricht->getId() ?>">
+                            <button>
+                                löschen
+                            </button>
+                        </a>
                     </span>
                 </div>
             <?php endforeach; ?>

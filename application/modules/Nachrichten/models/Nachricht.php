@@ -12,6 +12,9 @@ class Nachrichten_Model_Nachricht {
     protected $nachricht;
     protected $verfasserId;
     protected $empfaengerId;
+    /**
+     * @var DateTime
+     */
     protected $creationDate;
     protected $status;
     /**
@@ -44,8 +47,9 @@ class Nachrichten_Model_Nachricht {
         return $this->empfaengerId;
     }
 
-    public function getCreationDate() {
-        return $this->creationDate;
+    public function getCreationDate($format = 'd.m.Y H:i') {
+        $date = new DateTime($this->creationDate);
+        return $date->format($format);
     }
 
     public function getStatus() {

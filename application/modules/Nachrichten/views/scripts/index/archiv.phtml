@@ -1,5 +1,8 @@
 <?php
-
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $nachrichten Nachrichten_Model_Nachricht */
+$nachrichten = $this->nachrichten;
 ?>
 <h1>
     Archiv
@@ -8,3 +11,47 @@
     <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
 </div>
 <br />
+<div>
+    <fieldset id="nachrichtencenter">
+        <div class="head">
+            <span class="status">
+
+            </span>
+            <span class="betreff">
+                Betreff
+            </span>
+            <span class="user">
+                Empfänger
+            </span>
+            <span class="date">
+                Datum
+            </span>
+            <span class="actions">
+                
+            </span>
+        </div>
+        <div class="body">
+            <?php foreach ($nachrichten as $nachricht): ?>
+                <div>
+                    <span class="status">
+                        
+                    </span>
+                    <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>">
+                        <span class="betreff">
+                            <?= $purifier->purify($nachricht->getBetreff()) ?>
+                        </span>
+                    </a>
+                    <span class="user">
+                        <?= $purifier->purify($nachricht->getEmpfaenger()->getProfilname()) ?>
+                    </span>
+                    <span class="date">
+                        <?= $nachricht->getCreationDate() ?>
+                    </span>
+                    <span class="actions">
+                        
+                    </span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </fieldset>
+</div>
