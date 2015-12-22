@@ -43,6 +43,16 @@ $magieschulen = $this->magieschulen;
                         <input type="hidden" value="<?= $skill->getId() ?>">
                         <?= $skill->getBezeichnung() ?>
                     </span>
+                    <span>
+                        <button class="details skills" value="<?= $skill->getId() ?>">
+                            Details
+                        </button>
+                    </span>
+                    <span>
+                        <button class="upgrade skills">
+                            nächste Stufe
+                        </button>
+                    </span>
                 </p>
                 <?php endforeach; ?>
             </div>
@@ -63,6 +73,16 @@ $magieschulen = $this->magieschulen;
                             <input type="hidden" value="<?= $magie->getId() ?>">
                             <?= $magie->getBezeichnung() ?>
                         </span>
+                    <span>
+                        <button class="details magic">
+                            Details
+                        </button>
+                    </span>
+                    <span>
+                        <button class="upgrade magic">
+                            nächste Stufe
+                        </button>
+                    </span>
                     </p>
                     <?php endforeach; ?>
                 </div>
@@ -70,3 +90,4 @@ $magieschulen = $this->magieschulen;
         <?php endforeach; ?>
     </fieldset>
 </div>
+<div id="dialog"></div>

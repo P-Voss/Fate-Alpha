@@ -57,10 +57,13 @@ class Shop_SkillController extends Zend_Controller_Action {
     }
     
     public function previewAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Skill();
-        echo json_encode($service->getSkillById($this->charakter, $this->getRequest()->getPost('id')));
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+//        $this->_helper->viewRenderer->setNoRender(true);
+//        $this->_helper->layout()->disableLayout();
+//        echo json_encode($service->getSkillById($this->charakter, $this->getRequest()->getParam('id')));
+        $this->view->skill = $service->getSkillById($this->charakter, $this->getRequest()->getParam('id'));
     }
     
 }

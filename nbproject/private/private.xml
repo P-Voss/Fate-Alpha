@@ -24,15 +24,9 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/models/mappers/NachrichtenMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/views/scripts/inbox/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/controllers/OutboxController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/controllers/IndexController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/views/scripts/outbox/new.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/views/scripts/index/archiv.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/services/Nachrichten.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/views/scripts/outbox/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Nachrichten/views/scripts/index/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/IndexController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/erstellung.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/online.phtml</file>
         </group>
     </open-files>
 </project-private>

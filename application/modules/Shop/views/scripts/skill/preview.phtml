@@ -1,0 +1,16 @@
+<?php
+/* @var $magie Shop_Model_Skill */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$skill = $this->skill;
+Zend_Debug::dump($skill);
+exit;
+?>
+<div>
+    <p>
+        <?= $purifier->purify($skill->getBezeichnung()) ?>
+    </p>
+    <p>
+        <?= $purifier->purify($skill->getBeschreibung()) ?>
+    </p>
+</div>

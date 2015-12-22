@@ -33,4 +33,15 @@ jQuery(document).ready(function () {
         }
     });
     
+    jQuery('.details').click(function(){
+        val = jQuery(this).val();
+        jQuery("#dialog").dialog({
+            height: 350,
+            width: 720,
+            open: function() {
+                jQuery(this).load(baseUrl + '/Shop/skill/preview/id/' + val);
+            }
+        });
+    });
+    
 });

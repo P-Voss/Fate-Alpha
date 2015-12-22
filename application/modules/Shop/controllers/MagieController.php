@@ -61,10 +61,13 @@ class Shop_MagieController extends Zend_Controller_Action {
     }
     
     public function previewAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Magie();
-        echo json_encode($service->getMagieById($this->charakter, $this->getRequest()->getPost('id')));
+        $layout = $this->_helper->layout();
+        $layout->setLayout('partials');
+//        $this->_helper->viewRenderer->setNoRender(true);
+//        $this->_helper->layout()->disableLayout();
+//        echo json_encode($service->getMagieById($this->charakter, $this->getRequest()->getPost('id')));
+        $this->view->magie = $service->getMagieById($this->charakter, $this->getRequest()->getPost('id'));
     }
     
 }
