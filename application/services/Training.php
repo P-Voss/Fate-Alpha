@@ -13,6 +13,11 @@ class Application_Service_Training {
         
     }
 
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @return Application_Model_Trainingswerte
+     * @throws Exception
+     */
     public function getTrainingswerte(Application_Model_Charakter $charakter){
         $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         if(($trainingswerte = $this->_trainingsMapper->getDefaultTraining()) === false){
@@ -22,6 +27,12 @@ class Application_Service_Training {
         return $this->_trainingsMapper->setOtherValuesNull($trainingswerte, $charakter);
     }
     
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Application_Model_Trainingswerte $trainingswerte
+     * @param Zend_Controller_Request_Http $request
+     * @return integer
+     */
     public function startTraining(Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte, Zend_Controller_Request_Http $request) {
         $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         $training = $request->getPost('Wert');
@@ -35,6 +46,38 @@ class Application_Service_Training {
             }
         }
         return $return;
+    }
+    
+    /**
+     * 
+     */
+    public function executeTraining() {
+        $charakterIds = $this->_trainingsMapper->getCharakterIdsToTrain();
+        $defaultTraining = $this->_trainingsMapper->getDefaultTraining();
+        foreach ($charakterIds as $id) {
+            $charakter = $this->initCharakter($id);
+            $trainingswerte = $this->_trainingsMapper->getRealTraining($defaultTraining, $charakter);
+            $this->_trainingsMapper->updateStats($charakter, $trainingswerte);
+            Zend_Debug::dump($trainingswerte);
+            exit;
+        }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return Application_Model_Charakter
+     */
+    private function initCharakter($charakterId){
+        $charakterMapper = new Application_Model_Mapper_CharakterMapper();
+        $klassenMapper = new Application_Model_Mapper_KlasseMapper();
+        $charakter = $charakterMapper->getCharakter($charakterId);
+        $charakter->setKlasse($charakterMapper->getCharakterKlasse($charakter->getCharakterid()));
+        $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
+        $charakter->setElemente($charakterMapper->getCharakterElemente($charakter->getCharakterid()));
+        $charakter->setCharakterwerte($charakterMapper->getCharakterwerte($charakter->getCharakterid()));
+        $charakter->setVorteile($charakterMapper->getVorteileByCharakterId($charakter->getCharakterid()));
+        $charakter->setNachteile($charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
+        return $charakter;
     }
     
 }

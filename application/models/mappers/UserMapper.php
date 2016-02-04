@@ -75,7 +75,7 @@ class Application_Model_Mapper_UserMapper {
         $data['logouttime'] = null;
         $data['registertime'] = $datetime->format('Y-m-d H:i:s');
         $data['ip'] = $ip;
-        $this->getDbTable('User')->insert($data);
+        return $this->getDbTable('User')->insert($data);
     }
     
     /**

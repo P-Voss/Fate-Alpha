@@ -25,7 +25,10 @@
         </group>
         <group>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/IndexController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/User.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/erstellung.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/LoginController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/UserController.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/online.phtml</file>
         </group>
     </open-files>

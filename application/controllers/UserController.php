@@ -36,11 +36,23 @@ class UserController extends Zend_Controller_Action {
     public function createAction(){
         if($this->getRequest()->isPost()){
             if($this->_userService->createUser($this->getRequest())){
-                $this->redirect('index');
+                $this->login();
             }else{
                 $this->redirect('login/registrierung');
             }
         }
+    }
+    
+    private function login() {
+        $this->_helper->viewRenderer->setnorender(true);
+        $this->_helper->layout()->disableLayout();
+        if ($this->getRequest()->isPost() AND $this->getRequest()->getPost('loginname') !== '' AND $this->getRequest()->getPost('password') !== '') {
+            $this->getRequest()->setPost('username', $this->getRequest()->getPost('loginname'));
+            $this->getRequest()->setPost('passwort', $this->getRequest()->getPost('password'));
+            $service = new Application_Service_Login();
+            $login = $service->login($this->getRequest());
+        }
+        $this->redirect('index');
     }
     
     public function passwordAction() {

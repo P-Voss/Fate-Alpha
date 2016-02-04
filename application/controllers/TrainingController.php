@@ -51,4 +51,11 @@ class TrainingController extends Zend_Controller_Action{
         $this->redirect('training');
     }
     
+    public function executeAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->_trainingService->executeTraining();
+    }
+    
 }

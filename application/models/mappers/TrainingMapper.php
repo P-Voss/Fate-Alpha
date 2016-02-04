@@ -238,4 +238,51 @@ class Application_Model_Mapper_TrainingMapper{
         return $trainingswerte;
     }
     
+    /**
+     * @return array
+     */
+    public function getCharakterIdsToTrain() {
+        $returnArray = array();
+        $select = $this->getDbTable('Training')->select();
+        $result = $this->getDbTable('Training')->fetchAll($select);
+        foreach ($result as $row) {
+            $returnArray[] = $row['charakterId'];
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Application_Model_Trainingswerte $trainingswerte
+     */
+    public function updateStats(Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte) {
+        $training = $this->getCurrentTraining($charakter->getCharakterid());
+        $charakter->getCharakterwerte()->addTraining($training, $trainingswerte);
+        $this->getDbTable('CharakterWerte')->update($charakter->getCharakterwerte()->toArray(), array('charakterId = ?' => $charakter->getCharakterid()));
+        $this->updateTraining($charakter->getCharakterid(), $training['training'], $training['dauer']-1);
+    }
+    
+    /**
+     * @todo existiert schon im Charaktermapper
+     * @param int $charakterId
+     * @return boolean
+     */
+    public function getCurrentTraining($charakterId){
+        $select = $this->getDbTable('Training')->select();
+        $select->setIntegrityCheck(FALSE);
+        $select->from('training');
+        $select->where('charakterId = ?', $charakterId);
+        $result = $this->getDbTable('Training')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $return = array();
+                $return['training'] = $row->wert;
+                $return['dauer'] = $row->dauer;
+            }
+            return $return;
+        }else{
+            return false;
+        }
+    }
+    
 }

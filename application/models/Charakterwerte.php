@@ -80,6 +80,32 @@ class Application_Model_Charakterwerte {
         $this->startpunkte = $startpunkte;
     }
     
+    /**
+     * @param type $training
+     */
+    public function addTraining($training, Application_Model_Trainingswerte $trainingswerte) {
+        switch ($training['training']){
+            case 'staerke':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+            case 'agilitaet':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+            case 'ausdauer':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+            case 'disziplin':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+            case 'kontrolle':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+            case 'uebung':
+                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                break;
+        }
+    }
+    
     public function getCategory($value) {
         switch (true) {
             case $value > 660:
@@ -138,6 +164,16 @@ class Application_Model_Charakterwerte {
                 break;
         }
         return $category;
+    }
+    
+    public function toArray() {
+        $returnArray = array();
+        foreach (get_class_methods(get_class($this)) as $method){
+            if(substr($method, 0, 3) === 'get' AND $method != 'getCategory'){ 
+                $returnArray[substr($method, 3)] = $this->{$method}();
+            }
+        }
+        return $returnArray;
     }
     
 }
