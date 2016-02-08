@@ -3,123 +3,157 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
 /* @var $skill Administration_Model_Skill */
 $skill = $this->skill;
-//Zend_Debug::dump($skill);
-//exit;
+$beschreibung = $skill->getBeschreibung();
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
     <fieldset>
         <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
+            <span style="width: 50%; display: inline-block">
+                <label for="name">Name</label>
+                <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
+            </span>
             <label for="kosten">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
+            <input type="number" name="fp" value="<?= $skill->getRequirementList()->getRequirementByKey('FP')->getRequiredValue() ?>" />
         </p>
         <p>
-            <label for="skillart">
-                Fähigkeitenart
-            </label>
-            <select name="skillart">
-                <option value="1">Schützenfähigkeit</option>
-                <option value="2">Kämpferfähigkeit</option>
-                <option value="3">Übungsfähigkeit</option>
-                <option value="4">Spezialfähigkeit</option>
-            </select>
-        </p>
-        <p>
+            <span style="width: 50%; display: inline-block">
+                <label for="skillart">
+                    Fähigkeitenart
+                </label>
+                <select name="skillart">
+                    <option value="1" <?= ($skill->getSkillArt() === 1) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
+                    <option value="2" <?= ($skill->getSkillArt() === 2) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
+                    <option value="3" <?= ($skill->getSkillArt() === 3) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
+                    <option value="4" <?= ($skill->getSkillArt() === 4) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
+                </select>
+            </span>
             <label for="rang">
                 Rang
             </label>
             <select name="rang">
-                <option>EX</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>E</option>
-                <option>F</option>
+                <option <?= ($skill->getRang() === 'EX') ? 'selected="true"' : '' ?>>EX</option>
+                <option <?= ($skill->getRang() === 'A') ? 'selected="true"' : '' ?>>A</option>
+                <option <?= ($skill->getRang() === 'B') ? 'selected="true"' : '' ?>>B</option>
+                <option <?= ($skill->getRang() === 'C') ? 'selected="true"' : '' ?>>C</option>
+                <option <?= ($skill->getRang() === 'D') ? 'selected="true"' : '' ?>>D</option>
+                <option <?= ($skill->getRang() === 'E') ? 'selected="true"' : '' ?>>E</option>
+                <option <?= ($skill->getRang() === 'F') ? 'selected="true"' : '' ?>>F</option>
             </select>
         </p>
         <p>
-            <label for="uebung">
-                benötigte Übung
-            </label>
-            <input type="number" name="uebung" value="<?= $skill->getUebung() ?>" />
-        </p>
-        <p>
+            <span style="width: 50%; display: inline-block">
+                <label for="uebung">
+                    benötigte Übung
+                </label>
+                <input type="number" name="uebung" value="<?= $skill->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
+            </span>
             <label for="disziplin">
                 benötigte Disziplin
             </label>
-            <input type="number" name="disziplin" value="<?= $skill->getDisziplin() ?>" />
+            <input type="number" name="disziplin" value="<?= $skill->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+        </p>
+        <p>
+            <span style="width: 50%; display: inline-block; vertical-align: top">
+                <label for="nachteile">
+                    benötigte Nachteile
+                </label>
+                <select name="nachteile[]" multiple="true" size="8">
+                    <?php foreach ($this->nachteile as $nachteil):
+                        $selected = '';
+                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Nachteil') as $reqNachteil) {
+                            if($reqNachteil->getRequiredValue() == $nachteil->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                        <?= $nachteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </span>
+            <label for="klassen">
+                Klassen:
+            </label>
+            <select name="klassen[]" multiple="true" size="8">
+                <?php foreach ($this->klassen as $klasse) {
+                    $selected = '';
+                    foreach ($skill->getRequirementList()->getRequirementArrayByKey('Klasse') as $reqKlasse) {
+                        if($reqKlasse->getRequiredValue() == $klasse->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
+                ?>
+                <option <?= $selected ?> value="<?= $klasse->getId() ?>">
+                    <?= $klasse->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <p>
+            <span style="width: 50%; display: inline-block">
+                <label for="vorteile">
+                    benötigte Vorteile
+                </label>
+                <select name="vorteile[]" multiple="true" size="8">
+                    <?php foreach ($this->vorteile as $vorteil):
+                        $selected = '';
+                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Vorteil') as $reqVorteil) {
+                            if($reqVorteil->getRequiredValue() == $vorteil->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                        <?= $vorteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </span>
+            <label for="skills">
+                Fähigkeiten:
+            </label>
+            <select name="skills[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    foreach ($skill->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
+                        if($reqSkill->getRequiredValue() == $listedSkill->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
+                ?>
+                <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                    <?= $listedSkill->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
         </p>
         <p>
             <label for="gruppen">
                 Klassengruppen:
             </label>
-            <select name="gruppen[]" multiple="true" size="8">
-                <?php foreach ($this->klassengruppen as $gruppe) { ?>
-                <option value="<?= $gruppe->getId() ?>">
+            <select name="gruppen[]" multiple="true" size="5">
+                <?php 
+                foreach ($this->klassengruppen as $gruppe) {
+                    $selected = '';
+                    foreach ($skill->getRequirementList()->getRequirementArrayByKey('Gruppe') as $reqGruppe) {
+                        if($reqGruppe->getRequiredValue() == $gruppe->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
+                ?>
+                <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
                     <?= $gruppe->getBezeichnung() ?>
                 </option>
                 <?php } ?>
-            </select>
-            <br />
-            <label for="klassen">
-                Klassen:
-            </label>
-            <select name="klassen[]" multiple="true" size="8">
-                <?php foreach ($this->klassen as $klasse) { ?>
-                <option value="<?= $klasse->getId() ?>">
-                    <?= $klasse->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-            <br />
-            <label for="skills">
-                Fähigkeiten:
-            </label>
-            <select name="skills[]" multiple="true" size="8">
-                <?php foreach ($this->skills as $skill) { ?>
-                <option value="<?= $skill->getId() ?>">
-                    <?= $skill->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-            <br />
-        </p>
-        <p>
-            <label for="vorteile">
-                benötigte Vorteile
-            </label>
-            <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteil):
-                    $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
-                    <?= $vorteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label for="nachteile">
-                benötigte Nachteile
-            </label>
-            <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteil):
-                    $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
-                    <?= $nachteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
             </select>
         </p>
         <label for="beschreibung">
             Beschreibung
         </label>
         <textarea name="beschreibung" cols="80" rows="10">
-            <?= $skill->getBeschreibung() ?>
+            <?= $beschreibung ?>
         </textarea>
     </fieldset>
     <div align="center">

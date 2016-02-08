@@ -28,6 +28,27 @@ class Administration_Model_Requirementlist implements Iterator {
     }
     
     
+    public function getRequirementByKey($key) {
+        foreach ($this->requirements as $requirement) {
+            if($requirement->getArt() === $key){
+                return $requirement;
+            }
+        }
+        return new Administration_Model_Requirement();
+    }
+    
+    
+    public function getRequirementArrayByKey($key) {
+        $returnArray = array();
+        foreach ($this->requirements as $requirement) {
+            if($requirement->getArt() === $key){
+                $returnArray[] = $requirement;
+            }
+        }
+        return $returnArray;
+    }
+    
+    
     public function addRequirement(Administration_Model_Requirement $requirement) {
         $this->requirements[] = $requirement;
     }

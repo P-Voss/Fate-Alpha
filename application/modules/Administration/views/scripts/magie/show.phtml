@@ -62,7 +62,7 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
             <label for="name">Name</label>
             <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
             <label for="fp">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
+            <input type="number" name="fp" value="<?= $magie->getRequirementList()->getRequirementByKey('FP')->getRequiredValue() ?>" />
         </p>
         <p>
             <label for="element">
@@ -70,7 +70,12 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
             </label>
             <select name="element">
                 <?php foreach ($this->elemente as $element):
-                    $selected = ($element->getId() == $elementReq) ? 'selected=""' : '';
+                    $selected = '';
+                    foreach ($magie->getRequirementList()->getRequirementArrayByKey('Element') as $reqGruppe) {
+                        if($reqGruppe->getRequiredValue() == $element->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
                 ?>
                 <option value="<?= $element->getId() ?>" <?= $selected ?>>
                     <?= $element->getBezeichnung() ?>
@@ -117,6 +122,16 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
             </select>
         </p>
         <p>
+            <label for="uebung">
+                benötigte Übung
+            </label>
+            <input type="number" name="uebung" value="<?= $magie->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
+            <label for="disziplin">
+                benötigte Disziplin
+            </label>
+            <input type="number" name="disziplin" value="<?= $magie->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+        </p>
+        <p>
             <label for="lernbedingung">
                 Lernbedingung
             </label>
@@ -127,45 +142,120 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
             </select>
         </p>
         <p>
-            <label for="magien">
-                benötigte Magien
+            <span style="width: 50%; display: inline-block; vertical-align: top">
+                <label for="magien">
+                    benötigte Magien
+                </label>
+                <select name="magien[]" multiple="true" size="8">
+                    <?php foreach ($this->magieList as $magieOption):
+                        $selected = '';
+                        foreach ($magie->getRequirementList()->getRequirementArrayByKey('Magie') as $reqSkill) {
+                            if($reqSkill->getRequiredValue() == $magieOption->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $magieOption->getId() ?>" <?= $selected ?>>
+                        <?= $magieOption->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </span>
+            <label for="skills">
+                Fähigkeiten:
             </label>
-            <select name="magien[]" multiple="true" size="8">
-                <?php foreach ($this->magieList as $magieOption):
-                    $selected = (in_array($magieOption->getId(), $magienReq)) ? 'selected=""' : '';
+            <select name="skills[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    foreach ($magie->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
+                        if($reqSkill->getRequiredValue() == $listedSkill->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
                 ?>
-                <option value="<?= $magieOption->getId() ?>" <?= $selected ?>>
-                    <?= $magieOption->getBezeichnung() ?>
+                <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                    <?= $listedSkill->getBezeichnung() ?>
                 </option>
-                <?php endforeach; ?>
+                <?php } ?>
             </select>
         </p>
         <p>
-            <label for="vorteile">
-                benötigte Vorteile
+            <span style="width: 50%; display: inline-block; vertical-align: top">
+                <label for="nachteile">
+                    benötigte Nachteile
+                </label>
+                <select name="nachteile[]" multiple="true" size="8">
+                    <?php foreach ($this->nachteile as $nachteil):
+                        $selected = '';
+                        foreach ($magie->getRequirementList()->getRequirementArrayByKey('Nachteil') as $reqNachteil) {
+                            if($reqNachteil->getRequiredValue() == $nachteil->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                        <?= $nachteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </span>
+            <label for="klassen">
+                Klassen:
             </label>
-            <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteil):
-                    $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
+            <select name="klassen[]" multiple="true" size="8">
+                <?php foreach ($this->klassen as $klasse) {
+                    $selected = '';
+                    foreach ($magie->getRequirementList()->getRequirementArrayByKey('Klasse') as $reqKlasse) {
+                        if($reqKlasse->getRequiredValue() == $klasse->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
                 ?>
-                <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
-                    <?= $vorteil->getBezeichnung() ?>
+                <option <?= $selected ?> value="<?= $klasse->getId() ?>">
+                    <?= $klasse->getBezeichnung() ?>
                 </option>
-                <?php endforeach; ?>
+                <?php } ?>
             </select>
         </p>
         <p>
-            <label for="nachteile">
-                benötigte Nachteile
+            <span style="width: 50%; display: inline-block">
+                <label for="vorteile">
+                    benötigte Vorteile
+                </label>
+                <select name="vorteile[]" multiple="true" size="8">
+                    <?php foreach ($this->vorteile as $vorteil):
+                        $selected = '';
+                        foreach ($magie->getRequirementList()->getRequirementArrayByKey('Vorteil') as $reqVorteil) {
+                            if($reqVorteil->getRequiredValue() == $vorteil->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                        <?= $vorteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </span>
+        </p>
+        <p>
+            <label for="gruppen">
+                Klassengruppen:
             </label>
-            <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteil):
-                    $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
+            <select name="gruppen[]" multiple="true" size="5">
+                <?php 
+                foreach ($this->klassengruppen as $gruppe) {
+                    $selected = '';
+                    foreach ($magie->getRequirementList()->getRequirementArrayByKey('Gruppe') as $reqGruppe) {
+                        if($reqGruppe->getRequiredValue() == $gruppe->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
                 ?>
-                <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
-                    <?= $nachteil->getBezeichnung() ?>
+                <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
+                    <?= $gruppe->getBezeichnung() ?>
                 </option>
-                <?php endforeach; ?>
+                <?php } ?>
             </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10">

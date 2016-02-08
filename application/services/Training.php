@@ -58,8 +58,6 @@ class Application_Service_Training {
             $charakter = $this->initCharakter($id);
             $trainingswerte = $this->_trainingsMapper->getRealTraining($defaultTraining, $charakter);
             $this->_trainingsMapper->updateStats($charakter, $trainingswerte);
-            Zend_Debug::dump($trainingswerte);
-            exit;
         }
     }
     

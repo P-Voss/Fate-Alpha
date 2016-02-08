@@ -94,12 +94,12 @@ $(document).ready(function () {
                                         <img src='" + baseUrl +"/images/Map/" + data.img + ".png' width='100' height='100'/>\n\
                                     <td>\n\
                                     <td colspan='2'>\n\
-                                        <strong>" + data.Name + "\
-                                        </strong>\n\
+                                        <strong>" + data.name + "\
+                                        </strong><br />(" + data.bewohner + " Spieler)\n\
                                     </td>\n\
                                 </tr>\n\
                             </table>\n\
-                            <p>" + data.Beschreibung + "</p>")
+                            <p>" + data.beschreibung + "</p>")
                                 .data('ajax', 'cached');
                     }
                 });

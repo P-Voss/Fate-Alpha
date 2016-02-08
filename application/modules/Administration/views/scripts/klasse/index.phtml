@@ -1,0 +1,24 @@
+<?php
+/* @var $klasse Administration_Model_Klasse */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Klassen
+</h1>
+<?php
+foreach ($this->klassen as $klasse){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/klasse/show/id/<?= $klasse->getId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($klasse->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($klasse->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($klasse->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

@@ -10,6 +10,7 @@ class Application_Model_Klasse{
     protected $id;
     protected $bezeichnung;
     protected $beschreibung;
+    protected $familienname;
     protected $kosten;
     protected $gruppe;
     
@@ -52,6 +53,14 @@ class Application_Model_Klasse{
 
     public function setGruppe($gruppe) {
         $this->gruppe = $gruppe;
+    }
+    
+    public function getFamilienname() {
+        return $this->familienname;
+    }
+
+    public function setFamilienname($familienname) {
+        $this->familienname = $familienname;
     }
     
 }

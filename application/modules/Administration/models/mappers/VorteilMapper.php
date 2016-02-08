@@ -11,7 +11,7 @@ class Administration_Model_Mapper_VorteilMapper extends Application_Model_Mapper
         $data['beschreibung'] = $vorteil->getBeschreibung();
         $data['kosten'] = $vorteil->getKosten();
         $data['createDate'] = $vorteil->getCreateDate('Y-m-d H:i:s');
-        $data['creator'] = $vorteil->getEditor();
+        $data['creator'] = $vorteil->getCreator();
         
         return parent::getDbTable('Vorteil')->insert($data);
     }

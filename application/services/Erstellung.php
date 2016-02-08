@@ -214,4 +214,13 @@ class Application_Service_Erstellung {
         return $mapper->getOrtePreview($request->getPost('name'));
     }
     
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    public function getStadtteilePreview(Zend_Controller_Request_Http $request) {
+        $mapper = new Application_Model_Mapper_OrteMapper();
+        return $mapper->getStadtteilPreview($request->getPost('name'));
+    }
+    
 }

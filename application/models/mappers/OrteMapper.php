@@ -7,6 +7,23 @@
  */
 class Application_Model_Mapper_OrteMapper {
     
+    /**
+     * @param string $tablename
+     * @return \Zend_Db_Table_Abstract
+     * @throws Exception
+     */
+    public function getDbTable($tablename) {
+        $className = 'Application_Model_DbTable_' . $tablename;
+        if(!class_exists($className)){
+            throw new Exception('Falsche Tabellenadapter angegeben');
+        }
+        $dbTable = new $className();
+        if(!$dbTable instanceof Zend_Db_Table_Abstract){
+            throw new Exception('Invalid table data gateway provided');
+        }
+        return $dbTable;
+    }
+    
     private $orteArray = array(
         'Bahnhof' => array(
             'Name' => 'Bahnhof',
@@ -91,48 +108,6 @@ class Application_Model_Mapper_OrteMapper {
             'Beschreibung' => 'Die High-School der Stadt befindet sich im äussersten Westen des Viertels und mit dem Rücken an die Wälder gelehnt in denen sich auch der Tempel befindet.'
         ),
     );
-    private $stadtteilArray = array(
-        'City' => array(
-            'Name' => 'City',
-            'img' => 'City',
-            'Beschreibung' => 'Mit City ist das Zentrum Shintos gemeint, in welchem sämtliche Bäume und Gärten von Hochhäusern und Konzerngebäuden abgelöst worden sind. 
-                                Es gibt hier die größte Auswahl an Einkaufsmöglichkeiten und ein wachsendes Angebot von Arbeit.'
-        ),
-        'Kizaka' => array(
-            'Name' => 'Kizaka',
-            'img' => 'Kizaka',
-            'Beschreibung' => 'Kizaka ist das Gebiet welches sich ausserhalb von Shinto-Innen befindet. Hier gibt es viele Grünanlagen und an vielen Stellen ähnelt es Miyamachou.'
-        ),
-        'Kurokizaka' => array(
-            'Name' => 'Kurokizaka',
-            'img' => 'Kurokizaka',
-            'Beschreibung' => 'Mit Kurokizaka ist das Gebiet um den Shinto-Kern herum gemeint. Hier befinden sich vor allem Wohngebiete, aber auch eine noch immer vorhandene Zahl an Einkaufszentren und Geschäften. 
-                                Es gibt hier mehrere Bäume, doch die Hochhäuser und Bauten sind weiterhin präsent.'
-        ),
-        'Miyamachou' => array(
-            'Name' => 'Miyamachou',
-            'img' => 'Miyamachou',
-            'Beschreibung' => 'In Miyama befinden sich vor allem kleine Bauten, Häuser und Geschäfte. 
-                Es ist das zentrale Viertel und wird im Norden von Miyama-Nord, sowie im Süden von Miyama-Süd eingegrenzt. 
-                Die Gebäude sind einer japanischen Kleinstadt angemessen und in der Nähe der Fuyuki-Brücke befinden sich zahlreiche kleine Parks und Grünanlagen. 
-                Es gibt hier viele Wohnungen für den Mittelstand Fuyukis, während in Fuyuki-Nord und Süd vor allem die vermögenderen Einwohner beheimatet sind. 
-
-                Es gibt hier sehr viele Bäume, ganz besonders im Frühjahr ist Miyamachou von Kirschblüten übersät'
-        ),
-        'Miyama-Nord' => array(
-            'Name' => 'Miyama-Nord',
-            'img' => 'MiyamaNord',
-            'Beschreibung' => 'Miyama-Nord ist von sehr alten Gebäuden geprägt, die im japanisch-traditionellem Stil errichtet wurden. Es gibt hier keine Läden oder Geschäfte, jedoch eine große Anzahl von Gärten, kleinen Parks und Anwesen. 
-                                Miyama-Nord ist wie Miyama-Süd auf einem Hügel errichtet worden, weshalb es viele Treppen gibt und der Weg nicht eben verläuft'
-        ),
-        'Miyama-Sued' => array(
-            'Name' => 'Miyama-Süd',
-            'img' => 'MiyamaSued',
-            'Beschreibung' => 'Miyama-Süd ist von sehr alten Gebäuden geprägt, die im westlich-europäischem Stil errichtet wurden. 
-                Es gibt hier einige wenige Läden oder Geschäfte, doch der Großteil des Viertels ist von Reihenhäusern und Villen geprägt. 
-                Miyama-Süd ist wie Miyama-Nord auf einem Hügel errichtet worden, weshalb es viele Treppen gibt und der Weg nicht eben verläuft.'
-        ),
-    );
 
 
     public function getOrtePreview($name) {
@@ -143,8 +118,17 @@ class Application_Model_Mapper_OrteMapper {
     
     
     public function getStadtteilPreview($name) {
-        if(key_exists($name, $this->stadtteilArray)){
-            return $this->stadtteilArray[$name];
+        $db = $this->getDbTable('Stadtteile')->getAdapter();
+        $stmt = $db->prepare('SELECT stadtteile.*, IFNULL(charas.bewohner, 0) AS bewohner
+                                FROM stadtteile 
+                                LEFT JOIN (SELECT wohnort, count(*) AS bewohner FROM charakter GROUP BY wohnort) AS charas 
+                                    ON charas.wohnort = stadtteile.name
+                                WHERE name = ?');
+        $stmt->execute(array($name));
+        $stadtteil = $stmt->fetch();
+        
+        if(count($stadtteil) > 0){
+            return $stadtteil;
         }
     }
     

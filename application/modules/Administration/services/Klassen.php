@@ -8,45 +8,51 @@
 class Administration_Service_Klassen {
     
     /**
-     * @var Administration_Model_Mapper_NewsMapper
+     * @var Administration_Model_Mapper_KlasseMapper
      */
     private $mapper;
     
     public function __construct() {
-        $this->mapper = new Administration_Model_Mapper_NewsMapper();
+        $this->mapper = new Administration_Model_Mapper_KlasseMapper();
     }
     
-    public function createNews(Zend_Controller_Request_Http $request, $userId) {
-        $news = new Administration_Model_News();
+    public function createKlasse(Zend_Controller_Request_Http $request, $userId) {
+        $klasse = new Administration_Model_Klasse();
         $date = new DateTime();
-        $news->setDatum($date->format('Y-m-d H:i:s'));
-        $news->setTitel($request->getPost('Titel'));
-        $news->setNachricht($request->getPost('Nachricht'));
-        $news->setVerfasser($userId);
-        return $this->mapper->createNews($news);
+        $klasse->setCreateDate($date->format('Y-m-d H:i:s'));
+        $klasse->setBezeichnung($request->getPost('name'));
+        $klasse->setBeschreibung($request->getPost('beschreibung'));
+        $klasse->setFamilienname($request->getPost('familienname'));
+        $klasse->setKosten($request->getPost('kosten'));
+        $klasse->setGruppe($request->getPost('klassengruppe'));
+        $klasse->setCreator($userId);
+        return $this->mapper->createClass($klasse);
     }
     
-    public function editNews(Zend_Controller_Request_Http $request, $userId) {
-        $news = new Administration_Model_News();
+    public function editKlasse(Zend_Controller_Request_Http $request, $userId) {
+        $klasse = new Administration_Model_Klasse();
         $date = new DateTime();
-        $news->setId($request->getPost('newsId'));
-        $news->setEditdatum($date->format('Y-m-d H:i:s'));
-        $news->setTitel($request->getPost('Titel'));
-        $news->setNachricht($request->getPost('Nachricht'));
-        $news->setEditor($userId);
-        return $this->mapper->updateNews($news);
+        $klasse->setId($request->getPost('klassenId'));
+        $klasse->setEditDate($date->format('Y-m-d H:i:s'));
+        $klasse->setBezeichnung($request->getPost('name'));
+        $klasse->setBeschreibung($request->getPost('beschreibung'));
+        $klasse->setFamilienname($request->getPost('familienname'));
+        $klasse->setKosten($request->getPost('kosten'));
+        $klasse->setGruppe($request->getPost('klassengruppe'));
+        $klasse->setEditor($userId);
+        return $this->mapper->updateClass($klasse);
     }
     
-    public function getNewsById($newsId) {
-        return $this->mapper->getNewsById($newsId);
+    public function getKlasseById(Zend_Controller_Request_Http $request) {
+        return $this->mapper->getClassById($request->getParam('id'));
     }
     
-    public function getNewsList() {
-        return $this->mapper->getNews();
+    public function getKlasseList() {
+        return $this->mapper->getClasses();
     }
     
-    public function deleteNews(Zend_Controller_Request_Http $request) {
-        return $this->mapper->deleteNews($request->getPost('newsId'));
+    public function deleteKlasse(Zend_Controller_Request_Http $request) {
+        return $this->mapper->deleteClass($request->getPost('classId'));
     }
     
 }

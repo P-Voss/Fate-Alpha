@@ -25,6 +25,7 @@ class Administration_MagieController extends Zend_Controller_Action {
     
     public function indexAction() {
         $this->view->list = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
     }
     
     public function showAction() {

@@ -24,12 +24,10 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/IndexController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/User.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/erstellung.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/LoginController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/UserController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/online.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/OrteMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/ErstellungController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/IndexController.php</file>
         </group>
     </open-files>
 </project-private>

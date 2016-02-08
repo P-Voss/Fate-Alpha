@@ -19,6 +19,7 @@ class Administration_Model_Mapper_SkillMapper {
         $returnArray = array();
         $select = $this->getDbTable('Skill')->select();
         $select->distinct();
+        $select->order('skillartId');
         $result = $this->getDbTable('Skill')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -50,6 +51,7 @@ class Administration_Model_Mapper_SkillMapper {
             $model->setUebung($row['uebung']);
             $model->setFp($row['fp']);
             $model->setRang($row['rang']);
+            $model->setSkillArt($row['skillartId']);
         }
         return $model;
     }
@@ -92,9 +94,14 @@ class Administration_Model_Mapper_SkillMapper {
     public function setRequirementsSkill(Administration_Model_Skill $skill) {
         $data['skillId'] = $skill->getId();
         foreach ($skill->getRequirementList()->getRequirements() as $requirement) {
+            if($requirement->getRequiredValue() === ''){
+                continue;
+            }
             $data['art'] = $requirement->getArt();
-            $data['voraussetzung'] = $requirement->getRequiredValue();
-            $this->getDbTable('SkillVoraussetzung')->insert($data);
+            foreach (explode(':', $requirement->getRequiredValue()) as $value) {
+                $data['voraussetzung'] = $value;
+                $this->getDbTable('SkillVoraussetzung')->insert($data);
+            }
         }
     }
     
@@ -234,9 +241,14 @@ class Administration_Model_Mapper_SkillMapper {
     public function setDependencies(Administration_Model_Magie $magie) {
         $data['magieId'] = $magie->getId();
         foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
+            if($requirement->getRequiredValue() === ''){
+                continue;
+            }
             $data['art'] = $requirement->getArt();
-            $data['voraussetzung'] = $requirement->getRequiredValue();
-            $this->getDbTable('MagieCharakterVoraussetzungen')->insert($data);
+            foreach (explode(':', $requirement->getRequiredValue()) as $value) {
+                $data['voraussetzung'] = $value;
+                $this->getDbTable('MagieCharakterVoraussetzungen')->insert($data);
+            }
         }
     }
     

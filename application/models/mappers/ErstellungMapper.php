@@ -19,11 +19,14 @@ class Application_Model_Mapper_ErstellungMapper {
         return $dbTable;
     }
     
+    /**
+     * @return \Application_Model_Vorteil
+     */
     public function getAllVorteile() {
+            $return = array();
         $select = $this->getDbTable('Vorteil')->select();
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
         if($result->count() > 0){
-            $return = array();
             foreach ($result as $row){
                 $model = new Application_Model_Vorteil();
                 $model->setId($row->vorteilId);
@@ -33,10 +36,8 @@ class Application_Model_Mapper_ErstellungMapper {
                 $model->setGruppe($row->kombo);
                 $return[] = $model;
             }
-            return $return;
-        }else{
-            return null;
         }
+        return $return;
     }
     
     public function getVorteilIncompatibilities($vorteilIds = null, $nachteilIds = null) {

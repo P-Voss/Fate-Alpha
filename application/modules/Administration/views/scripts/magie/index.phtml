@@ -2,23 +2,35 @@
 /* @var $magie Administration_Model_Magie */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$schoolArray = array();
 ?>
 <h1>
     Magien
 </h1>
+<?php 
+for($i = 0; $i < count($this->schulen); $i++){
+    echo '<a href="#' . $this->schulen[$i]->getId() . '">' . $this->schulen[$i]->getBezeichnung() . '</a>';
+    if($i < count($this->schulen)-1){
+        echo ', ';
+    }
+}
+foreach ($this->list as $magie){ ?>
+    <?php if(!in_array($magie->getSchule()->getId(), $schoolArray)){ ?>
+    <h2 id="<?= $magie->getSchule()->getId() ?>">
+        <?= $magie->getSchule()->getBezeichnung() ?>
+    </h2>
+    <?php } ?>
+    <a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
+        <fieldset>
+            <p>
+                <?= $purifier->purify($magie->getBezeichnung()) ?>
+            </p>
+            <p>
+                <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
+                <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
+            </p>
+        </fieldset>
+    </a>
 <?php
-foreach ($this->list as $magie){
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
-    <fieldset>
-        <p>
-            <?= $purifier->purify($magie->getBezeichnung()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
-        </p>
-    </fieldset>
-</a>
-<?php
+$schoolArray[] = $magie->getSchule()->getId();
 }
