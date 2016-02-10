@@ -1,0 +1,59 @@
+<?php
+/* @var $day Administration_Model_Tageswetter */
+$months = array(
+    '01' => 'Januar',
+    '02' => 'Februar',
+    '03' => 'März',
+    '04' => 'April',
+    '05' => 'Mai',
+    '06' => 'Juni',
+    '07' => 'Juli',
+    '08' => 'August',
+    '09' => 'September',
+    '10' => 'Oktober',
+    '11' => 'November',
+    '12' => 'Dezember',
+);
+$date = new DateTime();
+$monthCount = 0;
+?>
+<h1>
+    Wetterbericht
+</h1>
+<select onchange="self.location='<?= $this->baseUrl() ?>/Administration/wetter/index/year/'+options[selectedIndex].value">
+    <?php for($i = $date->format('Y'); $i < 2043; $i++): 
+    $selected = ((int)$this->year === $i) ? 'selected="true"' : '';    
+    ?>
+    <option <?= $selected ?>><?= $i ?></option>
+    <?php endfor; ?>
+</select>
+<div>
+<?php
+foreach ($this->forecast as $day){
+    if((int) $day->getTag()->format('m') > $monthCount):
+        if($monthCount > 0){
+            echo '</div>';
+        }
+        $monthCount = (int) $day->getTag()->format('m');
+?>
+<div style="display:inline-block; width: 33%; vertical-align: top">
+<h2>
+    <?= $months[$day->getTag()->format('m')] ?>
+</h2>
+<?php
+    endif;
+?>
+    <p>
+        <?= $day->getTag()->format('d') ?>.
+        <a href="<?= $this->baseUrl() ?>/Administration/wetter/show/day/<?= (int)$day->getTag()->format('d') ?>/month/<?= (int)$day->getTag()->format('m') ?>/year/<?= $day->getTag()->format('Y') ?>">
+            <span>
+                <img style="display: inline" height="20px" width="20px" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterVormittag()->getName() ?>.jpg" />
+                <img style="display: inline" height="20px" width="20px" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterMittag()->getName() ?>.jpg" />
+                <img style="display: inline" height="20px" width="20px" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterNachmittag()->getName() ?>.jpg" />
+                <img style="display: inline" height="20px" width="20px" src="<?= $this->baseUrl() . '/images/Wetter/Abend/' . $day->getWetterAbend()->getName() ?>.jpg" />
+                <img style="display: inline" height="20px" width="20px" src="<?= $this->baseUrl() . '/images/Wetter/Nacht/' . $day->getWetterNacht()->getName() ?>.jpg" />
+            </span>
+        </a>
+    </p>
+<?php
+}

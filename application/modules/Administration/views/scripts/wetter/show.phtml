@@ -1,0 +1,87 @@
+<?php
+/* @var $day Administration_Model_Tageswetter */
+$day = $this->tageswetter;
+$weatherArray = array(
+    'Klar' => 'klar',
+    'LeichtBewoelkt' => 'leicht bewölkt',
+    'Bewoelkt' => 'bewölkt',
+    'Regen' => 'Regen',
+    'Sturm' => 'Sturm',
+    'Schnee' => 'Schnee');
+$specialWeather = array(
+    'Blutmond' => 'Blutmond',
+    'Gral' => 'Gral',
+    'Sterne' => 'Sterne',
+    'Vollmond' => 'Vollmond',
+);
+?>
+<h1>
+    Das Wetter am: <?= $day->getTag()->format('d.m.Y') ?>
+</h1>
+<form method="post" action="<?= $this->baseUrl() ?>/Administration/wetter/edit">
+    <input type="hidden" name="date" value="<?= $day->getTag()->format('Y-m-d') ?>">
+    <p>
+        <label for="vormittag">
+            Vormittag
+        </label>
+        <select name="vormittag">
+    <?php foreach($weatherArray as $key => $wetter): 
+        $selected = ($day->getWetterVormittag()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php endforeach; ?>
+        </select>
+        <label for="mittag">
+            Mittag
+        </label>
+        <select name="mittag">
+    <?php foreach($weatherArray as $key => $wetter):
+        $selected = ($day->getWetterMittag()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php endforeach; ?>
+        </select>
+    </p>
+    <p>
+        <label for="nachmittag">
+            Nachmittag
+        </label>
+        <select name="nachmittag">
+    <?php foreach($weatherArray as $key => $wetter):
+        $selected = ($day->getWetterNachmittag()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php endforeach; ?>
+        </select>
+        <label for="abend">
+            Abend
+        </label>
+        <select name="abend">
+    <?php foreach($weatherArray as $key => $wetter):
+        $selected = ($day->getWetterAbend()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php endforeach; ?>
+        </select>
+    </p>
+    <p>
+        <label for="nacht">
+            Nacht
+        </label>
+        <select name="nacht">
+    <?php foreach($weatherArray as $key => $wetter):
+        $selected = ($day->getWetterNacht()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php 
+    endforeach;
+    
+    foreach($specialWeather as $key => $wetter):
+        $selected = ($day->getWetterNacht()->getName() == $key) ? 'selected="true"' : '';
+    ?>
+            <option <?= $selected ?> value="<?= $key ?>"><?= $wetter ?></option>
+    <?php endforeach; ?>
+        </select>
+    </p>
+    <input type="submit" value="Wetterberichten">
+</form>
