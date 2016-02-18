@@ -108,6 +108,7 @@ class Application_Service_User {
         if($charakter !== false){
             $charakterMapper->deleteCharakter($charakter);
         }
+        Zend_Auth::getInstance()->clearIdentity();
     }
     
     /**

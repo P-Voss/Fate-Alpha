@@ -213,13 +213,13 @@ class Application_Model_Mapper_ProfilMapper{
     
     public function saveStory($charakterId, $story) {
         $data = ['charaktergeschichte' => $story];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
     
     public function savePrivate($charakterId, $private) {
         $data = ['privatDaten' => $private];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
 }

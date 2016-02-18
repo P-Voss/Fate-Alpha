@@ -4,17 +4,17 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular.js');
 /* @var $schule Administration_Model_Schule */
 $schule = $this->schule;
+//Zend_Debug::dump($schule);
+//exit;
 ?>
 <h1>Neue Magieschule erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/schule/create" method="post">
+<form action="<?= $this->baseUrl() ?>/Administration/schule/edit" method="post">
     <fieldset>
         <p>
             <label for="name">Name</label>
             <input type="text" size="30" name="name" value="<?= $schule->getBezeichnung() ?>" />
         </p>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $schule->getBeschreibung() ?>
-        </textarea>
+        <textarea name="beschreibung" cols="80" rows="10"><?= $schule->getBeschreibung() ?></textarea>
         <fieldset>
             <legend>
                 Vorraussetzungen

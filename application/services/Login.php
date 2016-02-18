@@ -4,12 +4,13 @@ class Application_Service_Login{
  
     public function login(Zend_Controller_Request_Http $request){
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter,'benutzerdaten', 'username', 'passwort', 'MD5(?) AND active=1');
 
-        $authAdapter->setTableName('benutzerdaten')
-                    ->setIdentityColumn('username')
-                    ->setCredentialColumn('passwort')
-                    ->setCredentialTreatment('MD5(?)');
+//        $authAdapter->setTableName('benutzerdaten')
+//                    ->setIdentityColumn('username')
+//                    ->setCredentialColumn('passwort')
+//                    ->setCredentialTreatment('MD5(?)');
+//        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
         
         $authAdapter->setIdentity($request->getPost('username'));
         $authAdapter->setCredential($request->getPost('passwort'));

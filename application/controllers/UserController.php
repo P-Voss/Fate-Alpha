@@ -97,7 +97,7 @@ class UserController extends Zend_Controller_Action {
                 $this->getRequest(),
                 Zend_Auth::getInstance()->getIdentity()->userId
             );
-            $this->redirect('/user');
+            $this->redirect('index');
         }
         $layout = $this->_helper->layout();
         $layout->setLayout('partials');

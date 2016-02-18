@@ -1,5 +1,5 @@
 <?php
-$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+//$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/erstellung/charaktererstellung.js');
@@ -108,7 +108,7 @@ $elemente = $this->creationParams['elemente'];
             </span>
         </label>
         <div class="FormularInput">
-            <input type="number" name="size" id="körpergröße" required="" style="width: 50px" />cm
+            <input type="number" name="size" id="körpergröße" min="130" max="210" value="165" required="" style="width: 50px" />cm
         </div>
     </fieldset>
     <fieldset class="FormularZeile">

@@ -33,13 +33,24 @@ jQuery(document).ready(function () {
         }
     });
     
-    jQuery('.details').click(function(){
-        val = jQuery(this).val();
+    jQuery('.details.skills').click(function(){
+        val = jQuery(this).attr('data-id');
         jQuery("#dialog").dialog({
             height: 350,
             width: 720,
             open: function() {
                 jQuery(this).load(baseUrl + '/Shop/skill/preview/id/' + val);
+            }
+        });
+    });
+    
+    jQuery('.details.magic').click(function(){
+        val = jQuery(this).attr('data-id');
+        jQuery("#dialog").dialog({
+            height: 350,
+            width: 720,
+            open: function() {
+                jQuery(this).load(baseUrl + '/Shop/magie/preview/id/' + val);
             }
         });
     });

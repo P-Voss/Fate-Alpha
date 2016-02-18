@@ -244,6 +244,9 @@ class Application_Model_Mapper_TrainingMapper{
     public function getCharakterIdsToTrain() {
         $returnArray = array();
         $select = $this->getDbTable('Training')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('training');
+        $select->joinInner('charakter', 'charakter.charakterId = training.charakterId', array());
         $result = $this->getDbTable('Training')->fetchAll($select);
         foreach ($result as $row) {
             $returnArray[] = $row['charakterId'];

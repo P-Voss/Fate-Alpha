@@ -30,7 +30,7 @@ class Application_Service_Erstellung {
     public function getKlassengruppe(Zend_Controller_Request_Http $request) {
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
         $returnArray = [
-            'gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id')->getId()),
+            'gruppe' => $klasseMapper->getKlassengruppe($request->getPost('id'))->getId(),
             'familienname' => $klasseMapper->getFamilienname($request->getPost('id')),
         ];
         echo json_encode($returnArray);

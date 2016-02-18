@@ -30,4 +30,49 @@ class Application_Model_Mapper_WetterMapper {
         return $wetter;
     }
     
+    public function getForecast() {
+        $returnArray = array();
+        $date = new DateTime();
+        $intervalIncrease = new DateInterval('P9D');
+        $intervalDecrease = new DateInterval('P2D');
+        $date->sub($intervalDecrease);
+        $dateStart = $date->format('Y-m-d');
+        $date->add($intervalIncrease);
+        $dateEnd = $date->format('Y-m-d');
+        
+        $select = $this->getDbTable('Wetterbericht')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('wetterbericht');
+        $select->where('wetterbericht.datum >= ?', $dateStart);
+        $select->where('wetterbericht.datum < ?', $dateEnd);
+        $result = $this->getDbTable('Wetterbericht')->fetchAll($select);
+        foreach ($result as $day) {
+            $tageswetter = new Administration_Model_Tageswetter();
+            $tageswetter->setTag($day['datum']);
+            
+            $wetterVormittag = new Administration_Model_Wetter();
+            $wetterVormittag->setName($day['vormittag']);
+            $tageswetter->setWetterVormittag($wetterVormittag);
+            
+            $wetterMittag = new Administration_Model_Wetter();
+            $wetterMittag->setName($day['mittag']);
+            $tageswetter->setWetterMittag($wetterMittag);
+            
+            $wetterNachmittag = new Administration_Model_Wetter();
+            $wetterNachmittag->setName($day['nachmittag']);
+            $tageswetter->setWetterNachmittag($wetterNachmittag);
+            
+            $wetterAbend = new Administration_Model_Wetter();
+            $wetterAbend->setName($day['abend']);
+            $tageswetter->setWetterAbend($wetterAbend);
+            
+            $wetterNacht = new Administration_Model_Wetter();
+            $wetterNacht->setName($day['nacht']);
+            $tageswetter->setWetterNacht($wetterNacht);
+            
+            $returnArray[] = $tageswetter;
+        }
+        return $returnArray;
+    }
+    
 }

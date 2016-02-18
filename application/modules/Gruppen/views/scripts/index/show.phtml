@@ -1,0 +1,25 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+/* @var $gruppe Gruppen_Model_Gruppe */
+$gruppe = $this->gruppe;
+?>
+<h1>
+    Spielgruppen
+</h1>
+<fieldset>
+    <legend>
+        Aktionen
+    </legend>
+        <p>
+            <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/exit">
+                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                <input type="submit" value="Gruppe verlassen">
+            </form>
+            <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/data">
+                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                <input type="hidden" name="exposed" value="<?= $exposed ?>">
+                <input type="submit" value="Daten für SL freigeben">
+            </form>
+        </p>
+</fieldset>

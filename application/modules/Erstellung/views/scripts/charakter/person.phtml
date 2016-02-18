@@ -1,0 +1,133 @@
+<?php
+$this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/erstellung/charaktererstellungNeu.js');
+?>
+<h1>
+    Neuen Charakter erstellen
+</h1>
+<div id="dialog"></div>
+<form method="post" action="<?= $this->baseUrl() ?>/Erstellung/Charakter/klasse">
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Vorname
+            </span>
+            <span class="label">
+                Der Vorname hat keine Auswirkungen auf das Spiel.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="text" name="vorname" id="vorname" size="35" required="">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Nachname
+            </span>
+            <span class="label">
+                Sollte man einem größeren Clan angehören, nimmt man dessen Nachnamen an.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="text" name="nachname" id="nachname" size="35" required="">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Geschlecht
+            </span>
+            <span class="label">
+                Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="radio" id="m" name="geschlecht" required="" value="m"> <label for="m">Männlich</label>
+            <input type="radio" id="w" name="geschlecht" required="" value="w"> <label for="w">Weiblich</label>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Geburtsdatum
+            </span>
+            <span class="label">
+                Das Alter gibt die Gesellschaft und Bekanntenkreis an in welchem man sich bei Spielbeginn befindet, hat aber auch Einfluss auf die eigenen Werte. 
+                (12-18 = Schüler / 19+ Erwachsen / 50+ Alt). 
+                Der Charakter kann zwischen 12 und 90 Jahre alt sein.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input name="geburtsdatum" id="geburtsdatum" size="10" required="">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Augenfarbe
+            </span>
+            <span class="label">
+
+            </span>
+        </label>
+        <div class="FormularInput">
+            <select name="augenfarbe" id="augenfarbe" required="">
+                <option selected="" value="">bitte auswählen</option>
+                <option>Blau</option>
+                <option>Grün</option>
+                <option>Braun</option>
+                <option>Grau</option>
+                <option>Schwarz</option>
+                <option>Rot</option>
+                <option>Lila</option>
+                <option>Gelb</option>
+                <option>Türkis</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Körpergröße
+            </span>
+            <span class="label">
+                Der Charakter kann zwischen 130cm und 210cm groß sein.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="number" name="size" id="körpergröße" min="130" max="210" value="165" required="" style="width: 50px" />cm
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Sexuelle Orientierung
+            </span>
+            <span class="label">
+                Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <select name="sex" id="sexualität" required="" >
+                <option selected="" value="">bitte auswählen</option>
+                <option>Heterosexuell</option>
+                <option>Homosexuell</option>
+                <option>Bisexuell</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">Wohnort</span>
+            <span class="label">
+                <a href="http://fate-alpha.forumprofi.de/thema-anzeigen-wohnort-alle-t92.html#223" target="_blank">Ort und Art der Wohnung des Charakters</a>
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="text" name="wohnort" id="wohnort" readonly="" required=""><button id="chooseWohnort" type="button">Wohnort wählen</button>
+        </div>
+    </fieldset>
+    <input id="newchara" type="submit" name="newchara" value="Charakter anlegen"/>
+</form>

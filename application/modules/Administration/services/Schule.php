@@ -60,7 +60,7 @@ class Administration_Service_Schule {
     public function editSchule(Zend_Controller_Request_Http $request, $userId) {
         $schule = new Administration_Model_Schule();
         $date = new DateTime();
-        $schule->setId($request->getPost('schulId'));
+        $schule->setId($request->getPost('schuleId'));
         $schule->setEditDate($date->format('Y-m-d H:i:s'));
         $schule->setBezeichnung($request->getPost('name'));
         $schule->setBeschreibung($request->getPost('beschreibung'));

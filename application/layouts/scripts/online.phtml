@@ -31,9 +31,13 @@ $displayTraining = array(
         <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css" />
         <?= $this->headLink() ?>
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript">
+            var baseUrl ='<?= $this->baseUrl() ?>';
+        </script>
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/tooltipster/js/jquery.tooltipster.min.js"></script>
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/userlist/tooltips.js"></script>
+        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/general/map.js"></script>
         <?= $this->headScript() ?>
     </head>
     <body>
@@ -62,4 +66,5 @@ $displayTraining = array(
             </div>
         </div>
     </body>
+<div id="dialog"></div>
 </html>

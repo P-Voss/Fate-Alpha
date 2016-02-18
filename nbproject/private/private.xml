@@ -24,13 +24,13 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Wetter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/WetterMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/wetter/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/ErstellungController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/wetter/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/WetterController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Tageswetter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/services/Information.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/views/scripts/charakter/person.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/services/Erstellung.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
         </group>
     </open-files>
 </project-private>

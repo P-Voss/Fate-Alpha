@@ -226,7 +226,7 @@ class Application_Model_Mapper_CharakterMapper{
         $result = $this->getDbTable('Beziehungen')->fetchRow($select);
         if($result !== null){
             $freigabe['public'] = $result->public;
-            $freigabe['privat'] = $result->privat;
+            $freigabe['privat'] = $result->private;
         }
         return $freigabe;
     }
@@ -409,7 +409,7 @@ class Application_Model_Mapper_CharakterMapper{
         $select = $this->getDbTable('Beziehungen')->select();
         $select->where('charakterId = ?', $charakterId);
         $select->where('profilId = ?', $profile['charakterId']);
-        $result = $this->getDbTable('Beziehungen')->fetchRow();
+        $result = $this->getDbTable('Beziehungen')->fetchRow($select);
         if($result !== null){
             $return = $this->updateAssociation($data, $result['zuordnungId']);
         } else {
@@ -628,7 +628,7 @@ class Application_Model_Mapper_CharakterMapper{
      */
     public function saveCharakterpic($charakterId, $picUrl) {
         $data = ['charpic' => $picUrl];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
     /**
@@ -637,7 +637,7 @@ class Application_Model_Mapper_CharakterMapper{
      */
     public function saveProfilpic($charakterId, $picUrl) {
         $data = ['profilpic' => $picUrl];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
     
 }

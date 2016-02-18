@@ -1,6 +1,8 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 $this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headScript()->appendScript('var id = ' . $charakter->getCharakterid(), 'text/javascript');
 $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
@@ -15,7 +17,7 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
     <img src="<?= htmlentities($charakter->getCharakterprofil()->getCharpic()) ?>" width="700" />
 </div>
 <p>
-    <?= $charakter->getCharakterprofil()->outputCharaktergeschichte() ?>
+    <?= $purifier->purify($charakter->getCharakterprofil()->outputCharaktergeschichte()) ?>
 </p>
 <div class="Zentriert">
     <h2>
@@ -25,5 +27,5 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
     </h2>
 </div>
 <p>
-    <?= $charakter->getCharakterprofil()->outputPrivatdaten() ?>
+    <?= $purifier->purify($charakter->getCharakterprofil()->outputPrivatdaten()) ?>
 </p>

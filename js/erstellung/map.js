@@ -46,7 +46,7 @@ $(document).ready(function () {
             if (origin.data('ajax') !== 'cached') {
                 jQuery.ajax({
                     type: 'POST',
-                    url: baseUrl + '/erstellung/orte',
+                    url: baseUrl + '/Fuyuki/orte',
                     data: {
                         name: jQuery(this).attr('id')
                     },
@@ -81,7 +81,7 @@ $(document).ready(function () {
             if (origin.data('ajax') !== 'cached') {
                 jQuery.ajax({
                     type: 'POST',
-                    url: baseUrl + '/erstellung/stadtteile',
+                    url: baseUrl + '/Fuyuki/stadtteile',
                     data: {
                         name: jQuery(this).attr('id')
                     },

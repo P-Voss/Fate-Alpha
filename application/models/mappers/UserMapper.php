@@ -148,7 +148,7 @@ class Application_Model_Mapper_UserMapper {
         $select = $this->getDbTable('User')->select();
         $select->from('benutzerdaten', array('passwort'));
         $select->where('userId = ?', $userId);
-        $result = $this->getDbTable('User')->fetchRow();
+        $result = $this->getDbTable('User')->fetchRow($select);
         if($result !== null){
             return $this->generateHash($password) === $result['passwort'];
         }

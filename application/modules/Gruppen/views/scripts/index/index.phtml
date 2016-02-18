@@ -1,0 +1,61 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+?>
+<h1>
+    Spielgruppen
+</h1>
+<fieldset>
+    <legend>
+        einer Gruppe beitreten
+    </legend>
+    <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/enter">
+        <p>
+            <label for="gruppenname">
+                Gruppenname
+            </label>
+            <input type="text" name="gruppenname"/>
+            <label for="passwort">
+                Passwort
+            </label>
+            <input type="password" name="passwort"/>
+            <input type="submit"/>
+        </p>
+    </form>
+</fieldset>
+<fieldset>
+    <legend>
+        dir bekannte Gruppen
+    </legend>
+<?php foreach ($this->eigeneGruppen as $gruppe): ?>
+    <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
+        <button><?= $gruppe->getName(); ?> (von dir gegründet)</button>
+    </a>
+<?php endforeach; ?>
+<?php foreach ($this->gruppen as $gruppe): ?>
+    <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
+        <button><?= $gruppe->getName(); ?> (von dir gegründet)</button>
+    </a>
+<?php endforeach; ?>
+</fieldset>
+<fieldset>
+    <legend>
+        neue Gruppe gründen
+    </legend>
+    <form method="post" action="<?= $this->baseUrl() ?>//Gruppen/index/create">
+        <p>
+            <label for="gruppenname">
+                Gruppenname
+            </label>
+            <input type="text" name="gruppenname"/>
+            <label for="passwort">
+                Passwort
+            </label>
+            <input type="password" name="passwort"/>
+            <input type="submit" value="Gruppe erstellen"/>
+        </p>
+        <p>
+            <textarea name="beschreibung"></textarea>
+        </p>
+    </form>
+</fieldset>

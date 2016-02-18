@@ -87,7 +87,7 @@ class Shop_Service_Skill {
     public function unlockSkillart(Application_Model_Charakter $charakter, $skillartId) {
         $this->requirementValidator->setCharakter($charakter);
         $skillart = $this->skillartMapper->getSkillartById($skillartId);
-        if($this->requirementValidator->validate($this->mapper->getRequirements($skillart->getId())) === true){
+        if($this->requirementValidator->validate($skillart->getRequirementList()) === true){
             $this->skillartMapper->unlockSkillartForCharakter($charakter, $skillart);
         }
     }

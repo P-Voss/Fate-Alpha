@@ -29,7 +29,8 @@ class IndexController extends Zend_Controller_Action {
     }
     
     public function wetterAction() {
-        
+        $service = new Application_Service_Wetter();
+        $this->view->forecast = $service->getForecast();
     }
     
 }

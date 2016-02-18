@@ -32,7 +32,7 @@
                 alert('Der Nachname sieht nicht richtig aus.');
                 return false;
             }
-            if ($("#geschlecht").val().length < 1) {
+            if ($("#Geschlecht").html().length < 1) {
                 alert('M or W?');
                 return false;
             }
@@ -169,6 +169,11 @@
                         vorteilCount = 4;
                     }else{
                         vorteilCount = 3;
+                        if(jQuery("#vorteile :selected").length > vorteilCount){
+                            elem = jQuery("#vorteile :selected").eq(3).prop('selected', false);
+                            elem = jQuery("#vorteile :selected").eq(3).removeAttr('selected');
+                            refreshInterface(jQuery("#vorteile").val(), 'vorteil');
+                        }
                     }
                     if(result.gruppe !== 1){
                         $("#circuit").val(0);
@@ -184,6 +189,7 @@
                 });
             refreshInterface($("#circuit").val(), 'circuit');
             refreshInterface($(this).val(), 'klasse');
+            refreshInterface(jQuery("#vorteile").val(), 'vorteil');
         });
         $("#odo").change(function () {
             refreshInterface($(this).val(), 'odo');

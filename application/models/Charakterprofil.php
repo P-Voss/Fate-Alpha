@@ -41,7 +41,7 @@ class Application_Model_Charakterprofil {
     }
     
     public function outputCharaktergeschichte() {
-        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_charaktergeschichte));
+        return $this->_charaktergeschichte;
     }
 
     public function getPrivatdaten() {
@@ -49,7 +49,7 @@ class Application_Model_Charakterprofil {
     }
     
     public function outputPrivatdaten() {
-        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_privatdaten));
+        return $this->_privatdaten;
     }
 
     public function getProfilpic() {
@@ -97,7 +97,7 @@ class Application_Model_Charakterprofil {
     }
     
     public function outputSldaten() {
-        return Application_Service_Utility::BBCodes(htmlspecialchars($this->_sldaten));
+        return $this->_sldaten;
     }
 
     public function setSldaten($sldaten) {

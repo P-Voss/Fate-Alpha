@@ -1,0 +1,28 @@
+<?php
+$currentDate = new DateTime();
+/* @var $day Application_Model_Tageswetter */
+$days = $this->forecast;
+$sizeCurrentDate = '55px';
+$sizeAnyDate = '50px';
+?>
+<h1>Wetterbericht</h1>
+<div style=" text-align: center">
+<?php foreach($days as $day): 
+if($currentDate->format('Y-m-d') === $day->getTag()->format('Y-m-d')){
+    $size = $sizeCurrentDate;
+}else{
+    $size = $sizeAnyDate;
+}
+?>
+<div style="display: inline-block; width: 10%; margin-left: auto; margin-right: auto;">
+    <p>
+        <?= $day->getTag()->format('d.m.') ?>
+    </p>
+    <img style="display: inline" height="<?= $size ?>" width="<?= $size ?>" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterVormittag()->getName() ?>.jpg" />
+    <img style="display: inline" height="<?= $size ?>" width="<?= $size ?>" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterMittag()->getName() ?>.jpg" />
+    <img style="display: inline" height="<?= $size ?>" width="<?= $size ?>" src="<?= $this->baseUrl() . '/images/Wetter/Tag/' . $day->getWetterNachmittag()->getName() ?>.jpg" />
+    <img style="display: inline" height="<?= $size ?>" width="<?= $size ?>" src="<?= $this->baseUrl() . '/images/Wetter/Abend/' . $day->getWetterAbend()->getName() ?>.jpg" />
+    <img style="display: inline" height="<?= $size ?>" width="<?= $size ?>" src="<?= $this->baseUrl() . '/images/Wetter/Nacht/' . $day->getWetterNacht()->getName() ?>.jpg" />
+</div>
+<?php endforeach; ?>
+</div>

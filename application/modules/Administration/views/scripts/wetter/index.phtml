@@ -21,7 +21,7 @@ $monthCount = 0;
     Wetterbericht
 </h1>
 <select onchange="self.location='<?= $this->baseUrl() ?>/Administration/wetter/index/year/'+options[selectedIndex].value">
-    <?php for($i = $date->format('Y'); $i < 2043; $i++): 
+    <?php for($i = $date->format('Y'); $i < $date->format('Y') + 4; $i++): 
     $selected = ((int)$this->year === $i) ? 'selected="true"' : '';    
     ?>
     <option <?= $selected ?>><?= $i ?></option>
