@@ -1,0 +1,208 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $gruppe Gruppen_Model_Gruppe */
+$gruppe = $this->gruppe;
+/* @var $charakter Application_Model_Charakter */
+$charakter = $this->charakter;
+$werte = $charakter->getCharakterwerte();
+
+
+function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
+$sortorder = ['Übungsfähigkeiten' => 1, 
+    'Schützenfähigkeiten' => 2, 
+    'Kämpferfähigkeiten' => 3, 
+    'Spezialfähigkeiten' => 4,
+    ];
+    if($sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()]){
+        return 1;
+    }
+}
+/* @var $skillart Application_Model_Skillart */
+$skillarten = $this->skillarten;
+usort($skillarten, "order");
+/* @var $schule Application_Model_Schule */
+$magieschulen = $this->magieschulen;
+?>
+<h1>
+    <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+</h1>
+<div>
+    <fieldset style="display: inline-block; width: 45%; float: left">
+        <legend>Charakterdaten</legend>
+        <p>
+            <label>
+                Name
+            </label>
+            <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+        </p>
+        <p>
+            <label>
+                Geschlecht
+            </label>
+            <?= $purifier->purify($charakter->getGeschlecht()) ?>
+        </p>
+        <p>
+            <label>
+                Geburtsdatum
+            </label>
+            <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
+        </p>
+        <p>
+            <label>
+                Wohnort
+            </label>
+            <?= $charakter->getWohnort() ?>
+        </p>
+        <p>
+            <label>
+                Sexuelle Orientierung
+            </label>
+            <?= $charakter->getSexualitaet() ?>
+        </p>
+    </fieldset>
+    <fieldset style="display: inline-block; width: 45%; float: right">
+        <legend>Werte</legend>
+        <p>
+            <label>
+                Stärke
+            </label>
+            <span>
+                <?= $werte->getStaerke() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getStaerke()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Agilität
+            </label>
+            <span>
+                <?= $werte->getAgilitaet() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getAgilitaet()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Ausdauer
+            </label>
+            <span>
+                <?= $werte->getAusdauer() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getAusdauer()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Kontrolle
+            </label>
+            <span>
+                <?= $werte->getKontrolle() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getKontrolle()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Disziplin
+            </label>
+            <span>
+                <?= $werte->getDisziplin() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getDisziplin()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Übung
+            </label>
+            <span>
+                <?= $werte->getUebung() ?>
+            </span>
+        </p>
+    </fieldset>
+    <div style="clear: both"></div>
+</div>
+<div>
+    <fieldset style="display: inline-block; width: 45%; float: left">
+        <legend>Vorteile</legend>
+<?php foreach($charakter->getVorteile() as $vorteil): ?>
+        <h4>
+            <?= $purifier->purify($vorteil->getBezeichnung()) ?>
+        </h4>
+        <p>
+            <?= $purifier->purify($vorteil->getBeschreibung()) ?>
+        </p>
+<?php endforeach; ?>
+    </fieldset>
+    <fieldset style="display: inline-block; width: 45%; float: right">
+        <legend>Nachteile</legend>
+<?php foreach($charakter->getNachteile() as $nachteil): ?>
+        <h4>
+            <?= $purifier->purify($nachteil->getBezeichnung()) ?>
+        </h4>
+        <p>
+            <?= $purifier->purify($nachteil->getBeschreibung()) ?>
+        </p>
+<?php endforeach; ?>
+    </fieldset>
+    <div style="clear: both"></div>
+</div>
+<div>
+    <fieldset>
+        <legend>Klasse</legend>
+        <h4>
+            <?= $purifier->purify($charakter->getKlassengruppe()->getBezeichnung()) ?>
+        </h4>
+        <p>
+            Unterklasse: <?= $purifier->purify($charakter->getKlasse()->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify($charakter->getKlasse()->getBeschreibung()) ?>
+        </p>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend>Fähigkeiten</legend>
+        <?php foreach ($skillarten as $skillart): ?>
+        <fieldset>
+            <legend><?= $skillart->getBezeichnung() ?></legend>
+                <?php foreach ($skillart->getSkills() as $skill): ?>
+            <h4>
+                <?= $skill->getBezeichnung() ?>
+            </h4>
+            <p>
+                <?= $skill->getBeschreibung(); ?>
+            </p>
+                <?php endforeach; ?>
+        </fieldset>
+        <?php endforeach; ?>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend>Magien</legend>
+        <?php foreach ($magieschulen as $schule): ?>
+            <fieldset>
+                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <div class="subContent">
+                    <?php foreach ($schule->getMagien() as $magie): ?>
+                    <h4><?= $magie->getBezeichnung() ?></h4>
+                    <p>
+                        <?= $magie->getBeschreibung() ?>
+                    </p>
+                    <?php endforeach; ?>
+                </div>
+            </fieldset>
+        <?php endforeach; ?>
+    </fieldset>
+</div>

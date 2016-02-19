@@ -49,7 +49,8 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function enterAction() {
-        
+        $this->gruppenService->joinGruppe($this->getRequest(), $this->charakter->getCharakterid());
+        $this->redirect('Gruppen');
     }
     
     public function exitAction() {
@@ -59,7 +60,11 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     
     public function dataAction() {
         $this->gruppenService->switchDataExposure($this->getRequest(), $this->charakter->getCharakterid());
-        $this->redirect('Gruppen/show/id' . $this->getRequest()->getPost('gruppenId'));
+        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+            $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
+        }else{
+            $this->redirect('Gruppen');
+        }
     }
     
     public function showAction() {
@@ -71,7 +76,28 @@ class Gruppen_IndexController extends Zend_Controller_Action {
         }
         $gruppe = $this->gruppenService->getGruppeByGruppenId($this->getRequest()->getParam('id'));
         $this->view->eigeneGruppe = ($gruppe->getGruender() === Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->view->exposed = $this->gruppenService->dataExposed($this->getRequest()->getParam('id'), $this->charakter->getCharakterid());
+        $this->view->exposedIds = $this->gruppenService->getExposedIds($this->getRequest()->getParam('id'));
         $this->view->gruppe = $gruppe;
+        $this->view->charaktere = $this->charakterService->getCharakters();
+    }
+    
+    public function addAction() {
+        $this->gruppenService->addToGroup($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+            $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
+        }else{
+            $this->redirect('Gruppen');
+        }
+    }
+    
+    public function removeAction() {
+        $this->gruppenService->removeFromGroup($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+            $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
+        }else{
+            $this->redirect('Gruppen');
+        }
     }
     
 }

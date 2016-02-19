@@ -180,19 +180,13 @@ class Application_Service_Erstellung {
         if(!is_null($request->getPost('circuit'))){
             $charakter->setMagiccircuit($request->getPost('circuit'));
         }
-        if(!is_null($request->getPost('nachteile'))){
-            $charakter->setNachteile($request->getPost('nachteile'));
-        }
-        if(!is_null($request->getPost('vorteile'))){
-            $charakter->setVorteile($request->getPost('vorteile'));
-        }
         $mapper = new Application_Model_Mapper_CharakterMapper();
         $newCharakter = $mapper->createCharakter($charakter);
         if($newCharakter != false){
-            foreach ($charakter->getVorteile() as $vorteil){
+            foreach ($request->getPost('vorteile') as $vorteil){
                 $mapper->saveCharakterVorteil($vorteil, $newCharakter['charakterId']);
             }
-            foreach ($charakter->getNachteile() as $nachteil){
+            foreach ($request->getPost('nachteile') as $nachteil){
                 $mapper->saveCharakterNachteil($nachteil, $newCharakter['charakterId']);
             }
             $mapper->setInitalSkillarten($newCharakter['charakterId']);

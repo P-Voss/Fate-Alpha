@@ -169,6 +169,9 @@ class Application_Model_Charakter {
         return $this->klasse;
     }
 
+    /**
+     * @return Application_Model_Klassengruppe
+     */
     public function getKlassengruppe() {
         return $this->klassengruppe;
     }

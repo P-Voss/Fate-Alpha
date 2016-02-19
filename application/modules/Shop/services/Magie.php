@@ -46,8 +46,8 @@ class Shop_Service_Magie {
     
     /**
      * @param int $charakterId
-     * @param Application_Model_Skillart $skillart
-     * @return \Application_Model_Skillart
+     * @param Application_Model_Schule $schule
+     * @return \Application_Model_Schule
      */
     public function getLearnedMagieBySchule($charakterId, Application_Model_Schule $schule) {
         $magien = $this->magieMapper->getMagienByMagieschuleId($schule->getId());

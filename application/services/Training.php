@@ -52,6 +52,7 @@ class Application_Service_Training {
      * 
      */
     public function executeTraining() {
+        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         $charakterIds = $this->_trainingsMapper->getCharakterIdsToTrain();
         $defaultTraining = $this->_trainingsMapper->getDefaultTraining();
         foreach ($charakterIds as $id) {

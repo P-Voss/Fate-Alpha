@@ -46,6 +46,27 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return $returnArray;
     }
     
+    
+    public function getGruppeByCredentials($gruppenName, $passwort) {
+        $select = $this->getDbTable('Spielergruppen')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('spielergruppen');
+        $select->where('name = ?', $gruppenName);
+        $select->where('passwort = ?', $passwort);
+        $row = $this->getDbTable('Spielergruppen')->fetchRow($select);
+        if($row !== null){
+            $gruppe = new Gruppen_Model_Gruppe();
+            $gruppe->setId($row->gruppenId);
+            $gruppe->setName($row->name);
+            $gruppe->setBeschreibung($row->beschreibung);
+            $gruppe->setPasswort($row->passwort);
+            $gruppe->setGruender($row->userId);
+            $gruppe->setCreateDate($row->createDate);
+            return $gruppe;
+        }
+        return false;
+    }
+    
     /**
      * @param int $userId
      * @return array
@@ -164,6 +185,50 @@ class Gruppen_Model_Mapper_GruppenMapper {
             'freigabe' => ($exposure == 0)
         );
         $this->getDbTable('CharakterGruppen')->update($data, array(
+            'charakterId = ?' => $charakterId,
+            'gruppenId = ?' => $gruppenId,
+        ));
+    }
+    
+    
+    public function checkFreigabe($gruppenId, $charakterId) {
+        $select = $this->getDbTable('CharakterGruppen')->select();
+        $select->where('charakterId = ?', $charakterId);
+        $select->where('gruppenId = ?', $gruppenId);
+        $row = $this->getDbTable('CharakterGruppen')->fetchRow($select);
+        if($row !== null){
+            return $row->freigabe;
+        }
+        return false;
+    }
+    
+    
+    public function getFreigaben($gruppenId) {
+        $returnArray = array();
+        $select = $this->getDbTable('CharakterGruppen')->select();
+        $select->where('gruppenId = ? AND freigabe = 1', $gruppenId);
+        $result = $this->getDbTable('CharakterGruppen')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $returnArray[] = $row->charakterId;
+            }
+        }
+        return $returnArray;
+    }
+    
+    
+    public function addCharakterToGroup($charakterId, $gruppenId) {
+        $data = array(
+            'charakterId' => $charakterId,
+            'gruppenId' => $gruppenId,
+            'freigabe' => 0,
+        );
+        $this->getDbTable('CharakterGruppen')->insert($data);
+    }
+    
+    
+    public function removeCharakterFromGroup($charakterId, $gruppenId) {
+        $this->getDbTable('CharakterGruppen')->delete(array(
             'charakterId = ?' => $charakterId,
             'gruppenId = ?' => $gruppenId,
         ));

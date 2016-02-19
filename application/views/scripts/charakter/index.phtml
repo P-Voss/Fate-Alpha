@@ -121,6 +121,19 @@ $purifier = $this->purifier;
                 </p>
             </div>
         </fieldset>
+        <fieldset>
+            <legend>Vorteile <span class="indicator"></span></legend>
+            <div class="subContent">
+<?php foreach($charakter->getVorteile() as $vorteil): ?>
+                <h4>
+                    <?= $purifier->purify($vorteil->getBezeichnung()) ?>
+                </h4>
+                <p>
+                    <?= $purifier->purify($vorteil->getBeschreibung()) ?>
+                </p>
+<?php endforeach; ?>
+            </div>
+        </fieldset>
     </div>
     <div class="clearRight"></div>
     <div class="contentRight">
@@ -134,17 +147,30 @@ $purifier = $this->purifier;
                 <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
             </div>
         </fieldset>
-    <fieldset>
-        <legend>Statistik <span class="indicator"></span></legend>
-        <div class="subContent">
-            <p>
-                <label>Überlebt seit:</label>
-                <span>
-                    <?= $charakter->getCreatedate('d.m.Y') ?>
-                </span>
-            </p>
-        </div>
-    </fieldset>
+        <fieldset>
+            <legend>Statistik <span class="indicator"></span></legend>
+            <div class="subContent">
+                <p>
+                    <label>Überlebt seit:</label>
+                    <span>
+                        <?= $charakter->getCreatedate('d.m.Y') ?>
+                    </span>
+                </p>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Nachteile <span class="indicator"></span></legend>
+            <div class="subContent">
+<?php foreach($charakter->getNachteile() as $nachteil): ?>
+                <h4>
+                    <?= $purifier->purify($nachteil->getBezeichnung()) ?>
+                </h4>
+                <p>
+                    <?= $purifier->purify($nachteil->getBeschreibung()) ?>
+                </p>
+<?php endforeach; ?>
+            </div>
+        </fieldset>
     </div>
     <div class="clearBoth"></div>
 </div>

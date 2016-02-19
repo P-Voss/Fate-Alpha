@@ -19,6 +19,33 @@ class Application_Model_Mapper_CharakterMapper{
         return $dbTable;
     }
     
+    
+    public function getAllCharakters() {
+        $returnArray = array();
+        $select = $this->getDbTable('Charakter')->select();
+        $result = $this->getDbTable('Charakter')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $charakter = new Application_Model_Charakter();
+                $charakter->setVorname($row->vorname);
+                $charakter->setNachname($row->nachname);
+                $charakter->setCharakterid($row->charakterId);
+                $charakter->setAugenfarbe($row->augenfarbe);
+                $charakter->setGeburtsdatum($row->geburtsdatum);
+                $charakter->setGeschlecht($row->geschlecht);
+                $charakter->setSexualitaet($row->sexualitaet);
+                $charakter->setMagiccircuit($row->circuit);
+                $charakter->setNickname($row->nickname);
+                $charakter->setSize($row->size);
+                $charakter->setWohnort($row->wohnort);
+                $date = new DateTime($row->createDate);
+                $charakter->setCreatedate($date);
+                $returnArray[] = $charakter;
+            }
+        }
+        return $returnArray;
+    }
+    
     /**
      * @param Application_Model_Charakter $charakter
      * @return int
@@ -40,6 +67,8 @@ class Application_Model_Mapper_CharakterMapper{
         $db->delete('charakterVermoegen', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterVorteile', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterWerte', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakterGruppen', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('training', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->commit();
     }
     
@@ -365,12 +394,14 @@ class Application_Model_Mapper_CharakterMapper{
             $model->setAugenfarbe($row->augenfarbe);
             $model->setGeburtsdatum($row->geburtsdatum);
             $model->setGeschlecht($row->geschlecht);
+            $model->setSexualitaet($row->sexualitaet);
             $model->setNickname($row->nickname);
             $model->setWohnort($row->wohnort);
             $date = new DateTime($row->createDate);
             $model->setCreatedate($date);
+            return $model;
         }
-        return $model;
+        return false;
     }
     
     /**

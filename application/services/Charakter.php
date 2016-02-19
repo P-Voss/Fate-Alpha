@@ -27,6 +27,12 @@ class Application_Service_Charakter {
         return $charakter;
     }
     
+    
+    public function getCharakters() {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getAllCharakters();
+    }
+    
     /**
      * @param Zend_Controller_Request_Http $request
      * @param int $charakterId
@@ -63,9 +69,20 @@ class Application_Service_Charakter {
      * @param Zend_Controller_Request_Http $request
      * @return Application_Model_Charakter
      */
-    public function getCharakter(Zend_Controller_Request_Http $request) {
+    public function getCharakter(Zend_Controller_Request_Http $request, $fullData = false) {
         $mapper = new Application_Model_Mapper_CharakterMapper();
-        return $mapper->getCharakter($request->getParam('charakter'));
+        $klassenMapper = new Application_Model_Mapper_KlasseMapper();
+        $charakter = $mapper->getCharakter($request->getParam('charakter'));
+        if($fullData === true AND $charakter !== false){
+            $charakter->setKlasse($mapper->getCharakterKlasse($charakter->getCharakterid()));
+            $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
+            $charakter->setElemente($mapper->getCharakterElemente($charakter->getCharakterid()));
+            $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
+            $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
+        }
+        return $charakter;
     }
     
     /**

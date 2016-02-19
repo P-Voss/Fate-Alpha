@@ -89,19 +89,19 @@ class Application_Model_Charakterwerte {
                 $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
                 break;
             case 'agilitaet':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setAgilitaet($this->getAgilitaet() + $trainingswerte->getAgiTraining());
                 break;
             case 'ausdauer':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setAusdauer($this->getAusdauer() + $trainingswerte->getAusTraining());
                 break;
             case 'disziplin':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setDisziplin($this->getDisziplin() + $trainingswerte->getDisTraining());
                 break;
             case 'kontrolle':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
                 break;
             case 'uebung':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setUebung($this->getUebung() + $trainingswerte->getPraTraining());
                 break;
         }
     }

@@ -1,0 +1,11 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+/* @var $gruppe Gruppen_Model_Gruppe */
+$gruppe = $this->gruppe;
+/* @var $charakter Application_Model_Charakter */
+$charakter = $this->charakter;
+?>
+<h1>
+    <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+</h1>
