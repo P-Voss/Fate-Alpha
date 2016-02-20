@@ -1,9 +1,14 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/gruppen.js');
 /* @var $gruppe Gruppen_Model_Gruppe */
-$gruppe = $this->gruppe;
 /* @var $charakter Application_Model_Charakter */
+/* @var $nachricht Gruppen_Model_Nachricht */
+/* @var $purifier HTMLPurifier */
+/* @var $log Application_Model_Log */
+$purifier = $this->purifier;
+$gruppe = $this->gruppe;
 $charaktere = $this->charaktere;
 $mitgliedArray = array();
 foreach ($this->charaktere as $charakter) {
@@ -15,91 +20,37 @@ foreach ($this->charaktere as $charakter) {
 }
 ?>
 <h1>
-    Spielgruppen
+    <?= $gruppe->getName() ?>
 </h1>
-<?php if($this->eigeneGruppe === true): ?>
-<fieldset>
-    <legend>
-        Gruppenleiter
-    </legend>
-    <div>
-        <fieldset style="display: inline-block; width: 45%; float: left">
-            <legend>Charakter einladen</legend>
-            <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/add">
-                <select name="charaktere[]" size="3" multiple="">
-                    <?php foreach($this->charaktere as $charakter): 
-                        if(in_array($charakter->getCharakterid(), $mitgliedArray)){
-                            continue;
-                        }
-                    ?>
-                    <option value="<?= $charakter->getCharakterId() ?>"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                <input type="submit" value="In Gruppe einladen">
-            </form>
-        </fieldset>
-        <fieldset style="display: inline-block; width: 45%; float: right">
-            <legend>Charakter kicken</legend>
-            <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/remove">
-                <select name="charaktere[]" size="3" multiple="">
-                    <?php foreach($gruppe->getMitglieder() as $charakter): ?>
-                    <option value="<?= $charakter->getCharakterId() ?>"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                <input type="submit" value="Aus Gruppe kicken">
-            </form>
-        </fieldset>
-    </div>
-</fieldset>
-<?php endif; ?>
-<?php if($this->exposed !== false): ?>
+<p>
+    <?= $gruppe->getBeschreibung() ?>
+</p>
+<?php include __DIR__ . '/partials/gruppenleiter.phtml'; ?>
+<?php include __DIR__ . '/partials/mitglieder.phtml'; ?>
 <div>
-    <fieldset style="display: inline-block; width: 45%; float: left">
-        <legend>
-            Charakter
-        </legend>
+    <fieldset>
+        <legend>Logcenter</legend>
         <div>
-            <div>
-                <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/exit">
-                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="submit" value="Gruppe verlassen">
-                </form>
-                <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/data">
-                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="hidden" name="exposed" value="<?= $this->exposed ?>">
-                    <input type="submit" value="<?= ($this->exposed == 1) ? 'Daten nicht für SL freigeben' : 'Daten für SL freigeben' ?>">
-                </form>
-            </div>
+            <form enctype="multipart/form-data" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/upload">
+                <?php if(count($this->plots)): ?>
+                    <label>hochladen für: </label>
+                    <select name="plot">
+                        <option value="">keinen Plot</option>
+                        <?php foreach($this->plots as $plot): ?>
+                        <option value="<?= $plot->getId() ?>"><?= $plot->getName() ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+                <input type="file" name="logfile">
+                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                <input type="submit" value="Log hochladen">
+            </form>
         </div>
-        <p>
-            Daten freigegeben: <?= ($this->exposed === 1) ? 'Ja' : 'Nein' ?>
-        </p>
-        <p>
-            Gruppenmitglied seit: 
-        </p>
-    </fieldset>
-    <?php endif; ?>
-    <fieldset style="display: inline-block; width: 45%; float: right">
-        <legend>Gruppenmitglieder</legend>
-        <ul>
-            <?php foreach($gruppe->getMitglieder() as $charakter){
-                if(in_array($charakter->getCharakterid(), $this->exposedIds) AND $this->eigeneGruppe === true){
-            ?>
-                <a href="<?= $this->baseUrl() ?>/Gruppen/charakter/show/gruppe/<?= $gruppe->getId() ?>/charakter/<?= $charakter->getCharakterid() ?>">
-                    <li>
-                        <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
-                    </li>
-                </a>
-            <?php } else { ?>
-                <li>
-                    <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
-                </li>
-            <?php
-                }
-            }
-            ?>
-        </ul>
+        <div>
+            <?php foreach($this->logs as $log): ?>
+            <a><?= $log->getName() ?></a>
+            <?php endforeach; ?>
+        </div>
     </fieldset>
 </div>
+<?php include __DIR__ . '/partials/gruppenchat.phtml'; ?>

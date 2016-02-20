@@ -69,6 +69,8 @@ class Application_Model_Mapper_CharakterMapper{
         $db->delete('charakterWerte', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterGruppen', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('training', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('beziehungen', array('charakterId = ?' => $charakter->getCharakterid()));
+        $db->delete('beziehungen', array('profilId = ?' => $charakter->getCharakterid()));
         $db->commit();
     }
     

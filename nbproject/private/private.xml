@@ -24,16 +24,25 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/models/mappers/GruppenMapper.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/IndexController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Skillart.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/services/Gruppen.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Erstellung.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/views/scripts/index/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/CronController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/models/mappers/GruppenMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/views/scripts/charakter/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakterwerte.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/services/Information.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/views/scripts/charakter/person.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/erstellung.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/services/Gruppen.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Training.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/services/Erstellung.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Erstellung.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/views/scripts/index/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/TrainingMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/TrainingController.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/views/scripts/index/index.phtml</file>
         </group>
     </open-files>

@@ -520,6 +520,20 @@ form{
     background-color: #fff;
 }
 
+.gruppenchat{
+    max-height: 400px;
+    overflow: auto;
+}
+
+.gruppenchat .messageSet .message{
+    background-color: #fff;
+    min-height: 0;
+}
+
+.genres label{
+    width: 100px;
+}
+
 a:link {text-decoration: none; color: #000000;}
 a:visited {text-decoration: none; color: #000000;}
 a:active {text-decoration: underline; color: #0000FF;}

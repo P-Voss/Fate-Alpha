@@ -1,6 +1,8 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 $gruppenArray = array();
 ?>
 <h1>
@@ -32,7 +34,7 @@ $gruppenArray = array();
     $gruppenArray[] = $gruppe->getId();
 ?>
     <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
-        <button><?= $gruppe->getName(); ?> (von dir gegründet)</button>
+        <button><?= $purifier->purify($gruppe->getName()) ?> (von dir gegründet)</button>
     </a>
 <?php endforeach; ?>
 <?php foreach ($this->gruppen as $gruppe): 
@@ -41,7 +43,7 @@ $gruppenArray = array();
     }
 ?>
     <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
-        <button><?= $gruppe->getName(); ?></button>
+        <button><?= $purifier->purify($gruppe->getName()) ?></button>
     </a>
 <?php endforeach; ?>
 </fieldset>

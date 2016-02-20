@@ -1,0 +1,50 @@
+<div>
+<?php if($this->exposed !== false): ?>
+    <fieldset style="display: inline-block; width: 45%; float: left">
+        <legend>
+            Charakter
+        </legend>
+        <div>
+            <div>
+                <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/exit">
+                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                    <input type="submit" value="Gruppe verlassen">
+                </form>
+                <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/data">
+                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                    <input type="hidden" name="exposed" value="<?= $this->exposed ?>">
+                    <input type="submit" value="<?= ($this->exposed == 1) ? 'Daten nicht für SL freigeben' : 'Daten für SL freigeben' ?>">
+                </form>
+            </div>
+        </div>
+        <p>
+            Daten freigegeben: <?= ($this->exposed === 1) ? 'Ja' : 'Nein' ?>
+        </p>
+        <p>
+            Gruppenmitglied seit: 
+        </p>
+    </fieldset>
+    <?php endif; ?>
+    <fieldset style="display: inline-block; width: 45%; float: right">
+        <legend>Gruppenmitglieder</legend>
+        <ul>
+            <?php foreach($gruppe->getMitglieder() as $charakter){
+                if(in_array($charakter->getCharakterid(), $this->exposedIds) AND $this->eigeneGruppe === true){
+            ?>
+                <a href="<?= $this->baseUrl() ?>/Gruppen/charakter/show/gruppe/<?= $gruppe->getId() ?>/charakter/<?= $charakter->getCharakterid() ?>">
+                    <li>
+                        <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+                    </li>
+                </a>
+            <?php } else { ?>
+                <li>
+                    <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+                </li>
+            <?php
+                }
+            }
+            ?>
+        </ul>
+    </fieldset>
+    <div style="clear: both"></div>
+</div>

@@ -44,6 +44,7 @@ class FreundeController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+        $this->view->eigenerCharakter = $this->_charakter;
         $this->view->profile = $this->_charakterService->getProfile($this->_charakter->getCharakterid());
         $this->view->friendlist = $this->_charakterService->getAssociates($this->_charakter->getCharakterid());
     }
@@ -63,6 +64,9 @@ class FreundeController extends Zend_Controller_Action {
     public function profilAction() {
         $charakter = $this->_charakterService->getCharakter($this->getRequest());
         $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid()));
+        if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
+            $charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
+        }
         $this->view->charakter = $charakter;
     }
     
@@ -70,16 +74,15 @@ class FreundeController extends Zend_Controller_Action {
         $layout = $this->_helper->layout();
         $layout->setLayout('partials');
         $charakter = $this->_charakterService->getCharakter($this->getRequest());
-        if($charakter->getCharakterid() !== null 
-            && 
-            $this->_charakterService->isAssociated($this->_charakter, $charakter)
-        ) {
-            $charakter->setCharakterprofil(
-                $this->_charakterService->getVisibleProfile(
-                    $this->getRequest(), 
-                    $this->_charakter->getCharakterid()
+        if($charakter->getCharakterid() !== null && 
+                ($this->_charakterService->isAssociated($this->_charakter, $charakter) 
+                    || $charakter->getCharakterid() === $this->_charakter->getCharakterid()
                 )
-            );
+            ) {
+            $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid()));
+            if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
+                $charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
+            }
             $this->view->charakter = $charakter;
         } else {
             $this->view->charakter = null;

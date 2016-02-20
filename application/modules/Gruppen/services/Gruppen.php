@@ -62,6 +62,33 @@ class Gruppen_Service_Gruppen {
     }
     
     
+    public function addNachricht(Zend_Controller_Request_Http $request, $userId) {
+        $mapper = new Gruppen_Model_Mapper_GruppenMapper();
+        $date = new DateTime();
+        $nachricht = new Gruppen_Model_Nachricht();
+        $nachricht->setCreateDate($date->format('Y-m-d H:i:s'));
+        $nachricht->setNachricht($request->getPost('nachricht'));
+        $nachricht->setUserId($userId);
+        return $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
+    }
+    
+    
+    public function getGruppenchat($gruppenId) {
+        $userService = new Application_Service_User();
+        $charakterService = new Application_Service_Charakter();
+        $mapper = new Gruppen_Model_Mapper_GruppenMapper();
+        $nachrichten = $mapper->getNachrichtenByGruppenId($gruppenId);
+        foreach ($nachrichten as $nachricht) {
+            $nachricht->setUser($userService->getUserById($nachricht->getUserId()));
+            $charakter = $charakterService->getCharakterByUserid($nachricht->getUserId());
+            if($charakter !==  false){
+                $nachricht->setCharakter($charakter);
+            }
+        }
+        return $nachrichten;
+    }
+    
+    
     public function editGruppe() {
         
     }
@@ -118,6 +145,12 @@ class Gruppen_Service_Gruppen {
             }
         }
         return false;
+    }
+    
+    
+    public function getLogsByGruppenId($gruppenId) {
+        $mapper = new Gruppen_Model_Mapper_LogMapper();
+        return $mapper->getLogsByGruppe($gruppenId);
     }
     
 }

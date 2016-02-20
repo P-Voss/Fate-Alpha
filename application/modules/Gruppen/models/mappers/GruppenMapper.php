@@ -46,7 +46,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return $returnArray;
     }
     
-    
+    /**
+     * @param string $gruppenName
+     * @param string $passwort
+     * @return boolean|\Gruppen_Model_Gruppe
+     */
     public function getGruppeByCredentials($gruppenName, $passwort) {
         $select = $this->getDbTable('Spielergruppen')->select();
         $select->setIntegrityCheck(false);
@@ -117,7 +121,10 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return false;
     }
     
-    
+    /**
+     * @param int $gruppenId
+     * @return \Application_Model_Charakter
+     */
     public function getGruppenmitglieder($gruppenId) {
         $returnArray = array();
         $select = $this->getDbTable('CharakterGruppen')->select();
@@ -148,7 +155,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return $returnArray;
     }
     
-    
+    /**
+     * @param int $gruppenId
+     * @param int $charakterId
+     * @param int $userId
+     * @return boolean
+     */
     public function validateAccess($gruppenId, $charakterId, $userId) {
         $selectOwner = $this->getDbTable('Spielergruppen')->select();
         $selectOwner->from('spielergruppen', array('gruppenId'));
@@ -179,7 +191,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return $this->getDbTable('Spielergruppen')->insert($data);
     }
     
-    
+    /**
+     * @param int $charakterId
+     * @param int $gruppenId
+     * @param string $exposure
+     */
     public function setFreigabe($charakterId, $gruppenId, $exposure) {
         $data = array(
             'freigabe' => ($exposure == 0)
@@ -190,7 +206,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         ));
     }
     
-    
+    /**
+     * @param int $gruppenId
+     * @param int $charakterId
+     * @return boolean
+     */
     public function checkFreigabe($gruppenId, $charakterId) {
         $select = $this->getDbTable('CharakterGruppen')->select();
         $select->where('charakterId = ?', $charakterId);
@@ -202,7 +222,10 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return false;
     }
     
-    
+    /**
+     * @param int $gruppenId
+     * @return array
+     */
     public function getFreigaben($gruppenId) {
         $returnArray = array();
         $select = $this->getDbTable('CharakterGruppen')->select();
@@ -216,7 +239,10 @@ class Gruppen_Model_Mapper_GruppenMapper {
         return $returnArray;
     }
     
-    
+    /**
+     * @param int $charakterId
+     * @param int $gruppenId
+     */
     public function addCharakterToGroup($charakterId, $gruppenId) {
         $data = array(
             'charakterId' => $charakterId,
@@ -226,12 +252,52 @@ class Gruppen_Model_Mapper_GruppenMapper {
         $this->getDbTable('CharakterGruppen')->insert($data);
     }
     
-    
+    /**
+     * @param int $charakterId
+     * @param int $gruppenId
+     * @return int
+     */
     public function removeCharakterFromGroup($charakterId, $gruppenId) {
-        $this->getDbTable('CharakterGruppen')->delete(array(
+        return $this->getDbTable('CharakterGruppen')->delete(array(
             'charakterId = ?' => $charakterId,
             'gruppenId = ?' => $gruppenId,
         ));
+    }
+    
+    /**
+     * @param Gruppen_Model_Nachricht $nachricht
+     * @param int $gruppenId
+     */
+    public function addNachricht(Gruppen_Model_Nachricht $nachricht, $gruppenId) {
+        $data = array(
+            'gruppenId' => $gruppenId,
+            'userId' => $nachricht->getUserId(),
+            'nachricht' => $nachricht->getNachricht(),
+            'createDate' => $nachricht->getCreateDate('Y-m-d H:i:s'),
+        );
+        $this->getDbTable('Gruppenchat')->insert($data);
+    }
+    
+    /**
+     * @param type $gruppenId
+     */
+    public function getNachrichtenByGruppenId($gruppenId) {
+        $returnArray = array();
+        $select = $this->getDbTable('Gruppenchat')->select();
+        $select->where('gruppenId = ?', $gruppenId);
+        $select->order('nachrichtenId DESC');
+        $result = $this->getDbTable('Gruppenchat')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $nachricht = new Gruppen_Model_Nachricht();
+                $nachricht->setId($row->nachrichtenId);
+                $nachricht->setNachricht($row->nachricht);
+                $nachricht->setCreateDate($row->createDate);
+                $nachricht->setUserId($row->userId);
+                $returnArray[] = $nachricht;
+            }
+        }
+        return $returnArray;
     }
     
 }

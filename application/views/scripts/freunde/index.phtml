@@ -1,4 +1,6 @@
 <?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 $profile = $this->profile;
 ?>
 <div class="Zentriert">
@@ -9,25 +11,29 @@ $profile = $this->profile;
     <p>
         Der Code für deine grundlegenden Charakterdaten: 
         <strong>
-            <?= htmlspecialchars($profile->getKennenlerncode()) ?>
+            <?= $purifier->purify($profile->getKennenlerncode()) ?>
         </strong>.
         <br />
         Der Code für deine privaten Charakterdaten: 
         <strong>
-            <?= htmlspecialchars($profile->getPrivatcode()) ?>
+            <?= $purifier->purify($profile->getPrivatcode()) ?>
         </strong>.
     </p>
 </div>
 <hr>
 <h1>Dir bekannte Charaktere</h1>
 <ul class="userlist">
+    <li class="charakter" id="<?= $this->eigenerCharakter->getCharakterId(); ?>">
+        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $this->eigenerCharakter->getCharakterId() ?>">
+            <?= $purifier->purify($this->eigenerCharakter->getVorname() . ' ' . ($this->eigenerCharakter->getNachname())) ?>
+        </a>
+    </li>
 <?php
 foreach ($this->friendlist as $charakter) {
 ?>
     <li class="charakter" id="<?= $charakter->getCharakterId() ?>">
         <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getCharakterId() ?>">
-            <?= htmlspecialchars($charakter->getVorname()) . ' '
-                . htmlspecialchars($charakter->getNachname()) ?>
+            <?= $purifier->purify($charakter->getVorname()) . ' ' . ($charakter->getNachname()) ?>
         </a>
     </li>
 <?php

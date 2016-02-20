@@ -1,0 +1,29 @@
+<div>
+    <fieldset>
+        <legend>Gruppenchat</legend>
+        <div class="gruppenchat">
+<?php
+foreach ($this->gruppenchat as $nachricht) :
+    if($nachricht->getCharakter() === null OR !in_array($nachricht->getCharakter()->getCharakterid(), $mitgliedArray)){
+        $name = $nachricht->getUser()->getProfilname() . ' - "Charakter ist nicht in dieser Gruppe"';
+    }else{
+        $name = $nachricht->getUser()->getProfilname() . ' - "' . $nachricht->getCharakter()->getVorname() . ' ' . $nachricht->getCharakter()->getNachname() . '"';
+    }
+?>
+            <fieldset class="messageSet">
+                <legend style="font-weight: normal"><?= $purifier->purify($name) ?> schrieb am <?= $nachricht->getCreateDate() ?></legend>
+                <div class="message">
+                    <?= $purifier->purify($nachricht->getNachricht()) ?>
+                </div>
+            </fieldset>
+<?php endforeach; ?>
+        </div>
+        <div>
+            <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/chat">
+                <textarea name="nachricht"></textarea>
+                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                <input type="submit" value="Nachricht abschicken">
+            </form>
+        </div>
+    </fieldset>
+</div>

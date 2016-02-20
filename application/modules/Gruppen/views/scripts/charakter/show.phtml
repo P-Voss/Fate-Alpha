@@ -27,7 +27,7 @@ usort($skillarten, "order");
 $magieschulen = $this->magieschulen;
 ?>
 <h1>
-    <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+    <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
 </h1>
 <div>
     <fieldset style="display: inline-block; width: 45%; float: left">
@@ -48,19 +48,19 @@ $magieschulen = $this->magieschulen;
             <label>
                 Geburtsdatum
             </label>
-            <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
+            <?= $purifier->purify($charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')') ?>
         </p>
         <p>
             <label>
                 Wohnort
             </label>
-            <?= $charakter->getWohnort() ?>
+            <?= $purifier->purify($charakter->getWohnort()) ?>
         </p>
         <p>
             <label>
                 Sexuelle Orientierung
             </label>
-            <?= $charakter->getSexualitaet() ?>
+            <?= $purifier->purify($charakter->getSexualitaet()) ?>
         </p>
     </fieldset>
     <fieldset style="display: inline-block; width: 45%; float: right">
@@ -175,13 +175,13 @@ $magieschulen = $this->magieschulen;
         <legend>Fähigkeiten</legend>
         <?php foreach ($skillarten as $skillart): ?>
         <fieldset>
-            <legend><?= $skillart->getBezeichnung() ?></legend>
+            <legend><?= $purifier->purify($skillart->getBezeichnung()) ?></legend>
                 <?php foreach ($skillart->getSkills() as $skill): ?>
             <h4>
-                <?= $skill->getBezeichnung() ?>
+                <?= $purifier->purify($skill->getBezeichnung()) ?>
             </h4>
             <p>
-                <?= $skill->getBeschreibung(); ?>
+                <?= $purifier->purify($skill->getBeschreibung()) ?>
             </p>
                 <?php endforeach; ?>
         </fieldset>
@@ -193,12 +193,12 @@ $magieschulen = $this->magieschulen;
         <legend>Magien</legend>
         <?php foreach ($magieschulen as $schule): ?>
             <fieldset>
-                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <legend><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($schule->getMagien() as $magie): ?>
-                    <h4><?= $magie->getBezeichnung() ?></h4>
+                    <h4><?= $purifier->purify($magie->getBezeichnung()) ?></h4>
                     <p>
-                        <?= $magie->getBeschreibung() ?>
+                        <?= $purifier->purify($magie->getBeschreibung()) ?>
                     </p>
                     <?php endforeach; ?>
                 </div>

@@ -32,6 +32,12 @@ $purifier = $this->purifier;
             </p>
             <p>
                 <label>
+                    Geschlecht
+                </label>
+                <?= $purifier->purify($charakter->getGeschlecht()) ?>
+            </p>
+            <p>
+                <label>
                     Wohnort
                 </label>
                 <?= $charakter->getWohnort() ?>
