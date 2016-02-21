@@ -94,6 +94,7 @@ class CharakterController extends Zend_Controller_Action{
     }
     
     public function erstellungAction() {
+        $this->redirect('index');
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
         $this->view->creationParams = $this->erstellungsService->getCreationParams();

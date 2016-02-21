@@ -59,8 +59,8 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function dataAction() {
-        $this->gruppenService->switchDataExposure($this->getRequest(), $this->charakter->getCharakterid());
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
+            $this->gruppenService->switchDataExposure($this->getRequest(), $this->charakter->getCharakterid());
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
         }else{
             $this->redirect('Gruppen');
@@ -87,6 +87,12 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function addAction() {
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
+                                                    $this->charakter->getCharakterid(), 
+                                                    Zend_Auth::getInstance()->getIdentity()->userId
+                                                )){
+            $this->redirect('Gruppen');
+        }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
             $this->gruppenService->addToGroup($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
@@ -96,6 +102,12 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function removeAction() {
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
+                                                    $this->charakter->getCharakterid(), 
+                                                    Zend_Auth::getInstance()->getIdentity()->userId
+                                                )){
+            $this->redirect('Gruppen');
+        }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
             $this->gruppenService->removeFromGroup($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
@@ -105,6 +117,12 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function chatAction() {
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
+                                                    $this->charakter->getCharakterid(), 
+                                                    Zend_Auth::getInstance()->getIdentity()->userId
+                                                )){
+            $this->redirect('Gruppen');
+        }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
             $this->gruppenService->addNachricht($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
@@ -114,10 +132,32 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function uploadAction() {
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('gruppenId'), 
+                                                    $this->charakter->getCharakterid(), 
+                                                    Zend_Auth::getInstance()->getIdentity()->userId
+                                                )){
+            $this->redirect('Gruppen');
+        }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
             $service = new Gruppen_Service_File();
             $service->uploadLog($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
+        }else{
+            $this->redirect('Gruppen');
+        }
+    }
+    
+    
+    public function downloadAction() {
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('id'), 
+                                                    $this->charakter->getCharakterid(), 
+                                                    Zend_Auth::getInstance()->getIdentity()->userId
+                                                )){
+            $this->redirect('Gruppen');
+        }
+        if(!is_null($this->getRequest()->getParam('id'))){
+            $service = new Gruppen_Service_File();
+            $service->downloadLog($this->getRequest());
         }else{
             $this->redirect('Gruppen');
         }

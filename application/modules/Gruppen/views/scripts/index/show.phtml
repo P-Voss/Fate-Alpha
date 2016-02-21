@@ -10,6 +10,10 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/gruppen.js');
 $purifier = $this->purifier;
 $gruppe = $this->gruppe;
 $charaktere = $this->charaktere;
+$plotArray = array();
+foreach ($this->plots as $plot) {
+    $plotArray[$plot->getId()] = $plot->getName();
+}
 $mitgliedArray = array();
 foreach ($this->charaktere as $charakter) {
     foreach ($this->gruppe->getMitglieder() as $mitglied) {
@@ -27,30 +31,5 @@ foreach ($this->charaktere as $charakter) {
 </p>
 <?php include __DIR__ . '/partials/gruppenleiter.phtml'; ?>
 <?php include __DIR__ . '/partials/mitglieder.phtml'; ?>
-<div>
-    <fieldset>
-        <legend>Logcenter</legend>
-        <div>
-            <form enctype="multipart/form-data" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/upload">
-                <?php if(count($this->plots)): ?>
-                    <label>hochladen für: </label>
-                    <select name="plot">
-                        <option value="">keinen Plot</option>
-                        <?php foreach($this->plots as $plot): ?>
-                        <option value="<?= $plot->getId() ?>"><?= $plot->getName() ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                <?php endif; ?>
-                <input type="file" name="logfile">
-                <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                <input type="submit" value="Log hochladen">
-            </form>
-        </div>
-        <div>
-            <?php foreach($this->logs as $log): ?>
-            <a><?= $log->getName() ?></a>
-            <?php endforeach; ?>
-        </div>
-    </fieldset>
-</div>
+<?php include __DIR__ . '/partials/logcenter.phtml'; ?>
 <?php include __DIR__ . '/partials/gruppenchat.phtml'; ?>

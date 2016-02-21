@@ -25,7 +25,7 @@
         </p>
     </fieldset>
     <?php endif; ?>
-    <fieldset style="display: inline-block; width: 45%; float: right">
+    <fieldset style="display: inline-block; width: 45%; float: right; max-height: 150px; overflow: auto">
         <legend>Gruppenmitglieder</legend>
         <ul>
             <?php foreach($gruppe->getMitglieder() as $charakter){

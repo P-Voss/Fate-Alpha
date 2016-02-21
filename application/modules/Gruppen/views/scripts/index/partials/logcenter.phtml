@@ -1,0 +1,45 @@
+<div>
+    <fieldset>
+        <legend>Logcenter <span class="indicator"></span></legend>
+        <div class="subContent">
+            <fieldset style="display: inline-block; width: 45%; float: left">
+                <legend>Upload (PDF only)</legend>
+                <form enctype="multipart/form-data" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/upload">
+                    <?php if(count($this->plots)): ?>
+                        <label>hochladen für: </label>
+                        <select name="plot">
+                            <option value="">keinen Plot</option>
+                            <?php foreach($this->plots as $plot): ?>
+                            <option value="<?= $plot->getId() ?>"><?= $plot->getName() ?></option>
+                            <?php endforeach; ?>
+                        </select><br/>
+                    <?php endif; ?>
+                    <input type="file" name="logfile">
+                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                    <input type="submit" value="Log hochladen">
+                </form>
+            </fieldset>
+            <fieldset style="display: inline-block; width: 45%; float: right; max-height: 150px; overflow: auto">
+                <legend>bisherige Logs</legend>
+                <ul>
+                    <?php foreach($this->logs as $log): ?>
+                    <?php if($log->getPlotId() !== null){ ?>
+                        <a target="blank" href="<?= $this->baseUrl() ?>/Gruppen/index/download/id/<?= $gruppe->getId() ?>/log/<?= $log->getId() ?>">
+                            <li>
+                                <?= $log->getName() . '(' . $plotArray[$log->getPlotId()] . ')' ?>
+                            </li>
+                        </a>
+                    <?php }else{ ?>
+                        <a target="blank" href="<?= $this->baseUrl() ?>/Gruppen/index/download/id/<?= $gruppe->getId() ?>/log/<?= $log->getId() ?>">
+                            <li>
+                                <?= $log->getName() ?>
+                            </li>
+                        </a>
+                    <?php } ?>
+                    <?php endforeach; ?>
+                </ul>
+            </fieldset>
+            <div style="clear: both"></div>
+        </div>
+    </fieldset>
+</div>

@@ -39,4 +39,17 @@ class Gruppen_Service_File {
         $mapper->connectGroupToLog($logId, $request->getPost('gruppenId'));
     }
     
+    
+    public function downloadLog(Zend_Controller_Request_Http $request) {
+        $mapper = new Gruppen_Model_Mapper_LogMapper();
+        $log = $mapper->getGruppenLogById($request->getParam('id'), $request->getParam('log'));
+        if($log !== false){
+            header("Content-Disposition: attachment; filename=" . $log->getName());
+            header('Content-Type: application/octet-stream');
+            header("Content-Description: File Transfer");
+            readfile(APPLICATION_PATH . '/var/logs/' . $log->getMd5());
+            exit;
+        }
+    }
+    
 }
