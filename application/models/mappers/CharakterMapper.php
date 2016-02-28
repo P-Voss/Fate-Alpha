@@ -23,6 +23,7 @@ class Application_Model_Mapper_CharakterMapper{
     public function getAllCharakters() {
         $returnArray = array();
         $select = $this->getDbTable('Charakter')->select();
+        $select->where('active = 1');
         $result = $this->getDbTable('Charakter')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row) {
@@ -78,27 +79,27 @@ class Application_Model_Mapper_CharakterMapper{
      * @param Application_Model_Charakter $charakter
      * @return int
      */
-    public function createCharakter(Application_Model_Charakter $charakter) {
-        $date = new DateTime();
-        $data = array();
-        $data['userId'] = $charakter->getUserid();
-        $data['vorname'] = $charakter->getVorname();
-        $data['nachname'] = $charakter->getNachname();
-        $data['geburtsdatum'] = $charakter->getGeburtsdatum();
-        $data['geschlecht'] = $charakter->getGeschlecht();
-        $data['augenfarbe'] = $charakter->getAugenfarbe();
-        $data['size'] = $charakter->getSize();
-        $data['geschlecht'] = $charakter->getGeschlecht();
-        $data['sexualitaet'] = $charakter->getSexualitaet();
-        $data['wohnort'] = $charakter->getWohnort();
-        $data['naturElement'] = $charakter->getElemente()[0];
-        $data['klassenId'] = $charakter->getKlasse()->getId();
-        $data['odo'] = $charakter->getOdo();
-        $data['circuit'] = $charakter->getMagiccircuit();
-        $data['luck'] = $charakter->getLuck();
-        $data['createDate'] = $date->format('Y-m-d H:i:s');
-        return $this->getDbTable('Charakter')->insert($data);
-    }
+//    public function createCharakter(Application_Model_Charakter $charakter) {
+//        $date = new DateTime();
+//        $data = array();
+//        $data['userId'] = $charakter->getUserid();
+//        $data['vorname'] = $charakter->getVorname();
+//        $data['nachname'] = $charakter->getNachname();
+//        $data['geburtsdatum'] = $charakter->getGeburtsdatum();
+//        $data['geschlecht'] = $charakter->getGeschlecht();
+//        $data['augenfarbe'] = $charakter->getAugenfarbe();
+//        $data['size'] = $charakter->getSize();
+//        $data['geschlecht'] = $charakter->getGeschlecht();
+//        $data['sexualitaet'] = $charakter->getSexualitaet();
+//        $data['wohnort'] = $charakter->getWohnort();
+//        $data['naturElement'] = $charakter->getElemente()[0];
+//        $data['klassenId'] = $charakter->getKlasse()->getId();
+//        $data['odo'] = $charakter->getOdo();
+//        $data['circuit'] = $charakter->getMagiccircuit();
+//        $data['luck'] = $charakter->getLuck();
+//        $data['createDate'] = $date->format('Y-m-d H:i:s');
+//        return $this->getDbTable('Charakter')->insert($data);
+//    }
     
     /**
      * @param int $elementId
@@ -162,6 +163,7 @@ class Application_Model_Mapper_CharakterMapper{
         $select->setIntegrityCheck(false);
         $select->from(array('C' => 'charakter'), array('C.*'));
         $select->where('C.userId = ?', $userId);
+        $select->where('active = 1');
         $select->joinLeft(array('K' => 'klassen'), 'C.klassenId = K.klassenId', array('K.klassengruppenId'));
         $result = $this->getDbTable('Charakter')->fetchAll($select);
         if($result->count() > 0){
@@ -386,7 +388,7 @@ class Application_Model_Mapper_CharakterMapper{
     public function getCharakter($charakterId) {
         $model = new Application_Model_Charakter();
         $select = $this->getDbTable('Charakter')->select();
-        $select->where('charakterId = ?', $charakterId);
+        $select->where('charakterId = ? AND active = 1', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if($row !== null){
             $model->setVorname($row->vorname);

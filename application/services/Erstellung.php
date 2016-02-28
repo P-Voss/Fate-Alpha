@@ -156,8 +156,6 @@ class Application_Service_Erstellung {
      * @return boolean
      */
     public function createCharakter(Zend_Controller_Request_Http $request) {
-//        Zend_Debug::dump($request->getParams());
-//        exit;
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
         $validationService = new Application_Service_Validation();
         if(!$validationService->validateCreation($request->getPost())){

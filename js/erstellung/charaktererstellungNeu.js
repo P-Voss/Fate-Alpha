@@ -1,11 +1,19 @@
+var erstellungspunkte = 30;
+var vorteilCount = 3;
+var nachteilCount = 2;
+
+var odo = 0;
+var circuit = 0;
+var luck = 0;
+var vorteile = 0;
+var nachteile = 0;
+var unterklasse = 0;
+
     $(document).ready(function () {
-        var erstellungspunkte = 30;
-        var vorteilCount = 3;
-        var nachteilCount = 2;
         $("#beschreibungLinks").hide();
         $("#Erstellungspunkte").html(erstellungspunkte);
         
-        jQuery('#chooseWohnort').click(function(){
+        jQuery('#inhalt').on('click', '#chooseWohnort',function(){
             jQuery('#dialog').removeAttr("title");
             jQuery('#dialog').attr('title', 'Fuyuki');
             jQuery("#dialog").dialog({
@@ -18,46 +26,178 @@
                 },
                 close: function()
                 {
-//                    jQuery(this).dialog('destroy');
+                    jQuery(this).dialog('destroy');
                 }
             });
         });
-
-        $("#newchara").click(function () {
-            if ($("#vorname").val().length < 1) {
-                alert('Der Vorname sieht nicht richtig aus.');
-                return false;
-            }
-            if ($("#nachname").val().length < 1) {
-                alert('Der Nachname sieht nicht richtig aus.');
-                return false;
-            }
-            if ($("#Geschlecht").html().length < 1) {
-                alert('M or W?');
-                return false;
-            }
-            if ($("#körpergröße").val() < 130 || $("#körpergröße").val() > 210) {
-                alert('Wie groß genau ist der Charakter?');
-                return false;
-            }
-            if ($("#geburtsdatum").val().length < 1) {
-                alert('Age?');
-                return false;
-            }
-            if ($("#augenfarbe").val().length < 1) {
-                alert('Beautiful ...eyes... wait, what kind of color is that actually?');
-                return false;
-            }
-            if ($("#sexualität").val().length < 1) {
-                alert('Worauf steht dein Charakter denn so?');
-                return false;
-            }
-            if ($("#wohnort").val().length < 1) {
-                alert('Location?');
-                return false;
+        
+        
+        jQuery("#inhalt").on('click', ".choices.klasse", function(){
+            if(jQuery(".choices.klasse.marked").attr('data-id') === jQuery(this).attr('data-id')){
+                jQuery(".choices.klasse.marked").removeClass('marked');
+                jQuery("#klasse .beschreibung").html('');
+            }else{
+                jQuery(".choices.klasse.marked").removeClass('marked');
+                jQuery(this).addClass('marked');
+                getKlassenBeschreibung(jQuery(this).attr('data-id'));
             }
         });
-
+        
+        
+        jQuery("#inhalt").on('click', ".choices.unterklasse", function(){
+            element = jQuery(this);
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/unterklasse",
+                data: {
+                    id: element.attr('data-id')
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery("#unterklasse .beschreibung").html(msg.beschreibung);
+        
+                if(jQuery(".choices.unterklasse.marked").attr('data-id') === element.attr('data-id')){
+                    jQuery(".choices.unterklasse.marked").removeClass('marked');
+                    jQuery("#unterklasse .beschreibung").html('');
+                    unterklasse = 0;
+                    jQuery("#unterklasse.nextStep").attr('disabled', true);
+                }else{
+                    jQuery(".choices.unterklasse.marked").removeClass('marked');
+                    element.addClass('marked');
+                    unterklasse = parseInt(msg.points);
+                    setUnterklasse(element.attr('data-id'));
+                }
+                refreshInterface();
+            });
+        });
+        
+        
+        jQuery("#inhalt").on("click", ".choices.vorteil", function(){
+            element = jQuery(this);
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/vorteil",
+                data: {
+                    id: jQuery(this).attr('data-id')
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery("#vorNachteile .beschreibungVorteil").html(msg.beschreibung);
+                if(element.hasClass('marked')){
+                    element.removeClass('marked');
+                    enable(element.attr('data-id'), 'vorteil');
+                    refreshDisable();
+                    vorteile = vorteile - parseInt(msg.points);
+                }else if(element.hasClass('active') && jQuery('.choices.vorteil.active.marked').length < vorteilCount){
+                    addVorteil(element.attr('data-id'));
+                    element.addClass('marked');
+                    markdisabled(element.attr('data-id'), 'vorteil', 'disabled');
+                    vorteile = vorteile + parseInt(msg.points);
+                }
+                refreshInterface();
+            });
+        });
+        
+        
+        jQuery("#inhalt").on("mouseenter", ".choices.vorteil", function(){
+            markdisabled(jQuery(this).attr('data-id'), 'vorteil', 'disabledPreview');
+        });
+        
+        
+        jQuery("#inhalt").on("click", ".choices.nachteil", function(){
+            element = jQuery(this);
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/nachteil",
+                data: {
+                    id: jQuery(this).attr('data-id')
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery("#vorNachteile .beschreibungNachteil").html(msg.beschreibung);
+                if(element.hasClass('marked')){
+                    element.removeClass('marked');
+                    enable(element.attr('data-id'), 'nachteil');
+                    refreshDisable();
+                    nachteile = nachteile + parseInt(msg.points);
+                }else if(element.hasClass('active') && jQuery('.choices.nachteil.active.marked').length < nachteilCount){
+                    addNachteil(element.attr('data-id'));
+                    element.addClass('marked');
+                    markdisabled(element.attr('data-id'), 'nachteil', 'disabled');
+                    nachteile = nachteile - parseInt(msg.points);
+                }
+                refreshInterface();
+            });
+        });
+        
+        
+        jQuery("#inhalt").on("mouseenter", ".choices.nachteil", function(){
+            markdisabled(jQuery(this).attr('data-id'), 'nachteil', 'disabledPreview');
+        });
+        
+        
+        jQuery("#inhalt").on("mouseleave", ".choices", function(){
+            jQuery(".disabledPreview").removeClass('disabledPreview');
+        });
+        
+        
+        jQuery("#inhalt").on('change', '#odo', function(){
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/odo",
+                data: {
+                    id: jQuery("#odo").val()
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery(".beschreibungOdo").html(msg.beschreibung);
+                odo = msg.points;
+                refreshInterface();
+            });
+        });
+        
+        
+        jQuery("#inhalt").on('change', '#circuit', function(){
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/circuit",
+                data: {
+                    id: jQuery("#circuit").val()
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery(".beschreibungCircuit").html(msg.beschreibung);
+                circuit = msg.points;
+                refreshInterface();
+            });
+        });
+        
+        
+        jQuery("#inhalt").on('change', '#luck', function(){
+            jQuery.ajax({
+                type: "POST",
+                url: baseUrl + "/Erstellung/Information/luck",
+                data: {
+                    id: jQuery("#luck").val()
+                },
+                dataType: "json"
+            })
+            .success(function (msg) {
+                jQuery(".beschreibungLuck").html(msg.beschreibung);
+                luck = msg.points;
+                refreshInterface();
+            });
+        });
+        
+        
+        
+        
+        
         $("#vorname").change(function () {
             wert = $(this).val();
             $.ajax({
@@ -132,127 +272,157 @@
             wert = $(this).val();
             $("#Wohnort").html('Wohnt im Stadtteil ' + wert);
         });
-        $("#geburtsdatum").datepicker({
-            dateFormat: "dd.mm.yy",
-            changeMonth: true,
-            changeYear: true,
-            maxDate: "-12y",
-            minDate: "-90y",
-            yearRange: "c-90:+0"
-        });
+    });
+    
 
-        $("#klasse").change(function () {
-            $.ajax({
-                type: "POST",
-                url: baseUrl + "/Erstellung/Validation/class",
-                data: {
-                    id: $(this).val()
-                }
-            })
-                .success(function (msg) {
-                    result = $.parseJSON(msg);
-                    $("#circuit").removeAttr('disabled');
-                    if(result.gruppe === 2){
-                        vorteilCount = 4;
-                    }else{
-                        vorteilCount = 3;
-                        if(jQuery("#vorteile :selected").length > vorteilCount){
-                            elem = jQuery("#vorteile :selected").eq(3).prop('selected', false);
-                            elem = jQuery("#vorteile :selected").eq(3).removeAttr('selected');
-                            refreshInterface(jQuery("#vorteile").val(), 'vorteil');
-                        }
-                    }
-                    if(result.gruppe !== 1){
-                        $("#circuit").val(0);
-                        $("#circuit").attr('disabled', true);
-                    }
-                    if(result.familienname !== null){
-                        $("#nachname").val(result.familienname);
-                        $("#Nachname").html(result.familienname);
-                        $("#nachname").attr('readonly', true);
-                    }else{
-                        $("#nachname").removeAttr('readonly');
+        
+    function getKlassenBeschreibung(klassenId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Information/unterklasse",
+            data: {
+                id: klassenId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            jQuery("#klasse .beschreibung").html(msg.beschreibung);
+        });
+    }
+
+    function getUnterklassenBeschreibung(unterklassenId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Information/unterklasse",
+            data: {
+                id: unterklassenId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            jQuery("#unterklasse .beschreibung").html(msg.beschreibung);
+        });
+    }
+
+    function getVorteilBeschreibung(vorteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Information/vorteil",
+            data: {
+                id: vorteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            jQuery("#vorNachteile .beschreibungVorteil").html(msg.beschreibung);
+        });
+    }
+    
+    function addVorteil(vorteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Erstellung/vorteil",
+            data: {
+                id: vorteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            
+        });
+    }
+
+    function getNachteilBeschreibung(nachteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Information/nachteil",
+            data: {
+                id: nachteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            jQuery("#vorNachteile .beschreibungNachteil").html(msg.beschreibung);
+        });
+    }
+    
+    function addNachteil(nachteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Erstellung/nachteil",
+            data: {
+                id: nachteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            
+        });
+    }
+    
+    function markdisabled(id, type, klasse){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Information/incompatibilities",
+            data: {
+                id: id,
+                type: type
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            if(msg.success === true){
+                jQuery.each(msg.vorteile, function(index, vorteil){
+                    jQuery(".choices.vorteil[data-id="+ vorteil +"]").addClass(klasse);
+                    if(klasse === 'disabled'){
+                        jQuery(".choices.vorteil[data-id="+ vorteil +"]").removeClass('active');
                     }
                 });
-            refreshInterface($("#circuit").val(), 'circuit');
-            refreshInterface($(this).val(), 'klasse');
-            refreshInterface(jQuery("#vorteile").val(), 'vorteil');
-        });
-        $("#odo").change(function () {
-            refreshInterface($(this).val(), 'odo');
-        });
-        $("#circuit").change(function () {
-            refreshInterface($(this).val(), 'circuit');
-        });
-        $("#luck").change(function () {
-            refreshInterface($(this).val(), 'luck');
-        });
-        $("#element").change(function () {
-            refreshInterface($(this).val(), 'element');
-        });
-
-        $("#vorteile").on("click", "option", function () {
-            if (vorteilCount > $(this).siblings(":selected").length) {
-                refreshInterface($(this).val(), 'vorteil');
-            } else {
-                $(this).removeAttr("selected");
+                jQuery.each(msg.nachteile, function(index, nachteil){
+                    jQuery(".choices.nachteil[data-id="+ nachteil +"]").addClass(klasse);
+                    if(klasse === 'disabled'){
+                        jQuery(".choices.nachteil[data-id="+ nachteil +"]").removeClass('active');
+                    }
+                });
             }
         });
-
-        $("#nachteile").on("click", "option", function () {
-            if (nachteilCount > $(this).siblings(":selected").length) {
-                refreshInterface($(this).val(), 'nachteil');
-            } else {
-                $(this).removeAttr("selected");
+    }
+    
+    function enable(id, type){
+        return jQuery.ajax({
+            type: "POST",
+            async: false,
+            url: baseUrl + "/Erstellung/Information/incompatibilities",
+            data: {
+                id: id,
+                type: type
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            if(msg.success === true){
+                jQuery.each(msg.vorteile, function(index, vorteil){
+                    jQuery(".choices.vorteil[data-id="+ vorteil +"]").removeClass('disabled');
+                    jQuery(".choices.vorteil[data-id="+ vorteil +"]").addClass('active');
+                });
+                jQuery.each(msg.nachteile, function(index, nachteil){
+                    jQuery(".choices.nachteil[data-id="+ nachteil +"]").removeClass('disabled');
+                    jQuery(".choices.nachteil[data-id="+ nachteil +"]").addClass('active');
+                });
             }
         });
-
-        function refreshInterface(latestId, latestType) {
-            $.ajax({
-                type: "POST",
-                url: baseUrl + "/Erstellung/Validation/info",
-                data: {
-                    vorteile: getSelectedVorteile(),
-                    nachteile: getSelectedNachteile(),
-                    klasse: $("#klasse").val(),
-                    odo: $("#odo").val(),
-                    luck: $("#luck").val(),
-                    circuit: $("#circuit").val(),
-                    element: $("#element").val(),
-                    type: latestType,
-                    id: latestId
-                }
-            })
-                    .success(function (msg) {
-                        result = $.parseJSON(msg);
-                        setBeschreibung(result.beschreibung);
-                        setPunkte(result.punkte);
-                        $("#vorteile").html(result.forms.vorteile);
-                        $("#nachteile").html(result.forms.nachteile);
-                    });
-        }
-
-        function getSelectedVorteile() {
-            var vorteile = [];
-            vorteileSelected = $.makeArray($("#vorteile :selected"));
-            $.each(vorteileSelected, function (id, value) {
-                vorteile.push(value['value']);
-            });
-            return vorteile;
-        }
-        function getSelectedNachteile() {
-            var nachteile = [];
-            nachteileSelected = $.makeArray($("#nachteile :selected"));
-            $.each(nachteileSelected, function (id, value) {
-                nachteile.push(value['value']);
-            });
-            return nachteile;
-        }
-
-        function setBeschreibung(msg) {
-            $('#Beschreibung').html(msg);
-        }
-        function setPunkte(msg) {
-            $('#Erstellungspunkte').html(msg);
-        }
-    });
+    }
+    
+    function refreshDisable(){
+        jQuery.each(jQuery(".choices.vorteil.marked"), function(index, element){
+            markdisabled(jQuery(element).attr('data-id'), 'vorteil', 'disabled');
+        });
+        jQuery.each(jQuery(".choices.nachteil.marked"), function(index, element){
+            markdisabled(jQuery(element).attr('data-id'), 'nachteil', 'disabled');
+        });
+    }
+    
+    function refreshInterface(){
+        erstellungspunkte = 30 - (parseInt(odo) + parseInt(luck) + parseInt(circuit) + vorteile + nachteile + unterklasse);
+        jQuery("#Erstellungspunkte").html(erstellungspunkte);
+    }

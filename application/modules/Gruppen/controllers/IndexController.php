@@ -35,7 +35,11 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        $this->view->gruppen  = $this->gruppenService->getGruppenByCharakterId($this->charakter->getCharakterId());
+        if($this->charakter !== false){
+            $this->view->gruppen  = $this->gruppenService->getGruppenByCharakterId($this->charakter->getCharakterId());
+        }else{
+            $this->view->gruppen = array();
+        }
         $this->view->eigeneGruppen = $this->gruppenService->getGruppenByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
@@ -68,8 +72,9 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function showAction() {
+        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
         if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('id'), 
-                                                    $this->charakter->getCharakterid(), 
+                                                    $charakterId, 
                                                     Zend_Auth::getInstance()->getIdentity()->userId
                                                 )){
             $this->redirect('Gruppen');
@@ -79,7 +84,7 @@ class Gruppen_IndexController extends Zend_Controller_Action {
         $gruppe = $this->gruppenService->getGruppeByGruppenId($this->getRequest()->getParam('id'));
         $this->view->logs = $this->gruppenService->getLogsByGruppenId($this->getRequest()->getParam('id'));
         $this->view->eigeneGruppe = ($gruppe->getGruender() === Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->view->exposed = $this->gruppenService->dataExposed($this->getRequest()->getParam('id'), $this->charakter->getCharakterid());
+        $this->view->exposed = $this->gruppenService->dataExposed($this->getRequest()->getParam('id'), $charakterId);
         $this->view->exposedIds = $this->gruppenService->getExposedIds($this->getRequest()->getParam('id'));
         $this->view->gruppe = $gruppe;
         $this->view->charaktere = $this->charakterService->getCharakters();
@@ -87,10 +92,7 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function addAction() {
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
-                                                    $this->charakter->getCharakterid(), 
-                                                    Zend_Auth::getInstance()->getIdentity()->userId
-                                                )){
+        if(!$this->gruppenService->isLeader(Zend_Auth::getInstance()->getIdentity()->userId, $this->getRequest()->getParam('gruppenId'))){
             $this->redirect('Gruppen');
         }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
@@ -102,10 +104,7 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function removeAction() {
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
-                                                    $this->charakter->getCharakterid(), 
-                                                    Zend_Auth::getInstance()->getIdentity()->userId
-                                                )){
+        if(!$this->gruppenService->isLeader(Zend_Auth::getInstance()->getIdentity()->userId, $this->getRequest()->getParam('gruppenId'))){
             $this->redirect('Gruppen');
         }
         if(!is_null($this->getRequest()->getParam('gruppenId'))){
@@ -117,8 +116,9 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function chatAction() {
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('getCharakterid'), 
-                                                    $this->charakter->getCharakterid(), 
+        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
+        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('gruppenId'), 
+                                                    $charakterId, 
                                                     Zend_Auth::getInstance()->getIdentity()->userId
                                                 )){
             $this->redirect('Gruppen');
@@ -132,8 +132,9 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     }
     
     public function uploadAction() {
+        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
         if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('gruppenId'), 
-                                                    $this->charakter->getCharakterid(), 
+                                                    $charakterId, 
                                                     Zend_Auth::getInstance()->getIdentity()->userId
                                                 )){
             $this->redirect('Gruppen');
@@ -149,8 +150,9 @@ class Gruppen_IndexController extends Zend_Controller_Action {
     
     
     public function downloadAction() {
+        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
         if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('id'), 
-                                                    $this->charakter->getCharakterid(), 
+                                                    $charakterId, 
                                                     Zend_Auth::getInstance()->getIdentity()->userId
                                                 )){
             $this->redirect('Gruppen');

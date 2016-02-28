@@ -29,7 +29,7 @@ $charakter = $this->charakter;
 </div>
 <div>
     <fieldset>
-        <legend>Private Chrakterdaten <span class="indicator"></span></legend>
+        <legend>Private Charakterdaten <span class="indicator"></span></legend>
         <div class="subContent">
             <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/private">
                 <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>

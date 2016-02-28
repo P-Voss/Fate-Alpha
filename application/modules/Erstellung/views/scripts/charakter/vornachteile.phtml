@@ -1,0 +1,39 @@
+<?php
+/* @var $vorteil Application_Model_Vorteil */
+/* @var $nachteil Application_Model_Nachteil */
+?>
+<div style="text-align: center">
+    <div style="margin: 0 auto; display: inline-block;">
+<?php foreach ($this->vorteile as $vorteil) : ?>
+    <div class="choices vorteil active" data-id="<?= $vorteil->getId() ?>">
+        <p>
+            <?= $vorteil->getBezeichnung() ?><br>
+            (-<?= $vorteil->getKosten() ?>)
+        </p>
+    </div>
+<?php endforeach; ?>
+    <div style="clear: both"></div>
+    </div>
+</div>
+<fieldset>
+    <legend>Beschreibung</legend>
+    <div class="beschreibungVorteil"></div>
+</fieldset>
+<div style="text-align: center">
+    <div style="margin: 0 auto; display: inline-block;">
+<?php foreach ($this->nachteile as $nachteil) : ?>
+    <div class="choices nachteil active" data-id="<?= $nachteil->getId() ?>">
+        <p>
+            <?= $nachteil->getBezeichnung() ?><br>
+            (+<?= $nachteil->getKosten() ?>)
+        </p>
+    </div>
+<?php endforeach; ?>
+    <div style="clear: both"></div>
+    </div>
+</div>
+<fieldset>
+    <legend>Beschreibung</legend>
+    <div class="beschreibungNachteil"></div>
+</fieldset>
+<input class="nextStep" type="submit" value="Weiter">

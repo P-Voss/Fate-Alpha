@@ -74,10 +74,10 @@ class Application_Model_Mapper_TrainingMapper{
     }
     
     public function setOtherValuesNull(Application_Model_Trainingswerte $trainingswerte, Application_Model_Charakter $charakter) {
-        if($charakter->getKlassengruppe()->getId() == 2){
-            $trainingswerte->setDisTraining(null);
-            $trainingswerte->setKonTraining(null);
-        }
+//        if($charakter->getKlassengruppe()->getId() == 2){
+//            $trainingswerte->setDisTraining(null);
+//            $trainingswerte->setKonTraining(null);
+//        }
         return $trainingswerte;
     }
     

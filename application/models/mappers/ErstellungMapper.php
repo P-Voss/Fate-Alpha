@@ -240,4 +240,27 @@ class Application_Model_Mapper_ErstellungMapper {
         }
     }
     
+    
+    public function getUnterklassenForCharakter(Application_Model_Charakter $charakter) {
+        $returnArray = array();
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakter');
+        $select->joinInner('klassen', 'charakter.klassengruppenId = klassen.klassengruppenId');
+        $select->where('charakter.charakterId = ?', $charakter->getCharakterid());
+        $result = $this->getDbTable('Charakter')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $klasse = new Erstellung_Model_Unterklasse();
+                $klasse->setId($row->klassenId);
+                $klasse->setBezeichnung($row->klasse);
+                $klasse->setBeschreibung($row->beschreibung);
+                $klasse->setKosten($row->kosten);
+                $klasse->setFamilienname($row->familienname);
+                $returnArray[] = $klasse;
+            }
+        }
+        return $returnArray;
+    }
+    
 }

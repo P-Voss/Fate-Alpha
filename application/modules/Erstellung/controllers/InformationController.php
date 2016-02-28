@@ -7,10 +7,7 @@
  */
 class Erstellung_InformationController extends Zend_Controller_Action{
     
-    protected $_charakterService;
-    protected $_erstellungService;
-    protected $_layoutService;
-    protected $_validationService;
+    protected $informationService;
 
     public function init() {
         $layout = $this->_helper->layout();
@@ -20,16 +17,39 @@ class Erstellung_InformationController extends Zend_Controller_Action{
         if($auth === null){
             $this->redirect('index');
         }
+        $this->informationService = new Erstellung_Service_Information();
     }
     
-    public function infoAction() {
-        $this->_erstellungService = new Application_Service_Erstellung();
-        echo $this->_erstellungService->getCharakteristics($this->getRequest());
+    public function klasseAction() {
+        echo json_encode($this->informationService->getKlasse($this->getRequest()->getPost('id')));
     }
     
-    public function classAction() {
-        $this->_erstellungService = new Application_Service_Erstellung();
-        echo $this->_erstellungService->getKlassengruppe($this->getRequest());
+    public function odoAction() {
+        echo json_encode($this->informationService->getOdo($this->getRequest()->getPost('id')));
+    }
+    
+    public function circuitAction() {
+        echo json_encode($this->informationService->getCircuit($this->getRequest()->getPost('id')));
+    }
+    
+    public function luckAction() {
+        echo json_encode($this->informationService->getLuck($this->getRequest()->getPost('id')));
+    }
+    
+    public function vorteilAction() {
+        echo json_encode($this->informationService->getVorteil($this->getRequest()->getPost('id')));
+    }
+    
+    public function nachteilAction() {
+        echo json_encode($this->informationService->getNachteil($this->getRequest()->getPost('id')));
+    }
+    
+    public function incompatibilitiesAction() {
+        echo json_encode($this->informationService->getIncompatibilities($this->getRequest()));
+    }
+    
+    public function unterklasseAction() {
+        echo json_encode($this->informationService->getUnterklasse($this->getRequest()->getPost('id')));
     }
     
 }

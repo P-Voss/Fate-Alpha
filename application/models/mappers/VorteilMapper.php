@@ -47,4 +47,38 @@ class Application_Model_Mapper_VorteilMapper implements Application_Model_Erstel
         }
     }
     
+    public function getIncompatibleVorteile($vorteilId) {
+        $disabledVorteile = array();
+        $select1 = $this->getDbTable('VorteilToVorteil')->select();
+        $select1->from('inkVorteilToVorteil', array('id' => 'vorteilId2'));
+        $select1->where('vorteilId1 = ?', $vorteilId);
+
+        $select2 = $this->getDbTable('VorteilToVorteil')->select();
+        $select2->from('inkVorteilToVorteil', array('id' => 'vorteilId1'));
+        $select2->Where('vorteilId2 = ?', $vorteilId);
+
+        $select = $this->getDbTable('VorteilToVorteil')->select();
+        $select->union(array($select1, $select2));
+        $result = $this->getDbTable('VorteilToVorteil')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $disabledVorteile[] = $row->id;
+            }
+        }
+        return $disabledVorteile;
+    }
+    
+    public function getIncompatibleNachteile($vorteilId) {
+        $disabledNachteile = array();
+        $select = $this->getDbTable('VorteilToNachteil')->select();
+        $select->where('vorteilId = ?', $vorteilId);
+        $result = $this->getDbTable('VorteilToNachteil')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $disabledNachteile[] = $row->nachteilId;
+            }
+        }
+        return $disabledNachteile;
+    }
+    
 }

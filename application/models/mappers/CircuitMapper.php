@@ -15,11 +15,11 @@ class Application_Model_Mapper_CircuitMapper implements Application_Model_Erstel
         return $dbTable;
     }
     
-    public function getPunkte($ids){
+    public function getPunkte($id){
         $select = $this->getDbTable('Circuit')->select();
         $select->setIntegrityCheck(false);
         $select->from('circuit', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
-        $select->where('circuitId IN(?)', $ids);
+        $select->where('circuitId = ?', $id);
         $result = $this->getDbTable('Circuit')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -31,11 +31,11 @@ class Application_Model_Mapper_CircuitMapper implements Application_Model_Erstel
         }
     }
     
-    public function getBeschreibung($ids) {
+    public function getBeschreibung($id) {
         $select = $this->getDbTable('Circuit')->select();
         $select->setIntegrityCheck('false');
         $select->from('circuit', array('besonderheit'));
-        $select->where('circuitId IN (?)', $ids);
+        $select->where('circuitId = ?', $id);
         $result = $this->getDbTable('Circuit')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

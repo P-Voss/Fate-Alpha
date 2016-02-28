@@ -15,11 +15,11 @@ class Application_Model_Mapper_LuckMapper implements Application_Model_Erstellun
         return $dbTable;
     }
     
-    public function getPunkte($ids){
+    public function getPunkte($id){
         $select = $this->getDbTable('Luck')->select();
         $select->setIntegrityCheck(false);
         $select->from('luck', array('Punkte' => new Zend_Db_Expr('SUM(kosten)')));
-        $select->where('luckId IN(?)', $ids);
+        $select->where('luckId = ?', $id);
         $result = $this->getDbTable('Luck')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
@@ -31,11 +31,11 @@ class Application_Model_Mapper_LuckMapper implements Application_Model_Erstellun
         }
     }
     
-    public function getBeschreibung($ids) {
+    public function getBeschreibung($id) {
         $select = $this->getDbTable('Luck')->select();
         $select->setIntegrityCheck('false');
         $select->from('luck', array('beschreibung'));
-        $select->where('luckId IN (?)', $ids);
+        $select->where('luckId = ?', $id);
         $result = $this->getDbTable('Luck')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

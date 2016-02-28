@@ -19,7 +19,7 @@ class Application_Model_Mapper_UserMapper {
         $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakter');
-        $select->where('userId = ?', $userId);
+        $select->where('userId = ? AND active = 1', $userId);
         $result = $this->getDbTable('User')->fetchAll($select);
         if ($result->count() > 0) {
             return true;
