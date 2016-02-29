@@ -105,6 +105,14 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
     }
     
     
+    public function removeVorteil(Erstellung_Model_Charakter $charakter, $vorteilId) {
+        parent::getDbTable('CharakterVorteil')->delete(array(
+            'charakterId = ?' => $charakter->getCharakterid(),
+            'vorteilId = ?' => $vorteilId,
+            ));
+    }
+    
+    
     public function addNachteil(Erstellung_Model_Charakter $charakter, $nachteil) {
         $data = array(
             'charakterId' => $charakter->getCharakterid(),
@@ -116,6 +124,14 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
     
     public function removeNachteile(Erstellung_Model_Charakter $charakter) {
         parent::getDbTable('CharakterNachteil')->delete(array('charakterId = ?' => $charakter->getCharakterid()));
+    }
+    
+    
+    public function removeNachteil(Erstellung_Model_Charakter $charakter, $nachteilId) {
+        parent::getDbTable('CharakterNachteil')->delete(array(
+            'charakterId = ?' => $charakter->getCharakterid(),
+            'nachteilId = ?' => $nachteilId,
+            ));
     }
     
     
@@ -146,6 +162,26 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
     
     public function removeUnterklasse(Erstellung_Model_Charakter $charakter) {
         $data['klassenId'] = null;
+        parent::getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+    }
+    
+    public function familyname(Erstellung_Model_Charakter $charakter) {
+        $select = parent::getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakter');
+        $select->join('klassen', 'charakter.klassenId = klassen.klassenId');
+        $select->where('charakterId = ?', $charakter->getCharakterid());
+        $result = $this->getDbTable('Charakter')->fetchRow($select);
+        if($result !== null){
+            if(strlen($result->familienname) > 0){
+                $this->changeName($charakter, $result->familienname);
+            }
+        }
+    }
+    
+    
+    public function changeName(Erstellung_Model_Charakter $charakter, $familienname) {
+        $data['nachname'] = $familienname;
         parent::getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
     }
     

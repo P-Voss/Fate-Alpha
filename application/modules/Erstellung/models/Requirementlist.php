@@ -5,7 +5,7 @@
  *
  * @author Voß
  */
-class Shop_Model_Requirementlist implements Iterator {
+class Erstellung_Model_Requirementlist implements Iterator {
     
     /**
      * @var array
@@ -21,14 +21,14 @@ class Shop_Model_Requirementlist implements Iterator {
 
     public function setRequirements(array $requirements) {
         foreach ($requirements as $requirement){
-            if($requirement instanceof Shop_Model_Requirement){
+            if($requirement instanceof Erstellung_Model_Requirement){
                 $this->requirements[] = $requirement;
             }
         }
     }
     
     
-    public function addRequirement(Shop_Model_Requirement $requirement) {
+    public function addRequirement(Erstellung_Model_Requirement $requirement) {
         $this->requirements[] = $requirement;
     }
     

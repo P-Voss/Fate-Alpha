@@ -144,7 +144,7 @@ class Erstellung_Service_Erstellung {
     
     public function removeVorteil(Zend_Controller_Request_Http $request, Application_Model_Charakter $charakter) {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
-        
+        $mapper->removeVorteil($charakter, $request->getPost('id'));
     }
     
     
@@ -156,6 +156,7 @@ class Erstellung_Service_Erstellung {
     
     public function removeNachteil(Zend_Controller_Request_Http $request, Application_Model_Charakter $charakter) {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
+        $mapper->removeNachteil($charakter, $request->getPost('id'));
     }
     
     
@@ -221,6 +222,7 @@ class Erstellung_Service_Erstellung {
     
     public function finalizeCharakter(Erstellung_Model_Charakter $charakter) {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
+        $mapper->familyname($charakter);
         $mapper->setInitalSkillarten($charakter->getCharakterid());
         $mapper->saveCharakterWerte($charakter->getCharakterid());
         $mapper->createCharakterProfile($charakter->getCharakterid());

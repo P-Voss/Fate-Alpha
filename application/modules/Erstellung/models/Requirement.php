@@ -5,7 +5,7 @@
  *
  * @author Voß
  */
-class Shop_Model_Requirement {
+class Erstellung_Model_Requirement {
     
     /**
      * @var string

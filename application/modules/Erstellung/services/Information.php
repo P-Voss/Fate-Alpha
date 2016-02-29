@@ -36,8 +36,17 @@ class Erstellung_Service_Information {
     
     
     public function getUnterklassenByCharakter(Erstellung_Model_Charakter $charakter) {
+        $requirementValidator = new Erstellung_Service_Requirement($charakter);
         $mapper = new Application_Model_Mapper_ErstellungMapper();
-        return $unterklassen = $mapper->getUnterklassenForCharakter($charakter);
+        $unterklassenToValidate = $mapper->getUnterklassenForCharakter($charakter);
+        $unterklassen = array();
+        foreach ($unterklassenToValidate as $unterklasse){
+            $unterklasse->setRequirementList($mapper->getUnterklassenRequirements($unterklasse->getId()));
+            if($requirementValidator->validate($unterklasse->getRequirementList()) === true){
+                $unterklassen[] = $unterklasse;
+            }
+        }
+        return $unterklassen;
     }
     
     

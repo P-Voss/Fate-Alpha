@@ -23,6 +23,9 @@ class Erstellung_ErstellungController extends Zend_Controller_Action{
         $this->validationService = new Erstellung_Service_Validation();
         $this->charakterService = new Erstellung_Service_Charakter();
         $this->erstellungService = new Erstellung_Service_Erstellung();
+        if($this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId) !== false){
+            $this->redirect('index');
+        }
     }
     
     public function personAction() {
@@ -61,10 +64,28 @@ class Erstellung_ErstellungController extends Zend_Controller_Action{
         }
     }
     
+    public function unsetvorteilAction() {
+        $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        if($charakter !== false){
+            echo json_encode($this->erstellungService->removeVorteil($this->getRequest(), $charakter));
+        }else{
+            echo json_encode(array('success' => false, 'errors' => array('kein Charakter vorhanden')));
+        }
+    }
+    
     public function nachteilAction() {
         $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
         if($charakter !== false){
             echo json_encode($this->erstellungService->addNachteil($this->getRequest(), $charakter));
+        }else{
+            echo json_encode(array('success' => false, 'errors' => array('kein Charakter vorhanden')));
+        }
+    }
+    
+    public function unsetnachteilAction() {
+        $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        if($charakter !== false){
+            echo json_encode($this->erstellungService->removeNachteil($this->getRequest(), $charakter));
         }else{
             echo json_encode(array('success' => false, 'errors' => array('kein Charakter vorhanden')));
         }

@@ -8,18 +8,21 @@ $(document).ready(function () {
                 personalData();
                 break;
             case 'klasse':
+                clearKlasse();
                 clearEigenschaften();
                 klasse();
                 break;
             case 'eigenschaften':
+                clearEigenschaften();
                 clearVorNachteile();
                 eigenschaften();
                 break;
             case 'vorNachteile':
-                clearUnterklasse();
+                clearVorNachteile();
                 vorNachteile();
                 break;
             case 'unterklasse':
+                clearUnterklasse();
                 unterklassen();
                 break;
         }

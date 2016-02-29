@@ -4,13 +4,13 @@
  *
  * @author Voß
  */
-interface Shop_Model_Requirements_ValidationInterface {
+interface Erstellung_Model_Requirements_ValidationInterface {
     
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param Erstellung_Model_Charakter $charakter
      * @param mixed $value
      * @return boolean
      */
-    public function check(Application_Model_Charakter $charakter, $value);
+    public function check(Erstellung_Model_Charakter $charakter, $value);
     
 }

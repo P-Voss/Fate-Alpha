@@ -4,39 +4,39 @@
  *
  * @author Voß
  */
-class Shop_Service_Requirement {
+class Erstellung_Service_Requirement {
     
     /**
-     * @var Application_Model_Charakter
+     * @var Erstellung_Model_Charakter
      */
     private $charakter;
     /**
-     * @var Shop_Model_Requirements_Factory
+     * @var Erstellung_Model_Requirements_Factory
      */
     private $factory;
 
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param Erstellung_Model_Charakter $charakter
      */
-    public function __construct(Application_Model_Charakter $charakter = null) {
+    public function __construct(Erstellung_Model_Charakter $charakter = null) {
         if($charakter !== null){
             $this->charakter = $charakter;
         }
-        $this->factory = new Shop_Model_Requirements_Factory();
+        $this->factory = new Erstellung_Model_Requirements_Factory();
     }
     
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param Erstellung_Model_Charakter $charakter
      */
-    public function setCharakter(Application_Model_Charakter $charakter) {
+    public function setCharakter(Erstellung_Model_Charakter $charakter) {
         $this->charakter = $charakter;
     }
         
     /**
-     * @param Shop_Model_Requirementlist $requirementList
+     * @param Erstellung_Model_Requirementlist $requirementList
      * @return boolean
      */
-    public function validate(Shop_Model_Requirementlist $requirementList) {
+    public function validate(Erstellung_Model_Requirementlist $requirementList) {
         $errors = array();
         $requirements = $requirementList->getRequirements();
         foreach ($requirements as $requirement){

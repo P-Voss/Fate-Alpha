@@ -5,14 +5,14 @@
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Factory {
+class Erstellung_Model_Requirements_Factory {
     
     
     public function getValidator($validator) {
-        $class = 'Shop_Model_Requirements_Validators_' . $validator;
+        $class = 'Erstellung_Model_Requirements_Validators_' . ucfirst($validator);
         if(class_exists($class)){
             $validator = new $class();
-            if($validator instanceof Shop_Model_Requirements_ValidationInterface){
+            if($validator instanceof Erstellung_Model_Requirements_ValidationInterface){
                 return $validator;
             }else{
                 throw new Exception('Die Validatorklasse '. $class .' konnte nicht gefunden werden');

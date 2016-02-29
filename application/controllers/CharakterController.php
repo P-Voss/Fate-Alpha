@@ -48,21 +48,21 @@ class CharakterController extends Zend_Controller_Action{
     
     public function indexAction() {
         if($this->charakter === false){
-            $this->redirect('charakter/erstellung');
+            $this->redirect('Erstellung/Charakter');
         }
         $this->view->charakter = $this->charakter;
     }
     
     public function profilAction() {
         if($this->charakter === false){
-            $this->redirect('charakter/erstellung');
+            $this->redirect('Erstellung/Charakter');
         }
         $this->view->charakter = $this->charakter;
     }
     
     public function abilitiesAction() {
         if($this->charakter === false){
-            $this->redirect('charakter/erstellung');
+            $this->redirect('Erstellung/Charakter');
         }
         $magieService = new Shop_Service_Magie();
         $magieschulen = $magieService->getMagieschulenForCharakter($this->charakter);
@@ -89,12 +89,12 @@ class CharakterController extends Zend_Controller_Action{
     
     public function inventarAction() {
         if($this->charakter === false){
-            $this->redirect('charakter/erstellung');
+            $this->redirect('Erstellung/Charakter');
         }
     }
     
     public function erstellungAction() {
-        $this->redirect('index');
+        $this->redirect('Erstellung/Charakter');
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
         $this->view->creationParams = $this->erstellungsService->getCreationParams();

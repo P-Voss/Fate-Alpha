@@ -90,6 +90,7 @@ var unterklasse = 0;
                     enable(element.attr('data-id'), 'vorteil');
                     refreshDisable();
                     vorteile = vorteile - parseInt(msg.points);
+                    removeVorteil(element.attr('data-id'));
                 }else if(element.hasClass('active') && jQuery('.choices.vorteil.active.marked').length < vorteilCount){
                     addVorteil(element.attr('data-id'));
                     element.addClass('marked');
@@ -123,6 +124,7 @@ var unterklasse = 0;
                     enable(element.attr('data-id'), 'nachteil');
                     refreshDisable();
                     nachteile = nachteile + parseInt(msg.points);
+                    removeNachteil(element.attr('data-id'));
                 }else if(element.hasClass('active') && jQuery('.choices.nachteil.active.marked').length < nachteilCount){
                     addNachteil(element.attr('data-id'));
                     element.addClass('marked');
@@ -279,7 +281,7 @@ var unterklasse = 0;
     function getKlassenBeschreibung(klassenId){
         jQuery.ajax({
             type: "POST",
-            url: baseUrl + "/Erstellung/Information/unterklasse",
+            url: baseUrl + "/Erstellung/Information/klasse",
             data: {
                 id: klassenId
             },
@@ -331,6 +333,20 @@ var unterklasse = 0;
             
         });
     }
+    
+    function removeVorteil(vorteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Erstellung/unsetvorteil",
+            data: {
+                id: vorteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            
+        });
+    }
 
     function getNachteilBeschreibung(nachteilId){
         jQuery.ajax({
@@ -350,6 +366,20 @@ var unterklasse = 0;
         jQuery.ajax({
             type: "POST",
             url: baseUrl + "/Erstellung/Erstellung/nachteil",
+            data: {
+                id: nachteilId
+            },
+            dataType: "json"
+        })
+        .success(function (msg) {
+            
+        });
+    }
+    
+    function removeNachteil(nachteilId){
+        jQuery.ajax({
+            type: "POST",
+            url: baseUrl + "/Erstellung/Erstellung/unsetnachteil",
             data: {
                 id: nachteilId
             },

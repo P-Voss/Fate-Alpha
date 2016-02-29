@@ -251,6 +251,15 @@ class Application_Model_Mapper_ErstellungMapper {
         $result = $this->getDbTable('Charakter')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row) {
+                if($row->maxCount > 0){
+                    $select = $this->getDbTable('Charakter')->select();
+                    $select->from('charakter');
+                    $select->where('klassenId = ' . $row->klassenId);
+                    $result = $this->getDbTable('Charakter')->fetchAll($select);
+                    if($result->count() >= $row->maxCount){
+                        continue;
+                    }
+                }
                 $klasse = new Erstellung_Model_Unterklasse();
                 $klasse->setId($row->klassenId);
                 $klasse->setBezeichnung($row->klasse);
@@ -261,6 +270,26 @@ class Application_Model_Mapper_ErstellungMapper {
             }
         }
         return $returnArray;
+    }
+    
+    /**
+     * @param int $unterklassenId
+     * @return \Erstellung_Model_Requirementlist
+     */
+    public function getUnterklassenRequirements($unterklassenId) {
+        $requirementList = new Erstellung_Model_Requirementlist();
+        $select = $this->getDbTable('KlasseVoraussetzung')->select();
+        $select->where('unterklassenId = ?', $unterklassenId);
+        $result = $this->getDbTable('KlasseVoraussetzung')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $requirement = new Erstellung_Model_Requirement();
+                $requirement->setArt($row->art);
+                $requirement->setRequiredValue($row->voraussetzung);
+                $requirementList->addRequirement($requirement);
+            }
+        }
+        return $requirementList;
     }
     
 }
