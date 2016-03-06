@@ -23,7 +23,7 @@ class Application_Model_Mapper_ErstellungMapper {
      * @return \Application_Model_Vorteil
      */
     public function getAllVorteile() {
-            $return = array();
+        $return = array();
         $select = $this->getDbTable('Vorteil')->select();
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
         if($result->count() > 0){

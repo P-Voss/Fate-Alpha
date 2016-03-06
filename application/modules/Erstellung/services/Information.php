@@ -13,6 +13,12 @@ class Erstellung_Service_Information {
     }
     
     
+    public function getFamiliennamen() {
+        $mapper = new Erstellung_Model_Mapper_KlassenMapper();
+        return $mapper->getFamiliennamen();
+    }
+    
+    
     public function getKlasse($id) {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         $klasse = $mapper->getKlassengruppeById($id);
@@ -84,6 +90,19 @@ class Erstellung_Service_Information {
     }
     
     
+    public function vorteilIncompatibilities() {
+        $returnArray = array();
+        $vorteilMapper = new Application_Model_Mapper_VorteilMapper();
+        $mapper = new Application_Model_Mapper_ErstellungMapper();
+        $vorteile = $mapper->getAllVorteile();
+        foreach ($vorteile as $vorteil) {
+            $returnArray[$vorteil->getId()]['vorteile'] = $vorteilMapper->getIncompatibleVorteile($vorteil->getId());
+            $returnArray[$vorteil->getId()]['nachteile'] = $vorteilMapper->getIncompatibleNachteile($vorteil->getId());
+        }
+        return $returnArray;
+    }
+    
+    
     public function getVorteil($id) {
         $mapper = new Application_Model_Mapper_VorteilMapper();
         return array(
@@ -96,6 +115,20 @@ class Erstellung_Service_Information {
     public function getNachteile() {
         $mapper = new Application_Model_Mapper_ErstellungMapper();
         return $mapper->getAllNachteile();
+    }
+    
+    
+    
+    public function nachteilIncompatibilities() {
+        $returnArray = array();
+        $nachteilMapper = new Application_Model_Mapper_NachteilMapper();
+        $mapper = new Application_Model_Mapper_ErstellungMapper();
+        $nachteile = $mapper->getAllNachteile();
+        foreach ($nachteile as $nachteil) {
+            $returnArray[$nachteil->getId()]['vorteile'] = $nachteilMapper->getIncompatibleVorteile($nachteil->getId());
+            $returnArray[$nachteil->getId()]['nachteile'] = $nachteilMapper->getIncompatibleNachteile($nachteil->getId());
+        }
+        return $returnArray;
     }
     
     

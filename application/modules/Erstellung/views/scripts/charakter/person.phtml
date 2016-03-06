@@ -28,6 +28,7 @@ $charakter = $this->charakter;
             </span>
         </label>
         <div class="FormularInput">
+            <span id="nachnameError" class="error"></span>
             <input type="text" name="nachname" id="nachname" size="35" required="" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getNachname() : '') ?>">
         </div>
     </fieldset>

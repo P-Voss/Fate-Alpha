@@ -9,6 +9,10 @@ var vorteile = 0;
 var nachteile = 0;
 var unterklasse = 0;
 
+var clanNamen = new Array();
+var vorteilData = new Array();
+var nachteilData = new Array();
+
     $(document).ready(function () {
         $("#beschreibungLinks").hide();
         $("#Erstellungspunkte").html(erstellungspunkte);
@@ -156,7 +160,7 @@ var unterklasse = 0;
                 dataType: "json"
             })
             .success(function (msg) {
-                jQuery(".beschreibungOdo").html(msg.beschreibung);
+                jQuery(".beschreibungOdo").html(msg.beschreibung + ' Odo');
                 odo = msg.points;
                 refreshInterface();
             });
@@ -200,52 +204,28 @@ var unterklasse = 0;
         
         
         
-        $("#vorname").change(function () {
-            wert = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: baseUrl + "/Erstellung/Validation/namevalidation",
-                data: {
-                    type: 'Vorname',
-                    value: wert
-                }
-            })
-                .success(function (msg) {
-                    var returnValue = $.parseJSON(msg);
-                    if (returnValue.result.toLocaleLowerCase() === wert.toLocaleLowerCase()) {
-                        $("#Vorname").html('Name: ' + returnValue.result);
-                        $("#vorname").val(returnValue.result);
-                    } else {
-                        $("#vorname").val('');
-                        $("#vorname").attr('placeholder', returnValue.result);
-                        $("#Vorname").html('');
-                    }
-                });
-            $("#beschreibungLinks").show(1500);
+        $("#inhalt").on('change', '#vorname', function () {
+            val = $(this).val();
+            jQuery(this).val(val.toUpperCaseWords());
         });
 
-        $("#nachname").change(function () {
-            wert = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: baseUrl + "/Erstellung/Validation/namevalidation",
-                data: {
-                    type: 'Nachname',
-                    value: wert
+        $("#inhalt").on('change', '#nachname', function () {
+            val = jQuery(this).val();
+            error = false;
+            jQuery.each(clanNamen, function(index, clanname){
+                if(val.toLocaleLowerCase() === clanname.toLocaleLowerCase()){
+                    error = true;
                 }
-            })
-                .success(function (msg) {
-                    var returnValue = $.parseJSON(msg);
-                    if (returnValue.result.toLocaleLowerCase() === wert.toLocaleLowerCase()) {
-                        $("#Nachname").html(returnValue.result);
-                        $("#nachname").val(returnValue.result);
-                    } else {
-                        $("#nachname").val('');
-                        $("#nachname").attr('placeholder', returnValue.result);
-                        $("#Nachname").html('');
-                    }
-                });
+            });
+            if(error === false){
+                jQuery('#nachnameError').html('');
+                jQuery(this).val(val.toUpperCaseWords());
+            }else{
+                jQuery('#nachnameError').html('Dieser Nachname ist nicht erlaubt');
+                jQuery(this).val('');
+            }
         });
+        
         $("#geburtsdatum").change(function () {
             wert = $(this).val();
             $("#Geburtsdatum").html('Geboren am: ' + wert);
@@ -391,31 +371,42 @@ var unterklasse = 0;
     }
     
     function markdisabled(id, type, klasse){
-        jQuery.ajax({
-            type: "POST",
-            url: baseUrl + "/Erstellung/Information/incompatibilities",
-            data: {
-                id: id,
-                type: type
-            },
-            dataType: "json"
-        })
-        .success(function (msg) {
-            if(msg.success === true){
-                jQuery.each(msg.vorteile, function(index, vorteil){
-                    jQuery(".choices.vorteil[data-id="+ vorteil +"]").addClass(klasse);
-                    if(klasse === 'disabled'){
-                        jQuery(".choices.vorteil[data-id="+ vorteil +"]").removeClass('active');
-                    }
-                });
-                jQuery.each(msg.nachteile, function(index, nachteil){
-                    jQuery(".choices.nachteil[data-id="+ nachteil +"]").addClass(klasse);
-                    if(klasse === 'disabled'){
-                        jQuery(".choices.nachteil[data-id="+ nachteil +"]").removeClass('active');
-                    }
-                });
-            }
-        });
+        if(type === 'vorteil'){
+            jQuery.each(vorteilData, function(index, vorteil){
+                if(index === id){
+                    jQuery.each(vorteil.vorteile, function(index, id){
+                        jQuery(".choices.vorteil[data-id="+ id +"]").addClass(klasse);
+                        if(klasse === 'disabled'){
+                            jQuery(".choices.vorteil[data-id="+ id +"]").removeClass('active');
+                        }
+                    });
+                    jQuery.each(vorteil.nachteile, function(index, id){
+                        jQuery(".choices.nachteil[data-id="+ id +"]").addClass(klasse);
+                        if(klasse === 'disabled'){
+                            jQuery(".choices.nachteil[data-id="+ id +"]").removeClass('active');
+                        }
+                    });
+                }
+            });
+        }
+        if(type === 'nachteil'){
+            jQuery.each(nachteilData, function(index, nachteil){
+                if(index === id){
+                    jQuery.each(nachteil.vorteile, function(index, id){
+                        jQuery(".choices.vorteil[data-id="+ id +"]").addClass(klasse);
+                        if(klasse === 'disabled'){
+                            jQuery(".choices.vorteil[data-id="+ id +"]").removeClass('active');
+                        }
+                    });
+                    jQuery.each(nachteil.nachteile, function(index, id){
+                        jQuery(".choices.nachteil[data-id="+ id +"]").addClass(klasse);
+                        if(klasse === 'disabled'){
+                            jQuery(".choices.nachteil[data-id="+ id +"]").removeClass('active');
+                        }
+                    });
+                }
+            });
+        }
     }
     
     function enable(id, type){
@@ -456,3 +447,9 @@ var unterklasse = 0;
         erstellungspunkte = 30 - (parseInt(odo) + parseInt(luck) + parseInt(circuit) + vorteile + nachteile + unterklasse);
         jQuery("#Erstellungspunkte").html(erstellungspunkte);
     }
+    
+   String.prototype.toUpperCaseWords = function () {
+    return this.replace(/\w+/g, function(a){ 
+      return a.charAt(0).toUpperCase() + a.slice(1).toLowerCase()
+    })
+  }

@@ -2,7 +2,9 @@
 
 class Erstellung_Model_Mapper_KlassenMapper extends Application_Model_Mapper_KlasseMapper {
     
-    
+    /**
+     * @return \Erstellung_Model_Klasse
+     */
     public function getKlassengruppen() {
         $returnArray = array();
         $select = parent::getDbTable('Klassengruppe')->select();
@@ -33,6 +35,22 @@ class Erstellung_Model_Mapper_KlassenMapper extends Application_Model_Mapper_Kla
         }else{
             return false;
         }
+    }
+    
+    /**
+     * @return array
+     */
+    public function getFamiliennamen() {
+        $returnArray = array();
+        $select = parent::getDbTable('Klasse')->select();
+        $select->where('familienname != "" AND familienname IS NOT NULL');
+        $result = parent::getDbTable('Klasse')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $returnArray[] = $row->familienname;
+            }
+        }
+        return $returnArray;
     }
     
 }

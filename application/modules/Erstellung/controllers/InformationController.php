@@ -52,4 +52,15 @@ class Erstellung_InformationController extends Zend_Controller_Action{
         echo json_encode($this->informationService->getUnterklasse($this->getRequest()->getPost('id')));
     }
     
+    public function clansAction() {
+        echo json_encode($this->informationService->getFamiliennamen());
+    }
+    
+    public function vorteileAction() {
+        echo json_encode($this->informationService->vorteilIncompatibilities());
+    }
+    
+    public function nachteileAction() {
+        echo json_encode($this->informationService->nachteilIncompatibilities());
+    }
 }

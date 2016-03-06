@@ -2,6 +2,7 @@
 /* @var $vorteil Application_Model_Vorteil */
 /* @var $nachteil Application_Model_Nachteil */
 ?>
+<h3>Vorteile</h3>
 <div style="text-align: center">
     <div style="margin: 0 auto; display: inline-block;">
 <?php foreach ($this->vorteile as $vorteil) : ?>
@@ -15,10 +16,11 @@
     <div style="clear: both"></div>
     </div>
 </div>
-<fieldset>
+<fieldset style="margin-bottom: 25px;">
     <legend>Beschreibung</legend>
     <div class="beschreibungVorteil"></div>
 </fieldset>
+<h3>Nachteile</h3>
 <div style="text-align: center">
     <div style="margin: 0 auto; display: inline-block;">
 <?php foreach ($this->nachteile as $nachteil) : ?>

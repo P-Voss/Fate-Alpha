@@ -2,6 +2,9 @@
 jQuery(document).ready(function () {
     
     personalData();
+    setClannamen();
+    setVorteile();
+    setNachteile();
     
     jQuery("#inhalt").on('click', "#person .nextStep", function(event){
         event.preventDefault();
@@ -259,5 +262,42 @@ function setUnterklasse(id){
         if(msg.success === true){
             
         }
+    });
+}
+
+
+function setClannamen(){
+    jQuery.ajax({
+        type: "POST",
+        cache: false,
+        url: baseUrl + "/Erstellung/information/clans",
+        dataType: "json"
+    })
+    .success(function(msg){
+        clanNamen = msg;
+    });
+}
+
+function setVorteile(){
+    jQuery.ajax({
+        type: "POST",
+        cache: false,
+        url: baseUrl + "/Erstellung/information/vorteile",
+        dataType: "json"
+    })
+    .success(function(msg){
+        vorteilData = msg;
+    });
+}
+
+function setNachteile(){
+    jQuery.ajax({
+        type: "POST",
+        cache: false,
+        url: baseUrl + "/Erstellung/information/nachteile",
+        dataType: "json"
+    })
+    .success(function(msg){
+        nachteilData = msg;
     });
 }
