@@ -181,5 +181,29 @@ class Application_Model_Mapper_UserMapper {
         }
         return $returnArray;
     }
+    
+    
+    public function usernameExists($username) {
+        $select = $this->getDbTable('User')->select();
+        $select->where('username = ?', $username);
+        $result = $this->getDbTable('User')->fetchAll($select);
+        return $result->count() > 0;
+    }
+    
+    
+    public function emailExists($mail) {
+        $select = $this->getDbTable('User')->select();
+        $select->where('mail = ? AND active = 1', $mail);
+        $result = $this->getDbTable('User')->fetchAll($select);
+        return $result->count() > 0;
+    }
+    
+    
+    public function profilnameExists($profilname) {
+        $select = $this->getDbTable('User')->select();
+        $select->where('profilname = ?', $profilname);
+        $result = $this->getDbTable('User')->fetchAll($select);
+        return $result->count() > 0;
+    }
 
 }

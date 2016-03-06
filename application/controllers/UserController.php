@@ -34,10 +34,14 @@ class UserController extends Zend_Controller_Action {
     }
     
     public function createAction(){
+        exit('zur Zeit nicht');
         if($this->getRequest()->isPost()){
-            if($this->_userService->createUser($this->getRequest())){
+            $result = $this->_userService->createUser($this->getRequest());
+            if(!is_array($result)){
                 $this->login();
             }else{
+                $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+                $flashMessenger->addMessage(implode('<br />', $result));
                 $this->redirect('login/registrierung');
             }
         }

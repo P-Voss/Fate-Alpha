@@ -13,6 +13,11 @@ class LoginController extends Zend_Controller_Action
         $this->service = new Application_Service_Login();
         $layout = $this->_helper->layout();
         $layout->setLayout('offline');
+        $this->view->message = '';
+        $messages = $this->_helper->flashMessenger->getMessages();
+        if(count($messages) > 0){
+            $this->view->message = $messages[0];
+        }
     }
 
     public function indexAction()

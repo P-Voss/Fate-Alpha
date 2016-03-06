@@ -46,8 +46,24 @@ class Application_Service_User {
      * @return boolean
      */
     public function createUser(Zend_Controller_Request_Http $request) {
-        if($request->getPost('rules') !== 'on' AND $request->getPost('password') !== $request->getPost('passwordVerified')){
-            return false;
+        $errorArray = array();
+        if($request->getPost('rules') !== 'on'){
+            $errorArray[] = 'Du musst die Regeln akzeptieren';
+        }
+        if($request->getPost('password') !== $request->getPost('passwordVerified')){
+            $errorArray[] = 'Die Passwörte stimmen nicht überein';
+        }
+        if($this->checkEmailExists($request->getPost('mail'))){
+            $errorArray[] = 'Die eigegebene Email-Adresse ist schon in Verwendung';
+        }
+        if($this->checkUsernameExists($request->getPost('loginname'))){
+            $errorArray[] = 'Der Username ist schon vergeben';
+        }
+        if($this->checkProfilnameExists($request->getPost('profilname'))){
+            $errorArray[] = 'Der Profilname ist schon vergeben';
+        }
+        if(count($errorArray) > 0){
+            return $errorArray;
         }
         $user = new Application_Model_User();
         $user->setUsername($request->getPost('loginname'));
@@ -56,6 +72,20 @@ class Application_Service_User {
         $user->setPasswort($request->getPost('password'));
         $user->setUsergruppe('User');
         return $this->userMapper->createUser($user, $request->getServer('REMOTE_ADDR'));
+    }
+    
+    
+    public function checkUsernameExists($username) {
+        return $this->userMapper->usernameExists($username);
+    }
+    
+    
+    public function checkProfilnameExists($profilname) {
+        return $this->userMapper->profilnameExists($profilname);
+    }
+    
+    public function checkEmailExists($email) {
+        return $this->userMapper->emailExists($email);
     }
     
     /**

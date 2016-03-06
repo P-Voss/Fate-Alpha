@@ -24,6 +24,15 @@
         display: block;
     }
 </style>
+<?php
+if($this->message !== null){
+?>
+<div class="error">
+    <?= $this->message ?>
+</div>
+<?php
+}
+?>
 <form method="post" action="<?= $this->baseUrl() ?>/user/create">
     <div class="container">
         <fieldset>
