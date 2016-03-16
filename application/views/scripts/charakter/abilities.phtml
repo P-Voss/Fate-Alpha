@@ -23,7 +23,7 @@ usort($skillarten, "order");
 $magieschulen = $this->magieschulen;
 ?>
 <h1>
-    Fähigkeiten und Magien
+    Fähigkeiten
 </h1>
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
@@ -32,7 +32,11 @@ $magieschulen = $this->magieschulen;
 <div>
     <fieldset>
         <legend>Fähigkeiten</legend>
-        <?php foreach ($skillarten as $skillart): ?>
+        <?php foreach ($skillarten as $skillart): 
+            if(count($skillart->getSkills()) === 0){
+                continue;
+            }
+        ?>
         <fieldset>
             <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
             <div class="subContent">
@@ -61,7 +65,7 @@ $magieschulen = $this->magieschulen;
 </div>
 <div>
     <fieldset>
-        <legend>Magien</legend>
+        <legend>Besondere Fähigkeiten</legend>
         <?php foreach ($magieschulen as $schule): ?>
             <fieldset>
                 <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>

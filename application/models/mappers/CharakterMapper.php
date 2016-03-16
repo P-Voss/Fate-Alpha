@@ -176,10 +176,11 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setGeburtsdatum($row->geburtsdatum);
                 $model->setGeschlecht($row->geschlecht);
                 $model->setSexualitaet($row->sexualitaet);
-                $model->setMagiccircuit($row->circuit);
+//                $model->setMagiccircuit($row->circuit);
                 $model->setNickname($row->nickname);
                 $model->setSize($row->size);
                 $model->setWohnort($row->wohnort);
+                $model->setLuck($row->luck);
                 $date = new DateTime($row->createDate);
                 $model->setCreatedate($date);
             }
@@ -210,6 +211,67 @@ class Application_Model_Mapper_CharakterMapper{
             }
         }
         return $returnArray;
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Element
+     */
+    public function getNaturelement($charakterId) {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakter'), array());
+        $select->joinInner('elemente', 'elemente.elementId = zuo.naturelement', ['elementId', 'name', 'beschreibung']);
+        $select->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if($row !== null){
+            $element = new Application_Model_Element();
+            $element->setId($row->elementId);
+            $element->setBezeichnung($row->name);
+            $element->setBeschreibung($row->beschreibung);
+            return $element;
+        }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Odo
+     */
+    public function getOdo($charakterId) {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakter'), array());
+        $select->joinInner('odo', 'odo.odoId = zuo.odo', ['odoId', 'kategorie', 'menge']);
+        $select->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if($row !== null){
+            $odo = new Application_Model_Odo();
+            $odo->setId($row->odoId);
+            $odo->setKategorie($row->kategorie);
+            $odo->setMenge($row->menge);
+            return $odo;
+        }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Circuit
+     */
+    public function getMagiccircuit($charakterId) {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakter'), array());
+        $select->joinInner('circuit', 'circuit.circuitId = zuo.circuit', ['circuitId', 'kategorie', 'menge']);
+        $select->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if($row !== null){
+            $circuit = new Application_Model_Circuit();
+            $circuit->setId($row->circuitId);
+            $circuit->setKategorie($row->kategorie);
+            $circuit->setMenge($row->menge);
+            return $circuit;
+        }
+        return null;
     }
     
     /**

@@ -8,6 +8,16 @@
  */
 class Application_Model_Charakter {
     
+    protected $categories = array(
+        1 => 'A',
+        2 => 'B',
+        3 => 'C',
+        4 => 'D',
+        5 => 'E',
+        6 => 'F',
+    );
+
+
     /**
      * @var int
      */
@@ -116,6 +126,8 @@ class Application_Model_Charakter {
      * @var DateTime
      */
     protected $createDate;
+    
+    protected $naturElement;
 
 
     public function getCharakterid() {
@@ -444,6 +456,21 @@ class Application_Model_Charakter {
 
     public function setSexualitaet($sexualitaet) {
         $this->sexualitaet = $sexualitaet;
+    }
+    
+    /**
+     * @return Application_Model_Element
+     */
+    public function getNaturElement() {
+        return $this->naturElement;
+    }
+
+    public function setNaturElement(Application_Model_Element $naturElement) {
+        $this->naturElement = $naturElement;
+    }
+    
+    public function getCategory($key) {
+        return $this->categories[$key];
     }
     
 }
