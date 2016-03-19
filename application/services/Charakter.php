@@ -22,6 +22,7 @@ class Application_Service_Charakter {
             $charakter->setNaturelement($mapper->getNaturelement($charakter->getCharakterid()));
             $charakter->setOdo($mapper->getOdo($charakter->getCharakterid()));
             $charakter->setMagiccircuit($mapper->getMagiccircuit($charakter->getCharakterid()));
+            $charakter->setVermoegen($mapper->getVermoegen($charakter->getCharakterid()));
             $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
             $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
             $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));

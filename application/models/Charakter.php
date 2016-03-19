@@ -83,6 +83,10 @@ class Application_Model_Charakter {
      */
     protected $odo;
     /**
+     * @var Application_Model_Vermoegen
+     */
+    protected $vermoegen;
+    /**
      * @var DateTime
      */
     protected $geburtsdatum;
@@ -213,6 +217,9 @@ class Application_Model_Charakter {
         return $this->luck;
     }
 
+    /**
+     * @return Application_Model_Circuit
+     */
     public function getMagiccircuit() {
         return $this->magiccircuit;
     }
@@ -467,6 +474,20 @@ class Application_Model_Charakter {
 
     public function setNaturElement(Application_Model_Element $naturElement) {
         $this->naturElement = $naturElement;
+    }
+    
+    /**
+     * @return Application_Model_Vermoegen
+     */
+    public function getVermoegen() {
+        return $this->vermoegen;
+    }
+
+    /**
+     * @param Application_Model_Vermoegen $vermoegen
+     */
+    public function setVermoegen(Application_Model_Vermoegen $vermoegen) {
+        $this->vermoegen = $vermoegen;
     }
     
     public function getCategory($key) {

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Description of Luck
+ * Description of Application_Model_Vermoegen
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Luck {
+class Application_Model_Vermoegen {
     
     protected $id;
     protected $kategorie;
     protected $beschreibung;
-    protected $kosten;
+    protected $menge;
     
     
     public function getId() {
@@ -25,8 +25,8 @@ class Application_Model_Luck {
         return $this->beschreibung;
     }
 
-    public function getKosten() {
-        return $this->kosten;
+    public function getMenge() {
+        return $this->menge;
     }
 
     public function setId($id) {
@@ -41,8 +41,8 @@ class Application_Model_Luck {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setKosten($kosten) {
-        $this->kosten = $kosten;
+    public function setMenge($menge) {
+        $this->menge = $menge;
     }
     
 }

@@ -14,43 +14,43 @@ class Application_Model_Odo {
     protected $menge;
     
     
-    function getId() {
+    public function getId() {
         return $this->id;
     }
 
-    function getKategorie() {
+    public function getKategorie() {
         return $this->kategorie;
     }
 
-    function getBeschreibung() {
+    public function getBeschreibung() {
         return $this->beschreibung;
     }
 
-    function getKosten() {
+    public function getKosten() {
         return $this->kosten;
     }
 
-    function getMenge() {
+    public function getMenge() {
         return $this->menge;
     }
 
-    function setId($id) {
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setKategorie($kategorie) {
+    public function setKategorie($kategorie) {
         $this->kategorie = $kategorie;
     }
 
-    function setBeschreibung($beschreibung) {
+    public function setBeschreibung($beschreibung) {
         $this->beschreibung = $beschreibung;
     }
 
-    function setKosten($kosten) {
+    public function setKosten($kosten) {
         $this->kosten = $kosten;
     }
 
-    function setMenge($menge) {
+    public function setMenge($menge) {
         $this->menge = $menge;
     }
     

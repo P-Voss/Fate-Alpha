@@ -14,7 +14,16 @@ $charakter = $this->charakter;
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 </div>
-<br />
+<br /><div>
+    <div class="contentLeft">
+        <?php include __DIR__ . '/partials/profilbild.phtml' ?>
+    </div>
+    <div class="clearRight"></div>
+    <div class="contentRight">
+        <?php include __DIR__ . '/partials/charakterbild.phtml' ?>
+    </div>
+    <div class="clearBoth"></div>
+</div>
 <div>
     <fieldset>
         <legend>Charaktergeschichte <span class="indicator"></span></legend>

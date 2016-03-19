@@ -1,0 +1,68 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+?>
+<fieldset>
+    <legend>Charakterdaten</legend>
+    <p>
+        <label>
+            Name
+        </label>
+        <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+    </p>
+    <p>
+        <label>
+            Geburtsdatum
+        </label>
+        <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
+    </p>
+    <p>
+        <label>
+            Geschlecht
+        </label>
+        <?= $purifier->purify($charakter->getGeschlecht()) ?>
+    </p>
+    <p>
+        <label>
+            Wohnort
+        </label>
+        <?= $charakter->getWohnort() ?>
+    </p>
+    <p>
+        <label>
+            Vermögen
+        </label>
+        <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
+    </p>
+    <p>
+        <label>
+            Sexuelle Orientierung
+        </label>
+        <?= $charakter->getSexualitaet() ?>
+    </p>
+    <p>
+        <label>
+            Odo
+        </label>
+        <?= $charakter->getOdo()->getMenge() . '(' . $charakter->getOdo()->getKategorie() . ')' ?>
+    </p>
+    <p>
+        <label>
+            Naturelement
+        </label>
+        <?= $charakter->getNaturElement()->getBezeichnung(); ?>
+    </p>
+    <p>
+        <label>
+            Glück
+        </label>
+        <?= $charakter->getCategory($charakter->getLuck()) ?>
+    </p>
+    <?php if($charakter->getMagiccircuit() !== null): ?>
+    <p>
+        <label>
+            Magic Circuit
+        </label>
+        <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
+    </p>
+    <?php endif; ?>
+</fieldset>

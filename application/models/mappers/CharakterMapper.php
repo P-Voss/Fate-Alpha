@@ -261,17 +261,39 @@ class Application_Model_Mapper_CharakterMapper{
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
         $select->from(array('zuo' => 'charakter'), array());
-        $select->joinInner('circuit', 'circuit.circuitId = zuo.circuit', ['circuitId', 'kategorie', 'menge']);
+        $select->joinInner('circuit', 'circuit.circuitId = zuo.circuit', ['circuitId', 'besonderheit', 'kategorie', 'menge']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if($row !== null){
             $circuit = new Application_Model_Circuit();
             $circuit->setId($row->circuitId);
             $circuit->setKategorie($row->kategorie);
+            $circuit->setBeschreibung($row->besonderheit);
             $circuit->setMenge($row->menge);
             return $circuit;
         }
         return null;
+    }
+    
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Vermoegen
+     */
+    public function getVermoegen($charakterId) {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakter'), array());
+        $select->joinInner('vermoegen', 'vermoegen.vermoegenId = zuo.vermoegen', ['vermoegenId', 'beschreibung', 'kategorie', 'menge']);
+        $select->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if($row !== null){
+            $vermoegen = new Application_Model_Vermoegen();
+            $vermoegen->setId($row->vermoegenId);
+            $vermoegen->setBeschreibung($row->beschreibung);
+            $vermoegen->setKategorie($row->kategorie);
+            $vermoegen->setMenge($row->menge);
+            return $vermoegen;
+        }
     }
     
     /**

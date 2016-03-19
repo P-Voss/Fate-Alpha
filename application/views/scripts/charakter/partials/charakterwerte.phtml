@@ -1,0 +1,76 @@
+<fieldset>
+    <legend>Werte <span class="indicator"></span></legend>
+    <div class="subContent">
+        <p>
+            <label>
+                Stärke
+            </label>
+            <span>
+                <?= $werte->getStaerke() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getStaerke()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Agilität
+            </label>
+            <span>
+                <?= $werte->getAgilitaet() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getAgilitaet()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Ausdauer
+            </label>
+            <span>
+                <?= $werte->getAusdauer() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getAusdauer()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Kontrolle
+            </label>
+            <span>
+                <?= $werte->getKontrolle() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getKontrolle()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Disziplin
+            </label>
+            <span>
+                <?= $werte->getDisziplin() ?>
+            </span>
+            <span>
+                <?= $werte->getCategory($werte->getDisziplin()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                Übung
+            </label>
+            <span>
+                <?= $werte->getUebung() ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                FP
+            </label>
+            <span>
+                <?= $werte->getFp() ?>
+            </span>
+        </p>
+    </div>
+</fieldset>
