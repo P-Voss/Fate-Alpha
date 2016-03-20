@@ -1,30 +1,20 @@
 jQuery(document).ready(function () {
 
-    jQuery('.school').on('click', function(){
-        id = this.id;
-        jQuery('#dialog').attr('title', 'Upgrade your skillz, bitch');
-        jQuery("#dialog").dialog({
-            width: 1200,
-            maxHeight: 700,
-            closeOnEscape: true,
-            draggable: false,
-            modal: false,
-            cache: false,
-            position: {
-                my: 'center',
-                at: 'top+150'
-            },
-            open: function () {
-                jQuery(this).load(baseUrl + '/Shop/skill/show/id/' + id);
-            },
-            close: function ()
-            {
-                
-            }
-        });
+    jQuery('.skillart').on('click', function(){
+        targetDiv = jQuery(this).parent().children('.subContent');
+        if(targetDiv.html() !== ''){
+            targetDiv.animate({
+                height: "0"
+            }, 400);
+            targetDiv.html('');
+        } else {
+            displaySkillart(targetDiv, jQuery(this).attr('data-id'));
+        }
     });
     
-    jQuery('#dialog').on('click', '.skill',function(){
+    jQuery('#inhalt').on('click', '.skill',function(){
+        htmlElement = jQuery(this).parents(".subContent");
+        skillartId = htmlElement.parent().children('legend').attr('data-id');
         jQuery.ajax({
             type: "POST",
             url: baseUrl + '/Shop/skill/unlock',
@@ -32,9 +22,28 @@ jQuery(document).ready(function () {
                 id: jQuery(this).attr('id')
             },
             success: function(data) {
-                jQuery("#dialog").load(baseUrl + '/Shop/skill/show/id/' + id);
+                displaySkillart(htmlElement, skillartId);
             }
         });
     });
 
 });
+
+function displaySkillart(element, id){
+    jQuery.ajax({
+        type: "POST",
+        url: baseUrl + '/Shop/skill/show/id/' +id,
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function(data) {
+            element.html(data.html);
+            var fullHeight = element.css({'height': 'auto', "display": "none"}).height();
+            element.css({'height': '0', "display": "block"});
+            element.animate({
+                height: fullHeight
+            }, 1000);
+        }
+    });
+}

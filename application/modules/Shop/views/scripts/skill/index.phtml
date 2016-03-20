@@ -18,20 +18,23 @@ foreach ($this->skillarten as $skillart):
         continue;
     }
 ?>
-<div>
-    <p>
+<fieldset style="margin-bottom: 1.5em">
+    <legend>
         <?= $purifier->purify($skillart->getBezeichnung()) ?>
-    </p>
+    </legend>
     <p>
         <?= $purifier->purify($skillart->getBeschreibung()) ?>
     </p>
-    <input type="button" class="school" value="Fähigkeiten anzeigen" id="<?= $skillart->getId() ?>">
-</div>
+    <fieldset>
+        <legend class="skillart" data-id="<?= $skillart->getId() ?>">Fähigkeiten anzeigen</legend>
+        <div class="subContent"></div>
+    </fieldset>
+</fieldset>
 <hr />
 <?php endforeach;
 foreach ($lockedSkillarten as $skillart):
 ?>
-<div>
+<fieldset style="margin-bottom: 1.5em">
     <p>
         <?= $purifier->purify($skillart->getBezeichnung()) ?>
     </p>
@@ -42,7 +45,7 @@ foreach ($lockedSkillarten as $skillart):
         <input type="hidden" value="<?= $skillart->getId() ?>" name="skillartId">
         <input type="submit" value="Kategorie freischalten - 50FP">
     </form>
-</div>
+</fieldset>
 <hr />
 <?php
 endforeach;

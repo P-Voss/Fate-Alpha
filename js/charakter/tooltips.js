@@ -10,7 +10,8 @@ $(document).ready(function () {
                     type: 'POST',
                     url: baseUrl + '/Shop/skill/preview',
                     data: {
-                        id: jQuery(this).children('input').val()
+                        id: jQuery(this).children('input').val(),
+                        tooltip : true
                     },
                     success: function (data) {
                         json = JSON.parse(data);
@@ -21,7 +22,7 @@ $(document).ready(function () {
             }
         }
     });
-
+//
     $('.magie').tooltipster({
         content: 'Loading...',
         contentAsHTML: true,
@@ -32,7 +33,8 @@ $(document).ready(function () {
                     type: 'POST',
                     url: baseUrl + '/Shop/magie/preview',
                     data: {
-                        id: jQuery(this).children('input').val()
+                        id: jQuery(this).children('input').val(),
+                        tooltip : true
                     },
                     success: function (data) {
                         json = JSON.parse(data);

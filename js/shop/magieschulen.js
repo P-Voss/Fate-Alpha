@@ -1,30 +1,20 @@
 jQuery(document).ready(function () {
 
     jQuery('.school').on('click', function(){
-        id = this.id;
-        jQuery('#dialog').attr('title', 'Learn some magic, bro');
-        jQuery("#dialog").dialog({
-            width: 1200,
-            maxHeight: 700,
-            closeOnEscape: true,
-            draggable: false,
-            modal: false,
-            cache: false,
-            position: {
-                my: 'center',
-                at: 'top+150'
-            },
-            open: function () {
-                jQuery(this).load(baseUrl + '/Shop/magie/show/id/' + id);
-            },
-            close: function ()
-            {
-                
-            }
-        });
+        targetDiv = jQuery(this).parent().children('.subContent');
+        if(targetDiv.html() !== ''){
+            targetDiv.animate({
+                height: "0"
+            }, 400);
+            targetDiv.html('');
+        } else {
+            displaySchule(targetDiv, jQuery(this).attr('data-id'));
+        }
     });
     
-    jQuery('#dialog').on('click', '.magie',function(){
+    jQuery('#inhalt').on('click', '.magie',function(){
+        htmlElement = jQuery(this).parents(".subContent");
+        schulId = htmlElement.parent().children('legend').attr('data-id');
         jQuery.ajax({
             type: "POST",
             url: baseUrl + '/Shop/magie/unlock',
@@ -32,9 +22,28 @@ jQuery(document).ready(function () {
                 id: jQuery(this).attr('id')
             },
             success: function(data) {
-                jQuery("#dialog").load(baseUrl + '/Shop/magie/show/id/' + id);
+                displaySchule(htmlElement, schulId);
             }
         });
     });
 
 });
+
+function displaySchule(element, id){
+    jQuery.ajax({
+        type: "POST",
+        url: baseUrl + '/Shop/magie/show/id/' +id,
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function(data) {
+            element.html(data.html);
+            var fullHeight = element.css({'height': 'auto', "display": "none"}).height();
+            element.css({'height': '0', "display": "block"});
+            element.animate({
+                height: fullHeight
+            }, 1000);
+        }
+    });
+}

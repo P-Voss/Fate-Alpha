@@ -25,24 +25,26 @@ foreach ($this->magieschulen as $magieschule):
         continue;
     }
 ?>
-<div>
-    <p>
+<fieldset style="margin-bottom: 1.5em">
+    <legend>
         <?= $purifier->purify($magieschule->getBezeichnung()) ?>
-    </p>
+    </legend>
     <p>
         <?= $purifier->purify($magieschule->getBeschreibung()) ?>
     </p>
-    <input type="button" class="school" value="Magien dieser Schule anzeigen" id="<?= $magieschule->getId() ?>">
-</div>
-<hr />
+    <fieldset>
+        <legend class="school" data-id="<?= $magieschule->getId() ?>">Magien dieser Schule anzeigen</legend>
+        <div class="subContent"></div>
+    </fieldset>
+</fieldset>
 <?php
 endforeach;
 foreach ($lockedSchools as $magieschule):
 ?>
-<div>
-    <p>
+<fieldset style="margin-bottom: 1.5em">
+    <legend>
         <?= $purifier->purify($magieschule->getBezeichnung()) ?>
-    </p>
+    </legend>
     <p>
         <?= $purifier->purify($magieschule->getBeschreibung()) ?>
     </p>
@@ -50,9 +52,7 @@ foreach ($lockedSchools as $magieschule):
         <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
         <input type="submit" value="Magieschule freischalten - 50FP">
     </form>
-</div>
-<hr />
+</fieldset>
 <?php
 endforeach;
 ?>
-<div id="dialog"></div>

@@ -2,8 +2,10 @@
 /* @var $magie Shop_Model_Skill */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$countGelernt = 0;
 foreach ($this->skills as $skill):
     if($skill->getLearned() === true){
+        $countGelernt++;
         continue;
     }
 ?>
@@ -19,5 +21,10 @@ foreach ($this->skills as $skill):
     </div>
 </div>
 <hr />
-<?php endforeach; ?>
-<input type="hidden" value="<?= $this->skillartId ?>" id="skillart">
+<?php endforeach;
+if(count($this->skills) === $countGelernt){
+?>
+<p>
+    Für dich gibt es gerade keine Fähigkeiten dieser Kategorie.
+</p>
+<?php } ?>

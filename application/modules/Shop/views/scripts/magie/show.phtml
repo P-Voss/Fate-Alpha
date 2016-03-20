@@ -3,8 +3,10 @@
 $magien = $this->magien;
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$countGelernt = 0;
 foreach ($magien as $magie):
     if($magie->getLearned() === true){
+        $countGelernt++;
         continue;
     }
 ?>
@@ -20,5 +22,11 @@ foreach ($magien as $magie):
     </div>
 </div>
 <hr />
-<?php endforeach; ?>
-<input type="hidden" value="<?= $this->magieschuleId ?>" id="magieschule">
+<?php 
+endforeach; 
+if(count($magien) === $countGelernt){
+?>
+<p>
+    Für dich gibt es gerade keine Magien in dieser Schule.
+</p>
+<?php } ?>
