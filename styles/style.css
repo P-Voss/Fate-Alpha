@@ -480,7 +480,7 @@ form{
     padding: 1px;
 }
 #nachrichtencenter .body .status{
-    width: 15%;
+    width: 5%;
     display: inline-block;
     padding: 1px;
 }
@@ -490,7 +490,7 @@ form{
     padding: 1px;
 }
 #nachrichtencenter .body .betreff{
-    width: 35%;
+    width: 45%;
     display: inline-block;
     padding: 1px;
 }

@@ -17,7 +17,7 @@ $purifier = $this->purifier;
     </legend>
     <p class="details">
         <span>
-            von: <?= $purifier->purify($nachricht->getVerfasser()->getProfilname()) ?>
+            von: <?= ($nachricht->getAdmin() === false) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
         </span>
         <span>
             gesendet am: <?= $nachricht->getCreationDate() ?>
@@ -29,9 +29,11 @@ $purifier = $this->purifier;
     <div class="message">
         <?= $purifier->purify($nachricht->getNachricht()) ?>
     </div>
+    <?php if($nachricht->getAdmin() === false): ?>
     <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/id/<?= $nachricht->getId() ?>">
         <button>
             Antworten
         </button>
     </a>
+    <?php endif; ?>
 </fieldset>

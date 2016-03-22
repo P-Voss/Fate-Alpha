@@ -22,7 +22,7 @@ $(document).ready(function () {
             }
         }
     });
-//
+    
     $('.magie').tooltipster({
         content: 'Loading...',
         contentAsHTML: true,

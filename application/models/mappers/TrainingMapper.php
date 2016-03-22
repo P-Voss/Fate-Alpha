@@ -260,7 +260,7 @@ class Application_Model_Mapper_TrainingMapper{
      */
     public function updateStats(Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte) {
         $training = $this->getCurrentTraining($charakter->getCharakterid());
-        $charakter->getCharakterwerte()->addTraining($training, $trainingswerte);
+        $charakter->getCharakterwerte()->addTraining($training, $trainingswerte, $charakter->getKlassengruppe()->getId());
         $this->getDbTable('CharakterWerte')->update($charakter->getCharakterwerte()->toArray(), array('charakterId = ?' => $charakter->getCharakterid()));
         $this->updateTraining($charakter->getCharakterid(), $training['training'], $training['dauer']-1);
     }

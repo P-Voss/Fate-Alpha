@@ -17,6 +17,7 @@ class Nachrichten_Model_Nachricht {
      */
     protected $creationDate;
     protected $status;
+    protected $admin;
     /**
      * @var Application_Model_User
      */
@@ -99,5 +100,13 @@ class Nachrichten_Model_Nachricht {
     public function setEmpfaenger(Application_Model_User $empfaenger) {
         $this->empfaenger = $empfaenger;
     }
+    
+    public function getAdmin() {
+        return $this->admin;
+    }
 
+    public function setAdmin($admin) {
+        $this->admin = $admin;
+    }
+    
 }

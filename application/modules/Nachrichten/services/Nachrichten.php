@@ -31,7 +31,7 @@ class Nachrichten_Service_Nachrichten {
         $nachrichten = $this->mapper->getNachrichtenByReceiverId($userId);
         foreach ($nachrichten as $nachricht) {
             $nachricht->setVerfasser($userMapper->getUserById($nachricht->getVerfasserId()));
-            $nachricht->setEmpfaenger($userMapper->getUserById($nachricht->getVerfasserId()));
+            $nachricht->setEmpfaenger($userMapper->getUserById($nachricht->getEmpfaengerId()));
         }
         return $nachrichten;
     }
@@ -79,6 +79,11 @@ class Nachrichten_Service_Nachrichten {
         $nachricht->setVerfasserId(Zend_Auth::getInstance()->getIdentity()->userId);
         $nachricht->setEmpfaengerId($request->getPost('user'));
         $nachricht->setBetreff($request->getPost('betreff'));
+        if($request->getPost('admin') !== null){
+            $nachricht->setAdmin(true);
+        }  else {
+            $nachricht->setAdmin(false);
+        }
         $this->mapper->saveMessage($nachricht);
     }
     

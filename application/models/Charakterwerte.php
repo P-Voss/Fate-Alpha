@@ -83,7 +83,7 @@ class Application_Model_Charakterwerte {
     /**
      * @param type $training
      */
-    public function addTraining($training, Application_Model_Trainingswerte $trainingswerte) {
+    public function addTraining($training, Application_Model_Trainingswerte $trainingswerte, $klassengruppe = 0) {
         switch ($training['training']){
             case 'staerke':
                 $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
@@ -96,12 +96,16 @@ class Application_Model_Charakterwerte {
                 break;
             case 'disziplin':
                 $this->setDisziplin($this->getDisziplin() + $trainingswerte->getDisTraining());
+                if($klassengruppe === 2){
+                    $this->setUebung($this->getUebung() + $trainingswerte->getDisTraining());
+                }
                 break;
             case 'kontrolle':
                 $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
                 break;
             case 'uebung':
                 $this->setUebung($this->getUebung() + $trainingswerte->getPraTraining());
+                $this->setFp($this->getFp() + $trainingswerte->getPraTraining());
                 break;
         }
     }

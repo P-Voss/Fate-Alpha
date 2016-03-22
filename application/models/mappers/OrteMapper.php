@@ -98,7 +98,7 @@ class Application_Model_Mapper_OrteMapper {
                                 hauptsächlich aus einer Straße die aus dem Hafengebiet heraus in Shinto hinein führt.'
         ),
         'Shopping' => array(
-            'Name' => 'Shopping',
+            'Name' => 'Shopping District',
             'img' => 'Shopping',
             'Beschreibung' => 'Im Zentrum Miyamachous befindet sich eine weite Straße mit vielen kleinen Geschäften und Läden, die sich im ständigen Preiskampf mit den großen Firmen in Shinto befinden.'
         ),

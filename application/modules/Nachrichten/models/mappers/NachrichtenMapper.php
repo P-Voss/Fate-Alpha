@@ -44,6 +44,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
             $nachricht->setNachricht($row->nachricht);
             $nachricht->setCreationDate($row->creationDate);
             $nachricht->setStatus($row->status);
+            $nachricht->setAdmin($row->admin === 1);
             $returnArray[] = $nachricht;
         }
         return $returnArray;
@@ -68,6 +69,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
             $nachricht->setNachricht($row->nachricht);
             $nachricht->setCreationDate($row->creationDate);
             $nachricht->setStatus($row->status);
+            $nachricht->setAdmin($row->admin === 1);
             $returnArray[] = $nachricht;
         }
         return $returnArray;
@@ -93,6 +95,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
             $nachricht->setNachricht($row->nachricht);
             $nachricht->setCreationDate($row->creationDate);
             $nachricht->setStatus($row->status);
+            $nachricht->setAdmin($row->admin === 1);
             $returnArray[] = $nachricht;
         }
         return $returnArray;
@@ -115,6 +118,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
             $nachricht->setNachricht($result->nachricht);
             $nachricht->setCreationDate($result->creationDate);
             $nachricht->setStatus($result->status);
+            $nachricht->setAdmin($result->admin === 1);
         }
         return $nachricht;
     }
@@ -130,6 +134,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
             'betreff' => $nachricht->getBetreff(),
             'nachricht' => $nachricht->getNachricht(),
             'creationDate' => $date->format('Y-m-d H:i:s'),
+            'admin' => ($nachricht->getAdmin() === true) ? 1 : 0
         ];
         $this->getDbTable('Pm')->insert($data);
     }

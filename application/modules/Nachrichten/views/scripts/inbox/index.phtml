@@ -40,7 +40,7 @@ $purifier = $this->purifier;
                         <span class="betreff"><?= $purifier->purify($nachricht->getBetreff()) ?></span>
                     </a>
                     <span class="user">
-                        <?= $purifier->purify($nachricht->getVerfasser()->getProfilname()) ?>
+                        <?= ($nachricht->getAdmin() === false) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
                     </span>
                     <span class="date">
                         <?= $nachricht->getCreationDate() ?>
