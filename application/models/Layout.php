@@ -18,6 +18,7 @@ class Application_Model_Layout {
     public $charakterTraining;
     public $unreadPmCount;
     public $usergruppe;
+    public $informations = array();
 
 
     public function getHasChara() {
@@ -59,7 +60,25 @@ class Application_Model_Layout {
     public function setUsergruppe($usergruppe) {
         $this->usergruppe = $usergruppe;
     }
-
-
+    
+    public function setInformations($informations = array()) {
+        foreach ($informations as $information) {
+            if($information instanceof Application_Model_Information){
+                $this->informations[] = $information;
+            }
+        }
+    }
+    
+    public function addInformation(Application_Model_Information $information) {
+        $this->informations[] = $information;
+    }
+    
+    public function getInformations() {
+        return $this->informations;
+    }
+    
+    public function deleteInformations() {
+        $this->informations = array();
+    }
     
 }

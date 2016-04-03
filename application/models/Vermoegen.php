@@ -11,8 +11,10 @@ class Application_Model_Vermoegen {
     protected $kategorie;
     protected $beschreibung;
     protected $menge;
-    
-    
+    protected $modified;
+    protected $modification = 0;
+
+
     public function getId() {
         return $this->id;
     }
@@ -43,6 +45,22 @@ class Application_Model_Vermoegen {
 
     public function setMenge($menge) {
         $this->menge = $menge;
+    }
+    
+    public function getModified() {
+        return $this->modified === true;
+    }
+
+    public function setModified($modified) {
+        $this->modified = $modified;
+    }
+    
+    public function getModification() {
+        return $this->modification;
+    }
+
+    public function setModification($modification) {
+        $this->modification += $modification;
     }
     
 }

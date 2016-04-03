@@ -16,17 +16,23 @@ class Application_Service_Charakter {
         $klassenMapper = new Application_Model_Mapper_KlasseMapper();
         $charakter = $mapper->getCharakterByUserId($userId);
         if($charakter !== false){
+            $charakter->setUserid($userId);
             $charakter->setKlasse($mapper->getCharakterKlasse($charakter->getCharakterid()));
             $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
             $charakter->setElemente($mapper->getCharakterElemente($charakter->getCharakterid()));
             $charakter->setNaturelement($mapper->getNaturelement($charakter->getCharakterid()));
-            $charakter->setOdo($mapper->getOdo($charakter->getCharakterid()));
-            $charakter->setMagiccircuit($mapper->getMagiccircuit($charakter->getCharakterid()));
-            $charakter->setVermoegen($mapper->getVermoegen($charakter->getCharakterid()));
             $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
             $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
             $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
-            $charakter->setUserid($userId);
+            
+            $charakter->setModifiers($mapper->getModifierVorteile($charakter->getVorteile()));
+            $charakter->setModifiers($mapper->getModifierNachteile($charakter->getNachteile()));
+            
+            $charakter->setOdo($mapper->getOdo($charakter->getCharakterid(), $charakter->getModifiers()));
+            $charakter->setLuck($mapper->getLuck($charakter->getCharakterid(), $charakter->getModifiers()));
+            $charakter->setVermoegen($mapper->getVermoegen($charakter->getCharakterid(), $charakter->getModifiers()));
+            $charakter->setMagiccircuit($mapper->getMagiccircuit($charakter->getCharakterid()));
+            $charakter->applyModifiers();
         }
         return $charakter;
     }

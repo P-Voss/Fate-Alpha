@@ -11,8 +11,10 @@ class Application_Model_Luck {
     protected $kategorie;
     protected $beschreibung;
     protected $kosten;
-    
-    
+    protected $modified;
+    protected $modification = 0;
+
+
     public function getId() {
         return $this->id;
     }
@@ -43,6 +45,22 @@ class Application_Model_Luck {
 
     public function setKosten($kosten) {
         $this->kosten = $kosten;
+    }
+    
+    public function getModified() {
+        return $this->modified === true;
+    }
+
+    public function setModified($modified) {
+        $this->modified = $modified;
+    }
+    
+    public function getModification() {
+        return $this->modification;
+    }
+
+    public function setModification($modification) {
+        $this->modification += $modification;
     }
     
 }

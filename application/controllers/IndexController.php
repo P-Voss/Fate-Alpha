@@ -20,6 +20,11 @@ class IndexController extends Zend_Controller_Action {
         
     }
     
+    public function informationAction() {
+        $informationService = new Application_Service_Information();
+        $this->view->information = $informationService->getInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+    }
+    
     public function impressumAction() {
         
     }

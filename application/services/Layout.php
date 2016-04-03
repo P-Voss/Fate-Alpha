@@ -8,6 +8,8 @@
 class Application_Service_Layout {
 
     public function getLayoutData($auth){
+        $informationService = new Application_Service_Information();
+        $charakterService = new Application_Service_Charakter();
         $layoutModel = new Application_Model_Layout();
         $userMapper = new Application_Model_Mapper_UserMapper();
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
@@ -15,10 +17,13 @@ class Application_Service_Layout {
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
         $layoutModel->setUsergruppe($auth->usergruppe);
         if($userMapper->hasChara($auth->userId)){
+            $charakter = $charakterService->getCharakterByUserid($auth->userId);
             $layoutModel->setHasChara(true);
-            $layoutModel->setCharakter($charakterMapper->getCharakterByUserId($auth->userId));
-            $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($layoutModel->getCharakter()->getCharakterid()));
+            $layoutModel->setCharakter($charakter);
+            $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($charakter->getCharakterid()));
+            $informationService->setCharakter($charakter);
         }
+        $layoutModel->setInformations($informationService->getInformations());
         return $layoutModel;
     }
 }

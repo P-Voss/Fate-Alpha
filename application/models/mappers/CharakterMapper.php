@@ -235,13 +235,20 @@ class Application_Model_Mapper_CharakterMapper{
     
     /**
      * @param int $charakterId
+     * @param \Application_Model_Modifier $modifiers
      * @return \Application_Model_Odo
      */
-    public function getOdo($charakterId) {
+    public function getOdo($charakterId, $modifiers = array()) {
+        $modifier = 0;
+        foreach ($modifiers as $mod) {
+            if($mod->getAttribute() === 'odo'){
+                $modifier += $mod->getValue();
+            }
+        }
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
         $select->from(array('zuo' => 'charakter'), array());
-        $select->joinInner('odo', 'odo.odoId = zuo.odo', ['odoId', 'kategorie', 'menge']);
+        $select->joinInner('odo', 'odo.odoId = zuo.odo + ' . $modifier * -1, ['odoId', 'kategorie', 'menge']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if($row !== null){
@@ -249,7 +256,41 @@ class Application_Model_Mapper_CharakterMapper{
             $odo->setId($row->odoId);
             $odo->setKategorie($row->kategorie);
             $odo->setMenge($row->menge);
+            if($modifier !== 0){
+                $odo->setModified(true);
+                $odo->setModification($modifier);
+            }
             return $odo;
+        }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param \Application_Model_Modifier $modifiers
+     * @return \Application_Model_Luck
+     */
+    public function getLuck($charakterId, $modifiers = array()) {
+        $modifier = 0;
+        foreach ($modifiers as $mod) {
+            if($mod->getAttribute() === 'luck'){
+                $modifier += $mod->getValue();
+            }
+        }
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('zuo' => 'charakter'), array());
+        $select->joinInner('luck', 'luck.luckId = zuo.luck + ' . $modifier * -1, ['luckId', 'kategorie']);
+        $select->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if($row !== null){
+            $luck = new Application_Model_Luck();
+            $luck->setId($row->luckId);
+            $luck->setKategorie($row->kategorie);
+            if($modifier !== 0){
+                $luck->setModified(true);
+                $luck->setModification($modifier);
+            }
+            return $luck;
         }
     }
     
@@ -277,13 +318,20 @@ class Application_Model_Mapper_CharakterMapper{
     
     /**
      * @param int $charakterId
+     * @param \Application_Model_Modifier $modifiers
      * @return \Application_Model_Vermoegen
      */
-    public function getVermoegen($charakterId) {
+    public function getVermoegen($charakterId, $modifiers = array()) {
+        $modifier = 0;
+        foreach ($modifiers as $mod) {
+            if($mod->getAttribute() === 'vermoegen'){
+                $modifier += $mod->getValue();
+            }
+        }
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
         $select->from(array('zuo' => 'charakter'), array());
-        $select->joinInner('vermoegen', 'vermoegen.vermoegenId = zuo.vermoegen', ['vermoegenId', 'beschreibung', 'kategorie', 'menge']);
+        $select->joinInner('vermoegen', 'vermoegen.vermoegenId = zuo.vermoegen + ' . $modifier, ['vermoegenId', 'beschreibung', 'kategorie', 'menge']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if($row !== null){
@@ -292,6 +340,10 @@ class Application_Model_Mapper_CharakterMapper{
             $vermoegen->setBeschreibung($row->beschreibung);
             $vermoegen->setKategorie($row->kategorie);
             $vermoegen->setMenge($row->menge);
+            if($modifier !== 0){
+                $vermoegen->setModified(true);
+                $vermoegen->setModification($modifier);
+            }
             return $vermoegen;
         }
     }
@@ -757,6 +809,54 @@ class Application_Model_Mapper_CharakterMapper{
     public function saveProfilpic($charakterId, $picUrl) {
         $data = ['profilpic' => $picUrl];
         $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
+    }
+    
+    /**
+     * 
+     * @param Application_Model_Nachteil $nachteile
+     * @return \Application_Model_Modifier
+     */
+    public function getModifierNachteile($nachteile = array()) {
+        $returnArray = array();
+        $select = $this->getDbTable('NachteilEigenschaften')->select();
+        $select->where('1 = 2');
+        foreach ($nachteile as $nachteil) {
+            $select->orWhere('nachteilId = ?', $nachteil->getId());
+        }
+        $result = $this->getDbTable('NachteilEigenschaften')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $modifier = new Application_Model_Modifier();
+                $modifier->setAttribute($row->eigenschaft);
+                $modifier->setValue($row->effekt);
+                $returnArray[] = $modifier;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * 
+     * @param Application_Model_Vorteil $vorteile
+     * @return \Application_Model_Modifier
+     */
+    public function getModifierVorteile($vorteile = array()) {
+        $returnArray = array();
+        $select = $this->getDbTable('VorteilEigenschaften')->select();
+        $select->where('1 = 2');
+        foreach ($vorteile as $vorteil) {
+            $select->orWhere('vorteilId = ?', $vorteil->getId());
+        }
+        $result = $this->getDbTable('VorteilEigenschaften')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $modifier = new Application_Model_Modifier();
+                $modifier->setAttribute($row->eigenschaft);
+                $modifier->setValue($row->effekt);
+                $returnArray[] = $modifier;
+            }
+        }
+        return $returnArray;
     }
     
 }

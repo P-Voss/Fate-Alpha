@@ -132,7 +132,10 @@ class Application_Model_Charakter {
     protected $createDate;
     
     protected $naturElement;
-
+    /**
+     * @var Application_Model_Modifier
+     */
+    protected $modifiers = array();
 
     public function getCharakterid() {
         return $this->charakterid;
@@ -492,6 +495,41 @@ class Application_Model_Charakter {
     
     public function getCategory($key) {
         return $this->categories[$key];
+    }
+    
+    public function setModifiers($modifiers = array()) {
+        foreach ($modifiers as $modifier) {
+            if($modifier instanceof Application_Model_Modifier){
+                $this->modifiers[] = $modifier;
+            }
+        }
+    }
+    
+    public function addModifier(Application_Model_Modifier $modifier) {
+        $this->modifiers[] = $modifier;
+    }
+    
+    public function getModifiers() {
+        return $this->modifiers;
+    }
+    
+    public function applyModifiers() {
+        foreach ($this->modifiers as $modifier) {
+            switch ($modifier->getAttribute()) {
+                case 'luck':
+                    $this->luck->setModified(true);
+                    $this->luck->setModification($modifier->getValue());
+                    break;
+                case 'odo':
+                    $this->odo->setModified(true);
+                    $this->odo->setModification($modifier->getValue());
+                    break;
+                case 'vermoegen':
+                    $this->vermoegen->setModified(true);
+                    $this->vermoegen->setModification($modifier->getValue());
+                    break;
+            }
+        }
     }
     
 }

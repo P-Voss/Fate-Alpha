@@ -55,7 +55,7 @@
         <label>
             Glück
         </label>
-        <?= $charakter->getCategory($charakter->getLuck()) ?>
+        <?= $charakter->getLuck()->getKategorie() ?>
     </p>
     <?php if($charakter->getMagiccircuit() !== null): ?>
     <p>
