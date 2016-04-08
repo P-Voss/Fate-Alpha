@@ -7,6 +7,10 @@
  */
 class Application_Model_Validation_Factory {
     
+    /**
+     * @param type $name
+     * @return \Application_Model_Validation_ValidationInterface|boolean
+     */
     public function getValidator($name) {
         if(class_exists('Application_Model_Validation_'.$name)){
             $class = 'Application_Model_Validation_' . $name;

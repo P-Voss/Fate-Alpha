@@ -59,6 +59,13 @@ class Application_Service_Information {
     
     
     private function checkValidation(Application_Model_Information $information){
+        $validatorFactory = new Application_Model_Requirements_Factory();
+        foreach ($information->getRequirementList()->getRequirements() as $requirement) {
+            $validator = $validatorFactory->getValidator($requirement->getArt());
+            if($validator->check($this->charakter, $requirement->getRequiredValue()) !== true){
+                return false;
+            }
+        }
         return true;
     }
     

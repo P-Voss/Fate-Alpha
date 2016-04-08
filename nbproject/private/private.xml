@@ -24,14 +24,8 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Vermoegen.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Luck.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Odo.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/partials/charakterdaten.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/InformationController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Information.php</file>
         </group>
     </open-files>
 </project-private>

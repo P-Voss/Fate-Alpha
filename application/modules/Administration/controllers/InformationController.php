@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of IndexController
+ * Description of Administration_InformationController
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_IndexController extends Zend_Controller_Action {
+class Administration_InformationController extends Zend_Controller_Action {
 
     public function init(){
         $this->_helper->logincheck();
@@ -17,6 +17,22 @@ class Administration_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
+        
+    }
+    
+    public function newAction() {
+        
+    }
+    
+    public function deleteAction() {
+        
+    }
+    
+    public function createAction() {
+        
+    }
+    
+    public function updateAction() {
         
     }
     
