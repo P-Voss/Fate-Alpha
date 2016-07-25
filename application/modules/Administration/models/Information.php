@@ -17,10 +17,6 @@ class Administration_Model_Information extends Application_Model_Information {
      * @var DateTime
      */
     private $editDate;
-    /**
-     * @var Application_Model_Requirementlist
-     */
-    private $requirementList;
     
     public function getCreator() {
         return $this->creator;
@@ -60,7 +56,7 @@ class Administration_Model_Information extends Application_Model_Information {
         return $this->requirementList;
     }
 
-    public function setRequirementList(Application_Model_Requirementlist $requirementList) {
+    public function setRequirementList(Administration_Model_Requirementlist $requirementList) {
         $this->requirementList = $requirementList;
     }
     

@@ -60,9 +60,9 @@ class Application_Model_Mapper_InformationMapper {
      */
     public function getRequirements($informationId) {
         $requirementList = new Application_Model_Requirementlist();
-        $select = $this->getDbTable('InformationVoraussetzung')->select();
+        $select = $this->getDbTable('InfoCharakterVoraussetzungen')->select();
         $select->where('infoId = ?', $informationId);
-        $result = $this->getDbTable('InformationVoraussetzung')->fetchAll($select);
+        $result = $this->getDbTable('InfoCharakterVoraussetzungen')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $requirement = new Application_Model_Requirement();

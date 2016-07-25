@@ -10,7 +10,7 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         $data['name'] = $schule->getBezeichnung();
         $data['beschreibung'] = $schule->getBeschreibung();
         $data['createDate'] = $schule->getCreateDate('Y-m-d H:i:s');
-        $data['creator'] = $schule->getEditor();
+        $data['creator'] = $schule->getCreator();
         
         return parent::getDbTable('Schule')->insert($data);
     }
