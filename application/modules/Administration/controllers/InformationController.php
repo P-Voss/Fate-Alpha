@@ -28,7 +28,19 @@ class Administration_InformationController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        
+        $this->view->list = $this->informationService->getInformationList();
+    }
+    
+    public function showAction() {
+        $this->view->information = $this->informationService->getInformationById($this->getRequest()->getParam('id'));
+        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function newAction() {
@@ -51,7 +63,7 @@ class Administration_InformationController extends Zend_Controller_Action {
         $this->redirect('Administration');
     }
     
-    public function updateAction() {
+    public function editAction() {
         $this->informationService->editInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }

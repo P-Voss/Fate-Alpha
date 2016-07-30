@@ -2,17 +2,17 @@
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular.js');
-/* @var $schule Administration_Model_Schule */
-$schule = $this->schule;
+/* @var $information Administration_Model_Information */
+$information = $this->information;
 ?>
-<h1>Magieschule anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/schule/edit" method="post">
+<h1>Information ändern</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/information/edit" method="post">
     <fieldset>
         <p>
             <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $schule->getBezeichnung() ?>" />
+            <input type="text" size="30" name="name" value="<?= $information->getName() ?>" />
         </p>
-        <textarea name="beschreibung" cols="80" rows="10"><?= $schule->getBeschreibung() ?></textarea>
+        <textarea name="inhalt" cols="80" rows="10"><?= $information->getInhalt() ?></textarea>
         <fieldset>
             <legend>
                 Vorraussetzungen
@@ -112,7 +112,7 @@ $schule = $this->schule;
         </fieldset>
     </fieldset>
     <div align="center">
-        <input type="hidden" name="schuleId" value="<?= $schule->getId() ?>" />
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+        <input type="hidden" name="informationId" value="<?= $information->getInformationId() ?>" />
+        <input type="submit" name="Abschicken" id="Abschicken" value="Information speichern" />
     </div>
 </form>

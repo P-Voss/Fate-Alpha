@@ -50,25 +50,15 @@ class Administration_Service_Information {
     public function editInformation(Zend_Controller_Request_Http $request, $userId) {
         $information = new Administration_Model_Information();
         $date = new DateTime();
-        $information->setId($request->getPost('schuleId'));
+        $information->setInformationId($request->getPost('informationId'));
         $information->setEditDate($date->format('Y-m-d H:i:s'));
-        $information->setBezeichnung($request->getPost('name'));
-        $information->setBeschreibung($request->getPost('beschreibung'));
+        $information->setName($request->getPost('name'));
+        $information->setInhalt($request->getPost('inhalt'));
         $information->setEditor($userId);
         
         $information->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                array(
-                    'Staerke' => $request->getPost('staerke'),
-                    'Agilitaet' => $request->getPost('agilitaet'),
-                    'Ausdauer' => $request->getPost('ausdauer'),
-                    'Uebung' => $request->getPost('uebung'),
-                    'Kontrolle' => $request->getPost('kontrolle'),
-                    'Disziplin' => $request->getPost('disziplin'),
-                    'Faehigkeit' => $request->getPost('skills'),
-                    'Gruppe' => $request->getPost('gruppen'),
-                    'Klasse' => $request->getPost('klassen'),
-                )
+                $this->buildRequirementArray($request)
             )
         );
         $this->mapper->deleteDependencies($information);
@@ -122,6 +112,9 @@ class Administration_Service_Information {
         }
         if($request->getParam('agilitaet') !== null){
             $requirements['Agilitaet'] = $request->getParam('agilitaet');
+        }
+        if($request->getParam('ausdauer') !== null){
+            $requirements['Ausdauer'] = $request->getParam('ausdauer');
         }
         if($request->getParam('kontrolle') !== null){
             $requirements['Kontrolle'] = $request->getParam('kontrolle');

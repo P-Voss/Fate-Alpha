@@ -1,22 +1,22 @@
 <?php
-/* @var $vorteil Administration_Model_Vorteil */
+/* @var $schule Administration_Model_Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 ?>
 <h1>
-    Nachteile
+    Magieschulen
 </h1>
 <?php
-foreach ($this->list as $vorteil){
+foreach ($this->list as $schule){
 ?>
-<a href="<?= $this->baseUrl() ?>/Administration/schule/show/id/<?= $vorteil->getId() ?>">
+<a href="<?= $this->baseUrl() ?>/Administration/schule/show/id/<?= $schule->getId() ?>">
     <fieldset>
         <p>
-            <?= $purifier->purify($vorteil->getBezeichnung()) ?>
+            <?= $purifier->purify($schule->getBezeichnung()) ?>
         </p>
         <p>
-            <?= $purifier->purify(substr($vorteil->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($vorteil->getBeschreibung()) > 100) ? '...' : '' ?>
+            <?= $purifier->purify(substr($schule->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($schule->getBeschreibung()) > 100) ? '...' : '' ?>
         </p>
     </fieldset>
 </a>

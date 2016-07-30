@@ -49,12 +49,16 @@ class Application_Service_Information {
      * @return array
      */
     public function getInformations() {
+        $returnArray = array();
         $mapper = new Application_Model_Mapper_InformationMapper();
         $informations = $mapper->getInformations();
         foreach ($informations as $information) {
-            
+            $information->setRequirementList($mapper->getRequirements($information->getInformationId()));
+            if($this->checkValidation($information) === true){
+                $returnArray[] = $information;
+            }
         }
-        return $informations;
+        return $returnArray;
     }
     
     

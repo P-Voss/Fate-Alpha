@@ -1,0 +1,20 @@
+<?php
+/* @var $information Administration_Model_Information */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Informationen
+</h1>
+<?php
+foreach ($this->list as $information){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/information/show/id/<?= $information->getInformationId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($information->getName()) ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

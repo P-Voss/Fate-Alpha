@@ -19,6 +19,9 @@ class Application_Model_Mapper_SchuleMapper {
         return $dbTable;
     }
     
+    /**
+     * @return \Application_Model_Schule
+     */
     public function getAllSchools() {
         $returnArray = array();
         $select = $this->getDbTable('Schule')->select();
