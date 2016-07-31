@@ -6,7 +6,7 @@
             <!--<li><a href="<?= $this->baseUrl() ?>/changelog">Changelog</a></li>-->
             <?php
             /* @var $information Application_Model_Information */
-                foreach ($layoutData->getInformations() as $information){
+                foreach ($this->layoutData->getInformations() as $information){
             ?>
                 <li>
                     <a href="<?= $this->baseUrl() ?>/index/information/id/<?= $information->getInformationId() ?>">

@@ -20,6 +20,11 @@ $monthCount = 0;
 <h1>
     Wetterbericht
 </h1>
+<h2>
+    <a href="<?= $this->baseUrl() ?>/Administration/wetter/generator/year/<?= $this->year ?>">
+        generator
+    </a>
+</h2>
 <select onchange="self.location='<?= $this->baseUrl() ?>/Administration/wetter/index/year/'+options[selectedIndex].value">
     <?php for($i = $date->format('Y'); $i < $date->format('Y') + 4; $i++): 
     $selected = ((int)$this->year === $i) ? 'selected="true"' : '';    

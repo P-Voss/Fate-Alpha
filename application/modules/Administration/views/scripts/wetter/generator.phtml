@@ -1,0 +1,172 @@
+<h1>
+    Wetter Zufallsgenerator für das Jahr <?= $this->year ?>
+</h1>
+<fieldset>
+    <legend>
+        Wahrscheinlichkeiten für Wetterereignisse
+    </legend>
+    <form method="post" action="<?= $this->baseUrl() ?>/Administration/wetter/generate">
+        <input type="hidden" name="year" value="<?= $this->year ?>">
+        <input type="submit" value="Wetterbericht erstellen">
+        <fieldset>
+            <legend>
+                Frühling
+            </legend>
+            <div>
+                <p>
+                    <label>
+                        Klar
+                    </label>
+                    <input type="number" name="spring[clear]" value="40">
+                </p>
+                <p>
+                    <label>
+                        Leicht Bewölkt
+                    </label>
+                    <input type="number" name="spring[cloudy]" value="25">
+                </p>
+                <p>
+                    <label>
+                        Bewölkt
+                    </label>
+                    <input type="number" name="spring[heavyClouds]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Regen
+                    </label>
+                    <input type="number" name="spring[rain]" value="15">
+                </p>
+                <p>
+                    <label>
+                        Sturm
+                    </label>
+                    <input type="number" name="spring[storm]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Schnee
+                    </label>
+                    <input type="number" name="spring[snow]" value="5">
+                </p>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Sommer
+            </legend>
+            <div>
+                <p>
+                    <label>
+                        Klar
+                    </label>
+                    <input type="number" name="summer[clear]" value="55">
+                </p>
+                <p>
+                    <label>
+                        Leicht Bewölkt
+                    </label>
+                    <input type="number" name="summer[cloudy]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Bewölkt
+                    </label>
+                    <input type="number" name="summer[heavyClouds]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Regen
+                    </label>
+                    <input type="number" name="summer[rain]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Sturm
+                    </label>
+                    <input type="number" name="summer[storm]" value="15">
+                </p>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Herbst
+            </legend>
+            <div>
+                <p>
+                    <label>
+                        Klar
+                    </label>
+                    <input type="number" name="fall[clear]" value="30">
+                </p>
+                <p>
+                    <label>
+                        Leicht Bewölkt
+                    </label>
+                    <input type="number" name="fall[cloudy]" value="20">
+                </p>
+                <p>
+                    <label>
+                        Bewölkt
+                    </label>
+                    <input type="number" name="fall[heavyClouds]" value="20">
+                </p>
+                <p>
+                    <label>
+                        Regen
+                    </label>
+                    <input type="number" name="fall[rain]" value="15">
+                </p>
+                <p>
+                    <label>
+                        Sturm
+                    </label>
+                    <input type="number" name="fall[storm]" value="15">
+                </p>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Winter
+            </legend>
+            <div>
+                <p>
+                    <label>
+                        Klar
+                    </label>
+                    <input type="number" name="winter[clear]" value="40">
+                </p>
+                <p>
+                    <label>
+                        Leicht Bewölkt
+                    </label>
+                    <input type="number" name="winter[cloudy]" value="15">
+                </p>
+                <p>
+                    <label>
+                        Bewölkt
+                    </label>
+                    <input type="number" name="winter[heavyClouds]" value="10">
+                </p>
+                <p>
+                    <label>
+                        Regen
+                    </label>
+                    <input type="number" name="winter[rain]" value="5">
+                </p>
+                <p>
+                    <label>
+                        Sturm
+                    </label>
+                    <input type="number" name="winter[storm]" value="5">
+                </p>
+                <p>
+                    <label>
+                        Schnee
+                    </label>
+                    <input type="number" name="winter[snow]" value="25">
+                </p>
+            </div>
+        </fieldset>
+    </form>
+</fieldset>

@@ -40,6 +40,7 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
             $this->charakter = $this->charakterService->getInactiveCharakterByUserId($auth->userId);
             $layout = $this->_helper->layout();
             $layout->setLayout('erstellung');
+            $this->view->layoutData = $this->layoutService->getLayoutData($auth);
         }
         if($this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId) !== false){
             $this->redirect('index');

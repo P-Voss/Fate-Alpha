@@ -37,6 +37,9 @@ class Application_Service_Information {
             $this->setCharakter($charakter);
         }
         $information = $mapper->getInformation($request->getParam('id'));
+        if($information->getInformationId() === null){
+            return false;
+        }
         $information->setRequirementList($mapper->getRequirements($information->getInformationId()));
         if($this->checkValidation($information) === true){
             return $information;
@@ -54,6 +57,13 @@ class Application_Service_Information {
         $informations = $mapper->getInformations();
         foreach ($informations as $information) {
             $information->setRequirementList($mapper->getRequirements($information->getInformationId()));
+            if(count($information->getRequirementList()->getRequirements()) === 0){
+                $returnArray[] = $information;
+                continue;
+            }
+            if($this->charakter === null){
+                continue;
+            }
             if($this->checkValidation($information) === true){
                 $returnArray[] = $information;
             }

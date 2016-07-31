@@ -99,4 +99,25 @@ class Administration_Model_Mapper_WetterMapper extends Application_Model_Mapper_
         return parent::getDbTable('News')->delete(array('newsId = ?' => $newsId));
     }
     
+    public function generateWeather($wetter = array()) {
+        $wetterNames = array(
+            'clear' => 'Klar',
+            'cloudy' => 'LeichtBewoelkt',
+            'heavyClouds' => 'Bewoelkt',
+            'rain' => 'Regen',
+            'storm' => 'Sturm',
+            'snow' => 'Schnee',
+        );
+        foreach ($wetter as $date => $update) {
+            $data = array(
+                'vormittag' => $wetterNames[$update['vormittag']],
+                'mittag' => $wetterNames[$update['mittag']],
+                'nachmittag' => $wetterNames[$update['nachmittag']],
+                'abend' => $wetterNames[$update['abend']],
+                'nacht' => $wetterNames[$update['nacht']],
+            );
+            parent::getDbTable('Wetterbericht')->update($data, array('datum = ?' => $date));
+        }
+    }
+    
 }

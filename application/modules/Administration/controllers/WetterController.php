@@ -12,6 +12,8 @@ class Administration_WetterController extends Zend_Controller_Action {
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
     }
     
     public function indexAction() {
@@ -42,6 +44,21 @@ class Administration_WetterController extends Zend_Controller_Action {
         if($service->editWeather($this->getRequest()) instanceof Exception){
             $this->redirect('Administration/wetter');
         }
+        $this->redirect('Administration/wetter');
+    }
+    
+    public function generatorAction() {
+        $date = new DateTime();
+        if(!is_null($this->getRequest()->getParam('year')) && $this->getRequest()->getParam('year') >= $date->format('Y')){
+            $this->view->year = $this->getRequest()->getParam('year');
+        }else{
+            $this->view->year = $date->format('Y');
+        }
+    }
+    
+    public function generateAction() {
+        $service = new Administration_Service_Wetter();
+        $service->generateRandomWeather($this->getRequest());
         $this->redirect('Administration/wetter');
     }
     

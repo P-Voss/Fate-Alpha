@@ -65,7 +65,6 @@ class Application_Model_Mapper_CharakterMapper{
         $db->delete('charakterProfil', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterSkillarten', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterSkills', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterVermoegen', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterVorteile', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterWerte', array('charakterId = ?' => $charakter->getCharakterid()));
         $db->delete('charakterGruppen', array('charakterId = ?' => $charakter->getCharakterid()));

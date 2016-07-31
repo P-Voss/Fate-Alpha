@@ -23,18 +23,6 @@
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
-        <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Information.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/information/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Schule.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/InformationController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/Information.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/SchuleController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/SchuleMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/InformationMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/information/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Information.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/index.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

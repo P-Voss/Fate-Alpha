@@ -20,18 +20,18 @@ class Application_Model_Mapper_InformationMapper {
     }
     
     /**
-     * @param type $informationId
+     * @param int $informationId
      * @return Application_Model_Information
      */
     public function getInformation($informationId) {
+        $information = new Application_Model_Information();
         $select = $this->getDbTable('Information')->select();
         $select->setIntegrityCheck(false);
         $select->from('informationen');
         $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
         $select->where('informationen.infoId = ?', $informationId);
         $row = $this->getDbTable('Information')->fetchRow($select);
-        if($row !== false){
-            $information = new Application_Model_Information();
+        if($row !== null){
             $information->setInformationId($row->infoId);
             $information->setName($row->name);
             $information->setInhalt($row->inhalt);
@@ -42,7 +42,11 @@ class Application_Model_Mapper_InformationMapper {
     
     public function getInformations() {
         $returnArray = array();
-        $result = $this->getDbTable('Information')->fetchAll();
+        $select = $this->getDbTable('Information')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('informationen');
+        $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
+        $result = $this->getDbTable('Information')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $information = new Application_Model_Information();
