@@ -27,9 +27,6 @@ class Gruppen_IndexController extends Zend_Controller_Action {
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
         $this->_helper->logincheck();
-        if(!$this->_helper->admincheck()){
-            $this->redirect('index');
-        }
         $this->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
         $this->gruppenService = new Gruppen_Service_Gruppen();
     }

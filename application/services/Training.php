@@ -62,6 +62,12 @@ class Application_Service_Training {
         }
     }
     
+    
+    public function addFp() {
+        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
+        $this->_trainingsMapper->addFp();
+    }
+    
     /**
      * @param int $charakterId
      * @return Application_Model_Charakter

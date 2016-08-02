@@ -149,40 +149,50 @@ class Application_Service_Charakter {
         {$charakter->getVorname()} {$charakter->getNachname()} {$nick}
     </strong>
 </p>
-<table class='userlist'>
-    <tr>
-        <td>
-            Alter
-        </td>
-        <td>
-            {$charakter->getAlter('y')} Jahre
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Geburtstag
-        </td>
-        <td>
-            {$charakter->getGeburtsdatum()}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Größe
-        </td>
-        <td>
-            {$charakter->getSize()} cm
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Augenfarbe
-        </td>
-        <td>
-            {$charakter->getAugenfarbe()}
-        </td>
-    </tr>
-</table>
+<div style="float:left">
+    <img width="100" height="130" border="0" src="{$charakter->getCharakterprofil()->getProfilpic()}">
+</div>
+<div>
+    <table style="text-align: left" cellspacing="10em" class='userlist'>
+        <colgroup>
+            <col width="120px">
+            <col width="200px">
+        </colgroup>
+        <tr>
+            <td>
+                Alter
+            </td>
+            <td>
+                {$charakter->getAlter('y')} Jahre
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Geburtstag
+            </td>
+            <td>
+                {$charakter->getGeburtsdatum('d.m.Y')}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Größe
+            </td>
+            <td>
+                {$charakter->getSize()} cm
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Augenfarbe
+            </td>
+            <td>
+                {$charakter->getAugenfarbe()}
+            </td>
+        </tr>
+    </table>
+</div>
+<div style="clear: both"></div>
 HTML;
         return $html;
     }

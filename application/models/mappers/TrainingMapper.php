@@ -38,7 +38,15 @@ class Application_Model_Mapper_TrainingMapper{
         }
     }
     
-    public function getRealTraining(Application_Model_Trainingswerte $trainingswerte, Application_Model_Charakter $charakter) {
+    public function getRealTraining(Application_Model_Trainingswerte $defaultTraining, Application_Model_Charakter $charakter) {
+        $this->changesContainer = array();
+        $trainingswerte = new Application_Model_Trainingswerte();
+        $trainingswerte->setAgiTraining($defaultTraining->getAgiTraining());
+        $trainingswerte->setStrTraining($defaultTraining->getStrTraining());
+        $trainingswerte->setAusTraining($defaultTraining->getAusTraining());
+        $trainingswerte->setDisTraining($defaultTraining->getDisTraining());
+        $trainingswerte->setPraTraining($defaultTraining->getPraTraining());
+        $trainingswerte->setKonTraining($defaultTraining->getKonTraining());
         foreach ($charakter->getVorteile() as $vorteil){
             $changes = $this->_checkVorteil($vorteil->getId());
             if(count($changes) > 0){
@@ -116,10 +124,9 @@ class Application_Model_Mapper_TrainingMapper{
         if($result->count() > 0){
             $return = array();
             foreach ($result as $row){
-                $value = array();
-                $value[$row->wert]['Effekt'] = $row->effekt;
-                $value[$row->wert]['Art'] = $row->effektArt;
-                $return[] = $value;
+                $value['Effekt'] = $row->effekt;
+                $value['Art'] = $row->effektArt;
+                $return[$row->wert] = $value;
             }
             return $return;
         }else{
@@ -136,9 +143,9 @@ class Application_Model_Mapper_TrainingMapper{
         if($result->count() > 0){
             $return = array();
             foreach ($result as $row){
-                $value[$row->wert]['Effekt'] = $row->effekt;
-                $value[$row->wert]['Art'] = $row->effektArt;
-                $return[] = $value;
+                $value['Effekt'] = $row->effekt;
+                $value['Art'] = $row->effektArt;
+                $return[$row->wert] = $value;
             }
             return $return;
         }else{
@@ -155,9 +162,9 @@ class Application_Model_Mapper_TrainingMapper{
         if($result->count() > 0){
             $return = array();
             foreach ($result as $row){
-                $value[$row->wert]['Effekt'] = $row->effekt;
-                $value[$row->wert]['Art'] = $row->effektArt;
-                $return[] = $value;
+                $value['Effekt'] = $row->effekt;
+                $value['Art'] = $row->effektArt;
+                $return[$row->wert] = $value;
             }
             return $return;
         }else{
@@ -174,9 +181,9 @@ class Application_Model_Mapper_TrainingMapper{
         if($result->count() > 0){
             $return = array();
             foreach ($result as $row){
-                $value[$row->wert]['Effekt'] = $row->effekt;
-                $value[$row->wert]['Art'] = $row->effektArt;
-                $return[] = $value;
+                $value['Effekt'] = $row->effekt;
+                $value['Art'] = $row->effektArt;
+                $return[$row->wert] = $value;
             }
             return $return;
         }else{
@@ -186,52 +193,50 @@ class Application_Model_Mapper_TrainingMapper{
     
     protected function _transformValues($trainingswerte) {
         foreach ($this->changesContainer as $changesCategories){
-            foreach ($changesCategories as $changes){
-                foreach ($changes as $key => $values){
-                    switch ($key) {
-                        case 'Staerke':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setStrTraining($trainingswerte->getStrTraining() + $values['Effekt']);
-                            }else{
+            foreach ($changesCategories as $key => $values){
+                switch ($key) {
+                    case 'Staerke':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setStrTraining($trainingswerte->getStrTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                        case 'Agilitaet':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setAgiTraining($trainingswerte->getAgiTraining() + $values['Effekt']);
-                            }else{
+                        }
+                        break;
+                    case 'Agilitaet':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setAgiTraining($trainingswerte->getAgiTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                        case 'Ausdauer':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setAusTraining($trainingswerte->getAusTraining() + $values['Effekt']);
-                            }else{
+                        }
+                        break;
+                    case 'Ausdauer':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setAusTraining($trainingswerte->getAusTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                        case 'Uebung':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setPraTraining($trainingswerte->getPraTraining() + $values['Effekt']);
-                            }else{
+                        }
+                        break;
+                    case 'Uebung':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setPraTraining($trainingswerte->getPraTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                        case 'Kontrolle':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setKonTraining($trainingswerte->getKonTraining() + $values['Effekt']);
-                            }else{
+                        }
+                        break;
+                    case 'Kontrolle':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setKonTraining($trainingswerte->getKonTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                        case 'Disziplin':
-                            if($values['Art'] === 'absolut'){
-                                $trainingswerte->setDisTraining($trainingswerte->getDisTraining() + $values['Effekt']);
-                            }else{
+                        }
+                        break;
+                    case 'Disziplin':
+                        if($values['Art'] === 'absolut'){
+                            $trainingswerte->setDisTraining($trainingswerte->getDisTraining() + $values['Effekt']);
+                        }else{
 
-                            }
-                            break;
-                    }
+                        }
+                        break;
                 }
             }
         }
@@ -263,6 +268,11 @@ class Application_Model_Mapper_TrainingMapper{
         $charakter->getCharakterwerte()->addTraining($training, $trainingswerte, $charakter->getKlassengruppe()->getId());
         $this->getDbTable('CharakterWerte')->update($charakter->getCharakterwerte()->toArray(), array('charakterId = ?' => $charakter->getCharakterid()));
         $this->updateTraining($charakter->getCharakterid(), $training['training'], $training['dauer']-1);
+    }
+    
+    
+    public function addFp() {
+        $this->getDbTable('Training')->getDefaultAdapter()->query('UPDATE charakterWerte SET fp = fp +2');
     }
     
     /**

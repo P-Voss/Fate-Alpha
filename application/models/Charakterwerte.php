@@ -16,6 +16,16 @@ class Application_Model_Charakterwerte {
     protected $fp;
     protected $startpunkte;
     
+    private $energieFaktor = [
+        'F' => 1,
+        'E' => 2,
+        'D' => 3,
+        'C' => 4,
+        'B' => 5,
+        'A' => 6,
+    ];
+    
+    
     public function getStaerke() {
         return $this->staerke;
     }
@@ -110,6 +120,10 @@ class Application_Model_Charakterwerte {
         }
     }
     
+    /**
+     * @param int $value
+     * @return string
+     */
     public function getCategory($value) {
         switch (true) {
             case $value > 660:
@@ -170,6 +184,17 @@ class Application_Model_Charakterwerte {
         return $category;
     }
     
+    /**
+     * @return int
+     */
+    public function getEnergie() {
+        $category = $this->getCategory($this->ausdauer);
+        return 1000 * $this->energieFaktor[substr($category, 0, 1)];
+    }
+    
+    /**
+     * @return array
+     */
     public function toArray() {
         $returnArray = array();
         foreach (get_class_methods(get_class($this)) as $method){

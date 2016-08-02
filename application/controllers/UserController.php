@@ -34,7 +34,6 @@ class UserController extends Zend_Controller_Action {
     }
     
     public function createAction(){
-        exit('zur Zeit nicht');
         if($this->getRequest()->isPost()){
             $result = $this->_userService->createUser($this->getRequest());
             if(!is_array($result)){

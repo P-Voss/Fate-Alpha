@@ -18,6 +18,7 @@ class CronController extends Zend_Controller_Action{
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_trainingService->executeTraining();
+        $this->_trainingService->addFp();
     }
     
 }

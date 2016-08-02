@@ -26,7 +26,7 @@ class Shop_Model_Mapper_MagieMapper {
     public function getMagienByMagieschuleId($magieschuleId) {
         $returnArray = array();
         $select = $this->getDbTable('Magie')->select();
-        $select->where('magieschuleId = ?', $magieschuleId);
+        $select->where('magieschuleId = ? AND lernbedingung = "Standard"', $magieschuleId);
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

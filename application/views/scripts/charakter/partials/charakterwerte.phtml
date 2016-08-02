@@ -1,3 +1,6 @@
+<?php
+/* @var $werte Application_Model_CharakterWerte */
+?>
 <fieldset>
     <legend>Werte <span class="indicator"></span></legend>
     <div class="subContent">
@@ -31,7 +34,7 @@
                 <?= $werte->getAusdauer() ?>
             </span>
             <span>
-                <?= $werte->getCategory($werte->getAusdauer()) ?>
+                <?= $werte->getCategory($werte->getAusdauer()) . ' (' . $werte->getEnergie() . ' hp)' ?>
             </span>
         </p>
         <p>

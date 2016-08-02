@@ -23,6 +23,19 @@
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/Klasse.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/services/Information.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/models/Requirements/Validators/Nachteil.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Magie.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/models/Unterklasse.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/models/Requirements/Validators/Vorteil.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/wetter/generator.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/FP.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/wetter/index.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/SchuleMapper.php</file>
+        </group>
     </open-files>
 </project-private>

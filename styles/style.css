@@ -538,3 +538,7 @@ a:link {text-decoration: none; color: #000000;}
 a:visited {text-decoration: none; color: #000000;}
 a:active {text-decoration: underline; color: #0000FF;}
 a:hover {text-decoration: none; color: red;}
+
+kbd{
+    background-color: silver;
+}
