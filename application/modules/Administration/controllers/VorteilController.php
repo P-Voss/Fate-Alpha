@@ -11,7 +11,9 @@ class Administration_VorteilController extends Zend_Controller_Action {
     private $service;
 
     public function init(){
-        $this->_helper->logincheck();
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }

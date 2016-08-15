@@ -15,17 +15,13 @@ class Shop_Model_Requirements_Validators_Faehigkeit implements Shop_Model_Requir
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode(':', $value);
         foreach ($values as $value){
-            $result = false;
             foreach ($charakter->getSkills() as $skill){
                 if($skill->getId() == $value){
-                    $result = true;
+                    return true;
                 }
             }
-            if($result === false){
-                return false;
-            }
         }
-        return true;
+        return false;
     }
     
 }

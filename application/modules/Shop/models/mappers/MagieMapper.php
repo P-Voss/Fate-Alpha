@@ -26,6 +26,9 @@ class Shop_Model_Mapper_MagieMapper {
     public function getMagienByMagieschuleId($magieschuleId) {
         $returnArray = array();
         $select = $this->getDbTable('Magie')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('magien');
+        $select->joinLeft('elemente', 'magien.element = elemente.elementId', array('elementId' => 'elemente.elementId', 'elementName' => 'elemente.name'));
         $select->where('magieschuleId = ? AND lernbedingung = "Standard"', $magieschuleId);
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){
@@ -36,7 +39,10 @@ class Shop_Model_Mapper_MagieMapper {
                 $magie->setId($row->magieId);
                 $magie->setFp($row->fp);
                 $magie->setPrana($row->prana);
-//                $magie->setElement($this->getElement($row->element));
+                $element = new Application_Model_Element();
+                $element->setId($row->elementId);
+                $element->setBezeichnung($row->elementName);
+                $magie->setElement($element);
                 $magie->setRang($row->rang);
 //                $magie->setKlasse($this->getKlasse($row->klasse));
                 $magie->setGruppe($row->gruppe);
@@ -56,6 +62,9 @@ class Shop_Model_Mapper_MagieMapper {
     public function getMagieById($magieId) {
         $magie = new Shop_Model_Magie();
         $select = $this->getDbTable('Magie')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('magien');
+        $select->joinLeft('elemente', 'magien.element = elemente.elementId', array('elementId' => 'elemente.elementId', 'elementName' => 'elemente.name'));
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('Magie')->fetchRow($select);
         if($result !== null){
@@ -65,7 +74,10 @@ class Shop_Model_Mapper_MagieMapper {
             $magie->setId($row['magieId']);
             $magie->setFp($row['fp']);
             $magie->setPrana($row['prana']);
-//            $magie->setElement($this->getElement($row['element']));
+            $element = new Application_Model_Element();
+            $element->setId($row->elementId);
+            $element->setBezeichnung($row->elementName);
+            $magie->setElement($element);
             $magie->setRang($row['rang']);
 //            $magie->setKlasse($this->getKlasse($row['klasse']));
             $magie->setStufe($row['stufe']);

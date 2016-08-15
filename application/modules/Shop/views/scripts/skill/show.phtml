@@ -1,5 +1,5 @@
 <?php
-/* @var $magie Shop_Model_Skill */
+/* @var $skill Shop_Model_Skill */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $countGelernt = 0;
@@ -17,7 +17,7 @@ foreach ($this->skills as $skill):
         <?= $purifier->purify($skill->getBeschreibung()) ?>
     </p>
     <div class="unlock">
-        <button id="<?= $skill->getId() ?>" class="skill">Fähigkeit lernen</button>
+        <button id="<?= $skill->getId() ?>" class="skill">Fähigkeit lernen - <?= $skill->getFp() ?> FP</button>
     </div>
 </div>
 <hr />

@@ -120,58 +120,54 @@ class Application_Model_Charakterwerte {
         }
     }
     
-    /**
-     * @param int $value
-     * @return string
-     */
     public function getCategory($value) {
         switch (true) {
-            case $value > 660:
+            case $value >= 660:
                 $category = "A+";
                 break;
-            case $value > 600:
+            case $value >= 600:
                 $category = "A";
                 break;
-            case $value > 540:
+            case $value >= 540:
                 $category = "A-";
                 break;
-            case $value > 480:
+            case $value >= 480:
                 $category = "B+";
                 break;
-            case $value > 430:
+            case $value >= 430:
                 $category = "B";
                 break;
-            case $value > 380:
+            case $value >= 380:
                 $category = "B-";
                 break;
-            case $value > 330:
+            case $value >= 330:
                 $category = "C+";
                 break;
-            case $value > 290:
+            case $value >= 290:
                 $category = "C";
                 break;
-            case $value > 250:
+            case $value >= 250:
                 $category = "C-";
                 break;
-            case $value > 210:
+            case $value >= 210:
                 $category = "D+";
                 break;
-            case $value > 180:
+            case $value >= 180:
                 $category = "D";
                 break;
-            case $value > 150:
+            case $value >= 150:
                 $category = "D-";
                 break;
-            case $value > 120:
+            case $value >= 120:
                 $category = "E+";
                 break;
-            case $value > 80:
+            case $value >= 80:
                 $category = "E";
                 break;
-            case $value > 40:
+            case $value >= 40:
                 $category = "E-";
                 break;
-            case $value > 0:
+            case $value >= 0:
                 $category = "F+";
                 break;
             case $value == 0:
@@ -184,21 +180,16 @@ class Application_Model_Charakterwerte {
         return $category;
     }
     
-    /**
-     * @return int
-     */
+    
     public function getEnergie() {
         $category = $this->getCategory($this->ausdauer);
         return 1000 * $this->energieFaktor[substr($category, 0, 1)];
     }
     
-    /**
-     * @return array
-     */
     public function toArray() {
         $returnArray = array();
         foreach (get_class_methods(get_class($this)) as $method){
-            if(substr($method, 0, 3) === 'get' AND $method != 'getCategory'){ 
+            if(substr($method, 0, 3) === 'get' AND $method != 'getCategory' AND $method != 'getEnergie'){ 
                 $returnArray[substr($method, 3)] = $this->{$method}();
             }
         }

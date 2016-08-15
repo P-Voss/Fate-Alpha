@@ -17,8 +17,50 @@ foreach ($magien as $magie):
     <p>
         <?= $purifier->purify($magie->getBeschreibung()) ?>
     </p>
+    <div>
+        <table>
+            <colgroup>
+                <col width="200px">
+                <col width="100px">
+                <col width="100px">
+                <col width="100px">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>
+                        Anwendungskosten
+                    </th>
+                    <th>
+                        Element
+                    </th>
+                    <th>
+                        Stufe
+                    </th>
+                    <th>
+                        Rang
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <?= $purifier->purify($magie->getPrana()) ?>
+                    </td>
+                    <td>
+                        <?= $magie->getElement()->getBezeichnung() ?>
+                    </td>
+                    <td>
+                        <?= $purifier->purify($magie->getStufe()) ?>
+                    </td>
+                    <td>
+                        <?= $purifier->purify($magie->getRang()) ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="unlock">
-        <button id="<?= $magie->getId() ?>" class="magie">Magie freischalten</button>
+        <button id="<?= $magie->getId() ?>" class="magie">Magie freischalten - <?= $purifier->purify($magie->getFp()) ?> FP</button>
     </div>
 </div>
 <hr />

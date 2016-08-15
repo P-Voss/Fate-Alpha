@@ -10,7 +10,9 @@ class Nachrichten_InboxController extends Zend_Controller_Action {
     private $service;
     
     public function init(){
-        $this->_helper->logincheck();
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->service = new Nachrichten_Service_Nachrichten();

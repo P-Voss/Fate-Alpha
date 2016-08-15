@@ -68,7 +68,10 @@ class Administration_Model_Mapper_SkillMapper {
         $data['createDate'] = $skill->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $skill->getCreator();
         
-        return $this->getDbTable('Skill')->insert($data);
+        $id = $this->getDbTable('Skill')->insert($data);
+        $skill->setId($id);
+        $this->setRequirementsSkill($skill);
+        return $id;
     }
     
     

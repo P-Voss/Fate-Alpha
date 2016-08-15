@@ -35,7 +35,7 @@ $gruppenArray = array();
 ?>
     <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
         <kbd><?= $purifier->purify($gruppe->getName()) ?> (von dir gegründet)</kbd>
-    </a>
+    </a><br />
 <?php endforeach; ?>
 <?php foreach ($this->gruppen as $gruppe): 
     if(in_array($gruppe->getId(), $gruppenArray)){
@@ -44,7 +44,7 @@ $gruppenArray = array();
 ?>
     <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $gruppe->getId() ?>">
         <kbd><?= $purifier->purify($gruppe->getName()) ?></kbd>
-    </a>
+    </a><br />
 <?php endforeach; ?>
 </fieldset>
 <fieldset>

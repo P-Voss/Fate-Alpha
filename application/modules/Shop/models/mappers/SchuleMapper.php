@@ -49,7 +49,6 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
                 $requirement->setRequiredValue($row->voraussetzung);
                 $requirementList->addRequirement($requirement);
             }
-            $requirementList->addRequirement($this->addFixedRequirements('FP'));
         }
         return $requirementList;
     }
@@ -92,12 +91,13 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
      * @param Shop_Model_Schule $magieschule
      */
     public function unlockMagieschuleForCharakter(Application_Model_Charakter $charakter, Shop_Model_Schule $magieschule) {
+        $learnedSchools = $this->getMagieschulenByCharakterId($charakter->getCharakterid());
         $data['charakterId'] = $charakter->getCharakterid();
         $data['magieschuleId'] = $magieschule->getId();
         parent::getDbTable('CharakterSchule')->insert($data);
         parent::getDbTable('CharakterWerte')
                 ->getAdapter()
-                ->query('UPDATE charakterWerte SET fp = fp-50 WHERE charakterId = ?', $charakter->getCharakterid());
+                ->query('UPDATE charakterWerte SET fp = fp - ? WHERE charakterId = ?', array((count($learnedSchools) * 50), $charakter->getCharakterid()));
     }
     
     /**
@@ -125,6 +125,30 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
                 $magie->setLernbedingung($row->lernbedingung);
                 
                 $returnArray[] = $magie;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $charakterId
+     */
+    public function getMagieschulenByCharakterId($charakterId) {
+        $returnArray = array();
+        $select = parent::getDbTable('Schule')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('magieschulen');
+        $select->joinInner('charakterMagieschulen', 'magieschulen.magieschuleId = charakterMagieschulen.magieschuleId');
+        $select->where('charakterMagieschulen.charakterId = ?', $charakterId);
+        $result = parent::getDbTable('Schule')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $magieschule = new Shop_Model_Schule();
+                $magieschule->setId($row->magieschuleId);
+                $magieschule->setBeschreibung($row->beschreibung);
+                $magieschule->setBezeichnung($row->name);
+                
+                $returnArray[] = $magieschule;
             }
         }
         return $returnArray;

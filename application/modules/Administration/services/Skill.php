@@ -151,9 +151,9 @@ class Administration_Service_Skill {
      */
     public function buildRequirementArray(Zend_Controller_Request_Http $request) {
         $requirements = array();
-        if($request->getParam('fp') !== null){
-            $requirements['FP'] = $request->getParam('fp');
-        }
+//        if($request->getParam('fp') !== null){
+//            $requirements['FP'] = $request->getParam('fp');
+//        }
         if($request->getParam('uebung') !== null){
             $requirements['Uebung'] = $request->getParam('uebung');
         }
@@ -165,6 +165,9 @@ class Administration_Service_Skill {
         }
         if($request->getParam('skills') !== null){
             $requirements['Faehigkeit'] = $request->getParam('skills');
+        }
+        if($request->getParam('skillsIncompatible') !== null){
+            $requirements['FaehigkeitInc'] = $request->getParam('skillsIncompatible');
         }
         if($request->getParam('magien') !== null){
             $requirements['Magie'] = $request->getParam('magien');
@@ -183,6 +186,9 @@ class Administration_Service_Skill {
         }
         if($request->getParam('agilitaet') !== null){
             $requirements['Agilitaet'] = $request->getParam('agilitaet');
+        }
+        if($request->getParam('ausdauer') !== null){
+            $requirements['Ausdauer'] = $request->getParam('ausdauer');
         }
         if($request->getParam('kontrolle') !== null){
             $requirements['Kontrolle'] = $request->getParam('kontrolle');

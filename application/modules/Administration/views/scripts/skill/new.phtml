@@ -48,6 +48,22 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
             </label>
             <input type="number" name="disziplin" />
         </p>
+            <p>
+                <label for="staerke">Stärke</label>
+                <input type="number" size="30" name="staerke" id="staerke" />
+            </p>
+            <p>
+                <label for="agilitaet">Agilität</label>
+                <input type="number" size="30" name="agilitaet" id="agilitaet" />
+            </p>
+            <p>
+                <label for="ausdauer">Ausdauer</label>
+                <input type="number" size="30" name="ausdauer" id="ausdauer" />
+            </p>
+            <p>
+                <label for="kontrolle">Kontrolle</label>
+                <input type="number" size="30" name="kontrolle" id="kontrolle" />
+            </p>
         <label for="gruppen">
             Klassengruppen:
         </label>
@@ -69,18 +85,30 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
             </option>
             <?php } ?>
         </select>
-        <br />
-        <label for="skills">
-            Fähigkeiten:
-        </label>
-        <select name="skills[]" multiple="true" size="8">
-            <?php foreach ($this->skills as $skill) { ?>
-            <option value="<?= $skill->getId() ?>">
-                <?= $skill->getBezeichnung() ?>
-            </option>
-            <?php } ?>
-        </select>
-        <br />
+        <p>
+            <label for="skills">
+                Fähigkeiten:
+            </label>
+            <select name="skills[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                <option value="<?= $skill->getId() ?>">
+                    <?= $skill->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
+        <p>
+            <label for="skillsIncompatible">
+                Nicht kombinierbar mit:
+            </label>
+            <select name="skillsIncompatible[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                <option value="<?= $skill->getId() ?>">
+                    <?= $skill->getBezeichnung() ?>
+                </option>
+                <?php } ?>
+            </select>
+        </p>
         <p>
             <label for="vorteile">
                 benötigte Vorteile

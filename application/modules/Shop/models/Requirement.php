@@ -26,10 +26,12 @@ class Shop_Model_Requirement {
 
     public function setArt($art) {
         $this->art = $art;
+        return $this;
     }
 
     public function setRequiredValue($requiredValue) {
         $this->requiredValue = $requiredValue;
+        return $this;
     }
     
 }

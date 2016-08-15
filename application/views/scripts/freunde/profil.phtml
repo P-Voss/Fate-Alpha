@@ -14,7 +14,7 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
     <?= htmlspecialchars($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
 </h1>
 <div class="img">
-    <img src="<?= htmlentities($charakter->getCharakterprofil()->getCharpic()) ?>" width="700" />
+    <img src="<?= htmlentities($charakter->getCharakterprofil()->getCharpic()) ?>"/>
 </div>
 <p>
     <?= $purifier->purify($charakter->getCharakterprofil()->outputCharaktergeschichte()) ?>

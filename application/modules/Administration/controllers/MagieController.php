@@ -12,7 +12,9 @@ class Administration_MagieController extends Zend_Controller_Action {
     protected $schulService;
 
     public function init(){
-        $this->_helper->logincheck();
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }

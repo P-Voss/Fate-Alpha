@@ -24,9 +24,9 @@
             <div id="navigation">
                 <form name="Login" method="post" action="<?= $this->baseUrl(); ?>/login/login">
                     <label for="username">Benutzername</label>
-                    <input type="text" name="username" size="20" /> <br />
+                    <input type="text" id="username" name="username" size="20" /> <br />
                     <label for="passwort">Passwort</label>
-                    <input id="Passwort" type="password" name="passwort" size="20" />
+                    <input id="passwort" type="password" name="passwort" size="20" />
                     <br />
                     <input id="login" type="submit" name="Login" value="Login" />   <a href="<?= $this->baseUrl(); ?>/login/passwort">Passwort vergessen</a> <br />
                 </form>

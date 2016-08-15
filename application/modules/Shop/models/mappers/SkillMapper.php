@@ -33,6 +33,7 @@ class Shop_Model_Mapper_SkillMapper {
                 $skill->setId($row->skillId);
                 $skill->setBezeichnung($row->name);
                 $skill->setBeschreibung($row->beschreibung);
+                $skill->setFp($row->fp);
                 $skill->setSkillArt($skillArtId);
                 $skill->setRequirementList($this->getRequirements($row->skillId));
                 $returnArray[] = $skill;

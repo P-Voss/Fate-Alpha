@@ -12,7 +12,10 @@ $displayTraining = array(
     'uebung' => 'Übung',
     'kontrolle' => 'Kontrolle',
     'disziplin' => 'Disziplin',
-        )
+        );
+$dateEnd = new DateTime('2018-08-12 20:00:00');
+$date = new DateTime();
+$difference = date_diff($date, $dateEnd, true);
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -57,6 +60,9 @@ $displayTraining = array(
                 <div id="steuerung">
                     <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
                 </div>
+<div>
+    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
+</div>
                 <div id="inhalt">
                     <?php echo $this->layout()->content; ?>
                 </div>

@@ -178,6 +178,17 @@ html, body {
     transition: background-color 0.7s ease-out;
 }
 
+#steuerung li ul li {
+    float:left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+#steuerung li ul li:hover {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
 #steuerung ul ul {
     position: absolute;
     margin-left: 0px;
@@ -226,6 +237,9 @@ html, body {
 #steuerung li a {
     text-decoration: none;
     display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #inhalt {
@@ -443,6 +457,18 @@ img {
     margin-left: auto;
     display: block;
 }
+.img{
+    max-width: 700px;
+    max-height: 700px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: auto;
+}
+.passimg{
+    max-width: 200px;
+    max-height: 260px;
+    overflow: auto;
+}
 form{
     margin-bottom: 25px; 
     margin-top: 25px; 
@@ -541,4 +567,7 @@ a:hover {text-decoration: none; color: red;}
 
 kbd{
     background-color: silver;
+}
+#pass{
+    cursor: default;
 }

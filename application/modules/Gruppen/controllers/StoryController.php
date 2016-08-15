@@ -26,10 +26,9 @@ class Gruppen_StoryController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
-        $this->_helper->logincheck();
-//        if(!$this->_helper->admincheck()){
-//            $this->redirect('index');
-//        }
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         $this->gruppenService = new Gruppen_Service_Gruppen();
     }
     

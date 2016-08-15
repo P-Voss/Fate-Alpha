@@ -50,7 +50,7 @@ foreach ($lockedSchools as $magieschule):
     </p>
     <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
         <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
-        <input type="submit" value="Magieschule freischalten - 50FP">
+        <input type="submit" value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
     </form>
 </fieldset>
 <?php

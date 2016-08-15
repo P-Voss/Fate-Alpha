@@ -13,7 +13,9 @@ class Administration_NewsController extends Zend_Controller_Action {
     protected $_charakterService;
 
     public function init(){
-        $this->_helper->logincheck();
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }

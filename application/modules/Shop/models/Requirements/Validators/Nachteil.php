@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Vorteil
+ * Description of Shop_Model_Requirements_Validators_Nachteil
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Validators_Vorteil implements Shop_Model_Requirements_ValidationInterface {
+class Shop_Model_Requirements_Validators_Nachteil implements Shop_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -16,8 +16,8 @@ class Shop_Model_Requirements_Validators_Vorteil implements Shop_Model_Requireme
         $values = explode(':', $value);
         foreach ($values as $value){
             $result = false;
-            foreach ($charakter->getVorteile() as $vorteil){
-                if($vorteil->getId() == $value){
+            foreach ($charakter->getNachteile() as $nachteil){
+                if($nachteil->getId() == $value){
                     return true;
                 }
             }

@@ -62,9 +62,9 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         $data['charakterId'] = $charakter->getCharakterid();
         $data['skillartId'] = $skillart->getId();
         parent::getDbTable('CharakterSkillart')->insert($data);
-        parent::getDbTable('CharakterWerte')
-                ->getAdapter()
-                ->query('UPDATE charakterWerte SET fp = fp-50 WHERE charakterId = ?', $charakter->getCharakterid());
+//        parent::getDbTable('CharakterWerte')
+//                ->getAdapter()
+//                ->query('UPDATE charakterWerte SET fp = fp-50 WHERE charakterId = ?', $charakter->getCharakterid());
     }
     
     /**

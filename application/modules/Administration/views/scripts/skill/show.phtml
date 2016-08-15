@@ -14,7 +14,7 @@ $beschreibung = $skill->getBeschreibung();
                 <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
             </span>
             <label for="kosten">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $skill->getRequirementList()->getRequirementByKey('FP')->getRequiredValue() ?>" />
+            <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
         </p>
         <p>
             <span style="width: 50%; display: inline-block">
@@ -46,13 +46,29 @@ $beschreibung = $skill->getBeschreibung();
                 <label for="uebung">
                     benötigte Übung
                 </label>
-                <input type="number" name="uebung" value="<?= $skill->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
+                <input type="number" name="uebung" value="<?= $skill->getUebung() ?>" />
             </span>
             <label for="disziplin">
                 benötigte Disziplin
             </label>
             <input type="number" name="disziplin" value="<?= $skill->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
         </p>
+            <p>
+                <label for="staerke">Stärke</label>
+                <input type="number" size="30" name="staerke" id="staerke" value="<?= $skill->getRequirementList()->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
+            </p>
+            <p>
+                <label for="agilitaet">Agilität</label>
+                <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $skill->getRequirementList()->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
+            </p>
+            <p>
+                <label for="ausdauer">Ausdauer</label>
+                <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $skill->getRequirementList()->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
+            </p>
+            <p>
+                <label for="kontrolle">Kontrolle</label>
+                <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $skill->getRequirementList()->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
+            </p>
         <p>
             <span style="width: 50%; display: inline-block; vertical-align: top">
                 <label for="nachteile">
@@ -111,19 +127,40 @@ $beschreibung = $skill->getBeschreibung();
                     <?php endforeach; ?>
                 </select>
             </span>
-            <label for="skills">
-                Fähigkeiten:
+        </p>
+        <p>
+            <span style="width: 50%; display: inline-block; vertical-align: top">
+                <label for="skills">
+                    Fähigkeiten:
+                </label>
+                <select name="skills[]" multiple="true" size="8">
+                    <?php foreach ($this->skills as $listedSkill) {
+                        $selected = '';
+                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
+                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </span>
+            <label for="skillsIncompatible">
+                Nicht kombinierbar mit:
             </label>
-            <select name="skills[]" multiple="true" size="8">
+            <select name="skillsIncompatible[]" multiple="true" size="8">
                 <?php foreach ($this->skills as $listedSkill) {
                     $selected = '';
-                    foreach ($skill->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
+                    foreach ($skill->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
                         if($reqSkill->getRequiredValue() == $listedSkill->getId()){
                             $selected = 'selected="true"';
                         }
                     }
                 ?>
-                <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
                     <?= $listedSkill->getBezeichnung() ?>
                 </option>
                 <?php } ?>

@@ -5,7 +5,9 @@ class IndexController extends Zend_Controller_Action {
     protected $_newsService;
 
     public function init(){
-        $this->_helper->logincheck();
+        if($this->_helper->logincheck() === false){
+//            $this->redirect('index');
+        }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->_newsService = new Application_Service_News();
@@ -21,6 +23,9 @@ class IndexController extends Zend_Controller_Action {
     }
     
     public function informationAction() {
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         $informationService = new Application_Service_Information();
         $information = $informationService->getInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         if($information !== false){
@@ -39,6 +44,9 @@ class IndexController extends Zend_Controller_Action {
     }
     
     public function wetterAction() {
+        if($this->_helper->logincheck() === false){
+            $this->redirect('index');
+        }
         $service = new Application_Service_Wetter();
         $this->view->forecast = $service->getForecast();
     }
