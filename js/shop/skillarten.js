@@ -7,6 +7,7 @@ jQuery(document).ready(function () {
                 height: "0"
             }, 400);
             targetDiv.html('');
+            jQuery(this).html("Fähigkeiten anzeigen");
         } else {
             displaySkillart(targetDiv, jQuery(this).attr('data-id'));
         }
@@ -46,4 +47,5 @@ function displaySkillart(element, id){
             }, 1000);
         }
     });
+    jQuery('.skillart[data-id=' + id + ']').html("Fähigkeiten verbergen");
 }

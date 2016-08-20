@@ -858,4 +858,65 @@ class Application_Model_Mapper_CharakterMapper{
         return $returnArray;
     }
     
+    /**
+     * 
+     * @param Application_Model_Skill $skills
+     * @return \Application_Model_Modifier
+     */
+    public function getModifierSkills($skills = array()) {
+        $returnArray = array();
+        $select = $this->getDbTable('SkillEigenschaften')->select();
+        $select->where('1 = 2');
+        foreach ($skills as $skill) {
+            $select->orWhere('skillId = ?', $skill->getId());
+        }
+        $result = $this->getDbTable('SkillEigenschaften')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row) {
+                $modifier = new Application_Model_Modifier();
+                $modifier->setAttribute($row->eigenschaft);
+                $modifier->setValue($row->effekt);
+                $returnArray[] = $modifier;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * 
+     * @param Application_Model_Skill $skills
+     * @return \Application_Model_Modifier
+     */
+    public function getModifierByCharakter($charakterId) {
+        $returnArray = array();
+        $sql = <<<SQL
+    SELECT * FROM (
+        SELECT skillToEigenschaft.*, charakterId 
+            FROM charakterSkills 
+            INNER JOIN skillToEigenschaft 
+                USING (skillId)
+        UNION 
+            SELECT vorteilToEigenschaft.*, charakterId 
+                FROM charakterVorteile 
+                INNER JOIN vorteilToEigenschaft 
+                    USING (vorteilId)
+        UNION 
+            SELECT nachteilToEigenschaft.*, charakterId 
+                FROM charakterNachteile 
+                INNER JOIN nachteilToEigenschaft 
+                    USING (nachteilId)
+        ) AS modifications
+    WHERE charakterId = ?
+SQL;
+        $db = $this->getDbTable('charakter')->getDefaultAdapter();
+        $result = $db->query($sql, array($charakterId))->fetchAll();
+        foreach ($result as $row) {
+            $modifier = new Application_Model_Modifier();
+            $modifier->setAttribute($row['eigenschaft']);
+            $modifier->setValue($row['effekt']);
+            $returnArray[] = $modifier;
+        }
+        return $returnArray;
+    }
+    
 }

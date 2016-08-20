@@ -62,7 +62,7 @@ foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
             <label for="name">Name</label>
             <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
             <label for="fp">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $magie->getRequirementList()->getRequirementByKey('FP')->getRequiredValue() ?>" />
+            <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
         </p>
         <p>
             <label for="element">

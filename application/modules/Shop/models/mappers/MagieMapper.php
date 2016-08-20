@@ -29,6 +29,42 @@ class Shop_Model_Mapper_MagieMapper {
         $select->setIntegrityCheck(false);
         $select->from('magien');
         $select->joinLeft('elemente', 'magien.element = elemente.elementId', array('elementId' => 'elemente.elementId', 'elementName' => 'elemente.name'));
+        $select->where('magieschuleId = ?', $magieschuleId);
+        $result = $this->getDbTable('Magie')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $magie = new Shop_Model_Magie();
+                $magie->setBeschreibung($row->beschreibung);
+                $magie->setBezeichnung($row->name);
+                $magie->setId($row->magieId);
+                $magie->setFp($row->fp);
+                $magie->setPrana($row->prana);
+                $element = new Application_Model_Element();
+                $element->setId($row->elementId);
+                $element->setBezeichnung($row->elementName);
+                $magie->setElement($element);
+                $magie->setRang($row->rang);
+//                $magie->setKlasse($this->getKlasse($row->klasse));
+                $magie->setGruppe($row->gruppe);
+                $magie->setStufe($row->stufe);
+                $magie->setLernbedingung($row->lernbedingung);
+                
+                $returnArray[] = $magie;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $magieschuleId
+     * @return \Shop_Model_Magie
+     */
+    public function getShopMagienByMagieschuleId($magieschuleId) {
+        $returnArray = array();
+        $select = $this->getDbTable('Magie')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('magien');
+        $select->joinLeft('elemente', 'magien.element = elemente.elementId', array('elementId' => 'elemente.elementId', 'elementName' => 'elemente.name'));
         $select->where('magieschuleId = ? AND lernbedingung = "Standard"', $magieschuleId);
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){

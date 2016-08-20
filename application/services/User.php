@@ -145,7 +145,15 @@ class Application_Service_User {
      * @return \Application_Model_User
      */
     public function getUsers() {
-        return $this->userMapper->getUsers();
+        $charakterMapper = new Application_Model_Mapper_CharakterMapper();
+        $users = $this->userMapper->getUsers();
+        foreach ($users as $user) {
+            $charakter = $charakterMapper->getCharakterByUserId($user->getId());
+            if($charakter !== false){
+                $user->setCharakter($charakter);
+            }
+        }
+        return $users;
     }
     
 }

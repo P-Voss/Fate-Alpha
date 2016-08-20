@@ -42,6 +42,30 @@ class Shop_Model_Mapper_SkillMapper {
         return $returnArray;
     }
     
+    
+    /**
+     * @param int $skillArtId
+     */
+    public function getShopSkillsBySkillArtId($skillArtId) {
+        $returnArray = array();
+        $select = $this->getDbTable('Skill')->select();
+        $select->where('skillartId = ? and lernbedingung = "Standard"', $skillArtId);
+        $result = $this->getDbTable('Skill')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $skill = new Shop_Model_Skill();
+                $skill->setId($row->skillId);
+                $skill->setBezeichnung($row->name);
+                $skill->setBeschreibung($row->beschreibung);
+                $skill->setFp($row->fp);
+                $skill->setSkillArt($skillArtId);
+                $skill->setRequirementList($this->getRequirements($row->skillId));
+                $returnArray[] = $skill;
+            }
+        }
+        return $returnArray;
+    }
+    
     /**
      * @param int $skillId
      * @return 
@@ -60,6 +84,7 @@ class Shop_Model_Mapper_SkillMapper {
             $skill->setRequirementList($this->getRequirements($skillId));
             $skill->setRang($row['rang']);
             $skill->setFp($row['fp']);
+            $skill->setLernbedingung($row['lernbedingung']);
         }
         return $skill;
     }

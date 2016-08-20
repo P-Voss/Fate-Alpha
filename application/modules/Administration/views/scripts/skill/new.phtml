@@ -48,6 +48,16 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
             </label>
             <input type="number" name="disziplin" />
         </p>
+        <p>
+            <label for="lernbedingung">
+                Lernbedingung
+            </label>
+            <select name="lernbedingung">
+                <option>Standard</option>
+                <option>RPG-Ereignis</option>
+                <option>Lehrer</option>
+            </select>
+        </p>
             <p>
                 <label for="staerke">Stärke</label>
                 <input type="number" size="30" name="staerke" id="staerke" />

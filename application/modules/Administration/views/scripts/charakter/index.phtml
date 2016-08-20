@@ -1,0 +1,21 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Charakter
+</h1>
+<?php
+foreach ($this->charakters as $charakter){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
+    <div>
+        <p style="width: 200px; display: inline-block"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></p>
+        <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
+        <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
+    </div>
+</a>
+<hr />
+<?php
+}

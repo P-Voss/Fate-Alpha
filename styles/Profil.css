@@ -99,3 +99,7 @@ input[type=submit] {
 .subContent textarea{
     width: 100%;
 }
+fieldset p {
+    margin-left: 1em;
+    margin-right: 1em;
+}

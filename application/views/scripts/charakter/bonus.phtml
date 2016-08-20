@@ -1,0 +1,137 @@
+<?php
+$charakter = $this->charakter;
+/* @var $werte Application_Model_Charakterwerte */
+$werte = $charakter->getCharakterwerte();
+/* @var $trainingswerte Application_Model_Trainingswerte */
+$trainingswerte = $this->trainingswerte;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Bonustraining
+</h1>
+<div class="submenu">
+    <?php include __DIR__ . '/partials/submenu.phtml'; ?>
+</div>
+<br />
+<div class="container">
+    <fieldset>
+        <legend>
+            Grundwerte
+        </legend>
+        <?php
+        if($trainingswerte->getStrTraining() !== null){
+        ?>
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Staerke" class="columnLabel">
+                    Stärke
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getStrTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="staerke">
+                <input class="trainingInput" type="number" name="staerke" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        if($trainingswerte->getAgiTraining() !== null){
+        ?>
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Agilitaet" class="columnLabel">
+                    Agilität
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getAgiTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="agilitaet">
+                <input class="trainingInput" type="number" name="agilitaet" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        if($trainingswerte->getAusTraining() !== null){
+        ?>
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Ausdauer" class="columnLabel">
+                    Ausdauer
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getAusTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="ausdauer">
+                <input class="trainingInput" type="number" name="ausdauer" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        if($trainingswerte->getPraTraining() !== null){
+        ?>
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Uebung" class="columnLabel">
+                    Übung
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getPraTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="uebung">
+                <input class="trainingInput" type="number" name="uebung" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        ?>
+    </fieldset>
+    <?php if($trainingswerte->getKonTraining() !== null OR $trainingswerte->getDisTraining() !== null): ?>
+    <fieldset>
+        <legend>
+            Klassenwerte
+        </legend>
+        <?php
+        if($trainingswerte->getKonTraining() !== null){
+        ?>
+        <br />
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Kontrolle" class="columnLabel">
+                    Kontrolle
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getKonTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="kontrolle">
+                <input class="trainingInput" type="number" name="kontrolle" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        if($trainingswerte->getDisTraining() !== null){
+        ?>
+        <form method="post" action="<?= $this->baseUrl() ?>/charakter/training">
+            <fieldset>
+                <label for="Disziplin" class="columnLabel">
+                    Disziplin
+                </label>
+                <label class="columnValue">
+                    + <?= $trainingswerte->getDisTraining() ?> pro Tag
+                </label>
+                <input type="hidden" name="Wert" value="disziplin">
+                <input class="trainingInput" type="number" name="disziplin" placeholder="0" min="0"> Tage
+                <input class="trainingSubmit" type="submit" value="Training eintragen">
+            </fieldset>
+        </form>
+        <?php
+        }
+        ?>
+    </fieldset>
+    <?php endif; ?>
+</div>

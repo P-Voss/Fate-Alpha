@@ -6,6 +6,12 @@
  * @author Philipp Voß <voss.ph@web.de>
  */
 class Administration_CharakterController extends Zend_Controller_Action {
+    
+    /**
+     * @var Administration_Service_Charakter
+     */
+    private $charakterService;
+
 
     public function init(){
         if($this->_helper->logincheck() === false){
@@ -14,10 +20,41 @@ class Administration_CharakterController extends Zend_Controller_Action {
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }
+        $config = HTMLPurifier_Config::createDefault();
+        $this->view->purifier = new HTMLPurifier($config);
+        $this->charakterService = new Administration_Service_Charakter();
     }
     
     public function indexAction() {
+        $this->view->charakters = $this->charakterService->getCharakters();
+    }
+    
+    
+    public function showAction() {
+        $charakter = $this->charakterService->getCharakter($this->getRequest(), true);
+        $this->view->charakter = $charakter;
         
+        $magieService = new Shop_Service_Magie();
+        $magieschulen = $magieService->getMagieschulenForCharakter($charakter);
+        $schulen = array();
+        foreach ($magieschulen as $schule){
+            if($schule->getLearned() === true){
+                $schule->setMagien($magieService->getLearnedMagieBySchule($charakter->getCharakterid(), $schule));
+                $schulen[] = $schule;
+            }
+        }
+        $this->view->magieschulen = $schulen;
+        
+        $skillService = new Shop_Service_Skill();
+        $skillarten = $skillService->getSkillArtenForCharakter($charakter);
+        foreach ($skillarten as $skillart) {
+            if($skillart->getLearned() === false){
+                unset($skillart);
+            }else{
+                $skillart->setSkills($skillService->getLearnedSkillBySkillart($charakter->getCharakterid(), $skillart));
+            }
+        }
+        $this->view->skillarten = $skillarten;
     }
     
 }

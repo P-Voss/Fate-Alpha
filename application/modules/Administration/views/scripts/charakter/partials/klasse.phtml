@@ -1,0 +1,13 @@
+<fieldset>
+    <legend>Klasse <span class="indicator"></span></legend>
+    <div class="subContent">
+        <h4>Klasse - <?= $purifier->purify($charakter->getKlassengruppe()->getBezeichnung()) ?></h4>
+        <p>
+            <?= $purifier->purify($charakter->getKlassengruppe()->getBeschreibung()) ?>
+        </p>
+        <h4>Unterklasse - <?= $purifier->purify($charakter->getKlasse()->getBezeichnung()) ?></h4>
+        <p>
+            <?= $purifier->purify($charakter->getKlasse()->getBeschreibung()) ?>
+        </p>
+    </div>
+</fieldset>

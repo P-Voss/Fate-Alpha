@@ -143,4 +143,13 @@ class CharakterController extends Zend_Controller_Action{
         $this->charakterService->savePrivate($this->charakter, $this->getRequest());
     }
     
+    public function bonusAction() {
+        if($this->charakter->getCharakterwerte()->getStartpunkte() <= 0){
+            $this->redirect('charakter');
+        }
+        $service = new Application_Service_Training();
+        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
+        $this->view->charakter = $this->charakter;
+    }
+    
 }

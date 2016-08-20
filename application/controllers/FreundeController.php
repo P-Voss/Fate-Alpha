@@ -62,7 +62,10 @@ class FreundeController extends Zend_Controller_Action {
     }
     
     public function profilAction() {
-		$valid = false;
+        $valid = false;
+        if(!is_int($this->getRequest()->getParam('charakter'))){
+            $this->redirect('freunde');
+        }
         $charakter = $this->_charakterService->getCharakter($this->getRequest());
 		if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
 			$charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));

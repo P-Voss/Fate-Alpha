@@ -3,6 +3,11 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
 /* @var $skill Administration_Model_Skill */
 $skill = $this->skill;
+$lernbedingungen = [
+    'Standard',
+    'RPG-Ereignis',
+    'Lehrer',
+];
 $beschreibung = $skill->getBeschreibung();
 ?>
 <h1>Fähigkeit anpassen</h1>
@@ -52,6 +57,16 @@ $beschreibung = $skill->getBeschreibung();
                 benötigte Disziplin
             </label>
             <input type="number" name="disziplin" value="<?= $skill->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+        </p>
+        <p>
+            <label for="lernbedingung">
+                Lernbedingung
+            </label>
+            <select name="lernbedingung">
+                <?php foreach($lernbedingungen as $bedingung): ?>
+                <option <?= ($skill->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+                <?php endforeach; ?>
+            </select>
         </p>
             <p>
                 <label for="staerke">Stärke</label>

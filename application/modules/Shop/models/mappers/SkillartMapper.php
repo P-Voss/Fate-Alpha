@@ -57,14 +57,14 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         return false;
     }
     
-    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Shop_Model_Skillart $skillart
+     */
     public function unlockSkillartForCharakter(Application_Model_Charakter $charakter, Shop_Model_Skillart $skillart) {
         $data['charakterId'] = $charakter->getCharakterid();
         $data['skillartId'] = $skillart->getId();
         parent::getDbTable('CharakterSkillart')->insert($data);
-//        parent::getDbTable('CharakterWerte')
-//                ->getAdapter()
-//                ->query('UPDATE charakterWerte SET fp = fp-50 WHERE charakterId = ?', $charakter->getCharakterid());
     }
     
     /**

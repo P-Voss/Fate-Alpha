@@ -27,11 +27,13 @@ foreach ($this->magieschulen as $magieschule):
 ?>
 <fieldset style="margin-bottom: 1.5em">
     <legend>
-        <?= $purifier->purify($magieschule->getBezeichnung()) ?>
+        <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
     </legend>
-    <p>
-        <?= $purifier->purify($magieschule->getBeschreibung()) ?>
-    </p>
+    <div class="subContent">
+        <p>
+            <?= $purifier->purify($magieschule->getBeschreibung()) ?>
+        </p>
+    </div>
     <fieldset>
         <legend class="school" data-id="<?= $magieschule->getId() ?>">Magien dieser Schule anzeigen</legend>
         <div class="subContent"></div>
@@ -43,11 +45,13 @@ foreach ($lockedSchools as $magieschule):
 ?>
 <fieldset style="margin-bottom: 1.5em">
     <legend>
-        <?= $purifier->purify($magieschule->getBezeichnung()) ?>
+        <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
     </legend>
-    <p>
-        <?= $purifier->purify($magieschule->getBeschreibung()) ?>
-    </p>
+    <div class="subContent">
+        <p>
+            <?= $purifier->purify($magieschule->getBeschreibung()) ?>
+        </p>
+    </div>
     <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
         <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
         <input type="submit" value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">

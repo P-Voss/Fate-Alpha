@@ -13,7 +13,12 @@ class Application_Model_User {
     protected $email;
     protected $passwort;
     protected $usergruppe;
-    
+    /**
+     * @var Application_Model_Charakter
+     */
+    protected $charakter;
+
+
     public function getId() {
         return $this->id;
     }
@@ -60,6 +65,14 @@ class Application_Model_User {
     
     public function setPasswort($passwort) {
         $this->passwort = $passwort;
+    }
+    
+    public function getCharakter() {
+        return $this->charakter;
+    }
+
+    public function setCharakter(Application_Model_Charakter $charakter) {
+        $this->charakter = $charakter;
     }
     
 }

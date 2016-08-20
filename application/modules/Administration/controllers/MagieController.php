@@ -30,6 +30,11 @@ class Administration_MagieController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
     }
     
+    public function rpgAction() {
+        $this->view->list = $this->skillService->getRpgMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+    }
+    
     public function showAction() {
         $this->view->magie = $this->skillService->getMagieById($this->getRequest()->getParam('id'));
         $this->view->magieList = $this->skillService->getMagieList();

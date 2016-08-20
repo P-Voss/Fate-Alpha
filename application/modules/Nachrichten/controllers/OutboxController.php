@@ -28,7 +28,7 @@ class Nachrichten_OutboxController extends Zend_Controller_Action {
         if($this->getRequest()->getParam('id') !== null){
             $nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
             if($nachricht->getAdmin() !== true){
-            $this->view->respondTo = $nachricht;
+                $this->view->respondTo = $nachricht;
             }
         }
     }

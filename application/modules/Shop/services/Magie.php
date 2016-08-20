@@ -28,7 +28,7 @@ class Shop_Service_Magie {
     public function getMagieschulenForCharakter(Application_Model_Charakter $charakter) {
         $schulen = array();
         $this->requirementValidator->setCharakter($charakter);
-        $learnedSchools = $this->mapper->getMagieschulenByCharakterId($charakter->getCharakterid());
+        $kostenFaktor = $this->mapper->getMagieschulenKostenFaktor($charakter->getCharakterid());
         
         $magieschulen = $this->mapper->getAllSchools();
         foreach ($magieschulen as $magieschule){
@@ -40,7 +40,7 @@ class Shop_Service_Magie {
                 $magieschule->setLearned(false);
             }
             if($this->requirementValidator->validate($magieschule->getRequirementList()) === true){
-                $magieschule->setKosten(count($learnedSchools) * 50);
+                $magieschule->setKosten($kostenFaktor * 50);
                 $schulen[] = $magieschule;
             }
         }
@@ -70,10 +70,13 @@ class Shop_Service_Magie {
         $this->requirementValidator->setCharakter($charakter);
         $magieschule = $this->mapper->getMagieschuleById($schuleId);
         $requirements = $this->mapper->getRequirements($magieschule->getId());
-        $learnedSchools = $this->mapper->getMagieschulenByCharakterId($charakter->getCharakterid());
+        $kostenFaktor = $this->mapper->getMagieschulenKostenFaktor($charakter->getCharakterid());
         
         $fpRequirement = new Shop_Model_Requirement();
-        $fpRequirement->setArt('FP')->setRequiredValue(count($learnedSchools) * 50);
+        $fpRequirement->setArt('FP')->setRequiredValue($kostenFaktor * 50);
+        if($magieschule->getId() === 17){
+            $fpRequirement->setArt('FP')->setRequiredValue(0);
+        }
         $requirements->addRequirement($fpRequirement);
         if($this->requirementValidator->validate($requirements) === true){
             $this->mapper->unlockMagieschuleForCharakter($charakter, $magieschule);
@@ -88,6 +91,11 @@ class Shop_Service_Magie {
     public function unlockMagie(Application_Model_Charakter $charakter, $magieId) {
         $this->requirementValidator->setCharakter($charakter);
         $magie = $this->magieMapper->getMagieById($magieId);
+        if($magie->getLernbedingung() !== "Standard"){
+            return array(
+                'failure' => 'Du brauchst einen Lehrer um die Magie zu lernen.',
+            );
+        }
         if($magie->getStufe() > 1){
 //        if($magie->getStufe() > $charakter->getMagieStufe()){
             return array(
@@ -132,7 +140,7 @@ class Shop_Service_Magie {
      */
     public function getUnlearnedMagienBySchulId(Application_Model_Charakter $charakter, $magieschuleId) {
         $this->requirementValidator->setCharakter($charakter);
-        $magien = $this->magieMapper->getMagienByMagieschuleId($magieschuleId);
+        $magien = $this->magieMapper->getShopMagienByMagieschuleId($magieschuleId);
         $returnMagien = array();
         foreach ($magien as $magie){
 //            if($magie->getStufe() > $charakter->getMagieStufe()){

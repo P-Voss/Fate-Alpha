@@ -24,7 +24,14 @@ $respondTo = $this->respondTo;
             <select class="userSelect" name="user" <?= ($respondTo !== null) ?  'disabled=""' : '' ?>>
                 <?php foreach ($users as $user) : ?>
                 <option <?= ($respondTo !== null AND $respondTo->getVerfasserId() == $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
-                    <?= $purifier->purify($user->getProfilname()) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
+                    <?php 
+                    if($user->getCharakter() !== null){
+                        $name = $user->getProfilname() . ' - ' . $user->getCharakter()->getVorname();
+                    } else {
+                        $name = $user->getProfilname();
+                    }
+                    ?>
+                    <?= $purifier->purify($name) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
                 </option>
                 <?php endforeach; ?>
             </select>

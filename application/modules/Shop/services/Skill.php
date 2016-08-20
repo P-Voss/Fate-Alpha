@@ -70,7 +70,7 @@ class Shop_Service_Skill {
      */
     public function getUnlearnedSkillsByArtId(Application_Model_Charakter $charakter, $skillartId) {
         $this->requirementValidator->setCharakter($charakter);
-        $skills = $this->mapper->getSkillsBySkillArtId($skillartId);
+        $skills = $this->mapper->getShopSkillsBySkillArtId($skillartId);
         $returnSkills = array();
         foreach ($skills as $skill){
             if($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId()) === true){
@@ -100,6 +100,11 @@ class Shop_Service_Skill {
     public function unlockSkill(Application_Model_Charakter $charakter, $skillId) {
         $this->requirementValidator->setCharakter($charakter);
         $skill = $this->mapper->getSkillById($skillId);
+        if($skill->getLernbedingung() !== "Standard"){
+            return array(
+                'failure' => 'Du brauchst einen Lehrer um die Fähigkeit zu lernen.',
+            );
+        }
         if($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId()) === true){
             return array(
                 'failure' => 'Fähigkeit wurde schon erlernt!',

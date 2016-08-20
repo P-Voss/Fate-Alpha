@@ -24,14 +24,7 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Magie.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/js/shop/magieschulen.js</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/views/scripts/magie/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/Nachteil.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/FaehigkeitInc.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/MagieMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/Vorteil.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/Requirements/Validators/Faehigkeit.php</file>
         </group>
     </open-files>
 </project-private>

@@ -19,4 +19,11 @@
             Ausrüstung
         </a>
     </li>
+<?php if($werte->getStartpunkte() > 0): ?>
+    <li>
+        <a href="<?= $this->baseUrl() ?>/charakter/bonus">
+            Bonustage verteilen
+        </a>
+    </li>
+<?php endif; ?>
 </ul>

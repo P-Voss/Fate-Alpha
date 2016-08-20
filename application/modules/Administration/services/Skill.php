@@ -15,24 +15,39 @@ class Administration_Service_Skill {
      */
     private $requirementService;
     
+    
     public function __construct() {
         $this->mapper = new Administration_Model_Mapper_SkillMapper();
         $this->requirementService = new Administration_Service_Requirement();
     }
     
+    
     public function getMagieList() {
         return $this->mapper->getMagien();
     }
     
+    
+    public function getRpgMagieList() {
+        return $this->mapper->getRpgMagien();
+    }
+    
+    
     public function getSkillList() {
         return $this->mapper->getSkills();
     }
+    
+    
+    public function getRpgSkillList() {
+        return $this->mapper->getRpgSkills();
+    }
+    
     
     public function getMagieById($magieId) {
         $magie = $this->mapper->getMagieById($magieId);
         $magie->setRequirementList($this->mapper->getRequirementsMagie($magieId));
         return $magie;
     }
+    
     
     public function editMagie(Zend_Controller_Request_Http $request, $userId) {
         $magie = new Administration_Model_Magie();
@@ -65,6 +80,7 @@ class Administration_Service_Skill {
         $this->mapper->setDependencies($magie);
     }
     
+    
     public function createMagie(Zend_Controller_Request_Http $request, $userId) {
         $magie = new Administration_Model_Magie();
         $date = new DateTime();
@@ -95,11 +111,13 @@ class Administration_Service_Skill {
         $this->mapper->setDependencies($magie);
     }
     
+    
     public function getSkillById($skillId) {
         $skill = $this->mapper->getSkillById($skillId);
         $skill->setRequirementList($this->requirementService->getRequirementListSkill($skillId));
         return $skill;
     }
+    
     
     public function editSkill(Zend_Controller_Request_Http $request, $userId) {
         $skill = new Administration_Model_Skill();
@@ -114,6 +132,7 @@ class Administration_Service_Skill {
         $skill->setRang($request->getPost('rang'));
         $skill->setUebung($request->getPost('uebung'));
         $skill->setDisziplin($request->getPost('disziplin'));
+        $skill->setLernbedingung($request->get('lernbedingung'));
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
@@ -123,6 +142,7 @@ class Administration_Service_Skill {
         
         $this->mapper->updateSkill($skill);
     }
+    
     
     public function createSkill(Zend_Controller_Request_Http $request, $userId) {
         $skill = new Administration_Model_Skill();
@@ -136,6 +156,7 @@ class Administration_Service_Skill {
         $skill->setRang($request->getPost('rang'));
         $skill->setUebung($request->getPost('uebung'));
         $skill->setDisziplin($request->getPost('disziplin'));
+        $skill->setLernbedingung($request->get('lernbedingung'));
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(

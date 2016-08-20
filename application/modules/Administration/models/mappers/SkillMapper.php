@@ -38,6 +38,31 @@ class Administration_Model_Mapper_SkillMapper {
         return $returnArray;
     }
     
+    
+    public function getRpgSkills() {
+        $returnArray = array();
+        $select = $this->getDbTable('Skill')->select();
+        $select->distinct();
+        $select->where('lernbedingung != "Standard"');
+        $select->order('skillartId');
+        $result = $this->getDbTable('Skill')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $model = new Administration_Model_Skill();
+                $model->setId($row->skillId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setFp($row->fp);
+                $model->setRang($row->rang);
+                $model->setSkillArt($row->skillartId);
+                $model->setDisziplin($row->disziplin);
+                $model->setUebung($row->uebung);
+                $returnArray[] = $model;
+            }
+        }
+        return $returnArray;
+    }
+    
     public function getSkillById($skillId) {
         $model = new Administration_Model_Skill();
         $select = $this->getDbTable('Skill')->select();
@@ -52,6 +77,7 @@ class Administration_Model_Mapper_SkillMapper {
             $model->setFp($row['fp']);
             $model->setRang($row['rang']);
             $model->setSkillArt($row['skillartId']);
+            $model->setLernbedingung($row['lernbedingung']);
         }
         return $model;
     }
@@ -65,6 +91,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();
+        $data['lernbedingung'] = $skill->getLernbedingung();
         $data['createDate'] = $skill->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $skill->getCreator();
         
@@ -83,6 +110,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();
+        $data['lernbedingung'] = $skill->getLernbedingung();
         $data['editDate'] = $skill->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $skill->getEditor();
         
@@ -141,6 +169,35 @@ class Administration_Model_Mapper_SkillMapper {
         $returnArray = array();
         $select = $this->getDbTable('Magie')->select();
         $select->distinct();
+        $select->order('magieschuleId');
+        $result = $this->getDbTable('Magie')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $model = new Administration_Model_Magie();
+                $model->setId($row->magieId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setFp($row->fp);
+                $model->setPrana($row->prana);
+                $model->setRang($row->rang);
+                $model->setStufe($row->stufe);
+                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
+                $model->setLernbedingung($row->lernbedingung);
+                $returnArray[] = $model;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @return array Administration_Model_Magie
+     */
+    public function getRpgMagien() {
+        $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
+        $returnArray = array();
+        $select = $this->getDbTable('Magie')->select();
+        $select->distinct();
+        $select->where('lernbedingung != "Standard"');
         $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){

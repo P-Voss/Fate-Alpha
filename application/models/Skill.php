@@ -15,6 +15,10 @@ class Application_Model_Skill implements JsonSerializable {
     protected $rang;
     protected $uebung;
     protected $disziplin;
+    /**
+     * @var string 
+     */
+    protected $lernbedingung;
     
     public function getId() {
         return $this->id;
@@ -78,6 +82,14 @@ class Application_Model_Skill implements JsonSerializable {
 
     public function setDisziplin($disziplin) {
         $this->disziplin = $disziplin;
+    }
+    
+    public function getLernbedingung() {
+        return $this->lernbedingung;
+    }
+
+    public function setLernbedingung($lernbedingung) {
+        $this->lernbedingung = $lernbedingung;
     }
     
     public function jsonSerialize() {
