@@ -17,7 +17,11 @@ foreach ($this->skillarten as $skillart):
         $lockedSkillarten[] = $skillart;
         continue;
     }
-?>
+    if($skillart->getId() === 3): ?>
+<img src="http://i.imgur.com/QDDjNup.jpg">
+    <?php
+    endif;
+    ?>
 <fieldset style="margin-bottom: 1.5em">
     <legend>
         <?= $purifier->purify($skillart->getBezeichnung()) ?>

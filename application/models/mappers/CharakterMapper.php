@@ -149,7 +149,7 @@ class Application_Model_Mapper_CharakterMapper{
         $data['disziplin'] = 10;
         $data['kontrolle'] = 10;
         $data['uebung'] = 10;
-        $data['startpunkte'] = 300;
+        $data['startpunkte'] = 120;
         return $this->getDbTable('CharakterWerte')->insert($data);
     }
     
@@ -656,6 +656,10 @@ class Application_Model_Mapper_CharakterMapper{
         ];
         $this->getDbTable('CharakterSkillart')->insert($data);
         $data['skillartId'] = 4;
+        $this->getDbTable('CharakterSkillart')->insert($data);
+        $data['skillartId'] = 1;
+        $this->getDbTable('CharakterSkillart')->insert($data);
+        $data['skillartId'] = 2;
         $this->getDbTable('CharakterSkillart')->insert($data);
     }
     

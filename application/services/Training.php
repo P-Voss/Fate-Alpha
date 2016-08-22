@@ -9,8 +9,8 @@ class Application_Service_Training {
     
     private $_trainingsMapper;
     
-    public function init(){
-        
+    public function __construct(){
+        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
     }
 
     /**
@@ -19,7 +19,6 @@ class Application_Service_Training {
      * @throws Exception
      */
     public function getTrainingswerte(Application_Model_Charakter $charakter){
-        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         if(($trainingswerte = $this->_trainingsMapper->getDefaultTraining()) === false){
             throw new Exception('Es wurden keine Standardwerte angegeben');
         }
@@ -34,7 +33,6 @@ class Application_Service_Training {
      * @return integer
      */
     public function startTraining(Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte, Zend_Controller_Request_Http $request) {
-        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         $training = $request->getPost('Wert');
         $wert = $request->getParam($training);
         $return = false;
@@ -52,7 +50,6 @@ class Application_Service_Training {
      * 
      */
     public function executeTraining() {
-        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         $charakterIds = $this->_trainingsMapper->getCharakterIdsToTrain();
         $defaultTraining = $this->_trainingsMapper->getDefaultTraining();
         foreach ($charakterIds as $id) {
@@ -64,7 +61,6 @@ class Application_Service_Training {
     
     
     public function addFp() {
-        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
         $this->_trainingsMapper->addFp();
     }
     
@@ -83,6 +79,22 @@ class Application_Service_Training {
         $charakter->setVorteile($charakterMapper->getVorteileByCharakterId($charakter->getCharakterid()));
         $charakter->setNachteile($charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
         return $charakter;
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param int $days
+     * @param string $attribute
+     */
+    public function addBonusTraining(Application_Model_Charakter $charakter, $days, $attribute) {
+        $trainingswerte = $this->getTrainingswerte($charakter);
+        $werte = $charakter->getCharakterwerte();
+        
+        for($i = 0; $i < $days && $i < $werte->getStartpunkte(); $i++){
+            $werte->addTraining(array('training' => $attribute), $trainingswerte);
+        }
+        $werte->setStartpunkte($werte->getStartpunkte() - $i);
+        $this->_trainingsMapper->addBonusTraining($charakter->getCharakterid(), $werte);
     }
     
 }

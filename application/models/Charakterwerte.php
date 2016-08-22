@@ -111,6 +111,15 @@ class Application_Model_Charakterwerte {
                 }
                 break;
             case 'kontrolle':
+                if($this->kontrolle < 40 && $this->kontrolle + $trainingswerte->getKonTraining() >= 40){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 250 && $this->kontrolle + $trainingswerte->getKonTraining() >= 250){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 540 && $this->kontrolle + $trainingswerte->getKonTraining() >= 540){
+                    $this->fp = $this->fp + 100;
+                }
                 $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
                 break;
             case 'uebung':

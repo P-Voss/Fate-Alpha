@@ -5,7 +5,7 @@
  *
  * @author Voß
  */
-class Application_Model_Requirements_Validators_Faehigkeit implements Application_Model_Requirements_ValidationInterface {
+class Application_Model_Requirements_Validators_FaehigkeitInc implements Application_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -17,11 +17,11 @@ class Application_Model_Requirements_Validators_Faehigkeit implements Applicatio
         foreach ($values as $value){
             foreach ($charakter->getSkills() as $skill){
                 if($skill->getId() == $value){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
     
 }

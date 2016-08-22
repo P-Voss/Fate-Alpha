@@ -23,6 +23,9 @@ class Application_Service_Charakter {
             $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
             $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
             $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setSkills($mapper->getCharakterSkills($charakter->getCharakterid()));
+            $charakter->setMagieschulen($mapper->getCharakterMagieschulen($charakter->getCharakterid()));
+            $charakter->setMagien($mapper->getCharakterMagien($charakter->getCharakterid()));
             
             $charakter->setModifiers($mapper->getModifierByCharakter($charakter->getCharakterid()));
             

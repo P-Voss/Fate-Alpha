@@ -4,7 +4,11 @@ class Application_Model_Mapper_TrainingMapper{
     
     private $changesContainer = array();
 
-
+    /**
+     * @param string $tablename
+     * @return \Zend_Db_Table_Abstract
+     * @throws Exception
+     */
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){
@@ -16,6 +20,7 @@ class Application_Model_Mapper_TrainingMapper{
         }
         return $dbTable;
     }
+    
     
     public function getDefaultTraining() {
         $select = $this->getDbTable('Training')->select();
@@ -37,6 +42,7 @@ class Application_Model_Mapper_TrainingMapper{
             return false;
         }
     }
+    
     
     public function getRealTraining(Application_Model_Trainingswerte $defaultTraining, Application_Model_Charakter $charakter) {
         $this->changesContainer = array();
@@ -81,6 +87,7 @@ class Application_Model_Mapper_TrainingMapper{
         return $trainingswerte;
     }
     
+    
     public function setOtherValuesNull(Application_Model_Trainingswerte $trainingswerte, Application_Model_Charakter $charakter) {
 //        if($charakter->getKlassengruppe()->getId() == 2){
 //            $trainingswerte->setDisTraining(null);
@@ -88,6 +95,7 @@ class Application_Model_Mapper_TrainingMapper{
 //        }
         return $trainingswerte;
     }
+    
     
     public function checkTraining($charakterId) {
         $select = $this->getDbTable('Training')->select();
@@ -102,6 +110,7 @@ class Application_Model_Mapper_TrainingMapper{
         }
     }
     
+    
     public function setTraining($charakterId, $training, $dauer) {
         $data['charakterId'] = $charakterId;
         $data['wert'] = $training;
@@ -109,11 +118,13 @@ class Application_Model_Mapper_TrainingMapper{
         return $this->getDbTable('Training')->insert($data);
     }
     
+    
     public function updateTraining($charakterId, $training, $dauer) {
         $data['wert'] = $training;
         $data['dauer'] = $dauer;
         return $this->getDbTable('Training')->update($data, array('charakterId = ?' => $charakterId));
     }
+    
     
     protected function _checkVorteil($vorteilId) {
         $select = $this->getDbTable('TrainingVorteil')->select();
@@ -134,6 +145,7 @@ class Application_Model_Mapper_TrainingMapper{
         }
     }
     
+    
     protected function _checkNachteil($nachteilId) {
         $select = $this->getDbTable('TrainingNachteil')->select();
         $select->setIntegrityCheck(false);
@@ -152,6 +164,7 @@ class Application_Model_Mapper_TrainingMapper{
             return null;
         }
     }
+    
     
     protected function _checkKlasse($klassenId) {
         $select = $this->getDbTable('TrainingKlasse')->select();
@@ -172,6 +185,10 @@ class Application_Model_Mapper_TrainingMapper{
         }
     }
     
+    /**
+     * @param int $gruppenId
+     * @return array|null
+     */
     protected function _checkKlassengruppe($gruppenId) {
         $select = $this->getDbTable('TrainingKlassengruppe')->select();
         $select->setIntegrityCheck(false);
@@ -191,6 +208,10 @@ class Application_Model_Mapper_TrainingMapper{
         }
     }
     
+    /**
+     * @param Application_Model_Trainingswerte $trainingswerte
+     * @return Application_Model_Trainingswerte
+     */
     protected function _transformValues($trainingswerte) {
         foreach ($this->changesContainer as $changesCategories){
             foreach ($changesCategories as $key => $values){
@@ -296,6 +317,14 @@ class Application_Model_Mapper_TrainingMapper{
         }else{
             return false;
         }
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param Application_Model_Charakterwerte $werte
+     */
+    public function addBonusTraining($charakterId, Application_Model_Charakterwerte $werte) {
+        $this->getDbTable('CharakterWerte')->update($werte->toArray(), array('charakterId = ?' => $charakterId));
     }
     
 }

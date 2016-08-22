@@ -85,12 +85,14 @@ class CharakterController extends Zend_Controller_Action{
             }
         }
         $this->view->skillarten = $skillarten;
+        $this->view->charakter = $this->charakter;
     }
     
     public function inventarAction() {
         if($this->charakter === false){
             $this->redirect('Erstellung/Charakter');
         }
+        $this->view->charakter = $this->charakter;
     }
     
     public function erstellungAction() {
@@ -150,6 +152,63 @@ class CharakterController extends Zend_Controller_Action{
         $service = new Application_Service_Training();
         $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
         $this->view->charakter = $this->charakter;
+    }
+    
+    public function trainingpreviewAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        if(!in_array($this->getRequest()->getParam('attribute'), array('staerke', 'agilitaet', 'ausdauer', 'disziplin', 'kontrolle'))
+                ||
+            (int)$this->getRequest()->getParam('days') < 0){
+            echo json_encode(array(
+                'success' => false,
+                'wert' => '',
+                'kategorie' => '',
+            ));
+        }
+        
+        $service = new Application_Service_Training();
+        $trainingswerte = $service->getTrainingswerte($this->charakter);
+        $werte = $this->charakter->getCharakterwerte();
+        
+        for($i = 0; $i < (int)$this->getRequest()->getParam('days') && $i < $werte->getStartpunkte(); $i++){
+            $werte->addTraining(array('training' => $this->getRequest()->getParam('attribute')), $trainingswerte);
+        }
+        
+        $function = "get" . ucfirst($this->getRequest()->getParam('attribute'));
+        $wert = $werte->$function();
+        $category = $werte->getCategory($werte->$function());
+        
+        echo json_encode(array(
+            'success' => true,
+            'wert' => $wert,
+            'kategorie' => $category,
+        ));
+        
+    }
+    
+    public function bonustrainingAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        if(!in_array($this->getRequest()->getParam('attribute'), array('staerke', 'agilitaet', 'ausdauer', 'disziplin', 'kontrolle'))
+                ||
+            (int)$this->getRequest()->getParam('days') <= 0){
+            echo json_encode(array(
+                'success' => false,
+                'html' => '',
+            ));
+        }
+        $service = new Application_Service_Training();
+        $service->addBonusTraining($this->charakter, (int)$this->getRequest()->getParam('days'), $this->getRequest()->getParam('attribute'));
+        $this->view->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
+        $html = $this->view->render('charakter/bonustraining.phtml');
+        echo json_encode(array(
+            'success' => true, 
+            'html' => $html,
+        ));
     }
     
 }

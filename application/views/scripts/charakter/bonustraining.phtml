@@ -9,28 +9,6 @@ $trainingswerte = $this->trainingswerte;
 $purifier = $this->purifier;
 $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/bonus.js');
 ?>
-<style type="text/css">
-    .concreteValue {
-        display: inline-block;
-        width: 150px;
-    }
-    .kategorien{
-        display: inline-block;
-        margin-left: 30px;
-    }
-    
-    .value{
-        font-weight: bold;
-    }
-</style>
-<h1>
-    Bonustraining
-</h1>
-<div class="submenu">
-    <?php include __DIR__ . '/partials/submenu.phtml'; ?>
-</div>
-<br />
-<div id="Training">
     <h2>
         Verfügbare Trainingstage: <span id="trainingstage"><?= $werte->getStartpunkte() ?></span>
     </h2>
@@ -229,4 +207,3 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/charakter/bonus.js');
         ?>
     </div>
     <?php endif; ?>
-</div>
