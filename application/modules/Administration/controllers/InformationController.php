@@ -11,13 +11,15 @@ class Administration_InformationController extends Zend_Controller_Action {
     protected $skillService;
     protected $schulService;
     private $informationService;
-
+    private $kategorien = array(
+        'Charakter','Regeln','Welt','Fähigkeiten','Magien','Familien','Clans','Magi','Menschen','Spiel','Orte','Geschichte'
+    );
+    
+    
     public function init(){
         if($this->_helper->logincheck() === false){
             $this->redirect('index');
         }
-        $config = HTMLPurifier_Config::createDefault();
-        $this->view->purifier = new HTMLPurifier($config);
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }
@@ -34,6 +36,7 @@ class Administration_InformationController extends Zend_Controller_Action {
     }
     
     public function showAction() {
+        $this->view->kategorien = $this->kategorien;
         $this->view->information = $this->informationService->getInformationById($this->getRequest()->getParam('id'));
         $this->view->magieList = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
@@ -46,6 +49,7 @@ class Administration_InformationController extends Zend_Controller_Action {
     }
     
     public function newAction() {
+        $this->view->kategorien = $this->kategorien;
         $this->view->magieList = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();

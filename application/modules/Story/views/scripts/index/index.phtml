@@ -1,0 +1,25 @@
+<?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $plot Story_Model_Plot */
+?>
+<h1>
+    Storycenter
+</h1>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/new">Neuen Plot starten</a>
+</div>
+<div>
+    <h2>
+        Deine Plots:
+    </h2>
+    <ul>
+        <?php foreach($this->plots as $plot): ?>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $plot->getId() ?>">
+                <?= $purifier->purify($plot->getName()) ?>
+            </a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

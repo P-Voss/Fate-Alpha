@@ -1,68 +1,135 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 ?>
-<fieldset>
-    <legend>Charakterdaten</legend>
-    <p>
-        <label>
-            Name
-        </label>
-        <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
-    </p>
-    <p>
-        <label>
-            Geburtsdatum
-        </label>
-        <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
-    </p>
-    <p>
-        <label>
-            Geschlecht
-        </label>
-        <?= $purifier->purify($charakter->getGeschlecht()) ?>
-    </p>
-    <p>
-        <label>
-            Wohnort
-        </label>
-        <?= $charakter->getWohnort() ?>
-    </p>
-    <p>
-        <label>
-            Vermögen
-        </label>
-        <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
-    </p>
-    <p>
-        <label>
-            Sexuelle Orientierung
-        </label>
-        <?= $charakter->getSexualitaet() ?>
-    </p>
-    <p>
-        <label>
-            Odo
-        </label>
-        <?= $charakter->getOdo()->getMenge() . '(' . $charakter->getOdo()->getKategorie() . ')' ?>
-    </p>
-    <p>
-        <label>
-            Naturelement
-        </label>
-        <?= $charakter->getNaturElement()->getBezeichnung(); ?>
-    </p>
-    <p>
-        <label>
-            Glück
-        </label>
-        <?= $charakter->getLuck()->getKategorie() ?>
-    </p>
-    <?php if($charakter->getMagiccircuit() !== null): ?>
-    <p>
-        <label>
-            Magic Circuit
-        </label>
-        <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
-    </p>
-    <?php endif; ?>
-</fieldset>
+<form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" style="margin: 0">
+    <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
+    <fieldset>
+        <legend>Charakterdaten</legend>
+        <p>
+            <label>
+                Vorname
+            </label>
+            <input type="text" name="vorname" value="<?= $purifier->purify($charakter->getVorname()) ?>">
+        </p>
+        <p>
+            <label>
+                Nachname
+            </label>
+            <input type="text" name="nachname" value="<?= $purifier->purify($charakter->getNachname()) ?>">
+        </p>
+        <p>
+            <label>
+                Künstlername
+            </label>
+            <input type="text" name="nickname" value="<?= $purifier->purify($charakter->getNickname()) ?>">
+        </p>
+        <p>
+            <label>
+                Geburtsdatum
+            </label>
+            <input type="text" name="geburtsdatum" value="<?= $charakter->getGeburtsdatum('d.m.Y') ?>"><?= '(' . $charakter->getAlter() . ')' ?>
+        </p>
+        <p>
+            <label>
+                Augenfarbe
+            </label>
+            <select name="augenfarbe">
+                <option <?= $charakter->getAugenfarbe() === 'Blau' ? 'selected' : '' ?>>Blau</option>
+                <option <?= $charakter->getAugenfarbe() === 'Grün' ? 'selected' : '' ?>>Grün</option>
+                <option <?= $charakter->getAugenfarbe() === 'Braun' ? 'selected' : '' ?>>Braun</option>
+                <option <?= $charakter->getAugenfarbe() === 'Grau' ? 'selected' : '' ?>>Grau</option>
+                <option <?= $charakter->getAugenfarbe() === 'Schwarz' ? 'selected' : '' ?>>Schwarz</option>
+                <option <?= $charakter->getAugenfarbe() === 'Rot' ? 'selected' : '' ?>>Rot</option>
+                <option <?= $charakter->getAugenfarbe() === 'Lila' ? 'selected' : '' ?>>Lila</option>
+                <option <?= $charakter->getAugenfarbe() === 'Gelb' ? 'selected' : '' ?>>Gelb</option>
+                <option <?= $charakter->getAugenfarbe() === 'Türkis' ? 'selected' : '' ?>>Türkis</option>
+            </select>
+        </p>
+        <p>
+            <label>
+                Geschlecht
+            </label>
+            <select name="geschlecht">
+                <option <?= $charakter->getGeschlecht() === 'm' ? 'selected' : '' ?>>m</option>
+                <option <?= $charakter->getGeschlecht() === 'w' ? 'selected' : '' ?>>w</option>
+            </select>
+        </p>
+        <p>
+            <label>
+                Körpergröße
+            </label>
+            <input type="number" name="size" value="<?= $charakter->getSize() ?>"> cm
+        </p>
+        <p>
+            <label>
+                Wohnort
+            </label>
+            <?= $charakter->getWohnort() ?>
+        </p>
+        <p>
+            <label>
+                Vermögen
+            </label>
+            <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
+        </p>
+        <p>
+            <label>
+                Sexuelle Orientierung
+            </label>
+            <select name="sex">
+                <option <?= $charakter->getSexualitaet() === 'Heterosexuell' ? 'selected' : '' ?>>Heterosexuell</option>
+                <option <?= $charakter->getSexualitaet() === 'Homosexuell' ? 'selected' : '' ?>>Homosexuell</option>
+                <option <?= $charakter->getSexualitaet() === 'Bisexuell' ? 'selected' : '' ?>>Bisexuell</option>
+            </select>
+        </p>
+        <p>
+            <label>
+                Odo
+            </label>
+            <select name="odo">
+                <?php foreach($this->creationParams['odo'] as $odo): ?>
+                <option value="<?= $odo->getId() ?>" <?= $odo->getKategorie() == $charakter->getOdo()->getKategorie() ? 'selected' : '' ?>>
+                        <?= $odo->getMenge() . '(' . $odo->getKategorie() . ')' ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label>
+                Naturelement
+            </label>
+            <select name="element">
+                <?php foreach($this->creationParams['elemente'] as $element): 
+                    if($element->getCharakterisierung() === null){
+                        continue;
+                    }
+                ?>
+                <option value="<?= $element->getId() ?>" <?= $element->getId() == $charakter->getNaturElement()->getId() ? 'selected' : '' ?>>
+                        <?= $element->getBezeichnung(); ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label>
+                Glück
+            </label>
+            <select name="luck">
+                <?php foreach($this->creationParams['luck'] as $luck): ?>
+                <option value="<?= $luck->getId() ?>" <?= $luck->getId() == $charakter->getLuck()->getId() ? 'selected' : '' ?>>
+                        <?= $luck->getKategorie() ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <?php if($charakter->getMagiccircuit() !== null): ?>
+        <p>
+            <label>
+                Magic Circuit
+            </label>
+            <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
+        </p>
+        <?php endif; ?>
+        <input type="submit" value="Daten ändern">
+    </fieldset>
+</form>

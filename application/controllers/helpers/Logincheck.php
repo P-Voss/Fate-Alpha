@@ -8,7 +8,7 @@
 class Application_Controller_Helpers_Logincheck extends Zend_Controller_Action_Helper_Abstract {
     
     protected $_layoutService;
-
+    
     function direct(){
         $this->_layoutService = new Application_Service_Layout();
         

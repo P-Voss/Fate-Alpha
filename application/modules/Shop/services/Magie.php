@@ -25,6 +25,12 @@ class Shop_Service_Magie {
         $this->magieMapper = new Shop_Model_Mapper_MagieMapper();
     }
     
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @return array
+     * @todo Performance lässt sich steigern, wenn direkt die 
+     *       ungelernten Schulen mit fertig berechneten Kosten selected werden
+     */
     public function getMagieschulenForCharakter(Application_Model_Charakter $charakter) {
         $schulen = array();
         $this->requirementValidator->setCharakter($charakter);
@@ -41,6 +47,9 @@ class Shop_Service_Magie {
             }
             if($this->requirementValidator->validate($magieschule->getRequirementList()) === true){
                 $magieschule->setKosten($kostenFaktor * 50);
+                if($magieschule->getId() === 17){
+                    $magieschule->setKosten(0);
+                }
                 $schulen[] = $magieschule;
             }
         }
@@ -51,6 +60,7 @@ class Shop_Service_Magie {
      * @param int $charakterId
      * @param Application_Model_Schule $schule
      * @return \Application_Model_Schule
+     * @todo Direkt nur die gelernten Magien selecten
      */
     public function getLearnedMagieBySchule($charakterId, Application_Model_Schule $schule) {
         $magien = $this->magieMapper->getMagienByMagieschuleId($schule->getId());
@@ -108,7 +118,7 @@ class Shop_Service_Magie {
             );
         }
         
-        if($magie->getElement()->getId() === $charakter->getNaturElement()->getId()){
+        if((int)$magie->getElement()->getId() === (int)$charakter->getNaturElement()->getId()){
             $magie->setFp($magie->getFp() * 0.9);
         }
         

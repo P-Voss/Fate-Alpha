@@ -49,7 +49,7 @@ class Application_Service_Information {
     }
     
     /**
-     * @return array
+     * @return \Application_Model_Information
      */
     public function getInformations() {
         $returnArray = array();
@@ -71,7 +71,10 @@ class Application_Service_Information {
         return $returnArray;
     }
     
-    
+    /**
+     * @param Application_Model_Information $information
+     * @return boolean
+     */
     private function checkValidation(Application_Model_Information $information){
         $validatorFactory = new Application_Model_Requirements_Factory();
         foreach ($information->getRequirementList()->getRequirements() as $requirement) {

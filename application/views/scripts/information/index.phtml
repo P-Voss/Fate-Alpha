@@ -1,0 +1,58 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/information.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/information/information.js');
+/* @var $layoutData Application_Model_Layout */
+/* @var $information Application_Model_Information */
+$layoutData = $this->layoutData;
+$kategorien = array(
+    'Spiel' => array(),
+    'Regeln' => array(),
+    'Welt' => array(),
+    'Orte' => array(),
+    'Charakter' => array(),
+    'Fähigkeiten' => array(),
+    'Magien' => array(),
+    'Familien' => array(),
+    'Clans' => array(),
+    'Magi' => array(),
+    'Menschen' => array(),
+    'Geschichte' => array(),
+);
+foreach ($layoutData->getInformations() as $information) {
+    $kategorien[$information->getKategorie()][] = $information;
+}
+?>
+<h1>
+    Informationen
+</h1>
+<div id="informationNavigation" class="informationBox">
+    <?php
+    foreach($kategorien as $kategorie => $informationen):
+    ?>
+    <h2 class="kategorie" data-id="<?= $kategorie ?>">
+        <?= $kategorie ?>
+    </h2>
+    <?php
+    if(count($informationen) === 0):
+    ?>
+    -
+    <?php
+    endif;
+    foreach($informationen as $information):
+    ?>
+    <a class="information" data-id="<?= $information->getInformationId() ?>">
+        <h4>
+            <?= $information->getName() ?>
+        </h4>
+    </a>
+    <?php    
+    endforeach;
+    endforeach;
+    ?>
+</div>
+<div id="informationMain" class="informationBox">
+    <div id="informationContent">
+        
+    </div>
+</div>
+<div class="clear"></div>

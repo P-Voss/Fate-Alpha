@@ -46,12 +46,14 @@ class Application_Model_Mapper_InformationMapper {
         $select->setIntegrityCheck(false);
         $select->from('informationen');
         $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
+        $select->order('kategorie');
         $result = $this->getDbTable('Information')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){
                 $information = new Application_Model_Information();
                 $information->setInformationId($row->infoId);
                 $information->setName($row->name);
+                $information->setKategorie($row->kategorie);
                 $returnArray[] = $information;
             }
         }

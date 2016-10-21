@@ -1,0 +1,43 @@
+#inhalt ul {
+    padding: 0;
+    margin: 10px;
+    list-style-type: none;
+}
+
+#participantFieldset {
+    float: left; 
+    width: 350px; 
+    height: 300px;
+}
+
+#invitationalFieldset {
+    float: right; 
+    width: 350px; 
+    height: 300px;
+}
+
+.listRow {
+    border: 1px solid black; 
+    margin-bottom: 1px;
+    height: 30px;
+    padding: 4px;
+}
+
+.clickable {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.charaktername {
+    width: 160px; 
+    display: inline-block; 
+}
+.information {
+    width: 70px; 
+    display: inline-block; 
+}
+.action {
+    width: 70px; 
+    display: inline-block; 
+}
+

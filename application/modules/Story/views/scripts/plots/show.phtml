@@ -1,0 +1,64 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/plots.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $plot Story_Model_Plot */
+$plot = $this->plot;
+/* @var $charakter Application_Model_Charakter */
+/* @var $invites Application_Model_Charakter */
+?>
+<h1>
+    <?= $purifier->purify($plot->getName()) ?>
+</h1>
+<fieldset>
+    <legend>
+        Beschreibung
+    </legend>
+    <div>
+        <?= $plot->getBeschreibung() ?>
+    </div>
+</fieldset>
+<div>
+    <fieldset id="participantFieldset">
+        <legend>
+            Teilnehmer
+        </legend>
+        <div>
+            <ul>
+                <?php foreach($this->participants as $charakter): ?>
+                <a target="blank" href="<?= $this->baseUrl() ?>/Story/charakter/show/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>">
+                    <li class="listRow" >
+                        <span class="charaktername">
+                            <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                        </span>
+                        <span class="information">
+                            test
+                        </span>
+                        <span class="action" data-id="<?= $charakter->getCharakterid() ?>">
+                            test
+                        </span>
+                    </li>
+                </a>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </fieldset>
+    <fieldset id="invitationalFieldset">
+        <legend>
+            Charaktere hinzufügen
+        </legend>
+        <div>
+            <ul>
+                <?php foreach($this->invitables as $invites): ?>
+                <li class="listRow" draggable="true">
+                    <span class="charaktername">
+                        <?= $purifier->purify($invites->getVorname() . ' ' . $invites->getNachname()) ?>
+                    </span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </fieldset>
+    <div style="clear: both"></div>
+</div>

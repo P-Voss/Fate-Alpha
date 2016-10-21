@@ -76,7 +76,7 @@ class Application_Model_Mapper_OrteMapper {
             'img' => 'Tempel',
             'Beschreibung' => 'Der alte Tempel welcher sich südwestlich von Miyama befindet.
                                 Er ist nur über eine lange Treppe zu erreichen, welche durch den dichten Wald hindurch zum Tempeltor führt. 
-                                Die Treppe ist zu Fuß etwa eine Stunde von Miyamachou entfernt und man benötigt etwas eine halbe Stunde 
+                                Die Treppe ist zu Fuß etwa eine Stunde von Miyamachou entfernt und man benötigt etwa eine halbe Stunde 
                                 um die Treppe hinauf bis zu ihrem Ende zu steigen. Sie ist allerdings zu weiten Teilen hin nicht sehr 
                                 steil und es gibt mehrere Passagen in denen man lediglich geradeaus geht.
                                 <br/>

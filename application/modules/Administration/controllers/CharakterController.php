@@ -34,6 +34,9 @@ class Administration_CharakterController extends Zend_Controller_Action {
         $charakter = $this->charakterService->getCharakter($this->getRequest(), true);
         $this->view->charakter = $charakter;
         
+        $informationService = new Erstellung_Service_Information();
+        $this->view->creationParams = $informationService->getCreationParams();
+        
         $magieService = new Shop_Service_Magie();
         $magieschulen = $magieService->getMagieschulenForCharakter($charakter);
         $schulen = array();
@@ -55,6 +58,24 @@ class Administration_CharakterController extends Zend_Controller_Action {
             }
         }
         $this->view->skillarten = $skillarten;
+    }
+    
+    
+    public function editdataAction() {
+        if($this->getRequest()->getParam('charakterId') === null){
+            $this->redirect('index');
+        }
+        $this->charakterService->saveCharakterData($this->getRequest());
+        $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('charakterId'));
+    }
+    
+    
+    public function editstatsAction() {
+        if($this->getRequest()->getParam('charakterId') === null){
+            $this->redirect('index');
+        }
+        $this->charakterService->saveCharakterWerte($this->getRequest());
+        $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('charakterId'));
     }
     
 }

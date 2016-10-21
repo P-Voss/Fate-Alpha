@@ -923,4 +923,43 @@ SQL;
         return $returnArray;
     }
     
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @return int
+     */
+    public function editCharakter(Application_Model_Charakter $charakter) {
+        $data = [
+            'vorname' => $charakter->getVorname(),
+            'nachname' => $charakter->getNachname(),
+            'nickname' => $charakter->getNickname(),
+            'augenfarbe' => $charakter->getAugenfarbe(),
+            'geburtsdatum' => $charakter->getGeburtsdatum(),
+            'geschlecht' => $charakter->getGeschlecht(),
+            'sexualitaet' => $charakter->getSexualitaet(),
+            'size' => $charakter->getSize(),
+            'odo' => $charakter->getOdo()->getId(),
+            'naturelement' => $charakter->getNaturElement()->getId(),
+            'luck' => $charakter->getLuck()->getId(),
+        ];
+        return $this->getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @return int
+     */
+    public function editCharakterWerte(Application_Model_Charakter $charakter) {
+        $data = [
+            'staerke' => $charakter->getCharakterwerte()->getStaerke(),
+            'agilitaet' => $charakter->getCharakterwerte()->getAgilitaet(),
+            'ausdauer' => $charakter->getCharakterwerte()->getAusdauer(),
+            'kontrolle' => $charakter->getCharakterwerte()->getKontrolle(),
+            'disziplin' => $charakter->getCharakterwerte()->getDisziplin(),
+            'uebung' => $charakter->getCharakterwerte()->getUebung(),
+            'fp' => $charakter->getCharakterwerte()->getFp(),
+            'startpunkte' => $charakter->getCharakterwerte()->getStartpunkte(),
+        ];
+        return $this->getDbTable('CharakterWerte')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+    }
+    
 }

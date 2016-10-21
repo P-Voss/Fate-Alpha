@@ -35,6 +35,7 @@ class Administration_Service_Information {
         $date = new DateTime();
         $information->setCreateDate($date->format('Y-m-d H:i:s'));
         $information->setName($request->getPost('name'));
+        $information->setKategorie($request->getPost('kategorie'));
         $information->setInhalt($request->getPost('beschreibung'));
         $information->setCreator($userId);
         
@@ -53,6 +54,7 @@ class Administration_Service_Information {
         $information->setInformationId($request->getPost('informationId'));
         $information->setEditDate($date->format('Y-m-d H:i:s'));
         $information->setName($request->getPost('name'));
+        $information->setKategorie($request->getPost('kategorie'));
         $information->setInhalt($request->getPost('inhalt'));
         $information->setEditor($userId);
         

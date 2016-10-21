@@ -279,7 +279,8 @@ ul {
 }
 
 .submenu li {
-    float:left;
+    display: inline-block;
+    /*float:left;*/
     /*margin-right: 15px;*/
     background-color: silver;
     margin: 2px;

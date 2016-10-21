@@ -1,0 +1,20 @@
+<?php
+if($this->information === false){
+?>
+<h2>
+    Ups...
+</h2>
+<div>
+    Die Info konnte nicht gefunden werden.
+</div>
+<?php
+} else {
+?>
+<h2>
+    <?= $this->purifier->purify($this->information->getName()) ?>
+</h2>
+<div>
+    <?= $this->purifier->purify($this->information->getInhalt()) ?>
+</div>
+<?php
+}

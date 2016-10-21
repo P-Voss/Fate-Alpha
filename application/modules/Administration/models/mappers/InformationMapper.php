@@ -6,12 +6,14 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
     public function getAllInformations() {
         $returnArray = array();
         $select = $this->getDbTable('Information')->select();
+        $select->order('kategorie');
         $result = $this->getDbTable('Information')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row) {
                 $model = new Application_Model_Information();
                 $model->setInformationId($row->infoId);
                 $model->setName($row->name);
+                $model->setKategorie($row->kategorie);
                 $returnArray[] = $model;
             }
         }
@@ -30,6 +32,7 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
         if($row !== null){
             $model->setInformationId($row['infoId']);
             $model->setName($row['name']);
+            $model->setKategorie($row->kategorie);
             $model->setInhalt($row['inhalt']);
         }
         return $model;

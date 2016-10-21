@@ -8,7 +8,13 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular
     <fieldset>
         <p>
             <label for="name">Name</label>
-            <input type="text" size="30" name="name" />
+            <input required="" type="text" size="30" name="name" id="name" />
+            <label for="kategorie">Kategorie</label>
+            <select>
+                <?php foreach($this->kategorien as $kategorie): ?>
+                <option><?= $kategorie ?></option>
+                <?php endforeach; ?>
+            </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>
         <fieldset>

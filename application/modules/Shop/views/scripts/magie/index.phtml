@@ -18,6 +18,9 @@ if(count($this->magieschulen) < 1):
 </p>
 <?php
 endif;
+?>
+<img src="http://i.imgur.com/eJTNdlH.jpg">
+<?php
 $lockedSchools = array();
 foreach ($this->magieschulen as $magieschule):
     if($magieschule->getLearned() === false){
@@ -25,7 +28,6 @@ foreach ($this->magieschulen as $magieschule):
         continue;
     }
 ?>
-<img src="http://i.imgur.com/eJTNdlH.jpg">
 <fieldset style="margin-bottom: 1.5em">
     <legend>
         <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>

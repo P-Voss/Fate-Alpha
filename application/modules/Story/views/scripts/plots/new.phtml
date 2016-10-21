@@ -1,0 +1,38 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $gruppe Gruppen_Model_Gruppe */
+?>
+<h2>Neuen Plot erstellen</h2>
+<div>
+    <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/create">
+        <p>
+            <label for="plotname">Plotname:</label>
+            <input type="text" name="plotname">
+            <label for="gruppe">Für Gruppe:</label>
+            <select name="gruppe" id="gruppe">
+                <?php
+                foreach ($this->eigeneGruppen as $gruppe):
+                    $gruppenArray[] = $gruppe->getId();
+                ?>
+                    <option value="<?= $gruppe->getId() ?>">
+                    <?= $gruppe->getName() ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p class="genres">
+            Genres: 
+            <input type="checkbox" name="genre[]" name="Horror" id="Horror" value="Horror"> <label for="Horror">Horror</label>
+            <input type="checkbox" name="genre[]" name="Mystery" id="Mystery" value="Mystery"> <label for="Mystery">Mystery</label>
+            <input type="checkbox" name="genre[]" name="Action" id="Action" value="Action"> <label for="Action">Action</label>
+            <input type="checkbox" name="genre[]" name="Comedy" id="Comedy" value="Comedy"> <label for="Comedy">Comedy</label>
+            <input type="checkbox" name="genre[]" name="Romance" id="Romance" value="Romance"> <label for="Romance">Romance</label>
+        </p>
+        <textarea name="beschreibung"></textarea>
+        <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+        <input type="submit" value="Storyline erstellen">
+    </form>
+</div>

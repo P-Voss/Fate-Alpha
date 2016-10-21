@@ -1,79 +1,97 @@
 <?php
 /* @var $werte Application_Model_CharakterWerte */
 ?>
-<fieldset>
-    <legend>Werte</legend>
-    <div>
-        <p>
-            <label>
-                Stärke
-            </label>
-            <span>
-                <?= $werte->getStaerke() ?>
-            </span>
-            <span>
-                <?= $werte->getCategory($werte->getStaerke()) ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                Agilität
-            </label>
-            <span>
-                <?= $werte->getAgilitaet() ?>
-            </span>
-            <span>
-                <?= $werte->getCategory($werte->getAgilitaet()) ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                Ausdauer
-            </label>
-            <span>
-                <?= $werte->getAusdauer() ?>
-            </span>
-            <span>
-                <?= $werte->getCategory($werte->getAusdauer()) . ' (' . $werte->getEnergie() . ' hp)' ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                Kontrolle
-            </label>
-            <span>
-                <?= $werte->getKontrolle() ?>
-            </span>
-            <span>
-                <?= $werte->getCategory($werte->getKontrolle()) ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                Disziplin
-            </label>
-            <span>
-                <?= $werte->getDisziplin() ?>
-            </span>
-            <span>
-                <?= $werte->getCategory($werte->getDisziplin()) ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                Übung
-            </label>
-            <span>
-                <?= $werte->getUebung() ?>
-            </span>
-        </p>
-        <p>
-            <label>
-                FP
-            </label>
-            <span>
-                <?= $werte->getFp() ?>
-            </span>
-        </p>
-    </div>
-</fieldset>
+<form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editstats" style="margin: 0">
+    <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
+    <fieldset>
+        <legend>Werte</legend>
+        <div>
+            <p>
+                <label>
+                    Stärke
+                </label>
+                <span>
+                    <input type="number" name="staerke" value="<?= $werte->getStaerke() ?>">
+
+                </span>
+                <span>
+                    <?= $werte->getCategory($werte->getStaerke()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Agilität
+                </label>
+                <span>
+                    <input type="number" name="agilitaet" value="<?= $werte->getAgilitaet() ?>">
+
+                </span>
+                <span>
+                    <?= $werte->getCategory($werte->getAgilitaet()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Ausdauer
+                </label>
+                <span>
+                    <input type="number" name="ausdauer" value="<?= $werte->getAusdauer() ?>">
+
+                </span>
+                <span>
+                    <?= $werte->getCategory($werte->getAusdauer()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Kontrolle
+                </label>
+                <span>
+                    <input type="number" name="kontrolle" value="<?= $werte->getKontrolle() ?>">
+
+                </span>
+                <span>
+                    <?= $werte->getCategory($werte->getKontrolle()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Disziplin
+                </label>
+                <span>
+                    <input type="number" name="disziplin" value="<?= $werte->getDisziplin() ?>">
+
+                </span>
+                <span>
+                    <?= $werte->getCategory($werte->getDisziplin()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Übung
+                </label>
+                <span>
+                    <input type="number" name="uebung" value="<?= $werte->getUebung() ?>">
+
+                </span>
+            </p>
+            <p>
+                <label>
+                    FP
+                </label>
+                <span>
+                    <input type="number" name="fp" value="<?= $werte->getFp() ?>">
+                </span>
+            </p>
+            <p>
+                <label>
+                    Bonustage
+                </label>
+                <span>
+                    <input type="number" name="bonustage" value="<?= $werte->getStartpunkte() ?>">
+                </span>
+            </p>
+        </div>
+        <input type="submit" value="Werte ändern">
+    </fieldset>
+</form>

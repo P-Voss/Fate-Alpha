@@ -111,8 +111,8 @@ class Shop_Model_Mapper_MagieMapper {
             $magie->setFp($row['fp']);
             $magie->setPrana($row['prana']);
             $element = new Application_Model_Element();
-            $element->setId($row->elementId);
-            $element->setBezeichnung($row->elementName);
+            $element->setId($row['element']);
+            $element->setBezeichnung($row['elementName']);
             $magie->setElement($element);
             $magie->setRang($row['rang']);
 //            $magie->setKlasse($this->getKlasse($row['klasse']));

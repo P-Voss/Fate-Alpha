@@ -8,29 +8,18 @@
 class Application_Model_Plot {
     
     protected $id;
+    protected $slId;
     protected $name;
     protected $beschreibung;
+    protected $zusammenfassung;
     protected $genres = array();
-    /**
-     * @var DateTime
-     */
-    protected $createDate;
     
     public function getId() {
         return $this->id;
     }
 
-    public function getCreateDate($format = 'd.m.Y H:i:s') {
-        $date = new DateTime($this->createDate);
-        return $date->format($format);
-    }
-
     public function setId($id) {
         $this->id = $id;
-    }
-
-    public function setCreateDate($createDate) {
-        $this->createDate = $createDate;
     }
 
     public function getName() {
@@ -55,6 +44,22 @@ class Application_Model_Plot {
 
     public function setGenres($genres) {
         $this->genres = $genres;
+    }
+    
+    public function getSlId() {
+        return $this->slId;
+    }
+
+    public function setSlId($slId) {
+        $this->slId = $slId;
+    }
+    
+    public function getZusammenfassung() {
+        return $this->zusammenfassung;
+    }
+
+    public function setZusammenfassung($zusammenfassung) {
+        $this->zusammenfassung = $zusammenfassung;
     }
     
 }

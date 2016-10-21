@@ -1,33 +1,5 @@
 <ul>
-    <li><a href="<?= $this->baseUrl() ?>/index">Startseite</a></li>
-    <li>
-        <a href="" onclick="return false;">Informationen</a>
-        <ul>
-            <!--<li><a href="<?= $this->baseUrl() ?>/changelog">Changelog</a></li>-->
-            <?php
-            /* @var $information Application_Model_Information */
-                foreach ($this->layoutData->getInformations() as $information){
-            ?>
-                <li>
-                    <a 
-                        href="<?= $this->baseUrl() ?>/index/information/id/<?= $information->getInformationId() ?>" 
-                        title="<?= $this->purifier->purify($information->getName()) ?>">
-                        <?= $this->purifier->purify($information->getName())?>
-                    </a>
-                </li>
-            <?php }?>
-        </ul>
-    </li>
-    <li>
-        <a href="" onclick="return false;">Community</a>
-        <ul>
-            <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
-            <li><a href="http://alpha.mainchat.de/" target="_blank">Chat</a></li>
-            <li><a href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a></li>
-            <!--<li><a href="<?= $this->baseUrl() ?>/npc">NPCs</a></li>-->
-        </ul>
-    </li>
-    <li><a href="<?= $this->baseUrl() ?>/freunde">Userliste</a></li>
+    <li><a href="<?= $this->baseUrl() ?>/index">News</a></li>
     <li>
         <a href="" onclick="return false;">
             Profil
@@ -37,5 +9,19 @@
             <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
         </ul>
     </li>
-    <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
+    <li>
+        <a href="<?= $this->baseUrl() ?>/information">Informationen</a>
+    </li>
+    <li
+        <li><a href="http://alpha.mainchat.de/" target="_blank">Chat</a></li>
+    </li>
+    <li>
+        <a href="" onclick="return false;">Community</a>
+        <ul>
+            <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
+            <li><a href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a></li>
+            <!--<li><a href="<?= $this->baseUrl() ?>/npc">NPCs</a></li>-->
+        </ul>
+    </li>
+    <li><a href="<?= $this->baseUrl() ?>/freunde">Userliste</a></li>
 </ul>

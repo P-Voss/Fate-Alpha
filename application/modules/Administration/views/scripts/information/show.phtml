@@ -11,6 +11,12 @@ $information = $this->information;
         <p>
             <label for="name">Name</label>
             <input type="text" size="30" name="name" value="<?= $information->getName() ?>" />
+            <label for="kategorie">Kategorie</label>
+            <select>
+                <?php foreach($this->kategorien as $kategorie): ?>
+                <option <?= $information->getKategorie() === $kategorie ? 'selected=""' : '' ?>><?= $kategorie ?></option>
+                <?php endforeach; ?>
+            </select>
         </p>
         <textarea name="inhalt" cols="80" rows="10"><?= $information->getInhalt() ?></textarea>
         <fieldset>

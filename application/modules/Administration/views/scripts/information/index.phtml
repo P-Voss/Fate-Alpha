@@ -2,12 +2,17 @@
 /* @var $information Administration_Model_Information */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$lastKategorie = null;
 ?>
 <h1>
     Informationen
 </h1>
 <?php
 foreach ($this->list as $information){
+    if($lastKategorie !== $information->getKategorie()){
+        $lastKategorie = $information->getKategorie();
+        echo '<h4>' . $lastKategorie . '</h4>';
+    }
 ?>
 <a href="<?= $this->baseUrl() ?>/Administration/information/show/id/<?= $information->getInformationId() ?>">
     <fieldset>

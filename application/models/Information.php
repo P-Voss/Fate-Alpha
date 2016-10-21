@@ -9,6 +9,7 @@ class Application_Model_Information {
     
     protected $informationId;
     protected $name;
+    protected $kategorie;
     protected $inhalt;
     protected $weitergabe;
     /**
@@ -57,5 +58,12 @@ class Application_Model_Information {
         $this->requirementList = $requirementList;
     }
 
+    public function getKategorie() {
+        return $this->kategorie;
+    }
+
+    public function setKategorie($kategorie) {
+        $this->kategorie = $kategorie;
+    }
     
 }

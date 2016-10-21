@@ -34,26 +34,6 @@
                 </form>
             </fieldset>
         </div>
-        <fieldset>
-            <legend>Neuen Plot erstellen <span class="indicator"></span></legend>
-            <div class="subContent">
-                <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/story/create">
-                    <label for="plotname">Plotname</label>
-                    <input type="text" name="plotname">
-                    <p class="genres">
-                        Genres: 
-                        <input type="checkbox" name="genre[]" name="Horror" value="Horror"> <label for="Horror">Horror</label>
-                        <input type="checkbox" name="genre[]" name="Mystery" value="Mystery"> <label for="Mystery">Mystery</label>
-                        <input type="checkbox" name="genre[]" name="Action" value="Action"> <label for="Action">Action</label>
-                        <input type="checkbox" name="genre[]" name="Comedy" value="Comedy"> <label for="Comedy">Comedy</label>
-                        <input type="checkbox" name="genre[]" name="Romance" value="Romance"> <label for="Romance">Romance</label>
-                    </p>
-                    <textarea name="beschreibung"></textarea>
-                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="submit" value="Storyline erstellen">
-                </form>
-            </div>
-        </fieldset>
     </fieldset>
 </div>
 <?php endif; ?>
