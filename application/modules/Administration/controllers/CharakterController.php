@@ -78,4 +78,9 @@ class Administration_CharakterController extends Zend_Controller_Action {
         $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('charakterId'));
     }
     
+    
+    public function birthdaysAction() {
+        $this->view->charakters = $this->charakterService->getCharaktersByNextBirthdays();
+    }
+    
 }

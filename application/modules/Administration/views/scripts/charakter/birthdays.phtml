@@ -1,0 +1,37 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$currentDate = new DateTime();
+?>
+<h1>
+    Charakter
+</h1>
+<?php
+foreach ($this->charakters as $charakter){
+    $birthDate = new DateTime();
+    if($currentDate->format('m') < $charakter->getGeburtsdatum('m')
+        || ($currentDate->format('m') === $charakter->getGeburtsdatum('m') && $currentDate->format('d') <= $charakter->getGeburtsdatum('d'))
+    ) {
+        $birthDate->setDate($currentDate->format('Y'), $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
+    } else {
+        $birthDate->setDate($currentDate->format('Y') + 1, $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
+    }
+    $diff = date_diff($currentDate, $birthDate);
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
+    <div>
+        <p style="font-weight: bold">
+            Geburtstag in: <?= $diff->format("%m Monaten und %d Tagen") ?>
+        </p>
+        <p>
+            am: <?= $birthDate->format('d.m.Y') ?>
+        </p>
+        <p style="width: 200px; display: inline-block; font-weight: bold">
+            <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+        </p>
+    </div>
+</a>
+<hr />
+<?php
+}

@@ -962,4 +962,42 @@ SQL;
         return $this->getDbTable('CharakterWerte')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
     }
     
+    /**
+     * @return \Application_Model_Charakter
+     */
+    public function getCharaktersOrderedByNextBirthday() {
+        $returnArray = array();
+        $sql = 'SELECT
+                    *,
+                    geburtsdatum + INTERVAL(YEAR(CURRENT_TIMESTAMP) - YEAR(geburtsdatum)) + 0 YEAR AS currbirthday,
+                    geburtsdatum + INTERVAL(YEAR(CURRENT_TIMESTAMP) - YEAR(geburtsdatum)) + 1 YEAR AS nextbirthday
+                FROM charakter
+                WHERE active = 1 
+                ORDER BY CASE
+                    WHEN currbirthday >= CURRENT_TIMESTAMP THEN currbirthday
+                    ELSE nextbirthday
+                END';
+        $result = $this->getDbTable('Charakter')->getDefaultAdapter()->query($sql)->fetchAll();
+        if(count($result) > 0){
+            foreach ($result as $row) {
+                $charakter = new Application_Model_Charakter();
+                $charakter->setVorname($row['vorname']);
+                $charakter->setNachname($row['nachname']);
+                $charakter->setCharakterid($row['charakterId']);
+                $charakter->setAugenfarbe($row['augenfarbe']);
+                $charakter->setGeburtsdatum($row['geburtsdatum']);
+                $charakter->setGeschlecht($row['geschlecht']);
+                $charakter->setSexualitaet($row['sexualitaet']);
+                $charakter->setMagiccircuit($row['circuit']);
+                $charakter->setNickname($row['nickname']);
+                $charakter->setSize($row['size']);
+                $charakter->setWohnort($row['wohnort']);
+                $date = new DateTime($row['createDate']);
+                $charakter->setCreatedate($date);
+                $returnArray[] = $charakter;
+            }
+        }
+        return $returnArray;
+    }
+    
 }

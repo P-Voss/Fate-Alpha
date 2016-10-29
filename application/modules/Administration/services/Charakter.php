@@ -87,4 +87,10 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         return $mapper->editCharakterWerte($charakter);
     }
     
+    
+    public function getCharaktersByNextBirthdays() {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        return $mapper->getCharaktersOrderedByNextBirthday();
+    }
+    
 }
