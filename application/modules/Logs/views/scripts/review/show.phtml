@@ -1,0 +1,118 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/results.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $episode Logs_Model_Episode */
+$episode = $this->episode;
+/* @var $participants Story_Model_Charakter */
+$participants = $this->participants;
+/* @var $skill Story_Model_Skill */
+?>
+<h2>Review der Episode <?= $episode->getName() ?></h2>
+<hr />
+<h3>
+    Beschreibung der Episode
+</h3>
+<div>
+    <?= $purifier->purify($episode->getBeschreibung()) ?>
+</div>
+<h3>
+    Ausgang der Episode
+</h3>
+<div>
+    <?= $purifier->purify($episode->getZusammenfassung()) ?>
+</div>
+<h3>
+    Logs
+</h3>
+<div>
+    <?php foreach($this->logs as $log): ?>
+    <a href="<?= $this->baseUrl() ?>/Logs/review/download/episode/<?= $episode->getId() ?>/log/<?= $log->getId() ?>">
+        <div class="documentList">
+            <p>
+                <span>
+                    Download: <?= $purifier->purify($log->getName()) ?>
+                </span>
+            </p>
+            <p>
+                <?= $purifier->purify($log->getBeschreibung()) ?>
+            </p>
+        </div>
+    </a>
+    <?php endforeach; ?>
+</div>
+<hr />
+<h2>Eintragungen für die teilnehmenden Charaktere</h2>
+<div id="auswertung" data-id="<?= $episode->getId() ?>">
+    <?php foreach($participants as $charakter): 
+    $charakterId = $charakter->getCharakterId();
+    $result = $charakter->getResult();
+    $skills = '';
+    foreach($charakter->getResult()->getRequestedSkills() as $skill):
+        $skills .= $skill->getBezeichnung() . ', ';
+    endforeach;
+    $skills = substr($skills, 0, strlen($skills) - 2);
+    
+    $magien = '';
+    foreach($charakter->getResult()->getRequestedMagien() as $magie):
+        $magien .= $magie->getBezeichnung() . ', ';
+    endforeach;
+    $magien = substr($magien, 0, strlen($magien) - 2);
+    ?>
+    <fieldset>
+        <legend>Charakter: <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
+        <div>
+            <div style="display: inline-block; width: 30%; vertical-align: top">
+                <p>
+                    Hat <?= $result->getKillNpcs() ?> NPCs getötet.
+                </p>
+                <?php if($result->getDied()): ?>
+                <p>
+                    Ist in dieser Episode gestorben.
+                </p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div>
+            Bemerkungen vom Spielleiter zum Charakter:
+            <p>
+                <?= $result->getComment() !== '' ? $purifier->purify($result->getComment()) : 'Keine' ?>
+            </p>
+        </div>
+        <fieldset>
+            <legend>Während der Episode gelernte Fähigkeiten oder Magien</legend>
+            <?php if($magien === false && $skills === false) { ?>
+            Keine
+            <?php } else { ?>
+                <div style="display: inline-block; width: 50%; vertical-align: top;">
+                    Gelernte Fähigkeiten: <?= $skills ?>
+                </div>
+                <div style="display: inline-block; width: 40%; vertical-align: top;">
+                    Gelernte Magien: <?= $magien ?>
+                </div>
+            <?php } ?>
+        </fieldset>
+    </fieldset>
+    <?php endforeach; ?>
+</div>
+<hr />
+<h2>Deine Bewertung</h2>
+<div>
+    <form method="post" action="<?= $this->baseUrl() ?>/Logs/review/review">
+        <p>
+            <label for="isAccepted">Episode akzeptieren?</label>
+            <select name="isAccepted" id="isAccepted">
+                <option value="">Bitte auswählen</option>
+                <option value="0">Nein</option>
+                <option value="1">Ja</option>
+            </select>
+        </p>
+        <p>
+            <label for="feedback">Feedback zur Episode:</label><br />
+            <textarea name="feedback" id="feedback" rows="10" cols="96"></textarea>
+        </p>
+        <input type="hidden" name="episodenId" value="<?= $episode->getId() ?>" />
+        <input type="submit" value="Bewertung absenden" />
+    </form>
+</div>

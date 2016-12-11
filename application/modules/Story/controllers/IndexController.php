@@ -24,9 +24,8 @@ class Story_IndexController extends Zend_Controller_Action {
     
     
     public function indexAction() {
-        $gruppenService = new Gruppen_Service_Gruppen();
-        $this->view->eigeneGruppen = $gruppenService->getGruppenByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->view->plots = $this->plotService->getPlotsBySLId(Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->view->leadPlots = $this->plotService->getPlotsBySLId(Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->view->playerPlots = $this->plotService->getPlotsByPlayerId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
 }

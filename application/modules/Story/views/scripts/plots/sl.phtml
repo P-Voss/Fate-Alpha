@@ -1,0 +1,212 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $plot Story_Model_Plot */
+$plot = $this->plot;
+/* @var $charakter Story_Model_Charakter */
+/* @var $invites Application_Model_Charakter */
+$submitDescriptions = [
+    0 => 'Charaktere einladen',
+    3 => 'Mehr Charaktere einladen',
+    5 => 'Noch mehr Charaktere einladen',
+    10 => 'Ein paar Leute brauchen wir noch',
+];
+$participantCount = count($this->participants);
+foreach ($submitDescriptions as $key => $text) {
+    if($key <= $participantCount){
+        $submitDescription = $text;
+    }
+}
+$invitablesSize = count($this->invitables) > 10 ? 10 : count($this->invitables);
+$changableEpisodes = array();
+$fixedEpisodes = array();
+$episodeCount = count($this->episodes);
+/* @var $episode Story_Model_Episode */
+if($episodeCount > 0){
+    foreach ($this->episodes as $episode) {
+        if(in_array($episode->getStatus()->getId(), [1, 2])){
+            $changableEpisodes[] = $episode;
+        } else {
+            $fixedEpisodes[] = $episode;
+        }
+    }
+}
+unset($this->episodes);
+?>
+<h1>
+    Spielleitung - <?= $purifier->purify($plot->getName()) ?>
+</h1>
+<?php if($episodeCount === 0): ?>
+<p>
+    Dem Plot fehlen Episoden: <a href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>">Episode planen</a>
+</p>
+<?php endif; ?>
+<div>
+    <fieldset id="participantFieldset" style="text-align: center">
+        <legend>
+            Teilnehmer
+        </legend>
+        <?php if($invitablesSize > 0){ ?>
+        <div id="inviteList" style="text-align: left">
+            <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/add">
+                <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+                <label for="invites">
+                    <?= $submitDescription ?>:
+                </label><br />
+                <select id="invites" class="charakterSelect" name="invites[]" multiple="" size="<?= $invitablesSize ?>">
+                    <?php foreach($this->invitables as $invites): ?>
+                    <option value="<?= $invites->getCharakterid() ?>">
+                        <?= $purifier->purify($invites->getVorname() . ' ' . $invites->getNachname()) ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+                <br />
+                <input type="submit" value="Einladen">
+            </form>
+        </div>
+        <?php } ?>
+        <div id="participantList" style="text-align: left">
+            <ul>
+                <?php foreach($this->participants as $charakter): ?>
+                <li class="listRow" >
+                    <span class="charaktername">
+                        <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                    </span>
+                    <span class="action">
+                        <?php if($charakter->getDatenFreigabe()): ?>
+                        <a target="blank" href="<?= $this->baseUrl() ?>/Story/charakter/show/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>">
+                            <div class="information">
+                                Daten
+                            </div>
+                        </a>
+                        <?php endif; ?>
+                    </span>
+                    <span class="action">
+                        <?php if(!$charakter->getInvolved()): ?>
+                        <a href="<?= $this->baseUrl() ?>/Story/charakter/remove/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>">
+                            <span class="episodeLink">
+                                Entfernen
+                            </span>
+                        </a>
+                        <?php endif; ?>
+                    </span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </fieldset>
+</div>
+<?php if($episodeCount > 0): ?>
+<div>
+    <fieldset id="episodesFieldset">
+        <legend>Episoden</legend>
+        <p>
+            <a href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>">Weitere Episode planen</a>
+        </p>
+        <div id="openEpisodes">
+            <?php if(count($changableEpisodes) > 0): ?>
+            <label>Geplante Episoden:</label>
+            <ul>
+            <?php foreach($changableEpisodes as $episode): ?>
+                <li class="episode">
+                    <p>
+                        <span class="episodeName">
+                            <?= $purifier->purify($episode->getName()); ?>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="episodeStatus" style="background-color: <?= $episode->getStatus()->getColorCode() ?>">
+                            <?= $episode->getStatus()->getStatus() ?>
+                        </span>
+                        <span class="episodeAction">
+                            <a href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
+                                <span class="episodeLink">
+                                    Bearbeiten
+                                </span>
+                            </a>
+                        </span>
+                        <span class="episodeStart">
+                        <?php if($episode->getStatus()->getId() === 1){ ?>
+                            <a href="<?= $this->baseUrl() ?>/Story/episoden/start/episode/<?= $episode->getId() ?>">
+                                <span class="episodeLink">
+                                    Start
+                                </span>
+                            </a>
+                        <?php } else { ?>
+                            <a href="<?= $this->baseUrl() ?>/Story/episoden/status/episode/<?= $episode->getId() ?>">
+                                <span class="episodeLink">
+                                    Status
+                                </span>
+                            </a>
+                        <?php } ?>
+                        </span>
+                    </p>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+        </div>
+        <div id="closedEpisodes">
+            <?php if(count($fixedEpisodes) > 0): ?>
+                <label>Episoden in Aktion</label>
+                <ul>
+                <?php foreach($fixedEpisodes as $episode): ?>
+                    <li class="episodeActive">
+                        <div class="data">
+                            <span class="episodeName">
+                                <?= $purifier->purify($episode->getName()); ?>
+                            </span>
+                            <div>
+                                <span class="episodeStatus" style="background-color: <?= $episode->getStatus()->getColorCode() ?>">
+                                    <?= $episode->getStatus()->getStatus() ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="listDiv">
+                                <a href="<?= $this->baseUrl() ?>/Story/episoden/logs/episode/<?= $episode->getId() ?>">
+                                    <span class="episodeAction">
+                                        Logs
+                                    </span>
+                                </a>
+                            </div>
+                            <?php if($episode->getStatus()->getId() < 5): ?>
+                            <div class="listDiv">
+                                <a href="<?= $this->baseUrl() ?>/Story/episoden/result/episode/<?= $episode->getId() ?>">
+                                    <span class="episodeAction">
+                                        Episode auswerten
+                                    </span>
+                                </a>
+                            </div>
+                            <?php
+                            endif;
+                            ?>
+                            <?php if($episode->getStatus()->getId() < 5): ?>
+                            <div class="listDiv">
+                                <a href="<?= $this->baseUrl() ?>/Story/episoden/finish/episode/<?= $episode->getId() ?>">
+                                    <span class="episodeAction">
+                                        Episode abschließen
+                                    </span>
+                                </a>
+                            </div>
+                            <?php
+                            endif;
+                            ?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </fieldset>
+</div>
+<?php endif; ?>
+<fieldset>
+    <legend>
+        Beschreibung
+    </legend>
+    <div>
+        <?= $purifier->purify($plot->getBeschreibung()) ?>
+    </div>
+</fieldset>

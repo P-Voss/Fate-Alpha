@@ -1,4 +1,5 @@
 <?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $plot Story_Model_Plot */
@@ -9,17 +10,40 @@ $purifier = $this->purifier;
 <div>
     <a href="<?= $this->baseUrl() ?>/Story/plots/new">Neuen Plot starten</a>
 </div>
-<div>
-    <h2>
-        Deine Plots:
-    </h2>
-    <ul>
-        <?php foreach($this->plots as $plot): ?>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $plot->getId() ?>">
-                <?= $purifier->purify($plot->getName()) ?>
-            </a>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+<fieldset>
+    <legend>Deine Plots</legend>
+    <?php if(count($this->leadPlots) > 0): ?>
+    <div id="slPlots">
+        <h2>
+            Als Spielleiter
+        </h2>
+        <ul>
+            <?php foreach($this->leadPlots as $plot): ?>
+            <li>
+                <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $plot->getId() ?>">
+                    <?= $purifier->purify($plot->getName()) ?>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php 
+    endif;
+    if(count($this->playerPlots) > 0):
+    ?>
+    <div id="playerPlots">
+        <h2>Als Spieler</h2>
+        <ul>
+            <?php foreach($this->playerPlots as $plot): ?>
+            <li>
+                <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $plot->getId() ?>">
+                    <?= $purifier->purify($plot->getName()) ?>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php 
+    endif;
+    ?>
+</fieldset>

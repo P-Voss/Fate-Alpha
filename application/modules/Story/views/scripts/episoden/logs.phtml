@@ -1,0 +1,52 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $episode Story_Model_Episode */
+$episode = $this->episode;
+/* @var $logs Story_Model_Log */
+$logs = $this->logs;
+?>
+<h2>Logs für <?= $episode->getName() ?></h2>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $episode->getPlotId() ?>">
+        Zurück zum Plot
+    </a>
+    <?php if($this->isSql): ?>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $episode->getPlotId() ?>">
+        Zurück zur Plotplanung
+    </a>
+    <?php endif; ?>
+</div>
+<hr />
+<fieldset>
+    <legend>Log hochladen (nur PDF)</legend>
+    <form enctype="multipart/form-data" method="post" action="<?= $this->baseUrl() ?>/Story/episoden/upload">
+        <input type="file" name="logfile" accept="application/pdf">
+        <input type="hidden" name="episodeId" value="<?= $episode->getId() ?>">
+        <input type="submit" value="Log hochladen"><br />
+        <label for="beschreibung">Beschreibung:</label>
+        <textarea id="beschreibung" name="beschreibung"></textarea>
+    </form>
+</fieldset>
+<?php if(count($logs) > 0): ?>
+<fieldset>
+    <legend>Logs</legend>
+    <?php foreach($logs as $log): ?>
+    <a href="<?= $this->baseUrl() ?>/Story/episoden/download/episode/<?= $episode->getId() ?>/log/<?= $log->getId() ?>">
+        <div class="documentList">
+            <p>
+                <span>
+                    Download: <?= $purifier->purify($log->getName()) ?>
+                </span>
+            </p>
+            <p>
+                <?= $purifier->purify($log->getBeschreibung()) ?>
+            </p>
+        </div>
+    </a>
+    <?php endforeach; ?>
+</fieldset>
+<?php endif; ?>

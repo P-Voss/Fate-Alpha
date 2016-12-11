@@ -13,6 +13,7 @@ $gruppenArray = array();
     <legend>
         einer Gruppe beitreten
     </legend>
+    <?php if($this->layoutData->getHasChara() === true){ ?>
     <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/enter">
         <p>
             <label for="gruppenname">
@@ -26,6 +27,11 @@ $gruppenArray = array();
             <input type="submit"/>
         </p>
     </form>
+    <?php } else { ?>
+    <p>
+        Du musst einen Charakter erstellen bevor du einer Spielergruppe beitreten kannst.
+    </p>
+    <?php } ?>
 </fieldset>
 <fieldset>
     <legend>

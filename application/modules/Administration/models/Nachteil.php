@@ -5,7 +5,7 @@
  *
  * @author Vosser
  */
-class Administration_Model_Nachteil extends Application_Model_Nachteil {
+class Administration_Model_Nachteil extends Application_Model_Nachteil implements Administration_Model_CrudObject {
     
     private $creator;
     private $editor;
@@ -52,6 +52,4 @@ class Administration_Model_Nachteil extends Application_Model_Nachteil {
         $this->editDate = $editDate;
     }
 
-
-    
 }

@@ -19,18 +19,6 @@ class Application_Model_Mapper_LogMapper{
         return $dbTable;
     }
     
-    
-    public function saveLog(Application_Model_Log $log) {
-        $data = array(
-            'name' => $log->getName(),
-            'md5' => $log->getMd5(),
-            'owner' => $log->getOwner(),
-            'createDate' => $log->getCreatedate('Y-m-d H:i:s'),
-            'plotId' => $log->getPlotId(),
-        );
-        return $this->getDbTable('Logs')->insert($data);
-    }
-    
     public function checkIfExists(Application_Model_Log $log) {
         $select = $this->getDbTable('Logs')->select();
         $select->where('md5 = ?', $log->getMd5());

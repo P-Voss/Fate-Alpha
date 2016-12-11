@@ -1,0 +1,22 @@
+<?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $magien Story_Model_Magie */
+$magien = $this->magien;
+$charakterId = $this->charakterId;
+?>
+<fieldset>
+    <legend>Magien eintragen</legend>
+    <div>
+        <?php if(count($magien) > 0){ ?>
+        <select id="learnMagien" multiple="" size="5">
+        <?php foreach($magien as $magie): ?>
+            <option value="<?= $magie->getId() ?>"><?= $purifier->purify($magie->getBezeichnung()) ?></option>
+        <?php endforeach; ?>
+        </select>
+        <input data-art="magie" data-request="add" data-id="<?= $charakterId ?>" class="save" type="submit" value="Speichern">
+        <?php } else { ?>
+        Der Charakter kann im Moment keine Magien per RPG erlernen.
+        <?php } ?>
+    </div>
+</fieldset>

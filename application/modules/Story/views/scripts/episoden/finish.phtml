@@ -1,0 +1,34 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $episode Story_Model_Episode */
+$episode = $this->episode;
+?>
+<h2>Status: <?= $episode->getName() ?></h2>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
+        Zurück zum Plot
+    </a>
+    <a href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
+        Episode bearbeiten
+    </a>
+</div>
+<hr />
+<div>
+    <fieldset>
+        <legend>Zusammenfassung der Episode</legend>
+        <div>
+            <p>
+                Nach dem Abschluss einer Episode wird sie für die Logleser freigegeben.
+            </p>
+            <form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/close">
+                <textarea name="zusammenfassung"><?= $purifier->purify($episode->getZusammenfassung()) ?></textarea>
+                <input type="hidden" value="<?= $episode->getId() ?>" name="episodenId">
+                <input type="submit" value="Speichern">
+            </form>
+        </div>
+    </fieldset>
+</div>

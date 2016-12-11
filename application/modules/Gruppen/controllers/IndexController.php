@@ -39,7 +39,7 @@ class Gruppen_IndexController extends Zend_Controller_Action {
         }else{
             $this->view->gruppen = array();
         }
-        $this->view->eigeneGruppen = $this->gruppenService->getGruppenByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->view->eigeneGruppen = $this->gruppenService->getGruppenByLeaderId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
     
     public function createAction() {
@@ -78,10 +78,10 @@ class Gruppen_IndexController extends Zend_Controller_Action {
                                                 )){
             $this->redirect('Gruppen');
         }
-        $storyService = new Gruppen_Service_Story();
-        $this->view->plots = $storyService->getPlotsByGruppe($this->getRequest()->getParam('id'));
+//        $storyService = new Gruppen_Service_Story();
+//        $this->view->plots = $storyService->getPlotsByGruppe($this->getRequest()->getParam('id'));
         $gruppe = $this->gruppenService->getGruppeByGruppenId($this->getRequest()->getParam('id'));
-        $this->view->logs = $this->gruppenService->getLogsByGruppenId($this->getRequest()->getParam('id'));
+//        $this->view->logs = $this->gruppenService->getLogsByGruppenId($this->getRequest()->getParam('id'));
         $this->view->eigeneGruppe = ($gruppe->getGruender() === Zend_Auth::getInstance()->getIdentity()->userId);
         $this->view->exposed = $this->gruppenService->dataExposed($this->getRequest()->getParam('id'), $charakterId);
         $this->view->exposedIds = $this->gruppenService->getExposedIds($this->getRequest()->getParam('id'));

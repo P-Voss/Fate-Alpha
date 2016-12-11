@@ -1,0 +1,43 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $gruppe Gruppen_Model_Gruppe */
+$participantsSize = count($this->participants) > 10 ? 10 : count($this->participants);
+/* @var $plot Story_Model_Plot */
+$plot = $this->plot;
+$titles = [
+    'Die Rückkehr der', 'Jetzt erst recht', 'The final showdown', 'The final countdown',
+    'Wo gehobelt wird...', '.. da fallen Spähne.', 'Teil 3', 'Teil 12', 'und kein Ende in Sicht', 'Vanilla Thunder',
+    $purifier->purify($plot->getName()) . ' - gonna be gud',
+];
+?>
+<h2>Episode für <?= $purifier->purify($plot->getName()) ?> erstellen</h2>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $plot->getId() ?>">
+        Zurück zum Plot
+    </a>
+</div>
+<hr />
+<div>
+    <form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/create">
+        <p>
+            <label for="episodename">Episode:</label><br />
+            <input type="text" id="episodename" name="episodename" size="35" required="" value="<?= $titles[array_rand($titles)] ?>">
+        </p>
+        <p style="vertical-align: top">
+            <label for="participants">Teilnehmer:</label><br />
+            <select class="charakterSelect" id="participants" name="participants[]" multiple="" size="<?= $participantsSize ?>">
+                <?php foreach($this->participants as $charakter): ?>
+                <option selected="" value="<?= $charakter->getCharakterId() ?>"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <label for="beschreibung">Darum gehts:</label>
+        <textarea id="beschreibung" name="beschreibung"></textarea>
+        <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+        <input type="submit" value="Episode erstellen">
+    </form>
+</div>

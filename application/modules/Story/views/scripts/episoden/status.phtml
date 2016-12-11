@@ -1,0 +1,57 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$participantsReady = $this->participantsReady;
+$participantsPending = $this->participantsPending;
+/* @var $episode Story_Model_Episode */
+$episode = $this->episode;
+?>
+<h2>Status: <?= $episode->getName() ?></h2>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
+        Zurück zum Plot
+    </a>
+    <a href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
+        Episode bearbeiten
+    </a>
+</div>
+<hr />
+<div>
+    <div>
+        <fieldset id="inviteList">
+            <legend>Offen</legend>
+            <div>
+                <ul>
+                    <?php foreach($participantsPending as $charakter): ?>
+                    <li class="listRow" >
+                        <span class="charaktername">
+                            <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                        </span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </fieldset>
+        <fieldset id="participantList">
+            <legend>Bereit zum Start</legend>
+            <div>
+                <ul>
+                    <?php foreach($participantsReady as $charakter): ?>
+                    <li class="listRow" >
+                        <span class="charaktername">
+                            <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                        </span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </fieldset>
+    </div>
+    <fieldset>
+        <legend>Beschreibung</legend>
+        <div>
+            <?= $purifier->purify($episode->getBeschreibung()) ?>
+        </div>
+    </fieldset>
+</div>

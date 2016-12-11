@@ -5,7 +5,7 @@
  *
  * @author Vosser
  */
-class Administration_Model_Klasse extends Application_Model_Klasse {
+class Administration_Model_Klasse extends Application_Model_Klasse implements Administration_Model_CrudObject {
     
     private $creator;
     private $editor;

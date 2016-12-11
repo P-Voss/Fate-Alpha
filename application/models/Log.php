@@ -10,6 +10,7 @@ class Application_Model_Log {
    
     protected $id;
     protected $name;
+    protected $beschreibung;
     protected $md5;
     protected $owner;
     protected $status;
@@ -80,5 +81,14 @@ class Application_Model_Log {
     public function setPlotId($plotId) {
         $this->plotId = $plotId;
     }
+    
+    public function getBeschreibung() {
+        return $this->beschreibung;
+    }
+
+    public function setBeschreibung($beschreibung) {
+        $this->beschreibung = $beschreibung;
+    }
+    
 
 }

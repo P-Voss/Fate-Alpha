@@ -37,6 +37,21 @@ class Story_CharakterController extends Zend_Controller_Action {
         $this->redirect('Story/plots/show/id/' . $this->getRequest()->getParam('plot'));
     }
     
+    
+    public function removeAction() {
+        if((int)$this->getRequest()->getParam('plot') <= 0
+                ||
+            (int)$this->getRequest()->getParam('charakter') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getParam('plot');
+        if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)){
+            $this->redirect('index');
+        }
+        $this->plotService->removeParticipant((int)$this->getRequest()->getParam('charakter'), $plotId);
+        $this->redirect('Story/plots/sl/id/' . $this->getRequest()->getParam('plot'));
+    }
+    
     public function showAction() {
         if($this->plotService->isSL($this->getRequest()->getParam('plot'), Zend_Auth::getInstance()->getIdentity()->userId)){
             $charakter = $this->charakterService->getCharakter($this->getRequest(), true);
@@ -69,6 +84,20 @@ class Story_CharakterController extends Zend_Controller_Action {
         }else{
             $this->redirect('Story');
         }
+    }
+    
+    
+    public function freigabeAction() {
+        if((int)$this->getRequest()->getParam('plotId') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getParam('plotId');
+        $userId = Zend_Auth::getInstance()->getIdentity()->userId;
+        if(!$this->plotService->isPlayer($plotId, $userId)){
+            $this->redirect('index');
+        }
+        $this->plotService->updateFreigabe($this->getRequest()->getPost('freigabe', 0), $userId, $plotId);
+        $this->redirect('Story/plots/show/id/' . $plotId);
     }
     
 }

@@ -14,6 +14,16 @@ class Application_Model_Mapper_UserMapper {
         }
         return $dbTable;
     }
+    
+    /**
+     * @param int $userId
+     * @return boolean
+     */
+    public function isLogleser($userId) {
+        $db = $this->getDbTable('User')->getDefaultAdapter();
+        $result = $db->query('SELECT * FROM logleser WHERE userId = ?', [$userId]);
+        return count($result->fetchAll()) > 0;
+    }
 
     public function hasChara($userId) {
         $select = $this->getDbTable('User')->select();

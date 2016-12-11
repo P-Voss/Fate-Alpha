@@ -5,57 +5,37 @@
  *
  * @author Voß
  */
-class Story_Model_Episode {
+class Story_Model_Episode extends Application_Model_Episode {
     
-    protected $id;
-    protected $name;
-    protected $beschreibung;
-    protected $zusammenfassung;
-    protected $createDate;
+    protected $creationdate;
     protected $editDate;
+    /**
+     * @var Story_Model_EpisodenStatus
+     */
+    protected $status;
     
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
+    /**
+     * @return Story_Model_EpisodenStatus
+     */
+    public function getStatus() {
+        return $this->status;
     }
     
-    public function getName() {
-        return $this->name;
+    public function setStatus(Application_Model_Interfaces_EpisodenStatus $status) {
+        $this->status = $status;
     }
 
-    public function getBeschreibung() {
-        return $this->beschreibung;
-    }
-
-    public function getZusammenfassung() {
-        return $this->zusammenfassung;
-    }
-
-    public function getCreateDate() {
-        return $this->createDate;
+    public function getCreateDate($format = 'd.m.Y H:i:s') {
+        $date = new DateTime($this->creationdate);
+        return $date->format($format);
     }
 
     public function getEditDate() {
         return $this->editDate;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function setBeschreibung($beschreibung) {
-        $this->beschreibung = $beschreibung;
-    }
-
-    public function setZusammenfassung($zusammenfassung) {
-        $this->zusammenfassung = $zusammenfassung;
-    }
-
-    public function setCreateDate($createDate) {
-        $this->createDate = $createDate;
+    public function setCreateDate($creationdate) {
+        $this->creationdate = $creationdate;
     }
 
     public function setEditDate($editDate) {

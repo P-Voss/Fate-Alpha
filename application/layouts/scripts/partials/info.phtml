@@ -11,10 +11,15 @@
     </li>
     <br />
     <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
+    <li><hr /></li>
+    <br />
+    <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
+    <?php if($layoutData->getLogleser()): ?>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/Logs">Logcenter</a>
+        </li>
+    <?php endif; ?>
     <?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
-        <li><hr /></li>
-        <br />
-        <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
         <li>
             <a href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
         </li>

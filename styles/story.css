@@ -5,15 +5,43 @@
 }
 
 #participantFieldset {
-    float: left; 
-    width: 350px; 
-    height: 300px;
+    max-height: 300px;
 }
 
-#invitationalFieldset {
-    float: right; 
-    width: 350px; 
-    height: 300px;
+.charakterSelect {
+    width: 175px;
+}
+
+#inviteList {
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 2.5%;
+}
+
+#participantList {
+    width: 55%;
+    display: inline-block;
+    max-height: 250px;
+    overflow: auto;
+}
+
+#episodesFieldset {
+    max-height: 400px;
+}
+
+#openEpisodes {
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 2.5%;
+}
+
+#closedEpisodes {
+    width: 55%;
+    display: inline-block;
+    max-height: 250px;
+    overflow: auto;
 }
 
 .listRow {
@@ -21,6 +49,68 @@
     margin-bottom: 1px;
     height: 30px;
     padding: 4px;
+}
+
+.documentList {
+    border: 1px solid black; 
+    margin-bottom: 1px;
+    max-height: 100px;
+    padding: 4px;
+}
+
+.episode {
+    border: 1px solid black;
+    margin-bottom: 1px;
+}
+
+.episodeActive {
+    border: 1px solid black;
+    margin-bottom: 1px;
+    height: 90px;
+}
+
+.episodeName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}
+
+.episodeStatus {
+    display: inline-block;
+    text-align: center;
+    width: 35%;
+}
+
+.episodeAction {
+    display: inline-block;
+    margin-left: 10%;
+    width: 30%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.episodeActive .episodeAction {
+    width: 90%;
+}
+
+.episodeActive .episodeName {
+    width: 90%;
+}
+
+.episodeActive .episodeStatus {
+    width: 90%;
+}
+
+.episodeStart {
+    display: inline-block;
+    width: 20%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.episodeLink {
+    width: 100%;
+    display: inline-block;
 }
 
 .clickable {
@@ -33,11 +123,66 @@
     display: inline-block; 
 }
 .information {
-    width: 70px; 
+    height: 100%;
+    width: 120px;
     display: inline-block; 
 }
 .action {
-    width: 70px; 
+    width: 90px; 
     display: inline-block; 
 }
 
+label {
+    width: auto;
+}
+
+#slPlots {
+    width: 40%;
+    display: inline-block;
+    max-height: 450px;
+    overflow: auto;
+    margin-left: 2.5%;
+    vertical-align: top;
+}
+
+#playerPlots {
+    width: 50%;
+    display: inline-block;
+    max-height: 450px;
+    overflow: auto;
+    vertical-align: top;
+}
+
+.rowForm {
+    display: inline-block;
+}
+
+.rowForm form {
+    margin: 0;
+}
+
+.data {
+    width: 55%;
+    display: inline-block;
+    overflow: auto;
+    vertical-align: top;
+}
+
+.actions {
+    width: 40%;
+    display: inline-block;
+    overflow: auto;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.listDiv {
+    margin-bottom: 3px;
+}
+
+
+.resultListRow {
+    border: 1px solid black; 
+    margin-bottom: 1px;
+    padding: 4px;
+}

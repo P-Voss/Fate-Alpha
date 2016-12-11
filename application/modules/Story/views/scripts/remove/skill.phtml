@@ -1,0 +1,22 @@
+<?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $skills Story_Model_Skill */
+$skills = $this->skills;
+$charakterId = $this->charakterId;
+?>
+<fieldset>
+    <legend>Fähigkeiten verlernen</legend>
+    <div>
+        <?php if(count($skills) > 0){ ?>
+        <select id="learnMagien" multiple="" size="5">
+        <?php foreach($skills as $skill): ?>
+            <option value="<?= $skill->getId() ?>"><?= $purifier->purify($skill->getBezeichnung()) ?></option>
+        <?php endforeach; ?>
+        </select>
+        <input data-art="skill" data-request="remove" data-id="<?= $charakterId ?>" class="save" type="submit" value="Speichern">
+        <?php } else { ?>
+        Der Charakter hat keine Fähigkeiten die er verlernen kann.
+        <?php } ?>
+    </div>
+</fieldset>

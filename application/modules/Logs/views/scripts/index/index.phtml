@@ -1,0 +1,33 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$plots = $this->plotsToReview;
+/* @var $plot Logs_Model_Plot */
+?>
+<h1>
+    Logcenter
+</h1>
+<fieldset>
+    <?php if(count($plots) > 0) { ?>
+    <legend>Plots und Episoden zur Bewertung</legend>
+    <?php foreach($plots as $plot): ?>
+    <div>
+        <h3>Episoden für Plot: <?= $purifier->purify($plot->getName()) ?></h3>
+        <ul>
+            <?php foreach($plot->getEpisoden() as $episode): ?>
+            <li>
+                <a href="<?= $this->baseUrl() ?>/Logs/review/show/episode/<?= $episode->getId() ?>">
+                    <?= $purifier->purify($episode->getName()) ?> - Logs lesen
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endforeach; ?>
+    <?php } else { ?>
+    <p>
+        Zur Zeit gibt es keine Logs zu bewerten.
+    </p>
+    <?php } ?>
+</fieldset>

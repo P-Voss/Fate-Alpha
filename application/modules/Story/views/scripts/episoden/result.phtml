@@ -1,0 +1,115 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/story/results.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $episode Story_Model_Episode */
+$episode = $this->episode;
+/* @var $participants Story_Model_Charakter */
+$participants = $this->participants;
+/* @var $skill Story_Model_Skill */
+?>
+<h2>Auswertung der Episode für die Teilnehmer von <?= $episode->getName() ?></h2>
+<div>
+    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
+        Zurück zum Plot
+    </a>
+</div>
+<hr />
+<div id="auswertung" data-id="<?= $episode->getId() ?>">
+    <?php foreach($participants as $charakter): 
+    $charakterId = $charakter->getCharakterId();
+    $result = $charakter->getResult();
+    $skills = '';
+    foreach($charakter->getResult()->getRequestedSkills() as $skill):
+        $skills .= $skill->getBezeichnung() . ', ';
+    endforeach;
+    $skills = substr($skills, 0, strlen($skills) - 2);
+    
+    $magien = '';
+    foreach($charakter->getResult()->getRequestedMagien() as $magie):
+        $magien .= $magie->getBezeichnung() . ', ';
+    endforeach;
+    $magien = substr($magien, 0, strlen($magien) - 2);
+    ?>
+    <fieldset>
+        <legend><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
+        <div>
+            <div style="display: inline-block; width: 30%; vertical-align: top">
+                <p>
+                    <label for="npcKills<?= $charakterId ?>">NPCs getötet</label> 
+                    <input id="npcKills<?= $charakterId ?>" data-id="<?= $charakterId ?>" type="number" value="<?= $result->getKillNpcs() ?>" class="npcKills">
+                </p>
+                <p>
+                    <label for="died<?= $charakterId ?>">Ist gestorben</label> 
+                    <input <?= $result->getDied() === 1 ? 'checked=""' : '' ?> id="died<?= $charakterId ?>" data-id="<?= $charakterId ?>" class="died" type="checkbox">
+                </p>
+            </div>
+            <fieldset class="add" style="display: inline-block; width: 33%; vertical-align: top">
+                <legend>Hinzufügen</legend>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="magie">Magien</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="skill">Fähigkeiten</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="injury">Verletzungen</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="item">Items</button>
+                </span>
+            </fieldset>
+            <fieldset class="remove" style="display: inline-block; width: 33%; vertical-align: top">
+                <legend>Entfernen</legend>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="magie">Magien</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="skill">Fähigkeiten</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="injury">Verletzungen</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="item">Items</button>
+                </span>
+            </fieldset>
+        </div>
+        <div>
+            <span class="resultButton">
+                <button data-id="<?= $charakterId ?>" class="killer">Hat Spielercharaktere getötet</button>
+            </span>
+            <span class="resultButton">
+                <button data-id="<?= $charakterId ?>" class="comment">Kommentar</button>
+            </span>
+            <span class="resultButton">
+                <button data-id="<?= $charakterId ?>" class="attribute">Attribute ändern</button>
+            </span>
+        </div>
+        <div class="results" data-id="<?= $charakterId ?>"></div>
+        <fieldset>
+            <legend>Zusammenfassung</legend>
+            <div data-id="<?= $charakter->getCharakterid() ?>" class="zusammenfassung">
+                <div style="display: inline-block; width: 60%; vertical-align: top;">
+                    <?= $purifier->purify($result->getComment()) ?>
+                </div>
+                <div style="display: inline-block; width: 30%; vertical-align: top;">
+                    <?php if($skills !== ''): ?>
+                    <p>
+                        Gelernte Fähigkeiten: <?= $skills ?>
+                    </p>
+                    <?php endif; ?>
+                    <?php if($magien !== ''): ?>
+                    <p>
+                        Gelernte Magien: <?= $magien ?>
+                    </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+    <?php endforeach; ?>
+</div>

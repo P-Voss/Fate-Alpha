@@ -18,6 +18,7 @@ class Application_Model_Layout {
     public $charakterTraining;
     public $unreadPmCount;
     public $usergruppe;
+    public $logleser;
     public $informations = array();
 
 
@@ -79,6 +80,14 @@ class Application_Model_Layout {
     
     public function deleteInformations() {
         $this->informations = array();
+    }
+    
+    public function getLogleser() {
+        return $this->logleser === true;
+    }
+    
+    public function setLogleser($logleser) {
+        $this->logleser = $logleser;
     }
     
 }

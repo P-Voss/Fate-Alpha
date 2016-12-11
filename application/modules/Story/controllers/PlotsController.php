@@ -10,8 +10,8 @@ class Story_PlotsController extends Zend_Controller_Action {
     protected $charakter;
     protected $plotService;
     protected $episodenService;
-
-
+    
+    
     public function init() {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
@@ -32,9 +32,9 @@ class Story_PlotsController extends Zend_Controller_Action {
     
     
     public function createAction() {
-        if(!is_null($this->getRequest()->getPost('gruppe'))){
+        if(!is_null($this->getRequest()->getPost('gruppenId'))){
             $plotId = $this->plotService->createStoryline($this->getRequest());
-            $this->redirect('Story/plots/show/id/' . $plotId);
+            $this->redirect('Story');
         }else{
             $this->redirect('Gruppen');
         }
@@ -46,11 +46,25 @@ class Story_PlotsController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $plotId = (int)$this->getRequest()->getParam('id');
+        $userId = Zend_Auth::getInstance()->getIdentity()->userId;
+        if(!$this->plotService->isPlayer($plotId, $userId)){
+            $this->redirect('index');
+        }
+        $this->view->plot = $this->plotService->getPlotById($plotId);
+        $this->view->episodes = $this->episodenService->getEpisodesByPlotIdForUser($plotId, $userId);
+        $this->view->freigabe = $this->plotService->checkDatenfreigabe($plotId, $userId);
+    }
+    
+    public function slAction() {
+        if((int)$this->getRequest()->getParam('id') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getParam('id');
         if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)){
             $this->redirect('index');
         }
         $this->view->plot = $this->plotService->getPlotById((int)$this->getRequest()->getParam('id'));
-        $this->view->episoden = $this->episodenService->getEpisodenByPlotId($plotId);
+        $this->view->episodes = $this->episodenService->getEpisodesByPlotId($plotId);
         $this->view->participants = $this->plotService->getParticipantsByPlotId($plotId);
         $this->view->invitables = $this->plotService->getPossibleParticipants($plotId);
     }
@@ -81,7 +95,19 @@ class Story_PlotsController extends Zend_Controller_Action {
         }
         $invites = array_intersect($invitableIds, $this->getRequest()->getPost('invites'));
         $this->plotService->addParticipants($plotId, $invites);
-        $this->redirect('Story/plots/show/id/' . $plotId);
+        $this->redirect('Story/plots/sl/id/' . $plotId);
+    }
+    
+    public function removeAction() {
+        if((int)$this->getRequest()->getPost('plotId') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getPost('plotId');
+        if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)){
+            $this->redirect('index');
+        }
+//        $this->plotService->removeParticipant($plotId, (int)$this->getRequest()->getPost('charakterId'));
+        $this->redirect('Story/plots/sl/id/' . $plotId);
     }
     
 }

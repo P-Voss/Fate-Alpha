@@ -20,6 +20,12 @@ class Gruppen_Service_Gruppen {
     }
     
     
+    public function getGruppenByLeaderId($userId) {
+        $mapper = new Gruppen_Model_Mapper_GruppenMapper();
+        return $mapper->getGruppenByLeaderId($userId);
+    }
+    
+    
     public function getGruppeByGruppenId($gruppenId) {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByGruppenId($gruppenId);

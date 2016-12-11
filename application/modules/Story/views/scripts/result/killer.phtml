@@ -1,0 +1,27 @@
+<?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$charakterId = $this->charakterId;
+/* @var $participants Story_Model_Charakter */
+$participants = $this->participants;
+$selectCount = count($participants)-1 > 5 ? 5 : count($participants)-1;
+?>
+<fieldset>
+    <legend>Andere Charaktere getötet</legend>
+    <div>
+        <?php if(count($participants) > 1){ ?>
+        <select multiple="" size="<?= $selectCount ?>">
+        <?php foreach($participants as $charakter): 
+            if($charakter->getCharakterid() === (int)$charakterId){
+                continue;
+            }
+        ?>
+            <option value="<?= $charakter->getCharakterid() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+        <?php endforeach; ?>
+        </select>
+        <input data-id="<?= $charakterId ?>" class="saveKills" type="submit" value="Speichern">
+        <?php } else { ?>
+        Selbstmord zählt nicht.
+        <?php } ?>
+    </div>
+</fieldset>

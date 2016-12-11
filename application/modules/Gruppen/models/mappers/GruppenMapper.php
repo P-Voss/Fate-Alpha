@@ -80,7 +80,36 @@ class Gruppen_Model_Mapper_GruppenMapper {
         $select = $this->getDbTable('Spielergruppen')->select();
         $select->setIntegrityCheck(false);
         $select->from('spielergruppen');
-        $select->where('userId = ?', $userId);
+        $select->joinLeft('charakterGruppen', 'charakterGruppen.gruppenId = spielergruppen.gruppenId', []);
+        $select->joinLeft('charakter', 'charakter.charakterId = charakterGruppen.charakterId', []);
+        $select->where('charakter.userId = ?', $userId);
+        $select->orWhere('spielergruppen.userId = ?', $userId);
+        $result = $this->getDbTable('Spielergruppen')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $gruppe = new Gruppen_Model_Gruppe();
+                $gruppe->setId($row->gruppenId);
+                $gruppe->setName($row->name);
+                $gruppe->setBeschreibung($row->beschreibung);
+                $gruppe->setPasswort($row->passwort);
+                $gruppe->setGruender($row->userId);
+                $gruppe->setCreateDate($row->createDate);
+                $returnArray[] = $gruppe;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public function getGruppenByLeaderId($userId) {
+        $returnArray = array();
+        $select = $this->getDbTable('Spielergruppen')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('spielergruppen');
+        $select->orWhere('spielergruppen.userId = ?', $userId);
         $result = $this->getDbTable('Spielergruppen')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

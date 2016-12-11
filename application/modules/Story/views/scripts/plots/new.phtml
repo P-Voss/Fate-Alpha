@@ -7,12 +7,13 @@ $purifier = $this->purifier;
 ?>
 <h2>Neuen Plot erstellen</h2>
 <div>
+    <?php if(count($this->eigeneGruppen) > 0){ ?>
     <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/create">
         <p>
             <label for="plotname">Plotname:</label>
             <input type="text" name="plotname">
             <label for="gruppe">Für Gruppe:</label>
-            <select name="gruppe" id="gruppe">
+            <select name="gruppenId" id="gruppe">
                 <?php
                 foreach ($this->eigeneGruppen as $gruppe):
                     $gruppenArray[] = $gruppe->getId();
@@ -24,15 +25,24 @@ $purifier = $this->purifier;
             </select>
         </p>
         <p class="genres">
-            Genres: 
+            Genres:
             <input type="checkbox" name="genre[]" name="Horror" id="Horror" value="Horror"> <label for="Horror">Horror</label>
             <input type="checkbox" name="genre[]" name="Mystery" id="Mystery" value="Mystery"> <label for="Mystery">Mystery</label>
             <input type="checkbox" name="genre[]" name="Action" id="Action" value="Action"> <label for="Action">Action</label>
-            <input type="checkbox" name="genre[]" name="Comedy" id="Comedy" value="Comedy"> <label for="Comedy">Comedy</label>
+            <input type="checkbox" name="genre[]" name="Comedy" id="Comedy" value="Comedy"> <label for="Comedy">Comedy</label><br />
             <input type="checkbox" name="genre[]" name="Romance" id="Romance" value="Romance"> <label for="Romance">Romance</label>
+            <input type="checkbox" name="genre[]" name="Slice of Life" id="Slice of Life" value="Slice of Life"> <label for="Slice of Life">Slice of Life</label>
+            <input type="checkbox" name="genre[]" name="Sport" id="Sport" value="Sport"> <label for="Sport">Sport</label>
+            <input type="checkbox" name="genre[]" name="Drama" id="Drama" value="Drama"> <label for="Drama">Drama</label>
+            <input type="checkbox" name="genre[]" name="Krimi" id="Krimi" value="Krimi"> <label for="Krimi">Krimi</label>
+            <input type="checkbox" name="genre[]" name="Forschung" id="Forschung" value="Forschung"> <label for="Forschung">Forschung</label>
         </p>
         <textarea name="beschreibung"></textarea>
-        <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
         <input type="submit" value="Storyline erstellen">
     </form>
+    <?php } else { ?>
+    <p>
+        Du musst Mitglied einer Spielergruppe sein um einen Plot zu starten.
+    </p>
+    <?php } ?>
 </div>

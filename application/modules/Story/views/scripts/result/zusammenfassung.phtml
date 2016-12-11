@@ -1,0 +1,33 @@
+<?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$charakter = $this->charakter;
+$charakterId = $charakter->getCharakterId();
+$result = $charakter->getResult();
+$skills = '';
+foreach($charakter->getResult()->getRequestedSkills() as $skill):
+    $skills .= $skill->getBezeichnung() . ', ';
+endforeach;
+$skills = substr($skills, 0, strlen($skills) - 2);
+
+$magien = '';
+foreach($charakter->getResult()->getRequestedMagien() as $magie):
+    $magien .= $magie->getBezeichnung() . ', ';
+endforeach;
+$magien = substr($magien, 0, strlen($magien) - 2);
+?>
+<div style="display: inline-block; width: 60%; vertical-align: top;">
+    <?= $purifier->purify($charakter->getResult()->getComment()) ?>
+</div>
+<div style="display: inline-block; width: 30%; vertical-align: top;">
+    <?php if($skills !== ''): ?>
+    <p>
+        Gelernte Fähigkeiten: <?= $skills ?>
+    </p>
+    <?php endif; ?>
+    <?php if($magien !== ''): ?>
+    <p>
+        Gelernte Magien: <?= $magien ?>
+    </p>
+    <?php endif; ?>
+</div>

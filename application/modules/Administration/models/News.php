@@ -5,7 +5,7 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_Model_News extends Application_Model_News {
+class Administration_Model_News extends Application_Model_News implements Administration_Model_CrudObject {
     
     
     

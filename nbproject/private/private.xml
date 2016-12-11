@@ -5,7 +5,7 @@
             <url>application/modules/Story/services/Plot.php</url>
             <bookmark id="1">
                 <name/>
-                <line>65</line>
+                <line>92</line>
                 <key/>
             </bookmark>
         </file>
@@ -33,10 +33,22 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/information.css</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/style.css</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/controllers/IndexController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/models/mappers/PlotMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/services/Episode.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/helpers/Logincheck.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/models/mappers/EpisodeMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/views/scripts/review/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/controllers/ReviewController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakterwerte.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/services/Log.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/services/Plot.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/services/Episode.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/views/scripts/index/index.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/services/Log.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/controllers/ResultController.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/partials/info.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/information/index.phtml</file>
         </group>
     </open-files>
 </project-private>

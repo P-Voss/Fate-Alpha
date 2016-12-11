@@ -8,7 +8,7 @@
             <fieldset style="display: inline-block; width: 45%; float: left">
                 <legend>Charakter einladen</legend>
                 <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/add">
-                    <select name="charaktere[]" size="3" multiple="">
+                    <select name="charaktere[]" size="5" multiple="">
                         <?php foreach($this->charaktere as $charakter): 
                             if(in_array($charakter->getCharakterid(), $mitgliedArray)){
                                 continue;
@@ -24,7 +24,7 @@
             <fieldset style="display: inline-block; width: 45%; float: right">
                 <legend>Charakter kicken</legend>
                 <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/remove">
-                    <select name="charaktere[]" size="3" multiple="">
+                    <select name="charaktere[]" size="5" multiple="">
                         <?php foreach($gruppe->getMitglieder() as $charakter): ?>
                         <option value="<?= $charakter->getCharakterId() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
                         <?php endforeach; ?>

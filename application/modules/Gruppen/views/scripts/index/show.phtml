@@ -11,9 +11,9 @@ $purifier = $this->purifier;
 $gruppe = $this->gruppe;
 $charaktere = $this->charaktere;
 $plotArray = array();
-foreach ($this->plots as $plot) {
-    $plotArray[$plot->getId()] = $plot->getName();
-}
+//foreach ($this->plots as $plot) {
+//    $plotArray[$plot->getId()] = $plot->getName();
+//}
 $mitgliedArray = array();
 foreach ($this->charaktere as $charakter) {
     foreach ($this->gruppe->getMitglieder() as $mitglied) {
@@ -31,5 +31,5 @@ foreach ($this->charaktere as $charakter) {
 </p>
 <?php include __DIR__ . '/partials/gruppenleiter.phtml'; ?>
 <?php include __DIR__ . '/partials/mitglieder.phtml'; ?>
-<?php include __DIR__ . '/partials/logcenter.phtml'; ?>
+<?php // include __DIR__ . '/partials/logcenter.phtml'; ?>
 <?php include __DIR__ . '/partials/gruppenchat.phtml'; ?>
