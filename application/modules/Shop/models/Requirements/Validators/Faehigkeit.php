@@ -13,12 +13,9 @@ class Shop_Model_Requirements_Validators_Faehigkeit implements Shop_Model_Requir
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        $values = explode(':', $value);
-        foreach ($values as $value){
-            foreach ($charakter->getSkills() as $skill){
-                if($skill->getId() == $value){
-                    return true;
-                }
+        foreach ($charakter->getSkills() as $skill){
+            if($skill->getId() == $value){
+                return true;
             }
         }
         return false;

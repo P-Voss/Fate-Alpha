@@ -10,7 +10,7 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular
             <label for="name">Name</label>
             <input required="" type="text" size="30" name="name" id="name" />
             <label for="kategorie">Kategorie</label>
-            <select>
+            <select name="kategorie" id="kategorie">
                 <?php foreach($this->kategorien as $kategorie): ?>
                 <option><?= $kategorie ?></option>
                 <?php endforeach; ?>

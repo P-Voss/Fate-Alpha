@@ -1,0 +1,27 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$episodes = $this->episodes;
+?>
+<h1>
+    Einzutragende Episoden
+</h1>
+<fieldset>
+    <?php if(count($episodes) > 0) { ?>
+    <legend>Plots und Episoden zur Bewertung</legend>
+    <?php foreach($episodes as $episode): ?>
+    <div>
+        <a href="<?= $this->baseUrl() ?>/Administration/logs/review/episode/<?= $episode->getId() ?>">
+            <div>
+                <?= $purifier->purify($episode->getName()) ?> - Logs lesen
+            </div>
+        </a>
+    </div>
+    <?php endforeach; ?>
+    <?php } else { ?>
+    <p>
+        Zur Zeit gibt es keine Logs zu bewerten.
+    </p>
+    <?php } ?>
+</fieldset>

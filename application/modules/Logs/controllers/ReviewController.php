@@ -62,17 +62,17 @@ class Logs_ReviewController extends Zend_Controller_Action {
         }
     }
     
-//    public function gesamtlogAction() {
-//        if((int)$this->getRequest()->getParam('episode') <= 0){
-//            $this->redirect('index');
-//        }
-//        $episodeId = (int)$this->getRequest()->getParam('episode');
-//        $episode = $this->episodenService->getEpisode($episodeId);
-//        $logs = $this->logService->getLogsForEpisode($episodeId);
-//        if(!$this->logService->downloadGesamtlog($logs, $episode->getName())){
-//            $this->redirect('Logs/review/show/episode/' . $episodeId);
-//        }
-//    }
+    public function gesamtlogAction() {
+        if((int)$this->getRequest()->getParam('episode') <= 0){
+            $this->redirect('index');
+        }
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $episode = $this->episodenService->getEpisode($episodeId);
+        $logs = $this->logService->getLogsForEpisode($episodeId);
+        if(!$this->logService->downloadGesamtlog($logs, $episode->getName())){
+            $this->redirect('Logs/review/show/episode/' . $episodeId);
+        }
+    }
     
     public function reviewAction() {
         if((int)$this->getRequest()->getParam('episodenId') <= 0){

@@ -9,11 +9,11 @@
             Nachrichtencenter <?= ($layoutData->getUnreadPmCount() > 0) ? ' (' . $layoutData->getUnreadPmCount() . '&#9993;)' : '' ?>
         </a>
     </li>
+    <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
     <br />
     <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
-    <li><hr /></li>
+    <hr />
     <br />
-    <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
     <?php if($layoutData->getLogleser()): ?>
         <li>
             <a href="<?= $this->baseUrl() ?>/Logs">Logcenter</a>
@@ -22,6 +22,9 @@
     <?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
         <li>
             <a href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/Administration/Logs">Logs bestätigen</a>
         </li>
         <li>
             <a href="<?= $this->baseUrl() ?>/Administration/charakter/birthdays">Geburtstage</a>

@@ -139,7 +139,6 @@ class Administration_Service_Skill {
                 $this->buildRequirementArray($request)
             )
         );
-        
         $this->mapper->updateSkill($skill);
     }
     
@@ -160,7 +159,7 @@ class Administration_Service_Skill {
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                $this->buildRequirementArray($request)
+                $this->requirementService->buildRequirementArray($request)
             )
         );
         $this->mapper->createSkill($skill);
@@ -172,9 +171,6 @@ class Administration_Service_Skill {
      */
     public function buildRequirementArray(Zend_Controller_Request_Http $request) {
         $requirements = array();
-//        if($request->getParam('fp') !== null){
-//            $requirements['FP'] = $request->getParam('fp');
-//        }
         if($request->getParam('uebung') !== null){
             $requirements['Uebung'] = $request->getParam('uebung');
         }
@@ -187,11 +183,17 @@ class Administration_Service_Skill {
         if($request->getParam('skills') !== null){
             $requirements['Faehigkeit'] = $request->getParam('skills');
         }
+        if($request->getParam('skillsAny') !== null){
+            $requirements['FaehigkeitAny'] = implode('|', $request->getParam('skillsAny'));
+        }
         if($request->getParam('skillsIncompatible') !== null){
             $requirements['FaehigkeitInc'] = $request->getParam('skillsIncompatible');
         }
         if($request->getParam('magien') !== null){
             $requirements['Magie'] = $request->getParam('magien');
+        }
+        if($request->getParam('magienAny') !== null){
+            $requirements['MagieAny'] = implode('|', $request->getParam('magienAny'));
         }
         if($request->getParam('magieschule') !== null){
             $requirements['Schule'] = $request->getParam('magieschule');

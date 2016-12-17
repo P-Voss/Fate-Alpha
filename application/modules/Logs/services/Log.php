@@ -48,29 +48,31 @@ class Logs_Service_Log {
         }
     }
     
-//    public function downloadGesamtlog(Array $logs, $episodeName) {
-//        $resultPdf = new Zend_Pdf();
-//        foreach ($logs as $log) {
-//            if(!is_readable(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf')){
-//                continue;
-//            }
-//            $pdf = Zend_Pdf::load(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf');
-//            foreach ($pdf->pages as $page) {
+    public function downloadGesamtlog(Array $logs, $episodeName) {
+        $resultPdf = new Zend_Pdf();
+        $extractor = new Zend_Pdf_Resource_Extractor();
+        foreach ($logs as $log) {
+            if(!is_readable(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf')){
+                continue;
+            }
+            $pdf = Zend_Pdf::load(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf');
+            foreach ($pdf->pages as $page) {
+                $resultPdf->pages[] = $extractor->clonePage($page);
 //                $resultPdf->pages[] = $page;
-//            }
-//        }
-//        if(count($resultPdf->pages) > 0){
-//            $filename = str_replace(' ', '', $episodeName);
-//            $resultPdf->save(APPLICATION_PATH . '/var/logs/Log_' . $filename);
-//            header("Content-Disposition: attachment; filename=' . escapeshellcmd($filename) . '.pdf");
-//            header('Content-Type: application/octet-stream');
-//            header("Content-Description: File Transfer");
-//            readfile(APPLICATION_PATH . '/var/logs/Log_' . $filename);
-//            exit;
-//        } else {
-//            return false;
-//        }
-//    }
+            }
+        }
+        if(count($resultPdf->pages) > 0){
+            $filename = str_replace(' ', '', $episodeName);
+            $resultPdf->save(APPLICATION_PATH . '/var/logs/Log_' . $filename . '.pdf');
+            header('Content-Disposition: attachment; filename=' . escapeshellcmd($filename) . '.pdf');
+            header('Content-Type: application/octet-stream');
+            header('Content-Description: File Transfer');
+            readfile(APPLICATION_PATH . '/var/logs/Log_' . $filename . '.pdf');
+            exit;
+        } else {
+            return false;
+        }
+    }
     
     
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {

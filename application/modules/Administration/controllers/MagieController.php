@@ -37,7 +37,7 @@ class Administration_MagieController extends Zend_Controller_Action {
     
     public function showAction() {
         $this->view->magie = $this->skillService->getMagieById($this->getRequest()->getParam('id'));
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
@@ -48,7 +48,7 @@ class Administration_MagieController extends Zend_Controller_Action {
     }
     
     public function newAction() {
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();

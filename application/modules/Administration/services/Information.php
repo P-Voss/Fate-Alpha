@@ -48,6 +48,11 @@ class Administration_Service_Information {
         $this->mapper->setDependencies($information);
     }
     
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @param int $userId
+     * @return int
+     */
     public function editInformation(Zend_Controller_Request_Http $request, $userId) {
         $information = new Administration_Model_Information();
         $date = new DateTime();
@@ -68,9 +73,11 @@ class Administration_Service_Information {
         return $this->mapper->updateInformation($information);
     }
     
+    
     public function getInformationById($informationId) {
         return $this->mapper->getInformationById($informationId);
     }
+    
     
     public function deleteInformation(Zend_Controller_Request_Http $request) {
         return $this->mapper->deleteNews($request->getPost('schulId'));
@@ -97,8 +104,14 @@ class Administration_Service_Information {
         if($request->getParam('skills') !== null){
             $requirements['Faehigkeit'] = $request->getParam('skills');
         }
+        if($request->getParam('skillsAny') !== null){
+            $requirements['FaehigkeitAny'] = $request->getParam('skillsAny');
+        }
         if($request->getParam('magien') !== null){
             $requirements['Magie'] = $request->getParam('magien');
+        }
+        if($request->getParam('magienAny') !== null){
+            $requirements['MagieAny'] = $request->getParam('magienAny');
         }
         if($request->getParam('magieschule') !== null){
             $requirements['Schule'] = $request->getParam('magieschule');

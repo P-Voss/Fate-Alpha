@@ -15,13 +15,13 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 <h1>Magie erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
     <fieldset>
-        <p>
+        <div>
             <label for="name">Name</label>
             <input type="text" size="30" name="name" />
             <label for="fp">FP-Kosten</label>
             <input type="number" name="fp"/>
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="element">
                 Element
             </label>
@@ -32,8 +32,8 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 </option>
                 <?php } ?>
             </select>
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="magieschule">
                 Magieschule
             </label>
@@ -44,12 +44,12 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 </option>
                 <?php } ?>
             </select>
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="prana">Prana-Kosten</label>
             <input type="number" name="prana" />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="stufe">
                 Stufe
             </label>
@@ -58,8 +58,8 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 <option>2</option>
                 <option>3</option>
             </select>
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="rang">
                 Rang
             </label>
@@ -72,8 +72,8 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 <option>E</option>
                 <option>F</option>
             </select>
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="lernbedingung">
                 Lernbedingung
             </label>
@@ -82,43 +82,129 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
                 <option>RPG-Ereignis</option>
                 <option>Lehrer</option>
             </select>
-        </p>
-        <p>
-            <label for="magien">
-                benötigte Magien
-            </label>
-            <select name="magien[]" multiple="true" size="8">
-                <?php foreach ($this->magieList as $magieOption) { ?>
-                <option value="<?= $magieOption->getId() ?>">
-                    <?= $magieOption->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-        </p>
-        <p>
-            <label for="vorteile">
-                benötigte Vorteile
-            </label>
-            <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteil): ?>
-                <option value="<?= $vorteil->getId() ?>">
-                    <?= $vorteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label for="nachteile">
-                benötigte Nachteile
-            </label>
-            <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteil): ?>
-                <option value="<?= $nachteil->getId() ?>">
-                    <?= $nachteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="gruppen" style="vertical-align: top">
+                    Klassengruppen:
+                </label>
+                <select name="gruppen[]" multiple="true" size="5">
+                    <?php foreach ($this->klassengruppen as $gruppe) { ?>
+                    <option value="<?= $gruppe->getId() ?>">
+                        <?= $gruppe->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="klassen" style="vertical-align: top">
+                    Klassen:
+                </label>
+                <select name="klassen[]" multiple="true" size="5">
+                    <?php foreach ($this->klassen as $klasse) { ?>
+                    <option value="<?= $klasse->getId() ?>">
+                        <?= $klasse->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="nachteile" style="vertical-align: top">
+                    benötigte Nachteile
+                </label>
+                <select name="nachteile[]" multiple="true" size="8">
+                    <?php foreach ($this->nachteile as $nachteil):
+                        $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
+                    ?>
+                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                        <?= $nachteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="vorteile" style="vertical-align: top">
+                    benötigte Vorteile
+                </label>
+                <select name="vorteile[]" multiple="true" size="8">
+                    <?php foreach ($this->vorteile as $vorteil):
+                        $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
+                    ?>
+                    <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                        <?= $vorteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="skills" style="vertical-align: top">
+                    Fähigkeiten:
+                </label>
+                <select name="skills[]" id="skills" multiple="true" size="8">
+                    <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $skill->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="skillsAny" style="vertical-align: top">
+                    Irgendeine von diesen Fähigkeiten:
+                </label>
+                <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
+                    <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $skill->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="skillsIncompatible" style="vertical-align: top">
+                    Nicht kombinierbar mit:
+                </label>
+                <select name="skillsIncompatible[]" multiple="true" size="8">
+                    <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $skill->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="magien" style="vertical-align: top">
+                    Magien:
+                </label>
+                <select name="magien[]" id="magien" multiple="true" size="8">
+                    <?php foreach ($this->magien as $magie) { ?>
+                    <option value="<?= $magie->getId() ?>">
+                        <?= $magie->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="magienAny" style="vertical-align: top">
+                    Irgendeine von diesen Magien:
+                </label>
+                <select name="magienAny[]" id="magienAny" multiple="true" size="8">
+                    <?php foreach ($this->magien as $magie) { ?>
+                    <option value="<?= $magie->getId() ?>">
+                        <?= $magie->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>
     </fieldset>
     <div align="center">
