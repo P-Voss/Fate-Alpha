@@ -149,6 +149,7 @@ class Application_Model_Mapper_CharakterMapper{
         $data['disziplin'] = 10;
         $data['kontrolle'] = 10;
         $data['uebung'] = 10;
+        $data['fp'] = 150;
         $data['startpunkte'] = 120;
         return $this->getDbTable('CharakterWerte')->insert($data);
     }
