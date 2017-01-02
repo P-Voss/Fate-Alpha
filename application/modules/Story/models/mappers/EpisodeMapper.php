@@ -285,25 +285,13 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
         $select->setIntegrityCheck(false);
         $select->from('episodenToCharakter', array());
         $select->joinInner('charakter', 'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1');
-        $select->joinInner('episodenCharakterResult', 
-                'episodenCharakterResult.episodenId = episodenToCharakter.episodenId 
-                    AND episodenCharakterResult.charakterId = episodenToCharakter.charakterId',
-                [
-                    'gotKilled', 'npcsKilled', 'comment',
-                ]);
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
         foreach ($result as $row) {
             $charakter = new Story_Model_Charakter();
-            $result = new Story_Model_CharakterResult();
-            $result->setKillNpcs($row['npcsKilled']);
-            $result->setDied($row['gotKilled']);
-            $result->setComment($row['comment']);
-            
             $charakter->setCharakterid($row['charakterId']);
             $charakter->setVorname($row['vorname']);
             $charakter->setNachname($row['nachname']);
-            $charakter->setResult($result);
             $returnArray[] = $charakter;
         }
         return $returnArray;
@@ -507,6 +495,40 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     
     public function deleteEpisode($episodenId) {
         $this->getDbTable('Episoden')->delete(['episodenId = ?' => $episodenId]);
+    }
+    
+    /**
+     * @param int $episodeId
+     * @return Story_Model_Auswertung
+     */
+    public function getRejection($episodeId) {
+        $auswertung = new Story_Model_Auswertung();
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $stmt = $db->prepare('SELECT episodenRejection.reason, benutzerdaten.profilname 
+                                FROM episodenRejection 
+                                INNER JOIN benutzerdaten USING (userId)
+                                WHERE episodenId = ? AND episodenRejection.isActive = 1');
+        $stmt->execute([$episodeId]);
+        $result = $stmt->fetch();
+        if($result !== false){
+            $auswertung->setDescription($result['reason']);
+            $auswertung->setProfilname($result['profilname']);
+        }
+        return $auswertung;
+    }
+    
+    
+    public function resetRejection($episodeId) {
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $stmt = $db->prepare('UPDATE episodenRejection SET isActive = 0 WHERE episodenId = ?');
+        $stmt->execute([$episodeId]);
+    }
+    
+    
+    public function resetEvaluations($episodeId) {
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $stmt = $db->prepare('UPDATE episodenAuswertung SET isActive = 0 WHERE episodenId = ?');
+        $stmt->execute([$episodeId]);
     }
     
 }

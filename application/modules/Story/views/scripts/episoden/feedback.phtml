@@ -1,0 +1,23 @@
+<?php
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/* @var $rejection Story_Model_Auswertung */
+/* @var $episode Story_Model_Episode */
+$episode = $this->episode;
+$rejection = $this->rejection;
+?>
+<h2>Feedback zur Episode <?= $purifier->purify($episode->getName()) ?></h2>
+<p>
+    Deine Episode wurde von einem Administrator abgelehnt.
+</p>
+<p>
+    Du kannst die Auswertung für die Episode überarbeiten oder weitere Logs hochladen um den 
+    Grund der Ablehnung auszubessern und die Episode erneut prüfen zu lassen.
+</p>
+<fieldset>
+    <legend>Begründung von <?= $purifier->purify($rejection->getProfilname()) ?>:</legend>
+    <div>
+        <?= $purifier->purify($rejection->getDescription()) ?>
+    </div>
+</fieldset>

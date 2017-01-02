@@ -1,7 +1,7 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/story/editor.js');
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/editor.js'));
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $episode Story_Model_Episode */

@@ -36,4 +36,8 @@ class Administration_Service_Erstellung {
         return $this->erstellungMapper->getAllElements();
     }
     
+    public function getCircuitList() {
+        return $this->erstellungMapper->getAllCircuits();
+    }
+    
 }

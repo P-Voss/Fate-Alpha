@@ -1,5 +1,5 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $plot Story_Model_Plot */

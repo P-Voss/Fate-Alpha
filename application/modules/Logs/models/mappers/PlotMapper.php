@@ -18,7 +18,7 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
                     AND episoden.statusId = 4
                 LEFT JOIN episodenAuswertung AS auswertung
                     ON auswertung.episodenId = episoden.episodenId 
-                    AND auswertung.userId = ?
+                    AND auswertung.userId = ? AND auswertung.isActive = 1
                 INNER JOIN plots AS plotData
                     ON plotData.plotId = plots.plotId
                 WHERE auswertung.episodenId IS NULL

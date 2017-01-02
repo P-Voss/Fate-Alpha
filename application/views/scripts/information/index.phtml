@@ -1,6 +1,6 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/information.css');
-$this->headScript()->prependFile($this->baseUrl() . '/js/information/information.js');
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/information.css'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/information/information.js'));
 /* @var $layoutData Application_Model_Layout */
 /* @var $information Application_Model_Information */
 $layoutData = $this->layoutData;

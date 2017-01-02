@@ -1,6 +1,6 @@
 <?php
-$this->headScript()->prependFile($this->baseUrl() . '/js/story/plots.js');
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/plots.js'));
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $plot Story_Model_Plot */

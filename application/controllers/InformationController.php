@@ -8,8 +8,6 @@ class InformationController extends Zend_Controller_Action {
         if($this->_helper->logincheck() === false){
             $this->redirect('index');
         }
-        $config = HTMLPurifier_Config::createDefault();
-        $this->view->purifier = new HTMLPurifier($config);
         $this->informationService = new Application_Service_Information();
     }
     

@@ -33,24 +33,11 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/Admin.css</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/Episode.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/MagieController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/logs/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/views/scripts/review/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Requirement.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/magie/new.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/controllers/ReviewController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/magie/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/SkillController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/skill/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/services/Log.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/LogsController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/LogsMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/skill/new.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Logs.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/partials/info.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Skill.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Cache.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
         </group>
     </open-files>
 </project-private>

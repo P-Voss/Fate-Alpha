@@ -1,0 +1,24 @@
+<?php
+/* @var $circuit Application_Model_Circuit */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Magic Circuits
+</h1>
+<?php
+foreach ($this->list as $circuit){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/circuits/show/id/<?= $circuit->getId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($circuit->getKategorie()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($circuit->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($circuit->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

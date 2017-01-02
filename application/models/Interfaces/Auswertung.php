@@ -8,6 +8,8 @@ interface Application_Model_Interfaces_Auswertung {
     
     
     public function getUserId();
+    
+    public function getProfilname();
 
     public function getDescription();
 

@@ -5,7 +5,7 @@ $charakter = $this->charakter;
 $purifier = $this->purifier;
 $this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headScript()->appendScript('var id = ' . $charakter->getCharakterid(), 'text/javascript');
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/profile.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/profile.js'));
 ?>
 <div id="dialog" title="<?= htmlspecialchars($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>">
     

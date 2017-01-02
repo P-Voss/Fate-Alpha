@@ -2,7 +2,7 @@
 $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/shop/magieschulen.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/magieschulen.js'));
 /* @var $magieschule Shop_Model_Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;

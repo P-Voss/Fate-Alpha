@@ -1,0 +1,31 @@
+<?php
+/* @var $circuit Application_Model_Circuit */
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
+$circuit = $this->circuit;
+?>
+<h1>Circuit anpassen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/circuits/edit" method="post">
+    <fieldset>
+        <div>
+            <label for="kategorie">Kategorie</label>
+            <input type="text" size="30" id="kategorie" name="kategorie" value="<?= $circuit->getKategorie() ?>" />
+            <label for="kosten">Kosten</label>
+            <input type="number" id="kosten" name="kosten" value="<?= $circuit->getKosten() ?>" />
+        </div>
+        <div>
+            <label for="menge">Odo-Menge</label>
+            <input type="number" id="menge" name="menge" value="<?= $circuit->getMenge() ?>">
+        </div>
+        <div>
+            <label for="beschreibung">
+                Beschreibung
+            </label>
+            <textarea name="beschreibung" id="beschreibung" cols="80" rows="10"><?= $circuit->getBeschreibung() ?></textarea>
+        </div>
+    </fieldset>
+    <div align="center">
+        <input type="hidden" name="circuitId" value="<?= $circuit->getId() ?>">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Circuit ändern" />
+    </div>
+</form>

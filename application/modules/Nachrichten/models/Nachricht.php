@@ -19,11 +19,11 @@ class Nachrichten_Model_Nachricht {
     protected $status;
     protected $admin;
     /**
-     * @var Application_Model_User
+     * @var Nachrichten_Model_User
      */
     protected $verfasser;
     /**
-     * @var Application_Model_User
+     * @var Nachrichten_Model_User
      */
     protected $empfaenger;
 

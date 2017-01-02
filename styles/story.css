@@ -69,6 +69,14 @@
     height: 90px;
 }
 
+.episodeRejected {
+    height: auto;
+}
+
+.episodeStatusRejected {
+    background-color: yellow;
+}
+
 .episodeName {
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/nachrichtencenter/editor.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/nachrichtencenter/editor.js'));
 /* @var $users Application_Model_User */
 $users = $this->users;
 /* @var $purifier HTMLPurifier */

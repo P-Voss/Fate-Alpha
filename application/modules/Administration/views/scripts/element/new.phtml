@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 ?>
 <h1>Element erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/element/create" method="post">

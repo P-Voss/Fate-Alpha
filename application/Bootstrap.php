@@ -25,13 +25,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         
     }
     
-    protected function _initDoctype(){
+    public function _initDoctype(){
         $this->bootstrap('view');
         $view = $this->getResource('view');
         $view->doctype('<!DOCTYPE html>');
-        
     }
     
+    public function _initPurififer() {
+        $this->bootstrap('view');
+        $view = $this->getResource('view');
+        $config = HTMLPurifier_Config::createDefault();
+        $view->purifier = new HTMLPurifier($config);
+    }
+    
+//    public function _initAutoversioning() {
+//        $this->bootstrap('view');
+//        $view = $this->getResource('view');
+//        $f = function ($file) {
+//            if (strpos($file, '/') !== 0 
+//                || 
+//                !file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) 
+//            {
+//                return $file;
+//            }
+//            $mtime = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
+//            return preg_replace('{\\.([^./]+)$}', ".$mtime.\$1", $file);
+//        };
+//        $view->autoVersion = $f;
+//    }
+
     public function _initDb() {
         $this->bootstrap('multidb');
         $resource = $this->getPluginResource('multidb');

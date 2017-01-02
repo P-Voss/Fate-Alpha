@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/gruppen/editor.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/gruppen/editor.js'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $gruppe Gruppen_Model_Gruppe */

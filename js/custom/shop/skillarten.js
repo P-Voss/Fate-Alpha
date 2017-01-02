@@ -40,11 +40,15 @@ function displaySkillart(element, id){
         dataType: "json",
         success: function(data) {
             element.html(data.html);
-            var fullHeight = element.css({'height': 'auto', "display": "none"}).height();
-            element.css({'height': '0', "display": "block"});
-            element.animate({
-                height: fullHeight
-            }, 1000);
+            element.css({
+                'height': 'auto',
+                'display': 'block'
+            });
+//            var fullHeight = element.css({'height': 'auto'}).height();
+//            element.css({'height': '0', "display": "block"});
+//            element.animate({
+//                height: fullHeight
+//            }, 1000);
         }
     });
     jQuery('.skillart[data-id=' + id + ']').html("Fähigkeiten verbergen");

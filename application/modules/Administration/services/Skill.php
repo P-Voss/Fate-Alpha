@@ -177,9 +177,6 @@ class Administration_Service_Skill {
         if($request->getParam('disziplin') !== null){
             $requirements['Disziplin'] = $request->getParam('disziplin');
         }
-        if($request->getParam('element') !== null){
-            $requirements['Element'] = $request->getParam('element');
-        }
         if($request->getParam('skills') !== null){
             $requirements['Faehigkeit'] = $request->getParam('skills');
         }

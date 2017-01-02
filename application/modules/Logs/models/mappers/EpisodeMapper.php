@@ -19,7 +19,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
                 FROM episoden 
                 LEFT JOIN episodenAuswertung AS auswertung
                     ON auswertung.episodenId = episoden.episodenId 
-                    AND auswertung.userId = ? 
+                    AND auswertung.userId = ? AND auswertung.isActive = 1
                 WHERE 
                     episoden.plotId = ? 
                     AND episoden.statusId = 4 
@@ -317,8 +317,8 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
      */
     public function saveAuswertung(Logs_Model_Auswertung $auswertung, $episodenId) {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'INSERT INTO episodenAuswertung (episodenId, userId, feedback, isAccepted)
-                VALUES (?, ?, ?, ?)';
+        $sql = 'INSERT INTO episodenAuswertung (episodenId, userId, feedback, isAccepted, isActive)
+                VALUES (?, ?, ?, ?, 1)';
         $stmt = $db->prepare($sql);
         $stmt->execute([
             $episodenId, $auswertung->getUserId(), $auswertung->getDescription(), $auswertung->getIsAccepted(),

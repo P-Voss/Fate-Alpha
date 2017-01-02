@@ -1,6 +1,6 @@
 <?php
-$this->headScript()->prependFile($this->baseUrl() . '/js/story/results.js');
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/results.js'));
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $episode Logs_Model_Episode */

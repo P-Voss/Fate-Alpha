@@ -1,8 +1,8 @@
 <?php
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/charakter.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/tooltips.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/tooltips.js'));
 
 function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
 $sortorder = ['Übungsfähigkeiten' => 1, 

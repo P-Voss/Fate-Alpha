@@ -30,5 +30,5 @@
 $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/general/map.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/general/map.js'));
 ?>

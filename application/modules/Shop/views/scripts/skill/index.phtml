@@ -2,7 +2,7 @@
 $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/shop/skillarten.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/skillarten.js'));
 /* @var $skillart Shop_Model_Skillart */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;

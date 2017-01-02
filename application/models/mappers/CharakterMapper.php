@@ -176,7 +176,6 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setGeburtsdatum($row->geburtsdatum);
                 $model->setGeschlecht($row->geschlecht);
                 $model->setSexualitaet($row->sexualitaet);
-//                $model->setMagiccircuit($row->circuit);
                 $model->setNickname($row->nickname);
                 $model->setSize($row->size);
                 $model->setWohnort($row->wohnort);
@@ -188,6 +187,19 @@ class Application_Model_Mapper_CharakterMapper{
         }else{
             return false;
         }
+    }
+    
+    /**
+     * @param int $userId
+     * @return boolean|int
+     */
+    public function getCharakterIdByUserId($userId){
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from(array('C' => 'charakter'), array('C.*'));
+        $select->where('C.userId = ? AND active = 1', $userId);
+        $result = $this->getDbTable('Charakter')->fetchRow($select);
+        return $result !== null ? $result->charakterId : false;
     }
     
     /**

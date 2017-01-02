@@ -95,6 +95,8 @@ class Story_Service_Episode {
         $status->setId(4);
         $this->episodeMapper->updateStatus($status, $episodeId);
         $this->episodeMapper->setZusammenfassung($episode);
+        $this->episodeMapper->resetEvaluations($episodeId);
+        $this->episodeMapper->resetRejection($episodeId);
     }
     
     /**
@@ -200,6 +202,11 @@ class Story_Service_Episode {
         }
         $this->episodeMapper->removeCharakterKillRequests($episodenId, $charakterId);
         $this->episodeMapper->addCharakterKillRequests($episodenId, $charakterId, $ids);
+    }
+    
+    
+    public function getRejection($episodeId) {
+        return $this->episodeMapper->getRejection($episodeId);
     }
     
 }

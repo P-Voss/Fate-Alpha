@@ -7,7 +7,7 @@ $werte = $charakter->getCharakterwerte();
 $trainingswerte = $this->trainingswerte;
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/bonus.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/bonus.js'));
 ?>
 <style type="text/css">
     .concreteValue {

@@ -13,7 +13,7 @@ class Application_Model_Episode {
     protected $beschreibung;
     protected $zusammenfassung;
     /**
-     * @var Application_Model_EpisodenStatus
+     * @var Application_Model_Interfaces_EpisodenStatus
      */
     protected $status;
     

@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 /* @var $magie Administration_Model_Magie */
 /* @var $magieOption Administration_Model_Magie */
 /* @var $element Administration_Model_Element */
@@ -49,87 +49,111 @@ $magieAny = explode('|', $magie->getRequirementList()->getRequirementByKey('Magi
 <form action="<?= $this->baseUrl() ?>/Administration/magie/edit" method="post">
     <fieldset>
         <div>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
-            <label for="fp">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
+            <div style="width: 50%; display: inline-block;">
+                <label for="name">Name</label>
+                <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="fp">FP-Kosten</label>
+                <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
+            </div>
         </div>
         <div>
-            <label for="element">
-                Element
-            </label>
-            <select name="element">
-                <?php foreach ($this->elemente as $element):
-                    $selected = '';
-                    foreach ($magie->getRequirementList()->getRequirementArrayByKey('Element') as $reqGruppe) {
-                        if($reqGruppe->getRequiredValue() == $element->getId()){
+            <div style="width: 50%; display: inline-block;">
+                <label for="uebung">benötigte Übung</label>
+                <input type="number" name="uebung" value="<?= $magie->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="disziplin">benötigte Disziplin</label>
+                <input type="number" name="disziplin" value="<?= $magie->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="magieschule">
+                    Magieschule
+                </label>
+                <select name="magieschule">
+                    <?php foreach ($this->schulen as $schule):
+                        $selected = ($schule->getId() == $schuleReq) ? 'selected=""' : '';
+                    ?>
+                    <option value="<?= $schule->getId() ?>" <?= $selected ?>>
+                        <?= $schule->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="element">
+                    Element
+                </label>
+                <select name="element">
+                    <?php foreach ($this->elemente as $element):
+                        $selected = '';
+                        if($magie->getElement()->getId() == $element->getId()){
                             $selected = 'selected="true"';
                         }
-                    }
-                ?>
-                <option value="<?= $element->getId() ?>" <?= $selected ?>>
-                    <?= $element->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
+                    ?>
+                    <option value="<?= $element->getId() ?>" <?= $selected ?>>
+                        <?= $element->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
         </div>
         <div>
-            <label for="magieschule">
-                Magieschule
-            </label>
-            <select name="magieschule">
-                <?php foreach ($this->schulen as $schule):
-                    $selected = ($schule->getId() == $schuleReq) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $schule->getId() ?>" <?= $selected ?>>
-                    <?= $schule->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
+            <div style="width: 50%; display: inline-block;">
+                <label for="prana">Prana-Kosten</label>
+                <input type="number" name="prana" value="<?= $magie->getPrana() ?>" />
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="stufe">
+                    Stufe
+                </label>
+                <select name="stufe">
+                    <?php foreach($stufen as $stufe): ?>
+                    <option <?= ($magie->getStufe() == $stufe) ? 'selected=""' : '' ?>><?= $stufe ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
         </div>
         <div>
-            <label for="prana">Prana-Kosten</label>
-            <input type="number" name="prana" value="<?= $magie->getPrana() ?>" />
+            <div style="width: 50%; display: inline-block;">
+                <label for="rang">
+                    Rang
+                </label>
+                <select name="rang">
+                    <?php foreach($raenge as $rang): ?>
+                    <option <?= ($magie->getRang() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="lernbedingung">
+                    Lernbedingung
+                </label>
+                <select name="lernbedingung">
+                    <?php foreach($lernbedingungen as $bedingung): ?>
+                    <option <?= ($magie->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
         </div>
         <div>
-            <label for="stufe">
-                Stufe
-            </label>
-            <select name="stufe">
-                <?php foreach($stufen as $stufe): ?>
-                <option <?= ($magie->getStufe() == $stufe) ? 'selected=""' : '' ?>><?= $stufe ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label for="staerke">Stärke</label>
+            <input type="number" size="30" name="staerke" id="staerke" value="" />
         </div>
         <div>
-            <label for="rang">
-                Rang
-            </label>
-            <select name="rang">
-                <?php foreach($raenge as $rang): ?>
-                <option <?= ($magie->getRang() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label for="agilitaet">Agilität</label>
+            <input type="number" size="30" name="agilitaet" id="agilitaet" value="" />
         </div>
         <div>
-            <label for="uebung">
-                benötigte Übung
-            </label>
-            <input type="number" name="uebung" value="<?= $magie->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
-            <label for="disziplin">
-                benötigte Disziplin
-            </label>
-            <input type="number" name="disziplin" value="<?= $magie->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+            <label for="ausdauer">Ausdauer</label>
+            <input type="number" size="30" name="ausdauer" id="ausdauer" value="" />
         </div>
         <div>
-            <label for="lernbedingung">
-                Lernbedingung
-            </label>
-            <select name="lernbedingung">
-                <?php foreach($lernbedingungen as $bedingung): ?>
-                <option <?= ($magie->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label for="kontrolle">Kontrolle</label>
+            <input type="number" size="30" name="kontrolle" id="kontrolle" value="" />
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">

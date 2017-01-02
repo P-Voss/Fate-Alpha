@@ -30,8 +30,8 @@ class Nachrichten_Service_Nachrichten {
         $userMapper = new Application_Model_Mapper_UserMapper();
         $nachrichten = $this->mapper->getNachrichtenByReceiverId($userId);
         foreach ($nachrichten as $nachricht) {
-            $nachricht->setVerfasser($userMapper->getUserById($nachricht->getVerfasserId()));
-            $nachricht->setEmpfaenger($userMapper->getUserById($nachricht->getEmpfaengerId()));
+            $nachricht->setVerfasser($this->mapper->getUserForPmById($nachricht->getVerfasserId()));
+            $nachricht->setEmpfaenger($this->mapper->getUserForPmById($nachricht->getEmpfaengerId()));
         }
         return $nachrichten;
     }
@@ -43,8 +43,8 @@ class Nachrichten_Service_Nachrichten {
     public function getNachrichtenSentByUserId($userId) {
         $nachrichten = $this->mapper->getNachrichtenByDispatcherId($userId);
         foreach ($nachrichten as $nachricht) {
-            $nachricht->setVerfasser($this->userMapper->getUserById($nachricht->getVerfasserId()));
-            $nachricht->setEmpfaenger($this->userMapper->getUserById($nachricht->getEmpfaengerId()));
+            $nachricht->setVerfasser($this->mapper->getUserForPmById($nachricht->getVerfasserId()));
+            $nachricht->setEmpfaenger($this->mapper->getUserForPmById($nachricht->getEmpfaengerId()));
         }
         return $nachrichten;
     }
@@ -53,8 +53,8 @@ class Nachrichten_Service_Nachrichten {
     public function getNachrichtenArchivByUserId($userId) {
         $nachrichten = $this->mapper->getNachrichtenarchivById($userId);
         foreach ($nachrichten as $nachricht) {
-            $nachricht->setVerfasser($this->userMapper->getUserById($nachricht->getVerfasserId()));
-            $nachricht->setEmpfaenger($this->userMapper->getUserById($nachricht->getEmpfaengerId()));
+            $nachricht->setVerfasser($this->mapper->getUserForPmById($nachricht->getVerfasserId()));
+            $nachricht->setEmpfaenger($this->mapper->getUserForPmById($nachricht->getEmpfaengerId()));
         }
         return $nachrichten;
     }
@@ -65,8 +65,8 @@ class Nachrichten_Service_Nachrichten {
      */
     public function getNachrichtById($nachrichtId) {
         $nachricht = $this->mapper->getNachrichtById($nachrichtId);
-        $nachricht->setVerfasser($this->userMapper->getUserById($nachricht->getVerfasserId()));
-        $nachricht->setEmpfaenger($this->userMapper->getUserById($nachricht->getEmpfaengerId()));
+        $nachricht->setVerfasser($this->mapper->getUserForPmById($nachricht->getVerfasserId()));
+        $nachricht->setEmpfaenger($this->mapper->getUserForPmById($nachricht->getEmpfaengerId()));
         return $nachricht;
     }
     

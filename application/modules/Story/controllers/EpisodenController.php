@@ -136,6 +136,19 @@ class Story_EpisodenController extends Zend_Controller_Action {
     }
     
     
+    public function feedbackAction() {
+        if((int)$this->getRequest()->getParam('episode') <= 0){
+            $this->redirect('index');
+        }
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        if(!$this->episodenService->isSL($episodeId, Zend_Auth::getInstance()->getIdentity()->userId)){
+            $this->redirect('index');
+        }
+        $this->view->episode = $this->episodenService->getEpisode($episodeId);
+        $this->view->rejection = $this->episodenService->getRejection($episodeId);
+    }
+    
+    
     public function detailsAction() {
         if((int)$this->getRequest()->getParam('episode') <= 0){
             $this->redirect('index');

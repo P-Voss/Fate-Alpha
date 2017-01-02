@@ -28,7 +28,30 @@ class Administration_LogsController extends Zend_Controller_Action {
     
     
     public function reviewAction() {
+        if((int)$this->getRequest()->getParam('episode') <= 0){
+            $this->redirect('index');
+        }
+        $logsEpisodenService = new Logs_Service_Episode();
         
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $this->view->episode = $this->logsService->getEpisode($episodeId);
+        
+        $this->view->participants = $logsEpisodenService->getParticipantsByEpisode($episodeId);
+        $this->view->logs = $this->logsService->getLogsForEpisode($episodeId);
+    }
+    
+    
+    public function judgeAction() {
+        if((int)$this->getRequest()->getParam('episodenId') <= 0){
+            $this->redirect('index');
+        }
+        $episodeId = (int)$this->getRequest()->getParam('episodenId');
+        if((int)$this->getRequest()->getParam('isAccepted', 0) === 1){
+            
+        } else {
+            $this->logsService->rejectEpisode($episodeId, $this->getRequest());
+        }
+        $this->redirect('Logs');
     }
     
 }

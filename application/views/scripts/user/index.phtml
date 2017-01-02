@@ -1,9 +1,9 @@
 <?php
 /* @var $user Application_Model_User */
 $user = $this->user;
-$this->headLink()->prependStylesheet($this->baseUrl() . '/styles/Profil.css');
+$this->headLink()->prependStylesheet($this->autoVersion($this->baseUrl() . '/styles/Profil.css'));
 $this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
-$this->headScript()->prependFile($this->baseUrl() . '/js/user/profile.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/user/profile.js'));
 ?>
 <div id='dialog'></div>
 <h1>

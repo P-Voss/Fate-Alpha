@@ -223,6 +223,7 @@ class Administration_Model_Mapper_SkillMapper {
      * @return \Administration_Model_Magie
      */
     public function getMagieById($magieId) {
+        $elementMapper = new Administration_Model_Mapper_ElementMapper();
         $model = new Administration_Model_Magie();
         $select = $this->getDbTable('Magie')->select();
         $select->where('magieId = ?', $magieId);
@@ -236,6 +237,7 @@ class Administration_Model_Mapper_SkillMapper {
             $model->setRang($row['rang']);
             $model->setStufe($row['stufe']);
             $model->setLernbedingung($row['lernbedingung']);
+            $model->setElement($elementMapper->getElementById($row['element']));
         }
         return $model;
     }

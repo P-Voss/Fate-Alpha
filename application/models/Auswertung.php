@@ -8,6 +8,7 @@
 class Application_Model_Auswertung implements Application_Model_Interfaces_Auswertung {
     
     protected $userId;
+    protected $profilname;
     protected $description;
     protected $isAccepted;
     
@@ -34,6 +35,14 @@ class Application_Model_Auswertung implements Application_Model_Interfaces_Auswe
 
     public function setIsAccepted($isAccepted) {
         $this->isAccepted = $isAccepted;
+    }
+    
+    public function getProfilname() {
+        return $this->profilname;
+    }
+
+    public function setProfilname($profilname) {
+        $this->profilname = $profilname;
     }
     
 }

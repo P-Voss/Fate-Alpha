@@ -1,7 +1,7 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/formular.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/formular.js'));
 /* @var $schule Administration_Model_Schule */
 $schule = $this->schule;
 ?>

@@ -31,7 +31,7 @@ class Administration_CharakterController extends Zend_Controller_Action {
     
     
     public function showAction() {
-        $charakter = $this->charakterService->getCharakter($this->getRequest(), true);
+        $charakter = $this->charakterService->getCharakter($this->getRequest());
         $this->view->charakter = $charakter;
         
         $informationService = new Erstellung_Service_Information();

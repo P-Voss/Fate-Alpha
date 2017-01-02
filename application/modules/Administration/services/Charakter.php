@@ -9,32 +9,6 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
     
     /**
      * @param Zend_Controller_Request_Http $request
-     * @return Application_Model_Charakter
-     */
-    public function getCharakter(Zend_Controller_Request_Http $request, $fullData = false) {
-        $mapper = new Application_Model_Mapper_CharakterMapper();
-        $klassenMapper = new Application_Model_Mapper_KlasseMapper();
-        $charakter = $mapper->getCharakter($request->getParam('charakter'));
-        if($fullData === true AND $charakter !== false){
-            $charakter->setKlasse($mapper->getCharakterKlasse($charakter->getCharakterid()));
-            $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
-            $charakter->setNaturelement($mapper->getNaturelement($charakter->getCharakterid()));
-            $charakter->setCharakterwerte($mapper->getCharakterwerte($charakter->getCharakterid()));
-            $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
-            $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
-            
-            $charakter->setOdo($mapper->getOdo($charakter->getCharakterid()));
-            $charakter->setLuck($mapper->getLuck($charakter->getCharakterid()));
-            $charakter->setVermoegen($mapper->getVermoegen($charakter->getCharakterid()));
-            $charakter->setMagiccircuit($mapper->getMagiccircuit($charakter->getCharakterid()));
-            
-            $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
-        }
-        return $charakter;
-    }
-    
-    /**
-     * @param Zend_Controller_Request_Http $request
      * @return int
      */
     public function saveCharakterData(Zend_Controller_Request_Http $request) {

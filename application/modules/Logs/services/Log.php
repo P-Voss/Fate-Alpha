@@ -58,7 +58,6 @@ class Logs_Service_Log {
             $pdf = Zend_Pdf::load(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf');
             foreach ($pdf->pages as $page) {
                 $resultPdf->pages[] = $extractor->clonePage($page);
-//                $resultPdf->pages[] = $page;
             }
         }
         if(count($resultPdf->pages) > 0){

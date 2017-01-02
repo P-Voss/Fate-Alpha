@@ -124,6 +124,31 @@ class Nachrichten_Model_Mapper_NachrichtenMapper {
     }
     
     /**
+     * @param int $userId
+     * @return \Nachricht_Model_User
+     */
+    public function getUserForPmById($userId) {
+        $user = new Nachrichten_Model_User();
+        $select = $this->getDbTable('User')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('benutzerdaten', ['profilname', 'username', 'mail', 'usergruppe']);
+        $select->joinLeft('charakter', 'charakter.userId = benutzerdaten.userId', ['vorname', 'nachname', 'charakterId']);
+        $select->where('benutzerdaten.userId = ?', $userId);
+        $result = $this->getDbTable('User')->fetchRow($select);
+        if($result !== false){
+            $user->setId ($userId);
+            $user->setProfilname($result['profilname']);
+            $user->setUsername($result['username']);
+            $user->setEmail($result['mail']);
+            $user->setUsergruppe($result['usergruppe']);
+            if ($result['charakterId'] !== null) {
+                $user->setCharakterName($result['vorname'] . ' ' . $result['nachname']);
+            }
+        }
+        return $user;
+    }
+    
+    /**
      * @param Nachrichten_Model_Nachricht $nachricht
      */
     public function saveMessage(Nachrichten_Model_Nachricht $nachricht) {

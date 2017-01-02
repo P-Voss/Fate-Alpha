@@ -1,7 +1,7 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/editor.js');
-$this->headScript()->prependFile($this->baseUrl() . '/js/charakter/charakter.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/editor.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
 /* @var $werte Application_Model_Charakterwerte */

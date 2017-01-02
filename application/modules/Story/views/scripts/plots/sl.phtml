@@ -1,5 +1,5 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl() . '/styles/story.css');
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $plot Story_Model_Plot */
@@ -152,7 +152,7 @@ unset($this->episodes);
                 <label>Episoden in Aktion</label>
                 <ul>
                 <?php foreach($fixedEpisodes as $episode): ?>
-                    <li class="episodeActive">
+                    <li class="episodeActive <?= $episode->getStatus()->getId() === 7 ? 'episodeRejected' : '' ?>">
                         <div class="data">
                             <span class="episodeName">
                                 <?= $purifier->purify($episode->getName()); ?>
@@ -164,6 +164,17 @@ unset($this->episodes);
                             </div>
                         </div>
                         <div class="actions">
+                            <?php if(in_array($episode->getStatus()->getId(), [7])): ?>
+                            <div class="listDiv">
+                                <a href="<?= $this->baseUrl() ?>/Story/episoden/feedback/episode/<?= $episode->getId() ?>">
+                                    <span class="episodeAction <?= $episode->getStatus()->getId() === 7 ? 'episodeStatusRejected' : '' ?>">
+                                        Ablehnungsgrund
+                                    </span>
+                                </a>
+                            </div>
+                            <?php
+                            endif;
+                            ?>
                             <div class="listDiv">
                                 <a href="<?= $this->baseUrl() ?>/Story/episoden/logs/episode/<?= $episode->getId() ?>">
                                     <span class="episodeAction">
@@ -171,7 +182,7 @@ unset($this->episodes);
                                     </span>
                                 </a>
                             </div>
-                            <?php if($episode->getStatus()->getId() < 5): ?>
+                            <?php if(in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
                             <div class="listDiv">
                                 <a href="<?= $this->baseUrl() ?>/Story/episoden/result/episode/<?= $episode->getId() ?>">
                                     <span class="episodeAction">
@@ -182,7 +193,7 @@ unset($this->episodes);
                             <?php
                             endif;
                             ?>
-                            <?php if($episode->getStatus()->getId() < 5): ?>
+                            <?php if(in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
                             <div class="listDiv">
                                 <a href="<?= $this->baseUrl() ?>/Story/episoden/finish/episode/<?= $episode->getId() ?>">
                                     <span class="episodeAction">

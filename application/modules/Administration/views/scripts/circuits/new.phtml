@@ -1,0 +1,29 @@
+<?php
+/* @var $circuit Application_Model_Circuit */
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.js');
+?>
+<h1>Magic Circuit erstellen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/circuits/create" method="post">
+    <fieldset>
+        <div>
+            <label for="kategorie">Kategorie</label>
+            <input type="text" size="30" id="kategorie" name="kategorie" />
+            <label for="kosten">Kosten</label>
+            <input type="number" id="kosten" name="kosten" />
+        </div>
+        <div>
+            <label for="menge">Odo-Menge</label>
+            <input type="number" id="menge" name="menge">
+        </div>
+        <div>
+            <label for="beschreibung">
+                Beschreibung
+            </label>
+            <textarea id="beschreibung" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </fieldset>
+    <div align="center">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Circuit erstellen" />
+    </div>
+</form>
