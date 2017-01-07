@@ -33,11 +33,13 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/CharakterController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Cache.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/FreundeController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/ProfilMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/Administration/editor.js</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/information/show.phtml</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
             <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/UserController.php</file>
         </group>
     </open-files>
 </project-private>

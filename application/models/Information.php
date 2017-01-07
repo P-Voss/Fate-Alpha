@@ -15,7 +15,7 @@ class Application_Model_Information {
     /**
      * @var Application_Model_Requirementlist
      */
-    private $requirementList;
+    protected $requirementList;
     
     
     public function getInformationId() {

@@ -122,7 +122,9 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        if ($charakter !== false) {
+            $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        }
     }
     
     public function removevorteilAction() {
@@ -130,7 +132,9 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        if ($charakter !== false) {
+            $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        }
     }
     
     public function removenachteilAction() {
@@ -138,7 +142,9 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        if ($charakter !== false) {
+            $this->erstellungService->remove($this->getRequest()->getPost('attribute'), $charakter);
+        }
     }
     
 }

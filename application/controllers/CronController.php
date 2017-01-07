@@ -11,6 +11,10 @@ class CronController extends Zend_Controller_Action{
 
     public function init(){
         $this->_trainingService = new Application_Service_Training();
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        if ($auth === null || $auth->userId !== 1) {
+            exit;
+        }
     }
     
     public function executeAction() {

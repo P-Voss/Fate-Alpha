@@ -114,10 +114,28 @@ class Application_Model_Charakterwerte {
                 if($this->kontrolle < 40 && $this->kontrolle + $trainingswerte->getKonTraining() >= 40){
                     $this->fp = $this->fp + 100;
                 }
-                if($this->kontrolle < 250 && $this->kontrolle + $trainingswerte->getKonTraining() >= 250){
+                if($this->kontrolle < 300 && $this->kontrolle + $trainingswerte->getKonTraining() >= 300){
                     $this->fp = $this->fp + 100;
                 }
-                if($this->kontrolle < 540 && $this->kontrolle + $trainingswerte->getKonTraining() >= 540){
+                if($this->kontrolle < 650 && $this->kontrolle + $trainingswerte->getKonTraining() >= 650){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 800 && $this->kontrolle + $trainingswerte->getKonTraining() >= 800){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 1050 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1050){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 1400 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1400){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 1800 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1800){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 2200 && $this->kontrolle + $trainingswerte->getKonTraining() >= 2200){
+                    $this->fp = $this->fp + 100;
+                }
+                if($this->kontrolle < 2600 && $this->kontrolle + $trainingswerte->getKonTraining() >= 2600){
                     $this->fp = $this->fp + 100;
                 }
                 $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
@@ -131,40 +149,40 @@ class Application_Model_Charakterwerte {
     
     public function getCategory($value) {
         switch (true) {
-            case $value >= 660:
+            case $value >= 800:
                 $category = "A+";
                 break;
-            case $value >= 600:
+            case $value >= 720:
                 $category = "A";
                 break;
-            case $value >= 540:
+            case $value >= 650:
                 $category = "A-";
                 break;
-            case $value >= 480:
+            case $value >= 580:
                 $category = "B+";
                 break;
-            case $value >= 430:
+            case $value >= 520:
                 $category = "B";
                 break;
-            case $value >= 380:
+            case $value >= 460:
                 $category = "B-";
                 break;
-            case $value >= 330:
+            case $value >= 400:
                 $category = "C+";
                 break;
-            case $value >= 290:
+            case $value >= 350:
                 $category = "C";
                 break;
-            case $value >= 250:
+            case $value >= 300:
                 $category = "C-";
                 break;
-            case $value >= 210:
+            case $value >= 250:
                 $category = "D+";
                 break;
-            case $value >= 180:
+            case $value >= 200:
                 $category = "D";
                 break;
-            case $value >= 150:
+            case $value >= 160:
                 $category = "D-";
                 break;
             case $value >= 120:

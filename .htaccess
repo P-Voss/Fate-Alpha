@@ -1,6 +1,9 @@
 php_flag magic_quotes_gpc 0
 RewriteEngine On
 
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
 RewriteRule ^(js/custom|styles)/(.+)\.(.+)\.(js|css)$ $1/$2.$4 [L]
 
 RewriteCond %{REQUEST_FILENAME} -s [OR]

@@ -10,7 +10,7 @@ $information = $this->information;
     <fieldset>
         <p>
             <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $information->getName() ?>" />
+            <input type="text" size="30" name="name" value="<?= $this->purifier->purify($information->getName()) ?>" />
             <label for="kategorie">Kategorie</label>
             <select name="kategorie" id="kategorie">
                 <?php foreach($this->kategorien as $kategorie): ?>
@@ -18,7 +18,7 @@ $information = $this->information;
                 <?php endforeach; ?>
             </select>
         </p>
-        <textarea name="inhalt" cols="80" rows="10"><?= $information->getInhalt() ?></textarea>
+        <textarea name="inhalt" cols="80" rows="10"><?= $this->purifier->purify($information->getInhalt()) ?></textarea>
         <fieldset>
             <legend>
                 Vorraussetzungen
@@ -92,10 +92,8 @@ $information = $this->information;
                 benötigte Vorteile
             </label>
             <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteil):
-                    $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                <?php foreach ($this->vorteile as $vorteil): ?>
+                <option value="<?= $vorteil->getId() ?>">
                     <?= $vorteil->getBezeichnung() ?>
                 </option>
                 <?php endforeach; ?>
@@ -106,10 +104,8 @@ $information = $this->information;
                 benötigte Nachteile
             </label>
             <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteil):
-                    $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                <?php foreach ($this->nachteile as $nachteil): ?>
+                <option value="<?= $nachteil->getId() ?>">
                     <?= $nachteil->getBezeichnung() ?>
                 </option>
                 <?php endforeach; ?>

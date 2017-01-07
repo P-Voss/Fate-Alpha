@@ -35,7 +35,7 @@ class Application_Service_Cache {
     
     
     public function isActive() {
-        
+        return false;
     }
     
     /**

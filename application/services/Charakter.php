@@ -58,7 +58,8 @@ class Application_Service_Charakter {
             }
             return $charakter;
         } else {
-            return new Application_Model_Charakter();
+            return $charakter;
+            # return new Application_Model_Charakter();
         }
     }
     
@@ -279,12 +280,14 @@ HTML;
     
     
     public function saveStory(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
-        $this->charakterMapper->saveStory($charakter->getCharakterid(), $request->getPost('story'));
+        $mapper = new Application_Model_Mapper_ProfilMapper();
+        $mapper->saveStory($charakter->getCharakterid(), $request->getPost('story'));
     }
     
     
     public function savePrivate(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
-        $this->charakterMapper->savePrivate($charakter->getCharakterid(), $request->getPost('private'));
+        $mapper = new Application_Model_Mapper_ProfilMapper();
+        $mapper->savePrivate($charakter->getCharakterid(), $request->getPost('private'));
     }
     
 }

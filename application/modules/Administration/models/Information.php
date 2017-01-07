@@ -53,6 +53,9 @@ class Administration_Model_Information extends Application_Model_Information imp
     }
     
     public function getRequirementList() {
+        if ($this->requirementList === null) {
+            return new Administration_Model_Requirementlist();
+        }
         return $this->requirementList;
     }
 
