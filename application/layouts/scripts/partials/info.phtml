@@ -9,6 +9,7 @@
             Nachrichtencenter <?= ($layoutData->getUnreadPmCount() > 0) ? ' (' . $layoutData->getUnreadPmCount() . '&#9993;)' : '' ?>
         </a>
     </li>
+    <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
     <br />
     <li><a href="<?= $this->baseUrl() ?>/login/logout">Logout</a></li>
     <hr />
@@ -20,7 +21,6 @@
     <?php endif; ?>
     <?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
         <br />
-        <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
         <li>
             <a href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
         </li>

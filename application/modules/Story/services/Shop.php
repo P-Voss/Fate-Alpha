@@ -36,10 +36,16 @@ class Story_Service_Shop {
     public function addRequests(Zend_Controller_Request_Http $request) {
         switch ($request->getPost('art', 'none')) {
             case 'magie':
-                $this->addMagicrequest($request->getPost('episode'), $request->getPost('ids'), $request->getPost('charakterId'));
+                $this->shopMapper->removeSkillrequest($request->getPost('episode'), $request->getPost('charakterId'), 'magie', 'add');
+                if (count($request->getPost('ids')) > 0) {
+                    $this->addMagicrequest($request->getPost('episode'), $request->getPost('ids'), $request->getPost('charakterId'));
+                }
                 break;
             case 'skill':
-                $this->addSkillrequest($request->getPost('episode'), $request->getPost('ids'), $request->getPost('charakterId'));
+                $this->shopMapper->removeSkillrequest($request->getPost('episode'), $request->getPost('charakterId'), 'skill', 'add');
+                if (count($request->getPost('ids')) > 0) {
+                    $this->addSkillrequest($request->getPost('episode'), $request->getPost('ids'), $request->getPost('charakterId'));
+                }
                 break;
             case 'none':
                 return false;
@@ -62,7 +68,6 @@ class Story_Service_Shop {
     
     
     public function addMagicrequest($episodenId, $ids, $charakterId) {
-        $this->shopMapper->removeSkillrequest($episodenId, $charakterId, 'magie', 'add');
         $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'add', $ids);
     }
     
@@ -73,7 +78,6 @@ class Story_Service_Shop {
     
     
     public function addSkillrequest($episodenId, $ids, $charakterId) {
-        $this->shopMapper->removeSkillrequest($episodenId, $charakterId, 'skill', 'add');
         $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'skill', 'add', $ids);
     }
     

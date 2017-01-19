@@ -53,17 +53,30 @@ $participants = $this->participants;
     <?php foreach($participants as $charakter): 
     $charakterId = $charakter->getCharakterId();
     $result = $charakter->getResult();
-    $skills = '';
-    foreach($charakter->getResult()->getRequestedSkills() as $skill):
-        $skills .= $skill->getBezeichnung() . ', ';
-    endforeach;
-    $skills = substr($skills, 0, strlen($skills) - 2);
     
+    $skills = '';
+    if (count($result->getRequestedSkills()) > 0) {
+        foreach($result->getRequestedSkills() as $skill):
+            $skills .= $skill->getBezeichnung() . ', ';
+        endforeach;
+        $skills = substr($skills, 0, strlen($skills) - 2);
+    }
+
     $magien = '';
-    foreach($charakter->getResult()->getRequestedMagien() as $magie):
-        $magien .= $magie->getBezeichnung() . ', ';
-    endforeach;
-    $magien = substr($magien, 0, strlen($magien) - 2);
+    if (count($result->getRequestedMagien()) > 0) {
+        foreach($result->getRequestedMagien() as $magie ):
+            $magien .= $magie->getBezeichnung() . ', ';
+        endforeach;
+        $magien = substr($magien, 0, strlen($magien) - 2);
+    }
+    
+    $charakterKills = '';
+    if (count($result->getCharaktersKilled()) > 0) {
+        foreach ($result->getCharaktersKilled() as $kill) {
+            $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
+        }
+        $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
+    }
     ?>
     <fieldset>
         <legend>Charakter: <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
@@ -73,7 +86,7 @@ $participants = $this->participants;
                     Hat <?= $result->getKillNpcs() ?> NPCs getötet.
                 </p>
                 <?php if($result->getDied()): ?>
-                <p>
+                <p style="font-weight: bold; color: red;">
                     Ist in dieser Episode gestorben.
                 </p>
                 <?php endif; ?>
@@ -87,7 +100,7 @@ $participants = $this->participants;
         </div>
         <fieldset>
             <legend>Während der Episode gelernte Fähigkeiten oder Magien</legend>
-            <?php if($magien === false && $skills === false) { ?>
+            <?php if($magien === '' && $skills === '') { ?>
             Keine
             <?php } else { ?>
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
@@ -98,6 +111,12 @@ $participants = $this->participants;
                 </div>
             <?php } ?>
         </fieldset>
+        <?php if ($charakterKills !== '') : ?>
+        <fieldset>
+            <legend>Getötete Spielercharaktere</legend>
+            <?= $purifier->purify($charakterKills) ?>
+        </fieldset>
+        <?php endif; ?>
     </fieldset>
     <?php endforeach; ?>
 </div>
@@ -121,7 +140,7 @@ $participants = $this->participants;
     <form method="post" action="<?= $this->baseUrl() ?>/Administration/Logs/judge">
         <p>
             <label for="isAccepted">Episode eintragen?</label>
-            <select name="isAccepted" id="isAccepted">
+            <select name="isAccepted" id="isAccepted" style="width: 50px">
                 <option value="0">Nein</option>
                 <option value="1">Ja</option>
             </select>

@@ -85,6 +85,11 @@ class Story_Service_Plot extends Application_Service_Story {
         return $this->plotMapper->datenFreigegeben($plotId, $userId);
     }
     
+    
+    public function checkDatenfreigabeCharakter($plotId, $charakterId) {
+        return $this->plotMapper->datenFreigebenCharakter($plotId, $charakterId);
+    }
+    
     /**
      * @param int $plotId
      * @return array

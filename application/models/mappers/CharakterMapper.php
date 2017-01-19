@@ -1013,4 +1013,55 @@ SQL;
         return $returnArray;
     }
     
+    /**
+     * @param int $charakterId
+     * @return \Application_Model_Achievement
+     * @todo dbTable
+     */
+    public function getAchievements($charakterId) {
+        $returnArray = [];
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakterAchievements');
+        $select->where('charakterId = ? AND isActive = 1', $charakterId);
+        $result = $this->getDbTable('Charakter')->fetchAll($select);
+        foreach ($result as $row) {
+            $achievement = new Application_Model_Achievement();
+            $achievement->setCharakterId($row['charakterId']);
+            $achievement->setId($row['id']);
+            $achievement->setTitel($row['titel']);
+            $achievement->setBeschreibung($row['beschreibung']);
+            $returnArray[] = $achievement;
+        }
+        return $returnArray;
+    }
+    
+    
+    public function setCharakterKill($charakterId, $killedId, $episodeId = null) {
+        $data = [
+            'charakterId' => $charakterId,
+            'charakterKilledId' => $killedId,
+            'episodeId' => $episodeId,
+        ];
+        $this->getDbTable('CharakterKills')->insert($data);
+    }
+    
+    
+    public function deactivateCharakter($charakterId) {
+        $data = [
+            'active' => 0,
+        ];
+        $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakterId]);
+    }
+    
+    
+    public function updateStats($charakterId, $died = 0, $npcKills = 0) {
+        $active = $died === 0 ? 1 : 0;
+        $this->getDbTable('Charakter')
+                ->getDefaultAdapter()
+                ->query(
+                    'UPDATE charakter SET active = ' . $active . ', npcKills = npcKills + ' . (int) $npcKills . ' WHERE charakterId = ?', [$charakterId]
+                );
+    }
+    
 }

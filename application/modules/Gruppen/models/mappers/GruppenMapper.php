@@ -76,14 +76,20 @@ class Gruppen_Model_Mapper_GruppenMapper {
      * @return array
      */
     public function getGruppenByUserId($userId) {
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('Spielergruppen')->select();
         $select->setIntegrityCheck(false);
-        $select->from('spielergruppen');
-        $select->joinLeft('charakterGruppen', 'charakterGruppen.gruppenId = spielergruppen.gruppenId', []);
-        $select->joinLeft('charakter', 'charakter.charakterId = charakterGruppen.charakterId', []);
-        $select->where('charakter.userId = ?', $userId);
-        $select->orWhere('spielergruppen.userId = ?', $userId);
+        
+        $selectPlayer = $this->getDbTable('Spielergruppen')->select();
+        $selectPlayer->setIntegrityCheck(false);
+        $selectPlayer->from('spielergruppen');
+        $selectPlayer->joinLeft('charakterGruppen', 'charakterGruppen.gruppenId = spielergruppen.gruppenId', []);
+        $selectPlayer->joinLeft('charakter', 'charakter.charakterId = charakterGruppen.charakterId', []);
+        $selectPlayer->where('charakter.userId = ?', $userId);
+        
+        $selectLeader = $this->getDbTable('Spielergruppen')->select();
+        $selectLeader->where('userId = ?', $userId);
+        $select->union([$selectPlayer, $selectLeader]);
         $result = $this->getDbTable('Spielergruppen')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

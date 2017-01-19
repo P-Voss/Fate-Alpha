@@ -30,10 +30,8 @@ class LoginController extends Zend_Controller_Action
         $this->_helper->layout()->disableLayout();
         if ($this->getRequest()->isPost() AND $this->getRequest()->getPost('username') !== '' AND $this->getRequest()->getPost('passwort') !== '') {
             $login = $this->service->login($this->getRequest());
-            $this->_redirect('index');
-        }  else {
-            $this->redirect('index');
         }
+        $this->redirect('index');
     }
     
     public function logoutAction() {

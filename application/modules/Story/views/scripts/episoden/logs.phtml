@@ -14,8 +14,8 @@ $logs = $this->logs;
     <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $episode->getPlotId() ?>">
         Zurück zum Plot
     </a>
-    <?php if($this->isSql): ?>
-    <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $episode->getPlotId() ?>">
+    <?php if($this->isSl): ?>
+    <a style="margin-left: 5em" href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
         Zurück zur Plotplanung
     </a>
     <?php endif; ?>

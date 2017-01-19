@@ -138,6 +138,19 @@ class Shop_Model_Mapper_MagieMapper {
     }
     
     /**
+     * @param int $charakterId
+     * @param int $magieId
+     * @return int
+     */
+    public function unlockMagieByRPG($charakterId, $magieId) {
+        $data = array(
+            'charakterId' => $charakterId,
+            'magieId' => $magieId,
+        );
+        return $this->getDbTable('charakterMagie')->insert($data);
+    }
+    
+    /**
      * 
      * @param int $charakterId
      * @param int $magieId

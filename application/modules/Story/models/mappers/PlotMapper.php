@@ -32,21 +32,25 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
                     plots.userId, 
                     plots.name, 
                     plots.creationdate, 
-                    plotDesc.description,
-                    plotRes.outcome
+                    description.description,
+                    outcome.outcome
                 FROM plots
                 LEFT JOIN (
-                    SELECT pd.plotId, pd.description 
+                    SELECT pd.plotId, MAX(pd.creationdate) AS date
                     FROM plotDescriptions AS pd
                     GROUP BY pd.plotId 
-                    HAVING MAX(pd.creationdate)
-                ) AS plotDesc USING(plotId)
+                ) AS plotDesc 
+                    ON plotDesc.plotId = plots.plotId
+                LEFT JOIN plotDescriptions AS description 
+                    ON description.plotId = plots.plotId AND description.creationdate = plotDesc.date
                 LEFT JOIN (
-                    SELECT po.plotId, po.outcome 
+                    SELECT po.plotId, MAX(po.creationdate) AS date
                     FROM plotOutcomes AS po
                     GROUP BY po.plotId 
-                    HAVING MAX(po.creationdate)
-                ) AS plotRes USING(plotId)
+                ) AS plotRes 
+                    ON plotRes.plotId = plots.plotId
+                LEFT JOIN plotOutcomes AS outcome 
+                    ON outcome.plotId = plots.plotId AND outcome.creationdate = plotRes.date
                 WHERE plots.plotId = ?';
         $stmt = $db->prepare($sql);
         $stmt->execute(array($plotId));
@@ -141,15 +145,11 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
      * @return boolean
      */
     public function verifySl($plotId, $userId) {
-        $select = $this->getDbTable('Spielergruppen')->select();
+        $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
-        $select->from('spielergruppen');
-        $select->joinInner('plotToGruppe', 'spielergruppen.gruppenId = plotToGruppe.gruppenId');
-        
-        $select->joinLeft('charakterGruppen', 'charakterGruppen.gruppenId = spielergruppen.gruppenId', []);
-        $select->joinLeft('charakter', 'charakter.charakterId = charakterGruppen.charakterId', []);
-        $select->where('charakter.userId = ?', $userId);
-        $select->orWhere('plotToGruppe.plotId = ?', $plotId);
+        $select->from('plots');
+        $select->where('plots.plotId = ?', $plotId);
+        $select->where('plots.userId = ?', $userId);
         return $this->getDbTable('Spielergruppen')->fetchAll($select)->count() > 0;
     }
     
@@ -327,6 +327,21 @@ SQL;
         $select->from('charakterPlots');
         $select->joinInner('charakter', 'charakter.charakterId = charakterPlots.charakterId AND charakter.active = 1', []);
         $select->where('charakter.userId = ?', $userId);
+        $select->where('charakterPlots.plotId = ?', $plotId);
+        $select->where('charakterPlots.freigabe = 1');
+        return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;
+    }
+    
+    /**
+     * @param int $plotId
+     * @param int $charakterId
+     * @return boolean
+     */
+    public function datenFreigebenCharakter($plotId, $charakterId) {
+        $select = $this->getDbTable('Plots')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakterPlots');
+        $select->where('charakterPlots.charakterId = ?', $charakterId);
         $select->where('charakterPlots.plotId = ?', $plotId);
         $select->where('charakterPlots.freigabe = 1');
         return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;

@@ -290,4 +290,9 @@ HTML;
         $mapper->savePrivate($charakter->getCharakterid(), $request->getPost('private'));
     }
     
+    
+    public function getAchievements($charakterId) {
+        return $this->charakterMapper->getAchievements($charakterId);
+    }
+    
 }

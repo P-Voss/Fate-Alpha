@@ -47,7 +47,7 @@ class Administration_LogsController extends Zend_Controller_Action {
         }
         $episodeId = (int)$this->getRequest()->getParam('episodenId');
         if((int)$this->getRequest()->getParam('isAccepted', 0) === 1){
-            
+            $this->logsService->acceptEpisode($episodeId);
         } else {
             $this->logsService->rejectEpisode($episodeId, $this->getRequest());
         }

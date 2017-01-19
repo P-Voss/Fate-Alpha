@@ -20,19 +20,32 @@ $participants = $this->participants;
 <hr />
 <div id="auswertung" data-id="<?= $episode->getId() ?>">
     <?php foreach($participants as $charakter): 
-    $charakterId = $charakter->getCharakterId();
-    $result = $charakter->getResult();
-    $skills = '';
-    foreach($charakter->getResult()->getRequestedSkills() as $skill):
-        $skills .= $skill->getBezeichnung() . ', ';
-    endforeach;
-    $skills = substr($skills, 0, strlen($skills) - 2);
-    
-    $magien = '';
-    foreach($charakter->getResult()->getRequestedMagien() as $magie):
-        $magien .= $magie->getBezeichnung() . ', ';
-    endforeach;
-    $magien = substr($magien, 0, strlen($magien) - 2);
+        $charakterId = $charakter->getCharakterId();
+        $result = $charakter->getResult();
+
+        $skills = '';
+        if (count($result->getRequestedSkills()) > 0) {
+            foreach($result->getRequestedSkills() as $skill):
+                $skills .= $skill->getBezeichnung() . ', ';
+            endforeach;
+            $skills = substr($skills, 0, strlen($skills) - 2);
+        }
+
+        $magien = '';
+        if (count($result->getRequestedMagien()) > 0) {
+            foreach($result->getRequestedMagien() as $magie ):
+                $magien .= $magie->getBezeichnung() . ', ';
+            endforeach;
+            $magien = substr($magien, 0, strlen($magien) - 2);
+        }
+        
+        $charakterKills = '';
+        if (count($result->getCharaktersKilled()) > 0) {
+            foreach ($result->getCharaktersKilled() as $kill) {
+                $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
+            }
+            $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
+        }
     ?>
     <fieldset>
         <legend><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
@@ -61,6 +74,9 @@ $participants = $this->participants;
                 <span class="resultButton">
                     <button data-id="<?= $charakterId ?>" class="item">Items</button>
                 </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="achievement">Errungenschaften</button>
+                </span>
             </fieldset>
             <fieldset class="remove" style="display: inline-block; width: 33%; vertical-align: top">
                 <legend>Entfernen</legend>
@@ -75,6 +91,9 @@ $participants = $this->participants;
                 </span>
                 <span class="resultButton">
                     <button data-id="<?= $charakterId ?>" class="item">Items</button>
+                </span>
+                <span class="resultButton">
+                    <button data-id="<?= $charakterId ?>" class="achievement">Errungenschaften</button>
                 </span>
             </fieldset>
         </div>
@@ -105,6 +124,11 @@ $participants = $this->participants;
                     <?php if($magien !== ''): ?>
                     <p>
                         Gelernte Magien: <?= $magien ?>
+                    </p>
+                    <?php endif; ?>
+                    <?php if($charakterKills !== ''): ?>
+                    <p>
+                        Getötete Spielercharaktere: <?= $charakterKills ?>
                     </p>
                     <?php endif; ?>
                 </div>

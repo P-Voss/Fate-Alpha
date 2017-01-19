@@ -205,8 +205,37 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
             $result->setComment($row['comment']);
             $result->setRequestedMagien($this->getRequestedMagien($episodenId, $charakterId));
             $result->setRequestedSkills($this->getRequestedSkills($episodenId, $charakterId));
+            $result->setCharaktersKilled($this->getRequestedCharakterKills($episodenId, $charakterId));
         }
         return $result;
+    }
+    
+    /**
+     * @param int $episodenId
+     * @param int $charakterId
+     * @return \Application_Model_Charakter
+     */
+    public function getRequestedCharakterKills($episodenId, $charakterId) {
+        $returnArray = [];
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $sql = 'SELECT charakter.charakterId, charakter.vorname, charakter.nachname 
+                FROM episodenKillRequest AS eKR
+                INNER JOIN charakter 
+                    ON eKR.killedId = charakter.charakterId
+                INNER JOIN episodenToCharakter AS eTC
+                    ON eTC.charakterId = eKR.killedId AND eTC.episodenId = eKR.episodenId
+                WHERE eKR.episodenId = ? AND eKR.charakterId = ?';
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$episodenId, $charakterId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+            $charakter = new Application_Model_Charakter();
+            $charakter->setCharakterid($row['charakterId']);
+            $charakter->setVorname($row['vorname']);
+            $charakter->setNachname($row['nachname']);
+            $returnArray[] = $charakter;
+        }
+        return $returnArray;
     }
     
     

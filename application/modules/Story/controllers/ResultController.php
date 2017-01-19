@@ -79,6 +79,33 @@ class Story_ResultController extends Zend_Controller_Action {
         echo json_encode(['html' => $html]);
     }
     
+    
+    public function achievementAction() {
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $charakterId = $this->getRequest()->getPost('charakterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+            echo json_encode([]);
+            exit;
+        }
+        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
+        $html = $this->view->render('add/achievement.phtml');
+        echo json_encode(['html' => $html]);
+    }
+    
+    
+    public function removeachievementAction() {
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $charakterId = $this->getRequest()->getPost('charakterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+            echo json_encode([]);
+            exit;
+        }
+        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
+        $this->view->achievements = $this->charakterService->getAchievements($charakterId);
+        $html = $this->view->render('remove/achievement.phtml');
+        echo json_encode(['html' => $html]);
+    }
+    
     public function removemagieAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');

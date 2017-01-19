@@ -92,7 +92,7 @@ class Shop_Model_Mapper_SkillMapper {
     
     /**
      * @param Application_Model_Charakter $charakter
-     * @param Shop_Model_Magie $magie
+     * @param Shop_Model_Magie $skill
      * @return int
      */
     public function unlockSkill(Application_Model_Charakter $charakter, Shop_Model_Skill $skill) {
@@ -102,6 +102,19 @@ class Shop_Model_Mapper_SkillMapper {
         );
         $this->getDbTable('CharakterWerte')->getDefaultAdapter()
                 ->query('UPDATE charakterWerte SET fp = fp - ' . $skill->getFp() . ' WHERE charakterId = ' . $charakter->getCharakterid());
+        return $this->getDbTable('CharakterSkill')->insert($data);
+    }
+    
+    /**
+     * @param int $charakterId
+     * @param int $skillId
+     * @return int
+     */
+    public function unlockSkillByRPG($charakterId, $skillId) {
+        $data = array(
+            'charakterId' => $charakterId,
+            'skillId' => $skillId,
+        );
         return $this->getDbTable('CharakterSkill')->insert($data);
     }
     

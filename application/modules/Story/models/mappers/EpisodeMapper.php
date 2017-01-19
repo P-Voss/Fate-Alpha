@@ -175,6 +175,11 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     }
     
     
+    public function updateEpisode(Story_Model_Episode $episode) {
+        $this->getDbTable('Episoden')->update(['name' => $episode->getName()], ['episodenId = ?' => $episode->getId()]);
+    }
+    
+    
     /**
      * @param int $episodenId
      * @param array $charakterIds
@@ -340,11 +345,45 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
             $result->setComment($row['comment']);
             $result->setRequestedMagien($this->getRequestedMagien($episodenId, $charakterId));
             $result->setRequestedSkills($this->getRequestedSkills($episodenId, $charakterId));
+            $result->setCharaktersKilled($this->getRequestedCharakterKills($episodenId, $charakterId));
         }
         return $result;
     }
     
+    /**
+     * @param int $episodenId
+     * @param int $charakterId
+     * @return \Application_Model_Charakter
+     */
+    public function getRequestedCharakterKills($episodenId, $charakterId) {
+        $returnArray = [];
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $sql = 'SELECT charakter.charakterId, charakter.vorname, charakter.nachname 
+                FROM episodenKillRequest AS eKR
+                INNER JOIN charakter 
+                    ON eKR.killedId = charakter.charakterId
+                INNER JOIN episodenToCharakter AS eTC
+                    ON eTC.charakterId = eKR.killedId AND eTC.episodenId = eKR.episodenId
+                WHERE eKR.episodenId = ? AND eKR.charakterId = ?';
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$episodenId, $charakterId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+            $charakter = new Application_Model_Charakter();
+            $charakter->setCharakterid($row['charakterId']);
+            $charakter->setVorname($row['vorname']);
+            $charakter->setNachname($row['nachname']);
+            $returnArray[] = $charakter;
+        }
+        return $returnArray;
+    }
     
+    /**
+     * 
+     * @param int $episodenId
+     * @param int $charakterId
+     * @return \Story_Model_Skill
+     */
     public function getRequestedSkills($episodenId, $charakterId) {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -367,7 +406,11 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
         return $returnArray;
     }
     
-    
+    /**
+     * @param int $episodenId
+     * @param int $charakterId
+     * @return \Story_Model_Magie
+     */
     public function getRequestedMagien($episodenId, $charakterId) {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();

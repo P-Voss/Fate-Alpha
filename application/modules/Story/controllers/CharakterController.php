@@ -53,7 +53,9 @@ class Story_CharakterController extends Zend_Controller_Action {
     }
     
     public function showAction() {
-        if($this->plotService->isSL($this->getRequest()->getParam('plot'), Zend_Auth::getInstance()->getIdentity()->userId)){
+        if($this->plotService->isSL($this->getRequest()->getParam('plot'), Zend_Auth::getInstance()->getIdentity()->userId)
+            && $this->plotService->checkDatenfreigabeCharakter($this->getRequest()->getParam('plot'), $this->getRequest()->getParam('charakter')))
+        {
             $charakter = $this->charakterService->getCharakter($this->getRequest());
             $this->view->charakter = $charakter;
             
@@ -80,7 +82,7 @@ class Story_CharakterController extends Zend_Controller_Action {
             $this->view->skillarten = $skillarten;
             
         }elseif(!is_null($this->getRequest()->getParam('plot'))){
-            $this->redirect('Story/plots/show/id/' . $this->getRequest()->getParam('plot'));
+            $this->redirect('Story/plots/sl/id/' . $this->getRequest()->getParam('plot'));
         }else{
             $this->redirect('Story');
         }

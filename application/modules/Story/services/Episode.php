@@ -60,6 +60,7 @@ class Story_Service_Episode {
         $episode->setName($request->getPost('episodename'));
         $episode->setBeschreibung($request->getPost('beschreibung'));
         $this->episodeMapper->removeParticipants($episode->getId());
+        $this->episodeMapper->updateEpisode($episode);
         if(count($request->getPost('participants')) > 0){
             $this->episodeMapper->addParticipants($episode->getId(), $request->getPost('participants'));
         }

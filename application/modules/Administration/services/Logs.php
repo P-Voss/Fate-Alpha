@@ -43,4 +43,36 @@ class Administration_Service_Logs extends Logs_Service_Log {
         $this->mapper->updateStatus($episodeId, self::EPISODE_REJECTED_STATUS);
     }
     
+    
+    public function acceptEpisode($episodeId) {
+        $mapper = new Story_Model_Mapper_EpisodeMapper();
+        $skillMapper = new Shop_Model_Mapper_SkillMapper();
+        $magieMapper = new Shop_Model_Mapper_MagieMapper();
+        $charakterMapper = new Application_Model_Mapper_CharakterMapper();
+        
+        $participants = $mapper->getParticipantsByEpisode($episodeId);
+        foreach ($participants as $charakter) {
+            $charakterId = $charakter->getCharakterid();
+            $result = $mapper->getCharakterResult($episodeId, $charakterId);
+            foreach ($result->getRequestedSkills() as $skill) {
+                if (!$skillMapper->checkIfLearned($charakterId, $skill->getId())) {
+                    $skillMapper->unlockSkillByRPG($charakterId, $skill->getId());
+                }
+            }
+            foreach ($result->getRequestedMagien() as $magie) {
+                if (!$magieMapper->checkIfLearned($charakterId, $magie->getId())) {
+                    $magieMapper->unlockMagieByRPG($charakterId, $magie->getId());
+                }
+            }
+            foreach ($result->getCharaktersKilled() as $kill) {
+                $charakterMapper->setCharakterKill($charakterId, $kill->getCharakterId(), $episodeId);
+                $charakterMapper->deactivateCharakter($kill->getCharakterid());
+            }
+            if ($result->getDied() === 1 || $result->getKillNpcs() > 0) {
+                $charakterMapper->updateStats($charakterId, $result->getDied(), $result->getKillNpcs());
+            }
+        }
+        $this->mapper->updateStatus($episodeId, self::EPISODE_ACCEPTED_STATUS);
+    }
+    
 }

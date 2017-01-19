@@ -18,8 +18,8 @@ jQuery(document).ready(function () {
         displayMask('item', 'add', jQuery(this).attr('data-id'));
     });
     
-    jQuery('.add .attribute').on('click', function(){
-        displayMask('attribute', 'add', jQuery(this).attr('data-id'));
+    jQuery('.add .achievement').on('click', function(){
+        displayMask('achievement', 'add', jQuery(this).attr('data-id'));
     });
     
     jQuery('.remove .magie').on('click', function(){
@@ -36,6 +36,10 @@ jQuery(document).ready(function () {
     
     jQuery('.remove .item').on('click', function(){
         displayMask('item', 'removal', jQuery(this).attr('data-id'));
+    });
+    
+    jQuery('.remove .achievement').on('click', function(){
+        displayMask('achievement', 'removal', jQuery(this).attr('data-id'));
     });
     
     jQuery('.attribute').on('click', function(){
@@ -63,12 +67,12 @@ jQuery(document).ready(function () {
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-        if(selected.length > 0){
+//        if(selected.length > 0){
             addResultStats(jQuery(this).attr('data-art'), 
             jQuery(this).attr('data-request'),
             selected, 
             jQuery(this).attr('data-id'));
-        }
+//        }
         jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
     });
     
@@ -78,9 +82,9 @@ jQuery(document).ready(function () {
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-        if(selected.length > 0){
+//        if(selected.length > 0){
             addCharakterKills(selected, jQuery(this).attr('data-id'));
-        }
+//        }
         jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
     });
     

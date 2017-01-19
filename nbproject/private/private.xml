@@ -5,7 +5,7 @@
             <url>application/modules/Story/services/Plot.php</url>
             <bookmark id="1">
                 <name/>
-                <line>92</line>
+                <line>97</line>
                 <key/>
             </bookmark>
         </file>
@@ -32,14 +32,6 @@
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
-        <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/FreundeController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/ProfilMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/Administration/editor.js</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/information/show.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/UserController.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

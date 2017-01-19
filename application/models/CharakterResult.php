@@ -15,11 +15,18 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     protected $died;
     protected $killNpcs;
     protected $comment;
-
+    
+    /**
+     * @return \Story_Model_Skill
+     */
     public function getRequestedSkills() {
         return $this->requestedSkills;
     }
 
+    
+    /**
+     * @return \Story_Model_Magie
+     */
     public function getRequestedMagien() {
         return $this->requestedMagien;
     }
@@ -31,7 +38,10 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     public function getRequestedEigenschaften() {
         return $this->requestedEigenschaften;
     }
-
+    
+    /**
+     * @return \Application_Model_Charakter
+     */
     public function getCharaktersKilled() {
         return $this->charaktersKilled;
     }
@@ -45,11 +55,19 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     public function setRequestedSkills($requestedSkills) {
-        $this->requestedSkills = $requestedSkills;
+        foreach ($requestedSkills as $skill) {
+            if ($skill instanceof Application_Model_Skill) {
+                $this->requestedSkills[] = $skill;
+            }
+        }
     }
 
     public function setRequestedMagien($requestedMagien) {
-        $this->requestedMagien = $requestedMagien;
+        foreach ($requestedMagien as $magie) {
+            if ($magie instanceof Application_Model_Magie) {
+                $this->requestedMagien[] = $magie;
+            }
+        }
     }
 
     public function setRequestedItems($requestedItems) {

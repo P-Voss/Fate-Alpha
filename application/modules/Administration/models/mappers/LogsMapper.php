@@ -24,7 +24,7 @@ class Administration_Model_Mapper_LogsMapper {
         $sql = 'SELECT episode.episodenId, episode.name 
                 FROM episoden
                 INNER JOIN episodenAuswertung AS ausw
-                    ON ausw.episodenId = episoden.episodenId AND ausw.isAccepted = 1 AND ausw.isActive = 1
+                    ON ausw.episodenId = episoden.episodenId AND ausw.isActive = 1 -- AND ausw.isAccepted = 1 
                 INNER JOIN episoden AS episode
                     ON episode.episodenId = episoden.episodenId
                 WHERE 

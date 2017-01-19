@@ -4,17 +4,30 @@ $purifier = $this->purifier;
 $charakter = $this->charakter;
 $charakterId = $charakter->getCharakterId();
 $result = $charakter->getResult();
+
 $skills = '';
-foreach($charakter->getResult()->getRequestedSkills() as $skill):
-    $skills .= $skill->getBezeichnung() . ', ';
-endforeach;
-$skills = substr($skills, 0, strlen($skills) - 2);
+if (count($result->getRequestedSkills()) > 0) {
+    foreach($result->getRequestedSkills() as $skill):
+        $skills .= $skill->getBezeichnung() . ', ';
+    endforeach;
+    $skills = substr($skills, 0, strlen($skills) - 2);
+}
 
 $magien = '';
-foreach($charakter->getResult()->getRequestedMagien() as $magie):
-    $magien .= $magie->getBezeichnung() . ', ';
-endforeach;
-$magien = substr($magien, 0, strlen($magien) - 2);
+if (count($result->getRequestedMagien()) > 0) {
+    foreach($result->getRequestedMagien() as $magie ):
+        $magien .= $magie->getBezeichnung() . ', ';
+    endforeach;
+    $magien = substr($magien, 0, strlen($magien) - 2);
+}
+        
+$charakterKills = '';
+if (count($result->getCharaktersKilled()) > 0) {
+    foreach ($result->getCharaktersKilled() as $kill) {
+        $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
+    }
+    $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
+}
 ?>
 <div style="display: inline-block; width: 60%; vertical-align: top;">
     <?= $purifier->purify($charakter->getResult()->getComment()) ?>
@@ -28,6 +41,11 @@ $magien = substr($magien, 0, strlen($magien) - 2);
     <?php if($magien !== ''): ?>
     <p>
         Gelernte Magien: <?= $magien ?>
+    </p>
+    <?php endif; ?>
+    <?php if($charakterKills !== ''): ?>
+    <p>
+        Getötete Spielercharaktere: <?= $charakterKills ?>
     </p>
     <?php endif; ?>
 </div>
