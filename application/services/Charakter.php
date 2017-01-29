@@ -44,7 +44,7 @@ class Application_Service_Charakter {
      * @param int $charakterId
      * @return Application_Model_Charakter
      */
-    private function getCharakterById($charakterId) {
+    public function getCharakterById($charakterId) {
         $charakter = false;
         if ($charakterId !== false && $charakterId > 0) {
             if ($this->cacheService->isActive()) {
@@ -89,6 +89,10 @@ class Application_Service_Charakter {
             $charakter->applyModifiers();
             
             $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
+            
+            $charakter->setSkills($this->charakterMapper->getCharakterSkills($charakterId));
+            $charakter->setMagieschulen($this->charakterMapper->getCharakterMagieschulen($charakterId));
+            $charakter->setMagien($this->charakterMapper->getCharakterMagien($charakterId));
         }
         return $charakter;
     }

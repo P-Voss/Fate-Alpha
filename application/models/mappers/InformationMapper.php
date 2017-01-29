@@ -23,18 +23,64 @@ class Application_Model_Mapper_InformationMapper {
      * @param int $informationId
      * @return Application_Model_Information
      */
-    public function getInformation($informationId) {
+    public function getInformation($userId, $informationId) {
         $information = new Application_Model_Information();
-        $select = $this->getDbTable('Information')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('informationen');
-        $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
-        $select->where('informationen.infoId = ?', $informationId);
-        $row = $this->getDbTable('Information')->fetchRow($select);
-        if($row !== null){
-            $information->setInformationId($row->infoId);
-            $information->setName($row->name);
-            $information->setInhalt($row->inhalt);
+        $sql = <<<SQL
+SELECT * 
+FROM
+    (
+        SELECT
+            `benutzerInformationen`.informationId,
+            `informationen`.`name`,
+            `informationen`.`kategorie` 
+        FROM
+            `benutzerInformationen` 
+            INNER JOIN
+                `informationen` 
+                ON informationen.infoId = benutzerInformationen.informationId 
+        WHERE
+            (
+                benutzerInformationen.userId = ?
+            )
+        UNION
+        SELECT
+            `benutzerInformationen`.informationId,
+            `informationen`.`name`,
+            `informationen`.`kategorie` 
+        FROM
+            plots 
+            INNER JOIN
+                charakterPlots 
+                ON charakterPlots.plotId = plots.plotId 
+                AND freigabe = 1 
+            INNER JOIN
+                charakter 
+                ON charakterPlots.charakterId = charakter.charakterId 
+            INNER JOIN
+                benutzerInformationen 
+                ON charakter.userId = benutzerInformationen.userId 
+            INNER JOIN
+                informationen 
+                ON informationen.infoId = benutzerInformationen.informationId 
+        WHERE
+            (
+                plots.userId = ?
+            )
+    )
+    AS infos 
+INNER JOIN informationenTexte 
+    ON informationenTexte.infoId = infos.informationId
+WHERE infos.informationId = ?
+ORDER BY
+    `kategorie` ASC
+SQL;
+        $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
+        $stmt->execute([$userId, $userId, $informationId]);
+        $row = $stmt->fetch();
+        if($row !== false){
+            $information->setInformationId($row['infoId']);
+            $information->setName($row['name']);
+            $information->setInhalt($row['inhalt']);
         }
         return $information;
     }
@@ -60,6 +106,68 @@ class Application_Model_Mapper_InformationMapper {
         return $returnArray;
     }
     
+    
+    public function getInformationsByUserId($userId) {
+        $returnArray = [];
+        $sql = <<<SQL
+SELECT * 
+FROM
+    (
+        SELECT
+            `benutzerInformationen`.informationId,
+            `informationen`.`name`,
+            `informationen`.`kategorie` 
+        FROM
+            `benutzerInformationen` 
+            INNER JOIN
+                `informationen` 
+                ON informationen.infoId = benutzerInformationen.informationId 
+        WHERE
+            (
+                benutzerInformationen.userId = ?
+            )
+        UNION
+        SELECT
+            `benutzerInformationen`.informationId,
+            `informationen`.`name`,
+            `informationen`.`kategorie` 
+        FROM
+            plots 
+            INNER JOIN
+                charakterPlots 
+                ON charakterPlots.plotId = plots.plotId 
+                AND freigabe = 1 
+            INNER JOIN
+                charakter 
+                ON charakterPlots.charakterId = charakter.charakterId 
+            INNER JOIN
+                benutzerInformationen 
+                ON charakter.userId = benutzerInformationen.userId 
+            INNER JOIN
+                informationen 
+                ON informationen.infoId = benutzerInformationen.informationId 
+        WHERE
+            (
+                plots.userId = ?
+            )
+    )
+    AS infos 
+ORDER BY
+    `kategorie` ASC
+SQL;
+        $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
+        $stmt->execute([$userId, $userId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row){
+            $information = new Application_Model_Information();
+            $information->setInformationId($row['informationId']);
+            $information->setName($row['name']);
+            $information->setKategorie($row['kategorie']);
+            $returnArray[] = $information;
+        }
+        return $returnArray;
+    }
+    
     /**
      * @param int $informationId
      * @return \Application_Model_Requirementlist
@@ -78,6 +186,23 @@ class Application_Model_Mapper_InformationMapper {
             }
         }
         return $requirementList;
+    }
+    
+    
+    public function truncateBenutzerinformationen() {
+        $this->getDbTable('UserInfos')->getDefaultAdapter()->query('TRUNCATE benutzerInformationen');
+    }
+    
+    
+    public function saveBenutzerinformationen($informationZuo) {
+        $sql = 'INSERT INTO benutzerInformationen (userId, informationId) VALUES (?, ?)';
+        $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
+        foreach ($informationZuo as $userZuo) {
+            $userId = $userZuo['userId'];
+            foreach ($userZuo['informationIds'] as $informationId) {
+                $stmt->execute([$userId, $informationId]);
+            }
+        }
     }
     
 }

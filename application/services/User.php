@@ -156,4 +156,11 @@ class Application_Service_User {
         return $users;
     }
     
+    /**
+     * @return \Application_Model_User
+     */
+    public function getActiveUsers() {
+        return $this->userMapper->getActiveUsers();
+    }
+    
 }

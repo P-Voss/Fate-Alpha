@@ -25,4 +25,12 @@ class CronController extends Zend_Controller_Action{
         $this->_trainingService->addFp();
     }
     
+    public function refreshAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $informationService = new Application_Service_Information();
+        $informationService->refreshInformation();
+    }
+    
 }

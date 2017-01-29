@@ -192,6 +192,24 @@ class Application_Model_Mapper_UserMapper {
         return $returnArray;
     }
     
+    /**
+     * @return \Application_Model_User
+     */
+    public function getActiveUsers() {
+        $returnArray = array();
+        $select = $this->getDbTable('User')->select()->where('active=1');
+        $result = $this->getDbTable('User')->fetchAll($select);
+        foreach ($result as $row) {
+            $user = new Application_Model_User();
+            $user->setUsername($row->username);
+            $user->setProfilname($row->profilname);
+            $user->setUsergruppe($row->usergruppe);
+            $user->setId($row->userId);
+            $returnArray[] = $user;
+        }
+        return $returnArray;
+    }
+    
     
     public function usernameExists($username) {
         $select = $this->getDbTable('User')->select();

@@ -15,6 +15,14 @@ class Application_Service_Information {
      * @var Application_Service_Requirement
      */
     private $requirementValidator;
+    /**
+     * @var Application_Model_Mapper_InformationMapper
+     */
+    private $informationMapper;
+    
+    public function __construct() {
+        $this->informationMapper = new Application_Model_Mapper_InformationMapper();
+    }
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -27,45 +35,49 @@ class Application_Service_Information {
     /**
      * @param Zend_Controller_Request_Http $request
      * @param int $userId
-     * @return boolean | Application_Model_Information
+     * @return Application_Model_Information
      */
     public function getInformation(Zend_Controller_Request_Http $request, $userId) {
-        $charakterService = new Application_Service_Charakter();
-        $mapper = new Application_Model_Mapper_InformationMapper();
-        $charakter = $charakterService->getCharakterByUserid($userId);
-        if($charakter !== false){
-            $this->setCharakter($charakter);
-        }
-        $information = $mapper->getInformation($request->getParam('id'));
-        if($information->getInformationId() === null){
-            return false;
-        }
-        $information->setRequirementList($mapper->getRequirements($information->getInformationId()));
-        if($this->checkValidation($information) === true){
-            return $information;
-        }else{
-            return false;
-        }
+        return $this->informationMapper->getInformation($userId, $request->getParam('id'));
     }
     
     /**
      * @return \Application_Model_Information
      */
     public function getInformations() {
-        $returnArray = array();
-        $mapper = new Application_Model_Mapper_InformationMapper();
-        $informations = $mapper->getInformations();
+        return $this->informationMapper->getInformationsByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+    }
+    
+    
+    public function refreshInformation() {
+        $charakterService = new Application_Service_Charakter();
+        $informations = $this->initInformations();
+        $users = $this->initUsers();
+        $informationZuo = [];
+        foreach ($users as $user) {
+            $charakter = $charakterService->getCharakterByUserid($user->getId());
+            $this->charakter = $charakter === false ? null : $charakter;
+            $informationZuo[] = [
+                'userId' => $user->getId(),
+                'informationIds' => $this->buildInformationZuo($informations),
+            ];
+        }
+        $this->informationMapper->truncateBenutzerinformationen();
+        $this->informationMapper->saveBenutzerinformationen($informationZuo);
+    }
+    
+    private function buildInformationZuo($informations) {
+        $returnArray = [];
         foreach ($informations as $information) {
-            $information->setRequirementList($mapper->getRequirements($information->getInformationId()));
             if(count($information->getRequirementList()->getRequirements()) === 0){
-                $returnArray[] = $information;
+                $returnArray[] = $information->getInformationId();
                 continue;
             }
             if($this->charakter === null){
                 continue;
             }
             if($this->checkValidation($information) === true){
-                $returnArray[] = $information;
+                $returnArray[] = $information->getInformationId();
             }
         }
         return $returnArray;
@@ -84,6 +96,23 @@ class Application_Service_Information {
             }
         }
         return true;
+    }
+    
+    
+    private function initUsers() {
+        $userService = new Application_Service_User();
+        return $userService->getActiveUsers();
+    }
+    
+    /**
+     * @return Application_Model_Information
+     */
+    private function initInformations() {
+        $informations = $this->informationMapper->getInformations();
+        foreach ($informations as $information) {
+            $information->setRequirementList($this->informationMapper->getRequirements($information->getInformationId()));
+        }
+        return $informations;
     }
     
 }

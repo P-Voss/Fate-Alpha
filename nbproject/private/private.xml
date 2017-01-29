@@ -32,6 +32,9 @@
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/models/mappers/SkillMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Skill.php</file>
+        </group>
     </open-files>
 </project-private>
