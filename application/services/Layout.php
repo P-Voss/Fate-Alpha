@@ -17,6 +17,7 @@ class Application_Service_Layout {
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
         $layoutModel->setUsergruppe($auth->usergruppe);
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
+        $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
         if($userMapper->hasChara($auth->userId)){
             $charakter = $charakterService->getCharakterByUserid($auth->userId);
             $layoutModel->setHasChara(true);

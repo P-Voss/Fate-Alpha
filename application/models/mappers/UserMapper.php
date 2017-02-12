@@ -180,7 +180,16 @@ class Application_Model_Mapper_UserMapper {
      */
     public function getUsers() {
         $returnArray = array();
-        $result = $this->getDbTable('User')->fetchAll(null, array('usergruppe', 'profilname'));
+        $select = $this->getDbTable('User')
+                ->select()
+                ->from('benutzerdaten', ['userId', 'username', 'usergruppe', 'profilname'])
+                ->joinLeft('charakter', 'charakter.userId = benutzerdaten.userId and charakter.active = 1', [])
+                ->where('benutzerdaten.active = 1')
+                ->order(new Zend_Db_Expr('benutzerdaten.usergruppe = "Admin" DESC'))
+                ->order(new Zend_Db_Expr('charakter.vorname IS NULL ASC'))
+                ->order('charakter.vorname')
+                ->order('benutzerdaten.profilname');
+        $result = $this->getDbTable('User')->fetchAll($select);
         foreach ($result as $row) {
             $user = new Application_Model_User();
             $user->setUsername($row->username);
@@ -232,6 +241,118 @@ class Application_Model_Mapper_UserMapper {
         $select->where('profilname = ?', $profilname);
         $result = $this->getDbTable('User')->fetchAll($select);
         return $result->count() > 0;
+    }
+    
+    /**
+     * @param string $username
+     * @param string $email
+     * @return boolean
+     */
+    public function usernameAndEmailExists($username, $email) {
+        $select = $this->getDbTable('User')->select();
+        $select->where('username = ?', $username);
+        $select->where('mail = ? AND active = 1', $email);
+        $result = $this->getDbTable('User')->fetchRow($select);
+        return $result === null ? false : $result['userId'];
+    }
+    
+    
+    public function getNotifications($userId) {
+        $returnArray = array();
+        $sql = <<<SQL
+SELECT
+    `notifications`.`notificationTypeId`,
+    `notificationTypes`.`type`,
+    `notifications`.`nachrichtenId`,
+    `spielergruppen`.`name`,
+    `spielergruppen`.`gruppenId` 
+FROM
+    (
+        SELECT
+            notifications.userId,
+            gruppenchat.gruppenId,
+            notifications.notificationTypeId,
+            MIN(nachrichtenId) AS nachrichtenId 
+        FROM
+            notifications 
+            LEFT JOIN
+                `gruppenchat` 
+                ON gruppenchat.nachrichtenId = notifications.elementId 
+        GROUP BY
+            gruppenchat.gruppenId,
+            notifications.userId,
+            notifications.notificationTypeId 
+    )
+    AS notifications 
+    INNER JOIN
+        `notificationTypes` 
+        ON notificationTypes.notificationTypeId = notifications.notificationTypeId 
+    LEFT JOIN
+        `spielergruppen` 
+        ON notifications.gruppenId = spielergruppen.gruppenId 
+WHERE
+    (
+        notifications.userId = ?
+        AND notifications.notificationTypeId = 1
+    )
+SQL;
+        $result = $this->getDbTable('Notification')->getDefaultAdapter()->query($sql, $userId)->fetchAll();
+        foreach ($result as $row) {
+            $notification = new Application_Model_Notification();
+            $notification->setType($row['notificationTypeId']);
+            $notification->setTypeName($row['type']);
+            $notification->setParentName($row['name']);
+            $notification->setParentId($row['gruppenId']);
+            $notification->setNotificationElementId($row['nachrichtenId']);
+            $returnArray[] = $notification;
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $userId
+     * @param int $elementId
+     */
+    public function removeUserNotificationsForGroup($userId, $elementId) {
+        $result = $this->getDbTable('Notification')
+                ->getDefaultAdapter()
+                ->query('
+                    DELETE
+                        notifications 
+                    FROM
+                        notifications 
+                    INNER JOIN
+                        gruppenchat 
+                        ON elementId = nachrichtenId 
+                    WHERE
+                        notifications.userId = ? 
+                        AND gruppenchat.gruppenId = ?
+                        AND notificationTypeId = 1
+                    ', [$userId, $elementId]);
+    }
+    
+    
+    public function addNotificationForGroup($nachrichtenId) {
+        $this->getDbTable('Notification')->
+                getDefaultAdapter()
+                ->query('
+                    INSERT INTO notifications (userId, elementId, notificationTypeId) 
+                    SELECT 
+                        benutzerdaten.userId, gruppenchat.nachrichtenId, 1
+                    FROM 
+                        gruppenchat 
+                    INNER JOIN 
+                        charakterGruppen 
+                        USING (gruppenId)
+                    INNER JOIN 
+                        charakter 
+                        USING (charakterId)
+                    INNER JOIN 
+                        benutzerdaten 
+                        ON charakter.userId = benutzerdaten.userId AND benutzerdaten.userId != gruppenchat.userId
+                    WHERE 
+                        nachrichtenId = ?
+                    ', [$nachrichtenId]);
     }
 
 }

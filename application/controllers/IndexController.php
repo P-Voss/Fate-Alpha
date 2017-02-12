@@ -11,6 +11,11 @@ class IndexController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->_newsService = new Application_Service_News();
+        $this->view->message = '';
+        $messages = $this->_helper->flashMessenger->getMessages();
+        if(count($messages) > 0){
+            $this->view->message = $messages[0];
+        }
     }
 
     public function indexAction()

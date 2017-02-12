@@ -14,7 +14,6 @@ class Application_Controller_Helpers_Logincheck extends Zend_Controller_Action_H
         
         $layout = Zend_Controller_Action_HelperBroker::getExistingHelper('layout');
         $viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('ViewRenderer');
-        $viewRenderer->view->versionString = '?v=1';
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null){
             $layout->setLayout('offline');

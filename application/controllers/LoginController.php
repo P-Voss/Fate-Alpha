@@ -44,6 +44,29 @@ class LoginController extends Zend_Controller_Action
         
     }
     
+    public function newpwAction() {
+        $this->_helper->viewRenderer->setnorender(true);
+        $this->_helper->layout()->disableLayout();
+        $userId = $this->service->getUserIdByUsernameAndEmail($this->getRequest()->getPost('loginname'), $this->getRequest()->getPost('email'));
+        if ($userId !== false) {
+            $password = $this->service->resetPassword($userId);
+            if ($password !== false) {
+                $this->service->sendPassword($this->getRequest()->getPost('email'), $password);
+                $this->initFlashMessage("Eine Email mit dem neuen Passwort wurde verschickt.");
+            }
+            $this->initFlashMessage("Das Passwort konnte nicht neu gesetzt werden. Frag am besten mal einen Admin im Chat oder im Forum.");
+            $this->redirect('index');
+        } else {
+            $this->initFlashMessage("Zu dieser Email und dem Usernamen gibt es keinen Account");
+            $this->redirect('login/passwort');
+        }
+    }
+    
+    private function initFlashMessage ($message){
+        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+        $flashMessenger->addMessage($message);
+    }
+    
     public function registrierungAction() {
         
     }

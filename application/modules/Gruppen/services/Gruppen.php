@@ -70,12 +70,15 @@ class Gruppen_Service_Gruppen {
     
     public function addNachricht(Zend_Controller_Request_Http $request, $userId) {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
+        $userMapper = new Application_Model_Mapper_UserMapper();
         $date = new DateTime();
         $nachricht = new Gruppen_Model_Nachricht();
         $nachricht->setCreateDate($date->format('Y-m-d H:i:s'));
         $nachricht->setNachricht($request->getPost('nachricht'));
         $nachricht->setUserId($userId);
-        return $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
+        $nachrichtenId = $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
+        $userMapper->addNotificationForGroup($nachrichtenId);
+        return $nachrichtenId;
     }
     
     
@@ -157,6 +160,12 @@ class Gruppen_Service_Gruppen {
     public function getLogsByGruppenId($gruppenId) {
         $mapper = new Gruppen_Model_Mapper_LogMapper();
         return $mapper->getLogsByGruppe($gruppenId);
+    }
+    
+    
+    public function removeNotifications($userId, $gruppenId) {
+        $mapper = new Application_Model_Mapper_UserMapper();
+        $mapper->removeUserNotificationsForGroup($userId, $gruppenId, 1);
     }
     
 }

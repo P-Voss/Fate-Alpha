@@ -273,6 +273,7 @@ class Application_Model_Mapper_TrainingMapper{
         $select->setIntegrityCheck(false);
         $select->from('training');
         $select->joinInner('charakter', 'charakter.charakterId = training.charakterId', array());
+        $select->where('active = 1');
         $result = $this->getDbTable('Training')->fetchAll($select);
         foreach ($result as $row) {
             $returnArray[] = $row['charakterId'];
@@ -293,7 +294,16 @@ class Application_Model_Mapper_TrainingMapper{
     
     
     public function addFp() {
-        $this->getDbTable('Training')->getDefaultAdapter()->query('UPDATE charakterWerte SET fp = fp +2');
+        $this->getDbTable('Training')->
+                getDefaultAdapter()->
+                query('UPDATE charakterWerte SET fp = fp +2');
+        $this->getDbTable('Training')->
+                getDefaultAdapter()->
+                query('UPDATE charakterWerte
+                        INNER JOIN charakter 
+                            ON charakter.charakterId = charakterWerte.charakterId 
+                            AND charakter.klassenId = 4
+                        SET fp = fp + 1');
     }
     
     /**

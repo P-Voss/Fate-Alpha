@@ -9,7 +9,7 @@
                 Stärke
             </label>
             <span>
-                <?= $werte->getStaerke() ?>
+                <?= floor($werte->getStaerke()) ?>
             </span>
             <span>
                 <?= $werte->getCategory($werte->getStaerke()) ?>
@@ -20,7 +20,7 @@
                 Agilität
             </label>
             <span>
-                <?= $werte->getAgilitaet() ?>
+                <?= floor($werte->getAgilitaet()) ?>
             </span>
             <span>
                 <?= $werte->getCategory($werte->getAgilitaet()) ?>
@@ -31,7 +31,7 @@
                 Ausdauer
             </label>
             <span>
-                <?= $werte->getAusdauer() ?>
+                <?= floor($werte->getAusdauer()) ?>
             </span>
             <span>
                 <?= $werte->getCategory($werte->getAusdauer()) . ' (' . $werte->getEnergie() . ' HP)' ?>
@@ -42,7 +42,7 @@
                 Kontrolle
             </label>
             <span>
-                <?= $werte->getKontrolle() ?>
+                <?= floor($werte->getKontrolle()) ?>
             </span>
             <span>
                 <?= $werte->getCategory($werte->getKontrolle()) ?>
@@ -53,7 +53,7 @@
                 Disziplin
             </label>
             <span>
-                <?= $werte->getDisziplin() ?>
+                <?= floor($werte->getDisziplin()) ?>
             </span>
             <span>
                 <?= $werte->getCategory($werte->getDisziplin()) ?>
@@ -64,7 +64,7 @@
                 Übung
             </label>
             <span>
-                <?= $werte->getUebung() ?>
+                <?= floor($werte->getUebung()) ?>
             </span>
         </p>
         <p>
@@ -72,7 +72,7 @@
                 FP
             </label>
             <span>
-                <?= $werte->getFp() ?>
+                <?= floor($werte->getFp()) ?>
             </span>
         </p>
     </div>

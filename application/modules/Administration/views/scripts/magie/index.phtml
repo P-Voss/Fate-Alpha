@@ -1,36 +1,56 @@
 <?php
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/magieList.js'));
 /* @var $magie Administration_Model_Magie */
+/* @var $schule Application_Model_Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
-$schoolArray = array();
+$schoolArray = [];
 ?>
 <h1>
     Magien
 </h1>
-<?php 
-for($i = 0; $i < count($this->schulen); $i++){
-    echo '<a href="#' . $this->schulen[$i]->getId() . '">' . $this->schulen[$i]->getBezeichnung() . '</a>';
-    if($i < count($this->schulen)-1){
-        echo ', ';
-    }
-}
-foreach ($this->list as $magie){ ?>
-    <?php if(!in_array($magie->getSchule()->getId(), $schoolArray)){ ?>
-    <h2 id="<?= $magie->getSchule()->getId() ?>">
-        <?= $magie->getSchule()->getBezeichnung() ?>
-    </h2>
-    <?php } ?>
+<fieldset>
+    <legend>Filter</legend>
+    <div>
+        <select id="magieschulen" multiple size="7" style="vertical-align: top">
+            <?php foreach ($this->schulen as $schule) : ?>
+            <option value="<?= $schule->getId() ?>"><?= $schule->getBezeichnung() ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select id="gruppen" multiple size="5" style="vertical-align: top">
+            <?php foreach ($this->klassengruppen as $gruppe) : ?>
+            <option value="<?= $gruppe->getId() ?>"><?= $gruppe->getBezeichnung() ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select id="klassen" multiple size="7" style="vertical-align: top">
+            <?php foreach ($this->klassen as $klasse) : ?>
+            <option value="<?= $klasse->getId() ?>"><?= $klasse->getBezeichnung() ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <button id="filterExecute">Suchen</button>
+</fieldset>
+<div id="list">
+    <?php
+    foreach ($this->list as $magie){ 
+        if(!in_array($magie->getSchule()->getId(), $schoolArray)){ ?>
+            <h2 id="<?= $magie->getSchule()->getId() ?>">
+                <?= $magie->getSchule()->getBezeichnung() ?>
+            </h2>
+        <?php } ?>
     <a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
         <fieldset>
-            <p>
+            <legend>
                 <?= $purifier->purify($magie->getBezeichnung()) ?>
-            </p>
-            <p>
+            </legend>
+            <div>
                 <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
                 <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
-            </p>
+            </div>
         </fieldset>
     </a>
-<?php
-$schoolArray[] = $magie->getSchule()->getId();
-}
+    <?php
+    $schoolArray[] = $magie->getSchule()->getId();
+    }
+    ?>
+</div>

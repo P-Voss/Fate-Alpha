@@ -1,5 +1,6 @@
 <?php
 echo $this->doctype();
+/* @var $layoutData Application_Model_Layout */
 $layoutData = $this->layoutData;
 if ($layoutData->getHasChara() === true) {
     $charaData = $layoutData->getCharakter();
@@ -59,11 +60,25 @@ $difference = date_diff($date, $dateEnd, true);
                 <div id="steuerung">
                     <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
                 </div>
-<div>
-    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
-</div>
+                <div>
+                    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
+                </div>
                 <div id="inhalt">
-                    <?php echo $this->layout()->content; ?>
+                    <?php if (count($layoutData->getNotifications() > 0)) : ?>
+                    <div id="notifications">
+                        <?php
+                            /* @var $notification Application_Model_Notification */
+                        foreach ($layoutData->getNotifications() as $notification) :?>
+                        <p class="notification">
+                            Neue Nachricht im Gruppenchat der Gruppe: 
+                            <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $notification->getParentId() ?>#<?= $notification->getNotificationElementId() ?>">
+                            <?= htmlentities($notification->getParentName()) ?>
+                            </a>
+                        </p>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
+                    <?= $this->layout()->content; ?>
                 </div>
                 <div id="footer">
                     <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>

@@ -16,7 +16,7 @@ class Administration_Model_Mapper_SkillMapper {
     }
     
     public function getSkills() {
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('Skill')->select();
         $select->distinct();
         $select->order('skillartId');
@@ -39,8 +39,53 @@ class Administration_Model_Mapper_SkillMapper {
     }
     
     
+    public function searchSkills($skillarten = [], $gruppen = [], $klassen = []) {
+        $returnArray = [];
+        $select = $this->getDbTable('Skill')->select();
+        $select->from('skills');
+        
+        if (count($skillarten) > 0) {
+            $select->where('skillartId IN (?)', $skillarten);
+        }
+        if (count($gruppen) > 0) {
+            $select->joinLeft(
+                    ['gruppen' => 'skillCharakterVoraussetzungen'],
+                    'gruppen.skillId = skills.skillId AND gruppen.art = "Gruppe"',
+                    []);
+            $select->where('gruppen.voraussetzung IN (?)', $gruppen);
+        }
+        if (count($klassen) > 0) {
+            $select->joinLeft(
+                    ['klassen' => 'skillCharakterVoraussetzungen'],
+                    'klassen.skillId = skills.skillId AND klassen.art = "Klasse"',
+                    []);
+            $select->where('klassen.voraussetzung IN (?)', $klassen);
+        }
+        
+        $select->order('skillartId');
+        $result = $this->getDbTable('Skill')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $model = new Administration_Model_Skill();
+                $model->setId($row->skillId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setFp($row->fp);
+                $model->setRang($row->rang);
+                $model->setSkillArt($row->skillartId);
+                $model->setDisziplin($row->disziplin);
+                $model->setUebung($row->uebung);
+                $returnArray[] = $model;
+            }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @return \Administration_Model_Skill
+     */
     public function getRpgSkills() {
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('Skill')->select();
         $select->distinct();
         $select->where('lernbedingung != "Standard"');
@@ -169,6 +214,51 @@ class Administration_Model_Mapper_SkillMapper {
         $returnArray = array();
         $select = $this->getDbTable('Magie')->select();
         $select->distinct();
+        $select->order('magieschuleId');
+        $result = $this->getDbTable('Magie')->fetchAll($select);
+        if($result->count() > 0){
+            foreach ($result as $row){
+                $model = new Administration_Model_Magie();
+                $model->setId($row->magieId);
+                $model->setBezeichnung($row->name);
+                $model->setBeschreibung($row->beschreibung);
+                $model->setFp($row->fp);
+                $model->setPrana($row->prana);
+                $model->setRang($row->rang);
+                $model->setStufe($row->stufe);
+                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
+                $model->setLernbedingung($row->lernbedingung);
+                $returnArray[] = $model;
+            }
+        }
+        return $returnArray;
+    }
+    
+    
+    public function searchMagien($magieschulen = [], $gruppen = [], $klassen = []) {
+        $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
+        $returnArray = [];
+        $select = $this->getDbTable('Magie')->select();
+        $select->from('magien');
+        
+        if (count($magieschulen) > 0) {
+            $select->where('magieschuleId IN (?)', $magieschulen);
+        }
+        if (count($gruppen) > 0) {
+            $select->joinLeft(
+                    ['gruppen' => 'magieCharakterVoraussetzungen'],
+                    'gruppen.magieId = magien.magieId AND gruppen.art = "Gruppe"',
+                    []);
+            $select->where('gruppen.voraussetzung IN (?)', $gruppen);
+        }
+        if (count($klassen) > 0) {
+            $select->joinLeft(
+                    ['klassen' => 'magieCharakterVoraussetzungen'],
+                    'klassen.magieId = magien.magieId AND klassen.art = "Klasse"',
+                    []);
+            $select->where('klassen.voraussetzung IN (?)', $klassen);
+        }
+        
         $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
         if($result->count() > 0){

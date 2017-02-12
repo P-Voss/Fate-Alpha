@@ -310,7 +310,7 @@ class Gruppen_Model_Mapper_GruppenMapper {
             'nachricht' => $nachricht->getNachricht(),
             'createDate' => $nachricht->getCreateDate('Y-m-d H:i:s'),
         );
-        $this->getDbTable('Gruppenchat')->insert($data);
+        return $this->getDbTable('Gruppenchat')->insert($data);
     }
     
     /**

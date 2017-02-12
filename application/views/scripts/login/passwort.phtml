@@ -1,0 +1,60 @@
+<h1>
+    Registrieren
+</h1>
+<style type="text/css">
+    .container{
+        width: 500px;
+        margin: 0 auto;
+    }
+    fieldset{
+        padding: 5px 10px;
+    }
+    .row2ColumnsLabel{
+        width: 150px;
+        display: inline-block;
+    }
+    .row2ColumnsInput{
+        width: 250px;
+        display: inline-block;
+        float: right;
+    }
+    .submit{
+        width: 200px;
+        margin: 5px auto;
+        display: block;
+    }
+    ol{
+        list-style-position:inside;
+    }
+</style>
+<?php
+if ($this->message !== null) {
+    ?>
+    <div class="error">
+        <?= $this->message ?>
+    </div>
+    <?php
+}
+?>
+<form method="post" action="<?= $this->baseUrl() ?>/login/newpw">
+    <div class="container">
+        <fieldset>
+            <legend>Neues Passwort anfordern</legend>
+            <div>
+                <label class="row2ColumnsLabel">
+                    Username
+                </label>
+                <input class="row2ColumnsInput" name="loginname" type="text" required="true">
+            </div>
+            <div>
+                <label class="row2ColumnsLabel">
+                    Email
+                </label>
+                <input class="row2ColumnsInput" name="email" type="text" required="true">
+            </div>
+            <div>
+                <input class="submit" name="Submit" type="submit" value="neues Passwort senden">
+            </div>
+        </fieldset>
+    </div>
+</form>

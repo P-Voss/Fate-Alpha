@@ -1,0 +1,25 @@
+<?php
+/* @var $skill Administration_Model_Skill */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$schoolArray = [];
+foreach ($this->list as $magie){ 
+    if(!in_array($magie->getSchule()->getId(), $schoolArray)){ ?>
+        <h2 id="<?= $magie->getSchule()->getId() ?>">
+            <?= $magie->getSchule()->getBezeichnung() ?>
+        </h2>
+    <?php } ?>
+<a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
+    <fieldset>
+        <legend>
+            <?= $purifier->purify($magie->getBezeichnung()) ?>
+        </legend>
+        <div>
+            <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
+        </div>
+    </fieldset>
+</a>
+<?php
+$schoolArray[] = $magie->getSchule()->getId();
+}

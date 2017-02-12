@@ -1,0 +1,31 @@
+<?php
+/* @var $skill Administration_Model_Skill */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+$skillartArray = array();
+$skillarten = array(
+    1 => 'Schützenfähigkeiten',
+    2 => 'Kämpferfähigkeiten',
+    3 => 'Übungsfähigkeiten',
+    4 => 'Spezialfähigkeiten',
+);
+foreach ($this->list as $skill){ ?>
+    <?php if(!in_array($skill->getSkillArt(), $skillartArray)){ ?>
+    <h2 id="<?= $skill->getSkillArt() ?>">
+        <?= $skillarten[$skill->getSkillArt()] ?>
+    </h2>
+    <?php } ?>
+<a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
+    <fieldset>
+        <legend>
+            <?= $purifier->purify($skill->getBezeichnung()) ?>
+        </legend>
+        <div>
+            <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($skill->getBeschreibung()) > 100) ? '...' : '' ?>
+        </div>
+    </fieldset>
+</a>
+<?php
+$skillartArray[] = $skill->getSkillArt();
+}

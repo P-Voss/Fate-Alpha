@@ -32,6 +32,31 @@ class Administration_Service_Skill {
     }
     
     
+    public function getFilteredMagieList(Zend_Controller_Request_Http $request) {
+        $filter = false;
+        $magieschulen = [];
+        $gruppen = [];
+        $klassen = [];
+        if ($request->getPost('magieschulen') !== null) {
+            $magieschulen = $request->getPost('magieschulen');
+            $filter = true;
+        }
+        if ($request->getPost('gruppen') !== null) {
+            $gruppen = $request->getPost('gruppen');
+            $filter = true;
+        }
+        if ($request->getPost('klassen') !== null) {
+            $klassen = $request->getPost('klassen');
+            $filter = true;
+        }
+        if ($filter) {
+            return $this->mapper->searchMagien($magieschulen, $gruppen, $klassen);
+        } else {
+            return $this->mapper->getMagien();
+        }
+    }
+    
+    
     public function getSkillList() {
         return $this->mapper->getSkills();
     }
@@ -41,6 +66,30 @@ class Administration_Service_Skill {
         return $this->mapper->getRpgSkills();
     }
     
+    
+    public function getFilteredSkillList(Zend_Controller_Request_Http $request) {
+        $filter = false;
+        $skillarten = [];
+        $gruppen = [];
+        $klassen = [];
+        if ($request->getPost('skillarten') !== null) {
+            $skillarten = $request->getPost('skillarten');
+            $filter = true;
+        }
+        if ($request->getPost('gruppen') !== null) {
+            $gruppen = $request->getPost('gruppen');
+            $filter = true;
+        }
+        if ($request->getPost('klassen') !== null) {
+            $klassen = $request->getPost('klassen');
+            $filter = true;
+        }
+        if ($filter) {
+            return $this->mapper->searchSkills($skillarten, $gruppen, $klassen);
+        } else {
+            return $this->mapper->getSkills();
+        }
+    }
     
     public function getMagieById($magieId) {
         $magie = $this->mapper->getMagieById($magieId);
@@ -62,10 +111,10 @@ class Administration_Service_Skill {
         $magie->setEditor($userId);
         $magie->setBezeichnung($request->getPost('name'));
         $magie->setBeschreibung($request->getPost('beschreibung'));
-        $magie->setFp($request->getPost('fp', 0) !== (int) $request->getPost('fp', 0) ? : 0);
+        $magie->setFp($request->getPost('fp', 0) !== 0 ? (int) $request->getPost('fp', 0) : 0);
         $magie->setElement($element);
         $magie->setSchule($schule);
-        $magie->setPrana($request->getPost('prana', 0) !== (int) $request->getPost('prana', 0) ? : 0);
+        $magie->setPrana($request->getPost('prana', 0) !== 0 ? (int) $request->getPost('prana', 0) : 0);
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
@@ -93,10 +142,10 @@ class Administration_Service_Skill {
         $magie->setCreator($userId);
         $magie->setBezeichnung($request->getPost('name'));
         $magie->setBeschreibung($request->getPost('beschreibung'));
-        $magie->setFp($request->getPost('fp', 0) !== (int) $request->getPost('fp', 0) ? : 0);
+        $magie->setFp($request->getPost('fp', 0) !== 0 ? (int) $request->getPost('fp', 0) : 0);
         $magie->setElement($element);
         $magie->setSchule($schule);
-        $magie->setPrana($request->getPost('prana', 0) !== (int) $request->getPost('prana', 0) ? : 0);
+        $magie->setPrana($request->getPost('prana', 0) !== 0 ? (int) $request->getPost('prana', 0) : 0);
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
@@ -127,11 +176,11 @@ class Administration_Service_Skill {
         $skill->setId($request->getPost('skillId'));
         $skill->setBezeichnung($request->getPost('name'));
         $skill->setBeschreibung($request->getPost('beschreibung'));
-        $skill->setFp($request->getPost('fp', 0) !== (int) $request->getPost('fp', 0) ? : 0);
+        $skill->setFp($request->getPost('fp', 0) !== 0 ? (int) $request->getPost('fp') : 0);
         $skill->setSkillArt($request->getPost('skillart'));
         $skill->setRang($request->getPost('rang'));
-        $skill->setUebung($request->getPost('uebung', 0) !== (int) $request->getPost('uebung', 0) ? : 0);
-        $skill->setDisziplin($request->getPost('disziplin', 0) !== (int) $request->getPost('disziplin', 0) ? : 0);
+        $skill->setUebung($request->getPost('uebung', 0) !== 0 ? (int) $request->getPost('uebung', 0) : 0);
+        $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ?(int) $request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));
         
         $skill->setRequirementList(
@@ -150,11 +199,11 @@ class Administration_Service_Skill {
         $skill->setCreator($userId);
         $skill->setBezeichnung($request->getPost('name'));
         $skill->setBeschreibung($request->getPost('beschreibung'));
-        $skill->setFp($request->getPost('fp', 0) !== (int) $request->getPost('fp', 0) ? : 0);
+        $skill->setFp($request->getPost('fp', 0) !== 0 ? (int) $request->getPost('fp') : 0);
         $skill->setSkillArt($request->getPost('skillart'));
         $skill->setRang($request->getPost('rang'));
-        $skill->setUebung($request->getPost('uebung', 0) !== (int) $request->getPost('uebung', 0) ? : 0);
-        $skill->setDisziplin($request->getPost('disziplin', 0) !== (int) $request->getPost('disziplin', 0) ? : 0);
+        $skill->setUebung($request->getPost('uebung', 0) !==  0 ? (int) $request->getPost('uebung', 0) : 0);
+        $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ?(int) $request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));
         
         $skill->setRequirementList(

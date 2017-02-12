@@ -28,6 +28,8 @@ class Administration_MagieController extends Zend_Controller_Action {
     public function indexAction() {
         $this->view->list = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function rpgAction() {
@@ -70,6 +72,15 @@ class Administration_MagieController extends Zend_Controller_Action {
     public function createAction() {
         $this->skillService->createMagie($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
+    }
+    
+    public function filterAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->view->list = $this->skillService->getFilteredMagieList($this->getRequest());
+        $html = $this->view->render('magie/list.phtml');
+        echo json_encode(['success' => true, 'html' => $html]);
     }
     
 }

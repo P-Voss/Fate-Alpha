@@ -572,3 +572,8 @@ kbd{
 #pass{
     cursor: default;
 }
+
+#notifications {
+    margin-left: 6em;
+    margin-top: 2em;
+}

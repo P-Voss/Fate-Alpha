@@ -25,6 +25,8 @@ class Administration_SkillController extends Zend_Controller_Action {
     
     public function indexAction() {
         $this->view->list = $this->skillService->getSkillList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function rpgAction() {
@@ -67,6 +69,15 @@ class Administration_SkillController extends Zend_Controller_Action {
     public function createAction() {
         $this->skillService->createSkill($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
+    }
+    
+    public function filterAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->view->list = $this->skillService->getFilteredSkillList($this->getRequest());
+        $html = $this->view->render('skill/list.phtml');
+        echo json_encode(['success' => true, 'html' => $html]);
     }
     
 }

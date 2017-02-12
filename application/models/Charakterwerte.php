@@ -142,7 +142,7 @@ class Application_Model_Charakterwerte {
                 break;
             case 'uebung':
                 $this->setUebung($this->getUebung() + $trainingswerte->getPraTraining());
-                $this->setFp($this->getFp() + $trainingswerte->getPraTraining());
+                $this->setFp($this->getFp() + ceil($trainingswerte->getPraTraining()));
                 break;
         }
     }

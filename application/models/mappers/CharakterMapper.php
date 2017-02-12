@@ -922,6 +922,11 @@ class Application_Model_Mapper_CharakterMapper{
                 FROM charakterNachteile 
                 INNER JOIN nachteilToEigenschaft 
                     USING (nachteilId)
+        UNION 
+            SELECT klasseToEigenschaft.*, charakterId 
+                FROM charakter 
+                INNER JOIN klasseToEigenschaft 
+                    USING (klassenId)
         ) AS modifications
     WHERE charakterId = ?
 SQL;

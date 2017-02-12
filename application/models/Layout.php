@@ -20,6 +20,7 @@ class Application_Model_Layout {
     public $usergruppe;
     public $logleser;
     public $informations = array();
+    public $notifications = array();
 
 
     public function getHasChara() {
@@ -88,6 +89,22 @@ class Application_Model_Layout {
     
     public function setLogleser($logleser) {
         $this->logleser = $logleser;
+    }
+    
+    public function getNotifications() {
+        return $this->notifications;
+    }
+
+    public function setNotifications($notifications) {
+        foreach ($notifications as $notification) {
+            if ($notification instanceof Application_Model_Notification) {
+                $this->notifications[] = $notification;
+            }
+        }
+    }
+
+    public function addNotification(Application_Model_Notification $notification) {
+        $this->notifications[] = $notification;
     }
     
 }

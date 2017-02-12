@@ -141,19 +141,19 @@ $magieAny = explode('|', $magie->getRequirementList()->getRequirementByKey('Magi
         </div>
         <div>
             <label for="staerke">Stärke</label>
-            <input type="number" size="30" name="staerke" id="staerke" value="" />
+            <input type="number" size="30" name="staerke" id="staerke" value="<?= $magie->getRequirementList()->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
         </div>
         <div>
             <label for="agilitaet">Agilität</label>
-            <input type="number" size="30" name="agilitaet" id="agilitaet" value="" />
+            <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $magie->getRequirementList()->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
         </div>
         <div>
             <label for="ausdauer">Ausdauer</label>
-            <input type="number" size="30" name="ausdauer" id="ausdauer" value="" />
+            <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $magie->getRequirementList()->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
         </div>
         <div>
             <label for="kontrolle">Kontrolle</label>
-            <input type="number" size="30" name="kontrolle" id="kontrolle" value="" />
+            <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $magie->getRequirementList()->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
