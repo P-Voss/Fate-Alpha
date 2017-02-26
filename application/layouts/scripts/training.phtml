@@ -51,18 +51,18 @@ $difference = date_diff($date, $dateEnd, true);
         </div>
         <div id="seitenbereich1">
             <div id="navigation">
-                <?php include __DIR__ . '/partials/menu.phtml'; ?>
+                <?php include __DIR__ . '/partials/character.phtml'; ?>
             </div>
             <div id="navigationrechts">
-                <?php include __DIR__ . '/partials/info.phtml'; ?>
+                <?php include __DIR__ . '/partials/fuyuki.phtml'; ?>
             </div>
             <div id="seitenbereich2">
                 <div id="steuerung">
                     <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
                 </div>
-<div>
-    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
-</div>
+                <div>
+                    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
+                </div>
                 <div id="inhalt">
                     <?php echo $this->layout()->content; ?>
                 </div>

@@ -116,7 +116,8 @@ FROM
         SELECT
             `benutzerInformationen`.informationId,
             `informationen`.`name`,
-            `informationen`.`kategorie` 
+            `informationen`.`kategorie`,
+            '1' AS source
         FROM
             `benutzerInformationen` 
             INNER JOIN
@@ -130,7 +131,8 @@ FROM
         SELECT
             `benutzerInformationen`.informationId,
             `informationen`.`name`,
-            `informationen`.`kategorie` 
+            `informationen`.`kategorie`, 
+            '2' AS source
         FROM
             plots 
             INNER JOIN
@@ -153,17 +155,22 @@ FROM
     )
     AS infos 
 ORDER BY
-    `kategorie` ASC
+    source ASC, `kategorie` ASC
 SQL;
         $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
         $stmt->execute([$userId, $userId]);
         $result = $stmt->fetchAll();
+        $activeIds = [];
         foreach ($result as $row){
+            if (in_array($row['informationId'], $activeIds)) {
+                continue;
+            }
             $information = new Application_Model_Information();
             $information->setInformationId($row['informationId']);
-            $information->setName($row['name']);
+            $information->setName($row['name'] . ($row['source'] === '1' ? '' : ' [SL]'));
             $information->setKategorie($row['kategorie']);
             $returnArray[] = $information;
+            $activeIds[] = $information->getInformationId();
         }
         return $returnArray;
     }

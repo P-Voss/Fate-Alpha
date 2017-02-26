@@ -1,5 +1,10 @@
 <?php
 /* @var $werte Application_Model_CharakterWerte */
+$categoryStr = $werte->getCategory('str');
+$categoryAgi = $werte->getCategory('agi');
+$categoryAus = $werte->getCategory('aus');
+$categoryKon = $werte->getCategory('kon');
+$categoryDis = $werte->getCategory('dis');
 ?>
 <fieldset>
     <legend>Werte</legend>
@@ -8,62 +13,62 @@
             <label>
                 Stärke
             </label>
-            <span>
+            <span title="<?= $werte->getStaerke() ?>">
                 <?= floor($werte->getStaerke()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getStaerke()) ?>
-            </span>
+                <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryStr->getCategory() ?>
+                </span>
         </p>
         <p>
             <label>
                 Agilität
             </label>
-            <span>
+            <span title="<?= $werte->getAgilitaet() ?>">
                 <?= floor($werte->getAgilitaet()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getAgilitaet()) ?>
+            <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryAgi->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Ausdauer
             </label>
-            <span>
+            <span title="<?= $werte->getAusdauer() ?>">
                 <?= floor($werte->getAusdauer()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getAusdauer()) . ' (' . $werte->getEnergie() . ' HP)' ?>
+            <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryAus->getCategory() . ' (' . $werte->getEnergie() . ' HP)' ?>
             </span>
         </p>
         <p>
             <label>
                 Kontrolle
             </label>
-            <span>
+            <span title="<?= $werte->getKontrolle() ?>">
                 <?= floor($werte->getKontrolle()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getKontrolle()) ?>
+            <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryKon->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Disziplin
             </label>
-            <span>
+            <span title="<?= $werte->getDisziplin() ?>">
                 <?= floor($werte->getDisziplin()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getDisziplin()) ?>
+            <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryDis->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Übung
             </label>
-            <span>
+            <span title="<?= $werte->getUebung() ?>">
                 <?= floor($werte->getUebung()) ?>
             </span>
         </p>

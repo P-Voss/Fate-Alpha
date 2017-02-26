@@ -1,0 +1,120 @@
+<?php
+if ($layoutData->getHasChara() !== true) {
+    ?>
+    <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
+    <p class="Meldung"><a href="<?= $this->baseUrl() ?>/Erstellung/Charakter">Zur Charaktererstellung</a></p>
+    <?php
+} else {
+    $werte = $charaData->getCharakterWerte();
+    $categoryStr = $werte->getCategory('str');
+    $categoryAgi = $werte->getCategory('agi');
+    $categoryAus = $werte->getCategory('aus');
+    $categoryKon = $werte->getCategory('kon');
+    $categoryDis = $werte->getCategory('dis');
+    ?>
+    <h3>
+        <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
+    </h3>
+    <div>
+        Aktuelles Training:<br />
+        <?= $training['dauer'] < 1 ? '-' : $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tage)' ?>
+        <hr />
+    </div>
+    <br />
+    <div id="activities">
+        <p>
+            <a class="imageSwitch" id="training" href="<?= $this->baseUrl() ?>/training">Training</a>
+        </p>
+        <p>
+            <a class="imageSwitch" id="magic" href="<?= $this->baseUrl() ?>/Shop/magie">Magie</a>
+        </p>
+        <p>
+            <a class="imageSwitch" id="skill" href="<?= $this->baseUrl() ?>/Shop/skill">Fähigkeiten</a>
+        </p>
+        <p>
+            <a class="imageSwitch" id="friends" href="<?= $this->baseUrl() ?>/freunde">Freunde und Bekannte</a>
+        </p>
+    </div>
+    <br />
+    <hr />
+    <div id="startdata">
+        <div id="charaktervalues">
+            <p>
+                <label>
+                    Stärke
+                </label>
+                <span class="value" title="<?= $werte->getStaerke() ?>">
+                    <?= floor($werte->getStaerke()) ?>
+                </span>
+                <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryStr->getCategory() ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Agilität
+                </label>
+                <span class="value" title="<?= $werte->getAgilitaet() ?>">
+                    <?= floor($werte->getAgilitaet()) ?>
+                </span>
+                <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryAgi->getCategory() ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Ausdauer
+                </label>
+                <span class="value" title="<?= $werte->getAusdauer() ?>">
+                    <?= floor($werte->getAusdauer()) ?>
+                </span>
+                <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryAus->getCategory() ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Kontrolle
+                </label>
+                <span class="value" title="<?= $werte->getKontrolle() ?>">
+                    <?= floor($werte->getKontrolle()) ?>
+                </span>
+                <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryKon->getCategory() ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Disziplin
+                </label>
+                <span class="value" title="<?= $werte->getDisziplin() ?>">
+                    <?= floor($werte->getDisziplin()) ?>
+                </span>
+                <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryDis->getCategory() ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    Übung
+                </label>
+                <span class="value" title="<?= $werte->getUebung() ?>">
+                    <?= floor($werte->getUebung()) ?>
+                </span>
+            </p>
+            <p>
+                <label>
+                    FP
+                </label>
+                <span class="value">
+                    <?= floor($werte->getFp()) ?>
+                </span>
+            </p>
+        </div>
+        <p>
+            
+        </p>
+    </div>
+    <?php
+}
+?>

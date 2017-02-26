@@ -79,6 +79,7 @@ class Application_Service_Charakter {
             $charakter->setCharakterwerte($this->charakterMapper->getCharakterwerte($charakter->getCharakterid()));
             $charakter->setVorteile($this->charakterMapper->getVorteileByCharakterId($charakter->getCharakterid()));
             $charakter->setNachteile($this->charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
+            $charakter->getCharakterwerte()->vorteilToUebermenschMod($charakter->getVorteile());
             
             $charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakter->getCharakterid()));
             

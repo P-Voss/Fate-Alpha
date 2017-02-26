@@ -15,6 +15,13 @@ class Application_Model_Charakterwerte {
     protected $uebung;
     protected $fp;
     protected $startpunkte;
+    protected $uebermenschMods = [
+        'str' => 0,
+        'agi' => 0,
+        'aus' => 0,
+        'dis' => 0,
+        'kon' => 0,
+    ];
     
     private $energieFaktor = [
         'F' => 1,
@@ -147,8 +154,102 @@ class Application_Model_Charakterwerte {
         }
     }
     
-    public function getCategory($value) {
+    public function getCategory($attr) {
+        $ubermenschMod = $this->uebermenschMods[$attr] === 1;
+        $uebermensch = false;
+        switch ($attr) {
+            case 'str':
+                $value = $this->staerke;
+                break;
+            case 'agi':
+                $value = $this->agilitaet;
+                break;
+            case 'aus':
+                $value = $this->ausdauer;
+                break;
+            case 'kon':
+                $value = $this->kontrolle;
+                break;
+            case 'dis':
+                $value = $this->disziplin;
+                break;
+            default:
+                $value = 0;
+                break;
+        }
         switch (true) {
+            case $value >= 3000 && $ubermenschMod:
+                $category = "A+";
+                $uebermensch = true;
+                break;
+            case $value >= 2800 && $ubermenschMod:
+                $category = "A";
+                $uebermensch = true;
+                break;
+            case $value >= 2600 && $ubermenschMod:
+                $category = "A-";
+                $uebermensch = true;
+                break;
+            case $value >= 2400 && $ubermenschMod:
+                $category = "B+";
+                $uebermensch = true;
+                break;
+            case $value >= 2300 && $ubermenschMod:
+                $category = "B";
+                $uebermensch = true;
+                break;
+            case $value >= 2200 && $ubermenschMod:
+                $category = "B-";
+                $uebermensch = true;
+                break;
+            case $value >= 2000 && $ubermenschMod:
+                $category = "C+";
+                $uebermensch = true;
+                break;
+            case $value >= 1900 && $ubermenschMod:
+                $category = "C";
+                $uebermensch = true;
+                break;
+            case $value >= 1800 && $ubermenschMod:
+                $category = "C-";
+                $uebermensch = true;
+                break;
+            case $value >= 1600 && $ubermenschMod:
+                $category = "D+";
+                $uebermensch = true;
+                break;
+            case $value >= 1500 && $ubermenschMod:
+                $category = "D";
+                $uebermensch = true;
+                break;
+            case $value >= 1400 && $ubermenschMod:
+                $category = "D-";
+                $uebermensch = true;
+                break;
+            case $value >= 1250 && $ubermenschMod:
+                $category = "E+";
+                $uebermensch = true;
+                break;
+            case $value >= 1150 && $ubermenschMod:
+                $category = "E";
+                $uebermensch = true;
+                break;
+            case $value >= 1050 && $ubermenschMod:
+                $category = "E-";
+                $uebermensch = true;
+                break;
+            case $value >= 960 && $ubermenschMod:
+                $category = "F+";
+                $uebermensch = true;
+                break;
+            case $value >= 880 && $ubermenschMod:
+                $category = "F";
+                $uebermensch = true;
+                break;
+            case $value >= 800 && $ubermenschMod:
+                $category = "F-";
+                $uebermensch = true;
+                break;
             case $value >= 800:
                 $category = "A+";
                 break;
@@ -204,13 +305,16 @@ class Application_Model_Charakterwerte {
                 $category = "F-";
                 break;
         }
-        return $category;
+        $werteCategory = new Application_Model_Charakterwertecategory();
+        $werteCategory->setCategory($category);
+        $werteCategory->setUebermensch($uebermensch);
+        return $werteCategory;
     }
     
     
     public function getEnergie() {
-        $category = $this->getCategory($this->ausdauer);
-        return 1000 * $this->energieFaktor[substr($category, 0, 1)];
+        $category = $this->getCategory('aus');
+        return 1000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
     }
     
     public function toArray() {
@@ -221,6 +325,42 @@ class Application_Model_Charakterwerte {
             }
         }
         return $returnArray;
+    }
+    
+    public function getUebermenschMods() {
+        return $this->uebermenschMods;
+    }
+    
+    public function addUebermenschMods($mod) {
+        return $this->uebermenschMods[] = $mod;
+    }
+
+    public function setUebermenschMods($uebermenschMods) {
+        $this->uebermenschMods = $uebermenschMods;
+    }
+    
+    public function vorteilToUebermenschMod($vorteile = array()) {
+        foreach ($vorteile as $vorteil) {
+            if ($vorteil instanceof Application_Model_Vorteil) {
+                switch ((int) $vorteil->getId()) {
+                    case 1:
+                        $this->uebermenschMods['str'] = 1;
+                        break;
+                    case 2:
+                        $this->uebermenschMods['agi'] = 1;
+                        break;
+                    case 3:
+                        $this->uebermenschMods['aus'] = 1;
+                        break;
+                    case 5:
+                        $this->uebermenschMods['kon'] = 1;
+                        break;
+                    case 6:
+                        $this->uebermenschMods['dis'] = 1;
+                        break;
+                }
+            }
+        }
     }
     
 }

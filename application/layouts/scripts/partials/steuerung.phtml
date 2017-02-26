@@ -1,26 +1,50 @@
-<ul>
-    <li><a href="<?= $this->baseUrl() ?>/index">News</a></li>
-    <li>
-        <a href="" onclick="return false;">
-            Profil
-        </a>
-        <ul>
-            <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
-            <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
-        </ul>
-    </li>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/information">Informationen</a>
-    </li>
-    <li>
-        <a href="http://alpha.mainchat.de/" target="_blank">Chat</a>
-    </li>
-    <li>
-        <a href="" onclick="return false;">Community</a>
-        <ul>
-            <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
-            <li><a href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a></li>
-        </ul>
-    </li>
-    <li><a href="<?= $this->baseUrl() ?>/freunde">Userliste</a></li>
-</ul>
+<div id="usermenu">
+    <ul>
+        <li><a href="<?= $this->baseUrl() ?>/index">News</a></li>
+        <li>
+            <a href="" onclick="return false;">
+                Profil
+            </a>
+            <ul>
+                <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
+                <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="http://alpha.mainchat.de/" target="_blank">Chat</a>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/Story">Plots und Logs</a>
+            <ul>
+                <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
+                <li><a href="<?= $this->baseUrl() ?>/Logs">Logs lesen</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/Gruppen">Community</a>
+            <ul>
+                <li><a href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a></li>
+                <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="<?= $this->baseUrl() ?>/login/logout">Logout</a>
+        </li>
+    </ul>
+</div>
+<?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
+<div id="adminmenu">
+    <span>
+        <a href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
+    </span>
+    <span>
+        <a href="<?= $this->baseUrl() ?>/Administration/Logs">Logs bestätigen</a>
+    </span>
+    <span>
+        <a href="<?= $this->baseUrl() ?>/Administration/charakter/birthdays">Geburtstage</a>
+    </span>
+    <span>
+        <a href="<?= $this->baseUrl() ?>/Administration/charakter">Charakterliste</a>
+    </span>
+</div>
+<?php } ?> 

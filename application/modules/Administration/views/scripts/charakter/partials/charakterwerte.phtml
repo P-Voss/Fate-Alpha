@@ -1,5 +1,10 @@
 <?php
 /* @var $werte Application_Model_CharakterWerte */
+$categoryStr = $werte->getCategory('str');
+$categoryAgi = $werte->getCategory('agi');
+$categoryAus = $werte->getCategory('aus');
+$categoryKon = $werte->getCategory('kon');
+$categoryDis = $werte->getCategory('dis');
 ?>
 <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editstats" style="margin: 0">
     <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
@@ -12,10 +17,9 @@
                 </label>
                 <span>
                     <input type="number" name="staerke" value="<?= $werte->getStaerke() ?>">
-
                 </span>
-                <span>
-                    <?= $werte->getCategory($werte->getStaerke()) ?>
+                <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryStr->getCategory() ?>
                 </span>
             </p>
             <p>
@@ -24,10 +28,9 @@
                 </label>
                 <span>
                     <input type="number" name="agilitaet" value="<?= $werte->getAgilitaet() ?>">
-
                 </span>
-                <span>
-                    <?= $werte->getCategory($werte->getAgilitaet()) ?>
+                <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryAgi->getCategory() ?>
                 </span>
             </p>
             <p>
@@ -36,10 +39,9 @@
                 </label>
                 <span>
                     <input type="number" name="ausdauer" value="<?= $werte->getAusdauer() ?>">
-
                 </span>
-                <span>
-                    <?= $werte->getCategory($werte->getAusdauer()) ?>
+                <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryAus->getCategory() . ' (' . $werte->getEnergie() . ' HP)' ?>
                 </span>
             </p>
             <p>
@@ -48,10 +50,9 @@
                 </label>
                 <span>
                     <input type="number" name="kontrolle" value="<?= $werte->getKontrolle() ?>">
-
                 </span>
-                <span>
-                    <?= $werte->getCategory($werte->getKontrolle()) ?>
+                <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryKon->getCategory() ?>
                 </span>
             </p>
             <p>
@@ -60,10 +61,9 @@
                 </label>
                 <span>
                     <input type="number" name="disziplin" value="<?= $werte->getDisziplin() ?>">
-
                 </span>
-                <span>
-                    <?= $werte->getCategory($werte->getDisziplin()) ?>
+                <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryDis->getCategory() ?>
                 </span>
             </p>
             <p>
@@ -72,7 +72,6 @@
                 </label>
                 <span>
                     <input type="number" name="uebung" value="<?= $werte->getUebung() ?>">
-
                 </span>
             </p>
             <p>

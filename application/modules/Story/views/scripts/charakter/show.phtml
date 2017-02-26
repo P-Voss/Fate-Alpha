@@ -1,4 +1,5 @@
 <?php
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/charakter.js'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $gruppe Gruppen_Model_Gruppe */
@@ -9,11 +10,11 @@ $werte = $charakter->getCharakterwerte();
 
 
 function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
-$sortorder = ['Übungsfähigkeiten' => 1, 
-    'Schützenfähigkeiten' => 2, 
-    'Kämpferfähigkeiten' => 3, 
-    'Spezialfähigkeiten' => 4,
-    ];
+    $sortorder = ['Übungsfähigkeiten' => 1, 
+        'Schützenfähigkeiten' => 2, 
+        'Kämpferfähigkeiten' => 3, 
+        'Spezialfähigkeiten' => 4,
+        ];
     if($sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()]){
         return 1;
     }
@@ -23,6 +24,11 @@ $skillarten = $this->skillarten;
 usort($skillarten, "order");
 /* @var $schule Application_Model_Schule */
 $magieschulen = $this->magieschulen;
+$categoryStr = $werte->getCategory('str');
+$categoryAgi = $werte->getCategory('agi');
+$categoryAus = $werte->getCategory('aus');
+$categoryKon = $werte->getCategory('kon');
+$categoryDis = $werte->getCategory('dis');
 ?>
 <h1>
     <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
@@ -67,63 +73,71 @@ $magieschulen = $this->magieschulen;
             <label>
                 Stärke
             </label>
-            <span>
-                <?= $werte->getStaerke() ?>
+            <span title="<?= $werte->getStaerke() ?>">
+                <?= floor($werte->getStaerke()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getStaerke()) ?>
+            <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryStr->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Agilität
             </label>
-            <span>
-                <?= $werte->getAgilitaet() ?>
+            <span title="<?= $werte->getAgilitaet() ?>">
+                <?= floor($werte->getAgilitaet()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getAgilitaet()) ?>
+            <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryAgi->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Ausdauer
             </label>
-            <span>
-                <?= $werte->getAusdauer() ?>
+            <span title="<?= $werte->getAusdauer() ?>">
+                <?= floor($werte->getAusdauer()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getAusdauer()) ?>
+            <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryAus->getCategory() . ' (' . $werte->getEnergie() . ' HP)' ?>
             </span>
         </p>
         <p>
             <label>
                 Kontrolle
             </label>
-            <span>
-                <?= $werte->getKontrolle() ?>
+            <span title="<?= $werte->getKontrolle() ?>">
+                <?= floor($werte->getKontrolle()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getKontrolle()) ?>
+            <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryKon->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Disziplin
             </label>
-            <span>
-                <?= $werte->getDisziplin() ?>
+            <span title="<?= $werte->getDisziplin() ?>">
+                <?= floor($werte->getDisziplin()) ?>
             </span>
-            <span>
-                <?= $werte->getCategory($werte->getDisziplin()) ?>
+            <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryDis->getCategory() ?>
             </span>
         </p>
         <p>
             <label>
                 Übung
             </label>
+            <span title="<?= $werte->getUebung() ?>">
+                <?= floor($werte->getUebung()) ?>
+            </span>
+        </p>
+        <p>
+            <label>
+                FP
+            </label>
             <span>
-                <?= $werte->getUebung() ?>
+                <?= floor($werte->getFp()) ?>
             </span>
         </p>
     </fieldset>
@@ -173,15 +187,17 @@ $magieschulen = $this->magieschulen;
         <legend>Fähigkeiten</legend>
         <?php foreach ($skillarten as $skillart): ?>
         <fieldset>
-            <legend><?= $purifier->purify($skillart->getBezeichnung()) ?></legend>
+            <legend><?= $purifier->purify($skillart->getBezeichnung()) ?> <span class="indicator"></span></legend>
+                <div class="subContent">
                 <?php foreach ($skillart->getSkills() as $skill): ?>
-            <h4>
-                <?= $purifier->purify($skill->getBezeichnung()) ?>
-            </h4>
-            <p>
-                <?= $purifier->purify($skill->getBeschreibung()) ?>
-            </p>
+                    <h4>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                    </h4>
+                    <p>
+                        <?= $purifier->purify($skill->getBeschreibung()) ?>
+                    </p>
                 <?php endforeach; ?>
+                </div>
         </fieldset>
         <?php endforeach; ?>
     </fieldset>

@@ -144,9 +144,13 @@ html, body {
 
 #steuerung {
     background-color: #b22222;
-    text-align: center;
+    text-align: left;
     font-family: Candara;
     font-size: 12pt;
+}
+
+#steuerung #usermenu {
+    text-align: center;
     padding-left: 10px;
     padding-top: 8px;
     width: auto;
@@ -157,14 +161,28 @@ html, body {
     border-left: 2px solid black;
 }
 
-#steuerung ul {
+#steuerung #adminmenu {
+    background-color: #66B9FF;
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-right: 1px red solid;
+}
+
+#steuerung #adminmenu  span{
+    display: inline-block;
+    width: auto;
+    margin: 0 5px;
+    padding: 0 3px;
+}
+
+#steuerung #usermenu ul {
     list-style-type:none;
     list-style-image:none;
     margin: 0px;
     padding: 0px;
 }
 
-#steuerung li {
+#steuerung #usermenu li {
     float:left;
     /*margin-right: 15px;*/
     background-color: silver;
@@ -178,23 +196,23 @@ html, body {
     transition: background-color 0.7s ease-out;
 }
 
-#steuerung li ul li {
+#steuerung #usermenu li ul li {
     float:left;
     margin-top: 0px;
     margin-bottom: 0px;
 }
-#steuerung li ul li:hover {
+#steuerung #usermenu li ul li:hover {
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
 
-#steuerung ul ul {
+#steuerung #usermenu ul ul {
     position: absolute;
     margin-left: 0px;
 }
 
-#steuerung ul ul li {
+#steuerung #usermenu ul ul li {
     float: none;
     background-color: silver;
     height: 0px;
@@ -210,7 +228,7 @@ html, body {
     border: hidden;
 }
 
-#steuerung li:hover {
+#steuerung #usermenu li:hover {
     transition: background-color 0.7s ease-out;
     /*    transition: width 0.7s ease-out;
         width: auto;*/
@@ -218,7 +236,7 @@ html, body {
     color: red;
 }
 
-#steuerung li:hover ul li {
+#steuerung #usermenu li:hover ul li {
     width: 125px;
     height: 20px;
     position: relative;
@@ -229,12 +247,12 @@ html, body {
     border-right: 1px red solid;
 }
 
-#steuerung ul ul li:hover {
+#steuerung #usermenu ul ul li:hover {
     background-color: #9cdce2;
     width: 125px;
 }
 
-#steuerung li a {
+#steuerung #usermenu li a {
     text-decoration: none;
     display: block;
     text-overflow: ellipsis;
@@ -576,4 +594,17 @@ kbd{
 #notifications {
     margin-left: 6em;
     margin-top: 2em;
+}
+
+#charaktervalues label {
+    width: 70px;
+}
+
+#charaktervalues .value {
+    width: 30px;
+    display: inline-block;
+}
+
+.uber {
+    background-color: orange;
 }

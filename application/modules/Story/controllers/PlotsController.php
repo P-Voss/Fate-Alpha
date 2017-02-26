@@ -48,7 +48,11 @@ class Story_PlotsController extends Zend_Controller_Action {
         $plotId = (int)$this->getRequest()->getParam('id');
         $userId = Zend_Auth::getInstance()->getIdentity()->userId;
         if(!$this->plotService->isPlayer($plotId, $userId)){
-            $this->redirect('index');
+            if($this->plotService->isSL($plotId, $userId)){
+                $this->redirect('Story/plots/sl/id/' . $plotId);
+            } else {
+                $this->redirect('index');
+            }
         }
         $this->view->plot = $this->plotService->getPlotById($plotId);
         $this->view->episodes = $this->episodenService->getEpisodesByPlotIdForUser($plotId, $userId);

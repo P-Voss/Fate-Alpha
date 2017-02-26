@@ -80,7 +80,6 @@ class Story_CharakterController extends Zend_Controller_Action {
                 }
             }
             $this->view->skillarten = $skillarten;
-            
         }elseif(!is_null($this->getRequest()->getParam('plot'))){
             $this->redirect('Story/plots/sl/id/' . $this->getRequest()->getParam('plot'));
         }else{

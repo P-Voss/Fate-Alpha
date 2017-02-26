@@ -41,6 +41,7 @@ $difference = date_diff($date, $dateEnd, true);
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/tooltipster/js/jquery.tooltipster.min.js"></script>
         <script type="text/javascript" src="<?= $this->autoVersion($this->baseUrl() . '/js/custom/userlist/tooltips.js') ?>"></script>
         <script type="text/javascript" src="<?= $this->autoVersion($this->baseUrl() . '/js/custom/general/map.js') ?>"></script>
+        <script type="text/javascript" src="<?= $this->autoVersion($this->baseUrl() . '/js/custom/general/general.js') ?>"></script>
         <?= $this->headScript() ?>
     </head>
     <body>
@@ -51,10 +52,10 @@ $difference = date_diff($date, $dateEnd, true);
         </div>
         <div id="seitenbereich1">
             <div id="navigation">
-                <?php include __DIR__ . '/partials/menu.phtml'; ?>
+                <?php include __DIR__ . '/partials/character.phtml'; ?>
             </div>
             <div id="navigationrechts">
-                <?php include __DIR__ . '/partials/info.phtml'; ?>
+                <?php include __DIR__ . '/partials/fuyuki.phtml'; ?>
             </div>
             <div id="seitenbereich2">
                 <div id="steuerung">
