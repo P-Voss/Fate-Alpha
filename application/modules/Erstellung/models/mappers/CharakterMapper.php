@@ -185,4 +185,26 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
         parent::getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
     }
     
+    
+    public function getVorteilCount(Application_Model_Charakter $charakter) {
+        $select = parent::getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakter');
+        $select->join('charakterVorteile', 'charakter.charakterId = charakterVorteile.charakterId');
+        $select->where('charakter.charakterId = ?', $charakter->getCharakterid());
+        $result = parent::getDbTable('Charakter')->fetchAll($select);
+        return count($result);
+    }
+    
+    
+    public function getNachteilCount(Application_Model_Charakter $charakter) {
+        $select = parent::getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false);
+        $select->from('charakter');
+        $select->join('charakterNachteile', 'charakter.charakterId = charakterNachteile.charakterId');
+        $select->where('charakter.charakterId = ?', $charakter->getCharakterid());
+        $result = parent::getDbTable('Charakter')->fetchAll($select);
+        return count($result);
+    }
+    
 }

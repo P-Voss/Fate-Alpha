@@ -57,8 +57,9 @@ class Erstellung_ErstellungController extends Zend_Controller_Action{
     
     public function vorteilAction() {
         $charakter = $this->charakterService->getInactiveCharakterByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        $klasse = $this->erstellungService->getKlasse($charakter);
         if($charakter !== false){
-            echo json_encode($this->erstellungService->addVorteil($this->getRequest(), $charakter));
+            echo json_encode($this->erstellungService->addVorteil($this->getRequest(), $charakter, $klasse));
         }else{
             echo json_encode(array('success' => false, 'errors' => array('kein Charakter vorhanden')));
         }

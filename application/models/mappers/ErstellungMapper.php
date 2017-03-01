@@ -254,7 +254,7 @@ class Application_Model_Mapper_ErstellungMapper {
                 if($row->maxCount > 0){
                     $select = $this->getDbTable('Charakter')->select();
                     $select->from('charakter');
-                    $select->where('klassenId = ' . $row->klassenId);
+                    $select->where('klassenId = ? and active = 1', $row->klassenId);
                     $result = $this->getDbTable('Charakter')->fetchAll($select);
                     if($result->count() >= $row->maxCount){
                         continue;

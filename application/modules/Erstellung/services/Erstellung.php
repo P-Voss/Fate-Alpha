@@ -136,9 +136,13 @@ class Erstellung_Service_Erstellung {
     }
     
     
-    public function addVorteil(Zend_Controller_Request_Http $request, Application_Model_Charakter $charakter) {
+    public function addVorteil(Zend_Controller_Request_Http $request, Application_Model_Charakter $charakter, $klassenId) {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
-        return $mapper->addVorteil($charakter, $request->getPost('id'));
+        $allowedVorteilCount = $klassenId === 2 ? 4 : 3;
+        if ($mapper->getVorteilCount($charakter) < $allowedVorteilCount) {
+            return $mapper->addVorteil($charakter, $request->getPost('id'));
+        }
+        return 0;
     }
     
     
@@ -150,7 +154,10 @@ class Erstellung_Service_Erstellung {
     
     public function addNachteil(Zend_Controller_Request_Http $request, Application_Model_Charakter $charakter) {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
-        return $mapper->addNachteil($charakter, $request->getPost('id'));
+        if ($mapper->getNachteilCount($charakter) < 2) {
+            return $mapper->addNachteil($charakter, $request->getPost('id'));
+        }
+        return 0;
     }
     
     
