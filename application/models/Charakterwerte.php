@@ -314,13 +314,14 @@ class Application_Model_Charakterwerte {
     
     public function getEnergie() {
         $category = $this->getCategory('aus');
-        return 1000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
+        return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
     }
     
     public function toArray() {
         $returnArray = array();
+        $nonArrayMethods = ['getCategory', 'getEnergie', 'getUebermenschMods'];
         foreach (get_class_methods(get_class($this)) as $method){
-            if(substr($method, 0, 3) === 'get' AND $method != 'getCategory' AND $method != 'getEnergie'){ 
+            if(substr($method, 0, 3) === 'get' AND !in_array($method, $nonArrayMethods)){ 
                 $returnArray[substr($method, 3)] = $this->{$method}();
             }
         }

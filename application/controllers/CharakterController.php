@@ -158,7 +158,14 @@ class CharakterController extends Zend_Controller_Action{
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
-        if(!in_array($this->getRequest()->getParam('attribute'), array('staerke', 'agilitaet', 'ausdauer', 'disziplin', 'kontrolle'))
+        $attributes = [
+            'staerke' => 'str',
+            'agilitaet' => 'agi',
+            'ausdauer' => 'aus',
+            'disziplin' => 'dis',
+            'kontrolle' => 'kon',
+        ];
+        if(!array_key_exists($this->getRequest()->getParam('attribute'), $attributes)
                 ||
             (int)$this->getRequest()->getParam('days') < 0){
             echo json_encode(array(
@@ -176,9 +183,9 @@ class CharakterController extends Zend_Controller_Action{
             $werte->addTraining(array('training' => $this->getRequest()->getParam('attribute')), $trainingswerte);
         }
         
+        $category = $werte->getCategory($attributes[$this->getRequest()->getParam('attribute')])->getCategory();
         $function = "get" . ucfirst($this->getRequest()->getParam('attribute'));
         $wert = $werte->$function();
-        $category = $werte->getCategory($werte->$function());
         
         echo json_encode(array(
             'success' => true,

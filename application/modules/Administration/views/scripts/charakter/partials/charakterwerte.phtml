@@ -41,7 +41,7 @@ $categoryDis = $werte->getCategory('dis');
                     <input type="number" name="ausdauer" value="<?= $werte->getAusdauer() ?>">
                 </span>
                 <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
-                    <?= $categoryAus->getCategory() . ' (' . $werte->getEnergie() . ' HP)' ?>
+                    <?= $categoryAus->getCategory() ?>
                 </span>
             </p>
             <p>

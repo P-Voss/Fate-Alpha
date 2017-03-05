@@ -26,6 +26,7 @@ class Shop_Model_Mapper_SkillMapper {
         $returnArray = array();
         $select = $this->getDbTable('Skill')->select();
         $select->where('skillartId = ?', $skillArtId);
+        $select->order('name');
         $result = $this->getDbTable('Skill')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

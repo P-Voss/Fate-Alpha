@@ -3,6 +3,11 @@
 $charakter = $this->charakter;
 /* @var $werte Application_Model_Charakterwerte */
 $werte = $charakter->getCharakterwerte();
+$categoryStr = $werte->getCategory('str');
+$categoryAgi = $werte->getCategory('agi');
+$categoryAus = $werte->getCategory('aus');
+$categoryKon = $werte->getCategory('kon');
+$categoryDis = $werte->getCategory('dis');
 /* @var $trainingswerte Application_Model_Trainingswerte */
 $trainingswerte = $this->trainingswerte;
 /* @var $purifier HTMLPurifier */
@@ -51,7 +56,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                         Aktueller Wert: <span class="value" id="staerkeWert"><?= $werte->getStaerke() ?></span> 
                     </span>
                     <span class="kategorien">
-                        Kategorie: <span class="value"  id="staerkeKategorie"><?= $werte->getCategory($werte->getStaerke()) ?></span>
+                        Kategorie: <span class="value"  id="staerkeKategorie"><?= $categoryStr->getCategory() ?></span>
                     </span>
                 </p>
                 <p>
@@ -88,7 +93,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                         Aktueller Wert: <span class="value" id="agilitaetWert"><?= $werte->getAgilitaet() ?></span> 
                     </span>
                     <span class="kategorien">
-                        Kategorie: <span class="value"  id="agilitaetKategorie"><?= $werte->getCategory($werte->getAgilitaet()) ?></span>
+                        Kategorie: <span class="value"  id="agilitaetKategorie"><?= $categoryAgi->getCategory() ?></span>
                     </span>
                 </p>
                 <p>
@@ -125,7 +130,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                         Aktueller Wert: <span class="value" id="ausdauerWert"><?= $werte->getAusdauer() ?></span> 
                     </span>
                     <span class="kategorien">
-                        Kategorie: <span class="value"  id="ausdauerKategorie"><?= $werte->getCategory($werte->getAusdauer()) ?></span>
+                        Kategorie: <span class="value"  id="ausdauerKategorie"><?= $categoryAus->getCategory() ?></span>
                     </span>
                 </p>
                 <p>
@@ -168,7 +173,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                         Aktueller Wert: <span class="value" id="kontrolleWert"><?= $werte->getKontrolle() ?></span> 
                     </span>
                     <span class="kategorien">
-                        Kategorie: <span class="value"  id="kontrolleKategorie"><?= $werte->getCategory($werte->getKontrolle()) ?></span>
+                        Kategorie: <span class="value"  id="kontrolleKategorie"><?= $categoryKon->getCategory() ?></span>
                     </span>
                 </p>
                 <p>
@@ -203,7 +208,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                         Aktueller Wert: <span class="value" id="disziplinWert"><?= $werte->getDisziplin() ?></span> 
                     </span>
                     <span class="kategorien">
-                        Kategorie: <span class="value"  id="disziplinKategorie"><?= $werte->getCategory($werte->getDisziplin()) ?></span>
+                        Kategorie: <span class="value"  id="disziplinKategorie"><?= $categoryDis->getCategory() ?></span>
                     </span>
                 </p>
                 <p>

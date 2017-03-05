@@ -66,6 +66,38 @@ $categoryDis = $werte->getCategory('dis');
             </label>
             <?= $purifier->purify($charakter->getSexualitaet()) ?>
         </p>
+        <p>
+            <label>
+                Odo
+            </label>
+            <?= $charakter->getOdo()->getMenge() . ' ' .$charakter->getOdo()->getKategorie() ?>
+        </p>
+        <p>
+            <label>
+                Glück
+            </label>
+            <?= $charakter->getLuck()->getKategorie() ?>
+        </p>
+        <p>
+            <label>
+                Vermögen
+            </label>
+            <?= $charakter->getVermoegen()->getMenge() . ' ' . $charakter->getVermoegen()->getKategorie() ?>
+        </p>
+        <p>
+            <label>
+                Naturelement
+            </label>
+            <?= $charakter->getNaturElement()->getBezeichnung() ?>
+        </p>
+        <?php if ($charakter->getMagiccircuit() !== null): ?>
+        <p>
+            <label>
+                Circuit
+            </label>
+            <?= $charakter->getMagiccircuit()->getMenge() . ' ' . $charakter->getMagiccircuit()->getKategorie() ?>
+        </p>
+        <?php endif; ?>
     </fieldset>
     <fieldset style="display: inline-block; width: 45%; float: right">
         <legend>Werte</legend>

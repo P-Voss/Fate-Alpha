@@ -65,10 +65,10 @@ class Administration_Service_Requirement {
             $requirements['Schule'] = $request->getParam('magieschule');
         }
         if($request->getParam('gruppen') !== null){
-            $requirements['Gruppe'] = $request->getParam('gruppen');
+            $requirements['Gruppe'] = implode('|', $request->getParam('gruppen'));
         }
         if($request->getParam('klassen') !== null){
-            $requirements['Klasse'] = $request->getParam('klassen');
+            $requirements['Klasse'] = implode('|', $request->getParam('klassen'));
         }
         if($request->getParam('staerke') !== null){
             $requirements['Staerke'] = $request->getParam('staerke');

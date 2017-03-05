@@ -21,7 +21,7 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
                     AND auswertung.userId = ? AND auswertung.isActive = 1
                 INNER JOIN plots AS plotData
                     ON plotData.plotId = plots.plotId
-                WHERE auswertung.episodenId IS NULL
+                WHERE auswertung.episodenId IS NULL AND plots.isSecret = 0
                 GROUP BY plots.plotId';
         $stmt = $db->prepare($sql);
         $stmt->execute([$userId]);

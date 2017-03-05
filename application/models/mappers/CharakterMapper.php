@@ -769,6 +769,7 @@ class Application_Model_Mapper_CharakterMapper{
                             array('skillId', 'name', 'beschreibung')
                 );
         $select->where('charakterSkills.charakterId = ?', $charakterId);
+        $select->order('skills.name');
         $result = $this->getDbTable('CharakterSkill')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row){

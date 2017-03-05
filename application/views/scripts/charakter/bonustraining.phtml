@@ -3,6 +3,11 @@
 $charakter = $this->charakter;
 /* @var $werte Application_Model_Charakterwerte */
 $werte = $charakter->getCharakterwerte();
+$categoryStr = $werte->getCategory('str');
+$categoryAgi = $werte->getCategory('agi');
+$categoryAus = $werte->getCategory('aus');
+$categoryKon = $werte->getCategory('kon');
+$categoryDis = $werte->getCategory('dis');
 /* @var $trainingswerte Application_Model_Trainingswerte */
 $trainingswerte = $this->trainingswerte;
 /* @var $purifier HTMLPurifier */

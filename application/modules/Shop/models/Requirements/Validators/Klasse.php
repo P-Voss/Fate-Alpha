@@ -13,8 +13,8 @@ class Shop_Model_Requirements_Validators_Klasse implements Shop_Model_Requiremen
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        $values = explode(':', $value);
-        foreach ($values as $value){;
+        $values = explode('|', $value);
+        foreach ($values as $value){
             if($charakter->getKlasse()->getId() == $value){
                 return true;
             }

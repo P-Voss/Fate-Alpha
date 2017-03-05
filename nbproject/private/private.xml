@@ -32,6 +32,9 @@
             <file>file:/F:/Projekte/FateNeu/application/services/Erstellung.php</file>
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/freunde/profil.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/charakter/profile.js</file>
+        </group>
     </open-files>
 </project-private>
