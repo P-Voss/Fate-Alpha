@@ -41,6 +41,24 @@ class Story_Service_Plot extends Application_Service_Story {
         return $plotId;
     }
     
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @return int
+     */
+    public function editPlot(Zend_Controller_Request_Http $request) {
+        $plot = new Story_Model_Plot();
+        $plot->setId($request->getPost('plotId'));
+        $plot->setName($request->getPost('plotname'));
+        $plot->setBeschreibung($request->getPost('beschreibung'));
+        $plotId = $this->plotMapper->renamePlot($plot);
+        $this->plotMapper->setPlotDescription($plot);
+        return $plotId;
+    }
+    
+    
+    public function deletePlot($plotId) {
+        $this->plotMapper->deactivatePlot($plotId);
+    }
     
     public function getSpielgruppenBySLId($slId) {
         

@@ -110,6 +110,14 @@ class Story_Service_Episode {
     
     /**
      * @param int $plotId
+     * @return array
+     */
+    public function getActiveEpisodesByPlotId($plotId) {
+        return $this->episodeMapper->getActiveEpisodesByPlotId($plotId);
+    }
+    
+    /**
+     * @param int $plotId
      * @param int $userId
      * @return array
      */

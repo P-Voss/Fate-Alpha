@@ -1,4 +1,6 @@
 <?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/gruppen/editor.js'));
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
@@ -219,5 +221,31 @@ unset($this->episodes);
     </legend>
     <div>
         <?= $purifier->purify($plot->getBeschreibung()) ?>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Plot ändern <span class="indicator"></span></legend>
+    <div class="subContent">
+        <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/edit">
+            <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+            <span>
+                <label for="plotname">
+                    Plotname
+                </label>
+                <input type="text" name="plotname" id="plotname" value="<?= $plot->getName() ?>">
+            </span>
+            <textarea name="beschreibung"><?= $purifier->purify($plot->getBeschreibung()) ?></textarea>
+            <input type="submit" value="speichern" />
+        </form>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Plot löschen <span class="indicator"></span></legend>
+    <div class="subContent">
+        <p>Plots können nur gelöscht werden, solange keine Episoden gestartet wurden.</p>
+        <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/delete">
+            <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+            <input type="submit" value="Plot löschen" />
+        </form>
     </div>
 </fieldset>

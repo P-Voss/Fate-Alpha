@@ -54,12 +54,7 @@ class Shop_Service_Skill {
      * @return \Application_Model_Skillart
      */
     public function getLearnedSkillBySkillart($charakterId, Application_Model_Skillart $skillart) {
-        $skills = $this->mapper->getSkillsBySkillArtId($skillart->getId());
-        foreach($skills as $skill) {
-            if($this->mapper->checkIfLearned($charakterId, $skill->getId())){
-                $skillart->addSkill($skill);
-            }
-        }
+        $skillart->setSkills($this->mapper->getLearnedSkillsBySkillArtId($skillart->getId(), $charakterId));
         return $skillart;
     }
     

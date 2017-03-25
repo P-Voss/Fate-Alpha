@@ -12,7 +12,7 @@ class CronController extends Zend_Controller_Action{
     public function init(){
         $this->_trainingService = new Application_Service_Training();
         $auth = Zend_Auth::getInstance()->getIdentity();
-        if ($auth === null || $auth->userId !== 1) {
+        if ($auth === null || !in_array($auth->userId, [1, 4])) {
             exit;
         }
     }
@@ -31,6 +31,7 @@ class CronController extends Zend_Controller_Action{
         $layout->disableLayout();
         $informationService = new Application_Service_Information();
         $informationService->refreshInformation();
+        $this->redirect('information');
     }
     
 }

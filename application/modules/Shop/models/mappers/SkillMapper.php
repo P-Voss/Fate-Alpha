@@ -21,6 +21,7 @@ class Shop_Model_Mapper_SkillMapper {
     
     /**
      * @param int $skillArtId
+     * @return \Shop_Model_Skill
      */
     public function getSkillsBySkillArtId($skillArtId) {
         $returnArray = array();
@@ -40,6 +41,57 @@ class Shop_Model_Mapper_SkillMapper {
                 $skill->setRequirementList($this->getRequirements($row->skillId));
                 $returnArray[] = $skill;
             }
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $skillArtId
+     * @return \Shop_Model_Skill
+     */
+    public function getLearnedSkillsBySkillArtId($skillArtId, $charakterId) {
+        $returnArray = array();
+        $sql = <<<SQL
+SELECT
+    `skills`.* 
+FROM
+    `skills` 
+    INNER JOIN
+        `charakterSkills` 
+        ON charakterSkills.skillId = skills.skillId 
+WHERE
+    skills.skillartId = ?
+    AND charakterSkills.charakterId = ?
+    AND skills.skillId NOT IN 
+    (
+    SELECT
+        `skills`.replacesSkillId 
+    FROM
+        `skills` 
+        INNER JOIN
+            `charakterSkills` 
+            ON charakterSkills.skillId = skills.skillId 
+    WHERE
+        skillartId = ?
+        AND charakterSkills.charakterId = ?
+        AND skills.replacesSkillId IS NOT NULL
+    )
+ORDER BY
+    `name` ASC
+SQL;
+        $stmt = $this->getDbTable('Skill')->getDefaultAdapter()->prepare($sql);
+        $stmt->execute([$skillArtId, $charakterId, $skillArtId, $charakterId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row){
+            $skill = new Shop_Model_Skill();
+            $skill->setId($row['skillId']);
+            $skill->setBezeichnung($row['name']);
+            $skill->setBeschreibung($row['beschreibung']);
+            $skill->setFp($row['fp']);
+            $skill->setRang($row['rang']);
+            $skill->setSkillArt($skillArtId);
+            $skill->setRequirementList($this->getRequirements($row['skillId']));
+            $returnArray[] = $skill;
         }
         return $returnArray;
     }

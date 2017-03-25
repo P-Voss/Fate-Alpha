@@ -75,12 +75,33 @@ class Story_PlotsController extends Zend_Controller_Action {
     
     
     public function editAction() {
-        
+        if((int)$this->getRequest()->getPost('plotId') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getPost('plotId');
+        if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)) {
+            $this->redirect('index');
+        }
+        $this->plotService->editPlot($this->getRequest());
+        $this->redirect('Story/plots/sl/id/' . $plotId);
     }
     
     
     public function deleteAction() {
-        
+        if((int)$this->getRequest()->getPost('plotId') <= 0){
+            $this->redirect('index');
+        }
+        $plotId = (int)$this->getRequest()->getPost('plotId');
+        if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)) {
+            $this->redirect('index');
+        }
+        $episodeService = new Story_Service_Episode();
+        if (count($episodeService->getActiveEpisodesByPlotId($plotId)) > 0) {
+            $this->redirect('Story/plots/sl/id/' . $plotId);
+        } else {
+            $this->plotService->deletePlot($plotId);
+            $this->redirect('Story');
+        }
     }
     
     

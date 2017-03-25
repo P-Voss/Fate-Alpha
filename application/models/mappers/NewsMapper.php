@@ -20,6 +20,7 @@ class Application_Model_Mapper_NewsMapper{
         $select->setIntegrityCheck(false);
         $select->from('news');
         $select->order('newsId DESC');
+        $select->limit(4);
         $result = $this->getDbTable('News')->fetchAll($select);
         
         $usermapper = new Application_Model_Mapper_UserMapper();

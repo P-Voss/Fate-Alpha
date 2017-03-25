@@ -123,6 +123,7 @@ class Administration_Model_Mapper_SkillMapper {
             $model->setRang($row['rang']);
             $model->setSkillArt($row['skillartId']);
             $model->setLernbedingung($row['lernbedingung']);
+            $model->setReplacesSkillId($row['replacesSkillId']);
         }
         return $model;
     }
@@ -139,6 +140,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['lernbedingung'] = $skill->getLernbedingung();
         $data['createDate'] = $skill->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $skill->getCreator();
+        $data['replacesSkillId'] = $skill->getReplacesSkillId();
         
         $id = $this->getDbTable('Skill')->insert($data);
         $skill->setId($id);
@@ -158,6 +160,7 @@ class Administration_Model_Mapper_SkillMapper {
         $data['lernbedingung'] = $skill->getLernbedingung();
         $data['editDate'] = $skill->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $skill->getEditor();
+        $data['replacesSkillId'] = $skill->getReplacesSkillId();
         
         $this->deleteRequirementsSkill($skill);
         $this->setRequirementsSkill($skill);

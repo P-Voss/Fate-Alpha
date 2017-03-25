@@ -9,40 +9,52 @@ $lernbedingungen = [
 ?>
 <h1>Fähigkeit erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/create" method="post">
-    <fieldset>
-        <div>
-            <span style="width: 50%; display: inline-block">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" value="" />
-            </span>
-            <label for="kosten">FP-Kosten</label>
-            <input type="number" name="fp" value="" />
-        </div>
-        <div>
-            <span style="width: 50%; display: inline-block">
-                <label for="skillart">
-                    Fähigkeitenart
-                </label>
-                <select name="skillart">
-                    <option value="1">Schützenfähigkeit</option>
-                    <option value="2">Kämpferfähigkeit</option>
-                    <option value="3">Übungsfähigkeit</option>
-                    <option value="4">Spezialfähigkeit</option>
-                </select>
-            </span>
-            <label for="rang">
-                Rang
+    <div>
+        <span style="width: 50%; display: inline-block">
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="" />
+        </span>
+        <label for="kosten">FP-Kosten</label>
+        <input type="number" name="fp" value="" />
+    </div>
+    <div>
+        <span style="width: 50%; display: inline-block">
+            <label for="skillart">
+                Fähigkeitenart
             </label>
-            <select name="rang">
-                <option>EX</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>E</option>
-                <option>F</option>
+            <select name="skillart">
+                <option value="1">Schützenfähigkeit</option>
+                <option value="2">Kämpferfähigkeit</option>
+                <option value="3">Übungsfähigkeit</option>
+                <option value="4">Spezialfähigkeit</option>
             </select>
-        </div>
+        </span>
+        <label for="rang">
+            Rang
+        </label>
+        <select name="rang">
+            <option>EX</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+            <option>F</option>
+        </select>
+    </div>
+    <div>
+        <label for="replaces">
+            Ersetzt Fähigkeit
+        </label>
+        <select name="replaces" id="replaces">
+            <option value="">keine</option>
+            <?php foreach ($this->skills as $listedSkill) { ?>
+            <option value="<?= $listedSkill->getId() ?>"><?= $listedSkill->getBezeichnung() ?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <fieldset>
+        <legend>Voraussetzungen</legend>
         <div>
             <span style="width: 50%; display: inline-block">
                 <label for="uebung">
@@ -203,11 +215,11 @@ $lernbedingungen = [
                 </select>
             </div>
         </div>
-        <label for="beschreibung">
-            Beschreibung
-        </label>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
     </fieldset>
+    <label for="beschreibung">
+        Beschreibung
+    </label>
+    <textarea name="beschreibung" cols="80" rows="10"></textarea>
     <div align="center">
         <input type="submit" name="Abschicken" id="Abschicken" value="speichern" />
     </div>

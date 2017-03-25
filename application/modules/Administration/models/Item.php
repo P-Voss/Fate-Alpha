@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Description of Skill
+ * Description of Administration_Model_Item
  *
- * @author Vosser
+ * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_Model_Skill extends Application_Model_Skill implements Administration_Model_CrudObject {
+class Administration_Model_Item extends Application_Model_Item implements Administration_Model_CrudObject {
     
-    private $replacesSkillId;
+    
     private $creator;
     private $editor;
     /**
@@ -18,10 +18,6 @@ class Administration_Model_Skill extends Application_Model_Skill implements Admi
      * @var DateTime
      */
     private $editDate;
-    /**
-     * @var Administration_Model_Requirementlist
-     */
-    private $requirementList;
     
     public function getCreator() {
         return $this->creator;
@@ -56,21 +52,7 @@ class Administration_Model_Skill extends Application_Model_Skill implements Admi
     public function setEditDate($editDate) {
         $this->editDate = $editDate;
     }
-    
-    public function getRequirementList() {
-        return $this->requirementList;
-    }
 
-    public function setRequirementList(Administration_Model_Requirementlist $requirementList) {
-        $this->requirementList = $requirementList;
-    }
-    
-    public function getReplacesSkillId() {
-        return $this->replacesSkillId;
-    }
 
-    public function setReplacesSkillId($replacesSkillId) {
-        $this->replacesSkillId = $replacesSkillId;
-    }
     
 }

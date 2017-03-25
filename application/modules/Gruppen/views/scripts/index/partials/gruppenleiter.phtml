@@ -1,4 +1,6 @@
-<?php if($this->eigeneGruppe === true): ?>
+<?php if($this->eigeneGruppe === true): 
+/* @var $gruppe Gruppen_Model_Gruppe */    
+?>
 <div>
     <fieldset>
         <legend>
@@ -32,6 +34,30 @@
                     <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
                     <input type="submit" value="Aus Gruppe kicken">
                 </form>
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>Gruppendaten ändern <span class="indicator"></span></legend>
+                <div class="subContent">
+                    <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/edit">
+                        <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                        <span>
+                            <label for="gruppenname">
+                                Gruppenname
+                            </label>
+                            <input type="text" name="gruppenname" id="gruppenname" value="<?= $gruppe->getName() ?>">
+                        </span>
+                        <span>
+                            <label for="passwort">
+                                Passwort
+                            </label>
+                            <input type="text" name="passwort" id="passwort" value="<?= $gruppe->getPasswort() ?>">
+                        </span>
+                        <textarea name="beschreibung"><?= $purifier->purify($gruppe->getBeschreibung()) ?></textarea>
+                        <input type="submit" value="speichern" />
+                    </form>
+                </div>
             </fieldset>
         </div>
     </fieldset>

@@ -34,7 +34,7 @@ class Administration_SkillController extends Zend_Controller_Action {
     }
     
     public function showAction() {
-        $this->view->skill = $this->skillService->getSkillById($this->getRequest()->getParam('id'));
+        $this->view->skill = $this->skillService->getSkillById((int) $this->getRequest()->getParam('id'));
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();

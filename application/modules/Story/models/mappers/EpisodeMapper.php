@@ -83,6 +83,46 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     
     /**
      * @param int $plotId
+     * @return array
+     */
+    public function getActiveEpisodesByPlotId($plotId) {
+        $returnArray = array();
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $sql = 'SELECT 
+                    episoden.episodenId,
+                    episoden.name,
+                    episoden.creationdate,
+                    episodenStatus.statusId,
+                    episodenStatus.status,
+                    episodenStatus.colorCode
+                FROM episoden
+                LEFT JOIN (SELECT episodenId, count(*) 
+                            FROM episodenOutcomes 
+                            GROUP BY episodenId
+                ) AS outcomes USING (episodenId)
+                INNER JOIN episodenStatus USING (statusId)
+                WHERE episoden.plotId = ? AND episoden.statusId > 2
+                ';
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array($plotId));
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+            $episode = new Story_Model_Episode();
+            $episodenStatus = new Story_Model_EpisodenStatus();
+            $episodenStatus->setId($row['statusId']);
+            $episodenStatus->setStatus($row['status']);
+            $episodenStatus->setColorCode($row['colorCode']);
+            $episode->setId($row['episodenId']);
+            $episode->setName($row['name']);
+            $episode->setCreateDate($row['creationdate']);
+            $episode->setStatus($episodenStatus);
+            $returnArray[] = $episode;
+        }
+        return $returnArray;
+    }
+    
+    /**
+     * @param int $plotId
      * @param int $userId
      * @return array
      */

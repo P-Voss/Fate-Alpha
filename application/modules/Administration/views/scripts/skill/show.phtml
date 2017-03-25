@@ -14,40 +14,63 @@ $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('Magi
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
-    <fieldset>
-        <div>
-            <span style="width: 50%; display: inline-block">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
-            </span>
-            <label for="kosten">FP-Kosten</label>
-            <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
-        </div>
-        <div>
-            <span style="width: 50%; display: inline-block">
-                <label for="skillart">
-                    Fähigkeitenart
-                </label>
-                <select name="skillart">
-                    <option value="1" <?= ($skill->getSkillArt() === 1) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
-                    <option value="2" <?= ($skill->getSkillArt() === 2) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
-                    <option value="3" <?= ($skill->getSkillArt() === 3) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
-                    <option value="4" <?= ($skill->getSkillArt() === 4) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
-                </select>
-            </span>
-            <label for="rang">
-                Rang
+    <div>
+        <span style="width: 50%; display: inline-block">
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
+        </span>
+        <label for="kosten">FP-Kosten</label>
+        <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
+    </div>
+    <div>
+        <span style="width: 50%; display: inline-block">
+            <label for="skillart">
+                Fähigkeitenart
             </label>
-            <select name="rang">
-                <option <?= ($skill->getRang() === 'EX') ? 'selected="true"' : '' ?>>EX</option>
-                <option <?= ($skill->getRang() === 'A') ? 'selected="true"' : '' ?>>A</option>
-                <option <?= ($skill->getRang() === 'B') ? 'selected="true"' : '' ?>>B</option>
-                <option <?= ($skill->getRang() === 'C') ? 'selected="true"' : '' ?>>C</option>
-                <option <?= ($skill->getRang() === 'D') ? 'selected="true"' : '' ?>>D</option>
-                <option <?= ($skill->getRang() === 'E') ? 'selected="true"' : '' ?>>E</option>
-                <option <?= ($skill->getRang() === 'F') ? 'selected="true"' : '' ?>>F</option>
+            <select name="skillart">
+                <option value="1" <?= ($skill->getSkillArt() === 1) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
+                <option value="2" <?= ($skill->getSkillArt() === 2) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
+                <option value="3" <?= ($skill->getSkillArt() === 3) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
+                <option value="4" <?= ($skill->getSkillArt() === 4) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
             </select>
-        </div>
+        </span>
+        <label for="rang">
+            Rang
+        </label>
+        <select name="rang">
+            <option <?= ($skill->getRang() === 'EX') ? 'selected="true"' : '' ?>>EX</option>
+            <option <?= ($skill->getRang() === 'A') ? 'selected="true"' : '' ?>>A</option>
+            <option <?= ($skill->getRang() === 'B') ? 'selected="true"' : '' ?>>B</option>
+            <option <?= ($skill->getRang() === 'C') ? 'selected="true"' : '' ?>>C</option>
+            <option <?= ($skill->getRang() === 'D') ? 'selected="true"' : '' ?>>D</option>
+            <option <?= ($skill->getRang() === 'E') ? 'selected="true"' : '' ?>>E</option>
+            <option <?= ($skill->getRang() === 'F') ? 'selected="true"' : '' ?>>F</option>
+        </select>
+    </div>
+    <div>
+        <label for="replaces">
+            Ersetzt Fähigkeit
+        </label>
+        <select name="replaces" id="replaces">
+            <option value="">keine</option>
+            <?php 
+            foreach ($this->skills as $listedSkill) { 
+                $selected = '';
+                if ($listedSkill->getId() === $skill->getId()) {
+                    continue;
+                }
+                if ($listedSkill->getId() === $skill->getReplacesSkillId()) {
+                    $selected = 'selected=""';
+                }
+            ?>
+            <option value="<?= $listedSkill->getId() ?>" <?= $selected ?>>
+                    <?= $listedSkill->getBezeichnung() ?>
+            </option>
+            <?php } ?>
+        </select>
+    </div>
+    <fieldset>
+        <legend>Voraussetzungen</legend>
         <div>
             <span style="width: 50%; display: inline-block">
                 <label for="uebung">
@@ -264,13 +287,13 @@ $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('Magi
                 </select>
             </div>
         </div>
-        <label for="beschreibung">
-            Beschreibung
-        </label>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $this->purifier->purify($beschreibung) ?>
-        </textarea>
     </fieldset>
+    <label for="beschreibung">
+        Beschreibung
+    </label>
+    <textarea name="beschreibung" cols="80" rows="10">
+        <?= $this->purifier->purify($beschreibung) ?>
+    </textarea>
     <div align="center">
         <input type="hidden" name="skillId" value="<?= $this->skill->getId() ?>">
         <input type="submit" name="Abschicken" id="Abschicken" value="Speichern" />

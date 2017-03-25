@@ -22,7 +22,9 @@ class Application_Model_Charakterwerte {
         'dis' => 0,
         'kon' => 0,
     ];
-    
+    protected $circuitBonus = 0;
+
+
     private $energieFaktor = [
         'F' => 1,
         'E' => 2,
@@ -157,164 +159,80 @@ class Application_Model_Charakterwerte {
     public function getCategory($attr) {
         $ubermenschMod = $this->uebermenschMods[$attr] === 1;
         $uebermensch = false;
-        switch ($attr) {
-            case 'str':
-                $value = $this->staerke;
-                break;
-            case 'agi':
-                $value = $this->agilitaet;
-                break;
-            case 'aus':
-                $value = $this->ausdauer;
-                break;
-            case 'kon':
-                $value = $this->kontrolle;
-                break;
-            case 'dis':
-                $value = $this->disziplin;
-                break;
-            default:
-                $value = 0;
-                break;
+        $attributes = [
+            'str' => $this->staerke,
+            'agi' => $this->agilitaet,
+            'aus' => $this->ausdauer,
+            'kon' => $this->kontrolle,
+            'dis' => $this->disziplin,
+        ];
+        $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
+        
+        $categories = [
+            ['category' => 'F-', 'lowerbound' => -10, 'ueber' => false],
+            ['category' => 'F', 'lowerbound' => -1, 'ueber' => false],
+            ['category' => 'F+', 'lowerbound' => 0, 'ueber' => false],
+            ['category' => 'E-', 'lowerbound' => 40, 'ueber' => false],
+            ['category' => 'E', 'lowerbound' => 80, 'ueber' => false],
+            ['category' => 'E+', 'lowerbound' => 120, 'ueber' => false],
+            ['category' => 'D-', 'lowerbound' => 160, 'ueber' => false],
+            ['category' => 'D', 'lowerbound' => 200, 'ueber' => false],
+            ['category' => 'D+', 'lowerbound' => 250, 'ueber' => false],
+            ['category' => 'C-', 'lowerbound' => 300, 'ueber' => false],
+            ['category' => 'C', 'lowerbound' => 350, 'ueber' => false],
+            ['category' => 'C+', 'lowerbound' => 400, 'ueber' => false],
+            ['category' => 'B-', 'lowerbound' => 460, 'ueber' => false],
+            ['category' => 'B', 'lowerbound' => 520, 'ueber' => false],
+            ['category' => 'B+', 'lowerbound' => 580, 'ueber' => false],
+            ['category' => 'A-', 'lowerbound' => 650, 'ueber' => false],
+            ['category' => 'A', 'lowerbound' => 720, 'ueber' => false],
+            ['category' => 'A+', 'lowerbound' => 800, 'ueber' => false],
+            ['category' => 'F-', 'lowerbound' => 800, 'ueber' => true],
+            ['category' => 'F', 'lowerbound' => 880, 'ueber' => true],
+            ['category' => 'F+', 'lowerbound' => 960, 'ueber' => true],
+            ['category' => 'E-', 'lowerbound' => 1050, 'ueber' => true],
+            ['category' => 'E', 'lowerbound' => 1150, 'ueber' => true],
+            ['category' => 'E+', 'lowerbound' => 1250, 'ueber' => true],
+            ['category' => 'D-', 'lowerbound' => 1400, 'ueber' => true],
+            ['category' => 'D', 'lowerbound' => 1500, 'ueber' => true],
+            ['category' => 'D+', 'lowerbound' => 1600, 'ueber' => true],
+            ['category' => 'C-', 'lowerbound' => 1800, 'ueber' => true],
+            ['category' => 'C', 'lowerbound' => 1900, 'ueber' => true],
+            ['category' => 'C+', 'lowerbound' => 2000, 'ueber' => true],
+            ['category' => 'B-', 'lowerbound' => 2200, 'ueber' => true],
+            ['category' => 'B', 'lowerbound' => 2300, 'ueber' => true],
+            ['category' => 'B+', 'lowerbound' => 2400, 'ueber' => true],
+            ['category' => 'A-', 'lowerbound' => 2600, 'ueber' => true],
+            ['category' => 'A', 'lowerbound' => 2800, 'ueber' => true],
+            ['category' => 'A+', 'lowerbound' => 3000, 'ueber' => true],
+        ];
+        foreach ($categories as $key => $category) {
+            if ($category['lowerbound'] <= $value
+                    && ($category['ueber'] === false || $ubermenschMod === true)) {
+                $activeCategory = $category;
+                $activeKey = $key;
+            }
         }
-        switch (true) {
-            case $value >= 3000 && $ubermenschMod:
-                $category = "A+";
-                $uebermensch = true;
-                break;
-            case $value >= 2800 && $ubermenschMod:
-                $category = "A";
-                $uebermensch = true;
-                break;
-            case $value >= 2600 && $ubermenschMod:
-                $category = "A-";
-                $uebermensch = true;
-                break;
-            case $value >= 2400 && $ubermenschMod:
-                $category = "B+";
-                $uebermensch = true;
-                break;
-            case $value >= 2300 && $ubermenschMod:
-                $category = "B";
-                $uebermensch = true;
-                break;
-            case $value >= 2200 && $ubermenschMod:
-                $category = "B-";
-                $uebermensch = true;
-                break;
-            case $value >= 2000 && $ubermenschMod:
-                $category = "C+";
-                $uebermensch = true;
-                break;
-            case $value >= 1900 && $ubermenschMod:
-                $category = "C";
-                $uebermensch = true;
-                break;
-            case $value >= 1800 && $ubermenschMod:
-                $category = "C-";
-                $uebermensch = true;
-                break;
-            case $value >= 1600 && $ubermenschMod:
-                $category = "D+";
-                $uebermensch = true;
-                break;
-            case $value >= 1500 && $ubermenschMod:
-                $category = "D";
-                $uebermensch = true;
-                break;
-            case $value >= 1400 && $ubermenschMod:
-                $category = "D-";
-                $uebermensch = true;
-                break;
-            case $value >= 1250 && $ubermenschMod:
-                $category = "E+";
-                $uebermensch = true;
-                break;
-            case $value >= 1150 && $ubermenschMod:
-                $category = "E";
-                $uebermensch = true;
-                break;
-            case $value >= 1050 && $ubermenschMod:
-                $category = "E-";
-                $uebermensch = true;
-                break;
-            case $value >= 960 && $ubermenschMod:
-                $category = "F+";
-                $uebermensch = true;
-                break;
-            case $value >= 880 && $ubermenschMod:
-                $category = "F";
-                $uebermensch = true;
-                break;
-            case $value >= 800 && $ubermenschMod:
-                $category = "F-";
-                $uebermensch = true;
-                break;
-            case $value >= 800:
-                $category = "A+";
-                break;
-            case $value >= 720:
-                $category = "A";
-                break;
-            case $value >= 650:
-                $category = "A-";
-                break;
-            case $value >= 580:
-                $category = "B+";
-                break;
-            case $value >= 520:
-                $category = "B";
-                break;
-            case $value >= 460:
-                $category = "B-";
-                break;
-            case $value >= 400:
-                $category = "C+";
-                break;
-            case $value >= 350:
-                $category = "C";
-                break;
-            case $value >= 300:
-                $category = "C-";
-                break;
-            case $value >= 250:
-                $category = "D+";
-                break;
-            case $value >= 200:
-                $category = "D";
-                break;
-            case $value >= 160:
-                $category = "D-";
-                break;
-            case $value >= 120:
-                $category = "E+";
-                break;
-            case $value >= 80:
-                $category = "E";
-                break;
-            case $value >= 40:
-                $category = "E-";
-                break;
-            case $value >= 0:
-                $category = "F+";
-                break;
-            case $value == 0:
-                $category = "F";
-                break;
-            default:
-                $category = "F-";
-                break;
+        if (in_array($attr, ['dis', 'kon']) && $this->circuitBonus > 0) {
+            $category = $categories[$activeKey + $this->circuitBonus];
+            if ($category['ueber'] === false || $ubermenschMod === true) {
+                $activeCategory = $category;
+            }
         }
         $werteCategory = new Application_Model_Charakterwertecategory();
-        $werteCategory->setCategory($category);
-        $werteCategory->setUebermensch($uebermensch);
+        $werteCategory->setCategory($activeCategory['category']);
+        $werteCategory->setUebermensch($activeCategory['ueber']);
         return $werteCategory;
     }
     
     
     public function getEnergie() {
         $category = $this->getCategory('aus');
-        return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
+        if ($category->getUebermensch()) {
+            return 1000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 4500;
+        } else {
+            return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
+        }
     }
     
     public function toArray() {
@@ -348,10 +266,10 @@ class Application_Model_Charakterwerte {
                         $this->uebermenschMods['str'] = 1;
                         break;
                     case 2:
-                        $this->uebermenschMods['agi'] = 1;
+                        $this->uebermenschMods['aus'] = 1;
                         break;
                     case 3:
-                        $this->uebermenschMods['aus'] = 1;
+                        $this->uebermenschMods['agi'] = 1;
                         break;
                     case 5:
                         $this->uebermenschMods['kon'] = 1;
@@ -361,6 +279,24 @@ class Application_Model_Charakterwerte {
                         break;
                 }
             }
+        }
+    }
+    
+    
+    public function setCircuitMod($circuitKategorie) {
+        switch ($circuitKategorie) {
+            case 'A':
+                $this->circuitBonus = 1;
+                break;
+            case 'B':
+                $this->circuitBonus = 1;
+                break;
+            case 'C':
+                $this->circuitBonus = 1;
+                break;
+            default:
+                $this->circuitBonus = 0;
+                break;
         }
     }
     

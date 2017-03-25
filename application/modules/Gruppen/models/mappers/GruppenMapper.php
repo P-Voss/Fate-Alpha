@@ -134,10 +134,9 @@ class Gruppen_Model_Mapper_GruppenMapper {
     
     /**
      * @param int $gruppenId
-     * @return array
+     * @return Gruppen_Model_Gruppe
      */
     public function getGruppeByGruppenId($gruppenId) {
-        $returnArray = array();
         $select = $this->getDbTable('Spielergruppen')->select();
         $select->setIntegrityCheck(false);
         $select->from('spielergruppen');
@@ -224,6 +223,19 @@ class Gruppen_Model_Mapper_GruppenMapper {
             'userId' => $gruppe->getGruender(),
         );
         return $this->getDbTable('Spielergruppen')->insert($data);
+    }
+    
+    /**
+     * @param Gruppen_Model_Gruppe $gruppe
+     * @return int
+     */
+    public function editGruppe(Gruppen_Model_Gruppe $gruppe) {
+        $data = array(
+            'name' => $gruppe->getName(),
+            'beschreibung' => $gruppe->getBeschreibung(),
+            'passwort' => $gruppe->getPasswort(),
+        );
+        return $this->getDbTable('Spielergruppen')->update($data, ['gruppenId = ?' => $gruppe->getId()]);
     }
     
     /**
@@ -319,7 +331,7 @@ class Gruppen_Model_Mapper_GruppenMapper {
     public function getNachrichtenByGruppenId($gruppenId) {
         $returnArray = array();
         $select = $this->getDbTable('Gruppenchat')->select();
-        $select->where('gruppenId = ?', $gruppenId);
+        $select->where('gruppenId = ? AND TIMESTAMPDIFF(MONTH, createDate, NOW()) < 4', $gruppenId);
         $select->order('nachrichtenId DESC');
         $result = $this->getDbTable('Gruppenchat')->fetchAll($select);
         if($result->count() > 0){

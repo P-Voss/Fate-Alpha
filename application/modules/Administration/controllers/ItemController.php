@@ -24,20 +24,15 @@ class Administration_ItemController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        $this->view->klassen = $this->erstellungService->getKlassenList();
+        
     }
     
     public function showAction() {
-        $this->view->klasse = $this->service->getKlasseById($this->getRequest());
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        
     }
     
     public function newAction() {
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        
     }
     
     public function deleteAction() {

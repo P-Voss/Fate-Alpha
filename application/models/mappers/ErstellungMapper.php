@@ -230,7 +230,7 @@ class Application_Model_Mapper_ErstellungMapper {
                 $model = new Application_Model_Odo();
                 $model->setId($row->odoId);
                 $model->setKategorie($row->kategorie);
-                $model->setMenge($row->menge);
+                $model->setAmount($row->menge);
                 $model->setKosten($row->kosten);
                 $return[] = $model;
             }

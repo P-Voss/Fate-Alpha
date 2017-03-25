@@ -80,6 +80,28 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
     }
     
     /**
+     * @param Application_Model_Plot $plot
+     * @return int
+     */
+    public function renamePlot(Application_Model_Plot $plot) {
+        $data = array(
+            'name' => $plot->getName(),
+        );
+        return $this->getDbTable('Plots')->update($data, ['plotId = ?' => $plot->getId()]);
+    }
+    
+    /**
+     * @param int $plotId
+     * @return int
+     */
+    public function deactivatePlot($plotId) {
+        $data = array(
+            'isActive' => 0,
+        );
+        return $this->getDbTable('Plots')->update($data, ['plotId = ?' => $plotId]);
+    }
+    
+    /**
      * @param int $plotId
      * @param string $genres
      */
@@ -149,7 +171,7 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         $select->setIntegrityCheck(false);
         $select->from('plots');
         $select->where('plots.plotId = ?', $plotId);
-        $select->where('plots.userId = ?', $userId);
+        $select->where('plots.userId = ? AND plots.isActive = 1', $userId);
         return $this->getDbTable('Spielergruppen')->fetchAll($select)->count() > 0;
     }
     
@@ -163,6 +185,7 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         $select->setIntegrityCheck(false);
         $select->from('charakterPlots');
         $select->joinInner('charakter', 'charakter.charakterId = charakterPlots.charakterId AND charakter.active = 1', []);
+        $select->joinInner('plots', 'plots.plotId = charakterPlots.plotId AND plots.isActive = 1', []);
         $select->where('charakter.userId = ?', $userId);
         $select->where('charakterPlots.plotId = ?', $plotId);
         return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;
@@ -240,14 +263,14 @@ SQL;
     }
     
     /**
-     * @param array $slId
+     * @param int $slId
      * @return \Gruppen_Model_Plot
      */
     public function getPlotsBySLId($slId) {
         $returnArray = array();
         $select = $this->getDbTable('Plots')->select();
         $select->from('plots');
-        $select->where('userId = ?', $slId);
+        $select->where('userId = ? AND plots.isActive = 1', $slId);
         $result = $this->getDbTable('Plots')->fetchAll($select);
         foreach ($result as $row) {
             $plot = new Gruppen_Model_Plot();
@@ -261,7 +284,7 @@ SQL;
     }
     
     /**
-     * @param array $slId
+     * @param int $playerId
      * @return \Gruppen_Model_Plot
      */
     public function getPlotsByPlayerId($playerId) {
@@ -271,7 +294,7 @@ SQL;
         $select->from('plots');
         $select->joinInner('charakterPlots', 'charakterPlots.plotId = plots.plotId', []);
         $select->joinInner('charakter', 'charakter.charakterId = charakterPlots.charakterId AND charakter.active = 1', []);
-        $select->where('charakter.userId = ?', $playerId);
+        $select->where('charakter.userId = ? AND plots.isActive = 1', $playerId);
         $result = $this->getDbTable('Plots')->fetchAll($select);
         if($result->count() > 0){
             foreach ($result as $row) {

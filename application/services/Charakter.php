@@ -83,17 +83,25 @@ class Application_Service_Charakter {
             
             $charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakter->getCharakterid()));
             
-            $charakter->setOdo($this->charakterMapper->getOdo($charakter->getCharakterid(), $charakter->getModifiers()));
             $charakter->setLuck($this->charakterMapper->getLuck($charakter->getCharakterid(), $charakter->getModifiers()));
             $charakter->setVermoegen($this->charakterMapper->getVermoegen($charakter->getCharakterid(), $charakter->getModifiers()));
             $charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($charakter->getCharakterid()));
-            $charakter->applyModifiers();
+            $charakter->setOdo($this->charakterMapper->getOdo($charakter->getCharakterid(), $charakter->getModifiers()));
+            if ($charakter->getMagiccircuit() !== null 
+                    && in_array($charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C']))
+            {
+                $charakter->getCharakterwerte()->setCircuitMod($charakter->getMagiccircuit()->getKategorie());
+            }
             
             $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
             
             $charakter->setSkills($this->charakterMapper->getCharakterSkills($charakterId));
             $charakter->setMagieschulen($this->charakterMapper->getCharakterMagieschulen($charakterId));
             $charakter->setMagien($this->charakterMapper->getCharakterMagien($charakterId));
+            
+            $odo = $charakter->getOdo();
+            $odo->calculateActualOdo($charakter->getMagiccircuit(), $charakter->getCharakterwerte()->getCategory('kon'), $charakter->getKlassengruppe());
+            $charakter->setOdo($odo);
         }
         return $charakter;
     }

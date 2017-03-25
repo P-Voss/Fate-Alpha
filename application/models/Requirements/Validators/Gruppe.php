@@ -14,12 +14,12 @@ class Application_Model_Requirements_Validators_Gruppe implements Application_Mo
      */
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode(':', $value);
-        foreach ($values as $value){;
+        foreach ($values as $value){
             if($charakter->getKlassengruppe()->getId() == $value){
                 return true;
             }
         }
-        return false;;
+        return false;
     }
     
 }

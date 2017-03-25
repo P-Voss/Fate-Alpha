@@ -89,7 +89,7 @@
             <select name="odo">
                 <?php foreach($this->creationParams['odo'] as $odo): ?>
                 <option value="<?= $odo->getId() ?>" <?= $odo->getKategorie() == $charakter->getOdo()->getKategorie() ? 'selected' : '' ?>>
-                        <?= $odo->getMenge() . '(' . $odo->getKategorie() . ')' ?>
+                        <?= $charakter->getOdo()->getActualAmount() . '(' . $odo->getKategorie() . ')' ?>
                 </option>
                 <?php endforeach; ?>
             </select>

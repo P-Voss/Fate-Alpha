@@ -29,7 +29,9 @@ class Gruppen_Service_Gruppen {
     public function getGruppeByGruppenId($gruppenId) {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByGruppenId($gruppenId);
-        $gruppe->setMitglieder($mapper->getGruppenmitglieder($gruppe->getId()));
+        if ($gruppe !== false) {
+            $gruppe->setMitglieder($mapper->getGruppenmitglieder($gruppe->getId()));
+        }
         return $gruppe;
     }
     
@@ -98,8 +100,17 @@ class Gruppen_Service_Gruppen {
     }
     
     
-    public function editGruppe() {
-        
+    public function editGruppe(Zend_Controller_Request_Http $request) {
+        if($request->getPost('gruppenname') == ''){
+            return false;
+        }
+        $mapper = new Gruppen_Model_Mapper_GruppenMapper();
+        $gruppe = new Gruppen_Model_Gruppe();
+        $gruppe->setId($request->getPost('gruppenId'));
+        $gruppe->setBeschreibung($request->getPost('beschreibung', ''));
+        $gruppe->setName($request->getPost('gruppenname'));
+        $gruppe->setPasswort($request->getPost('passwort'));
+        $mapper->editGruppe($gruppe);
     }
     
     public function joinGruppe(Zend_Controller_Request_Http $request, $charakterId) {

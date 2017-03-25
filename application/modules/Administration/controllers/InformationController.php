@@ -38,7 +38,7 @@ class Administration_InformationController extends Zend_Controller_Action {
     public function showAction() {
         $this->view->kategorien = $this->kategorien;
         $this->view->information = $this->informationService->getInformationById($this->getRequest()->getParam('id'));
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
@@ -50,7 +50,7 @@ class Administration_InformationController extends Zend_Controller_Action {
     
     public function newAction() {
         $this->view->kategorien = $this->kategorien;
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();

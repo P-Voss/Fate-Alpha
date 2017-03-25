@@ -182,6 +182,7 @@ class Administration_Service_Skill {
         $skill->setUebung($request->getPost('uebung', 0) !== 0 ? (int) $request->getPost('uebung', 0) : 0);
         $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ?(int) $request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));
+        $skill->setReplacesSkillId((int) $request->getPost('replaces') !== 0 ? $request->getPost('replaces') : null);
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
@@ -205,6 +206,7 @@ class Administration_Service_Skill {
         $skill->setUebung($request->getPost('uebung', 0) !==  0 ? (int) $request->getPost('uebung', 0) : 0);
         $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ?(int) $request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));
+        $skill->setReplacesSkillId((int) $request->getPost('replaces') !== 0 ? $request->getPost('replaces') : null);
         
         $skill->setRequirementList(
             $this->requirementService->createRequirementListFromArray(

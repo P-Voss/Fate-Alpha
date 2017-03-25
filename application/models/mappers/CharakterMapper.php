@@ -267,7 +267,7 @@ class Application_Model_Mapper_CharakterMapper{
             $odo = new Application_Model_Odo();
             $odo->setId($row->odoId);
             $odo->setKategorie($row->kategorie);
-            $odo->setMenge($row->menge);
+            $odo->setAmount($row->menge);
             if($modifier !== 0){
                 $odo->setModified(true);
                 $odo->setModification($modifier);
@@ -902,7 +902,7 @@ class Application_Model_Mapper_CharakterMapper{
     
     /**
      * 
-     * @param Application_Model_Skill $skills
+     * @param int $charakterId
      * @return \Application_Model_Modifier
      */
     public function getModifierByCharakter($charakterId) {
