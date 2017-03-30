@@ -33,21 +33,10 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/controllers/IndexController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/models/mappers/EpisodeMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/services/Gruppen.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/controllers/PlotsController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/models/mappers/SchuleMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/Charakter.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/models/mappers/GruppenMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/models/mappers/PlotMapper.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Charakterwerte.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Gruppen/views/scripts/index/partials/gruppenleiter.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/services/Magie.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/views/scripts/plots/sl.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/services/Episode.php</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/services/Plot.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/chat/index.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/styles/chat.css</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/chat/chat.js</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/ChatController.php</file>
         </group>
     </open-files>
 </project-private>

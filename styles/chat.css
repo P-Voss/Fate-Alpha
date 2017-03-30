@@ -1,0 +1,58 @@
+
+/* 
+    Created on : 26.03.2017, 12:30:46
+    Author     : Voß
+*/
+
+#messages {
+    height: 400px;
+    width: 87%;
+    background-color: #B0F8FF;
+    opacity: .8;
+    border: 1px solid black;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    display: inline-block
+}
+
+#userList {
+    display: inline-block;
+    width: 12%;
+    height: 400px;
+    background-color: #B0F8FF;
+    border: 1px solid black;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    font-size: 9pt;
+}
+
+#message {
+    width: 80%;
+    height: 25px;
+    border: 1px solid black;
+}
+
+#send {
+    width: 70px;
+    height: 30px;
+}
+
+form {
+    margin: 0;
+}
+
+.label {
+    margin-left: 2px;
+}
+
+.user {
+    margin-left: 2px;
+}
+
+.msg {
+    background-color: #66B9FF;
+}
+
+.directed {
+    background-color: #66B9FF;
+}

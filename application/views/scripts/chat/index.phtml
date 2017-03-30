@@ -1,0 +1,21 @@
+<?php
+$this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/chat.css'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/chat/chat.js'));
+$this->headScript()->prependFile($this->baseUrl() . '/js/markdown/lib/markdown.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Noch ein Chat (Beta)
+</h1>
+<div>
+    <div id="messages"></div>
+    <div id="userList"></div>
+    <form role="form" id="chat_form">
+        <div class="form-group">
+            <input class="form-control" type="text" name="message" id="message" value="" autofocus/>
+            <input type="hidden" value="<?= Zend_Auth::getInstance()->getIdentity()->userId ?>" id="userId" />
+            <button type="button" id="send" class="btn btn-primary">Senden!</button>
+        </div>
+    </form>
+</div>
