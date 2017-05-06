@@ -34,8 +34,7 @@ class ChatController extends Zend_Controller_Action{
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
-        if($auth === null
-                || !in_array($auth->userId, [1, 3, 4, 6, 23, 26])){
+        if($auth === null) {
             $this->redirect('index');
         }  else {
             $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);

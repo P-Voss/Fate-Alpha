@@ -6,8 +6,9 @@
 
 #messages {
     height: 400px;
-    width: 87%;
-    background-color: #B0F8FF;
+    width: 86%;
+    /*background-color: #B0F8FF;*/
+    background-color: #FAF6E5;
     opacity: .8;
     border: 1px solid black;
     overflow-y: auto;
@@ -15,11 +16,26 @@
     display: inline-block
 }
 
+#inhalt {
+    background-color: #F07050;
+}
+#navigation {
+    background-color: #F07050;
+}
+#navigationrechts {
+    background-color: #F07050;
+}
+
+#steuerung #adminmenu {
+    background-color: #FFAB67;
+}
+
 #userList {
     display: inline-block;
     width: 12%;
     height: 400px;
-    background-color: #B0F8FF;
+    /*background-color: #B0F8FF;*/
+    background-color: #FEF9F9;
     border: 1px solid black;
     overflow-y: auto;
     overflow-wrap: break-word;
@@ -27,9 +43,14 @@
 }
 
 #message {
-    width: 80%;
+    width: 87%;
     height: 25px;
     border: 1px solid black;
+}
+
+#toggleUser {
+    cursor: pointer;
+    margin-left: 88%;
 }
 
 #send {
@@ -43,6 +64,12 @@ form {
 
 .label {
     margin-left: 2px;
+    font-weight: bold;
+    font-family: arial;
+}
+
+.im {
+    
 }
 
 .user {
