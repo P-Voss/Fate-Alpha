@@ -24,6 +24,14 @@ class Logs_Service_Episode {
     }
     
     /**
+     * @param int $episodenId
+     * @return boolean
+     */
+    public function needsLogleser($episodenId) {
+        return $this->episodeMapper->episodeBelongsToSecretPlot($episodenId);
+    }
+    
+    /**
      * @param int $episodeId
      * @return array
      */

@@ -1,3 +1,38 @@
+
+document.onreadystatechange = function () {
+     if (document.readyState === "complete") {
+ 
+        var personData = new Vue({
+            el: "#personData",
+            data: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthdate: "",
+                eyecolor: "",
+                size: "",
+                sexuality: "",
+                place: "",
+                classType: {
+                    id: "",
+                    name: ""
+                },
+                subClass: {
+                    id: "",
+                    name: ""
+                },
+                advantages: [
+                    {id: 1, name: "Hübsch"},
+                    {id: 2, name: "Klug"}
+                ],
+                disadvantages: []
+            }
+        });
+        
+        
+   }
+ };
+
 var erstellungspunkte = 30;
 var vorteilCount = 3;
 var nachteilCount = 2;

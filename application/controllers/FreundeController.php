@@ -66,7 +66,7 @@ class FreundeController extends Zend_Controller_Action {
         if($this->getRequest()->getParam('charakter') === null || (int)$this->getRequest()->getParam('charakter') <= 0){
             $this->redirect('freunde');
         }
-        $charakter = $this->_charakterService->getCharakter($this->getRequest());
+        $charakter = $this->_charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
 		if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
 			$charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
 			$valid = true;
@@ -84,7 +84,7 @@ class FreundeController extends Zend_Controller_Action {
     public function passAction() {
         $layout = $this->_helper->layout();
         $layout->setLayout('partials');
-        $charakter = $this->_charakterService->getCharakter($this->getRequest());
+        $charakter = $this->_charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
         if($charakter->getCharakterid() !== null && 
                 ($this->_charakterService->isAssociated($this->_charakter, $charakter) 
                     || $charakter->getCharakterid() === $this->_charakter->getCharakterid()

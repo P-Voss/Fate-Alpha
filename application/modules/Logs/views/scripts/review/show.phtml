@@ -11,26 +11,26 @@ $episode = $this->episode;
 $participants = $this->participants;
 /* @var $skill Story_Model_Skill */
 ?>
-<h2>Review der Episode <?= $episode->getName() ?></h2>
+<h1>Review der Episode <?= $episode->getName() ?></h1>
 <hr />
-<h3>
+<h2>
     Beschreibung der Episode
-</h3>
+</h2>
 <div>
     <?= $purifier->purify($episode->getBeschreibung()) ?>
 </div>
-<h3>
+<h2>
     Ausgang der Episode
-</h3>
+</h2>
 <div>
     <?= $purifier->purify($episode->getZusammenfassung()) ?>
 </div>
-<h3>
+<h2>
     Logs
-</h3>
+</h2>
 <div>
     <a href="<?= $this->baseUrl() ?>/Logs/review/gesamtlog/episode/<?= $episode->getId() ?>">
-        Gesamtlog herunterladen
+        Alle Logs herunterladen
     </a>
     <?php foreach($this->logs as $log): ?>
     <a href="<?= $this->baseUrl() ?>/Logs/review/download/episode/<?= $episode->getId() ?>/log/<?= $log->getId() ?>">
@@ -47,7 +47,6 @@ $participants = $this->participants;
     </a>
     <?php endforeach; ?>
 </div>
-<hr />
 <h2>Eintragungen für die teilnehmenden Charaktere</h2>
 <div id="auswertung" data-id="<?= $episode->getId() ?>">
     <?php foreach($participants as $charakter): 
@@ -120,7 +119,6 @@ $participants = $this->participants;
     </fieldset>
     <?php endforeach; ?>
 </div>
-<hr />
 <h2>Deine Bewertung</h2>
 <div>
     <form method="post" action="<?= $this->baseUrl() ?>/Logs/review/review">

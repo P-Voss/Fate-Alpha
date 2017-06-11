@@ -69,7 +69,11 @@ class Gruppen_Service_Gruppen {
         $mapper->removeCharakterFromGroup($charakterId, $gruppenId);
     }
     
-    
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @param int $userId
+     * @return int
+     */
     public function addNachricht(Zend_Controller_Request_Http $request, $userId) {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $userMapper = new Application_Model_Mapper_UserMapper();
@@ -80,6 +84,7 @@ class Gruppen_Service_Gruppen {
         $nachricht->setUserId($userId);
         $nachrichtenId = $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
         $userMapper->addNotificationForGroup($nachrichtenId);
+        $userMapper->addGroupleaderNotification($nachrichtenId);
         return $nachrichtenId;
     }
     

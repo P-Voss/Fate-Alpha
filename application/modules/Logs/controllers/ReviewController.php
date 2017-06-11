@@ -14,19 +14,19 @@ class Logs_ReviewController extends Zend_Controller_Action {
     private $episodenService;
     private $logService;
     
+    private $auth;
+    
     
     public function init() {
         if(!$this->_helper->logincheck()){
             $this->redirect('index/index');
         }
         $this->logService = new Logs_Service_Log();
-        if(!$this->logService->isLogleser(Zend_Auth::getInstance()->getIdentity()->userId)){
-            $this->redirect('index/index');
-        }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->plotService = new Logs_Service_Plot();
         $this->episodenService = new Logs_Service_Episode();
+        $this->auth = Zend_Auth::getInstance()->getIdentity();
     }
     
     
@@ -36,54 +36,60 @@ class Logs_ReviewController extends Zend_Controller_Action {
     
     
     public function showAction() {
-        if((int)$this->getRequest()->getParam('episode') <= 0){
+        $episodenId = (int) $this->getRequest()->getParam('episode');
+        if($episodenId <= 0
+            || ((bool)!$this->auth->isLogleser && $this->episodenService->needsLogleser($episodenId)))
+        {
             $this->redirect('index');
         }
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $episode = $this->episodenService->getEpisode($episodeId);
+        $episode = $this->episodenService->getEpisode($episodenId);
         $this->view->episode = $episode;
-        $this->view->participants = $this->episodenService->getParticipantsByEpisode($episodeId);
-        $this->view->logs = $this->logService->getLogsForEpisode($episodeId);
+        $this->view->participants = $this->episodenService->getParticipantsByEpisode($episodenId);
+        $this->view->logs = $this->logService->getLogsForEpisode($episodenId);
     }
     
     
     public function downloadAction() {
-        if((int)$this->getRequest()->getParam('episode') <= 0
-            ||
-            (int)  $this->getRequest()->getParam('log') <= 0){
+        $episodenId = (int) $this->getRequest()->getParam('episode');
+        $logId = (int)$this->getRequest()->getParam('log');
+        if(
+            ($episodenId <= 0 || $logId <= 0)
+                || ((bool)!$this->auth->isLogleser && $this->episodenService->needsLogleser($episodenId)))
+        {
             $this->redirect('index');
         }
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $logId = (int)$this->getRequest()->getParam('log');
-        
-        $log = $this->logService->getLogByLogIdAndEpisodeId($logId, $episodeId);
+        $log = $this->logService->getLogByLogIdAndEpisodeId($logId, $episodenId);
         if(!$this->logService->downloadLog($log)){
-            $this->redirect('Logs/review/show/episode/' . $episodeId);
+            $this->redirect('Logs/review/show/episode/' . $episodenId);
         }
     }
     
     public function gesamtlogAction() {
-        if((int)$this->getRequest()->getParam('episode') <= 0){
+        $episodenId = (int) $this->getRequest()->getParam('episode');
+        if($episodenId <= 0
+            || ((bool)!$this->auth->isLogleser && $this->episodenService->needsLogleser($episodenId)))
+        {
             $this->redirect('index');
         }
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $episode = $this->episodenService->getEpisode($episodeId);
-        $logs = $this->logService->getLogsForEpisode($episodeId);
+        $episode = $this->episodenService->getEpisode($episodenId);
+        $logs = $this->logService->getLogsForEpisode($episodenId);
         if(!$this->logService->downloadGesamtlog($logs, $episode->getName())){
-            $this->redirect('Logs/review/show/episode/' . $episodeId);
+            $this->redirect('Logs/review/show/episode/' . $episodenId);
         }
     }
     
     public function reviewAction() {
-        if((int)$this->getRequest()->getParam('episodenId') <= 0){
+        $episodenId = (int) $this->getRequest()->getParam('episode');
+        if($episodenId <= 0
+            || ((bool)!$this->auth->isLogleser && $this->episodenService->needsLogleser($episodenId)))
+        {
             $this->redirect('index');
         }
-        $episodeId = (int)$this->getRequest()->getParam('episodenId');
         $auswertung = new Logs_Model_Auswertung();
         $auswertung->setDescription($this->getRequest()->getPost('feedback', ''));
         $auswertung->setUserId(Zend_Auth::getInstance()->getIdentity()->userId);
         $auswertung->setIsAccepted((int)$this->getRequest()->getPost('isAccepted', 0) === 1);
-        $this->episodenService->saveAuswertung($auswertung, $episodeId);
+        $this->episodenService->saveAuswertung($auswertung, $episodenId);
         $this->redirect('Logs');
     }
     

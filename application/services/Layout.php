@@ -9,7 +9,7 @@ class Application_Service_Layout {
 
     public function getLayoutData($auth){
         $informationService = new Application_Service_Information();
-        $charakterService = new Application_Service_Charakter();
+        $charakterBuilder = new Application_Service_CharakterBuilder();
         $layoutModel = new Application_Model_Layout();
         $userMapper = new Application_Model_Mapper_UserMapper();
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
@@ -19,7 +19,21 @@ class Application_Service_Layout {
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
         $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
         if($userMapper->hasChara($auth->userId)){
-            $charakter = $charakterService->getCharakterByUserid($auth->userId);
+            $charakterBuilder->initCharakterByUserId($auth->userId)
+                ->setVorteile()
+                ->setNachteile()
+                ->setCircuit()
+                ->setNaturelement()
+                ->setClassData()
+                ->setLuck()
+                ->setMagien()
+                ->setMagieschulen()
+                ->setOdo()
+                ->setProfile()
+                ->setSkills()
+                ->setVermoegen()
+                ->setWerte();
+            $charakter = $charakterBuilder->getCharakter();
             $layoutModel->setHasChara(true);
             $layoutModel->setCharakter($charakter);
             $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($charakter->getCharakterid()));

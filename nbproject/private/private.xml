@@ -5,7 +5,7 @@
             <url>application/modules/Story/services/Plot.php</url>
             <bookmark id="1">
                 <name/>
-                <line>115</line>
+                <line>116</line>
                 <key/>
             </bookmark>
         </file>
@@ -33,10 +33,32 @@
             <file>file:/F:/Projekte/FateNeu/application/modules/Shop/controllers/MagieController.php</file>
         </group>
         <group>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/chat/index.phtml</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/styles/chat.css</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/chat/chat.js</file>
-            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/ChatController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/styles/charakterErstellung.css</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/User.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/controllers/CharakterController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/services/Episode.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/services/CharakterBuilder.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/models/Plot.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/js/custom/erstellung/charaktererstellungNeu.js</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Requirement.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/views/scripts/charakter/index.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/models/mappers/PlotMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/magie/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/views/scripts/charakter/abilities.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/views/scripts/skill/show.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Plot.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Requirements/Validators/Gruppe.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/views/scripts/plots/new.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Administration/services/Skill.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/layouts/scripts/erstellung.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/controllers/PlotsController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/models/mappers/EpisodeMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Logs/controllers/ReviewController.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/configs/application.ini</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Erstellung/views/scripts/charakter/person.phtml</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/Requirements/Validators/Klasse.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/models/mappers/CharakterMapper.php</file>
+            <file>file:/E:/Workspace/Projekte/FateNeu/application/modules/Story/services/Plot.php</file>
         </group>
     </open-files>
 </project-private>

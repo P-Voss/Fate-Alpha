@@ -1,14 +1,50 @@
-        
-.FormularZeile {
-    width: 95%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  
+#personData {
+    position: fixed;
+    z-index: 2;
+    text-align: left;
+    left: 0px;
+    top: 140px;
+    padding-left: 5px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    width: 180px;
+    max-height: 600px;
+    background-color: #9cdce2;
+    border-top : 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 0px solid black;
+    overflow: auto;
+}
+
+.formRow {
+    width: 100%;
     text-align: left;
     margin-bottom: 25px;
     vertical-align: top;
     border: none;
 }
+
+.formRow div {
+    display: inline-block;
+}
+
+.label {
+    padding-left: 15px;
+    width: 60%;
+    vertical-align: middle;
+}
+.label .title {
+    font-weight: bold;
+}
+
+.input {
+    padding-right: 15px;
+    width: calc(38% - 30px);
+    text-align: right;
+}
+
 .FormularLabel {
     display: inline-block;
     margin-left: auto;
@@ -26,10 +62,6 @@
 .titel{
     display: block;
     font-weight: bold;
-}
-.label{
-    font-style: italic;
-    vertical-align: middle;
 }
 .Ausgabe {
     display: inline-block;
