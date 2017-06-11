@@ -22,20 +22,23 @@ class Application_Service_CharakterBuilder {
         $this->charakterMapper = new Application_Model_Mapper_CharakterMapper();
     }
     
+    
+    public function getCharakter() {
+        return $this->charakter;
+    }
+    
     /**
      * @param int $charakterId
      * @return $this
      */
     public function initCharakterByCharakterId($charakterId) {
         $this->charakter = $this->charakterMapper->getCharakter($charakterId);
+        if ($this->charakter === false) {
+            return false;
+        }
         $this->charakterId = $charakterId;
         $this->charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakterId));
-        return $this;
-    }
-    
-    
-    public function getCharakter() {
-        return $this->charakter;
+        return true;
     }
     
     /**
@@ -44,9 +47,12 @@ class Application_Service_CharakterBuilder {
      */
     public function initCharakterByUserId($userId) {
         $this->charakter = $this->charakterMapper->getCharakterByUserId($userId);
+        if ($this->charakter === false) {
+            return false;
+        }
         $this->charakterId = $this->charakter->getCharakterid();
         $this->charakter->setModifiers($this->charakterMapper->getModifierByCharakter($this->charakterId));
-        return $this;
+        return true;
     }
     
     

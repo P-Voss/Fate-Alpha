@@ -37,7 +37,7 @@ class CharakterController extends Zend_Controller_Action{
         if($auth === null){
             $this->redirect('index');
         }  else {
-            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+            $this->charakter = $this->initCharakter($auth->userId);
             if($this->charakter !== false){
                 $this->charakter->setCharakterprofil($this->charakterService->getProfile($this->charakter->getCharakterid()));
             }
@@ -216,6 +216,30 @@ class CharakterController extends Zend_Controller_Action{
             'success' => true, 
             'html' => $html,
         ));
+    }
+    
+    
+    private function initCharakter($userId) {
+        $charakterBuilder = new Application_Service_CharakterBuilder();
+        if ($charakterBuilder->initCharakterByUserId($userId)) {
+            $charakterBuilder->initCharakterByUserId($userId)
+                ->setVorteile()
+                ->setNachteile()
+                ->setCircuit()
+                ->setNaturelement()
+                ->setClassData()
+                ->setLuck()
+                ->setMagien()
+                ->setMagieschulen()
+                ->setOdo()
+                ->setProfile()
+                ->setSkills()
+                ->setVermoegen()
+                ->setWerte();
+            return $charakterBuilder->getCharakter();
+        } else {
+            return false;
+        }
     }
     
 }
