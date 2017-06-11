@@ -1,12 +1,16 @@
 <fieldset>
     <legend>Statistik</legend>
     <div>
-<!--    <legend>Statistik <span class="indicator"></span></legend>
-    <div class="subContent">-->
         <p>
-            <label>Überlebt seit:</label>
+            <label>Überlebt seit</label>
             <span>
                 <?= $charakter->getCreatedate('d.m.Y') ?>
+            </span>
+        </p>
+        <p>
+            <label>Getötete NPCs</label>
+            <span>
+                <?= $charakter->getKillcount() ?>
             </span>
         </p>
     </div>

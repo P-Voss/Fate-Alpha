@@ -9,6 +9,7 @@ $layoutData = $this->layoutData;
         <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/charakterErstellung.css') ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/style.css') ?>" />
         <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/vue.js"></script>
         <script type="text/javascript">
             var baseUrl ='<?= $this->baseUrl() ?>';
         </script>
@@ -33,42 +34,47 @@ $layoutData = $this->layoutData;
 
             </p>
         </div>
-        <div id="beschreibungLinks">
+        <div id="personData">
+            <h2>Personendaten</h2>
             <p id="namen">
-                <span id="Vorname">
-
-                </span>
-                <span id="Nachname">
-
-                </span>
-                <span id="Geschlecht">
-
-                </span>
+                <span id="Vorname">{{ firstname }}</span>
+                <span id="Nachname">{{ lastname }}</span>
+                <span id="Geschlecht">{{ gender }}</span>
             </p>
             <p>
-                <span id="Geburtsdatum">
-
-                </span>
+                <span id="Geburtsdatum">{{ birthdate }}</span>
             </p>
             <p>
-                <span id="Augenfarbe">
-
-                </span>
+                <span id="Augenfarbe">{{ eyecolor }}</span>
             </p>
             <p>
-                <span id="Körpergröße">
-
-                </span>
+                <span id="Körpergröße">{{ size }}</span>
             </p>
             <p>
-                <span id="Sexualität">
-
-                </span>
+                <span id="Sexualität">{{ sexuality }}</span>
             </p>
             <p>
-                <span id="Wohnort">
-
-                </span>
+                <span id="Wohnort">{{ place }}</span>
+            </p>
+            <h2>Klasse</h2>
+            <p>
+                <span id="classType">{{ classType.name }}</span>
+            </p>
+            <h2>Vorteile</h2>
+            <p>
+                <ul id="advantages">
+                    <li v-for="adv in advantages">{{ adv.name }}</li>
+                </ul>
+            </p>
+            <h2>Nachteile</h2>
+            <p>
+                <ul id="disadvantages">
+                    <li v-for="disadv in disadvantages">{{ disadv.name }}</li>
+                </ul>
+            </p>
+            <h2>Unterklasse</h2>
+            <p>
+                <span id="subClass">{{ subClass.name }}</span>
             </p>
         </div>
         <div id="seitenbereich2">

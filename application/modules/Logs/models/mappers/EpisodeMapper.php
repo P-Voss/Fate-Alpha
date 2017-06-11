@@ -8,6 +8,21 @@
 class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMapper {
     
     /**
+     * @param int $episodenId
+     * @return boolean
+     */
+    public function episodeBelongsToSecretPlot($episodenId) {
+        $select = $this->getDbTable('Episoden')
+            ->select()
+            ->setIntegrityCheck(false)
+            ->from('episoden', [])
+            ->joinInner('plots', 'plots.plotId = episoden.plotId AND plots.isSecret = 1')
+            ->where('episoden.episodenId = ?', $episodenId);
+        $result = $this->getDbTable('Episoden')->fetchAll($select);
+        return $result->count() > 0;
+    }
+    
+    /**
      * @param type $plotId
      * @param type $userId
      * @return \Logs_Model_Episode

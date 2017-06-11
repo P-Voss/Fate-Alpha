@@ -12,6 +12,8 @@ class Logs_IndexController extends Zend_Controller_Action {
      */
     private $plotService;
     
+    private $auth;
+    
     public function init() {
         if(!$this->_helper->logincheck()){
             $this->redirect('index/index');
@@ -19,15 +21,16 @@ class Logs_IndexController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->plotService = new Logs_Service_Plot();
-        $logService = new Logs_Service_Log();
-        if(!$logService->isLogleser(Zend_Auth::getInstance()->getIdentity()->userId)){
-            $this->redirect('index/index');
-        }
+        $this->auth = Zend_Auth::getInstance()->getIdentity();
     }
     
     
     public function indexAction() {
-        $this->view->plotsToReview = $this->plotService->getPlotsToReview(Zend_Auth::getInstance()->getIdentity()->userId);
+        if (!$this->auth->isLogleser) {
+            $this->view->plotsToReview = $this->plotService->getNonsecretPlotsToReview($this->auth->userId);
+        } else {
+            $this->view->plotsToReview = $this->plotService->getPlotsToReview($this->auth->userId);
+        }
     }
     
 }

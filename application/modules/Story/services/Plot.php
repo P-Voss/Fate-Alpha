@@ -31,6 +31,7 @@ class Story_Service_Plot extends Application_Service_Story {
         $plot->setSlId(Zend_Auth::getInstance()->getIdentity()->userId);
         $plot->setName($request->getPost('plotname'));
         $plot->setBeschreibung($request->getPost('beschreibung'));
+        $plot->setIsSecret((int) $request->getPost('secret', 0) === 1);
         $plotId = $this->plotMapper->createPlot($plot);
         if(!is_null($request->getPost('genre'))){
             $this->plotMapper->setGenres($plotId, $request->getPost('genre'));

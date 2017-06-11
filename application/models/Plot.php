@@ -13,7 +13,9 @@ class Application_Model_Plot {
     protected $beschreibung;
     protected $zusammenfassung;
     protected $genres = array();
-    
+    protected $isSecret;
+
+
     public function getId() {
         return $this->id;
     }
@@ -60,6 +62,14 @@ class Application_Model_Plot {
 
     public function setZusammenfassung($zusammenfassung) {
         $this->zusammenfassung = $zusammenfassung;
+    }
+    
+    public function getIsSecret() {
+        return $this->isSecret === true;
+    }
+
+    public function setIsSecret($isSecret) {
+        $this->isSecret = $isSecret;
     }
     
 }

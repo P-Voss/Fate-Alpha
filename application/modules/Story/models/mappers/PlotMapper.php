@@ -74,6 +74,7 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         $data = array(
             'userId' => $plot->getSlId(),
             'name' => $plot->getName(),
+            'isSecret' => $plot->getIsSecret(),
             'creationdate' => $plot->getCreateDate('Y-m-d H:i:s'),
         );
         return $this->getDbTable('Plots')->insert($data);

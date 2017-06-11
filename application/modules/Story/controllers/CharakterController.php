@@ -56,7 +56,7 @@ class Story_CharakterController extends Zend_Controller_Action {
         if($this->plotService->isSL($this->getRequest()->getParam('plot'), Zend_Auth::getInstance()->getIdentity()->userId)
             && $this->plotService->checkDatenfreigabeCharakter($this->getRequest()->getParam('plot'), $this->getRequest()->getParam('charakter')))
         {
-            $charakter = $this->charakterService->getCharakter($this->getRequest());
+            $charakter = $this->charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
             $this->view->charakter = $charakter;
             
             $magieService = new Shop_Service_Magie();

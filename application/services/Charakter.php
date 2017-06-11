@@ -33,14 +33,6 @@ class Application_Service_Charakter {
     }
     
     /**
-     * @param Zend_Controller_Request_Http $request
-     * @return Application_Model_Charakter
-     */
-    public function getCharakter(Zend_Controller_Request_Http $request) {
-        return $this->getCharakterById((int) $request->getParam('charakter', 0));
-    }
-    
-    /**
      * @param int $charakterId
      * @return Application_Model_Charakter
      */

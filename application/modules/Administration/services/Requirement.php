@@ -40,11 +40,23 @@ class Administration_Service_Requirement {
      */
     public function buildRequirementArray(Zend_Controller_Request_Http $request) {
         $requirements = array();
-        if($request->getParam('uebung') !== null){
+        if($request->getParam('uebung', 0) > 0){
             $requirements['Uebung'] = $request->getParam('uebung');
         }
-        if($request->getParam('disziplin') !== null){
+        if($request->getParam('disziplin', 0) > 0){
             $requirements['Disziplin'] = $request->getParam('disziplin');
+        }
+        if($request->getParam('staerke', 0) > 0){
+            $requirements['Staerke'] = $request->getParam('staerke');
+        }
+        if($request->getParam('agilitaet', 0) > 0){
+            $requirements['Agilitaet'] = $request->getParam('agilitaet');
+        }
+        if($request->getParam('ausdauer', 0) > 0){
+            $requirements['Ausdauer'] = $request->getParam('ausdauer');
+        }
+        if($request->getParam('kontrolle', 0) > 0){
+            $requirements['Kontrolle'] = $request->getParam('kontrolle');
         }
         if($request->getParam('skills') !== null){
             $requirements['Faehigkeit'] = $request->getParam('skills');
@@ -69,18 +81,6 @@ class Administration_Service_Requirement {
         }
         if($request->getParam('klassen') !== null){
             $requirements['Klasse'] = implode('|', $request->getParam('klassen'));
-        }
-        if($request->getParam('staerke') !== null){
-            $requirements['Staerke'] = $request->getParam('staerke');
-        }
-        if($request->getParam('agilitaet') !== null){
-            $requirements['Agilitaet'] = $request->getParam('agilitaet');
-        }
-        if($request->getParam('ausdauer') !== null){
-            $requirements['Ausdauer'] = $request->getParam('ausdauer');
-        }
-        if($request->getParam('kontrolle') !== null){
-            $requirements['Kontrolle'] = $request->getParam('kontrolle');
         }
         if($request->getParam('vorteile') !== null){
             $requirements['Vorteil'] = $request->getParam('vorteile');

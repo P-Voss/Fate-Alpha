@@ -51,15 +51,10 @@ $magieschulen = $this->magieschulen;
                         Rang: <?= $skill->getRang() ?>
                     </span>
                     <span class="skillDetail">
-                        <button class="details skills" data-id="<?= $skill->getId() ?>">
+                        <a class="details skills" data-id="<?= $skill->getId() ?>">
                             Details
-                        </button>
+                        </a>
                     </span>
-<!--                    <span>
-                        <button class="upgrade skills">
-                            nächste Stufe
-                        </button>
-                    </span>-->
                 </p>
                 <?php endforeach; ?>
             </div>
@@ -87,15 +82,10 @@ $magieschulen = $this->magieschulen;
                             Stufe: <?= $magie->getStufe() ?>
                         </span>
                         <span class="magicDetail">
-                            <button class="details magic" data-id="<?= $magie->getId() ?>">
+                            <a class="details magic" data-id="<?= $magie->getId() ?>">
                                 Details
-                            </button>
+                            </a>
                         </span>
-<!--                    <span>
-                        <button class="upgrade magic">
-                            nächste Stufe
-                        </button>
-                    </span>-->
                     </p>
                     <?php endforeach; ?>
                 </div>

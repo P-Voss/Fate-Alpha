@@ -136,6 +136,10 @@ class Application_Model_Charakter {
      * @var Application_Model_Modifier
      */
     protected $modifiers = array();
+    /**
+     * @var int
+     */
+    protected $killCount;
 
     public function getCharakterid() {
         return $this->charakterid;
@@ -497,6 +501,16 @@ class Application_Model_Charakter {
         return $this->categories[$key];
     }
     
+    
+    public function getKillCount() {
+        return (int) $this->killCount;
+    }
+
+    public function setKillCount($killCount) {
+        $this->killCount = $killCount;
+    }
+
+        
     public function setModifiers($modifiers = array()) {
         foreach ($modifiers as $modifier) {
             if($modifier instanceof Application_Model_Modifier){

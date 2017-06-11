@@ -181,14 +181,14 @@ class Application_Model_Mapper_UserMapper {
     public function getUsers() {
         $returnArray = array();
         $select = $this->getDbTable('User')
-                ->select()
-                ->from('benutzerdaten', ['userId', 'username', 'usergruppe', 'profilname'])
-                ->joinLeft('charakter', 'charakter.userId = benutzerdaten.userId and charakter.active = 1', [])
-                ->where('benutzerdaten.active = 1')
-                ->order(new Zend_Db_Expr('benutzerdaten.usergruppe = "Admin" DESC'))
-                ->order(new Zend_Db_Expr('charakter.vorname IS NULL ASC'))
-                ->order('charakter.vorname')
-                ->order('benutzerdaten.profilname');
+            ->select()
+            ->from('benutzerdaten', ['userId', 'username', 'usergruppe', 'profilname'])
+            ->joinLeft('charakter', 'charakter.userId = benutzerdaten.userId and charakter.active = 1', [])
+            ->where('benutzerdaten.active = 1')
+            ->order(new Zend_Db_Expr('benutzerdaten.usergruppe = "Admin" DESC'))
+            ->order(new Zend_Db_Expr('charakter.vorname IS NULL ASC'))
+            ->order('charakter.vorname')
+            ->order('benutzerdaten.profilname');
         $result = $this->getDbTable('User')->fetchAll($select);
         foreach ($result as $row) {
             $user = new Application_Model_User();
@@ -296,7 +296,10 @@ WHERE
         AND notifications.notificationTypeId = 1
     )
 SQL;
-        $result = $this->getDbTable('Notification')->getDefaultAdapter()->query($sql, $userId)->fetchAll();
+        $result = $this->getDbTable('Notification')
+            ->getDefaultAdapter()
+            ->query($sql, $userId)
+            ->fetchAll();
         foreach ($result as $row) {
             $notification = new Application_Model_Notification();
             $notification->setType($row['notificationTypeId']);
@@ -331,7 +334,9 @@ SQL;
                     ', [$userId, $elementId]);
     }
     
-    
+    /**
+     * @param int $nachrichtenId
+     */
     public function addNotificationForGroup($nachrichtenId) {
         $this->getDbTable('Notification')->
                 getDefaultAdapter()
@@ -352,6 +357,25 @@ SQL;
                         ON charakter.userId = benutzerdaten.userId AND benutzerdaten.userId != gruppenchat.userId
                     WHERE 
                         nachrichtenId = ?
+                    ', [$nachrichtenId]);
+    }
+    
+    /**
+     * @param int $nachrichtenId
+     */
+    public function addGroupleaderNotification($nachrichtenId) {
+        $this->getDbTable('Notification')->
+                getDefaultAdapter()
+                ->query('
+                    INSERT INTO notifications (userId, elementId, notificationTypeId) 
+                    SELECT 
+                        gruppe.userId, chat.nachrichtenId, 1
+                    FROM 
+                        gruppenchat AS chat
+                    INNER JOIN spielergruppen AS gruppe
+                        ON gruppe.gruppenId = chat.gruppenId AND chat.userId != gruppe.userId
+                    WHERE 
+                        chat.nachrichtenId = ?
                     ', [$nachrichtenId]);
     }
 

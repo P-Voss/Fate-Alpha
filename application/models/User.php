@@ -17,6 +17,8 @@ class Application_Model_User {
      * @var Application_Model_Charakter
      */
     protected $charakter;
+    
+    protected $isLogleser = false;
 
 
     public function getId() {
@@ -73,6 +75,14 @@ class Application_Model_User {
 
     public function setCharakter(Application_Model_Charakter $charakter) {
         $this->charakter = $charakter;
+    }
+    
+    public function getIsLogleser() {
+        return $this->isLogleser;
+    }
+
+    public function setIsLogleser($isLogleser) {
+        $this->isLogleser = $isLogleser;
     }
     
 }

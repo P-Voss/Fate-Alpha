@@ -22,6 +22,18 @@ class Logs_Service_Plot extends Application_Service_Story {
      * @param int $userId
      * @return \Logs_Model_Plot
      */
+    public function getNonsecretPlotsToReview($userId) {
+        $plotsToReview = $this->plotMapper->getNonsecretPlotsOpenToReviewByUser($userId);
+        foreach ($plotsToReview as $plot) {
+            $plot->setEpisoden($this->episodeMapper->getEpisodesToReviewByPlotId($plot->getId(), $userId));
+        }
+        return $plotsToReview;
+    }
+    
+    /**
+     * @param int $userId
+     * @return \Logs_Model_Plot
+     */
     public function getPlotsToReview($userId) {
         $plotsToReview = $this->plotMapper->getPlotsOpenToReviewByUser($userId);
         foreach ($plotsToReview as $plot) {

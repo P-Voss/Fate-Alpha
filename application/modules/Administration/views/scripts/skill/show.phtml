@@ -11,6 +11,8 @@ $lernbedingungen = [
 $beschreibung = $skill->getBeschreibung();
 $skillsAny = explode('|', $skill->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
+$reqClasses = explode('|', $skill->getRequirementList()->getRequirementByKey('Klasse')->getRequiredValue());
+$reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gruppe')->getRequiredValue());
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
@@ -117,12 +119,7 @@ $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('Magi
                 <select name="gruppen[]" multiple="true" size="5">
                     <?php 
                     foreach ($this->klassengruppen as $gruppe) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Gruppe') as $reqGruppe) {
-                            if($reqGruppe->getRequiredValue() == $gruppe->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
+                        $selected = in_array($gruppe->getId(), $reqGroups) ? 'selected' : '';
                     ?>
                     <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
                         <?= $gruppe->getBezeichnung() ?>
@@ -136,12 +133,7 @@ $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('Magi
                 </label>
                 <select name="klassen[]" multiple="true" size="5">
                     <?php foreach ($this->klassen as $klasse) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Klasse') as $reqKlasse) {
-                            if($reqKlasse->getRequiredValue() == $klasse->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
+                        $selected = in_array($klasse->getId(), $reqClasses) ? 'selected' : '';
                     ?>
                     <option <?= $selected ?> value="<?= $klasse->getId() ?>">
                         <?= $klasse->getBezeichnung() ?>

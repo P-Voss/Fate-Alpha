@@ -169,6 +169,7 @@ class Application_Model_Mapper_CharakterMapper{
         if($result->count() > 0){
             foreach ($result as $row){
                 $model = new Application_Model_Charakter();
+                $model->setCharakterid($row->charakterId);
                 $model->setVorname($row->vorname);
                 $model->setNachname($row->nachname);
                 $model->setCharakterid($row->charakterId);
@@ -549,6 +550,7 @@ class Application_Model_Mapper_CharakterMapper{
             $model->setSexualitaet($row->sexualitaet);
             $model->setNickname($row->nickname);
             $model->setWohnort($row->wohnort);
+            $model->setKillCount($row->npcKills);
             $date = new DateTime($row->createDate);
             $model->setCreatedate($date);
             return $model;

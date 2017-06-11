@@ -39,7 +39,7 @@ class Gruppen_CharakterController extends Zend_Controller_Action {
     
     public function showAction() {
         if($this->gruppenService->isLeader(Zend_Auth::getInstance()->getIdentity()->userId, $this->getRequest()->getParam('gruppe'))){
-            $charakter = $this->charakterService->getCharakter($this->getRequest());
+            $charakter = $this->charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
             $this->view->charakter = $charakter;
             
             $magieService = new Shop_Service_Magie();
