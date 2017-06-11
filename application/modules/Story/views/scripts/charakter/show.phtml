@@ -20,6 +20,7 @@ function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
     }
 }
 /* @var $skillart Application_Model_Skillart */
+/* @var $skill Application_Model_Skill */
 $skillarten = $this->skillarten;
 usort($skillarten, "order");
 /* @var $schule Application_Model_Schule */
@@ -34,8 +35,8 @@ $categoryDis = $werte->getCategory('dis');
     <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
 </h1>
 <div>
-    <fieldset style="display: inline-block; width: 45%; float: left">
-        <legend>Charakterdaten</legend>
+    <fieldset style="display: inline-block; width: 49%; float: left">
+        <legend><h2>Charakterdaten</h2></legend>
         <p>
             <label>
                 Name
@@ -99,8 +100,8 @@ $categoryDis = $werte->getCategory('dis');
         </p>
         <?php endif; ?>
     </fieldset>
-    <fieldset style="display: inline-block; width: 45%; float: right">
-        <legend>Werte</legend>
+    <fieldset style="display: inline-block; width: 49%; float: right">
+        <legend><h2>Werte</h2></legend>
         <p>
             <label>
                 Stärke
@@ -176,23 +177,23 @@ $categoryDis = $werte->getCategory('dis');
     <div style="clear: both"></div>
 </div>
 <div>
-    <fieldset style="display: inline-block; width: 45%; float: left">
-        <legend>Vorteile</legend>
+    <fieldset style="display: inline-block; width: 49%; float: left">
+        <legend><h2>Vorteile</h2></legend>
 <?php foreach($charakter->getVorteile() as $vorteil): ?>
-        <h4>
+        <h3>
             <?= $purifier->purify($vorteil->getBezeichnung()) ?>
-        </h4>
+        </h3>
         <p>
             <?= $purifier->purify($vorteil->getBeschreibung()) ?>
         </p>
 <?php endforeach; ?>
     </fieldset>
-    <fieldset style="display: inline-block; width: 45%; float: right">
-        <legend>Nachteile</legend>
+    <fieldset style="display: inline-block; width: 49%; float: right">
+        <legend><h2>Nachteile</h2></legend>
 <?php foreach($charakter->getNachteile() as $nachteil): ?>
-        <h4>
+        <h3>
             <?= $purifier->purify($nachteil->getBezeichnung()) ?>
-        </h4>
+        </h3>
         <p>
             <?= $purifier->purify($nachteil->getBeschreibung()) ?>
         </p>
@@ -202,10 +203,10 @@ $categoryDis = $werte->getCategory('dis');
 </div>
 <div>
     <fieldset>
-        <legend>Klasse</legend>
-        <h4>
+        <legend><h2>Klasse</h2></legend>
+        <h3>
             <?= $purifier->purify($charakter->getKlassengruppe()->getBezeichnung()) ?>
-        </h4>
+        </h3>
         <p>
             Unterklasse: <?= $purifier->purify($charakter->getKlasse()->getBezeichnung()) ?>
         </p>
@@ -216,15 +217,18 @@ $categoryDis = $werte->getCategory('dis');
 </div>
 <div>
     <fieldset>
-        <legend>Fähigkeiten</legend>
+        <legend><h2>Fähigkeiten</h2></legend>
         <?php foreach ($skillarten as $skillart): ?>
         <fieldset>
             <legend><?= $purifier->purify($skillart->getBezeichnung()) ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                 <?php foreach ($skillart->getSkills() as $skill): ?>
-                    <h4>
+                    <h3>
                         <?= $purifier->purify($skill->getBezeichnung()) ?>
-                    </h4>
+                    </h3>
+                    <p>
+                        Rang: <?= $skill->getRang() ?>
+                    </p>
                     <p>
                         <?= $purifier->purify($skill->getBeschreibung()) ?>
                     </p>
@@ -236,13 +240,16 @@ $categoryDis = $werte->getCategory('dis');
 </div>
 <div>
     <fieldset>
-        <legend>Magien</legend>
+        <legend><h2>Magien</h2></legend>
         <?php foreach ($magieschulen as $schule): ?>
             <fieldset>
                 <legend><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($schule->getMagien() as $magie): ?>
-                    <h4><?= $purifier->purify($magie->getBezeichnung()) ?></h4>
+                    <h3><?= $purifier->purify($magie->getBezeichnung()) ?></h3>
+                    <p>
+                        Rang: <?= $magie->getRang() ?>
+                    </p>
                     <p>
                         <?= $purifier->purify($magie->getBeschreibung()) ?>
                     </p>

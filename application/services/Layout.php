@@ -19,25 +19,29 @@ class Application_Service_Layout {
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
         $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
         if($userMapper->hasChara($auth->userId)){
-            $charakterBuilder->initCharakterByUserId($auth->userId)
-                ->setVorteile()
-                ->setNachteile()
-                ->setCircuit()
-                ->setNaturelement()
-                ->setClassData()
-                ->setLuck()
-                ->setMagien()
-                ->setMagieschulen()
-                ->setOdo()
-                ->setProfile()
-                ->setSkills()
-                ->setVermoegen()
-                ->setWerte();
-            $charakter = $charakterBuilder->getCharakter();
-            $layoutModel->setHasChara(true);
-            $layoutModel->setCharakter($charakter);
-            $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($charakter->getCharakterid()));
-            $informationService->setCharakter($charakter);
+            
+            if ($charakterBuilder->initCharakterByUserId($auth->userId)) {
+                $charakterBuilder->setVorteile()
+                    ->setNachteile()
+                    ->setCircuit()
+                    ->setNaturelement()
+                    ->setClassData()
+                    ->setLuck()
+                    ->setMagien()
+                    ->setMagieschulen()
+                    ->setOdo()
+                    ->setProfile()
+                    ->setSkills()
+                    ->setVermoegen()
+                    ->setWerte();
+                $charakter = $charakterBuilder->getCharakter();
+                $layoutModel->setHasChara(true);
+                $layoutModel->setCharakter($charakter);
+                $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($charakter->getCharakterid()));
+                $informationService->setCharakter($charakter);
+            } else {
+                $layoutModel->setHasChara(false);
+            }
         }
         $layoutModel->setInformations($informationService->getInformations());
         return $layoutModel;

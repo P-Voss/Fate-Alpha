@@ -222,8 +222,7 @@ class CharakterController extends Zend_Controller_Action{
     private function initCharakter($userId) {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         if ($charakterBuilder->initCharakterByUserId($userId)) {
-            $charakterBuilder->initCharakterByUserId($userId)
-                ->setVorteile()
+            $charakterBuilder->setVorteile()
                 ->setNachteile()
                 ->setCircuit()
                 ->setNaturelement()

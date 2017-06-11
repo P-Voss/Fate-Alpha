@@ -79,7 +79,7 @@ class Logs_ReviewController extends Zend_Controller_Action {
     }
     
     public function reviewAction() {
-        $episodenId = (int) $this->getRequest()->getParam('episode');
+        $episodenId = (int) $this->getRequest()->getParam('episodenId');
         if($episodenId <= 0
             || ((bool)!$this->auth->isLogleser && $this->episodenService->needsLogleser($episodenId)))
         {
