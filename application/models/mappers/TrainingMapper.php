@@ -306,6 +306,20 @@ class Application_Model_Mapper_TrainingMapper{
                         SET fp = fp + 1');
     }
     
+    
+    public function addBirthdayFp() {
+        $sql = <<<SQL
+UPDATE 
+    charakterWerte AS werte
+INNER JOIN 
+    charakter 
+        ON charakter.charakterId = werte.charakterId 
+        AND DATE_FORMAT(charakter.geburtsdatum, "%m-%d") = DATE_FORMAT(CURDATE(), "%m-%d")
+SET fp = fp + 50
+SQL;
+        $this->getDbTable('CharakterWerte')->getDefaultAdapter()->query($sql);
+    }
+    
     /**
      * @todo existiert schon im Charaktermapper
      * @param int $charakterId

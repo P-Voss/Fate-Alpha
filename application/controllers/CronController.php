@@ -23,6 +23,7 @@ class CronController extends Zend_Controller_Action{
         $layout->disableLayout();
         $this->_trainingService->executeTraining();
         $this->_trainingService->addFp();
+        $this->_trainingService->addBirthdayFp();
     }
     
     public function refreshAction() {

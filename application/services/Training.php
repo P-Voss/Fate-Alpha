@@ -64,6 +64,11 @@ class Application_Service_Training {
         $this->_trainingsMapper->addFp();
     }
     
+    
+    public function addBirthdayFp() {
+        $this->_trainingsMapper->addBirthdayFp();
+    }
+    
     /**
      * @param int $charakterId
      * @return Application_Model_Charakter
