@@ -125,10 +125,8 @@ $lernbedingungen = [
                     benötigte Nachteile
                 </label>
                 <select name="nachteile[]" multiple="true" size="8">
-                    <?php foreach ($this->nachteile as $nachteil):
-                        $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
-                    ?>
-                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                    <?php foreach ($this->nachteile as $nachteil): ?>
+                    <option value="<?= $nachteil->getId() ?>">
                         <?= $nachteil->getBezeichnung() ?>
                     </option>
                     <?php endforeach; ?>
@@ -139,10 +137,8 @@ $lernbedingungen = [
                     benötigte Vorteile
                 </label>
                 <select name="vorteile[]" multiple="true" size="8">
-                    <?php foreach ($this->vorteile as $vorteil):
-                        $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
-                    ?>
-                    <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
+                    <?php foreach ($this->vorteile as $vorteil): ?>
+                    <option value="<?= $vorteil->getId() ?>">
                         <?= $vorteil->getBezeichnung() ?>
                     </option>
                     <?php endforeach; ?>
@@ -177,20 +173,6 @@ $lernbedingungen = [
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
-                <label for="skillsIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit:
-                </label>
-                <select name="skillsIncompatible[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $skill) { ?>
-                    <option value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
                 <label for="magien" style="vertical-align: top">
                     Magien:
                 </label>
@@ -213,6 +195,34 @@ $lernbedingungen = [
                     </option>
                     <?php } ?>
                 </select>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div style="width: 50%; display: inline-block;">
+                    <label for="skillsIncompatible" style="vertical-align: top">
+                        Nicht kombinierbar mit Fähigkeiten:
+                    </label>
+                    <select name="skillsIncompatible[]" multiple="true" size="8">
+                        <?php foreach ($this->skills as $skill) { ?>
+                        <option value="<?= $skill->getId() ?>">
+                            <?= $skill->getBezeichnung() ?>
+                        </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div style="width: 45%; display: inline-block;">
+                    <label for="nachteilIncompatible" style="vertical-align: top">
+                        Nicht kombinierbar mit Nachteilen:
+                    </label>
+                    <select name="nachteilIncompatible[]" id="nachteilIncompatible" multiple="true" size="8">
+                        <?php foreach ($this->nachteile as $nachteil): ?>
+                        <option value="<?= $nachteil->getId() ?>">
+                            <?= $nachteil->getBezeichnung() ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
         </div>
     </fieldset>

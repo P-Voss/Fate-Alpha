@@ -13,7 +13,7 @@ class Shop_Model_Requirements_Validators_Magie implements Shop_Model_Requirement
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        $values = explode(':', $value);
+        $values = explode('|', $value);
         foreach ($values as $value){
             $result = false;
             foreach ($charakter->getMagien() as $magie){
@@ -21,7 +21,7 @@ class Shop_Model_Requirements_Validators_Magie implements Shop_Model_Requirement
                     $result = true;
                 }
             }
-            if($result === false){
+            if(!$result){
                 return false;
             }
         }

@@ -222,27 +222,6 @@ $reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gru
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
-                <label for="skillsIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit:
-                </label>
-                <select name="skillsIncompatible[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                    ?>
-                    <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
                 <label for="magien" style="vertical-align: top">
                     Magien:
                 </label>
@@ -276,6 +255,46 @@ $reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gru
                         <?= $magie->getBezeichnung() ?>
                     </option>
                     <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="skillsIncompatible" style="vertical-align: top">
+                    Nicht kombinierbar mit Fähigkeiten:
+                </label>
+                <select name="skillsIncompatible[]" multiple="true" size="8">
+                    <?php foreach ($this->skills as $listedSkill) {
+                        $selected = '';
+                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
+                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
+                                $selected = 'selected="true"';
+                            }
+                        }
+                    ?>
+                    <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div style="width: 45%; display: inline-block;">
+                <label for="nachteilIncompatible" style="vertical-align: top">
+                    Nicht kombinierbar mit Nachteilen:
+                </label>
+                <select name="nachteilIncompatible[]" id="nachteilIncompatible" multiple="true" size="8">
+                    <?php foreach ($this->nachteile as $nachteil):
+                        $selected = '';
+                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('NachteilInc') as $reqSkill) {
+                            if($reqSkill->getRequiredValue() == $nachteil->getId()){
+                                $selected = 'selected=""';
+                            }
+                        }
+                    ?>
+                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
+                        <?= $nachteil->getBezeichnung() ?>
+                    </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>

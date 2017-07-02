@@ -65,7 +65,10 @@ class Administration_Service_Requirement {
             $requirements['FaehigkeitAny'] = implode('|', $request->getParam('skillsAny'));
         }
         if($request->getParam('skillsIncompatible') !== null){
-            $requirements['FaehigkeitInc'] = $request->getParam('skillsIncompatible');
+            $requirements['FaehigkeitInc'] = implode('|', $request->getParam('skillsIncompatible'));
+        }
+        if($request->getParam('nachteilIncompatible') !== null){
+            $requirements['NachteilInc'] = implode('|', $request->getParam('nachteilIncompatible'));
         }
         if($request->getParam('magien') !== null){
             $requirements['Magie'] = $request->getParam('magien');

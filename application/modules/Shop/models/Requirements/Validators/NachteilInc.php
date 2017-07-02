@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Faehigkeit
+ * Description of Shop_Model_Requirements_Validators_NachteilInc
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Validators_FaehigkeitInc implements Shop_Model_Requirements_ValidationInterface {
+class Shop_Model_Requirements_Validators_NachteilInc implements Shop_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -15,8 +15,8 @@ class Shop_Model_Requirements_Validators_FaehigkeitInc implements Shop_Model_Req
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode('|', $value);
         foreach ($values as $value){
-            foreach ($charakter->getSkills() as $skill){
-                if($skill->getId() == $value){
+            foreach ($charakter->getNachteile() as $nachteil){
+                if($nachteil->getId() == $value){
                     return false;
                 }
             }
