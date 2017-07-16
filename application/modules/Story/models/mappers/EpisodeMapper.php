@@ -325,18 +325,18 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
      * @return \Application_Model_Charakter
      */
     public function getParticipantsByEpisode($episodenId) {
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('EpisodenCharakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from('episodenToCharakter', array());
-        $select->joinInner('charakter', 'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1');
+        $select->from('episodenToCharakter', []);
+        $select->joinInner('charakter', 
+                'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1',
+                ['charakterId']);
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
         foreach ($result as $row) {
             $charakter = new Story_Model_Charakter();
             $charakter->setCharakterid($row['charakterId']);
-            $charakter->setVorname($row['vorname']);
-            $charakter->setNachname($row['nachname']);
             $returnArray[] = $charakter;
         }
         return $returnArray;

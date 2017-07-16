@@ -183,6 +183,11 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setLuck($row->luck);
                 $date = new DateTime($row->createDate);
                 $model->setCreatedate($date);
+                $model->setUndead($row->undead === 1);
+                if ($model->getUndead()) {
+                    $undeadDate = new DateTime($row->undeadDate);
+                    $model->setUndeadDate($undeadDate);
+                }
             }
             return $model;
         }else{
@@ -553,6 +558,11 @@ class Application_Model_Mapper_CharakterMapper{
             $model->setKillCount($row->npcKills);
             $date = new DateTime($row->createDate);
             $model->setCreatedate($date);
+            $model->setUndead($row->undead === 1);
+            if ($model->getUndead()) {
+                $undeadDate = new DateTime($row->undeadDate);
+                $model->setUndeadDate($undeadDate);
+            }
             return $model;
         }
         return false;
@@ -1056,20 +1066,42 @@ SQL;
     
     
     public function deactivateCharakter($charakterId) {
+        $dateTime = new DateTime();
         $data = [
             'active' => 0,
+            'deadDate' => $dateTime->format('Y-m-d'),
         ];
         $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakterId]);
     }
     
     
-    public function updateStats($charakterId, $died = 0, $npcKills = 0) {
-        $active = $died === 0 ? 1 : 0;
+    public function updateNpcKills($charakterId, $npcKills = 0) {
         $this->getDbTable('Charakter')
                 ->getDefaultAdapter()
                 ->query(
-                    'UPDATE charakter SET active = ' . $active . ', npcKills = npcKills + ' . (int) $npcKills . ' WHERE charakterId = ?', [$charakterId]
+                    'UPDATE charakter SET npcKills = npcKills + ' . (int) $npcKills . ' WHERE charakterId = ?', [$charakterId]
                 );
+    }
+    
+    
+    public function setUndead($charakterId) {
+        $dateTime = new DateTime();
+        $data = [
+            'undead' => 1,
+            'undeadDate' => $dateTime->format('Y-m-d'),
+        ];
+        $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakterId]);
+    }
+    
+    
+    public function removeVorteil($charakterId, $vorteilId) {
+        $this->getDbTable('CharakterVorteil')
+            ->delete(
+                [
+                    'charakterId = ?' => $charakterId, 
+                    'vorteilId = ?' => $vorteilId
+                ]
+            );
     }
     
 }

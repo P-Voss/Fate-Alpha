@@ -7,8 +7,12 @@
  */
 class Administration_Service_Logs extends Logs_Service_Log {
     
-    CONST EPISODE_ACCEPTED_STATUS = 6;
-    CONST EPISODE_REJECTED_STATUS = 7;
+    const EPISODE_ACCEPTED_STATUS = 6;
+    const EPISODE_REJECTED_STATUS = 7;
+    
+    const SCND_LIFE_NONE = 1;
+    const SCND_LIFE_SCHICKSAL = 17;
+    const SCND_LIFE_UNDEAD = 41;
     
     
     /**
@@ -16,10 +20,13 @@ class Administration_Service_Logs extends Logs_Service_Log {
      */
     private $mapper;
     
+    private $charakterMapper;
+    
     
     public function __construct() {
         parent::__construct();
         $this->mapper = new Administration_Model_Mapper_LogsMapper();
+        $this->charakterMapper = new Application_Model_Mapper_CharakterMapper();
     }
     
     
@@ -48,7 +55,6 @@ class Administration_Service_Logs extends Logs_Service_Log {
         $mapper = new Story_Model_Mapper_EpisodeMapper();
         $skillMapper = new Shop_Model_Mapper_SkillMapper();
         $magieMapper = new Shop_Model_Mapper_MagieMapper();
-        $charakterMapper = new Application_Model_Mapper_CharakterMapper();
         
         $participants = $mapper->getParticipantsByEpisode($episodeId);
         foreach ($participants as $charakter) {
@@ -65,14 +71,71 @@ class Administration_Service_Logs extends Logs_Service_Log {
                 }
             }
             foreach ($result->getCharaktersKilled() as $kill) {
-                $charakterMapper->setCharakterKill($charakterId, $kill->getCharakterId(), $episodeId);
-                $charakterMapper->deactivateCharakter($kill->getCharakterid());
+                $this->charakterMapper->setCharakterKill($charakterId, $kill->getCharakterId(), $episodeId);
+                $this->killCharakter($kill->getCharakterid());
             }
-            if ($result->getDied() === 1 || $result->getKillNpcs() > 0) {
-                $charakterMapper->updateStats($charakterId, $result->getDied(), $result->getKillNpcs());
+            if ($result->getKillNpcs() > 0) {
+                $this->charakterMapper->updateNpcKills($charakterId, $result->getKillNpcs());
+            }
+            if ($result->getDied() === 1) {
+                $this->killCharakter($charakterId);
             }
         }
         $this->mapper->updateStatus($episodeId, self::EPISODE_ACCEPTED_STATUS);
+    }
+    
+    /**
+     * @param int $charakterId
+     */
+    private function killCharakter($charakterId) {
+        $charakterService = new Application_Service_Charakter();
+        $charakter = $charakterService->getCharakterById($charakterId);
+        switch ($this->getActionOnDeath($charakter->getVorteile())) {
+            case self::SCND_LIFE_NONE:
+                $this->charakterMapper->deactivateCharakter($charakterId);
+                break;
+            case self::SCND_LIFE_UNDEAD:
+                $this->setCharakterUndead($charakter);
+                break;
+            case self::SCND_LIFE_SCHICKSAL:
+                $this->setCharakterSecondChance($charakter);
+                break;
+            default:
+                $this->charakterMapper->deactivateCharakter($charakterId);
+                break;
+        }
+    }
+    
+    /**
+     * @param Application_Model_Vorteil[] $vorteile
+     */
+    private function getActionOnDeath(array $vorteile) {
+        foreach ($vorteile as $vorteil) {
+            if ($vorteil->getId() === self::SCND_LIFE_UNDEAD) {
+                return self::SCND_LIFE_UNDEAD;
+            }
+        }
+        foreach ($vorteile as $vorteil) {
+            if ($vorteil->getId() === self::SCND_LIFE_SCHICKSAL) {
+                return self::SCND_LIFE_SCHICKSAL;
+            }
+        }
+        return self::SCND_LIFE_NONE;
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     */
+    private function setCharakterUndead(Application_Model_Charakter $charakter) {
+        $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_UNDEAD);
+        $this->charakterMapper->setUndead($charakter->getCharakterid());
+    }
+    
+    /**
+     * @param Application_Model_Charakter $charakter
+     */
+    private function setCharakterSecondChance(Application_Model_Charakter $charakter) {
+        $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_SCHICKSAL);
     }
     
 }
