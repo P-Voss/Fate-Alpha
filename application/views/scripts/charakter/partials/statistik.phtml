@@ -7,6 +7,14 @@
                 <?= $charakter->getCreatedate('d.m.Y') ?>
             </span>
         </p>
+        <?php if ($charakter->getUndead()): ?>
+        <p>
+            <label>Untot seit</label>
+            <span>
+                <?= $charakter->getUndeadDate('d.m.Y') ?>
+            </span>
+        </p>
+        <?php endif; ?>
         <p>
             <label>Getötete NPCs</label>
             <span>

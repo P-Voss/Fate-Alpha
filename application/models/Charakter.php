@@ -71,6 +71,10 @@ class Application_Model_Charakter {
      */
     protected $klassengruppe;
     /**
+     * @var int
+     */
+    protected $undead;
+    /**
      * @var Application_Model_Luck
      */
     protected $luck;
@@ -130,6 +134,10 @@ class Application_Model_Charakter {
      * @var DateTime
      */
     protected $createDate;
+    /**
+     * @var DateTime
+     */
+    protected $undeadDate;
     
     protected $naturElement;
     /**
@@ -457,6 +465,22 @@ class Application_Model_Charakter {
         $this->createDate = $createDate;
         return $this;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getUndeadDate($format = 'Y-m-d') {
+        return $this->undeadDate->format($format);
+    }
+
+    /**
+     * @param DateTime $undeadDate
+     * @return \Application_Model_Charakter
+     */
+    public function setUndeadDate(DateTime $undeadDate) {
+        $this->undeadDate = $undeadDate;
+        return $this;
+    }
     
     
     public function getCreateInterval() {
@@ -509,7 +533,14 @@ class Application_Model_Charakter {
     public function setKillCount($killCount) {
         $this->killCount = $killCount;
     }
+    
+    public function getUndead() {
+        return $this->undead;
+    }
 
+    public function setUndead($undead) {
+        $this->undead = $undead;
+    }
         
     public function setModifiers($modifiers = array()) {
         foreach ($modifiers as $modifier) {
