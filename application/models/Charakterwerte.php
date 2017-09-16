@@ -229,9 +229,9 @@ class Application_Model_Charakterwerte {
     public function getEnergie() {
         $category = $this->getCategory('aus');
         if ($category->getUebermensch()) {
-            return 1000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 4500;
+            return 2000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 6000;
         } else {
-            return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)];
+            return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 1000;
         }
     }
     
