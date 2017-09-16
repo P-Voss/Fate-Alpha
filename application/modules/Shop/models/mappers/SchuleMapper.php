@@ -169,7 +169,7 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         $select->joinInner('charakterMagieschulen', 'magieschulen.magieschuleId = charakterMagieschulen.magieschuleId');
         $select->where('charakterMagieschulen.charakterId = ? AND magieschulen.magieschuleId != 17', $charakterId);
         $result = parent::getDbTable('Schule')->fetchAll($select);
-        return $result->count();
+        return min([$result->count(), 3]);
     }
     
 }
