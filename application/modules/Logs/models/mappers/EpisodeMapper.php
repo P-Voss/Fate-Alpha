@@ -365,7 +365,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
                 VALUES (?, ?, ?, ?, 1)';
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            $episodenId, $auswertung->getUserId(), $auswertung->getDescription(), $auswertung->getIsAccepted(),
+            $episodenId, $auswertung->getUserId(), $auswertung->getDescription(), (int) $auswertung->getIsAccepted(),
         ]);
     }
     
