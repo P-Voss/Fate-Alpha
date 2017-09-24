@@ -53,6 +53,9 @@ class Story_Service_Log {
         $log->setCreatedate($date->format('Y-m-d H:i:s'));
         $log->setEpisodenId($episodenId);
         
+        if (file_exists(APPLICATION_PATH . '/var/logs/' . $hash . '.pdf')) {
+            unlink(APPLICATION_PATH . '/var/logs/' . $hash . '.pdf');
+        }
         $upload->addFilter('Rename', APPLICATION_PATH . '/var/logs/' . $hash . '.pdf');
         $upload->receive();
         $this->logMapper->saveLog($log);
