@@ -374,8 +374,10 @@ SQL;
                         gruppenchat AS chat
                     INNER JOIN spielergruppen AS gruppe
                         ON gruppe.gruppenId = chat.gruppenId AND chat.userId != gruppe.userId
+                    LEFT JOIN notifications
+                        ON notifications.userId = gruppe.userId AND notifications.elementId = chat.nachrichtenId AND notifications.notificationTypeId = 1
                     WHERE 
-                        chat.nachrichtenId = ?
+                        chat.nachrichtenId = ? AND notifications.userId IS NULL
                     ', [$nachrichtenId]);
     }
 
