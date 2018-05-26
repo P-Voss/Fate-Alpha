@@ -68,7 +68,7 @@ class Administration_Service_Schule {
         
         $schule->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
-                $this->buildRequirementArray($request)
+                $this->requirementService->buildRequirementArray($request)
             )
         );
         $this->mapper->deleteDependencies($schule);

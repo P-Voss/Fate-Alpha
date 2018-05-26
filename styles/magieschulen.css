@@ -1,0 +1,15 @@
+
+.magieHeader {
+    cursor: pointer;
+}
+
+.magieHeader .name {
+    display: inline-block;
+    min-width: 250px;
+    font-weight: bold;
+}
+
+.magien {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+}

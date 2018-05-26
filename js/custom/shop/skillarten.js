@@ -40,10 +40,6 @@ function displaySkillart(element, id){
         dataType: "json",
         success: function(data) {
             element.html(data.html);
-//            element.css({
-//                'height': 'auto',
-//                'display': 'block'
-//            });
             var fullHeight = element.css({'height': 'auto'}).height();
             element.css({'height': '0', "display": "block"});
             element.animate({

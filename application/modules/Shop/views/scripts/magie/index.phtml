@@ -3,6 +3,9 @@ $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javas
 $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/magieschulen.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/magien.js'));
+$this->headLink()->prependStylesheet($this->autoVersion($this->baseUrl() . '/styles/magieschulen.css'));
+$this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.js');
 /* @var $magieschule Shop_Model_Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
@@ -57,7 +60,7 @@ foreach ($lockedSchools as $magieschule):
     </div>
     <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
         <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
-        <input type="submit" value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
+        <input type="submit"class="unlockSchool"  value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
     </form>
 </fieldset>
 <?php
