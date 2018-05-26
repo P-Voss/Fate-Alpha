@@ -26,10 +26,12 @@ class Application_Service_CharakterBuilder {
     public function getCharakter() {
         return $this->charakter;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return $this
+     *
+     * @return bool
+     * @throws Zend_Db_Statement_Exception
      */
     public function initCharakterByCharakterId($charakterId) {
         $this->charakter = $this->charakterMapper->getCharakter($charakterId);
@@ -40,10 +42,11 @@ class Application_Service_CharakterBuilder {
         $this->charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakterId));
         return true;
     }
-    
+
     /**
      * @param int $userId
-     * @return $this
+     * @return bool
+     * @throws Zend_Db_Statement_Exception
      */
     public function initCharakterByUserId($userId) {
         $this->charakter = $this->charakterMapper->getCharakterByUserId($userId);

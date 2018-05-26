@@ -101,7 +101,6 @@ class Application_Model_Odo {
     
     
     private function calculateControlOdo(Application_Model_Charakterwertecategory $controlCategory) {
-        $bonus = 0;
         $categories = ['A' => 6, 'B' => 5, 'C' => 4, 'D' => 3, 'E' => 2, 'F' => 1];
         $actualCategory = substr($controlCategory->getCategory(), 0, 1);
         if ($controlCategory->getUebermensch()) {

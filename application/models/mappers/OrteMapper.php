@@ -109,14 +109,27 @@ class Application_Model_Mapper_OrteMapper {
         ),
     );
 
-
+    /**
+     * @param $name
+     *
+     * @return string
+     * @throws Exception
+     */
     public function getOrtePreview($name) {
         if(key_exists($name, $this->orteArray)){
             return $this->orteArray[$name];
+        } else {
+            throw new Exception();
         }
     }
-    
-    
+
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     * @throws Exception
+     */
     public function getStadtteilPreview($name) {
         $db = $this->getDbTable('Stadtteile')->getAdapter();
         $stmt = $db->prepare('SELECT stadtteile.*, IFNULL(charas.bewohner, 0) AS bewohner
@@ -129,6 +142,8 @@ class Application_Model_Mapper_OrteMapper {
         
         if(count($stadtteil) > 0){
             return $stadtteil;
+        } else {
+            throw new Exception();
         }
     }
     

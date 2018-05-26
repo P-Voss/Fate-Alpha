@@ -80,9 +80,10 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $returnArray;
     }
-    
+
     /**
-     * @return \Administration_Model_Skill
+     * @return array
+     * @throws Exception
      */
     public function getRpgSkills() {
         $returnArray = [];
@@ -188,10 +189,12 @@ class Administration_Model_Mapper_SkillMapper {
     public function deleteRequirementsSkill(Administration_Model_Skill $skill) {
         $this->getDbTable('SkillVoraussetzung')->delete(['skillId = ?' => $skill->getId()]);
     }
-    
+
     /**
      * @param int $skillId
+     *
      * @return \Administration_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirementsSkill($skillId) {
         $requirementList = new Administration_Model_Requirementlist();
@@ -208,9 +211,10 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $requirementList;
     }
-    
+
     /**
      * @return array Administration_Model_Magie
+     * @throws Exception
      */
     public function getMagien() {
         $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
@@ -281,9 +285,10 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @return array Administration_Model_Magie
+     * @throws Exception
      */
     public function getRpgMagien() {
         $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
@@ -310,10 +315,11 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $magieId
      * @return \Administration_Model_Magie
+     * @throws Exception
      */
     public function getMagieById($magieId) {
         $elementMapper = new Administration_Model_Mapper_ElementMapper();
@@ -334,10 +340,11 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Magie $magie
      * @return int
+     * @throws Exception
      */
     public function createMagie(Administration_Model_Magie $magie) {
         $data['name'] = $magie->getBezeichnung();
@@ -355,10 +362,11 @@ class Administration_Model_Mapper_SkillMapper {
         
         return $this->getDbTable('Magie')->insert($data);
     }
-    
+
     /**
      * @param Administration_Model_Magie $magie
      * @return int
+     * @throws Exception
      */
     public function updateMagie(Administration_Model_Magie $magie) {
         $data['name'] = $magie->getBezeichnung();
@@ -378,20 +386,22 @@ class Administration_Model_Mapper_SkillMapper {
             'magieId = ?' => $magie->getId()
         ));
     }
-    
+
     /**
      * @param Administration_Model_Magie $magie
      * @return int
+     * @throws Exception
      */
     public function deleteDependencies(Administration_Model_Magie $magie) {
         return $this->getDbTable('MagieCharakterVoraussetzungen')->delete(array(
             'magieId = ?' => $magie->getId()
         ));
     }
-    
+
     /**
      * @param Administration_Model_Magie $magie
-     * @return int
+     *
+     * @throws Exception
      */
     public function setDependencies(Administration_Model_Magie $magie) {
         $data['magieId'] = $magie->getId();
@@ -406,23 +416,23 @@ class Administration_Model_Mapper_SkillMapper {
             }
         }
     }
-    
+
     /**
      * @param int $magieId
-     * @return \Administration_Model_Requirementlist
+     *
+     * @return Administration_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirementsMagie($magieId) {
         $requirementList = new Administration_Model_Requirementlist();
         $select = $this->getDbTable('MagieCharakterVoraussetzungen')->select();
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('MagieCharakterVoraussetzungen')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $requirement = new Administration_Model_Requirement();
-                $requirement->setArt($row->art);
-                $requirement->setRequiredValue($row->voraussetzung);
-                $requirementList->addRequirement($requirement);
-            }
+        foreach ($result as $row){
+            $requirement = new Administration_Model_Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }

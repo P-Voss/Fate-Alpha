@@ -21,10 +21,12 @@ class Story_Service_Plot extends Application_Service_Story {
     public function getPlotById($plotId) {
         return $this->plotMapper->getPlotById($plotId);
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return int
+     * @throws Exception
      */
     public function createStoryline(Zend_Controller_Request_Http $request) {
         $plot = new Story_Model_Plot();
@@ -41,10 +43,11 @@ class Story_Service_Plot extends Application_Service_Story {
         $this->plotMapper->connectGroupToPlot($plotId, $request->getPost('gruppenId'));
         return $plotId;
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @return int
+     * @throws Exception
      */
     public function editPlot(Zend_Controller_Request_Http $request) {
         $plot = new Story_Model_Plot();
@@ -62,38 +65,42 @@ class Story_Service_Plot extends Application_Service_Story {
     }
     
     public function getSpielgruppenBySLId($slId) {
-        
+
     }
-    
+
     /**
      * @param int $slId
      * @return array
+     * @throws Exception
      */
     public function getPlotsBySLId($slId) {
         return $this->plotMapper->getPlotsBySLId($slId);
     }
-    
+
     /**
      * @param int $playerId
      * @return array
+     * @throws Exception
      */
     public function getPlotsByPlayerId($playerId) {
         return $this->plotMapper->getPlotsByPlayerId($playerId);
     }
-    
+
     /**
      * @param int $plotId
      * @param int $userId
      * @return boolean
+     * @throws Exception
      */
     public function isSL($plotId, $userId) {
         return $this->plotMapper->verifySl($plotId, $userId);
     }
-    
+
     /**
      * @param int $plotId
      * @param int $userId
      * @return boolean
+     * @throws Exception
      */
     public function isPlayer($plotId, $userId) {
         return $this->plotMapper->verifyPlayer($plotId, $userId);
@@ -108,36 +115,40 @@ class Story_Service_Plot extends Application_Service_Story {
     public function checkDatenfreigabeCharakter($plotId, $charakterId) {
         return $this->plotMapper->datenFreigebenCharakter($plotId, $charakterId);
     }
-    
+
     /**
      * @param int $plotId
      * @return array
+     * @throws Exception
      */
     public function getParticipantsByPlotId($plotId) {
         return $this->plotMapper->getParticipantsByPlotId($plotId);
     }
-    
+
     /**
      * @param int $plotId
      * @return array
+     * @throws Exception
      */
     public function getPossibleParticipants($plotId) {
         return $this->plotMapper->getParticipantsNotInPlot($plotId);
     }
-    
+
     /**
      * @param int $plotId
      * @param array $inviteIds
+     * @throws Exception
      */
     public function addParticipants($plotId, $inviteIds) {
         foreach ($inviteIds as $charakterId) {
             $this->plotMapper->addParticipant($plotId, $charakterId);
         }
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $plotId
+     * @throws Exception
      */
     public function removeParticipant($charakterId, $plotId) {
         $this->plotMapper->removeParticipant($charakterId, $plotId);

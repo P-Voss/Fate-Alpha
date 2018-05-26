@@ -74,10 +74,12 @@ class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstell
             throw new Exception('Klassengruppe konnte nicht gefunden werden');
         }
     }
-    
+
     /**
      * @param int $klassenId
+     *
      * @return \Application_Model_Klasse
+     * @throws Exception
      */
     public function getKlasseById($klassenId) {
         $select = $this->getDbTable('Klasse')->select();

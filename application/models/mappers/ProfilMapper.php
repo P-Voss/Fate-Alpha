@@ -18,9 +18,13 @@ class Application_Model_Mapper_ProfilMapper{
         }
         return $dbTable;
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @return mixed
+     * @return mixed
+     * @throws Exception
      */
     public function createCharakterProfile($charakterId) {
         $data['charakterId'] = $charakterId;
@@ -28,10 +32,11 @@ class Application_Model_Mapper_ProfilMapper{
         $data['privatCode'] = Application_Service_Utility::generateShortHash();
         return $this->getDbTable('CharakterProfil')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
      * @return \Application_Model_Charakterprofil
+     * @throws Exception
      */
     public function getCharakterProfil($charakterId) {
         $model = new Application_Model_Charakterprofil();
@@ -56,6 +61,7 @@ class Application_Model_Mapper_ProfilMapper{
      * @param int $profilId
      * @param int $charakterId
      * @return array
+     * @throws Exception
      */
     public function getDatenfreigabe($profilId, $charakterId) {
         $freigabe = array('public' => 0, 'privat' => 0);
@@ -70,9 +76,13 @@ class Application_Model_Mapper_ProfilMapper{
         }
         return $freigabe;
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @return array
+     * @return array
+     * @throws Exception
      */
     public function getFriendlist($charakterId) {
         $returnArray = array();
@@ -88,11 +98,12 @@ class Application_Model_Mapper_ProfilMapper{
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $charakterIdToCheck
      * @return boolean
+     * @throws Exception
      */
     public function checkAssociation($charakterId, $charakterIdToCheck) {
         $select = $this->getDbTable('Beziehungen')->select();
@@ -105,11 +116,12 @@ class Application_Model_Mapper_ProfilMapper{
             return false;
         }
     }
-    
+
     /**
      * @param array $profile
      * @param int $charakterId
      * @return int
+     * @throws Exception
      */
     public function setAssociation(array $profile, $charakterId) {
         $data = [
@@ -133,28 +145,31 @@ class Application_Model_Mapper_ProfilMapper{
         }
         return $return;
     }
-    
+
     /**
      * @param array $data
      * @param int $associateId
      * @return int
+     * @throws Exception
      */
     private function updateAssociation(array $data, $associateId) {
         return $this->getDbTable('Beziehungen')->update($data, array('zuordnungId =?' => $associateId));
     }
-    
+
     /**
      * @param array $data
      * @return int
+     * @throws Exception
      */
     private function createAssociation(array $data) {
         return $this->getDbTable('Beziehungen')->insert($data);
     }
-    
+
     /**
      * @param string $profileCode
      * @param int $charakterId
      * @return array|boolean
+     * @throws Zend_Db_Select_Exception
      */
     public function verifyProfilecode($profileCode, $charakterId) {
         $selectPublic = $this->getDbTable('CharakterProfil')->select();
@@ -179,10 +194,11 @@ class Application_Model_Mapper_ProfilMapper{
         }
         return false;
     }
-    
+
     /**
      * @param int $charakterId
      * @return int
+     * @throws Exception
      */
     public function setNewProfileCode($charakterId) {
         $data = [
@@ -191,19 +207,21 @@ class Application_Model_Mapper_ProfilMapper{
         ];
         return $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
     }
-    
+
     /**
      * @param int $charakterId
      * @param string $picUrl
+     * @throws Exception
      */
     public function saveCharakterpic($charakterId, $picUrl) {
         $data = ['charpic' => $picUrl];
         $this->getDbTable('CharakterProfil')->update($data, array('charakterId' => $charakterId));
     }
-    
+
     /**
      * @param int $charakterId
      * @param string $picUrl
+     * @throws Exception
      */
     public function saveProfilpic($charakterId, $picUrl) {
         $data = ['profilpic' => $picUrl];

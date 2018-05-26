@@ -11,23 +11,29 @@ class Application_Service_User {
      * @var Application_Model_Mapper_UserMapper
      */
     private $userMapper;
-    
-    
+
+
+    /**
+     * Application_Service_User constructor.
+     */
     public function __construct() {
         $this->userMapper = new Application_Model_Mapper_UserMapper();
     }
-    
+
     /**
      * @param int $userId
+     *
      * @return boolean
+     * @throws Exception
      */
     public function hasChara($userId){
         return $this->userMapper->hasChara($userId);
     }
-    
+
     /**
      * @param int $userId
      * @return boolean
+     * @throws Exception
      */
     public function isAdmin($userId) {
         return $this->userMapper->isAdmin($userId);
@@ -40,10 +46,11 @@ class Application_Service_User {
     public function getCharakter($userid){
         return $this->userMapper->getCharakterByUserId($userid);
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @return boolean
+     * @throws Exception
      */
     public function createUser(Zend_Controller_Request_Http $request) {
         $errorArray = array();
@@ -73,30 +80,56 @@ class Application_Service_User {
         $user->setUsergruppe('User');
         return $this->userMapper->createUser($user, $request->getServer('REMOTE_ADDR'));
     }
-    
-    
+
+
+    /**
+     * @param $username
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function checkUsernameExists($username) {
         return $this->userMapper->usernameExists($username);
     }
-    
-    
+
+
+    /**
+     * @param $profilname
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function checkProfilnameExists($profilname) {
         return $this->userMapper->profilnameExists($profilname);
     }
-    
+
+    /**
+     * @param $email
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function checkEmailExists($email) {
         return $this->userMapper->emailExists($email);
     }
-    
+
     /**
      * @param int $userId
      * @return Application_Model_User
+     * @throws Exception
      */
     public function getUserById($userId) {
         return $this->userMapper->getUserById($userId);
     }
-    
-    
+
+
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @param $userId
+     *
+     * @return bool|int
+     * @throws Exception
+     */
     public function changePassword(Zend_Controller_Request_Http $request, $userId) {
         if($this->userMapper->verifyPassword($userId, $request->getParam('passwordOld')) === false
                 ||
@@ -106,11 +139,24 @@ class Application_Service_User {
         }
         return $this->userMapper->changePassword($userId, $request->getParam('passwordNew'));
     }
-    
+
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @param $userId
+     * @throws Exception
+     */
     public function changeEmail(Zend_Controller_Request_Http $request, $userId) {
         $this->userMapper->changeEmail($userId, $request->getParam('mail'));
     }
-    
+
+    /**
+     * @todo Exceptionhandling
+     * @param Zend_Controller_Request_Http $request
+     * @param $userId
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function deleteCharakter(Zend_Controller_Request_Http $request, $userId) {
         if($this->userMapper->verifyPassword($userId, $request->getParam('password')) === false
                 ||
@@ -123,8 +169,16 @@ class Application_Service_User {
         if($charakter !== false){
             $charakterMapper->deleteCharakter($charakter);
         }
+        return true;
     }
-    
+
+    /**
+     * @param Zend_Controller_Request_Http $request
+     * @param $userId
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function deleteAccount(Zend_Controller_Request_Http $request, $userId) {
         if($this->userMapper->verifyPassword($userId, $request->getParam('password')) === false
                 ||
@@ -139,10 +193,12 @@ class Application_Service_User {
             $charakterMapper->deleteCharakter($charakter);
         }
         Zend_Auth::getInstance()->clearIdentity();
+        return true;
     }
-    
+
     /**
-     * @return \Application_Model_User
+     * @return Application_Model_User[]
+     * @throws Exception
      */
     public function getUsers() {
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
@@ -155,9 +211,10 @@ class Application_Service_User {
         }
         return $users;
     }
-    
+
     /**
-     * @return \Application_Model_User
+     * @return Application_Model_User[]
+     * @throws Exception
      */
     public function getActiveUsers() {
         return $this->userMapper->getActiveUsers();

@@ -1,11 +1,13 @@
 <?php
 
 class Gruppen_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
-    
+
     /**
      * @param int $plotId
      * @param int $gruppenId
+     *
      * @return int
+     * @throws Exception
      */
     public function connectGroupToPlot($plotId, $gruppenId) {
         $data = array(

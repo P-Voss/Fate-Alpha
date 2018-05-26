@@ -59,10 +59,12 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $plotId
+     *
      * @return \Logs_Model_Plot
+     * @throws Exception
      */
     public function getPlotById($plotId) {
         $plot = new Logs_Model_Plot();
@@ -101,10 +103,11 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
         }
         return $plot;
     }
-    
+
     /**
      * @param int $plotId
      * @param Application_Model_Interfaces_Auswertung $auswertung
+     * @throws Exception
      */
     public function setPlotFeedback($plotId, Application_Model_Interfaces_Auswertung $auswertung) {
         $db = $this->getDbTable('Plots')->getDefaultAdapter();

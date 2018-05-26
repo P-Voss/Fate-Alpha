@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * Class Gruppen_Model_Mapper_LogMapper
+ */
 class Gruppen_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
-    
+
     /**
      * @param int $logId
      * @param int $gruppenId
+     *
      * @return int
+     * @throws Exception
      */
     public function connectGroupToLog($logId, $gruppenId) {
         $data = array(
@@ -14,8 +19,14 @@ class Gruppen_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper 
         );
         return parent::getDbTable('LogToGruppe')->insert($data);
     }
-    
-    
+
+
+    /**
+     * @param $gruppenId
+     *
+     * @return array
+     * @throws Exception
+     */
     public function getLogsByGruppe($gruppenId) {
         $returnArray = array();
         $select = $this->getDbTable('LogToGruppe')->select();
@@ -40,8 +51,15 @@ class Gruppen_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper 
         }
         return $returnArray;
     }
-    
-    
+
+
+    /**
+     * @param $gruppenId
+     * @param $logId
+     *
+     * @return Application_Model_Log|bool
+     * @throws Exception
+     */
     public function getGruppenLogById($gruppenId, $logId) {
         $select = $this->getDbTable('LogToGruppe')->select();
         $select->setIntegrityCheck(false);
@@ -63,5 +81,15 @@ class Gruppen_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper 
         }
         return false;
     }
-    
+
+    /**
+     * @todo ?
+     * @param $log
+     */
+    public function saveLog ($log)
+    {
+
+    }
+
+
 }

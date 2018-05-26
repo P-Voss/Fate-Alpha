@@ -18,9 +18,10 @@ class Application_Model_Mapper_ErstellungMapper {
         }
         return $dbTable;
     }
-    
+
     /**
-     * @return \Application_Model_Vorteil
+     * @return array
+     * @throws Exception
      */
     public function getAllVorteile() {
         $return = array();
@@ -271,10 +272,12 @@ class Application_Model_Mapper_ErstellungMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $unterklassenId
+     *
      * @return \Erstellung_Model_Requirementlist
+     * @throws Exception
      */
     public function getUnterklassenRequirements($unterklassenId) {
         $requirementList = new Erstellung_Model_Requirementlist();

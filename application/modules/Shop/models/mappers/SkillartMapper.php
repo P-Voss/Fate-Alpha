@@ -18,9 +18,10 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         }
         return $dbTable;
     }
-    
+
     /**
-     * @return \Shop_Model_Skillart
+     * @return array
+     * @throws Exception
      */
     public function getSkillArten() {
         $returnArray = array();
@@ -38,9 +39,13 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         }
         return $returnArray;
     }
-    
+
     /**
      * @param type $skillartId
+     *
+     * @return bool|Shop_Model_Skillart
+     * @return bool|Shop_Model_Skillart
+     * @throws Exception
      */
     public function getSkillartById($skillartId) {
         $select = parent::getDbTable('Skillart')->select();
@@ -56,21 +61,23 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         }
         return false;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Shop_Model_Skillart $skillart
+     * @throws Exception
      */
     public function unlockSkillartForCharakter(Application_Model_Charakter $charakter, Shop_Model_Skillart $skillart) {
         $data['charakterId'] = $charakter->getCharakterid();
         $data['skillartId'] = $skillart->getId();
         parent::getDbTable('CharakterSkillart')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $skillartId
      * @return boolean
+     * @throws Exception
      */
     public function checkIfLearned($charakterId, $skillartId) {
         $select = $this->getDbTable('CharakterSkillart')->select();
@@ -79,10 +86,11 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         $result = $this->getDbTable('CharakterSkillart')->fetchAll($select);
         return $result->count() > 0;
     }
-    
+
     /**
      * @param int $skillartId
      * @return \Shop_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirements($skillartId) {
         $requirementList = new Shop_Model_Requirementlist();

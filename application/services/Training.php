@@ -68,10 +68,12 @@ class Application_Service_Training {
     public function addBirthdayFp() {
         $this->_trainingsMapper->addBirthdayFp();
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return Application_Model_Charakter
+     * @throws Exception
      */
     private function initCharakter($charakterId){
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
@@ -85,11 +87,12 @@ class Application_Service_Training {
         $charakter->setNachteile($charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
         return $charakter;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param int $days
      * @param string $attribute
+     * @throws Exception
      */
     public function addBonusTraining(Application_Model_Charakter $charakter, $days, $attribute) {
         $trainingswerte = $this->getTrainingswerte($charakter);

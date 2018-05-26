@@ -6,10 +6,12 @@
  * @author Philipp Voß <voss.ph@web.de>
  */
 class Administration_Service_Charakter extends Application_Service_Charakter {
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return int
+     * @throws Exception
      */
     public function saveCharakterData(Zend_Controller_Request_Http $request) {
         $charakter = new Application_Model_Charakter();

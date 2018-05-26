@@ -9,20 +9,23 @@ $gruppe = $this->gruppe;
 $charakter = $this->charakter;
 $werte = $charakter->getCharakterwerte();
 
-
-function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
-$sortorder = ['Übungsfähigkeiten' => 1, 
-    'Schützenfähigkeiten' => 2, 
-    'Kämpferfähigkeiten' => 3, 
+/**
+ * @todo Liste für Skillarten um zu sortieren
+ */
+$sortorder = [
+    'Übungsfähigkeiten' => 1,
+    'Schützenfähigkeiten' => 2,
+    'Kämpferfähigkeiten' => 3,
     'Spezialfähigkeiten' => 4,
-    ];
-    if($sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()]){
-        return 1;
-    }
-}
+];
+
+$order = function (Application_Model_Skillart $a, Application_Model_Skillart $b) use ($sortorder)
+{
+    return $sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()];
+};
 /* @var $skillart Application_Model_Skillart */
 $skillarten = $this->skillarten;
-usort($skillarten, "order");
+usort($skillarten, $order);
 /* @var $schule Application_Model_Schule */
 $magieschulen = $this->magieschulen;
 ?>

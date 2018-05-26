@@ -15,7 +15,6 @@ class Shop_Model_Requirements_Validators_Nachteil implements Shop_Model_Requirem
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode(':', $value);
         foreach ($values as $value){
-            $result = false;
             foreach ($charakter->getNachteile() as $nachteil){
                 if($nachteil->getId() == $value){
                     return true;

@@ -31,10 +31,12 @@ class Erstellung_Service_Requirement {
     public function setCharakter(Erstellung_Model_Charakter $charakter) {
         $this->charakter = $charakter;
     }
-        
+
     /**
      * @param Erstellung_Model_Requirementlist $requirementList
+     *
      * @return boolean
+     * @throws Exception
      */
     public function validate(Erstellung_Model_Requirementlist $requirementList) {
         $errors = array();

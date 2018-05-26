@@ -15,9 +15,10 @@ class Administration_Model_Mapper_LogsMapper {
         }
         return $dbTable;
     }
-    
+
     /**
-     * @return \Administration_Model_Episode
+     * @return array
+     * @throws Exception
      */
     public function getEpisodesToReview() {
         $returnArray = array();
@@ -43,10 +44,12 @@ class Administration_Model_Mapper_LogsMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $episodeId
+     *
      * @return Administration_Model_Episode
+     * @throws Exception
      */
     public function getEpisodeToReview($episodeId) {
         $episode = new Administration_Model_Episode();

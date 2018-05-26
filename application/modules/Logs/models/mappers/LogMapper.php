@@ -6,20 +6,23 @@
  * @author Voß
  */
 class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
-    
+
     /**
      * @param int $userId
+     *
      * @return boolean
+     * @throws Zend_Db_Statement_Exception
      */
     public function isLogleser($userId) {
         $db = $this->getDbTable('Logs')->getDefaultAdapter();
         $result = $db->query('SELECT * FROM logleser WHERE userId = ?', [$userId]);
         return count($result->fetchAll()) > 0;
     }
-    
+
     /**
      * @param int $episodenId
-     * @return \Story_Model_Log
+     * @return array
+     * @throws Exception
      */
     public function getLogsByEpisodenId($episodenId) {
         $returnArray = [];
@@ -37,11 +40,12 @@ class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $logId
      * @param int $episodeId
-     * @return \Story_Model_Log
+     * @return Logs_Model_Log
+     * @throws Exception
      */
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {
         $log = new Logs_Model_Log();

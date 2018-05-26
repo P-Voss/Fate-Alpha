@@ -2,10 +2,12 @@
 
 
 class Administration_Model_Mapper_CircuitMapper extends Application_Model_Mapper_CircuitMapper {
-    
+
     /**
      * @param Administration_Model_Circuit $circuit
+     *
      * @return int
+     * @throws Exception
      */
     public function createCircuit(Administration_Model_Circuit $circuit) {
         $data['kategorie'] = $circuit->getKategorie();
@@ -18,10 +20,11 @@ class Administration_Model_Mapper_CircuitMapper extends Application_Model_Mapper
         
         return parent::getDbTable('Circuit')->insert($data);
     }
-    
+
     /**
      * @param int $circuitId
      * @return \Administration_Model_Circuit
+     * @throws Exception
      */
     public function getCircuitById($circuitId) {
         $model = new Administration_Model_Circuit();
@@ -37,10 +40,11 @@ class Administration_Model_Mapper_CircuitMapper extends Application_Model_Mapper
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Circuit $circuit
      * @return int
+     * @throws Exception
      */
     public function updateCircuit(Administration_Model_Circuit $circuit) {
         $data['kategorie'] = $circuit->getKategorie();

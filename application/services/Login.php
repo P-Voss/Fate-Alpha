@@ -44,11 +44,13 @@ class Application_Service_Login{
             return $this->error;
         }
     }
-    
+
     /**
      * @param type $username
      * @param type $email
-     * @return type
+     *
+     * @return bool
+     * @throws Exception
      */
     public function getUserIdByUsernameAndEmail($username, $email) {
         return $this->mapper->usernameAndEmailExists($username, $email);

@@ -155,10 +155,14 @@ class Application_Model_Charakterwerte {
                 break;
         }
     }
-    
+
+    /**
+     * @param $attr
+     *
+     * @return Application_Model_Charakterwertecategory
+     */
     public function getCategory($attr) {
         $ubermenschMod = $this->uebermenschMods[$attr] === 1;
-        $uebermensch = false;
         $attributes = [
             'str' => $this->staerke,
             'agi' => $this->agilitaet,

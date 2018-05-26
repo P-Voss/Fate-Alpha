@@ -83,9 +83,11 @@ class Administration_Service_Logs extends Logs_Service_Log {
         }
         $this->mapper->updateStatus($episodeId, self::EPISODE_ACCEPTED_STATUS);
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @throws Exception
      */
     private function killCharakter($charakterId) {
         $charakterService = new Application_Service_Charakter();
@@ -105,9 +107,11 @@ class Administration_Service_Logs extends Logs_Service_Log {
                 break;
         }
     }
-    
+
     /**
      * @param Application_Model_Vorteil[] $vorteile
+     *
+     * @return int
      */
     private function getActionOnDeath(array $vorteile) {
         foreach ($vorteile as $vorteil) {
@@ -122,17 +126,19 @@ class Administration_Service_Logs extends Logs_Service_Log {
         }
         return self::SCND_LIFE_NONE;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
+     * @throws Exception
      */
     private function setCharakterUndead(Application_Model_Charakter $charakter) {
         $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_UNDEAD);
         $this->charakterMapper->setUndead($charakter->getCharakterid());
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
+     * @throws Exception
      */
     private function setCharakterSecondChance(Application_Model_Charakter $charakter) {
         $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_SCHICKSAL);

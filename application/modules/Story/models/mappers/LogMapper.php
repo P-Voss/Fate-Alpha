@@ -6,10 +6,12 @@
  * @author Voß
  */
 class Story_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
-    
+
     /**
      * @param Story_Model_Log $log
+     *
      * @return int
+     * @throws Exception
      */
     public function saveLog(Story_Model_Log $log) {
         $data = array(
@@ -22,10 +24,12 @@ class Story_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
         );
         return $this->getDbTable('Logs')->insert($data);
     }
-    
+
     /**
      * @param int $episodenId
-     * @return \Story_Model_Log
+     *
+     * @return Story_Model_Log[]
+     * @throws Exception
      */
     public function getLogsByEpisodenId($episodenId) {
         $returnArray = [];
@@ -42,11 +46,12 @@ class Story_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $logId
      * @param int $episodeId
      * @return \Story_Model_Log
+     * @throws Exception
      */
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {
         $log = new Story_Model_Log();

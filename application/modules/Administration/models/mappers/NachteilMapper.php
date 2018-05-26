@@ -1,10 +1,12 @@
 <?php
 
 class Administration_Model_Mapper_NachteilMapper extends Application_Model_Mapper_NachteilMapper {
-    
+
     /**
      * @param Administration_Model_Nachteil $nachteil
+     *
      * @return int
+     * @throws Exception
      */
     public function createNachteil(Administration_Model_Nachteil $nachteil) {
         $data['name'] = $nachteil->getBezeichnung();
@@ -15,10 +17,11 @@ class Administration_Model_Mapper_NachteilMapper extends Application_Model_Mappe
         
         return parent::getDbTable('Nachteil')->insert($data);
     }
-    
+
     /**
      * @param int $nachteilId
      * @return \Administration_Model_Nachteil
+     * @throws Exception
      */
     public function getNachteilById($nachteilId) {
         $model = new Administration_Model_Nachteil();
@@ -33,10 +36,11 @@ class Administration_Model_Mapper_NachteilMapper extends Application_Model_Mappe
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Nachteil $nachteil
      * @return int
+     * @throws Exception
      */
     public function updateNachteil(Administration_Model_Nachteil $nachteil) {
         $data['name'] = $nachteil->getBezeichnung();

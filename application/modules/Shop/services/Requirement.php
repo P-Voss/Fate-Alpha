@@ -31,10 +31,12 @@ class Shop_Service_Requirement {
     public function setCharakter(Application_Model_Charakter $charakter) {
         $this->charakter = $charakter;
     }
-        
+
     /**
      * @param Shop_Model_Requirementlist $requirementList
+     *
      * @return boolean
+     * @throws Exception
      */
     public function validate(Shop_Model_Requirementlist $requirementList) {
         $errors = array();

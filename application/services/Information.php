@@ -82,10 +82,12 @@ class Application_Service_Information {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param Application_Model_Information $information
+     *
      * @return boolean
+     * @throws Exception
      */
     private function checkValidation(Application_Model_Information $information){
         $validatorFactory = new Application_Model_Requirements_Factory();

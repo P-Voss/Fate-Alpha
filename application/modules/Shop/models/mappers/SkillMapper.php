@@ -18,10 +18,12 @@ class Shop_Model_Mapper_SkillMapper {
         }
         return $dbTable;
     }
-    
+
     /**
      * @param int $skillArtId
-     * @return \Shop_Model_Skill
+     *
+     * @return array
+     * @throws Exception
      */
     public function getSkillsBySkillArtId($skillArtId) {
         $returnArray = array();
@@ -44,10 +46,12 @@ class Shop_Model_Mapper_SkillMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $skillArtId
-     * @return \Shop_Model_Skill
+     * @param $charakterId
+     * @return array
+     * @throws Exception
      */
     public function getLearnedSkillsBySkillArtId($skillArtId, $charakterId) {
         $returnArray = array();
@@ -95,10 +99,14 @@ SQL;
         }
         return $returnArray;
     }
-    
-    
+
+
     /**
      * @param int $skillArtId
+     *
+     * @return array
+     * @return array
+     * @throws Exception
      */
     public function getShopSkillsBySkillArtId($skillArtId) {
         $returnArray = array();
@@ -119,10 +127,11 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $skillId
-     * @return 
+     * @return Shop_Model_Skill
+     * @throws Exception
      */
     public function getSkillById($skillId) {
         $skill = new Shop_Model_Skill();
@@ -142,11 +151,12 @@ SQL;
         }
         return $skill;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
-     * @param Shop_Model_Magie $skill
+     * @param Shop_Model_Skill $skill
      * @return int
+     * @throws Exception
      */
     public function unlockSkill(Application_Model_Charakter $charakter, Shop_Model_Skill $skill) {
         $data = array(
@@ -157,11 +167,12 @@ SQL;
                 ->query('UPDATE charakterWerte SET fp = fp - ' . $skill->getFp() . ' WHERE charakterId = ' . $charakter->getCharakterid());
         return $this->getDbTable('CharakterSkill')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $skillId
      * @return int
+     * @throws Exception
      */
     public function unlockSkillByRPG($charakterId, $skillId) {
         $data = array(
@@ -170,12 +181,13 @@ SQL;
         );
         return $this->getDbTable('CharakterSkill')->insert($data);
     }
-    
+
     /**
-     * 
+     *
      * @param int $charakterId
      * @param int $skillId
      * @return boolean
+     * @throws Exception
      */
     public function checkIfLearned($charakterId, $skillId) {
         $select = $this->getDbTable('CharakterSkill')->select();
@@ -188,6 +200,7 @@ SQL;
     /**
      * @param int $skillId
      * @return \Shop_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirements($skillId) {
         $requirementList = new Shop_Model_Requirementlist();

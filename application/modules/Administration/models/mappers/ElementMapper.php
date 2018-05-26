@@ -1,10 +1,12 @@
 <?php
 
 class Administration_Model_Mapper_ElementMapper extends Application_Model_Mapper_ElementMapper {
-    
+
     /**
      * @param Administration_Model_Element $element
+     *
      * @return int
+     * @throws Exception
      */
     public function createElement(Administration_Model_Element $element) {
         $data['name'] = $element->getBezeichnung();
@@ -16,10 +18,11 @@ class Administration_Model_Mapper_ElementMapper extends Application_Model_Mapper
         
         return parent::getDbTable('Element')->insert($data);
     }
-    
+
     /**
      * @param int $elementId
      * @return \Administration_Model_Element
+     * @throws Exception
      */
     public function getElementById($elementId) {
         $model = new Administration_Model_Element();
@@ -35,10 +38,11 @@ class Administration_Model_Mapper_ElementMapper extends Application_Model_Mapper
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Element $element
      * @return int
+     * @throws Exception
      */
     public function updateElement(Administration_Model_Element $element) {
         $data['name'] = $element->getBezeichnung();

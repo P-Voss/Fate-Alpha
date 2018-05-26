@@ -1,10 +1,12 @@
 <?php
 
 class Administration_Model_Mapper_VorteilMapper extends Application_Model_Mapper_VorteilMapper {
-    
+
     /**
      * @param Administration_Model_Vorteil $vorteil
+     *
      * @return int
+     * @throws Exception
      */
     public function createVorteil(Administration_Model_Vorteil $vorteil) {
         $data['name'] = $vorteil->getBezeichnung();
@@ -15,10 +17,11 @@ class Administration_Model_Mapper_VorteilMapper extends Application_Model_Mapper
         
         return parent::getDbTable('Vorteil')->insert($data);
     }
-    
+
     /**
      * @param int $vorteilId
      * @return \Administration_Model_Vorteil
+     * @throws Exception
      */
     public function getVorteilById($vorteilId) {
         $model = new Administration_Model_Vorteil();
@@ -33,10 +36,11 @@ class Administration_Model_Mapper_VorteilMapper extends Application_Model_Mapper
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Vorteil $vorteil
      * @return int
+     * @throws Exception
      */
     public function updateVorteil(Administration_Model_Vorteil $vorteil) {
         $data['name'] = $vorteil->getBezeichnung();

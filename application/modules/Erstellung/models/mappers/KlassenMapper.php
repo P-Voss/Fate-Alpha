@@ -1,9 +1,10 @@
 <?php
 
 class Erstellung_Model_Mapper_KlassenMapper extends Application_Model_Mapper_KlasseMapper {
-    
+
     /**
-     * @return \Erstellung_Model_Klasse
+     * @return array
+     * @throws Exception
      */
     public function getKlassengruppen() {
         $returnArray = array();
@@ -36,9 +37,10 @@ class Erstellung_Model_Mapper_KlassenMapper extends Application_Model_Mapper_Kla
             return false;
         }
     }
-    
+
     /**
      * @return array
+     * @throws Exception
      */
     public function getFamiliennamen() {
         $returnArray = array();

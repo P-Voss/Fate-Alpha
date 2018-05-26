@@ -18,10 +18,13 @@ class Application_Model_Mapper_InformationMapper {
         }
         return $dbTable;
     }
-    
+
     /**
+     * @param $userId
      * @param int $informationId
+     *
      * @return Application_Model_Information
+     * @throws Exception
      */
     public function getInformation($userId, $informationId) {
         $information = new Application_Model_Information();
@@ -174,10 +177,11 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $informationId
      * @return \Application_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirements($informationId) {
         $requirementList = new Application_Model_Requirementlist();

@@ -31,15 +31,18 @@ class Application_Service_Cache {
         } else {
             $this->isActive = $this->cache->addServer('localhost', 11211);
         }
+        return $this->isActive;
     }
     
     
     public function isActive() {
-        return false;
+        return $this->isActive;
     }
-    
+
     /**
-     * @param int $charakterId
+     * @param $category
+     * @param $key
+     *
      * @return boolean
      */
     public function fetch($category, $key) {
@@ -49,9 +52,11 @@ class Application_Service_Cache {
         }
         return unserialize($serializedData);
     }
-    
+
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param $category
+     * @param $key
+     * @param $unserializedData
      */
     public function storeCharakter($category, $key, $unserializedData) {
         $this->cache->set($category . md5($key), serialize($unserializedData), 60*60*24);

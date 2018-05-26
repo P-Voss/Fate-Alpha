@@ -18,10 +18,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $dbTable;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return array
+     * @throws Exception
      */
     public function getGruppenByCharakterId($charakterId) {
         $returnArray = array();
@@ -45,11 +47,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param string $gruppenName
      * @param string $passwort
      * @return boolean|\Gruppen_Model_Gruppe
+     * @throws Exception
      */
     public function getGruppeByCredentials($gruppenName, $passwort) {
         $select = $this->getDbTable('Spielergruppen')->select();
@@ -70,10 +73,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return false;
     }
-    
+
     /**
      * @param int $userId
      * @return array
+     * @throws Zend_Db_Select_Exception
      */
     public function getGruppenByUserId($userId) {
         $returnArray = [];
@@ -105,10 +109,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $userId
      * @return array
+     * @throws Exception
      */
     public function getGruppenByLeaderId($userId) {
         $returnArray = array();
@@ -131,10 +136,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $gruppenId
      * @return Gruppen_Model_Gruppe
+     * @throws Exception
      */
     public function getGruppeByGruppenId($gruppenId) {
         $select = $this->getDbTable('Spielergruppen')->select();
@@ -154,10 +160,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return false;
     }
-    
+
     /**
      * @param int $gruppenId
-     * @return \Application_Model_Charakter
+     * @return array
+     * @throws Exception
      */
     public function getGruppenmitglieder($gruppenId) {
         $returnArray = array();
@@ -188,12 +195,13 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $gruppenId
      * @param int $charakterId
      * @param int $userId
      * @return boolean
+     * @throws Zend_Db_Select_Exception
      */
     public function validateAccess($gruppenId, $charakterId, $userId) {
         $selectOwner = $this->getDbTable('Spielergruppen')->select();
@@ -209,10 +217,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         $result = $this->getDbTable('Spielergruppen')->fetchAll($select);
         return $result->count() > 0;
     }
-    
+
     /**
      * @param Gruppen_Model_Gruppe $gruppe
      * @return int
+     * @throws Exception
      */
     public function createGruppe(Gruppen_Model_Gruppe $gruppe) {
         $data = array(
@@ -224,10 +233,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         );
         return $this->getDbTable('Spielergruppen')->insert($data);
     }
-    
+
     /**
      * @param Gruppen_Model_Gruppe $gruppe
      * @return int
+     * @throws Exception
      */
     public function editGruppe(Gruppen_Model_Gruppe $gruppe) {
         $data = array(
@@ -237,11 +247,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
         );
         return $this->getDbTable('Spielergruppen')->update($data, ['gruppenId = ?' => $gruppe->getId()]);
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $gruppenId
      * @param string $exposure
+     * @throws Exception
      */
     public function setFreigabe($charakterId, $gruppenId, $exposure) {
         $data = array(
@@ -252,11 +263,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
             'gruppenId = ?' => $gruppenId,
         ));
     }
-    
+
     /**
      * @param int $gruppenId
      * @param int $charakterId
      * @return boolean
+     * @throws Exception
      */
     public function checkFreigabe($gruppenId, $charakterId) {
         $select = $this->getDbTable('CharakterGruppen')->select();
@@ -268,10 +280,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return false;
     }
-    
+
     /**
      * @param int $gruppenId
      * @return array
+     * @throws Exception
      */
     public function getFreigaben($gruppenId) {
         $returnArray = array();
@@ -285,10 +298,11 @@ class Gruppen_Model_Mapper_GruppenMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $gruppenId
+     * @throws Exception
      */
     public function addCharakterToGroup($charakterId, $gruppenId) {
         $data = array(
@@ -298,11 +312,12 @@ class Gruppen_Model_Mapper_GruppenMapper {
         );
         $this->getDbTable('CharakterGruppen')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $gruppenId
      * @return int
+     * @throws Exception
      */
     public function removeCharakterFromGroup($charakterId, $gruppenId) {
         return $this->getDbTable('CharakterGruppen')->delete(array(
@@ -310,10 +325,14 @@ class Gruppen_Model_Mapper_GruppenMapper {
             'gruppenId = ?' => $gruppenId,
         ));
     }
-    
+
     /**
      * @param Gruppen_Model_Nachricht $nachricht
      * @param int $gruppenId
+     *
+     * @return mixed
+     * @return mixed
+     * @throws Exception
      */
     public function addNachricht(Gruppen_Model_Nachricht $nachricht, $gruppenId) {
         $data = array(
@@ -324,9 +343,13 @@ class Gruppen_Model_Mapper_GruppenMapper {
         );
         return $this->getDbTable('Gruppenchat')->insert($data);
     }
-    
+
     /**
      * @param type $gruppenId
+     *
+     * @return array
+     * @return array
+     * @throws Exception
      */
     public function getNachrichtenByGruppenId($gruppenId) {
         $returnArray = array();

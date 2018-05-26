@@ -1,95 +1,89 @@
-<?php 
+<?php
 echo $this->doctype();
 $layoutData = $this->layoutData;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Fate/Alpha</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/charakterErstellung.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/style.css') ?>" />
-        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-2.1.3.min.js"></script>
-        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/vue.js"></script>
-        <script type="text/javascript">
-            var baseUrl ='<?= $this->baseUrl() ?>';
-        </script>
-        <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css" />
-        <?= $this->headLink() ?>
-        <?= $this->headScript() ?>
-    </head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Fate/Alpha</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/charakterErstellung.css') ?>" />
+    <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/style.css') ?>" />
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript">
+        var baseUrl ='<?= $this->baseUrl() ?>';
+    </script>
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css" />
+    <?= $this->headLink() ?>
+    <?= $this->headScript() ?>
+</head>
 <body>
-    <div id="header">
-        <div id="header-logo">
+<div id="header">
+    <div id="header-logo">
 
+    </div>
+</div>
+<div id="seitenbereich1">
+    <div id="beschreibungRechts">
+        <p>
+            Verfügbare Erstellungspunkte <span id="Erstellungspunkte"></span>
+        </p>
+        <hr/>
+        <p id="Beschreibung">
+
+        </p>
+    </div>
+    <div id="beschreibungLinks">
+        <p id="namen">
+                <span id="Vorname">
+
+                </span>
+            <span id="Nachname">
+
+                </span>
+            <span id="Geschlecht">
+
+                </span>
+        </p>
+        <p>
+                <span id="Geburtsdatum">
+
+                </span>
+        </p>
+        <p>
+                <span id="Augenfarbe">
+
+                </span>
+        </p>
+        <p>
+                <span id="Körpergröße">
+
+                </span>
+        </p>
+        <p>
+                <span id="Sexualität">
+
+                </span>
+        </p>
+        <p>
+                <span id="Wohnort">
+
+                </span>
+        </p>
+    </div>
+    <div id="seitenbereich2">
+        <div id="steuerung">
+            <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
+        </div>
+        <div id="inhalt">
+            <?php echo $this->layout()->content; ?>
+        </div>
+        <div id="footer">
+            <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>
         </div>
     </div>
-    <div id="seitenbereich1">
-        <div id="beschreibungRechts">
-            <p>
-                Verfügbare Erstellungspunkte <span id="Erstellungspunkte"></span>
-            </p>
-            <hr/>
-            <p id="Beschreibung">
+</div>
 
-            </p>
-        </div>
-        <div id="personData">
-            <h2>Personendaten</h2>
-            <p id="namen">
-                <span id="Vorname">{{ firstname }}</span>
-                <span id="Nachname">{{ lastname }}</span>
-                <span id="Geschlecht">{{ gender }}</span>
-            </p>
-            <p>
-                <span id="Geburtsdatum">{{ birthdate }}</span>
-            </p>
-            <p>
-                <span id="Augenfarbe">{{ eyecolor }}</span>
-            </p>
-            <p>
-                <span id="Körpergröße">{{ size }}</span>
-            </p>
-            <p>
-                <span id="Sexualität">{{ sexuality }}</span>
-            </p>
-            <p>
-                <span id="Wohnort">{{ place }}</span>
-            </p>
-            <h2>Klasse</h2>
-            <p>
-                <span id="classType">{{ classType.name }}</span>
-            </p>
-            <h2>Vorteile</h2>
-            <p>
-                <ul id="advantages">
-                    <li v-for="adv in advantages">{{ adv.name }}</li>
-                </ul>
-            </p>
-            <h2>Nachteile</h2>
-            <p>
-                <ul id="disadvantages">
-                    <li v-for="disadv in disadvantages">{{ disadv.name }}</li>
-                </ul>
-            </p>
-            <h2>Unterklasse</h2>
-            <p>
-                <span id="subClass">{{ subClass.name }}</span>
-            </p>
-        </div>
-        <div id="seitenbereich2">
-            <div id="steuerung">
-                <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
-            </div>
-            <div id="inhalt">
-                <?php echo $this->layout()->content; ?>
-            </div>
-            <div id="footer">
-                <a href="<?= $this->baseUrl(); ?>/index/impressum">Impressum</a>
-            </div>
-        </div>
-    </div>
-    
 </body>
 
 </html>

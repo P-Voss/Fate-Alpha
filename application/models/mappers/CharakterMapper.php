@@ -1,31 +1,41 @@
 <?php
 
-class Application_Model_Mapper_CharakterMapper{
-    
+/**
+ * Class Application_Model_Mapper_CharakterMapper
+ */
+class Application_Model_Mapper_CharakterMapper
+{
+
     /**
      * @param string $tablename
+     *
      * @return \Zend_Db_Table_Abstract
      * @throws Exception
      */
-    public function getDbTable($tablename) {
+    public function getDbTable ($tablename)
+    {
         $className = 'Application_Model_DbTable_' . $tablename;
-        if(!class_exists($className)){
+        if (!class_exists($className)) {
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if(!$dbTable instanceof Zend_Db_Table_Abstract){
+        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
     }
-    
-    
-    public function getAllCharakters() {
-        $returnArray = array();
+
+    /**
+     * @return Application_Model_Charakter[]
+     * @throws Exception
+     */
+    public function getAllCharakters ()
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Charakter')->select();
         $select->where('active = 1');
         $result = $this->getDbTable('Charakter')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             foreach ($result as $row) {
                 $charakter = new Application_Model_Charakter();
                 $charakter->setVorname($row->vorname);
@@ -46,102 +56,117 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
-     * @return int
+     *
+     * @throws Exception
      */
-    public function deleteCharakter(Application_Model_Charakter $charakter) {
+    public function deleteCharakter (Application_Model_Charakter $charakter)
+    {
         $db = $this->getDbTable('Charakter')->getAdapter();
         $db->beginTransaction();
-        $db->delete('charakter', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterElemente', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterItemAusruestung', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterItemRPG', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterItems', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterMagien', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterMagieschulen', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterNachteile', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterProfil', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterSkillarten', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterSkills', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterVorteile', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterWerte', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('charakterGruppen', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('training', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('beziehungen', array('charakterId = ?' => $charakter->getCharakterid()));
-        $db->delete('beziehungen', array('profilId = ?' => $charakter->getCharakterid()));
+        $db->delete('charakter', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterElemente', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterItemAusruestung', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterItemRPG', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterItems', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterMagien', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterMagieschulen', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterNachteile', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterProfil', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterSkillarten', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterSkills', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterVorteile', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterWerte', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('charakterGruppen', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('training', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('beziehungen', ['charakterId = ?' => $charakter->getCharakterid()]);
+        $db->delete('beziehungen', ['profilId = ?' => $charakter->getCharakterid()]);
         $db->commit();
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
+     *
      * @return int
      */
-//    public function createCharakter(Application_Model_Charakter $charakter) {
-//        $date = new DateTime();
-//        $data = array();
-//        $data['userId'] = $charakter->getUserid();
-//        $data['vorname'] = $charakter->getVorname();
-//        $data['nachname'] = $charakter->getNachname();
-//        $data['geburtsdatum'] = $charakter->getGeburtsdatum();
-//        $data['geschlecht'] = $charakter->getGeschlecht();
-//        $data['augenfarbe'] = $charakter->getAugenfarbe();
-//        $data['size'] = $charakter->getSize();
-//        $data['geschlecht'] = $charakter->getGeschlecht();
-//        $data['sexualitaet'] = $charakter->getSexualitaet();
-//        $data['wohnort'] = $charakter->getWohnort();
-//        $data['naturElement'] = $charakter->getElemente()[0];
-//        $data['klassenId'] = $charakter->getKlasse()->getId();
-//        $data['odo'] = $charakter->getOdo();
-//        $data['circuit'] = $charakter->getMagiccircuit();
-//        $data['luck'] = $charakter->getLuck();
-//        $data['createDate'] = $date->format('Y-m-d H:i:s');
-//        return $this->getDbTable('Charakter')->insert($data);
-//    }
-    
+    //    public function createCharakter(Application_Model_Charakter $charakter) {
+    //        $date = new DateTime();
+    //        $data = array();
+    //        $data['userId'] = $charakter->getUserid();
+    //        $data['vorname'] = $charakter->getVorname();
+    //        $data['nachname'] = $charakter->getNachname();
+    //        $data['geburtsdatum'] = $charakter->getGeburtsdatum();
+    //        $data['geschlecht'] = $charakter->getGeschlecht();
+    //        $data['augenfarbe'] = $charakter->getAugenfarbe();
+    //        $data['size'] = $charakter->getSize();
+    //        $data['geschlecht'] = $charakter->getGeschlecht();
+    //        $data['sexualitaet'] = $charakter->getSexualitaet();
+    //        $data['wohnort'] = $charakter->getWohnort();
+    //        $data['naturElement'] = $charakter->getElemente()[0];
+    //        $data['klassenId'] = $charakter->getKlasse()->getId();
+    //        $data['odo'] = $charakter->getOdo();
+    //        $data['circuit'] = $charakter->getMagiccircuit();
+    //        $data['luck'] = $charakter->getLuck();
+    //        $data['createDate'] = $date->format('Y-m-d H:i:s');
+    //        return $this->getDbTable('Charakter')->insert($data);
+    //    }
+
     /**
      * @param int $elementId
      * @param int $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function saveCharakterElement($elementId, $charakterId) {
-        $data = array();
+    public function saveCharakterElement ($elementId, $charakterId)
+    {
+        $data = [];
         $data['charakterId'] = $charakterId;
         $data['elementId'] = $elementId;
         return $this->getDbTable('CharakterElement')->insert($data);
     }
-    
+
     /**
      * @param int $vorteilId
      * @param int $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function saveCharakterVorteil($vorteilId, $charakterId) {
-        $data = array();
+    public function saveCharakterVorteil ($vorteilId, $charakterId)
+    {
+        $data = [];
         $data['charakterId'] = $charakterId;
         $data['vorteilId'] = $vorteilId;
         return $this->getDbTable('CharakterVorteil')->insert($data);
     }
-    
+
     /**
      * @param int $nachteilId
      * @param int $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function saveCharakterNachteil($nachteilId, $charakterId) {
-        $data = array();
+    public function saveCharakterNachteil ($nachteilId, $charakterId)
+    {
+        $data = [];
         $data['charakterId'] = $charakterId;
         $data['nachteilId'] = $nachteilId;
         return $this->getDbTable('CharakterNachteil')->insert($data);
     }
-    
+
     /**
      * @param type $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function saveCharakterWerte($charakterId) {
-        $data = array();
+    public function saveCharakterWerte ($charakterId)
+    {
+        $data = [];
         $data['charakterId'] = $charakterId;
         $data['staerke'] = 10;
         $data['agilitaet'] = 10;
@@ -153,21 +178,24 @@ class Application_Model_Mapper_CharakterMapper{
         $data['startpunkte'] = 120;
         return $this->getDbTable('CharakterWerte')->insert($data);
     }
-    
+
     /**
      * @param int $userId
+     *
      * @return boolean|\Application_Model_Charakter
+     * @throws Exception
      */
-    public function getCharakterByUserId($userId){
+    public function getCharakterByUserId ($userId)
+    {
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('C' => 'charakter'), array('C.*'));
+        $select->from(['C' => 'charakter'], ['C.*']);
         $select->where('C.userId = ?', $userId);
         $select->where('active = 1');
-        $select->joinLeft(array('K' => 'klassen'), 'C.klassenId = K.klassenId', array('K.klassengruppenId'));
+        $select->joinLeft(['K' => 'klassen'], 'C.klassenId = K.klassenId', ['K.klassengruppenId']);
         $result = $this->getDbTable('Charakter')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $model = new Application_Model_Charakter();
                 $model->setCharakterid($row->charakterId);
                 $model->setVorname($row->vorname);
@@ -190,36 +218,44 @@ class Application_Model_Mapper_CharakterMapper{
                 }
             }
             return $model;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     /**
      * @param int $userId
+     *
      * @return boolean|int
+     * @throws Exception
      */
-    public function getCharakterIdByUserId($userId){
+    public function getCharakterIdByUserId ($userId)
+    {
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('C' => 'charakter'), array('C.*'));
+        $select->from(['C' => 'charakter'], ['C.*']);
         $select->where('C.userId = ? AND active = 1', $userId);
         $result = $this->getDbTable('Charakter')->fetchRow($select);
         return $result !== null ? $result->charakterId : false;
     }
-    
+
     /**
      * @param type $charakterId
+     *
+     * @return array
+     * @return array
+     * @throws Exception
      */
-    public function getCharakterElemente($charakterId) {
-        $returnArray = array();
+    public function getCharakterElemente ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('CharakterElement')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakterElemente'), array());
+        $select->from(['zuo' => 'charakterElemente'], []);
         $select->joinInner('elemente', 'elemente.elementId = zuo.elementId', ['elementId', 'name', 'beschreibung']);
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterElement')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             foreach ($result as $row) {
                 $element = new Application_Model_Element();
                 $element->setId($row->elementId);
@@ -230,163 +266,200 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return \Application_Model_Element
+     * @throws Exception
      */
-    public function getNaturelement($charakterId) {
+    public function getNaturelement ($charakterId)
+    {
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakter'), array());
+        $select->from(['zuo' => 'charakter'], []);
         $select->joinInner('elemente', 'elemente.elementId = zuo.naturelement', ['elementId', 'name', 'beschreibung']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $element = new Application_Model_Element();
             $element->setId($row->elementId);
             $element->setBezeichnung($row->name);
             $element->setBeschreibung($row->beschreibung);
             return $element;
+        } else {
+            throw new Exception();
         }
     }
-    
+
     /**
      * @param int $charakterId
-     * @param \Application_Model_Modifier $modifiers
-     * @return \Application_Model_Odo
+     * @param Application_Model_Modifier[] $modifiers
+     *
+     * @return Application_Model_Odo
+     * @throws Exception
      */
-    public function getOdo($charakterId, $modifiers = array()) {
+    public function getOdo ($charakterId, $modifiers = [])
+    {
         $modifier = 0;
         foreach ($modifiers as $mod) {
-            if($mod->getAttribute() === 'odo'){
+            if ($mod->getAttribute() === 'odo') {
                 $modifier += $mod->getValue();
             }
         }
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakter'), array());
+        $select->from(['zuo' => 'charakter'], []);
         $select->joinInner('odo', 'odo.odoId = zuo.odo + ' . $modifier * -1, ['odoId', 'kategorie', 'menge']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $odo = new Application_Model_Odo();
             $odo->setId($row->odoId);
             $odo->setKategorie($row->kategorie);
             $odo->setAmount($row->menge);
-            if($modifier !== 0){
+            if ($modifier !== 0) {
                 $odo->setModified(true);
                 $odo->setModification($modifier);
             }
             return $odo;
+        } else {
+            throw new Exception();
         }
     }
-    
+
     /**
      * @param int $charakterId
-     * @param \Application_Model_Modifier $modifiers
-     * @return \Application_Model_Luck
+     * @param Application_Model_Modifier[] $modifiers
+     *
+     * @return Application_Model_Luck
+     * @throws Exception
      */
-    public function getLuck($charakterId, $modifiers = array()) {
+    public function getLuck ($charakterId, $modifiers = [])
+    {
         $modifier = 0;
         foreach ($modifiers as $mod) {
-            if($mod->getAttribute() === 'luck'){
+            if ($mod->getAttribute() === 'luck') {
                 $modifier += $mod->getValue();
             }
         }
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakter'), array());
+        $select->from(['zuo' => 'charakter'], []);
         $select->joinInner('luck', 'luck.luckId = zuo.luck + ' . $modifier * -1, ['luckId', 'kategorie']);
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $luck = new Application_Model_Luck();
             $luck->setId($row->luckId);
             $luck->setKategorie($row->kategorie);
-            if($modifier !== 0){
+            if ($modifier !== 0) {
                 $luck->setModified(true);
                 $luck->setModification($modifier);
             }
             return $luck;
+        } else {
+            throw new Exception();
         }
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Application_Model_Circuit
+     *
+     * @return Application_Model_Circuit
+     * @throws Exception
      */
-    public function getMagiccircuit($charakterId) {
+    public function getMagiccircuit ($charakterId)
+    {
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakter'), array());
-        $select->joinInner('circuit', 'circuit.circuitId = zuo.circuit', ['circuitId', 'besonderheit', 'kategorie', 'menge']);
+        $select->from(['zuo' => 'charakter'], []);
+        $select->joinInner(
+            'circuit', 'circuit.circuitId = zuo.circuit', [
+                         'circuitId', 'besonderheit', 'kategorie', 'menge']
+        );
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $circuit = new Application_Model_Circuit();
             $circuit->setId($row->circuitId);
             $circuit->setKategorie($row->kategorie);
             $circuit->setBeschreibung($row->besonderheit);
             $circuit->setMenge($row->menge);
             return $circuit;
+        } else {
+            throw new Exception();
         }
-        return null;
     }
-    
+
     /**
      * @param int $charakterId
-     * @param \Application_Model_Modifier $modifiers
-     * @return \Application_Model_Vermoegen
+     * @param Application_Model_Modifier[] $modifiers
+     *
+     * @return Application_Model_Vermoegen
+     * @throws Exception
      */
-    public function getVermoegen($charakterId, $modifiers = array()) {
+    public function getVermoegen ($charakterId, $modifiers = [])
+    {
         $modifier = 0;
         foreach ($modifiers as $mod) {
-            if($mod->getAttribute() === 'vermoegen'){
+            if ($mod->getAttribute() === 'vermoegen') {
                 $modifier += $mod->getValue();
             }
         }
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('zuo' => 'charakter'), array());
-        $select->joinInner('vermoegen', 'vermoegen.vermoegenId = zuo.vermoegen + ' . $modifier, ['vermoegenId', 'beschreibung', 'kategorie', 'menge']);
+        $select->from(['zuo' => 'charakter'], []);
+        $select->joinInner(
+            'vermoegen', 'vermoegen.vermoegenId = zuo.vermoegen + ' . $modifier, [
+                           'vermoegenId', 'beschreibung', 'kategorie', 'menge']
+        );
         $select->where('charakterId = ?', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $vermoegen = new Application_Model_Vermoegen();
             $vermoegen->setId($row->vermoegenId);
             $vermoegen->setBeschreibung($row->beschreibung);
             $vermoegen->setKategorie($row->kategorie);
             $vermoegen->setMenge($row->menge);
-            if($modifier !== 0){
+            if ($modifier !== 0) {
                 $vermoegen->setModified(true);
                 $vermoegen->setModification($modifier);
             }
             return $vermoegen;
+        } else {
+            throw new Exception();
         }
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @return mixed
+     * @throws Exception
      */
-    public function createCharakterProfile($charakterId) {
+    public function createCharakterProfile ($charakterId)
+    {
         $data['charakterId'] = $charakterId;
         $data['kennenlernCode'] = Application_Service_Utility::generateShortHash();
         $data['privatCode'] = Application_Service_Utility::generateShortHash();
         return $this->getDbTable('CharakterProfil')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return \Application_Model_Charakterprofil
+     * @throws Exception
      */
-    public function getCharakterProfil($charakterId) {
+    public function getCharakterProfil ($charakterId)
+    {
         $model = new Application_Model_Charakterprofil();
         $select = $this->getDbTable('CharakterProfil')->select();
         $select->from('charakterProfil');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterProfil')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             $row = $result->current();
             $model->setCharaktergeschichte($row->charaktergeschichte);
             $model->setProfilpic($row->profilpic);
@@ -400,151 +473,169 @@ class Application_Model_Mapper_CharakterMapper{
     }
 
     /**
+     * @todo Datenfreigabe als Klasse
+     *
      * @param int $profilId
      * @param int $charakterId
+     *
      * @return array
+     * @throws Exception
      */
-    public function getDatenfreigabe($profilId, $charakterId) {
-        $freigabe = array('public' => 0, 'privat' => 0);
+    public function getDatenfreigabe ($profilId, $charakterId)
+    {
+        $freigabe = ['public' => 0, 'privat' => 0];
         $select = $this->getDbTable('Beziehungen')->select();
         $select->from('beziehungen');
         $select->where('profilId = ?', $profilId);
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('Beziehungen')->fetchRow($select);
-        if($result !== null){
+        if ($result !== null) {
             $freigabe['public'] = $result->public;
             $freigabe['privat'] = $result->private;
         }
         return $freigabe;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return \Application_Model_Charakterwerte
+     * @throws Exception
      */
-    public function getCharakterwerte($charakterId) {
+    public function getCharakterwerte ($charakterId)
+    {
         $select = $this->getDbTable('CharakterWerte')->select();
         $select->from('charakterWerte');
         $select->where('charakterId = ?', $charakterId);
-        $result = $this->getDbTable('CharakterWerte')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Application_Model_Charakterwerte();
-                $model->setStaerke($row->staerke);
-                $model->setAgilitaet($row->agilitaet);
-                $model->setAusdauer($row->ausdauer);
-                $model->setDisziplin($row->disziplin);
-                $model->setKontrolle($row->kontrolle);
-                $model->setUebung($row->uebung);
-                $model->setFp($row->fp);
-                $model->setStartpunkte($row->startpunkte);
-            }
+        $row = $this->getDbTable('CharakterWerte')->fetchRow($select);
+        if ($row !== null) {
+            $model = new Application_Model_Charakterwerte();
+            $model->setStaerke($row->staerke);
+            $model->setAgilitaet($row->agilitaet);
+            $model->setAusdauer($row->ausdauer);
+            $model->setDisziplin($row->disziplin);
+            $model->setKontrolle($row->kontrolle);
+            $model->setUebung($row->uebung);
+            $model->setFp($row->fp);
+            $model->setStartpunkte($row->startpunkte);
             return $model;
+        } else {
+            throw new Exception();
         }
-        return null;
     }
-    
+
     /**
+     * @todo Training als Klasse
+     *
      * @param int $charakterId
-     * @return boolean
+     *
+     * @return array
+     * @throws Exception
      */
-    public function getCurrentTraining($charakterId){
+    public function getCurrentTraining ($charakterId)
+    {
         $select = $this->getDbTable('Training')->select();
-        $select->setIntegrityCheck(FALSE);
+        $select->setIntegrityCheck(false);
         $select->from('training');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('Training')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $return = array();
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
+                $return = [];
                 $return['training'] = $row->wert;
                 $return['dauer'] = $row->dauer;
             }
             return $return;
-        }else{
-            return false;
+        } else {
+            throw new Exception();
         }
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Application_Model_Vorteil
+     *
+     * @return array
+     * @throws Exception
      */
-    public function getVorteileByCharakterId($charakterId){
-        $returnArray = array();
+    public function getVorteileByCharakterId ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Vorteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('CV' => 'charakterVorteile'), array('V.vorteilId', 'V.name', 'V.beschreibung'));
+        $select->from(['CV' => 'charakterVorteile'], ['V.vorteilId', 'V.name', 'V.beschreibung']);
         $select->where('CV.charakterId = ?', $charakterId);
-        $select->join(array('V' => 'vorteile'), 'CV.vorteilId = V.vorteilId');
+        $select->join(['V' => 'vorteile'], 'CV.vorteilId = V.vorteilId');
         $result = $this->getDbTable('Vorteil')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $vorteilModel = new Application_Model_Vorteil();
-                $vorteilModel->setId($row->vorteilId);
-                $vorteilModel->setBezeichnung($row->name);
-                $vorteilModel->setBeschreibung($row->beschreibung);
-                
-                $returnArray[] = $vorteilModel;
-            }
+        foreach ($result as $row) {
+            $vorteilModel = new Application_Model_Vorteil();
+            $vorteilModel->setId($row->vorteilId);
+            $vorteilModel->setBezeichnung($row->name);
+            $vorteilModel->setBeschreibung($row->beschreibung);
+
+            $returnArray[] = $vorteilModel;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Application_Model_Nachteil
+     *
+     * @return array
+     * @throws Exception
      */
-    public function getNachteileByCharakterId($charakterId){
-        $returnArray = array();
+    public function getNachteileByCharakterId ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Nachteil')->select();
         $select->setIntegrityCheck(false);
-        $select->from(array('CN' => 'charakterNachteile'), array('N.nachteilId', 'N.name', 'N.beschreibung'));
+        $select->from(['CN' => 'charakterNachteile'], ['N.nachteilId', 'N.name', 'N.beschreibung']);
         $select->where('CN.charakterId = ?', $charakterId);
-        $select->join(array('N' => 'nachteile'), 'CN.nachteilId = N.nachteilId');
+        $select->join(['N' => 'nachteile'], 'CN.nachteilId = N.nachteilId');
         $result = $this->getDbTable('Nachteil')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $nachteilModel = new Application_Model_Nachteil();
-                $nachteilModel->setId($row->nachteilId);
-                $nachteilModel->setBezeichnung($row->name);
-                $nachteilModel->setBeschreibung($row->beschreibung);
-                
-                $returnArray[] = $nachteilModel;
-            }
+        foreach ($result as $row) {
+            $nachteilModel = new Application_Model_Nachteil();
+            $nachteilModel->setId($row->nachteilId);
+            $nachteilModel->setBezeichnung($row->name);
+            $nachteilModel->setBeschreibung($row->beschreibung);
+
+            $returnArray[] = $nachteilModel;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @return Application_Model_Charakter[]
+     * @throws Exception
      */
-    public function getFriendlist($charakterId) {
-        $returnArray = array();
+    public function getFriendlist ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Beziehungen')->select();
         $select->setIntegrityCheck(false);
         $select->from('beziehungen');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('Beziehungen')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $returnArray[] = $this->getCharakter($row->profilId);
-            }
+        foreach ($result as $row) {
+            $returnArray[] = $this->getCharakter($row->profilId);
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return \Application_Model_Charakter
      * @throws Exception
      */
-    public function getCharakter($charakterId) {
+    public function getCharakter ($charakterId)
+    {
         $model = new Application_Model_Charakter();
         $select = $this->getDbTable('Charakter')->select();
         $select->where('charakterId = ? AND active = 1', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $model->setVorname($row->vorname);
             $model->setNachname($row->nachname);
             $model->setCharakterid($row->charakterId);
@@ -564,117 +655,136 @@ class Application_Model_Mapper_CharakterMapper{
                 $model->setUndeadDate($undeadDate);
             }
             return $model;
+        } else {
+            throw new Exception();
         }
-        return false;
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $charakterIdToCheck
+     *
      * @return boolean
+     * @throws Exception
      */
-    public function checkAssociation($charakterId, $charakterIdToCheck) {
+    public function checkAssociation ($charakterId, $charakterIdToCheck)
+    {
         $select = $this->getDbTable('Beziehungen')->select();
         $select->where('charakterId = ?', $charakterId);
         $select->where('profilId = ?', $charakterIdToCheck);
         $row = $this->getDbTable('Beziehungen')->fetchRow($select);
-        if($row !== null){
-            return true;
-        }else{
-            return false;
-        }
+
+        return $row !== null;
     }
-    
+
     /**
      * @param array $profile
      * @param int $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function setAssociation(array $profile, $charakterId) {
+    public function setAssociation (array $profile, $charakterId)
+    {
         $data = [
             'charakterId' => $charakterId,
-            'profilId' => $profile['charakterId']
+            'profilId' => $profile['charakterId'],
         ];
-        if($profile['type'] === 'public'){
+        if ($profile['type'] === 'public') {
             $data['public'] = 1;
         }
-        if($profile['type'] === 'private'){
+        if ($profile['type'] === 'private') {
             $data['private'] = 1;
         }
         $select = $this->getDbTable('Beziehungen')->select();
         $select->where('charakterId = ?', $charakterId);
         $select->where('profilId = ?', $profile['charakterId']);
         $result = $this->getDbTable('Beziehungen')->fetchRow($select);
-        if($result !== null){
-            $return = $this->updateAssociation($data, $result['zuordnungId']);
+        if ($result !== null) {
+            return $this->updateAssociation($data, $result['zuordnungId']);
         } else {
-            $return = $this->createAssociation($data);
+            return $this->createAssociation($data);
         }
-        return $return;
     }
-    
+
     /**
      * @param array $data
      * @param int $associateId
+     *
      * @return int
+     * @throws Exception
      */
-    private function updateAssociation(array $data, $associateId) {
-        return $this->getDbTable('Beziehungen')->update($data, array('zuordnungId =?' => $associateId));
+    private function updateAssociation (array $data, $associateId)
+    {
+        return $this->getDbTable('Beziehungen')->update($data, ['zuordnungId =?' => $associateId]);
     }
-    
+
     /**
      * @param array $data
+     *
      * @return int
+     * @throws Exception
      */
-    private function createAssociation(array $data) {
+    private function createAssociation (array $data)
+    {
         return $this->getDbTable('Beziehungen')->insert($data);
     }
-    
+
     /**
      * @param string $profileCode
      * @param int $charakterId
+     *
      * @return array|boolean
+     * @throws Zend_Db_Select_Exception
+     * @throws Exception
      */
-    public function verifyProfilecode($profileCode, $charakterId) {
+    public function verifyProfilecode ($profileCode, $charakterId)
+    {
         $selectPublic = $this->getDbTable('CharakterProfil')->select();
         $selectPublic->setIntegrityCheck(false);
-        $selectPublic->from(array('cp' => 'charakterProfil'), array(new Zend_Db_Expr('"public" AS type'), 'charakterId'));
+        $selectPublic->from(['cp' => 'charakterProfil'], [new Zend_Db_Expr('"public" AS type'), 'charakterId']);
         $selectPublic->where('kennenlernCode = ?', $profileCode);
         $selectPublic->where('charakterId != ?', $charakterId);
-        
+
         $selectPrivate = $this->getDbTable('CharakterProfil')->select();
         $selectPrivate->setIntegrityCheck(false);
-        $selectPrivate->from(array('cp' => 'charakterProfil'), array(new Zend_Db_Expr('"private" AS type'), 'charakterId'));
+        $selectPrivate->from(['cp' => 'charakterProfil'], [new Zend_Db_Expr('"private" AS type'), 'charakterId']);
         $selectPrivate->where('privatCode = ?', $profileCode);
         $selectPrivate->where('charakterId != ?', $charakterId);
-        
+
         $select = $this->getDbTable('CharakterProfil')->select();
-        $select->union(array($selectPrivate, $selectPublic));
+        $select->union([$selectPrivate, $selectPublic]);
         $result = $this->getDbTable('CharakterProfil')->fetchRow($select);
-        if($result !== null){
+        if ($result !== null) {
             $return['charakterId'] = $result['charakterId'];
             $return['type'] = $result['type'];
             return $return;
         }
         return false;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return int
+     * @throws Exception
      */
-    public function setNewProfileCode($charakterId) {
+    public function setNewProfileCode ($charakterId)
+    {
         $data = [
             'kennenlernCode' => Application_Service_Utility::generateShortHash(),
             'privatCode' => Application_Service_Utility::generateShortHash(),
         ];
-        return $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
+        return $this->getDbTable('CharakterProfil')->update($data, ['charakterId = ?' => $charakterId]);
     }
-    
+
     /**
      * @param int $charakterId
+     *
+     * @throws Exception
      */
-    public function setInitalSkillarten($charakterId) {
+    public function setInitalSkillarten ($charakterId)
+    {
         $data = [
             'charakterId' => $charakterId,
             'skillartId' => 3,
@@ -687,37 +797,42 @@ class Application_Model_Mapper_CharakterMapper{
         $data['skillartId'] = 2;
         $this->getDbTable('CharakterSkillart')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return \Application_Model_Klasse
      * @throws Exception
      */
-    public function getCharakterKlasse($charakterId) {
+    public function getCharakterKlasse ($charakterId)
+    {
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
-        $select->from('charakter', array());
+        $select->from('charakter', []);
         $select->joinInner('klassen', 'charakter.klassenId = klassen.klassenId');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('Charakter')->fetchAll($select)->current();
-        if($result !== null){
+        if ($result !== null) {
             $klasse = new Application_Model_Klasse();
             $klasse->setBezeichnung($result['klasse']);
             $klasse->setBeschreibung($result['beschreibung']);
             $klasse->setId($result['klassenId']);
             $klasse->setKosten($result['kosten']);
             return $klasse;
-        }else{
+        } else {
             throw new Exception('Klasse konnte nicht gefunden werden');
         }
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $schuleId
+     *
      * @return int
+     * @throws Exception
      */
-    public function getCharakterMagieStufe($charakterId, $schuleId) {
+    public function getCharakterMagieStufe ($charakterId, $schuleId)
+    {
         $select = $this->getDbTable('CharakterSchule')->select();
         $select->where('charakterId = ?', $charakterId);
         $select->where('magieschuleId = ?', $schuleId);
@@ -738,25 +853,29 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $rang;
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return Application_Model_Schule[]
+     * @throws Exception
      */
-    public function getCharakterMagieschulen($charakterId) {
-        $returnArray = array();
+    public function getCharakterMagieschulen ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('CharakterSchule')->select();
         $select->setIntegrityCheck(false);
         $select->distinct();
-        $select->from('charakterMagieschulen', array('magieschuleId'));
-        $select->joinInner('magieschulen', 
-                            'charakterMagieschulen.magieschuleId = magieschulen.magieschuleId',
-                            array('name', 'beschreibung')
-                );
+        $select->from('charakterMagieschulen', ['magieschuleId']);
+        $select->joinInner(
+            'magieschulen',
+            'charakterMagieschulen.magieschuleId = magieschulen.magieschuleId',
+            ['name', 'beschreibung']
+        );
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterSchule')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $magieschule = new Application_Model_Schule();
                 $magieschule->setId($row->magieschuleId);
                 $magieschule->setBezeichnung($row->name);
@@ -766,25 +885,29 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
-     * @param type $charakterId
+     * @param int $charakterId
+     *
      * @return Application_Model_Skill[]
+     * @throws Exception
      */
-    public function getCharakterSkills($charakterId) {
-        $returnArray = array();
+    public function getCharakterSkills ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('CharakterSkill')->select();
         $select->setIntegrityCheck(false);
-        $select->from('charakterSkills', array());
-        $select->joinInner('skills', 
-                            'charakterSkills.skillId = skills.skillId',
-                            array('skillId', 'name', 'beschreibung')
-                );
+        $select->from('charakterSkills', []);
+        $select->joinInner(
+            'skills',
+            'charakterSkills.skillId = skills.skillId',
+            ['skillId', 'name', 'beschreibung']
+        );
         $select->where('charakterSkills.charakterId = ?', $charakterId);
         $select->order('skills.name');
         $result = $this->getDbTable('CharakterSkill')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $skill = new Application_Model_Skill();
                 $skill->setId($row->skillId);
                 $skill->setBezeichnung($row->name);
@@ -794,24 +917,28 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
-     * @param type $charakterId
+     * @param int $charakterId
+     *
      * @return Application_Model_Magie[]
+     * @throws Exception
      */
-    public function getCharakterMagien($charakterId) {
-        $returnArray = array();
+    public function getCharakterMagien ($charakterId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('CharakterMagie')->select();
         $select->setIntegrityCheck(false);
-        $select->from('charakterMagien', array());
-        $select->joinInner('magien', 
-                            'charakterMagien.magieId = magien.magieId',
-                            array('magieId', 'name', 'beschreibung')
-                );
+        $select->from('charakterMagien', []);
+        $select->joinInner(
+            'magien',
+            'charakterMagien.magieId = magien.magieId',
+            ['magieId', 'name', 'beschreibung']
+        );
         $select->where('charakterMagien.charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $magie = new Application_Model_Magie();
                 $magie->setId($row->magieId);
                 $magie->setBezeichnung($row->name);
@@ -821,39 +948,48 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
      * @param string $picUrl
+     *
+     * @throws Exception
      */
-    public function saveCharakterpic($charakterId, $picUrl) {
+    public function saveCharakterpic ($charakterId, $picUrl)
+    {
         $data = ['charpic' => $picUrl];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, ['charakterId = ?' => $charakterId]);
     }
-    
+
     /**
      * @param int $charakterId
      * @param string $picUrl
+     *
+     * @throws Exception
      */
-    public function saveProfilpic($charakterId, $picUrl) {
+    public function saveProfilpic ($charakterId, $picUrl)
+    {
         $data = ['profilpic' => $picUrl];
-        $this->getDbTable('CharakterProfil')->update($data, array('charakterId = ?' => $charakterId));
+        $this->getDbTable('CharakterProfil')->update($data, ['charakterId = ?' => $charakterId]);
     }
-    
+
     /**
-     * 
-     * @param Application_Model_Nachteil $nachteile
-     * @return \Application_Model_Modifier
+     *
+     * @param Application_Model_Nachteil[] $nachteile
+     *
+     * @return Application_Model_Modifier[]
+     * @throws Exception
      */
-    public function getModifierNachteile($nachteile = array()) {
-        $returnArray = array();
+    public function getModifierNachteile ($nachteile = [])
+    {
+        $returnArray = [];
         $select = $this->getDbTable('NachteilEigenschaften')->select();
         $select->where('1 = 2');
         foreach ($nachteile as $nachteil) {
             $select->orWhere('nachteilId = ?', $nachteil->getId());
         }
         $result = $this->getDbTable('NachteilEigenschaften')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             foreach ($result as $row) {
                 $modifier = new Application_Model_Modifier();
                 $modifier->setAttribute($row->eigenschaft);
@@ -863,21 +999,24 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
-     * 
-     * @param Application_Model_Vorteil $vorteile
-     * @return \Application_Model_Modifier
+     *
+     * @param Application_Model_Vorteil[] $vorteile
+     *
+     * @return \Application_Model_Modifier[]
+     * @throws Exception
      */
-    public function getModifierVorteile($vorteile = array()) {
-        $returnArray = array();
+    public function getModifierVorteile ($vorteile = [])
+    {
+        $returnArray = [];
         $select = $this->getDbTable('VorteilEigenschaften')->select();
         $select->where('1 = 2');
         foreach ($vorteile as $vorteil) {
             $select->orWhere('vorteilId = ?', $vorteil->getId());
         }
         $result = $this->getDbTable('VorteilEigenschaften')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             foreach ($result as $row) {
                 $modifier = new Application_Model_Modifier();
                 $modifier->setAttribute($row->eigenschaft);
@@ -887,21 +1026,24 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
-     * 
-     * @param Application_Model_Skill $skills
-     * @return \Application_Model_Modifier
+     *
+     * @param Application_Model_Skill[] $skills
+     *
+     * @return \Application_Model_Modifier[]
+     * @throws Exception
      */
-    public function getModifierSkills($skills = array()) {
-        $returnArray = array();
+    public function getModifierSkills ($skills = [])
+    {
+        $returnArray = [];
         $select = $this->getDbTable('SkillEigenschaften')->select();
         $select->where('1 = 2');
         foreach ($skills as $skill) {
             $select->orWhere('skillId = ?', $skill->getId());
         }
         $result = $this->getDbTable('SkillEigenschaften')->fetchAll($select);
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             foreach ($result as $row) {
                 $modifier = new Application_Model_Modifier();
                 $modifier->setAttribute($row->eigenschaft);
@@ -911,14 +1053,18 @@ class Application_Model_Mapper_CharakterMapper{
         }
         return $returnArray;
     }
-    
+
     /**
-     * 
+     *
      * @param int $charakterId
-     * @return \Application_Model_Modifier
+     *
+     * @return Application_Model_Modifier[]
+     * @throws Zend_Db_Statement_Exception
+     * @throws Exception
      */
-    public function getModifierByCharakter($charakterId) {
-        $returnArray = array();
+    public function getModifierByCharakter ($charakterId)
+    {
+        $returnArray = [];
         $sql = <<<SQL
     SELECT * FROM (
         SELECT skillToEigenschaft.*, charakterId 
@@ -944,7 +1090,7 @@ class Application_Model_Mapper_CharakterMapper{
     WHERE charakterId = ?
 SQL;
         $db = $this->getDbTable('charakter')->getDefaultAdapter();
-        $result = $db->query($sql, array($charakterId))->fetchAll();
+        $result = $db->query($sql, [$charakterId])->fetchAll();
         foreach ($result as $row) {
             $modifier = new Application_Model_Modifier();
             $modifier->setAttribute($row['eigenschaft']);
@@ -953,12 +1099,15 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
+     *
      * @return int
+     * @throws Exception
      */
-    public function editCharakter(Application_Model_Charakter $charakter) {
+    public function editCharakter (Application_Model_Charakter $charakter)
+    {
         $data = [
             'vorname' => $charakter->getVorname(),
             'nachname' => $charakter->getNachname(),
@@ -972,14 +1121,17 @@ SQL;
             'naturelement' => $charakter->getNaturElement()->getId(),
             'luck' => $charakter->getLuck()->getId(),
         ];
-        return $this->getDbTable('Charakter')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+        return $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakter->getCharakterid()]);
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
+     *
      * @return int
+     * @throws Exception
      */
-    public function editCharakterWerte(Application_Model_Charakter $charakter) {
+    public function editCharakterWerte (Application_Model_Charakter $charakter)
+    {
         $data = [
             'staerke' => $charakter->getCharakterwerte()->getStaerke(),
             'agilitaet' => $charakter->getCharakterwerte()->getAgilitaet(),
@@ -990,14 +1142,17 @@ SQL;
             'fp' => $charakter->getCharakterwerte()->getFp(),
             'startpunkte' => $charakter->getCharakterwerte()->getStartpunkte(),
         ];
-        return $this->getDbTable('CharakterWerte')->update($data, array('charakterId = ?' => $charakter->getCharakterid()));
+        return $this->getDbTable('CharakterWerte')->update($data, ['charakterId = ?' => $charakter->getCharakterid()]);
     }
-    
+
     /**
-     * @return \Application_Model_Charakter
+     * @return Application_Model_Charakter[]
+     * @throws Zend_Db_Statement_Exception
+     * @throws Exception
      */
-    public function getCharaktersOrderedByNextBirthday() {
-        $returnArray = array();
+    public function getCharaktersOrderedByNextBirthday ()
+    {
+        $returnArray = [];
         $sql = 'SELECT
                     *,
                     geburtsdatum + INTERVAL(YEAR(CURRENT_TIMESTAMP) - YEAR(geburtsdatum)) + 0 YEAR AS currbirthday,
@@ -1009,7 +1164,7 @@ SQL;
                     ELSE nextbirthday
                 END';
         $result = $this->getDbTable('Charakter')->getDefaultAdapter()->query($sql)->fetchAll();
-        if(count($result) > 0){
+        if (count($result) > 0) {
             foreach ($result as $row) {
                 $charakter = new Application_Model_Charakter();
                 $charakter->setVorname($row['vorname']);
@@ -1030,13 +1185,16 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Application_Model_Achievement
+     *
+     * @return Application_Model_Achievement[]
      * @todo dbTable
+     * @throws Exception
      */
-    public function getAchievements($charakterId) {
+    public function getAchievements ($charakterId)
+    {
         $returnArray = [];
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
@@ -1053,9 +1211,17 @@ SQL;
         }
         return $returnArray;
     }
-    
-    
-    public function setCharakterKill($charakterId, $killedId, $episodeId = null) {
+
+
+    /**
+     * @param $charakterId
+     * @param $killedId
+     * @param null $episodeId
+     *
+     * @throws Exception
+     */
+    public function setCharakterKill ($charakterId, $killedId, $episodeId = null)
+    {
         $data = [
             'charakterId' => $charakterId,
             'charakterKilledId' => $killedId,
@@ -1063,9 +1229,14 @@ SQL;
         ];
         $this->getDbTable('CharakterKills')->insert($data);
     }
-    
-    
-    public function deactivateCharakter($charakterId) {
+
+    /**
+     * @param $charakterId
+     *
+     * @throws Exception
+     */
+    public function deactivateCharakter ($charakterId)
+    {
         $dateTime = new DateTime();
         $data = [
             'active' => 0,
@@ -1073,18 +1244,31 @@ SQL;
         ];
         $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakterId]);
     }
-    
-    
-    public function updateNpcKills($charakterId, $npcKills = 0) {
+
+
+    /**
+     * @param $charakterId
+     * @param int $npcKills
+     *
+     * @throws Exception
+     */
+    public function updateNpcKills ($charakterId, $npcKills = 0)
+    {
         $this->getDbTable('Charakter')
-                ->getDefaultAdapter()
-                ->query(
-                    'UPDATE charakter SET npcKills = npcKills + ' . (int) $npcKills . ' WHERE charakterId = ?', [$charakterId]
-                );
+            ->getDefaultAdapter()
+            ->query(
+                'UPDATE charakter SET npcKills = npcKills + ' . (int)$npcKills . ' WHERE charakterId = ?', [$charakterId]
+            );
     }
-    
-    
-    public function setUndead($charakterId) {
+
+
+    /**
+     * @param $charakterId
+     *
+     * @throws Exception
+     */
+    public function setUndead ($charakterId)
+    {
         $dateTime = new DateTime();
         $data = [
             'undead' => 1,
@@ -1092,16 +1276,23 @@ SQL;
         ];
         $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakterId]);
     }
-    
-    
-    public function removeVorteil($charakterId, $vorteilId) {
+
+
+    /**
+     * @param $charakterId
+     * @param $vorteilId
+     *
+     * @throws Exception
+     */
+    public function removeVorteil ($charakterId, $vorteilId)
+    {
         $this->getDbTable('CharakterVorteil')
             ->delete(
                 [
-                    'charakterId = ?' => $charakterId, 
-                    'vorteilId = ?' => $vorteilId
+                    'charakterId = ?' => $charakterId,
+                    'vorteilId = ?' => $vorteilId,
                 ]
             );
     }
-    
+
 }

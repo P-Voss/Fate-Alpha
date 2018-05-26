@@ -1,10 +1,12 @@
 <?php
 
 class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_CharakterMapper {
-    
+
     /**
      * @param Erstellung_Model_Charakter $charakter
+     *
      * @return int
+     * @throws Exception
      */
     public function createCharakter(Erstellung_Model_Charakter $charakter) {
         $date = new DateTime();
@@ -53,10 +55,11 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
             return false;
         }
     }
-    
+
     /**
      * @param Erstellung_Model_Charakter $charakter
      * @return int
+     * @throws Exception
      */
     public function updateCharakter(Erstellung_Model_Charakter $charakter) {
         $data = array();

@@ -1,9 +1,10 @@
 <?php
 
 class Administration_Model_Mapper_InformationMapper extends Application_Model_Mapper_InformationMapper {
-    
+
     /**
-     * @return \Application_Model_Information
+     * @return array
+     * @throws Exception
      */
     public function getAllInformations() {
         $returnArray = array();
@@ -21,10 +22,12 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $informationId
+     *
      * @return \Administration_Model_Information
+     * @throws Exception
      */
     public function getInformationById($informationId) {
         $model = new Administration_Model_Information();
@@ -42,10 +45,11 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Information $information
      * @return int
+     * @throws Exception
      */
     public function createInformation(Administration_Model_Information $information) {
         $data['name'] = $information->getName();
@@ -61,10 +65,11 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
         parent::getDbTable('InformationText')->insert($data);
         return $id;
     }
-    
+
     /**
      * @param Administration_Model_Information $information
      * @return int
+     * @throws Exception
      */
     public function updateInformation(Administration_Model_Information $information) {
         $data['name'] = $information->getName();
@@ -72,15 +77,16 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
         $data['editor'] = $information->getEditor();
         $data['kategorie'] = $information->getKategorie();
         
-        $id = parent::getDbTable('Information')->update($data, array('infoId = ?' => $information->getInformationId()));
+        parent::getDbTable('Information')->update($data, array('infoId = ?' => $information->getInformationId()));
         $data = array(
             'inhalt' => $information->getInhalt(),
         );
         return parent::getDbTable('InformationText')->update($data, array('infoId = ?' => $information->getInformationId()));
     }
-    
+
     /**
      * @param Administration_Model_Information $information
+     * @throws Exception
      */
     public function setDependencies(Administration_Model_Information $information) {
         $data['infoId'] = $information->getInformationId();
@@ -90,10 +96,11 @@ class Administration_Model_Mapper_InformationMapper extends Application_Model_Ma
             $this->getDbTable('InfoCharakterVoraussetzungen')->insert($data);
         }
     }
-    
+
     /**
      * @param Administration_Model_Information $information
      * @return int
+     * @throws Exception
      */
     public function deleteDependencies(Administration_Model_Information $information) {
         return $this->getDbTable('InfoCharakterVoraussetzungen')->delete(array(

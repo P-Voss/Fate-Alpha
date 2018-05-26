@@ -23,9 +23,11 @@ class Application_Service_Erstellung {
         $creationParamContainer['luck'] = $this->_mapper->getAllLuckvalues();
         return $creationParamContainer;
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
+     * @throws Exception
      */
     public function getKlassengruppe(Zend_Controller_Request_Http $request) {
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
@@ -147,13 +149,14 @@ class Application_Service_Erstellung {
     }
     
     private function _specialCosts($klassenId, $vorteilIds){
-        
+
     }
-    
+
     /**
-     * 
+     *
      * @param Zend_Controller_Request_Http $request
      * @return boolean
+     * @throws Exception
      */
     public function createCharakter(Zend_Controller_Request_Http $request) {
         $klasseMapper = new Application_Model_Mapper_KlasseMapper();
@@ -196,19 +199,21 @@ class Application_Service_Erstellung {
             throw new Exception('Konnte Charakter nicht anlegen');
         }
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @return string
+     * @throws Exception
      */
     public function getOrtePreview(Zend_Controller_Request_Http $request) {
         $mapper = new Application_Model_Mapper_OrteMapper();
         return $mapper->getOrtePreview($request->getPost('name'));
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @return string
+     * @throws Exception
      */
     public function getStadtteilePreview(Zend_Controller_Request_Http $request) {
         $mapper = new Application_Model_Mapper_OrteMapper();

@@ -1,10 +1,12 @@
 <?php
 
 class Administration_Model_Mapper_KlasseMapper extends Application_Model_Mapper_KlasseMapper {
-    
+
     /**
      * @param Administration_Model_Klasse $klasse
+     *
      * @return int
+     * @throws Exception
      */
     public function createClass(Administration_Model_Klasse $klasse) {
         $data['klasse'] = $klasse->getBezeichnung();
@@ -17,10 +19,11 @@ class Administration_Model_Mapper_KlasseMapper extends Application_Model_Mapper_
         
         return parent::getDbTable('Klasse')->insert($data);
     }
-    
+
     /**
      * @param int $klassenId
      * @return \Administration_Model_Klasse
+     * @throws Exception
      */
     public function getClassById($klassenId) {
         $model = new Administration_Model_Klasse();
@@ -37,10 +40,11 @@ class Administration_Model_Mapper_KlasseMapper extends Application_Model_Mapper_
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Klasse $klasse
      * @return int
+     * @throws Exception
      */
     public function updateClass(Administration_Model_Klasse $klasse) {
         $data['klasse'] = $klasse->getBezeichnung();

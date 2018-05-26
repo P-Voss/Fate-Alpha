@@ -4,121 +4,128 @@ $purifier = $this->purifier;
 /* @var $charakter Erstellung_Model_Charakter */
 $charakter = $this->charakter;
 ?>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Vorname</p>
-    </div>
-    <div class="input">
-        <span id="vornameError" class="error"></span>
-        <input 
-            type="text" 
-            name="vorname" 
-            id="vorname" 
-            size="35" 
-            required="" 
-            value="<?= $purifier->purify(($charakter !== false) ? $charakter->getVorname() : '') ?>">
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Nachname</p>
-        <p class="explanation">
-            Solltet ihr später einem Clan beitreten, wird euer Nachname mit dem Namen des Clans ersetzt dem ihr angehört.
-        </p>
-    </div>
-    <div class="input">
-        <span id="nachnameError" class="error"></span>
-        <input type="text" 
-               name="nachname" 
-               id="nachname" 
-               size="35" 
-               required="" 
-               value="<?= $purifier->purify(($charakter !== false) ? $charakter->getNachname() : '') ?>">
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Geschlecht</p>
-        <p class="explanation">
-            Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.
-        </p>
-    </div>
-    <div class="input">
-        <span id="geschlechtError" class="error"></span>
-        <input type="radio" id="m" name="geschlecht" required="" value="m"> <label for="m">Männlich</label>
-        <input type="radio" id="w" name="geschlecht" required="" value="w"> <label for="w">Weiblich</label>
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Geburtsdatum</p>
-        <p class="explanation">
-            Das Alter gibt die Gesellschaft und Bekanntenkreis an in welchem man sich bei Spielbeginn befindet.<br/>
-            (12-15 Mittelstufe, 16-18 Oberstufe ,19+ Erwachsen, 50+ Alt).<br/>
-            Der Charakter kann zwischen 12 und 90 Jahre alt sein.
-        </p>
-    </div>
-    <div class="input">
-        <span id="birthdateError" class="error"></span>
-        <input name="geburtsdatum" id="geburtsdatum" size="10" required="" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getGeburtsdatum('d.m.Y') : '') ?>">
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Augenfarbe</p>
-    </div>
-    <div class="input">
-        <span id="eyecolorError" class="error"></span>
-        <select name="augenfarbe" id="augenfarbe" required="">
-            <option selected="" value="">bitte auswählen</option>
-            <option>Blau</option>
-            <option>Grün</option>
-            <option>Braun</option>
-            <option>Grau</option>
-            <option>Schwarz</option>
-            <option>Rot</option>
-            <option>Lila</option>
-            <option>Gelb</option>
-            <option>Türkis</option>
-        </select>
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Körpergröße</p>
-        <p class="explanation">Der Charakter kann zwischen 130cm und 210cm groß sein.</p>
-    </div>
-    <div class="input">
-        <span id="sizeError" class="error"></span>
-        <input type="number" name="size" id="körpergröße" min="130" max="210" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getSize() : '165') ?>" required="" style="width: 50px" />cm
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Sexuelle Orientierung</p>
-        <p class="explanation">Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.</p>
-    </div>
-    <div class="input">
-        <span id="sexualError" class="error"></span>
-        <select name="sex" id="sexualität" required="" >
-            <option selected="" value="">bitte auswählen</option>
-            <option>Heterosexuell</option>
-            <option>Homosexuell</option>
-            <option>Bisexuell</option>
-        </select>
-    </div>
-</div>
-<div class="formRow">
-    <div class="label">
-        <p class="title">Wohnort</p>
-        <p class="explanation">
-            <a href="http://fate-alpha.forumprofi.de/thema-anzeigen-wohnort-alle-t92.html#223" target="_blank">
-                Ort und Art der Wohnung des Charakters
-            </a>
-        </p>
-    </div>
-    <div class="input">
-        <input type="text" name="wohnort" id="wohnort" readonly="" required=""><button id="chooseWohnort" type="button">Wohnort wählen</button>
-    </div>
-</div>
-<input id="newchara" class="nextStep" type="submit" name="newchara" value="Weiter"/>
+<form id="personalData">
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Vorname
+            </span>
+            <span class="label">
+                Der Vorname hat keine Auswirkungen auf das Spiel.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="text" name="vorname" id="vorname" size="35" required="" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getVorname() : '') ?>">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Nachname
+            </span>
+            <span class="label">
+                Solltet ihr später einem Clan beitreten, wird euer Nachname mit dem Namen des Clans ersetzt dem ihr angehört.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <span id="nachnameError" class="error"></span>
+            <input type="text" name="nachname" id="nachname" size="35" required="" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getNachname() : '') ?>">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Geschlecht
+            </span>
+            <span class="label">
+                Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="radio" id="m" name="geschlecht" required="" value="m"> <label for="m">Männlich</label>
+            <input type="radio" id="w" name="geschlecht" required="" value="w"> <label for="w">Weiblich</label>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Geburtsdatum
+            </span>
+            <span class="label">
+                Das Alter gibt die Gesellschaft und Bekanntenkreis an in welchem man sich bei Spielbeginn befindet, hat aber auch Einfluss auf die eigenen Werte.<br/>
+                (12-15 Mittelstufe, 16-18 Oberstufe ,19+ Erwachsen, 50+ Alt).<br/>
+                Der Charakter kann zwischen 12 und 90 Jahre alt sein.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input name="geburtsdatum" id="geburtsdatum" size="10" required="" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getGeburtsdatum('d.m.Y') : '') ?>">
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Augenfarbe
+            </span>
+            <span class="label">
+
+            </span>
+        </label>
+        <div class="FormularInput">
+            <select name="augenfarbe" id="augenfarbe" required="">
+                <option selected="" value="">bitte auswählen</option>
+                <option>Blau</option>
+                <option>Grün</option>
+                <option>Braun</option>
+                <option>Grau</option>
+                <option>Schwarz</option>
+                <option>Rot</option>
+                <option>Lila</option>
+                <option>Gelb</option>
+                <option>Türkis</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Körpergröße
+            </span>
+            <span class="label">
+                Der Charakter kann zwischen 130cm und 210cm groß sein.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="number" name="size" id="körpergröße" min="130" max="210" value="<?= $purifier->purify(($charakter !== false) ? $charakter->getSize() : '165') ?>" required="" style="width: 50px" />cm
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">
+                Sexuelle Orientierung
+            </span>
+            <span class="label">
+                Hat Auswirkungen auf die Liebes-Regel sowie Charme-Magien.
+            </span>
+        </label>
+        <div class="FormularInput">
+            <select name="sex" id="sexualität" required="" >
+                <option selected="" value="">bitte auswählen</option>
+                <option>Heterosexuell</option>
+                <option>Homosexuell</option>
+                <option>Bisexuell</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="FormularZeile">
+        <label class="FormularLabel">
+            <span class="titel">Wohnort</span>
+            <span class="label">
+                <a href="http://fate-alpha.forumprofi.de/thema-anzeigen-wohnort-alle-t92.html#223" target="_blank">Ort und Art der Wohnung des Charakters</a>
+            </span>
+        </label>
+        <div class="FormularInput">
+            <input type="text" name="wohnort" id="wohnort" readonly="" required=""><button id="chooseWohnort" type="button">Wohnort wählen</button>
+        </div>
+    </fieldset>
+    <input id="newchara" class="nextStep" type="submit" name="newchara" value="Weiter"/>
+</form>

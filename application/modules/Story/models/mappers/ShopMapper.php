@@ -23,10 +23,12 @@ class Story_Model_Mapper_ShopMapper {
         }
         return $dbTable;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Story_Model_Magie
+     *
+     * @return array
+     * @throws Exception
      */
     public function getMagienToLearnByRpg($charakterId) {
         $returnArray = [];
@@ -46,10 +48,11 @@ class Story_Model_Mapper_ShopMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Story_Model_Skill
+     * @return array
+     * @throws Exception
      */
     public function getSkillsToLearnByRpg($charakterId) {
         $returnArray = [];
@@ -91,11 +94,12 @@ class Story_Model_Mapper_ShopMapper {
             $stmt->execute([$episodenId, $charakterId, $art, $id, $request]);
         }
     }
-    
-    
+
+
     /**
      * @param type $charakterId
      * @return Application_Model_Skill[]
+     * @throws Exception
      */
     public function getCharakterSkills($charakterId) {
         $returnArray = array();
@@ -119,10 +123,11 @@ class Story_Model_Mapper_ShopMapper {
         }
         return $returnArray;
     }
-    
+
     /**
      * @param type $charakterId
      * @return Application_Model_Magie[]
+     * @throws Exception
      */
     public function getCharakterMagien($charakterId) {
         $returnArray = array();

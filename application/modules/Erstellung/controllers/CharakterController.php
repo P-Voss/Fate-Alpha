@@ -20,10 +20,13 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
      */
     private $informationService;
     /**
-     * @var type 
+     * @var Application_Model_Charakter
      */
     private $charakter;
 
+    /**
+     * @throws Exception
+     */
     public function init(){
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
@@ -31,8 +34,7 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
         $this->layoutService = new Application_Service_Layout();
         $this->erstellungService = new Erstellung_Service_Erstellung();
         $this->informationService = new Erstellung_Service_Information();
-        
-        $layout = $this->_helper->layout();
+
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null){
             $this->redirect('index');

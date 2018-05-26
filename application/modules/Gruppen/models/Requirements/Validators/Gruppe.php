@@ -19,7 +19,7 @@ class Gruppen_Model_Requirements_Validators_Gruppe implements Gruppen_Model_Requ
                 return true;
             }
         }
-        return false;;
+        return false;
     }
     
 }

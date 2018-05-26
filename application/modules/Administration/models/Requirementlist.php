@@ -11,9 +11,9 @@ class Administration_Model_Requirementlist implements Iterator {
      * @var array
      */
     private $requirements = array();
-    
+
     /**
-     * @return Administration_Model_Requirement
+     * @return Administration_Model_Requirement[]
      */
     public function getRequirements() {
         return $this->requirements;

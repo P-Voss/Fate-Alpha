@@ -1,9 +1,10 @@
 <?php
 
 class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapper {
-    
+
     /**
-     * @return \Shop_Model_Schule
+     * @return array
+     * @throws Exception
      */
     public function getAllSchools() {
         $returnArray = array();
@@ -20,10 +21,14 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $magieschuleId
+     *
+     * @return bool
+     * @return bool
+     * @throws Exception
      */
     public function checkIfLearned($charakterId, $magieschuleId) {
         $select = parent::getDbTable('CharakterSchule')->select();
@@ -32,10 +37,11 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         $result = parent::getDbTable('CharakterSchule')->fetchAll($select);
         return $result->count() > 0;
     }
-    
+
     /**
      * @param type $magieschuleId
      * @return \Shop_Model_Requirementlist
+     * @throws Exception
      */
     public function getRequirements($magieschuleId) {
         $requirementList = new Shop_Model_Requirementlist();
@@ -67,10 +73,11 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         }
         return $requirement;
     }
-    
+
     /**
      * @param type $magieschuleId
      * @return \Shop_Model_Schule|boolean
+     * @throws Exception
      */
     public function getMagieschuleById($magieschuleId) {
         $select = parent::getDbTable('Schule')->select();
@@ -85,10 +92,11 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         }
         return false;
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Shop_Model_Schule $magieschule
+     * @throws Exception
      */
     public function unlockMagieschuleForCharakter(Application_Model_Charakter $charakter, Shop_Model_Schule $magieschule) {
         $kostenfaktor = $this->getMagieschulenKostenFaktor($charakter->getCharakterid());
@@ -101,10 +109,11 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
                     ->query('UPDATE charakterWerte SET fp = fp - ? WHERE charakterId = ?', array(($kostenfaktor * 50), $charakter->getCharakterid()));
         }
     }
-    
+
     /**
      * @param int $magieschuleId
-     * @return \Shop_Model_Magie
+     * @return array
+     * @throws Exception
      */
     public function getMagienByMagieschuleId($magieschuleId) {
         $returnArray = array();
@@ -131,10 +140,11 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $charakterId
-     * @return \Shop_Model_Schule
+     * @return array
+     * @throws Exception
      */
     public function getMagieschulenByCharakterId($charakterId) {
         $returnArray = array();
@@ -156,11 +166,12 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
         }
         return $returnArray;
     }
-    
+
     /**
-     * 
+     *
      * @param int $charakterId
      * @return int
+     * @throws Exception
      */
     public function getMagieschulenKostenFaktor($charakterId) {
         $select = parent::getDbTable('Schule')->select();

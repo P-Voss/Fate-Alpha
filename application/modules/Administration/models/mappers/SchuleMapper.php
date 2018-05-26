@@ -1,10 +1,12 @@
 <?php
 
 class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapper {
-    
+
     /**
      * @param Administration_Model_Schule $schule
+     *
      * @return int
+     * @throws Exception
      */
     public function createSchule(Administration_Model_Schule $schule) {
         $data['name'] = $schule->getBezeichnung();
@@ -14,10 +16,12 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         
         return parent::getDbTable('Schule')->insert($data);
     }
-    
+
     /**
      * @param int $schuleId
+     *
      * @return \Administration_Model_Schule
+     * @throws Exception
      */
     public function getSchuleById($schuleId) {
         $model = new Administration_Model_Schule();
@@ -31,10 +35,12 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         }
         return $model;
     }
-    
+
     /**
      * @param Administration_Model_Schule $schule
+     *
      * @return int
+     * @throws Exception
      */
     public function updateSchule(Administration_Model_Schule $schule) {
         $data['name'] = $schule->getBezeichnung();
@@ -44,20 +50,23 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         
         return parent::getDbTable('Schule')->update($data, array('magieschuleId = ?' => $schule->getId()));
     }
-    
+
     /**
      * @param Administration_Model_Schule $schule
+     *
      * @return int
+     * @throws Exception
      */
     public function deleteDependencies(Administration_Model_Schule $schule) {
         return $this->getDbTable('SchuleVoraussetzung')->delete(array(
             'magieschuleId = ?' => $schule->getId()
         ));
     }
-    
+
     /**
      * @param Administration_Model_Schule $schule
-     * @return int
+     *
+     * @throws Exception
      */
     public function setDependencies(Administration_Model_Schule $schule) {
         $data['magieschuleId'] = $schule->getId();

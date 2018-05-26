@@ -18,9 +18,10 @@ class Application_Model_Mapper_SchuleMapper {
         }
         return $dbTable;
     }
-    
+
     /**
-     * @return \Application_Model_Schule
+     * @return array
+     * @throws Exception
      */
     public function getAllSchools() {
         $returnArray = array();

@@ -46,7 +46,7 @@ class Application_Model_Schule {
     }
     
     /**
-     * @return Application_Model_Magie
+     * @return Application_Model_Magie[]
      */
     public function getMagien() {
         return $this->magien;

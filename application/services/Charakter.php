@@ -31,10 +31,12 @@ class Application_Service_Charakter {
         $charakterId = $this->charakterMapper->getCharakterIdByUserId($userId);
         return $this->getCharakterById($charakterId);
     }
-    
+
     /**
      * @param int $charakterId
+     *
      * @return Application_Model_Charakter
+     * @throws Exception
      */
     public function getCharakterById($charakterId) {
         $charakter = false;
@@ -54,12 +56,14 @@ class Application_Service_Charakter {
             # return new Application_Model_Charakter();
         }
     }
-    
+
     /**
      * @todo Builder-Pattern
-     * 
+     *
      * @param int $charakterId
+     *
      * @return boolean|Application_Model_Charakter
+     * @throws Exception
      */
     private function buildCharakter($charakterId) {
         $klassenMapper = new Application_Model_Mapper_KlasseMapper();
@@ -97,8 +101,11 @@ class Application_Service_Charakter {
         }
         return $charakter;
     }
-    
-    
+
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function getCharakters() {
         $charakters = $this->charakterMapper->getAllCharakters();
         foreach ($charakters as $charakter) {
@@ -106,10 +113,11 @@ class Application_Service_Charakter {
         }
         return $charakters;
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @param int $charakterId
+     * @throws Zend_Db_Select_Exception
      */
     public function addAssociate(Zend_Controller_Request_Http $request, $charakterId) {
         $profileToUnlock = $this->charakterMapper->verifyProfilecode($request->getParam('Charaktercode'), $charakterId);
@@ -119,27 +127,30 @@ class Application_Service_Charakter {
             }
         }
     }
-    
+
     /**
      * @param int $charakterId
      * @return array
+     * @throws Exception
      */
     public function getAssociates($charakterId) {
         return $this->charakterMapper->getFriendlist($charakterId);
     }
-    
+
     /**
      * @param int $charakterId
      * @return Application_Model_Charakterprofil
+     * @throws Exception
      */
     public function getProfile($charakterId) {
         return $this->charakterMapper->getCharakterProfil($charakterId);
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @param int $charakterId
      * @return Application_Model_Charakterprofil
+     * @throws Exception
      */
     public function getVisibleProfile(Zend_Controller_Request_Http $request, $charakterId) {
         $profil = $this->charakterMapper->getCharakterProfil($request->getParam('charakter'));
@@ -152,21 +163,24 @@ class Application_Service_Charakter {
         }
         return $profil;
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return string
+     * @throws Exception
      */
     public function getPreview(Zend_Controller_Request_Http $request) {
         $charakter = $this->charakterMapper->getCharakter($request->getPost('id'));
         $charakter->setCharakterprofil($this->charakterMapper->getCharakterProfil($charakter->getCharakterid()));
         return $this->buildPreviewHtml($charakter);
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Application_Model_Charakter $charakterToCheck
      * @return boolean
+     * @throws Exception
      */
     public function isAssociated(
             Application_Model_Charakter $charakter, 
@@ -234,27 +248,30 @@ class Application_Service_Charakter {
 HTML;
         return $html;
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $magieschuleId
      * @return int
+     * @throws Exception
      */
     public function getMagieStufe($charakterId, $magieschuleId) {
         return $this->charakterMapper->getCharakterMagieStufe($charakterId, $magieschuleId);
     }
-    
+
     /**
      * @param int $charakterId
      * @return array
+     * @throws Exception
      */
     public function getMagieschulen($charakterId) {
         return $this->charakterMapper->getCharakterMagieschulen($charakterId);
     }
-    
+
     /**
      * @param int $charakterId
      * @return array
+     * @throws Exception
      */
     public function getSkills($charakterId) {
         return $this->charakterMapper->getCharakterSkills($charakterId);
@@ -264,38 +281,53 @@ HTML;
     public function getMagien($charakterId) {
         return $this->charakterMapper->getCharakterMagien($charakterId);
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Zend_Controller_Request_Http $request
-     * @return int
+     *
+     * @todo Exceptionhandling
+     * @throws Exception
      */
     public function saveCharpic(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
         $this->charakterMapper->saveCharakterpic($charakter->getCharakterid(), $request->getParam('charpic'));
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Zend_Controller_Request_Http $request
-     * @return int
+     *
+     * @todo Exceptionhandling
+     * @throws Exception
      */
     public function saveProfilpic(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
         $this->charakterMapper->saveProfilpic($charakter->getCharakterid(), $request->getParam('profilpic'));
     }
-    
-    
+
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Zend_Controller_Request_Http $request
+     */
     public function saveStory(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
         $mapper = new Application_Model_Mapper_ProfilMapper();
         $mapper->saveStory($charakter->getCharakterid(), $request->getPost('story'));
     }
-    
-    
+
+    /**
+     * @param Application_Model_Charakter $charakter
+     * @param Zend_Controller_Request_Http $request
+     */
     public function savePrivate(Application_Model_Charakter $charakter, Zend_Controller_Request_Http $request) {
         $mapper = new Application_Model_Mapper_ProfilMapper();
         $mapper->savePrivate($charakter->getCharakterid(), $request->getPost('private'));
     }
-    
-    
+
+    /**
+     * @param $charakterId
+     *
+     * @return Application_Model_Achievement[]
+     * @throws Exception
+     */
     public function getAchievements($charakterId) {
         return $this->charakterMapper->getAchievements($charakterId);
     }

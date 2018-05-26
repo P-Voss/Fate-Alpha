@@ -5,29 +5,36 @@
  *
  * @author Voß
  */
-class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
-    
+class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper
+{
+
     /**
      * @param int $plotId
      * @param int $gruppenId
+     *
      * @return int
+     * @throws Exception
      */
-    public function connectGroupToPlot($plotId, $gruppenId) {
-        $data = array(
+    public function connectGroupToPlot ($plotId, $gruppenId)
+    {
+        $data = [
             'plotId' => $plotId,
             'gruppenId' => $gruppenId,
-        );
+        ];
         return parent::getDbTable('PlotToGruppe')->insert($data);
     }
-    
+
     /**
      * @param int $plotId
-     * @return \Story_Model_Plot
+     *
+     * @return Story_Model_Plot
+     * @throws Exception
      */
-    public function getPlotById($plotId) {
+    public function getPlotById ($plotId)
+    {
         $plot = new Story_Model_Plot();
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
-        $sql ='SELECT 
+        $sql = 'SELECT 
                     plots.plotId, 
                     plots.userId, 
                     plots.name, 
@@ -53,9 +60,9 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
                     ON outcome.plotId = plots.plotId AND outcome.creationdate = plotRes.date
                 WHERE plots.plotId = ?';
         $stmt = $db->prepare($sql);
-        $stmt->execute(array($plotId));
+        $stmt->execute([$plotId]);
         $result = $stmt->fetch();
-        if($result !== false){
+        if ($result !== false) {
             $plot->setId($result['plotId']);
             $plot->setName($result['name']);
             $plot->setBeschreibung($result['description']);
@@ -65,71 +72,94 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         }
         return $plot;
     }
-    
+
     /**
      * @param Application_Model_Plot $plot
+     *
      * @return int
+     * @throws Exception
      */
-    public function createPlot(Application_Model_Plot $plot) {
-        $data = array(
+    public function createPlot (Application_Model_Plot $plot)
+    {
+        $data = [
             'userId' => $plot->getSlId(),
             'name' => $plot->getName(),
             'isSecret' => $plot->getIsSecret(),
-            'creationdate' => $plot->getCreateDate('Y-m-d H:i:s'),
-        );
+//            'creationdate' => $plot->getCreateDate('Y-m-d H:i:s'),
+        ];
         return $this->getDbTable('Plots')->insert($data);
     }
-    
+
     /**
      * @param Application_Model_Plot $plot
+     *
      * @return int
+     * @throws Exception
      */
-    public function renamePlot(Application_Model_Plot $plot) {
-        $data = array(
+    public function renamePlot (Application_Model_Plot $plot)
+    {
+        $data = [
             'name' => $plot->getName(),
-        );
+        ];
         return $this->getDbTable('Plots')->update($data, ['plotId = ?' => $plot->getId()]);
     }
-    
+
     /**
      * @param int $plotId
+     *
      * @return int
+     * @throws Exception
      */
-    public function deactivatePlot($plotId) {
-        $data = array(
+    public function deactivatePlot ($plotId)
+    {
+        $data = [
             'isActive' => 0,
-        );
+        ];
         return $this->getDbTable('Plots')->update($data, ['plotId = ?' => $plotId]);
     }
-    
+
     /**
      * @param int $plotId
-     * @param string $genres
+     * @param array $genres
+     *
+     * @throws Exception
      */
-    public function setGenres($plotId, $genres = array()) {
-        $data = array('plotId' => $plotId);
+    public function setGenres ($plotId, $genres = [])
+    {
+        $data = ['plotId' => $plotId];
         foreach ($genres as $genre) {
             $data['genre'] = $genre;
             $this->getDbTable('PlotGenres')->insert($data);
         }
     }
-    
-    
-    public function setPlotDescription(Story_Model_Plot $plot) {
+
+
+    /**
+     * @param Story_Model_Plot $plot
+     *
+     * @throws Exception
+     */
+    public function setPlotDescription (Story_Model_Plot $plot)
+    {
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
-        $stmt = $db->prepare('INSERT INTO plotDescriptions (plotId, description) 
-                                VALUES (?, ?)');
+        $stmt = $db->prepare(
+            'INSERT INTO plotDescriptions (plotId, description) 
+                                VALUES (?, ?)'
+        );
         $stmt->execute([$plot->getId(), $plot->getBeschreibung()]);
     }
-    
+
     /**
      * @param int $gruppenId
-     * @return \Gruppen_Model_Plot
+     *
+     * @return Gruppen_Model_Plot[]
+     * @throws Exception
      */
-    public function getPlotsByGruppe($gruppenId) {
-        $returnArray = array();
+    public function getPlotsByGruppe ($gruppenId)
+    {
+        $returnArray = [];
         $db = $this->getDbTable('PlotToGruppe')->getDefaultAdapter();
-        $sql ='SELECT plots.plotId, plots.name, plots.createDate, plotDesc.description
+        $sql = 'SELECT plots.plotId, plots.name, plotDesc.description
                 FROM plots
                 LEFT JOIN (
                     SELECT pd.plotId, pd.description 
@@ -139,35 +169,26 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
                 ) AS plotDesc USING(plotId)
                 INNER JOIN plotToGruppe USING (plotId)
                 WHERE plotToGruppe.gruppenId = ?';
-        $stmt = $db->prepare($sql);
-        $result = $stmt->execute(array($gruppenId));
-        Zend_Debug::dump($result);
-        exit;
-        $select = $this->getDbTable('PlotToGruppe')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('plotToGruppe');
-        $select->join('plots', 'plots.plotId = plotToGruppe.plotId');
-        $select->where('plotToGruppe.gruppenId = ?', $gruppenId);
-        $result = $this->getDbTable('PlotToGruppe')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row) {
-                $plot = new Gruppen_Model_Plot();
-                $plot->setId($row->plotId);
-                $plot->setName($row->name);
-                $plot->setBeschreibung($row->beschreibung);
-                $plot->setCreateDate($row->createDate);
-                $returnArray[] = $plot;
-            }
+        $result = $db->query($sql, [$gruppenId])->fetchAll();
+        foreach ($result as $row) {
+            $plot = new Gruppen_Model_Plot();
+            $plot->setId($row['plotId']);
+            $plot->setName($row['name']);
+            $plot->setBeschreibung($row['description']);
+            $returnArray[] = $plot;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $plotId
      * @param int $userId
+     *
      * @return boolean
+     * @throws Exception
      */
-    public function verifySl($plotId, $userId) {
+    public function verifySl ($plotId, $userId)
+    {
         $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
         $select->from('plots');
@@ -175,13 +196,16 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         $select->where('plots.userId = ? AND plots.isActive = 1', $userId);
         return $this->getDbTable('Spielergruppen')->fetchAll($select)->count() > 0;
     }
-    
+
     /**
      * @param int $plotId
      * @param int $userId
+     *
      * @return boolean
+     * @throws Exception
      */
-    public function verifyPlayer($plotId, $userId) {
+    public function verifyPlayer ($plotId, $userId)
+    {
         $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakterPlots');
@@ -191,13 +215,16 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper 
         $select->where('charakterPlots.plotId = ?', $plotId);
         return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;
     }
-    
+
     /**
      * @param int $plotId
-     * @return \Application_Model_Charakter
+     *
+     * @return Application_Model_Charakter[]
+     * @throws Exception
      */
-    public function getParticipantsByPlotId($plotId) {
-        $returnArray = array();
+    public function getParticipantsByPlotId ($plotId)
+    {
+        $returnArray = [];
         $db = $this->getDbTable('Charakter')->getDefaultAdapter();
         $sql = <<<SQL
 SELECT
@@ -224,7 +251,7 @@ WHERE
 ORDER BY charakter.vorname ASC
 SQL;
         $stmt = $db->prepare($sql);
-        $stmt->execute(array($plotId));
+        $stmt->execute([$plotId]);
         $result = $stmt->fetchAll(PDO::FETCH_OBJ);
         foreach ($result as $row) {
             $charakter = new Story_Model_Charakter();
@@ -237,13 +264,16 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $plotId
-     * @return \Application_Model_Charakter
+     *
+     * @return Application_Model_Charakter[]
+     * @throws Exception
      */
-    public function getParticipantsNotInPlot($plotId) {
-        $returnArray = array();
+    public function getParticipantsNotInPlot ($plotId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
         $select->from('plotToGruppe');
@@ -262,13 +292,16 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $slId
-     * @return \Gruppen_Model_Plot
+     *
+     * @return Gruppen_Model_Plot[]
+     * @throws Exception
      */
-    public function getPlotsBySLId($slId) {
-        $returnArray = array();
+    public function getPlotsBySLId ($slId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Plots')->select();
         $select->from('plots');
         $select->where('userId = ? AND plots.isActive = 1', $slId);
@@ -283,13 +316,16 @@ SQL;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $playerId
-     * @return \Gruppen_Model_Plot
+     *
+     * @return Gruppen_Model_Plot[]
+     * @throws Exception
      */
-    public function getPlotsByPlayerId($playerId) {
-        $returnArray = array();
+    public function getPlotsByPlayerId ($playerId)
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
         $select->from('plots');
@@ -297,36 +333,40 @@ SQL;
         $select->joinInner('charakter', 'charakter.charakterId = charakterPlots.charakterId AND charakter.active = 1', []);
         $select->where('charakter.userId = ? AND plots.isActive = 1', $playerId);
         $result = $this->getDbTable('Plots')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row) {
-                $plot = new Gruppen_Model_Plot();
-                $plot->setId($row->plotId);
-                $plot->setSlId($row->userId);
-                $plot->setName($row->name);
-                $plot->setCreateDate($row->creationdate);
-                $returnArray[] = $plot;
-            }
+        foreach ($result as $row) {
+            $plot = new Gruppen_Model_Plot();
+            $plot->setId($row->plotId);
+            $plot->setSlId($row->userId);
+            $plot->setName($row->name);
+            $plot->setCreateDate($row->creationdate);
+            $returnArray[] = $plot;
         }
         return $returnArray;
     }
-    
+
     /**
      * @param int $plotId
      * @param int $charakterId
+     *
+     * @throws Exception
      */
-    public function addParticipant($plotId, $charakterId) {
+    public function addParticipant ($plotId, $charakterId)
+    {
         $data = [
             'charakterId' => $charakterId,
             'plotId' => $plotId,
         ];
         $this->getDbTable('CharakterPlots')->insert($data);
     }
-    
+
     /**
      * @param int $charakterId
      * @param int $plotId
+     *
+     * @throws Exception
      */
-    public function removeParticipant($charakterId, $plotId) {
+    public function removeParticipant ($charakterId, $plotId)
+    {
         $db = $this->getDbTable('CharakterPlots')->getDefaultAdapter();
         $sql = 'DELETE episodenToCharakter.* 
             FROM episodenToCharakter 
@@ -334,18 +374,23 @@ SQL;
             WHERE plotId = ? AND charakterId = ?';
         $stmt = $db->prepare($sql);
         $stmt->execute([$plotId, $charakterId]);
-        $this->getDbTable('CharakterPlots')->delete([
-            'charakterId = ?' => $charakterId,
-            'plotId = ?' => $plotId,
-        ]);
+        $this->getDbTable('CharakterPlots')->delete(
+            [
+                'charakterId = ?' => $charakterId,
+                'plotId = ?' => $plotId,
+            ]
+        );
     }
-    
+
     /**
      * @param int $plotId
      * @param int $userId
+     *
      * @return boolean
+     * @throws Exception
      */
-    public function datenFreigegeben($plotId, $userId) {
+    public function datenFreigegeben ($plotId, $userId)
+    {
         $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakterPlots');
@@ -355,13 +400,16 @@ SQL;
         $select->where('charakterPlots.freigabe = 1');
         return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;
     }
-    
+
     /**
      * @param int $plotId
      * @param int $charakterId
+     *
      * @return boolean
+     * @throws Exception
      */
-    public function datenFreigebenCharakter($plotId, $charakterId) {
+    public function datenFreigebenCharakter ($plotId, $charakterId)
+    {
         $select = $this->getDbTable('Plots')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakterPlots');
@@ -370,9 +418,17 @@ SQL;
         $select->where('charakterPlots.freigabe = 1');
         return $this->getDbTable('Plots')->fetchAll($select)->count() > 0;
     }
-    
-    
-    public function updateFreigabe($status, $userId, $plotId) {
+
+
+    /**
+     * @param $status
+     * @param $userId
+     * @param $plotId
+     *
+     * @throws Exception
+     */
+    public function updateFreigabe ($status, $userId, $plotId)
+    {
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
         $sql = 'UPDATE charakterPlots 
                 INNER JOIN charakter 
@@ -384,5 +440,15 @@ SQL;
         $stmt = $db->prepare($sql);
         $stmt->execute([$status, $plotId, $userId]);
     }
-    
+
+    /**
+     * @todo ?
+     *
+     * @param $plotId
+     */
+    public function getLogsByPlotId ($plotId)
+    {
+
+    }
+
 }

@@ -79,7 +79,7 @@ class Application_Model_Charakter {
      */
     protected $luck;
     /**
-     * @var type Application_Model_Circuit
+     * @var Application_Model_Circuit
      */
     protected $magiccircuit;
     /**
@@ -201,7 +201,7 @@ class Application_Model_Charakter {
     }
 
     /**
-     * @return Application_Model_Klassengruppe
+     * @return int
      */
     public function getKlassengruppe() {
         return $this->klassengruppe;
@@ -222,7 +222,7 @@ class Application_Model_Charakter {
     }
 
     /**
-     * @return Application_Model_Element
+     * @return Application_Model_Element[]
      */
     public function getElemente() {
         return $this->elemente;
@@ -451,7 +451,9 @@ class Application_Model_Charakter {
     }
 
     /**
-     * @return DateTime
+     * @param string $format
+     *
+     * @return string
      */
     public function getCreatedate($format = 'Y-m-d') {
         return $this->createDate->format($format);
@@ -467,7 +469,9 @@ class Application_Model_Charakter {
     }
 
     /**
-     * @return DateTime
+     * @param string $format
+     *
+     * @return string
      */
     public function getUndeadDate($format = 'Y-m-d') {
         return $this->undeadDate->format($format);

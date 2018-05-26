@@ -4,23 +4,27 @@ $this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/too
 $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/tooltips.js'));
 
-function order(Application_Model_Skillart $a, Application_Model_Skillart $b){
-$sortorder = ['Übungsfähigkeiten' => 1, 
-    'Schützenfähigkeiten' => 2, 
-    'Kämpferfähigkeiten' => 3, 
-    'Spezialfähigkeiten' => 4,
-    ];
-    if($sortorder[$a->getBezeichnung()] > $sortorder[$b->getBezeichnung()]){
-        return 1;
-    }
-}
-/* @var $skill Application_Model_Skill */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+
+
+$order = [
+    'Übungsfähigkeiten' => 1,
+    'Schützenfähigkeiten' => 2,
+    'Kämpferfähigkeiten' => 3,
+    'Spezialfähigkeiten' => 4,
+];
+
+$order = function (Application_Model_Skillart $a, Application_Model_Skillart $b) use ($order) {
+    return $order[$a->getBezeichnung()] > $order[$b->getBezeichnung()];
+};
+
+/* @var $skill Application_Model_Skill */
 /* @var $skillart Application_Model_Skillart */
 $skillarten = $this->skillarten;
-usort($skillarten, "order");
-/* @var $schule Application_Model_Schule */
+usort($skillarten, $order);
+
+/* @var $magieschulen Application_Model_Schule[] */
 $magieschulen = $this->magieschulen;
 ?>
 <h1>
@@ -29,36 +33,36 @@ $magieschulen = $this->magieschulen;
 <div class="submenu">
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 </div>
-<br />
+<br/>
 <div>
     <fieldset>
         <legend>Fähigkeiten</legend>
-        <?php foreach ($skillarten as $skillart): 
-            if(count($skillart->getSkills()) === 0){
+        <?php foreach ($skillarten as $skillart):
+            if (count($skillart->getSkills()) === 0) {
                 continue;
             }
-        ?>
-        <fieldset>
-            <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
-            <div class="subContent">
-                <?php foreach ($skillart->getSkills() as $skill): ?>
-                <p>
+            ?>
+            <fieldset>
+                <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <div class="subContent">
+                    <?php foreach ($skillart->getSkills() as $skill): ?>
+                        <p>
                     <span class="skill">
                         <input type="hidden" value="<?= $skill->getId() ?>">
                         <?= $skill->getBezeichnung() ?>
                     </span>
-                    <span class="skillRank">
+                            <span class="skillRank">
                         Rang: <?= $skill->getRang() ?>
                     </span>
-                    <span class="skillDetail">
+                            <span class="skillDetail">
                         <a class="details skills" data-id="<?= $skill->getId() ?>">
                             Details
                         </a>
                     </span>
-                </p>
-                <?php endforeach; ?>
-            </div>
-        </fieldset>
+                        </p>
+                    <?php endforeach; ?>
+                </div>
+            </fieldset>
         <?php endforeach; ?>
     </fieldset>
 </div>
@@ -70,23 +74,23 @@ $magieschulen = $this->magieschulen;
                 <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($schule->getMagien() as $magie): ?>
-                    <p>
+                        <p>
                         <span class="magie">
                             <input type="hidden" value="<?= $magie->getId() ?>">
                             <?= $magie->getBezeichnung() ?>
                         </span>
-                        <span class="magicRank">
+                            <span class="magicRank">
                             Rang: <?= $magie->getRang() ?>
                         </span>
-                        <span class="magicLevel">
+                            <span class="magicLevel">
                             Stufe: <?= $magie->getStufe() ?>
                         </span>
-                        <span class="magicDetail">
+                            <span class="magicDetail">
                             <a class="details magic" data-id="<?= $magie->getId() ?>">
                                 Details
                             </a>
                         </span>
-                    </p>
+                        </p>
                     <?php endforeach; ?>
                 </div>
             </fieldset>

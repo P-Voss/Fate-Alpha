@@ -29,7 +29,7 @@ class LoginController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setnorender(true);
         $this->_helper->layout()->disableLayout();
         if ($this->getRequest()->isPost() AND $this->getRequest()->getPost('username') !== '' AND $this->getRequest()->getPost('passwort') !== '') {
-            $login = $this->service->login($this->getRequest());
+            $this->service->login($this->getRequest());
         }
         $this->redirect('index');
     }
