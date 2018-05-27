@@ -47,3 +47,5 @@ nbproject
 tests
 public
 .idea
+
+node_modules

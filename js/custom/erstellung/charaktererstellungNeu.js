@@ -1,35 +1,43 @@
 
 document.onreadystatechange = function () {
      if (document.readyState === "complete") {
- 
-        var personData = new Vue({
-            el: "#personData",
-            data: {
-                firstname: "",
-                lastname: "",
-                gender: "",
-                birthdate: "",
-                eyecolor: "",
-                size: "",
-                sexuality: "",
-                place: "",
-                classType: {
-                    id: "",
-                    name: ""
-                },
-                subClass: {
-                    id: "",
-                    name: ""
-                },
-                advantages: [
-                    {id: 1, name: "Hübsch"},
-                    {id: 2, name: "Klug"}
-                ],
-                disadvantages: []
-            }
+        
+        var personData = {
+            firstname: "Hallo",
+            lastname: "",
+            gender: "",
+            birthdate: "",
+            eyecolor: "",
+            size: "",
+            sexuality: "",
+            place: "",
+            classType: {
+                id: "",
+                name: ""
+            },
+            subClass: {
+                id: "",
+                name: ""
+            },
+            advantages: [
+                {id: 1, name: "Hübsch"},
+                {id: 2, name: "Klug"}
+            ],
+            disadvantages: []
+        };
+        
+        var person = new Vue({
+            el: "#person",
+            data: personData
         });
         
+        var personData = new Vue({
+            el: "#personData",
+            data: personData
+        });
         
+        console.log('sdf');
+        person.firstname = "whaddup";
    }
  };
 
@@ -483,8 +491,8 @@ var nachteilData = new Array();
         jQuery("#Erstellungspunkte").html(erstellungspunkte);
     }
     
-   String.prototype.toUpperCaseWords = function () {
-    return this.replace(/\w+/g, function(a){ 
-      return a.charAt(0).toUpperCase() + a.slice(1).toLowerCase()
-    })
-  }
+    String.prototype.toUpperCaseWords = function () {
+        return this.replace(/\w+/g, function(a){ 
+            return a.charAt(0).toUpperCase() + a.slice(1).toLowerCase();
+        });
+    };
