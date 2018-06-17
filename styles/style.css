@@ -2,8 +2,8 @@ html, body {
     text-align: left;
     font-family: Kalinga;
     font-size: 10pt;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     background-color: white;
@@ -30,6 +30,7 @@ html, body {
     z-index: 1;
     padding-bottom: 20px;
 }
+
 #seitenbereich3 {
     position: relative;
     height: auto;
@@ -42,6 +43,7 @@ html, body {
     z-index: 1;
     padding-bottom: 20px;
 }
+
 #header {
     text-align: center;
     margin-left: auto;
@@ -73,12 +75,12 @@ html, body {
     width: 180px;
     /* height: 300px; */
     background-color: #9cdce2;
-    border-top : 1px solid black;
+    border-top: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
 }
 
-#navigation ul{
+#navigation ul {
     padding: 0;
 }
 
@@ -94,16 +96,15 @@ html, body {
     padding-bottom: 5px;
     width: 180px;
     background-color: #9cdce2;
-    border-top : 1px solid black;
+    border-top: 1px solid black;
     border-right: 0px solid black;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
 }
 
-#navigationrechts ul{
+#navigationrechts ul {
     padding: 0;
 }
-
 
 #beschreibungRechts {
     position: fixed;
@@ -117,12 +118,13 @@ html, body {
     width: 180px;
     max-height: 600px;
     background-color: #9cdce2;
-    border-top : 1px solid black;
+    border-top: 1px solid black;
     border-right: 0px solid black;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
     overflow: auto;
-}  
+}
+
 #beschreibungLinks {
     position: fixed;
     z-index: 2;
@@ -135,7 +137,7 @@ html, body {
     width: 180px;
     max-height: 600px;
     background-color: #9cdce2;
-    border-top : 1px solid black;
+    border-top: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     border-left: 0px solid black;
@@ -168,7 +170,7 @@ html, body {
     border-right: 1px red solid;
 }
 
-#steuerung #adminmenu  span{
+#steuerung #adminmenu span {
     display: inline-block;
     width: auto;
     margin: 0 5px;
@@ -176,20 +178,20 @@ html, body {
 }
 
 #steuerung #usermenu ul {
-    list-style-type:none;
-    list-style-image:none;
+    list-style-type: none;
+    list-style-image: none;
     margin: 0px;
     padding: 0px;
 }
 
 #steuerung #usermenu li {
-    float:left;
+    float: left;
     /*margin-right: 15px;*/
     background-color: silver;
     margin-top: 2px;
     margin-bottom: 2px;
     width: 125px;
-    border-top : 1px black solid;
+    border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
     border-right: 1px red solid;
@@ -197,15 +199,15 @@ html, body {
 }
 
 #steuerung #usermenu li ul li {
-    float:left;
+    float: left;
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
 #steuerung #usermenu li ul li:hover {
     margin-top: 2px;
     margin-bottom: 2px;
 }
-
 
 #steuerung #usermenu ul ul {
     position: absolute;
@@ -216,7 +218,7 @@ html, body {
     float: none;
     background-color: silver;
     height: 0px;
-    border-top : 1px black solid;
+    border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
     border-right: 1px red solid;
@@ -241,7 +243,7 @@ html, body {
     height: 20px;
     position: relative;
     left: -1px;
-    border-top : 1px black solid;
+    border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
     border-right: 1px red solid;
@@ -270,19 +272,21 @@ html, body {
     min-height: 700px;
     height: auto;
     z-index: 1;
+    font-size: 12pt;
 }
+
 * {
     margin: 0em;
     padding: 0em;
 }
+
 #inhalt h1, h2, h3, p, ul {
     padding-bottom: .5em;
 }
+
 ul {
     padding-left: 2em;
-} 
-
-
+}
 
 .submenu {
     text-align: center;
@@ -292,8 +296,8 @@ ul {
 }
 
 .submenu ul {
-    list-style-type:none;
-    list-style-image:none;
+    list-style-type: none;
+    list-style-image: none;
 }
 
 .submenu li {
@@ -303,7 +307,7 @@ ul {
     background-color: silver;
     margin: 2px;
     padding: 0 2px;
-    border-top : 1px black solid;
+    border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
     border-right: 1px red solid;
@@ -318,7 +322,7 @@ ul {
 .submenu ul ul li {
     float: none;
     background-color: silver;
-    border-top : 1px black solid;
+    border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
     border-right: 1px red solid;
@@ -345,7 +349,7 @@ ul {
     display: block;
 }
 
-/* ############################################################# */        
+/* ############################################################# */
 .News {
     width: auto;
     text-align: left;
@@ -353,21 +357,25 @@ ul {
     margin: 50px;
     padding: 15px;
     background-color: transparent;
-    border-bottom: 1px solid black;    
+    border-bottom: 1px solid black;
 }
+
 .NewsTitel {
     width: auto;
-    text-align: center;            
+    text-align: center;
 }
+
 .NewsNachricht {
     width: auto;
     text-align: left;
     padding-top: 15px;
     padding-bottom: 30px;
 }
+
 .NewsBottom {
     width: auto;
 }
+
 .NewsVerfasser {
     float: left;
     width: 30%;
@@ -375,44 +383,50 @@ ul {
     font-size: x-small;
     display: block;
 }
+
 .NewsEdit {
     float: left;
     width: 40%;
     text-align: center;
     font-size: x-small;
 }
+
 .NewsDatum {
     float: right;
     width: 30%;
     text-align: right;
     font-size: x-small;
 }
-.Archiv{
+
+.Archiv {
     width: auto;
     border-bottom: 1px solid black;
     margin-bottom: 10px;
 }
-.ArchivLeft{
+
+.ArchivLeft {
     display: inline-block;
     width: 70%;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
 }
-.ArchivRight{
+
+.ArchivRight {
     display: inline-block;
     width: 28%;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
 }
-/* ############################################################# */ 
 
-.Zentriert {                                                
+/* ############################################################# */
+
+.Zentriert {
     text-align: center;
 }
 
-.userlist{
+.userlist {
     list-style-type: none;
     text-align: center;
     padding-left: 0;
@@ -421,23 +435,26 @@ ul {
 #footer {
     /*position: absolute;*/
     /*bottom: 0;*/
-    background:transparent;
-    text-align:center;
+    background: transparent;
+    text-align: center;
     height: 20px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
     display: block;
 }
+
 .Meldung {
-    font-size:11pt;
-    font-family:arial, "lucida console", sans-serif;
+    font-size: 11pt;
+    font-family: arial, "lucida console", sans-serif;
     text-align: center;
-    color: red;    
+    color: red;
 }
+
 .Fett {
     font-weight: bold;
 }
+
 .Admin {
     text-align: center;
     margin-left: auto;
@@ -446,51 +463,60 @@ ul {
     display: block;
     margin-bottom: 10px;
 }
-.AdminSelect{
+
+.AdminSelect {
     color: #FF0000;
 }
+
 h1 {
     margin-top: 15px;
-    font-size:13pt;  
-    font-family:arial, "lucida console", sans-serif;
+    font-size: 16pt;
+    font-family: arial, "lucida console", sans-serif;
     text-align: center;
     margin-bottom: 25px;
 }
+
 h2 {
     margin-top: 10px;
-    font-size:11pt;
-    font-family:arial, "lucida console", sans-serif;
+    font-size: 14pt;
+    font-family: arial, "lucida console", sans-serif;
     text-align: center;
 }
+
 h3 {
-    font-size:10pt;
-    font-family:arial, "lucida console", sans-serif;
+    font-size: 10pt;
+    font-family: arial, "lucida console", sans-serif;
     text-align: left;
 }
+
 table {
-    margin: 0 auto;  
+    margin: 0 auto;
 }
+
 img {
     text-align: center;
     margin-right: auto;
     margin-left: auto;
     display: block;
 }
-.img{
+
+.img {
     max-width: 700px;
     max-height: 700px;
     margin-right: auto;
     margin-left: auto;
     overflow: auto;
 }
-.passimg{
+
+.passimg {
     max-width: 200px;
     max-height: 260px;
     overflow: auto;
 }
-form{
-    margin-bottom: 25px; 
-    margin-top: 25px; 
+
+form {
+    margin-bottom: 25px;
+    margin-top: 25px;
 }
 
 #dialog {
@@ -500,94 +526,117 @@ form{
     height: 0;
 }
 
-#nachrichtencenter .head{
+#nachrichtencenter .head {
     border-bottom: 1px solid black;
 }
 
-#nachrichtencenter .head .status{
+#nachrichtencenter .head .status {
     width: 15%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .head .date{
+
+#nachrichtencenter .head .date {
     width: 15%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .head .betreff{
+
+#nachrichtencenter .head .betreff {
     width: 35%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .head .user{
+
+#nachrichtencenter .head .user {
     width: 15%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .body .status{
+
+#nachrichtencenter .body .status {
     width: 5%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .body .date{
+
+#nachrichtencenter .body .date {
     width: 15%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .body .betreff{
+
+#nachrichtencenter .body .betreff {
     width: 45%;
     display: inline-block;
     padding: 1px;
 }
-#nachrichtencenter .body .user{
+
+#nachrichtencenter .body .user {
     width: 15%;
     display: inline-block;
     padding: 1px;
 }
 
-#nachrichtencenter .details span{
+#nachrichtencenter .details span {
     display: inline-block;
     width: 33%;
 }
 
-.userSelect{
+.userSelect {
     width: 200px;
 }
 
-.betreffInput{
+.betreffInput {
     width: 200px;
 }
 
-.message{
-    width: 100%; 
-    min-height: 400px; 
-    height: auto; 
+.message {
+    width: 100%;
+    min-height: 400px;
+    height: auto;
     background-color: #fff;
 }
 
-.gruppenchat{
+.gruppenchat {
     max-height: 400px;
     overflow: auto;
 }
 
-.gruppenchat .messageSet .message{
+.gruppenchat .messageSet .message {
     background-color: #fff;
     min-height: 0;
 }
 
-.genres label{
+.genres label {
     width: 100px;
 }
 
-a:link {text-decoration: none; color: #000000;}
-a:visited {text-decoration: none; color: #000000;}
-a:active {text-decoration: underline; color: #0000FF;}
-a:hover {text-decoration: none; color: red;}
+a:link {
+    text-decoration: none;
+    color: #000000;
+}
 
-kbd{
+a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:active {
+    text-decoration: underline;
+    color: #0000FF;
+}
+
+a:hover {
+    text-decoration: none;
+    color: red;
+}
+
+kbd {
     background-color: silver;
 }
-#pass{
+
+#pass {
     cursor: default;
 }
 
