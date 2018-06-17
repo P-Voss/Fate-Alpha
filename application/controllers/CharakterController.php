@@ -25,6 +25,9 @@ class CharakterController extends Zend_Controller_Action{
     protected $erstellungsService;
 
 
+    /**
+     * @throws Zend_Db_Statement_Exception
+     */
     public function init() {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
@@ -45,21 +48,30 @@ class CharakterController extends Zend_Controller_Action{
             $layout->setLayout('online');
         }
     }
-    
+
+    /**
+     *
+     */
     public function indexAction() {
         if($this->charakter === false){
             $this->redirect('Erstellung/Charakter');
         }
         $this->view->charakter = $this->charakter;
     }
-    
+
+    /**
+     *
+     */
     public function profilAction() {
         if($this->charakter === false){
             $this->redirect('Erstellung/Charakter');
         }
         $this->view->charakter = $this->charakter;
     }
-    
+
+    /**
+     *
+     */
     public function abilitiesAction() {
         if($this->charakter === false){
             $this->redirect('Erstellung/Charakter');
@@ -87,26 +99,38 @@ class CharakterController extends Zend_Controller_Action{
         $this->view->skillarten = $skillarten;
         $this->view->charakter = $this->charakter;
     }
-    
+
+    /**
+     *
+     */
     public function inventarAction() {
         if($this->charakter === false){
             $this->redirect('Erstellung/Charakter');
         }
         $this->view->charakter = $this->charakter;
     }
-    
+
+    /**
+     *
+     */
     public function erstellungAction() {
         $this->redirect('Erstellung/Charakter');
         $layout = $this->_helper->layout();
         $layout->setLayout('erstellung');
         $this->view->creationParams = $this->erstellungsService->getCreationParams();
     }
-    
+
+    /**
+     *
+     */
     public function mapAction() {
         $layout = $this->_helper->layout();
         $layout->setLayout('partials');
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function createAction() {
         $charakter = $this->erstellungsService->createCharakter($this->getRequest());
         if($charakter === false){
@@ -114,7 +138,10 @@ class CharakterController extends Zend_Controller_Action{
         }
         $this->redirect('charakter/index');
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function charpicAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
@@ -122,7 +149,10 @@ class CharakterController extends Zend_Controller_Action{
         $this->charakterService->saveCharpic($this->charakter, $this->getRequest());
         $this->redirect('charakter/index');
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function profilpicAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
@@ -130,21 +160,30 @@ class CharakterController extends Zend_Controller_Action{
         $this->charakterService->saveProfilpic($this->charakter, $this->getRequest());
         $this->redirect('charakter/index');
     }
-    
+
+    /**
+     *
+     */
     public function storyAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->saveStory($this->charakter, $this->getRequest());
     }
-    
+
+    /**
+     *
+     */
     public function privateAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->savePrivate($this->charakter, $this->getRequest());
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function bonusAction() {
         if($this->charakter->getCharakterwerte()->getStartpunkte() <= 0){
             $this->redirect('charakter');
@@ -153,7 +192,10 @@ class CharakterController extends Zend_Controller_Action{
         $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
         $this->view->charakter = $this->charakter;
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function trainingpreviewAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
@@ -194,7 +236,10 @@ class CharakterController extends Zend_Controller_Action{
         ));
         
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function bonustrainingAction() {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
@@ -217,8 +262,14 @@ class CharakterController extends Zend_Controller_Action{
             'html' => $html,
         ));
     }
-    
-    
+
+    /**
+     * @param $userId
+     *
+     * @return Application_Model_Charakter|bool
+     * @throws Zend_Db_Statement_Exception
+     * @throws Exception
+     */
     private function initCharakter($userId) {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         if ($charakterBuilder->initCharakterByUserId($userId)) {

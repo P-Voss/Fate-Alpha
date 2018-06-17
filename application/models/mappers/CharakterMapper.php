@@ -386,10 +386,12 @@ class Application_Model_Mapper_CharakterMapper
             $circuit->setKategorie($row->kategorie);
             $circuit->setBeschreibung($row->besonderheit);
             $circuit->setMenge($row->menge);
-            return $circuit;
         } else {
-            throw new Exception();
+            $circuit = new Application_Model_Circuit();
+            $circuit->setKategorie('F');
+            $circuit->setMenge(0);
         }
+        return $circuit;
     }
 
     /**

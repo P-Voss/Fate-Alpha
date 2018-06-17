@@ -1,6 +1,6 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
-if($charakter->getMagiccircuit() !== null){
+if($charakter->getMagiccircuit()->getKategorie() !== 'F'){
 ?>
 <fieldset>
     <legend>Magic Circuits <span class="indicator"></span></legend>

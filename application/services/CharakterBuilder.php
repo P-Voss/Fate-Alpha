@@ -41,6 +41,7 @@ class Application_Service_CharakterBuilder
      *
      * @return bool
      * @throws Zend_Db_Statement_Exception
+     * @throws Exception
      */
     public function initCharakterByCharakterId ($charakterId)
     {
@@ -58,6 +59,7 @@ class Application_Service_CharakterBuilder
      *
      * @return bool
      * @throws Zend_Db_Statement_Exception
+     * @throws Exception
      */
     public function initCharakterByUserId ($userId)
     {
@@ -69,7 +71,6 @@ class Application_Service_CharakterBuilder
         $this->charakter->setModifiers($this->charakterMapper->getModifierByCharakter($this->charakterId));
         return true;
     }
-
 
     /**
      * @return $this
@@ -83,7 +84,6 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
@@ -93,7 +93,6 @@ class Application_Service_CharakterBuilder
         $this->charakter->setNaturElement($this->charakterMapper->getNaturelement($this->charakterId));
         return $this;
     }
-
 
     /**
      * @return $this
@@ -109,13 +108,11 @@ class Application_Service_CharakterBuilder
         if ($this->charakter->getMagiccircuit() === null) {
             $this->setCircuit();
         }
-        if ($this->charakter->getMagiccircuit() !== null
-            && in_array($this->charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C'])) {
+        if (in_array($this->charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C'])) {
             $this->charakter->getCharakterwerte()->setCircuitMod($this->charakter->getMagiccircuit()->getKategorie());
         }
         return $this;
     }
-
 
     /**
      * @return $this
@@ -127,7 +124,6 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
@@ -137,7 +133,6 @@ class Application_Service_CharakterBuilder
         $this->charakter->setNachteile($this->charakterMapper->getNachteileByCharakterId($this->charakterId));
         return $this;
     }
-
 
     /**
      * @return $this
@@ -149,7 +144,6 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
@@ -160,21 +154,15 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
      */
     public function setCircuit ()
     {
-        try {
-            $this->charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($this->charakterId));
-        } catch (Exception $exception) {
-
-        }
+        $this->charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($this->charakterId));
         return $this;
     }
-
 
     /**
      * @return $this
@@ -198,7 +186,6 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
@@ -208,7 +195,6 @@ class Application_Service_CharakterBuilder
         $this->charakter->setCharakterprofil($this->charakterMapper->getCharakterProfil($this->charakterId));
         return $this;
     }
-
 
     /**
      * @return $this
@@ -220,7 +206,6 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
-
     /**
      * @return $this
      * @throws Exception
@@ -230,7 +215,6 @@ class Application_Service_CharakterBuilder
         $this->charakter->setMagieschulen($this->charakterMapper->getCharakterMagieschulen($this->charakterId));
         return $this;
     }
-
 
     /**
      * @return $this

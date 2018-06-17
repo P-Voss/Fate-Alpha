@@ -93,7 +93,7 @@ $categoryDis = $werte->getCategory('dis');
             </label>
             <?= $charakter->getNaturElement()->getBezeichnung() ?>
         </p>
-        <?php if ($charakter->getMagiccircuit() !== null): ?>
+        <?php if ($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
             <p>
                 <label>
                     Circuit

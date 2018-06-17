@@ -57,7 +57,7 @@
         </label>
         <?= $charakter->getLuck()->getKategorie() ?>
     </p>
-    <?php if($charakter->getMagiccircuit() !== null): ?>
+    <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
     <p>
         <label>
             Magic Circuit

@@ -81,15 +81,10 @@ class Application_Service_Charakter {
             
             $charakter->setLuck($this->charakterMapper->getLuck($charakter->getCharakterid(), $charakter->getModifiers()));
             $charakter->setVermoegen($this->charakterMapper->getVermoegen($charakter->getCharakterid(), $charakter->getModifiers()));
-            try {
-                $charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($charakter->getCharakterid()));
-            } catch (Exception $exception) {
-
-            }
+            $charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($charakter->getCharakterid()));
             $charakter->setOdo($this->charakterMapper->getOdo($charakter->getCharakterid(), $charakter->getModifiers()));
-            if ($charakter->getMagiccircuit() !== null 
-                    && in_array($charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C']))
-            {
+
+            if (in_array($charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C'])) {
                 $charakter->getCharakterwerte()->setCircuitMod($charakter->getMagiccircuit()->getKategorie());
             }
             
