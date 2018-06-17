@@ -6,30 +6,33 @@
  * @author Vosser
  */
 class CronController extends Zend_Controller_Action{
-    
-    protected $_trainingService;
+
+    /**
+     * @var Application_Service_Training
+     */
+    protected $trainingService;
 
     public function init(){
-        $this->_trainingService = new Application_Service_Training();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $this->trainingService = new Application_Service_Training();
         $auth = Zend_Auth::getInstance()->getIdentity();
         if ($auth === null || !in_array($auth->userId, [1, 4])) {
             exit;
         }
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function executeAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $this->_trainingService->executeTraining();
-        $this->_trainingService->addFp();
-        $this->_trainingService->addBirthdayFp();
+        $this->trainingService->executeTraining();
+        $this->trainingService->addFp();
+        $this->trainingService->addBirthdayFp();
     }
     
     public function refreshAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
         $informationService = new Application_Service_Information();
         $informationService->refreshInformation();
         $this->redirect('information');

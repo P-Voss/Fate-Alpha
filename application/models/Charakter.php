@@ -7,7 +7,10 @@
  * @author Philipp Voß <voss.ph@web.de>
  */
 class Application_Model_Charakter {
-    
+
+    /**
+     * @var array
+     */
     protected $categories = array(
         1 => 'A',
         2 => 'B',
@@ -138,7 +141,10 @@ class Application_Model_Charakter {
      * @var DateTime
      */
     protected $undeadDate;
-    
+
+    /**
+     * @var
+     */
     protected $naturElement;
     /**
      * @var Application_Model_Modifier
@@ -149,26 +155,46 @@ class Application_Model_Charakter {
      */
     protected $killCount;
 
+    /**
+     * @return int
+     */
     public function getCharakterid() {
         return $this->charakterid;
     }
-    
+
+    /**
+     * @return int
+     */
     public function getUserid() {
         return $this->userid;
     }
 
+    /**
+     * @return string
+     */
     public function getVorname() {
         return $this->vorname;
     }
 
+    /**
+     * @return string
+     */
     public function getNachname() {
         return $this->nachname;
     }
 
+    /**
+     * @return string
+     */
     public function getNickname() {
         return $this->nickname;
     }
 
+    /**
+     * @param string $modifier
+     *
+     * @return mixed
+     */
     public function getAlter($modifier = 'y') {
         if($this->alter === null){
             $this->calcAlter();
@@ -176,26 +202,46 @@ class Application_Model_Charakter {
         return $this->alter->$modifier;
     }
 
+    /**
+     * @param string $format
+     *
+     * @return string
+     */
     public function getGeburtsdatum($format = 'Y-m-d') {
         return $this->geburtsdatum->format($format);
     }
 
+    /**
+     * @return string
+     */
     public function getAugenfarbe() {
         return $this->augenfarbe;
     }
 
+    /**
+     * @return string
+     */
     public function getGeschlecht() {
         return $this->geschlecht;
     }
 
+    /**
+     * @return string
+     */
     public function getWohnort() {
         return $this->wohnort;
     }
 
+    /**
+     * @return int
+     */
     public function getSize() {
         return $this->size;
     }
 
+    /**
+     * @return Application_Model_Klasse
+     */
     public function getKlasse() {
         return $this->klasse;
     }
@@ -228,6 +274,9 @@ class Application_Model_Charakter {
         return $this->elemente;
     }
 
+    /**
+     * @return Application_Model_Luck
+     */
     public function getLuck() {
         return $this->luck;
     }
@@ -239,35 +288,66 @@ class Application_Model_Charakter {
         return $this->magiccircuit;
     }
 
+    /**
+     * @return Application_Model_Odo
+     */
     public function getOdo() {
         return $this->odo;
     }
 
+    /**
+     * @param $charakterid
+     *
+     * @return $this
+     */
     public function setCharakterid($charakterid) {
         $this->charakterid = $charakterid;
         return $this;
     }
 
+    /**
+     * @param $userId
+     *
+     * @return $this
+     */
     public function setUserid($userId) {
         $this->userid = $userId;
         return $this;
     }
 
+    /**
+     * @param $vorname
+     *
+     * @return $this
+     */
     public function setVorname($vorname) {
         $this->vorname = $vorname;
         return $this;
     }
 
+    /**
+     * @param $nachname
+     *
+     * @return $this
+     */
     public function setNachname($nachname) {
         $this->nachname = $nachname;
         return $this;
     }
 
+    /**
+     * @param $nickname
+     *
+     * @return $this
+     */
     public function setNickname($nickname) {
         $this->nickname = $nickname;
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function calcAlter() {
         $currentDate = new DateTime();
         $birthDate = new DateTime($this->getGeburtsdatum());
@@ -275,42 +355,82 @@ class Application_Model_Charakter {
         return $this;
     }
 
+    /**
+     * @param $geburtsdatum
+     *
+     * @return $this
+     */
     public function setGeburtsdatum($geburtsdatum) {
         $datum = new DateTime($geburtsdatum);
         $this->geburtsdatum = $datum;
         return $this;
     }
 
+    /**
+     * @param $augenfarbe
+     *
+     * @return $this
+     */
     public function setAugenfarbe($augenfarbe) {
         $this->augenfarbe = $augenfarbe;
         return $this;
     }
 
+    /**
+     * @param $geschlecht
+     *
+     * @return $this
+     */
     public function setGeschlecht($geschlecht) {
         $this->geschlecht = $geschlecht;
         return $this;
     }
 
+    /**
+     * @param $wohnort
+     *
+     * @return $this
+     */
     public function setWohnort($wohnort) {
         $this->wohnort = $wohnort;
         return $this;
     }
 
+    /**
+     * @param $size
+     *
+     * @return $this
+     */
     public function setSize($size) {
         $this->size = $size;
         return $this;
     }
 
+    /**
+     * @param Application_Model_Klasse $klasse
+     *
+     * @return $this
+     */
     public function setKlasse(Application_Model_Klasse $klasse) {
         $this->klasse = $klasse;
         return $this;
     }
 
+    /**
+     * @param Application_Model_Klassengruppe $klassengruppe
+     *
+     * @return $this
+     */
     public function setKlassengruppe(Application_Model_Klassengruppe $klassengruppe) {
         $this->klassengruppe = $klassengruppe;
         return $this;
     }
 
+    /**
+     * @param array $vorteile
+     *
+     * @return $this
+     */
     public function setVorteile($vorteile = array()) {
         foreach ($vorteile as $vorteil){
             if($vorteil instanceof Application_Model_Vorteil){
@@ -319,11 +439,19 @@ class Application_Model_Charakter {
         }
         return $this;
     }
-    
+
+    /**
+     * @param Application_Model_Vorteil $vorteil
+     */
     public function addVorteil(Application_Model_Vorteil $vorteil){
         $this->vorteile[] = $vorteil;
     }
 
+    /**
+     * @param $nachteile
+     *
+     * @return $this
+     */
     public function setNachteile($nachteile) {
         foreach ($nachteile as $nachteil){
             if($nachteil instanceof Application_Model_Nachteil){
@@ -332,11 +460,19 @@ class Application_Model_Charakter {
         }
         return $this;
     }
-    
+
+    /**
+     * @param Application_Model_Nachteil $nachteil
+     */
     public function addNachteil(Application_Model_Nachteil $nachteil){
         $this->nachteile[] = $nachteil;
     }
 
+    /**
+     * @param array $elemente
+     *
+     * @return $this
+     */
     public function setElemente($elemente = array()) {
         foreach ($elemente as $element){
             if($element instanceof Application_Model_Element){
@@ -346,46 +482,84 @@ class Application_Model_Charakter {
         return $this;
     }
 
+    /**
+     * @param Application_Model_Element $element
+     *
+     * @return $this
+     */
     public function addElement(Application_Model_Element $element) {
         $this->elemente[] = $element;
         return $this;
     }
 
+    /**
+     * @param $luck
+     *
+     * @return $this
+     */
     public function setLuck($luck) {
         $this->luck = $luck;
         return $this;
     }
 
+    /**
+     * @param $magiccircuit
+     *
+     * @return $this
+     */
     public function setMagiccircuit($magiccircuit) {
         $this->magiccircuit = $magiccircuit;
         return $this;
     }
 
+    /**
+     * @param $odo
+     *
+     * @return $this
+     */
     public function setOdo($odo) {
         $this->odo = $odo;
         return $this;
     }
-    
+
+    /**
+     * @return Application_Model_Charakterwerte
+     */
     public function getCharakterwerte() {
         return $this->charakterwerte;
     }
 
+    /**
+     * @param Application_Model_Charakterwerte $charakterwerte
+     */
     public function setCharakterwerte(Application_Model_Charakterwerte $charakterwerte) {
         $this->charakterwerte = $charakterwerte;
     }
-    
+
+    /**
+     * @return Application_Model_Charakterprofil
+     */
     public function getCharakterprofil() {
         return $this->charakterprofil;
     }
 
+    /**
+     * @param Application_Model_Charakterprofil $charakterprofil
+     */
     public function setCharakterprofil(Application_Model_Charakterprofil $charakterprofil) {
         $this->charakterprofil = $charakterprofil;
     }
-    
+
+    /**
+     * @return string
+     */
     public function getMagieStufe() {
         return $this->magieStufe;
     }
 
+    /**
+     * @param $magieStufe
+     */
     public function setMagieStufe($magieStufe) {
         $this->magieStufe = $magieStufe;
     }
@@ -397,6 +571,9 @@ class Application_Model_Charakter {
         return $this->magieschulen;
     }
 
+    /**
+     * @param array $magieschulen
+     */
     public function setMagieschulen($magieschulen = array()) {
         foreach ($magieschulen as $magieschule) {
             if($magieschule instanceof Application_Model_Schule){
@@ -404,7 +581,10 @@ class Application_Model_Charakter {
             }
         }
     }
-    
+
+    /**
+     * @param Application_Model_Schule $magieschule
+     */
     public function addMagieschule(Application_Model_Schule $magieschule) {
         $this->magieschulen[] = $magieschule;
     }
@@ -416,6 +596,9 @@ class Application_Model_Charakter {
         return $this->skills;
     }
 
+    /**
+     * @param array $skills
+     */
     public function setSkills($skills = array()) {
         foreach ($skills as $skill) {
             if($skill instanceof Application_Model_Skill){
@@ -423,7 +606,10 @@ class Application_Model_Charakter {
             }
         }
     }
-    
+
+    /**
+     * @param Application_Model_Skill $skill
+     */
     public function addSkill(Application_Model_Skill $skill) {
         $this->skills[] = $skill;
     }
@@ -434,7 +620,10 @@ class Application_Model_Charakter {
     public function getMagien() {
         return $this->magien;
     }
-    
+
+    /**
+     * @param array $magien
+     */
     public function setMagien($magien = array()) {
         foreach ($magien as $magie){
             if($magie instanceof Application_Model_Magie){
@@ -485,17 +674,26 @@ class Application_Model_Charakter {
         $this->undeadDate = $undeadDate;
         return $this;
     }
-    
-    
+
+
+    /**
+     * @return string
+     */
     public function getCreateInterval() {
         $currentDate = new DateTime();
         return $currentDate->diff($this->createDate)->format('%d');
     }
-    
+
+    /**
+     * @return string
+     */
     public function getSexualitaet() {
         return $this->sexualitaet;
     }
 
+    /**
+     * @param $sexualitaet
+     */
     public function setSexualitaet($sexualitaet) {
         $this->sexualitaet = $sexualitaet;
     }
@@ -507,6 +705,9 @@ class Application_Model_Charakter {
         return $this->naturElement;
     }
 
+    /**
+     * @param Application_Model_Element $naturElement
+     */
     public function setNaturElement(Application_Model_Element $naturElement) {
         $this->naturElement = $naturElement;
     }
@@ -524,28 +725,48 @@ class Application_Model_Charakter {
     public function setVermoegen(Application_Model_Vermoegen $vermoegen) {
         $this->vermoegen = $vermoegen;
     }
-    
+
+    /**
+     * @param $key
+     *
+     * @return mixed
+     */
     public function getCategory($key) {
         return $this->categories[$key];
     }
-    
-    
+
+
+    /**
+     * @return int
+     */
     public function getKillCount() {
         return (int) $this->killCount;
     }
 
+    /**
+     * @param $killCount
+     */
     public function setKillCount($killCount) {
         $this->killCount = $killCount;
     }
-    
+
+    /**
+     * @return int
+     */
     public function getUndead() {
         return $this->undead;
     }
 
+    /**
+     * @param $undead
+     */
     public function setUndead($undead) {
         $this->undead = $undead;
     }
-        
+
+    /**
+     * @param array $modifiers
+     */
     public function setModifiers($modifiers = array()) {
         foreach ($modifiers as $modifier) {
             if($modifier instanceof Application_Model_Modifier){
@@ -553,15 +774,24 @@ class Application_Model_Charakter {
             }
         }
     }
-    
+
+    /**
+     * @param Application_Model_Modifier $modifier
+     */
     public function addModifier(Application_Model_Modifier $modifier) {
         $this->modifiers[] = $modifier;
     }
-    
+
+    /**
+     * @return Application_Model_Modifier
+     */
     public function getModifiers() {
         return $this->modifiers;
     }
-    
+
+    /**
+     *
+     */
     public function applyModifiers() {
         foreach ($this->modifiers as $modifier) {
             switch ($modifier->getAttribute()) {

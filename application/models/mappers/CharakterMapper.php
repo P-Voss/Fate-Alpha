@@ -240,7 +240,7 @@ class Application_Model_Mapper_CharakterMapper
     }
 
     /**
-     * @param type $charakterId
+     * @param int $charakterId
      *
      * @return array
      * @return array

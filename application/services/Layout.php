@@ -7,6 +7,13 @@
  */
 class Application_Service_Layout {
 
+    /**
+     * @param $auth
+     *
+     * @return Application_Model_Layout
+     * @throws Zend_Db_Statement_Exception
+     * @throws Exception
+     */
     public function getLayoutData($auth){
         $informationService = new Application_Service_Information();
         $charakterBuilder = new Application_Service_CharakterBuilder();

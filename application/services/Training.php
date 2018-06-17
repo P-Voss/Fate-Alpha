@@ -7,10 +7,10 @@
  */
 class Application_Service_Training {
     
-    private $_trainingsMapper;
+    private $trainingsMapper;
     
     public function __construct(){
-        $this->_trainingsMapper = new Application_Model_Mapper_TrainingMapper();
+        $this->trainingsMapper = new Application_Model_Mapper_TrainingMapper();
     }
 
     /**
@@ -19,54 +19,60 @@ class Application_Service_Training {
      * @throws Exception
      */
     public function getTrainingswerte(Application_Model_Charakter $charakter){
-        if(($trainingswerte = $this->_trainingsMapper->getDefaultTraining()) === false){
+        if(($trainingswerte = $this->trainingsMapper->getDefaultTraining()) === false){
             throw new Exception('Es wurden keine Standardwerte angegeben');
         }
-        $trainingswerte = $this->_trainingsMapper->getRealTraining($trainingswerte, $charakter);
-        return $this->_trainingsMapper->setOtherValuesNull($trainingswerte, $charakter);
+        $trainingswerte = $this->trainingsMapper->getRealTraining($trainingswerte, $charakter);
+        return $this->trainingsMapper->setOtherValuesNull($trainingswerte, $charakter);
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      * @param Application_Model_Trainingswerte $trainingswerte
      * @param Zend_Controller_Request_Http $request
-     * @return integer
+     *
+     * @return bool|int|mixed
+     * @throws Exception
      */
     public function startTraining(Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte, Zend_Controller_Request_Http $request) {
         $training = $request->getPost('Wert');
         $wert = $request->getParam($training);
         $return = false;
         if(property_exists($trainingswerte, $training)){
-            if($this->_trainingsMapper->checkTraining($charakter->getCharakterid())){
-                $return = $this->_trainingsMapper->updateTraining($charakter->getCharakterid(), $training, $wert);
+            if($this->trainingsMapper->checkTraining($charakter->getCharakterid())){
+                $return = $this->trainingsMapper->updateTraining($charakter->getCharakterid(), $training, $wert);
             }else{
-                $return = $this->_trainingsMapper->setTraining($charakter->getCharakterid(), $training, $wert);
+                $return = $this->trainingsMapper->setTraining($charakter->getCharakterid(), $training, $wert);
             }
         }
         return $return;
     }
-    
+
     /**
-     * 
+     * @throws Exception
      */
     public function executeTraining() {
-        $charakterIds = $this->_trainingsMapper->getCharakterIdsToTrain();
-        $defaultTraining = $this->_trainingsMapper->getDefaultTraining();
+        $charakterIds = $this->trainingsMapper->getCharakterIdsToTrain();
+        $defaultTraining = $this->trainingsMapper->getDefaultTraining();
         foreach ($charakterIds as $id) {
             $charakter = $this->initCharakter($id);
-            $trainingswerte = $this->_trainingsMapper->getRealTraining($defaultTraining, $charakter);
-            $this->_trainingsMapper->updateStats($charakter, $trainingswerte);
+            $trainingswerte = $this->trainingsMapper->getRealTraining($defaultTraining, $charakter);
+            $this->trainingsMapper->updateStats($charakter, $trainingswerte);
         }
     }
-    
-    
+
+    /**
+     * @throws Exception
+     */
     public function addFp() {
-        $this->_trainingsMapper->addFp();
+        $this->trainingsMapper->addFp();
     }
-    
-    
+
+    /**
+     * @throws Exception
+     */
     public function addBirthdayFp() {
-        $this->_trainingsMapper->addBirthdayFp();
+        $this->trainingsMapper->addBirthdayFp();
     }
 
     /**
@@ -99,10 +105,10 @@ class Application_Service_Training {
         $werte = $charakter->getCharakterwerte();
         
         for($i = 0; $i < $days && $i < $werte->getStartpunkte(); $i++){
-            $werte->addTraining(array('training' => $attribute), $trainingswerte);
+            $werte->addTraining(['training' => $attribute], $trainingswerte);
         }
         $werte->setStartpunkte($werte->getStartpunkte() - $i);
-        $this->_trainingsMapper->addBonusTraining($charakter->getCharakterid(), $werte);
+        $this->trainingsMapper->addBonusTraining($charakter->getCharakterid(), $werte);
     }
     
 }
