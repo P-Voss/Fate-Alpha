@@ -49,3 +49,8 @@ public
 .idea
 
 node_modules
+js/custom/charaktererstellung/src/registerServiceWorker.js
+js/custom/charaktererstellung/package-lock.json
+js/custom/charaktererstellung/README.md
+nbproject/private/private.xml
+nbproject/private/private.xml
