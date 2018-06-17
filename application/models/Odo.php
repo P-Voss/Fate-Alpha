@@ -5,8 +5,9 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Odo {
-    
+class Application_Model_Odo
+{
+
     protected $id;
     protected $kategorie;
     protected $beschreibung;
@@ -15,69 +16,94 @@ class Application_Model_Odo {
     protected $actualAmount;
     protected $modified;
     protected $modification = 0;
-    
 
-    public function getId() {
+
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getKategorie() {
+    public function getKategorie ()
+    {
         return $this->kategorie;
     }
 
-    public function getBeschreibung() {
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getKosten() {
+    public function getKosten ()
+    {
         return $this->kosten;
     }
 
-    public function getAmount() {
+    public function getAmount ()
+    {
         return $this->amount;
     }
 
-    public function setId($id) {
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setKategorie($kategorie) {
+    public function setKategorie ($kategorie)
+    {
         $this->kategorie = $kategorie;
     }
 
-    public function setBeschreibung($beschreibung) {
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setKosten($kosten) {
+    public function setKosten ($kosten)
+    {
         $this->kosten = $kosten;
     }
 
-    public function setAmount($amount) {
+    public function setAmount ($amount)
+    {
         $this->amount = $amount;
     }
-    
-    public function getModified() {
+
+    public function getModified ()
+    {
         return $this->modified === true;
     }
 
-    public function setModified($modified) {
+    public function setModified ($modified)
+    {
         $this->modified = $modified;
     }
-    
-    public function getModification() {
+
+    public function getModification ()
+    {
         return $this->modification;
     }
 
-    public function setModification($modification) {
+    public function setModification ($modification)
+    {
         $this->modification += $modification;
     }
-    
-    public function getActualAmount() {
+
+    public function getActualAmount ()
+    {
         return $this->actualAmount;
     }
-    
-    public function calculateActualOdo($circuit, $controlCategory, Application_Model_Klassengruppe $klassengruppe) {
+
+    /**
+     * @param Application_Model_Circuit $circuit
+     * @param Application_Model_Charakterwertecategory $controlCategory
+     * @param Application_Model_Klassengruppe $klassengruppe
+     */
+    public function calculateActualOdo (
+        Application_Model_Circuit $circuit,
+        Application_Model_Charakterwertecategory $controlCategory,
+        Application_Model_Klassengruppe $klassengruppe
+    )
+    {
         $actualAmount = $this->amount;
         $actualAmount += $this->calculateCircuitOdo($circuit);
         $actualAmount += $this->calculateControlOdo($controlCategory);
@@ -86,29 +112,69 @@ class Application_Model_Odo {
         }
         $this->actualAmount = $actualAmount;
     }
-    
-    
-    private function calculateCircuitOdo($circuit) {
-        $bonus = 0;
-        if ($circuit !== null) {
-            $bonusByCategory = [
-                'A' => 250, 'B' => 200, 'C' => 150, 'D' => 100, 'E' => 50, 'F' => 0,
-            ];
-            $bonus = $bonusByCategory[$circuit->getKategorie()];
-        }
-        return $bonus;
+
+    /**
+     * @param Application_Model_Circuit $circuit
+     *
+     * @return int
+     */
+    private function calculateCircuitOdo (Application_Model_Circuit $circuit)
+    {
+        $bonusByCategory = [
+            'A' => 250, 'B' => 200, 'C' => 150, 'D' => 100, 'E' => 50, 'F' => 0,
+        ];
+        return isset($bonusByCategory[$circuit->getKategorie()]) ? $bonusByCategory[$circuit->getKategorie()] : 0;
     }
-    
-    
-    private function calculateControlOdo(Application_Model_Charakterwertecategory $controlCategory) {
-        $categories = ['A' => 6, 'B' => 5, 'C' => 4, 'D' => 3, 'E' => 2, 'F' => 1];
+
+    /**
+     * @param Application_Model_Charakterwertecategory $controlCategory
+     *
+     * @return int
+     */
+    private function calculateControlOdo (Application_Model_Charakterwertecategory $controlCategory)
+    {
         $actualCategory = substr($controlCategory->getCategory(), 0, 1);
         if ($controlCategory->getUebermensch()) {
-            $bonus = 180 + $categories[$actualCategory] * 60;
+            return $this->getOdoUeber($actualCategory);
         } else {
-            $bonus = $categories[$actualCategory] * 30;
+            return $this->getOdoNormal($actualCategory);
         }
-        return $bonus;
     }
-    
+
+    /**
+     * @param string $kategorie
+     *
+     * @return int
+     */
+    private function getOdoUeber ($kategorie)
+    {
+        $bonusOdo = [
+            'F' => 200,
+            'E' => 240,
+            'D' => 290,
+            'C' => 350,
+            'B' => 420,
+            'A' => 500,
+        ];
+        return isset($bonusOdo[$kategorie]) ? $bonusOdo[$kategorie] : 200;
+    }
+
+    /**
+     * @param string $kategorie
+     *
+     * @return int
+     */
+    private function getOdoNormal ($kategorie)
+    {
+        $bonusOdo = [
+            'F' => 0,
+            'E' => 30,
+            'D' => 60,
+            'C' => 95,
+            'B' => 130,
+            'A' => 170,
+        ];
+        return isset($bonusOdo[$kategorie]) ? $bonusOdo[$kategorie] : 0;
+    }
+
 }
