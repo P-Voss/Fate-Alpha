@@ -117,6 +117,7 @@ class Application_Service_Charakter {
      * @param Zend_Controller_Request_Http $request
      * @param int $charakterId
      * @throws Zend_Db_Select_Exception
+     * @throws Exception
      */
     public function addAssociate(Zend_Controller_Request_Http $request, $charakterId) {
         $profileToUnlock = $this->charakterMapper->verifyProfilecode($request->getParam('Charaktercode'), $charakterId);

@@ -14,6 +14,16 @@ class Application_Service_Training {
     }
 
     /**
+     * @param int $charakterId
+     *
+     * @throws Exception
+     */
+    public function getTrainingPrograms ($charakterId)
+    {
+        $programs = $this->trainingsMapper->getTrainingPrograms();
+    }
+
+    /**
      * @param Application_Model_Charakter $charakter
      * @return Application_Model_Trainingswerte
      * @throws Exception
