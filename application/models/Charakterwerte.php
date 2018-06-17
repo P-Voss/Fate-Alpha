@@ -33,74 +33,124 @@ class Application_Model_Charakterwerte {
         'B' => 5,
         'A' => 6,
     ];
-    
-    
+
+
+    /**
+     * @return mixed
+     */
     public function getStaerke() {
         return $this->staerke;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAgilitaet() {
         return $this->agilitaet;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAusdauer() {
         return $this->ausdauer;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDisziplin() {
         return $this->disziplin;
     }
 
+    /**
+     * @return mixed
+     */
     public function getKontrolle() {
         return $this->kontrolle;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUebung() {
         return $this->uebung;
     }
 
+    /**
+     * @return mixed
+     */
     public function getFp() {
         return $this->fp;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStartpunkte() {
         return $this->startpunkte;
     }
 
+    /**
+     * @param $staerke
+     */
     public function setStaerke($staerke) {
         $this->staerke = $staerke;
     }
 
+    /**
+     * @param $agilitaet
+     */
     public function setAgilitaet($agilitaet) {
         $this->agilitaet = $agilitaet;
     }
 
+    /**
+     * @param $ausdauer
+     */
     public function setAusdauer($ausdauer) {
         $this->ausdauer = $ausdauer;
     }
 
+    /**
+     * @param $disziplin
+     */
     public function setDisziplin($disziplin) {
         $this->disziplin = $disziplin;
     }
 
+    /**
+     * @param $kontrolle
+     */
     public function setKontrolle($kontrolle) {
         $this->kontrolle = $kontrolle;
     }
 
+    /**
+     * @param $uebung
+     */
     public function setUebung($uebung) {
         $this->uebung = $uebung;
     }
 
+    /**
+     * @param $fp
+     */
     public function setFp($fp) {
         $this->fp = $fp;
     }
 
+    /**
+     * @param $startpunkte
+     */
     public function setStartpunkte($startpunkte) {
         $this->startpunkte = $startpunkte;
     }
-    
+
     /**
-     * @param type $training
+     * @param array $training
+     * @param Application_Model_Trainingswerte $trainingswerte
+     * @param int $klassengruppe
      */
     public function addTraining($training, Application_Model_Trainingswerte $trainingswerte, $klassengruppe = 0) {
         switch ($training['training']){
@@ -120,33 +170,6 @@ class Application_Model_Charakterwerte {
                 }
                 break;
             case 'kontrolle':
-                if($this->kontrolle < 40 && $this->kontrolle + $trainingswerte->getKonTraining() >= 40){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 300 && $this->kontrolle + $trainingswerte->getKonTraining() >= 300){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 650 && $this->kontrolle + $trainingswerte->getKonTraining() >= 650){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 800 && $this->kontrolle + $trainingswerte->getKonTraining() >= 800){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 1050 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1050){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 1400 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1400){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 1800 && $this->kontrolle + $trainingswerte->getKonTraining() >= 1800){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 2200 && $this->kontrolle + $trainingswerte->getKonTraining() >= 2200){
-                    $this->fp = $this->fp + 100;
-                }
-                if($this->kontrolle < 2600 && $this->kontrolle + $trainingswerte->getKonTraining() >= 2600){
-                    $this->fp = $this->fp + 100;
-                }
                 $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
                 break;
             case 'uebung':
@@ -228,17 +251,20 @@ class Application_Model_Charakterwerte {
         $werteCategory->setUebermensch($activeCategory['ueber']);
         return $werteCategory;
     }
-    
-    
+
+
+    /**
+     * @return int
+     */
     public function getEnergie() {
         $category = $this->getCategory('aus');
-        if ($category->getUebermensch()) {
-            return 2000 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 6000;
-        } else {
-            return 750 * $this->energieFaktor[substr($category->getCategory(), 0, 1)] + 1000;
-        }
+        $energie = new Application_Model_Lebensenergie();
+        return $energie->getEnergiewert($category->getCategory(), $category->getUebermensch());
     }
-    
+
+    /**
+     * @return array
+     */
     public function toArray() {
         $returnArray = array();
         $nonArrayMethods = ['getCategory', 'getEnergie', 'getUebermenschMods'];
@@ -249,19 +275,33 @@ class Application_Model_Charakterwerte {
         }
         return $returnArray;
     }
-    
+
+    /**
+     * @return array
+     */
     public function getUebermenschMods() {
         return $this->uebermenschMods;
     }
-    
+
+    /**
+     * @param $mod
+     *
+     * @return mixed
+     */
     public function addUebermenschMods($mod) {
         return $this->uebermenschMods[] = $mod;
     }
 
+    /**
+     * @param $uebermenschMods
+     */
     public function setUebermenschMods($uebermenschMods) {
         $this->uebermenschMods = $uebermenschMods;
     }
-    
+
+    /**
+     * @param array $vorteile
+     */
     public function vorteilToUebermenschMod($vorteile = array()) {
         foreach ($vorteile as $vorteil) {
             if ($vorteil instanceof Application_Model_Vorteil) {
@@ -285,8 +325,11 @@ class Application_Model_Charakterwerte {
             }
         }
     }
-    
-    
+
+
+    /**
+     * @param $circuitKategorie
+     */
     public function setCircuitMod($circuitKategorie) {
         switch ($circuitKategorie) {
             case 'A':
