@@ -1,29 +1,60 @@
-.container{
-    width: 600px;
-    margin: 0 auto;
-}
-fieldset{
+
+fieldset {
     padding: 5px 10px;
+    box-sizing: border-box;
 }
-.columnLabel{
-    width: 100px;
+
+.trainingInput {
+    width: 50px;
     display: inline-block;
 }
-.columnValue{
-    width: 100px;
+
+.trainingControl {
+    margin-top: 10px;
+    font-size: 1.2em;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently  supported by Chrome and Opera */
+}
+
+.trainingControl input {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.trainingControl input[type="submit"] {
+    font-size: .9em;
+    font-weight: normal;
+}
+
+.trainingControl span {
+    margin-left: 15%;
+    width: 20%;
     display: inline-block;
+}
+
+.trainingDescription {
+    margin-top: 15px;
+}
+
+.trainingInformation {
+    width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.trainingAttribute {
+    display: inline-block;
+    width: 75%;
+    box-sizing: border-box;
     font-weight: bold;
 }
-.trainingInput{
-    width: 45px;
+
+.trainingValue {
     display: inline-block;
-}
-.trainingSubmit{
-    display: inline-block;
-    float: right;
-    width: 120px;
-    margin-right: 50px;
-}
-form{
-    margin: 0;
+    width: 20%;
+    box-sizing: border-box;
 }

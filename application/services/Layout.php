@@ -19,7 +19,7 @@ class Application_Service_Layout {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         $layoutModel = new Application_Model_Layout();
         $userMapper = new Application_Model_Mapper_UserMapper();
-        $charakterMapper = new Application_Model_Mapper_CharakterMapper();
+        $trainingMapper = new Application_Model_Mapper_TrainingMapper();
         
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
         $layoutModel->setUsergruppe($auth->usergruppe);
@@ -44,7 +44,11 @@ class Application_Service_Layout {
                 $charakter = $charakterBuilder->getCharakter();
                 $layoutModel->setHasChara(true);
                 $layoutModel->setCharakter($charakter);
-                $layoutModel->setCharakterTraining($charakterMapper->getCurrentTraining($charakter->getCharakterid()));
+                try {
+                    $layoutModel->setCharakterTraining($trainingMapper->getCurrentTraining($charakter->getCharakterid()));
+                } catch (Exception $exception) {
+                    // Charakter hat kein Training eingestellt
+                }
                 $informationService->setCharakter($charakter);
             } else {
                 $layoutModel->setHasChara(false);

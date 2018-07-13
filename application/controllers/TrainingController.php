@@ -48,33 +48,44 @@ class TrainingController extends Zend_Controller_Action{
         }
     }
 
-//    public function indexAction(){
-//        $this->view->trainingswerte = $this->trainingswerte;
-//    }
 
     public function indexAction ()
     {
-        $this->view->trainingsprograms = $this->trainingService->getTrainingPrograms($this->charakter->getCharakterid());
+        try {
+            $this->view->trainingsprograms = $this->trainingService->getTrainingPrograms($this->charakter);
+        } catch (Throwable $exception) {
+            $this->view->trainingsprograms = [];
+        }
     }
 
     /**
-     * @throws Exception
+     * @todo FlashMessage wenn das speichern fehlschlägt
      */
-    public function trainingAction() {
-        if($this->getRequest()->isPost()){
-            if(!$this->trainingService->startTraining($this->charakter, $this->trainingswerte, $this->getRequest())){
-                $this->view->fehlermeldung = 'Es wurden fehlerhafte Werte übertragen. Try Again.';
-            }
+    public function setAction() {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        if(!$this->getRequest()->isPost()){
+            $this->redirect('training');
+        }
+        try {
+            $program = $this->trainingService->getCharakterTrainingProgramById(
+                $this->charakter,
+                $this->getRequest()->getPost('program', 0)
+            );
+            $program->setRemainingDuration($this->getRequest()->getPost('days', 0));
+            $this->trainingService->startTraining($this->charakter, $program);
+        } catch (Exception $exception) {
+            $this->redirect('training');
+        } catch (Throwable $exception) {
+            $this->redirect('training');
         }
         $this->redirect('training');
     }
 
+
     public function executeAction() {
-        $this->redirect('index');
-//        $this->_helper->viewRenderer->setNoRender(true);
-//        $layout = $this->_helper->layout();
-//        $layout->disableLayout();
-//        $this->_trainingService->executeTraining();
+        $this->redirect('training');
     }
     
 }

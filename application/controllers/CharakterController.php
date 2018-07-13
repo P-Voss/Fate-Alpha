@@ -182,6 +182,8 @@ class CharakterController extends Zend_Controller_Action{
     }
 
     /**
+     * @todo Auf neues Trainingssystem umstellen
+     *
      * @throws Exception
      */
     public function bonusAction() {

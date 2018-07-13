@@ -15,6 +15,9 @@ class Application_Model_Layout {
      * @var Application_Model_Charakter
      */
     public $charakter;
+    /**
+     * @var Application_Model_Training_Program
+     */
     public $charakterTraining;
     public $unreadPmCount;
     public $usergruppe;
@@ -31,6 +34,9 @@ class Application_Model_Layout {
         return $this->charakter;
     }
 
+    /**
+     * @return Application_Model_Training_Program
+     */
     public function getCharakterTraining() {
         return $this->charakterTraining;
     }
@@ -47,7 +53,10 @@ class Application_Model_Layout {
         $this->charakter = $charakter;
     }
 
-    public function setCharakterTraining($charakterTraining) {
+    /**
+     * @param Application_Model_Training_Program $charakterTraining
+     */
+    public function setCharakterTraining(Application_Model_Training_Program $charakterTraining) {
         $this->charakterTraining = $charakterTraining;
     }
 

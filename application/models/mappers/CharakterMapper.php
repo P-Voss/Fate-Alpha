@@ -527,33 +527,6 @@ class Application_Model_Mapper_CharakterMapper
     }
 
     /**
-     * @todo Training als Klasse
-     *
-     * @param int $charakterId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getCurrentTraining ($charakterId)
-    {
-        $select = $this->getDbTable('Training')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('training');
-        $select->where('charakterId = ?', $charakterId);
-        $result = $this->getDbTable('Training')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $return = [];
-                $return['training'] = $row->wert;
-                $return['dauer'] = $row->dauer;
-            }
-            return $return;
-        } else {
-            throw new Exception();
-        }
-    }
-
-    /**
      * @param int $charakterId
      *
      * @return array

@@ -148,33 +148,34 @@ class Application_Model_Charakterwerte {
     }
 
     /**
-     * @param array $training
-     * @param Application_Model_Trainingswerte $trainingswerte
+     * @todo Bonus auf Übung wenn Menschen Disziplin trainieren?
+     *
+     * @param Application_Model_Training_Attribute $attribute
      * @param int $klassengruppe
      */
-    public function addTraining($training, Application_Model_Trainingswerte $trainingswerte, $klassengruppe = 0) {
-        switch ($training['training']){
+    public function addTraining(Application_Model_Training_Attribute $attribute, $klassengruppe = 0) {
+        switch ($attribute->getAttributeKey()){
             case 'staerke':
-                $this->setStaerke($this->getStaerke() + $trainingswerte->getStrTraining());
+                $this->setStaerke($this->getStaerke() + $attribute->getValue());
                 break;
             case 'agilitaet':
-                $this->setAgilitaet($this->getAgilitaet() + $trainingswerte->getAgiTraining());
+                $this->setAgilitaet($this->getAgilitaet() + $attribute->getValue());
                 break;
             case 'ausdauer':
-                $this->setAusdauer($this->getAusdauer() + $trainingswerte->getAusTraining());
+                $this->setAusdauer($this->getAusdauer() + $attribute->getValue());
                 break;
             case 'disziplin':
-                $this->setDisziplin($this->getDisziplin() + $trainingswerte->getDisTraining());
+                $this->setDisziplin($this->getDisziplin() + $attribute->getValue());
                 if($klassengruppe === 2){
-                    $this->setUebung($this->getUebung() + $trainingswerte->getDisTraining());
+                    $this->setUebung($this->getUebung() + $attribute->getValue());
                 }
                 break;
             case 'kontrolle':
-                $this->setKontrolle($this->getKontrolle() + $trainingswerte->getKonTraining());
+                $this->setKontrolle($this->getKontrolle() + $attribute->getValue());
                 break;
             case 'uebung':
-                $this->setUebung($this->getUebung() + $trainingswerte->getPraTraining());
-                $this->setFp($this->getFp() + ceil($trainingswerte->getPraTraining()));
+                $this->setUebung($this->getUebung() + $attribute->getValue());
+                $this->setFp($this->getFp() + ceil($attribute->getValue()));
                 break;
         }
     }
@@ -270,7 +271,7 @@ class Application_Model_Charakterwerte {
         $nonArrayMethods = ['getCategory', 'getEnergie', 'getUebermenschMods'];
         foreach (get_class_methods(get_class($this)) as $method){
             if(substr($method, 0, 3) === 'get' AND !in_array($method, $nonArrayMethods)){ 
-                $returnArray[substr($method, 3)] = $this->{$method}();
+                $returnArray[lcfirst(substr($method, 3))] = $this->{$method}();
             }
         }
         return $returnArray;

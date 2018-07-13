@@ -88,6 +88,68 @@ class Application_Model_Mapper_TrainingMapper
     }
 
     /**
+     * @param int $programId
+     *
+     * @return Application_Model_Training_Program
+     * @throws Exception
+     */
+    public function getTrainingProgramById ($programId)
+    {
+        $select = $this->getDbTable('TrainingProgram')
+            ->select()
+            ->where('trainingprogramId = ?', $programId);
+
+        $row = $this->getDbTable('TrainingProgram')->fetchRow($select);
+        if ($row === null) {
+            throw new Exception("Das Trainingsprgramm existiert nicht.");
+        }
+        $program = new Application_Model_Training_Program();
+        $program->setName($row->name);
+        $program->setProgramId($row->trainingprogramId);
+        $program->setDescription($row->description);
+        foreach ($this->getAttributesByProgram($row->trainingprogramId) as $attribute) {
+            switch ($attribute->focus) {
+                case 'primary':
+                    $program->setPrimaryAttribute(new Application_Model_Training_Attribute($attribute->attribute));
+                    break;
+                case 'secondary':
+                    $program->setSecondaryAttribute(new Application_Model_Training_Attribute($attribute->attribute));
+                    break;
+                case 'optional':
+                    $program->addOptionalAttribute(new Application_Model_Training_Attribute($attribute->attribute));
+                    break;
+            }
+        }
+        return $program;
+    }
+
+    /**
+     * @param int $charakterId
+     *
+     * @return Application_Model_Training_Program
+     * @throws Exception
+     */
+    public function getCurrentTraining ($charakterId)
+    {
+        $select = $this->getDbTable('Training')
+            ->select()
+            ->setIntegrityCheck(false)
+            ->from('training', ['trainingprogramId', 'days'])
+            ->joinInner('trainingprogram', 'training.trainingprogramId = trainingprogram.trainingprogramId', ['name'])
+            ->where('charakterId = ?', $charakterId);
+        $row = $this->getDbTable('Training')->fetchRow($select);
+        if ($row !== null) {
+            $program = new Application_Model_Training_Program();
+            $program->setProgramId($row->trainingprogramId);
+            $program->setName($row->name);
+            $program->setRemainingDuration($row->days);
+            return $program;
+        } else {
+            throw new Exception();
+        }
+    }
+
+    /**
      * @param Application_Model_Charakter $charakter
      *
      * @return array
@@ -97,32 +159,16 @@ class Application_Model_Mapper_TrainingMapper
     {
         $changesContainer = [];
         foreach ($charakter->getVorteile() as $vorteil) {
-            $changes = $this->_checkVorteil($vorteil->getId());
-            if (count($changes) > 0) {
-                $changesContainer[] = $changes;
-            }
+            $changesContainer = array_merge($changesContainer, $this->checkVorteil($vorteil->getId()));
         }
         foreach ($charakter->getNachteile() as $nachteil) {
-            $changes = $this->_checkNachteil($nachteil->getId());
-            if (count($changes) > 0) {
-                $changesContainer[] = $changes;
-            }
+            $changesContainer = array_merge($changesContainer, $this->checkNachteil($nachteil->getId()));
         }
         if ($charakter->getKlasse() !== null) {
-            if ($this->_checkKlasse($charakter->getKlasse()->getId())) {
-                $changes = $this->_checkKlasse($charakter->getKlasse()->getId());
-                if (count($changes) > 0) {
-                    $changesContainer[] = $changes;
-                }
-            }
+            $changesContainer = array_merge($changesContainer, $this->checkKlasse($charakter->getKlasse()->getId()));
         }
         if ($charakter->getKlassengruppe()->getId() !== null) {
-            if ($this->_checkKlassengruppe($charakter->getKlassengruppe()->getId())) {
-                $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe()->getId());
-                if (count($changes) > 0) {
-                    $changesContainer[] = $changes;
-                }
-            }
+            $changesContainer = array_merge($changesContainer, $this->checkKlassengruppe($charakter->getKlassengruppe()->getId()));
         }
         return $changesContainer;
     }
@@ -168,20 +214,16 @@ class Application_Model_Mapper_TrainingMapper
                 $this->changesContainer[] = $changes;
             }
         }
-        if ($charakter->getKlasse() !== null) {
-            if ($this->_checkKlasse($charakter->getKlasse()->getId())) {
-                $changes = $this->_checkKlasse($charakter->getKlasse()->getId());
-                if (count($changes) > 0) {
-                    $this->changesContainer[] = $changes;
-                }
+        if ($this->_checkKlasse($charakter->getKlasse()->getId())) {
+            $changes = $this->_checkKlasse($charakter->getKlasse()->getId());
+            if (count($changes) > 0) {
+                $this->changesContainer[] = $changes;
             }
         }
-        if ($charakter->getKlassengruppe()->getId() !== null) {
-            if ($this->_checkKlassengruppe($charakter->getKlassengruppe()->getId())) {
-                $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe()->getId());
-                if (count($changes) > 0) {
-                    $this->changesContainer[] = $changes;
-                }
+        if ($this->_checkKlassengruppe($charakter->getKlassengruppe()->getId())) {
+            $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe()->getId());
+            if (count($changes) > 0) {
+                $this->changesContainer[] = $changes;
             }
         }
         if (count($this->changesContainer) > 0) {
@@ -230,33 +272,35 @@ class Application_Model_Mapper_TrainingMapper
 
     /**
      * @param $charakterId
-     * @param $training
-     * @param $dauer
+     * @param Application_Model_Training_Program $program
      *
      * @return mixed
      * @throws Exception
      */
-    public function setTraining ($charakterId, $training, $dauer)
+    public function setTraining ($charakterId, Application_Model_Training_Program $program)
     {
-        $data['charakterId'] = $charakterId;
-        $data['wert'] = $training;
-        $data['dauer'] = $dauer;
+        $data = [
+            'charakterId' => $charakterId,
+            'trainingprogramId' => $program->getProgramId(),
+            'days' => $program->getRemainingDuration(),
+        ];
         return $this->getDbTable('Training')->insert($data);
     }
 
 
     /**
      * @param $charakterId
-     * @param $training
-     * @param $dauer
+     * @param Application_Model_Training_Program $program
      *
      * @return int
      * @throws Exception
      */
-    public function updateTraining ($charakterId, $training, $dauer)
+    public function updateTraining ($charakterId, Application_Model_Training_Program $program)
     {
-        $data['wert'] = $training;
-        $data['dauer'] = $dauer;
+        $data = [
+            'trainingprogramId' => $program->getProgramId(),
+            'days' => $program->getRemainingDuration(),
+        ];
         return $this->getDbTable('Training')->update($data, ['charakterId = ?' => $charakterId]);
     }
 
@@ -267,7 +311,7 @@ class Application_Model_Mapper_TrainingMapper
      * @return array
      * @throws Exception
      */
-    protected function _checkVorteil ($vorteilId)
+    protected function checkVorteil ($vorteilId)
     {
         $return = [];
         $select = $this->getDbTable('TrainingVorteil')->select();
@@ -276,9 +320,7 @@ class Application_Model_Mapper_TrainingMapper
         $select->where('vorteilId = ?', $vorteilId);
         $result = $this->getDbTable('TrainingVorteil')->fetchAll($select);
         foreach ($result as $row) {
-            $value['Effekt'] = $row->effekt;
-            $value['Art'] = $row->effektArt;
-            $return[$row->wert] = $value;
+            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
         }
         return $return;
     }
@@ -290,7 +332,7 @@ class Application_Model_Mapper_TrainingMapper
      * @return array
      * @throws Exception
      */
-    protected function _checkNachteil ($nachteilId)
+    protected function checkNachteil ($nachteilId)
     {
         $return = [];
         $select = $this->getDbTable('TrainingNachteil')->select();
@@ -299,9 +341,7 @@ class Application_Model_Mapper_TrainingMapper
         $select->where('nachteilId = ?', $nachteilId);
         $result = $this->getDbTable('TrainingNachteil')->fetchAll($select);
         foreach ($result as $row) {
-            $value['Effekt'] = $row->effekt;
-            $value['Art'] = $row->effektArt;
-            $return[$row->wert] = $value;
+            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
         }
         return $return;
     }
@@ -313,7 +353,7 @@ class Application_Model_Mapper_TrainingMapper
      * @return array
      * @throws Exception
      */
-    protected function _checkKlasse ($klassenId)
+    protected function checkKlasse ($klassenId)
     {
         $return = [];
         $select = $this->getDbTable('TrainingKlasse')->select();
@@ -322,9 +362,7 @@ class Application_Model_Mapper_TrainingMapper
         $select->where('klassenId = ?', $klassenId);
         $result = $this->getDbTable('TrainingKlasse')->fetchAll($select);
         foreach ($result as $row) {
-            $value['Effekt'] = $row->effekt;
-            $value['Art'] = $row->effektArt;
-            $return[$row->wert] = $value;
+            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
         }
         return $return;
     }
@@ -335,7 +373,7 @@ class Application_Model_Mapper_TrainingMapper
      * @return array
      * @throws Exception
      */
-    protected function _checkKlassengruppe ($gruppenId)
+    protected function checkKlassengruppe ($gruppenId)
     {
         $return = [];
         $select = $this->getDbTable('TrainingKlassengruppe')->select();
@@ -344,9 +382,7 @@ class Application_Model_Mapper_TrainingMapper
         $select->where('klassengruppenId = ?', $gruppenId);
         $result = $this->getDbTable('TrainingKlassengruppe')->fetchAll($select);
         foreach ($result as $row) {
-            $value['Effekt'] = $row->effekt;
-            $value['Art'] = $row->effektArt;
-            $return[$row->wert] = $value;
+            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
         }
         return $return;
     }
@@ -362,46 +398,22 @@ class Application_Model_Mapper_TrainingMapper
             foreach ($changesCategories as $key => $values) {
                 switch ($key) {
                     case 'Staerke':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setStrTraining($trainingswerte->getStrTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setStrTraining($trainingswerte->getStrTraining() + $values['Effekt']);
                         break;
                     case 'Agilitaet':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setAgiTraining($trainingswerte->getAgiTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setAgiTraining($trainingswerte->getAgiTraining() + $values['Effekt']);
                         break;
                     case 'Ausdauer':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setAusTraining($trainingswerte->getAusTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setAusTraining($trainingswerte->getAusTraining() + $values['Effekt']);
                         break;
                     case 'Uebung':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setPraTraining($trainingswerte->getPraTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setPraTraining($trainingswerte->getPraTraining() + $values['Effekt']);
                         break;
                     case 'Kontrolle':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setKonTraining($trainingswerte->getKonTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setKonTraining($trainingswerte->getKonTraining() + $values['Effekt']);
                         break;
                     case 'Disziplin':
-                        if ($values['Art'] === 'absolut') {
-                            $trainingswerte->setDisTraining($trainingswerte->getDisTraining() + $values['Effekt']);
-                        } else {
-
-                        }
+                        $trainingswerte->setDisTraining($trainingswerte->getDisTraining() + $values['Effekt']);
                         break;
                 }
             }
@@ -442,6 +454,17 @@ class Application_Model_Mapper_TrainingMapper
         $this->updateTraining($charakter->getCharakterid(), $training['training'], $training['dauer'] - 1);
     }
 
+    /**
+     * @param int $charakterId
+     * @param Application_Model_Charakterwerte $werte
+     *
+     * @throws Exception
+     */
+    public function updateCharakterwerte ($charakterId, Application_Model_Charakterwerte $werte)
+    {
+        $this->getDbTable('CharakterWerte')->update($werte->toArray(), ['charakterId = ?' => $charakterId]);
+    }
+
 
     /**
      * @throws Exception
@@ -478,33 +501,6 @@ INNER JOIN
 SET fp = fp + 50
 SQL;
         $this->getDbTable('CharakterWerte')->getDefaultAdapter()->query($sql);
-    }
-
-    /**
-     * @todo existiert schon im Charaktermapper
-     *
-     * @param int $charakterId
-     *
-     * @return boolean
-     * @throws Exception
-     */
-    public function getCurrentTraining ($charakterId)
-    {
-        $select = $this->getDbTable('Training')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('training');
-        $select->where('charakterId = ?', $charakterId);
-        $result = $this->getDbTable('Training')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $return = [];
-                $return['training'] = $row->wert;
-                $return['dauer'] = $row->dauer;
-            }
-            return $return;
-        } else {
-            return false;
-        }
     }
 
     /**

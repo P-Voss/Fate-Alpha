@@ -132,6 +132,14 @@ class Application_Model_Training_Program
     }
 
     /**
+     * @return Application_Model_Training_Attribute
+     */
+    public function getRandomOptionalAttribute ()
+    {
+        return $this->optionalAttributes[mt_rand(0, count($this->optionalAttributes) - 1)];
+    }
+
+    /**
      * @param Application_Model_Training_Attribute[] $optionalAttributes
      */
     public function setOptionalAttributes (array $optionalAttributes)
@@ -163,23 +171,51 @@ class Application_Model_Training_Program
         $this->remainingDuration = $remainingDuration;
     }
 
+
+    /**
+     * @param $attributes Application_Model_Training_Attribute[]
+     */
+    public function setDecreasingAttributes (array $attributes)
+    {
+        $this->decreasingAttributes = $attributes;
+    }
+
     /**
      * @return Application_Model_Training_Attribute[]
-     * @throws Exception
      */
     public function getDecreasingAttributes ()
     {
+        if (!empty($this->decreasingAttributes)) {
+            return $this->decreasingAttributes;
+        }
         $returnArray = [];
-        $overallAttributes =  [
-            'staerke', 'agilitaet', 'ausdauer', 'uebung', 'kontrolle', 'disziplin',
-        ];
-        foreach ($overallAttributes as $attribute) {
-            if (in_array($attribute, [$this->primaryAttribute->getAttributeKey(), $this->secondaryAttribute->getAttributeKey()])) {
+        foreach (Application_Model_Training_Attribute::getAttributeKeys() as $attribute) {
+            if (in_array(
+                $attribute, [
+                $this->primaryAttribute->getAttributeKey(), $this->secondaryAttribute->getAttributeKey()]
+            )) {
                 continue;
             }
-            $returnArray[] = new Application_Model_Training_Attribute($attribute);
+            try {
+                $returnArray[] = new Application_Model_Training_Attribute($attribute);
+            } catch (Exception $exception) {
+                // kann nicht passieren
+            }
         }
         return $returnArray;
+    }
+
+    /**
+     * @param array $excludedAttributes
+     *
+     * @return Application_Model_Training_Attribute
+     */
+    public function getRandomDecreasingAttribute ($excludedAttributes = [])
+    {
+        if (empty($this->decreasingAttributes)) {
+            $this->decreasingAttributes = $this->getDecreasingAttributes();
+        }
+        return $this->decreasingAttributes[mt_rand(0, count($this->decreasingAttributes) - 1)];
     }
 
 }

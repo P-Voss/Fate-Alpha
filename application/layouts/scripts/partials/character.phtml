@@ -1,4 +1,5 @@
 <?php
+/** @var $charaData Application_Model_Charakter */
 if ($layoutData->getHasChara() !== true) {
     ?>
     <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
@@ -17,7 +18,13 @@ if ($layoutData->getHasChara() !== true) {
     </h3>
     <div>
         Aktuelles Training:<br />
-        <?= $training['dauer'] < 1 ? '-' : $displayTraining[$training['training']] . ' (' . $training['dauer'] . ' Tage)' ?>
+        <?php
+        if ($layoutData->getCharakterTraining() === null) {
+            echo '-';
+        } else {
+            echo $layoutData->getCharakterTraining()->getName() . ' (' . $layoutData->getCharakterTraining()->getRemainingDuration() . ' Tage)';
+        }
+        ?>
         <hr />
     </div>
     <br />

@@ -1,132 +1,76 @@
 <?php
-/* @var $werte Application_Model_Trainingswerte */
-//$werte = $this->trainingswerte;
+/**
+ * @var $trainingsprograms Application_Model_Training_Program[]
+ */
+$trainingsprograms = $this->trainingsprograms;
 ?>
 <h1>
     Trainingscenter
 </h1>
+<?php foreach ($trainingsprograms as $program): ?>
 <fieldset>
-    <legend>Trainingsprogramme</legend>
-
+    <legend><?= $program->getName() ?></legend>
+    <p>
+        <?= $program->getDescription() ?>
+    </p>
+    <form method="post" action="<?= $this->baseUrl() ?>/training/set">
+        <p class="trainingDescription"></p>
+        <div class="trainingInformation">
+            <p class="trainingDescription">
+                Diese Werte werden auf jeden Fall trainiert
+            </p>
+            <p>
+                <span class="trainingAttribute">
+                    <?= Application_Model_Training_Attribute::getAttributeName($program->getPrimaryAttribute()->getAttributeKey()) ?>
+                </span>
+                <span class="trainingValue">
+                    <?= $program->getPrimaryAttribute()->getValue() ?>
+                </span>
+            </p>
+            <p>
+                <span class="trainingAttribute">
+                    <?= Application_Model_Training_Attribute::getAttributeName($program->getSecondaryAttribute()->getAttributeKey()) ?>
+                </span>
+                <span class="trainingValue">
+                    <?= $program->getSecondaryAttribute()->getValue() ?>
+                </span>
+            </p>
+            <p class="trainingDescription">
+                Jeden Tag wird einer von diesen Werten zusätzlich trainiert
+            </p>
+            <?php foreach ($program->getOptionalAttributes() as $attribute): ?>
+                <p>
+                    <span class="trainingAttribute">
+                        <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
+                    </span>
+                    <span class="trainingValue">
+                        <?= $attribute->getValue() ?>
+                    </span>
+                </p>
+            <?php endforeach; ?>
+            <p class="trainingDescription">
+                Jeden Tag wird einer von diesen Werten vernachlässigt
+            </p>
+            <?php foreach ($program->getDecreasingAttributes() as $attribute): ?>
+                <p>
+                    <span class="trainingAttribute">
+                        <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
+                    </span>
+                        <span class="trainingValue">
+                        <?= $attribute->getValue() ?>
+                    </span>
+                </p>
+            <?php endforeach; ?>
+        </div>
+        <div class="trainingControl">
+            <span>
+                <input class="trainingInput" type="number" name="days" placeholder="0" min="0"> Tage
+            </span>
+            <span>
+                <input type="hidden" name="program" value="<?= $program->getProgramId() ?>">
+                <input type="submit" value="Training eintragen">
+            </span>
+        </div>
+    </form>
 </fieldset>
-<!--<div class="container">-->
-<!--    <fieldset>-->
-<!--        <legend>-->
-<!--            Grundwerte-->
-<!--        </legend>-->
-<!--        --><?php
-//        if($werte->getStrTraining() !== null){
-//        ?>
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Staerke" class="columnLabel">-->
-<!--                    Stärke-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getStrTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="staerke">-->
-<!--                <input class="trainingInput" type="number" name="staerke" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        if($werte->getAgiTraining() !== null){
-//        ?>
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Agilitaet" class="columnLabel">-->
-<!--                    Agilität-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getAgiTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="agilitaet">-->
-<!--                <input class="trainingInput" type="number" name="agilitaet" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        if($werte->getAusTraining() !== null){
-//        ?>
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Ausdauer" class="columnLabel">-->
-<!--                    Ausdauer-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getAusTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="ausdauer">-->
-<!--                <input class="trainingInput" type="number" name="ausdauer" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        if($werte->getPraTraining() !== null){
-//        ?>
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Uebung" class="columnLabel">-->
-<!--                    Übung-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getPraTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="uebung">-->
-<!--                <input class="trainingInput" type="number" name="uebung" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        ?>
-<!--    </fieldset>-->
-<!--    --><?php //if($werte->getKonTraining() !== null OR $werte->getDisTraining() !== null): ?>
-<!--    <fieldset>-->
-<!--        <legend>-->
-<!--            Klassenwerte-->
-<!--        </legend>-->
-<!--        --><?php
-//        if($werte->getKonTraining() !== null){
-//        ?>
-<!--        <br />-->
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Kontrolle" class="columnLabel">-->
-<!--                    Kontrolle-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getKonTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="kontrolle">-->
-<!--                <input class="trainingInput" type="number" name="kontrolle" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        if($werte->getDisTraining() !== null){
-//        ?>
-<!--        <form method="post" action="--><?//= $this->baseUrl() ?><!--/training/training">-->
-<!--            <fieldset>-->
-<!--                <label for="Disziplin" class="columnLabel">-->
-<!--                    Disziplin-->
-<!--                </label>-->
-<!--                <label class="columnValue">-->
-<!--                    + --><?//= $werte->getDisTraining() ?><!-- pro Tag-->
-<!--                </label>-->
-<!--                <input type="hidden" name="Wert" value="disziplin">-->
-<!--                <input class="trainingInput" type="number" name="disziplin" placeholder="0" min="0"> Tage-->
-<!--                <input class="trainingSubmit" type="submit" value="Training eintragen">-->
-<!--            </fieldset>-->
-<!--        </form>-->
-<!--        --><?php
-//        }
-//        ?>
-<!--    </fieldset>-->
-<!--    --><?php //endif; ?>
-<!--</div>-->
+<?php endforeach; ?>

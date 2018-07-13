@@ -17,14 +17,48 @@ class Application_Model_Training_Attribute
      */
     private $value;
 
+
+    /**
+     * @return array
+     */
+    private static function getAttributes() {
+        return [
+            'staerke' => 'Stärke',
+            'agilitaet' => 'Agilität',
+            'ausdauer' => 'Ausdauer',
+            'uebung' => 'Übung',
+            'kontrolle' => 'Kontrolle',
+            'disziplin' => 'Disziplin',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAttributeKeys() {
+        return array_keys(self::getAttributes());
+    }
+
+    /**
+     * @param $key
+     *
+     * @return string
+     */
+    public static function getAttributeName ($key)
+    {
+        $attributes = self::getAttributes();
+        return $attributes[$key];
+    }
+
     /**
      * @param string $key
+     * @param int $value
      *
      * @throws Exception
      */
     public function __construct ($key, $value = 0)
     {
-        if (!in_array($key, $this->getAttributes())) {
+        if (!in_array($key, self::getAttributeKeys())) {
             throw new Exception('Attribut ' . $key . ' gibt es nicht.');
         }
         $this->attributeKey = $key;
@@ -37,16 +71,6 @@ class Application_Model_Training_Attribute
     public function getAttributeKey ()
     {
         return $this->attributeKey;
-    }
-
-
-    /**
-     * @return array
-     */
-    private function getAttributes() {
-        return [
-            'staerke', 'agilitaet', 'ausdauer', 'uebung', 'kontrolle', 'disziplin',
-        ];
     }
 
     /**
