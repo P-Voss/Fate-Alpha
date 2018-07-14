@@ -106,11 +106,16 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
     public function removeVorteile(Erstellung_Model_Charakter $charakter) {
         parent::getDbTable('CharakterVorteil')->delete(array('charakterId = ?' => $charakter->getCharakterid()));
     }
-    
-    
-    public function removeVorteil(Erstellung_Model_Charakter $charakter, $vorteilId) {
+
+    /**
+     * @param int $charakterId
+     * @param int $vorteilId
+     *
+     * @throws Exception
+     */
+    public function removeVorteil($charakterId, $vorteilId) {
         parent::getDbTable('CharakterVorteil')->delete(array(
-            'charakterId = ?' => $charakter->getCharakterid(),
+            'charakterId = ?' => $charakterId,
             'vorteilId = ?' => $vorteilId,
             ));
     }
