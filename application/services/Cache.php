@@ -21,8 +21,13 @@ class Application_Service_Cache {
      */
     public function __construct() {
         try {
-            $this->cache = new Memcached();
-        } catch (Error $exc) {
+            if (class_exists('Memcached')) {
+                $this->cache = new Memcached();
+            } else {
+                $this->isActive = false;
+                return false;
+            }
+        } catch (Throwable $exc) {
             $this->isActive = false;
             return false;
         }
