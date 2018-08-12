@@ -190,9 +190,9 @@ class CharakterController extends Zend_Controller_Action{
         if($this->charakter->getCharakterwerte()->getStartpunkte() <= 0){
             $this->redirect('charakter');
         }
-        $service = new Application_Service_Training();
-        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
-        $this->view->charakter = $this->charakter;
+//        $service = new Application_Service_Training();
+//        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
+//        $this->view->charakter = $this->charakter;
     }
 
     /**
@@ -237,6 +237,49 @@ class CharakterController extends Zend_Controller_Action{
             'kategorie' => $category,
         ));
         
+    }
+
+    public function attributesAction ()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('X-Frame-Options ALLOW-FROM uri');
+
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+
+        if ($this->getRequest()->getParam('key', '') === '') {
+            echo json_encode(
+                [
+                    'success' => false,
+                    'error' => 'Auth Error'
+                ]
+            );
+            exit;
+        }
+
+        try {
+            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            echo json_encode(
+                [
+                    'success' => true,
+                    'attributes' => $charakter->getCharakterwerte()->toArray()
+                ]
+            );
+        } catch (Throwable $exception) {
+            echo json_encode([]);
+        }
+        exit;
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        echo json_encode(
+            [
+                'success' => true,
+                'data' => $this->charakter->getCharakterwerte()->toArray()
+            ]
+        );
+        exit;
     }
 
     /**

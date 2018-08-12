@@ -57,11 +57,13 @@ class Erstellung_Service_Erstellung {
         }
         return array('success' => false, 'errors' => array('unbekannter Fehler beim Erstellen'));
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
      * @param int $charakterId
+     *
      * @return array
+     * @throws Exception
      */
     public function updatePersonaldata(Zend_Controller_Request_Http $request, $charakterId) {
         $errorArray = array();
