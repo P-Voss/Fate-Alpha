@@ -14,7 +14,7 @@ $displayTraining = array(
     'kontrolle' => 'Kontrolle',
     'disziplin' => 'Disziplin',
         );
-$dateEnd = new DateTime('2018-08-12 20:00:00');
+$dateEnd = new DateTime('2018-09-01 20:00:00');
 $date = new DateTime();
 $difference = date_diff($date, $dateEnd, true);
 ?>
@@ -62,10 +62,10 @@ $difference = date_diff($date, $dateEnd, true);
                     <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
                 </div>
                 <div>
-                    <?= $difference->format("Jahre: %y Monate: %m Tage: %d Stunden: %h Minuten: %i") ?>
+                    <?= $difference->format("Tage: %d Stunden: %h Minuten: %i") ?>
                 </div>
                 <div id="inhalt">
-                    <?php if (count($layoutData->getNotifications() > 0)) : ?>
+                    <?php if (count($layoutData->getNotifications()) > 0) : ?>
                     <div id="notifications">
                         <?php
                             /* @var $notification Application_Model_Notification */

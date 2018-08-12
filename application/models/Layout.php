@@ -5,8 +5,9 @@
  *
  * @author Vosser
  */
-class Application_Model_Layout {
-    
+class Application_Model_Layout
+{
+
     /**
      * @var boolean
      */
@@ -22,89 +23,158 @@ class Application_Model_Layout {
     public $unreadPmCount;
     public $usergruppe;
     public $logleser;
-    public $informations = array();
-    public $notifications = array();
+    public $informations = [];
+    /**
+     * @var array
+     */
+    public $notifications = [];
 
 
-    public function getHasChara() {
+    /**
+     * @return bool
+     */
+    public function getHasChara ()
+    {
         return $this->hasChara;
     }
 
-    public function getCharakter() {
+    /**
+     * @return Application_Model_Charakter
+     */
+    public function getCharakter ()
+    {
         return $this->charakter;
     }
 
     /**
      * @return Application_Model_Training_Program
      */
-    public function getCharakterTraining() {
+    public function getCharakterTraining ()
+    {
         return $this->charakterTraining;
     }
 
-    public function getUnreadPmCount() {
+    /**
+     * @return mixed
+     */
+    public function getUnreadPmCount ()
+    {
         return $this->unreadPmCount;
     }
 
-    public function setHasChara($hasChara) {
+    /**
+     * @param $hasChara
+     */
+    public function setHasChara ($hasChara)
+    {
         $this->hasChara = $hasChara;
     }
 
-    public function setCharakter(Application_Model_Charakter $charakter) {
+    /**
+     * @param Application_Model_Charakter $charakter
+     */
+    public function setCharakter (Application_Model_Charakter $charakter)
+    {
         $this->charakter = $charakter;
     }
 
     /**
      * @param Application_Model_Training_Program $charakterTraining
      */
-    public function setCharakterTraining(Application_Model_Training_Program $charakterTraining) {
+    public function setCharakterTraining (Application_Model_Training_Program $charakterTraining)
+    {
         $this->charakterTraining = $charakterTraining;
     }
 
-    public function setUnreadPmCount($unreadPmCount) {
+    /**
+     * @param $unreadPmCount
+     */
+    public function setUnreadPmCount ($unreadPmCount)
+    {
         $this->unreadPmCount = $unreadPmCount;
     }
 
-    public function getUsergruppe() {
+    /**
+     * @return mixed
+     */
+    public function getUsergruppe ()
+    {
         return $this->usergruppe;
     }
 
-    public function setUsergruppe($usergruppe) {
+    /**
+     * @param $usergruppe
+     */
+    public function setUsergruppe ($usergruppe)
+    {
         $this->usergruppe = $usergruppe;
     }
-    
-    public function setInformations($informations = array()) {
+
+    /**
+     * @param array $informations
+     */
+    public function setInformations ($informations = [])
+    {
         foreach ($informations as $information) {
-            if($information instanceof Application_Model_Information){
+            if ($information instanceof Application_Model_Information) {
                 $this->informations[] = $information;
             }
         }
     }
-    
-    public function addInformation(Application_Model_Information $information) {
+
+    /**
+     * @param Application_Model_Information $information
+     */
+    public function addInformation (Application_Model_Information $information)
+    {
         $this->informations[] = $information;
     }
-    
-    public function getInformations() {
+
+    /**
+     * @return array
+     */
+    public function getInformations ()
+    {
         return $this->informations;
     }
-    
-    public function deleteInformations() {
-        $this->informations = array();
+
+    /**
+     *
+     */
+    public function deleteInformations ()
+    {
+        $this->informations = [];
     }
-    
-    public function getLogleser() {
+
+    /**
+     * @return bool
+     */
+    public function getLogleser ()
+    {
         return $this->logleser === true;
     }
-    
-    public function setLogleser($logleser) {
+
+    /**
+     * @param $logleser
+     */
+    public function setLogleser ($logleser)
+    {
         $this->logleser = $logleser;
     }
-    
-    public function getNotifications() {
+
+    /**
+     * @return array
+     */
+    public function getNotifications ()
+    {
         return $this->notifications;
     }
 
-    public function setNotifications($notifications) {
+    /**
+     * @param $notifications[]
+     */
+    public function setNotifications ($notifications)
+    {
         foreach ($notifications as $notification) {
             if ($notification instanceof Application_Model_Notification) {
                 $this->notifications[] = $notification;
@@ -112,8 +182,12 @@ class Application_Model_Layout {
         }
     }
 
-    public function addNotification(Application_Model_Notification $notification) {
+    /**
+     * @param Application_Model_Notification $notification
+     */
+    public function addNotification (Application_Model_Notification $notification)
+    {
         $this->notifications[] = $notification;
     }
-    
+
 }
