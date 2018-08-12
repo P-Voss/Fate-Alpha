@@ -5,7 +5,8 @@
  *
  * @author Vosser
  */
-class TrainingController extends Zend_Controller_Action{
+class TrainingController extends Zend_Controller_Action
+{
 
     /**
      * @var Application_Service_Layout
@@ -30,7 +31,8 @@ class TrainingController extends Zend_Controller_Action{
      * @throws Zend_Db_Statement_Exception
      * @throws Exception
      */
-    public function init(){
+    public function init ()
+    {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->layoutService = new Application_Service_Layout();
@@ -39,9 +41,9 @@ class TrainingController extends Zend_Controller_Action{
 
         $layout = $this->_helper->layout();
         $this->auth = Zend_Auth::getInstance()->getIdentity();
-        if($this->auth === null){
+        if ($this->auth === null) {
             $layout->setLayout('offline');
-        }  else {
+        } else {
             $this->charakter = $this->charakterService->getCharakterByUserid($this->auth->userId);
             $this->view->layoutData = $this->layoutService->getLayoutData($this->auth);
             $layout->setLayout('training');
@@ -58,14 +60,53 @@ class TrainingController extends Zend_Controller_Action{
         }
     }
 
-    /**
-     * @todo FlashMessage wenn das speichern fehlschlägt
-     */
-    public function setAction() {
+
+    public function programsAction ()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('X-Frame-Options ALLOW-FROM uri');
+
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
-        if(!$this->getRequest()->isPost()){
+
+        if ($this->getRequest()->getParam('key', '') === '') {
+            echo json_encode(
+                [
+                'success' => false,
+                'error' => 'Auth Error'
+                ]
+            );
+            exit;
+        }
+
+        try {
+            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            echo json_encode(
+                [
+                'success' => true,
+                'programs' => array_map(
+                    function(Application_Model_Training_Program $program) {
+                        return $program->toArray();
+                    },
+                    $this->trainingService->getTrainingPrograms($charakter))
+                ]
+            );
+        } catch (Throwable $exception) {
+            echo json_encode([]);
+        }
+        exit;
+    }
+
+    /**
+     * @todo FlashMessage wenn das speichern fehlschlägt
+     */
+    public function setAction ()
+    {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        if (!$this->getRequest()->isPost()) {
             $this->redirect('training');
         }
         try {
@@ -84,8 +125,9 @@ class TrainingController extends Zend_Controller_Action{
     }
 
 
-    public function executeAction() {
+    public function executeAction ()
+    {
         $this->redirect('training');
     }
-    
+
 }

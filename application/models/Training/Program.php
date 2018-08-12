@@ -218,4 +218,37 @@ class Application_Model_Training_Program
         return $this->decreasingAttributes[mt_rand(0, count($this->decreasingAttributes) - 1)];
     }
 
+
+    public function toArray()
+    {
+        $program = [
+            'programId' => $this->getProgramId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'primary' => [
+                'attribute' => $this->getPrimaryAttribute()->getAttributeKey(),
+                'value' => $this->getPrimaryAttribute()->getValue()
+            ],
+            'secondary' => [
+                'attribute' => $this->getSecondaryAttribute()->getAttributeKey(),
+                'value' => $this->getSecondaryAttribute()->getValue()
+            ],
+            'optional' => [],
+            'decreasing' => [],
+        ];
+        foreach ($this->getOptionalAttributes() as $attribute) {
+            $program['optional'][] = [
+                'attribute' => $attribute->getAttributeKey(),
+                'value' => $attribute->getValue()
+            ];
+        }
+        foreach ($this->getDecreasingAttributes() as $attribute) {
+            $program['decreasing'][] = [
+                'attribute' => $attribute->getAttributeKey(),
+                'value' => $attribute->getValue()
+            ];
+        }
+        return $program;
+    }
+
 }

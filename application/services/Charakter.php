@@ -21,14 +21,29 @@ class Application_Service_Charakter {
         $this->cacheService = new Application_Service_Cache();
         $this->charakterMapper = new Application_Model_Mapper_CharakterMapper();
     }
-    
-    
+
+
     /**
      * @param int $userId
+     *
      * @return boolean|\Application_Model_Charakter
+     * @throws Exception
      */
     public function getCharakterByUserid($userId) {
         $charakterId = $this->charakterMapper->getCharakterIdByUserId($userId);
+        return $this->getCharakterById($charakterId);
+    }
+
+    /**
+     * @param string $accessKey
+     *
+     * @return Application_Model_Charakter
+     * @throws Exception
+     * @todo Implementation
+     */
+    public function getCharakterByAccessKey($accessKey)
+    {
+        $charakterId = 4;
         return $this->getCharakterById($charakterId);
     }
 
