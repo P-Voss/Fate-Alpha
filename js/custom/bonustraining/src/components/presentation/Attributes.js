@@ -8,9 +8,9 @@ export default ({attributes = {}}) => {
             <Attribute attributeName='Stärke' attributeStats={attributes.Str} />
             <Attribute attributeName='Agilität' attributeStats={attributes.Agi} />
             <Attribute attributeName='Ausdauer' attributeStats={attributes.End} />
-            <Attribute attributeName='Übung' attributeStats={attributes.Pra} />
             <Attribute attributeName='Kontrolle' attributeStats={attributes.Con} />
             <Attribute attributeName='Disziplin' attributeStats={attributes.Dis} />
+            <Attribute attributeName='Übung' attributeStats={attributes.Pra} />
         </div>
     );
 }

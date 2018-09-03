@@ -20,13 +20,18 @@ class App extends Component {
         super(props);
         props.trainingActions.loadTrainingPrograms(this.props.apiKey);
         props.characterActions.loadCharacterAttributes(this.props.apiKey);
+        this.triggerTraining = this.triggerTraining.bind(this);
     }
     componentDidMount() {
-        console.log(this.props)
+
     }
+
+    triggerTraining(programId, days) {
+        this.props.trainingActions.executeTraining(programId, days, this.props.apiKey);
+    }
+
     render() {
         const {remainingDays, characterAttributes, trainingPrograms} = this.props;
-        console.log(this.props);
 
         return (
             <div className="App">
@@ -35,7 +40,7 @@ class App extends Component {
                 </Grid>
                 <Grid container>
                     <Grid item md={6}>
-                        <TrainingControle programs={trainingPrograms} />
+                        <TrainingControle programs={trainingPrograms} triggerTraining={this.triggerTraining} />
                     </Grid>
                     <Grid item md={6}>
                         <Typography variant={"headline"} align={"left"}>Aktuelle Werte</Typography>

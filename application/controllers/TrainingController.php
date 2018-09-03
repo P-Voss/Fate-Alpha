@@ -98,6 +98,71 @@ class TrainingController extends Zend_Controller_Action
         exit;
     }
 
+    public function attributesAction ()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('X-Frame-Options ALLOW-FROM uri');
+
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+
+        if ($this->getRequest()->getParam('key', '') === '') {
+            echo json_encode(
+                [
+                    'success' => false,
+                    'error' => 'Auth Error'
+                ]
+            );
+            exit;
+        }
+
+        try {
+            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            echo json_encode(
+                [
+                    'success' => true,
+                    'attributes' => [
+                        'strength' => [
+                            'value' => $charakter->getCharakterwerte()->getStaerke(),
+                            'category' => $charakter->getCharakterwerte()->getCategory('str')->getCategory()
+                        ],
+                        'agility' => [
+                            'value' => $charakter->getCharakterwerte()->getAgilitaet(),
+                            'category' => $charakter->getCharakterwerte()->getCategory('agi')->getCategory()
+                        ],
+                        'endurance' => [
+                            'value' => $charakter->getCharakterwerte()->getAusdauer(),
+                            'category' => $charakter->getCharakterwerte()->getCategory('aus')->getCategory()
+                        ],
+                        'practice' => [
+                            'value' => $charakter->getCharakterwerte()->getUebung(),
+                            'category' => 'F'
+                        ],
+                        'controle' => [
+                            'value' => $charakter->getCharakterwerte()->getKontrolle(),
+                            'category' => $charakter->getCharakterwerte()->getCategory('kon')->getCategory()
+                        ],
+                        'discipline' => [
+                            'value' => $charakter->getCharakterwerte()->getDisziplin(),
+                            'category' => $charakter->getCharakterwerte()->getCategory('dis')->getCategory()
+                        ],
+                        'remainingDays' => $charakter->getCharakterwerte()->getStartpunkte()
+                    ]
+                ]
+            );
+        } catch (Throwable $exception) {
+            echo json_encode([]);
+        }
+        exit;
+    }
+
+
+    public function previewAction ()
+    {
+
+    }
+
     /**
      * @todo FlashMessage wenn das speichern fehlschlägt
      */
@@ -127,7 +192,47 @@ class TrainingController extends Zend_Controller_Action
 
     public function executeAction ()
     {
-        $this->redirect('training');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, OPTIONS');
+        header('Access-Control-Allow-Headers:  Content-Type');
+        header('X-Frame-Options ALLOW-FROM uri');
+
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+
+        try {
+            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getPost('accessKey', ""));
+        } catch (Exception $exception) {
+            echo json_encode([]);
+            exit;
+        }
+
+        if ($this->getRequest()->getPost('program', 0) < 1 || $this->getRequest()->getPost('days', 0) < 1) {
+            echo json_encode([]);
+            exit;
+        }
+        $programId = $this->getRequest()->getPost('program', 0);
+        $days = min($charakter->getCharakterwerte()->getStartpunkte(), $this->getRequest()->getPost('days', 0));
+        try {
+            $trainingDays = 0;
+            while ($days > 0) {
+                $this->trainingService->executeBonusTraining($charakter, $programId);
+                $days--;
+                $trainingDays++;
+            }
+
+            echo json_encode(
+                [
+                    'success' => true,
+                    'days' => $trainingDays
+                ]
+            );
+            exit;
+        } catch (Exception $exception) {
+            echo json_encode([]);
+            exit;
+        }
     }
 
 }

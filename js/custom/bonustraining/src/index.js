@@ -5,8 +5,7 @@ import {Provider} from "react-redux";
 
 import store from "./Store";
 
-
-const accessKey = 'SOME_KEY_TO_BE_FETCHED_BY_I_DONT_KNOW_YET_WHAT_WAY';
+const accessKey = document.getElementById('accessKey').innerHTML.trim();
 
 ReactDOM.render(
     <Provider store={store}>

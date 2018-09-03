@@ -158,6 +158,39 @@ class Application_Service_Training
     }
 
     /**
+     * @param $charakter
+     * @param $currentProgramId
+     *
+     * @throws Exception
+     */
+    public function executeBonusTraining (Application_Model_Charakter $charakter, $currentProgramId)
+    {
+        $program = $this->getCharakterTrainingProgramById($charakter, $currentProgramId);
+
+        $charakter->getCharakterwerte()->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
+        $charakter->getCharakterwerte()->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
+
+        $optionalAttributeToTrain = $program->getRandomOptionalAttribute();
+        $decreasingAttribute = $program->getRandomDecreasingAttribute([$optionalAttributeToTrain->getAttributeKey()]);
+
+        $charakter->getCharakterwerte()->addTraining($optionalAttributeToTrain, $charakter->getKlassengruppe()->getId());
+        $charakter->getCharakterwerte()->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
+        $charakter->getCharakterwerte()->setStartpunkte($charakter->getCharakterwerte()->getStartpunkte() - 1);
+
+        $this->trainingsMapper->updateCharakterwerte($charakter->getCharakterid(), $charakter->getCharakterwerte());
+    }
+
+    /**
+     * @param Application_Model_Charakter $charakter
+     *
+     * @throws Exception
+     */
+    public function reduceBonusDays (Application_Model_Charakter $charakter)
+    {
+        $this->trainingsMapper->reduceBonusDays($charakter->getCharakterid());
+    }
+
+    /**
      * @throws Exception
      */
     public function addFp ()

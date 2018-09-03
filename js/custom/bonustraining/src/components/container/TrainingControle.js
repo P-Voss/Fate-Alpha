@@ -42,6 +42,12 @@ class TrainingControle extends Component {
         this.setState({...this.state, selectedDays: event.target.value});
     }
 
+    triggerTraining(event) {
+        if (this.state.currentlyChosenTraining > 0 && this.state.selectedDays > 0) {
+            this.props.triggerTraining(this.state.currentlyChosenTraining, this.state.selectedDays);
+        }
+    }
+
     render() {
         const {currentlyChosenTraining, selectedDays} = this.state;
         const {programs, classes} = this.props;
@@ -72,7 +78,7 @@ class TrainingControle extends Component {
                         type="number"/>
                 </Grid>
                 <Grid item md={12}>
-                    <Button variant={"contained"} color={"primary"}>Training durchführen</Button>
+                    <Button onClick={(event) => this.triggerTraining(event)} variant={"contained"} color={"primary"}>Training durchführen</Button>
                 </Grid>
             </Grid>
         );
