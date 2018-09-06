@@ -8,6 +8,7 @@
 class Application_Model_User {
     
     protected $id;
+    protected $accessKey;
     protected $username;
     protected $profilname;
     protected $email;
@@ -83,6 +84,22 @@ class Application_Model_User {
 
     public function setIsLogleser($isLogleser) {
         $this->isLogleser = $isLogleser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessKey ()
+    {
+        return $this->accessKey;
+    }
+
+    /**
+     * @param string $accessKey
+     */
+    public function setAccessKey ($accessKey)
+    {
+        $this->accessKey = $accessKey;
     }
     
 }

@@ -63,8 +63,9 @@ class Application_Service_CharakterBuilder
      */
     public function initCharakterByUserId ($userId)
     {
-        $this->charakter = $this->charakterMapper->getCharakterByUserId($userId);
-        if ($this->charakter === false) {
+        try {
+            $this->charakter = $this->charakterMapper->getCharakterByUserId($userId);
+        } catch (Exception $exception) {
             return false;
         }
         $this->charakterId = $this->charakter->getCharakterid();
