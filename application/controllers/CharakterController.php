@@ -190,9 +190,8 @@ class CharakterController extends Zend_Controller_Action{
         if($this->charakter->getCharakterwerte()->getStartpunkte() <= 0){
             $this->redirect('charakter');
         }
-//        $service = new Application_Service_Training();
-//        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
-//        $this->view->charakter = $this->charakter;
+        $this->view->accessKey = Zend_Auth::getInstance()->getIdentity()->accessKey;
+        $this->view->charakter = $this->charakter;
     }
 
     /**
@@ -268,8 +267,8 @@ class CharakterController extends Zend_Controller_Action{
             );
         } catch (Throwable $exception) {
             echo json_encode([]);
+            exit;
         }
-        exit;
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -280,32 +279,6 @@ class CharakterController extends Zend_Controller_Action{
             ]
         );
         exit;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function bonustrainingAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        if(!in_array($this->getRequest()->getParam('attribute'), array('staerke', 'agilitaet', 'ausdauer', 'disziplin', 'kontrolle'))
-                ||
-            (int)$this->getRequest()->getParam('days') <= 0){
-            echo json_encode(array(
-                'success' => false,
-                'html' => '',
-            ));
-        }
-        $service = new Application_Service_Training();
-        $service->addBonusTraining($this->charakter, (int)$this->getRequest()->getParam('days'), $this->getRequest()->getParam('attribute'));
-        $this->view->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->view->trainingswerte = $service->getTrainingswerte($this->charakter);
-        $html = $this->view->render('charakter/bonustraining.phtml');
-        echo json_encode(array(
-            'success' => true, 
-            'html' => $html,
-        ));
     }
 
     /**
