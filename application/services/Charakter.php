@@ -43,7 +43,7 @@ class Application_Service_Charakter {
      */
     public function getCharakterByAccessKey($accessKey)
     {
-        $charakterId = 4;
+        $charakterId = $this->charakterMapper->getCharakterIdByAccessKey($accessKey);
         return $this->getCharakterById($charakterId);
     }
 

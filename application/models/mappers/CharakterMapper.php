@@ -87,33 +87,6 @@ class Application_Model_Mapper_CharakterMapper
     }
 
     /**
-     * @param Application_Model_Charakter $charakter
-     *
-     * @return int
-     */
-    //    public function createCharakter(Application_Model_Charakter $charakter) {
-    //        $date = new DateTime();
-    //        $data = array();
-    //        $data['userId'] = $charakter->getUserid();
-    //        $data['vorname'] = $charakter->getVorname();
-    //        $data['nachname'] = $charakter->getNachname();
-    //        $data['geburtsdatum'] = $charakter->getGeburtsdatum();
-    //        $data['geschlecht'] = $charakter->getGeschlecht();
-    //        $data['augenfarbe'] = $charakter->getAugenfarbe();
-    //        $data['size'] = $charakter->getSize();
-    //        $data['geschlecht'] = $charakter->getGeschlecht();
-    //        $data['sexualitaet'] = $charakter->getSexualitaet();
-    //        $data['wohnort'] = $charakter->getWohnort();
-    //        $data['naturElement'] = $charakter->getElemente()[0];
-    //        $data['klassenId'] = $charakter->getKlasse()->getId();
-    //        $data['odo'] = $charakter->getOdo();
-    //        $data['circuit'] = $charakter->getMagiccircuit();
-    //        $data['luck'] = $charakter->getLuck();
-    //        $data['createDate'] = $date->format('Y-m-d H:i:s');
-    //        return $this->getDbTable('Charakter')->insert($data);
-    //    }
-
-    /**
      * @param int $elementId
      * @param int $charakterId
      *
@@ -193,33 +166,31 @@ class Application_Model_Mapper_CharakterMapper
         $select->where('C.userId = ?', $userId);
         $select->where('active = 1');
         $select->joinLeft(['K' => 'klassen'], 'C.klassenId = K.klassenId', ['K.klassengruppenId']);
-        $result = $this->getDbTable('Charakter')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $model = new Application_Model_Charakter();
-                $model->setCharakterid($row->charakterId);
-                $model->setVorname($row->vorname);
-                $model->setNachname($row->nachname);
-                $model->setCharakterid($row->charakterId);
-                $model->setAugenfarbe($row->augenfarbe);
-                $model->setGeburtsdatum($row->geburtsdatum);
-                $model->setGeschlecht($row->geschlecht);
-                $model->setSexualitaet($row->sexualitaet);
-                $model->setNickname($row->nickname);
-                $model->setSize($row->size);
-                $model->setWohnort($row->wohnort);
-                $model->setLuck($row->luck);
-                $date = new DateTime($row->createDate);
-                $model->setCreatedate($date);
-                $model->setUndead($row->undead === 1);
-                if ($model->getUndead()) {
-                    $undeadDate = new DateTime($row->undeadDate);
-                    $model->setUndeadDate($undeadDate);
-                }
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if ($row !== null) {
+            $model = new Application_Model_Charakter();
+            $model->setCharakterid($row->charakterId);
+            $model->setVorname($row->vorname);
+            $model->setNachname($row->nachname);
+            $model->setCharakterid($row->charakterId);
+            $model->setAugenfarbe($row->augenfarbe);
+            $model->setGeburtsdatum($row->geburtsdatum);
+            $model->setGeschlecht($row->geschlecht);
+            $model->setSexualitaet($row->sexualitaet);
+            $model->setNickname($row->nickname);
+            $model->setSize($row->size);
+            $model->setWohnort($row->wohnort);
+            $model->setLuck($row->luck);
+            $date = new DateTime($row->createDate);
+            $model->setCreatedate($date);
+            $model->setUndead($row->undead === 1);
+            if ($model->getUndead()) {
+                $undeadDate = new DateTime($row->undeadDate);
+                $model->setUndeadDate($undeadDate);
             }
             return $model;
         } else {
-            return false;
+            throw new Exception('No Character');
         }
     }
 
@@ -1268,6 +1239,27 @@ SQL;
                     'vorteilId = ?' => $vorteilId,
                 ]
             );
+    }
+
+    /**
+     * @param string $accessKey
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function getCharakterIdByAccessKey ($accessKey)
+    {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->setIntegrityCheck(false)
+            ->from(['user' => 'benutzerdaten'], [])
+            ->joinInner('charakter', 'charakter.userId = user.userId', ['charakter.charakterId'])
+            ->where('user.accessKey = ?', $accessKey);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if ($row !== null) {
+            return $row->charakterId;
+        } else {
+            throw new Exception('Keinen Charakter gefunden');
+        }
     }
 
 }
