@@ -15,8 +15,11 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_ENV=development && cp ${REACT_APP_ENV}.env .env && react-scripts start",
+    "build": "npm run build",
+    "build-dev": "cp development.env .env && react-scripts build",
+    "build-test": "cp test.env .env && react-scripts build",
+    "build-prod": "cp production.env .env && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
