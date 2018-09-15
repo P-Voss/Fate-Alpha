@@ -7,6 +7,9 @@
  */
 class Nachrichten_IndexController extends Zend_Controller_Action {
 
+    /**
+     * @var Nachrichten_Service_Nachrichten
+     */
     private $service;
     
     public function init(){
@@ -23,10 +26,19 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
     }
     
     public function showAction() {
-        if($this->getRequest()->getParam('read') == true){
+        if($this->getRequest()->getParam('read')){
             $this->service->readMessage($this->getRequest()->getParam('id'));
         }
-        $this->view->nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
+        $userId = Zend_Auth::getInstance()->getIdentity()->userId;
+        try {
+            $nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
+            if ($nachricht->getEmpfaengerId() !== $userId && $nachricht->getVerfasserId() !== $userId) {
+                $this->redirect('Nachrichten/inbox/');
+            }
+            $this->view->nachricht = $nachricht;
+        } catch (Exception $exception) {
+            $this->redirect('Nachrichten/inbox/');
+        }
     }
     
     public function sendAction() {
