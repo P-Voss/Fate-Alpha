@@ -11,8 +11,17 @@ class Story_EpisodenController extends Zend_Controller_Action {
      * @var Application_Model_Charakter 
      */
     protected $charakter;
+    /**
+     * @var Story_Service_Plot
+     */
     protected $plotService;
+    /**
+     * @var Story_Service_Episode
+     */
     protected $episodenService;
+    /**
+     * @var Story_Service_Log
+     */
     protected $logService;
     
     
@@ -195,7 +204,8 @@ class Story_EpisodenController extends Zend_Controller_Action {
         }
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $isSl = $this->episodenService->isSL($episodeId, Zend_Auth::getInstance()->getIdentity()->userId);
-        if(!$this->episodenService->isPlayer($episodeId, $this->charakter->getCharakterId())
+        if(
+            !$this->episodenService->isPlayer($episodeId, $this->charakter->getCharakterId())
             ||
             !$isSl)
         {

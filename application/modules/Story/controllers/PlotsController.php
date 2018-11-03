@@ -8,8 +8,17 @@
 class Story_PlotsController extends Zend_Controller_Action
 {
 
+    /**
+     * @var Application_Model_Charakter
+     */
     protected $charakter;
+    /**
+     * @var Story_Service_Plot
+     */
     protected $plotService;
+    /**
+     * @var Story_Service_Episode
+     */
     protected $episodenService;
 
 
@@ -62,6 +71,8 @@ class Story_PlotsController extends Zend_Controller_Action
         $this->view->plot = $this->plotService->getPlotById($plotId);
         $this->view->episodes = $this->episodenService->getEpisodesByPlotIdForUser($plotId, $userId);
         $this->view->freigabe = $this->plotService->checkDatenfreigabe($plotId, $userId);
+        $this->view->participants = [];
+        $this->view->invitables = [];
     }
 
     public function slAction ()

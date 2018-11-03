@@ -7,8 +7,14 @@
  */
 class Nachrichten_InboxController extends Zend_Controller_Action {
 
+    /**
+     * @var Nachrichten_Service_Nachrichten
+     */
     private $service;
-    
+
+    /**
+     *
+     */
     public function init(){
         if($this->_helper->logincheck() === false){
             $this->redirect('index');
@@ -17,9 +23,16 @@ class Nachrichten_InboxController extends Zend_Controller_Action {
         $this->view->purifier = new HTMLPurifier($config);
         $this->service = new Nachrichten_Service_Nachrichten();
     }
-    
+
+    /**
+     *
+     */
     public function indexAction() {
-        $this->view->nachrichten = $this->service->getNachrichtenReceivedByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        try {
+            $this->view->nachrichten = $this->service->getNachrichtenReceivedByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        } catch (Exception $exception) {
+            $this->view->nachrichten = [];
+        }
     }
     
 }

@@ -11,7 +11,13 @@ class Logs_ReviewController extends Zend_Controller_Action {
      * @var Logs_Service_Plot
      */
     private $plotService;
+    /**
+     * @var Logs_Service_Episode
+     */
     private $episodenService;
+    /**
+     * @var Logs_Service_Log
+     */
     private $logService;
     
     private $auth;
@@ -42,10 +48,13 @@ class Logs_ReviewController extends Zend_Controller_Action {
         {
             $this->redirect('index');
         }
-        $episode = $this->episodenService->getEpisode($episodenId);
-        $this->view->episode = $episode;
-        $this->view->participants = $this->episodenService->getParticipantsByEpisode($episodenId);
-        $this->view->logs = $this->logService->getLogsForEpisode($episodenId);
+        try {
+            $this->view->episode = $this->episodenService->getEpisode($episodenId);
+            $this->view->participants = $this->episodenService->getParticipantsByEpisode($episodenId);
+            $this->view->logs = $this->logService->getLogsForEpisode($episodenId);
+        } catch (Exception $exception) {
+            $this->redirect('index');
+        }
     }
     
     
@@ -71,9 +80,13 @@ class Logs_ReviewController extends Zend_Controller_Action {
         {
             $this->redirect('index');
         }
-        $episode = $this->episodenService->getEpisode($episodenId);
-        $logs = $this->logService->getLogsForEpisode($episodenId);
-        if(!$this->logService->downloadGesamtlog($logs, $episode->getName())){
+        try {
+            $episode = $this->episodenService->getEpisode($episodenId);
+            $logs = $this->logService->getLogsForEpisode($episodenId);
+            if(!$this->logService->downloadGesamtlog($logs, $episode->getName())){
+                $this->redirect('Logs/review/show/episode/' . $episodenId);
+            }
+        } catch (Exception $exception) {
             $this->redirect('Logs/review/show/episode/' . $episodenId);
         }
     }
@@ -85,12 +98,16 @@ class Logs_ReviewController extends Zend_Controller_Action {
         {
             $this->redirect('index');
         }
-        $auswertung = new Logs_Model_Auswertung();
-        $auswertung->setDescription($this->getRequest()->getPost('feedback', ''));
-        $auswertung->setUserId(Zend_Auth::getInstance()->getIdentity()->userId);
-        $auswertung->setIsAccepted((int)$this->getRequest()->getPost('isAccepted', 0) === 1);
-        $this->episodenService->saveAuswertung($auswertung, $episodenId);
-        $this->redirect('Logs');
+        try {
+            $auswertung = new Logs_Model_Auswertung();
+            $auswertung->setDescription($this->getRequest()->getPost('feedback', ''));
+            $auswertung->setUserId(Zend_Auth::getInstance()->getIdentity()->userId);
+            $auswertung->setIsAccepted((int)$this->getRequest()->getPost('isAccepted', 0) === 1);
+            $this->episodenService->saveAuswertung($auswertung, $episodenId);
+            $this->redirect('Logs');
+        } catch (Exception $exception) {
+            $this->redirect('index');
+        }
     }
     
 }

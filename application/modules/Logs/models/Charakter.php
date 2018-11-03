@@ -8,8 +8,8 @@
 class Logs_Model_Charakter extends Application_Model_Charakter {
     
     protected $result;
-    
-    
+
+
     /**
      * @return Application_Model_Interfaces_CharakterResult
      */
@@ -17,6 +17,9 @@ class Logs_Model_Charakter extends Application_Model_Charakter {
         return $this->result;
     }
 
+    /**
+     * @param Application_Model_Interfaces_CharakterResult $result
+     */
     public function setResult(Application_Model_Interfaces_CharakterResult $result) {
         $this->result = $result;
     }

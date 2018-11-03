@@ -14,26 +14,35 @@ class Logs_Service_Episode {
         $this->plotMapper = new Logs_Model_Mapper_PlotMapper();
         $this->episodeMapper = new Logs_Model_Mapper_EpisodeMapper();
     }
-    
+
     /**
      * @param int $episodeId
-     * @return Story_Model_Episode
+     *
+     * @return Logs_Model_Episode
+     * @throws Exception
      */
     public function getEpisode($episodeId) {
         return $this->episodeMapper->getEpisodeToJudgeById($episodeId);
     }
-    
+
     /**
      * @param int $episodenId
+     *
      * @return boolean
      */
     public function needsLogleser($episodenId) {
-        return $this->episodeMapper->episodeBelongsToSecretPlot($episodenId);
+        try {
+            return $this->episodeMapper->episodeBelongsToSecretPlot($episodenId);
+        } catch (Exception $exception) {
+            return true;
+        }
     }
-    
+
     /**
      * @param int $episodeId
+     *
      * @return array
+     * @throws Exception
      */
     public function getParticipantsByEpisode($episodeId) {
         $participants = $this->episodeMapper->getParticipantsByEpisode($episodeId);
@@ -42,10 +51,12 @@ class Logs_Service_Episode {
         }
         return $participants;
     }
-    
+
     /**
      * @param Logs_Model_Auswertung $auswertung
      * @param int $episodenId
+     *
+     * @throws Exception
      */
     public function saveAuswertung(Logs_Model_Auswertung $auswertung, $episodenId) {
         $this->episodeMapper->removeAuswertung($auswertung, $episodenId);

@@ -139,8 +139,10 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
             $status->setStatus($result['status']);
             $status->setColorCode($result['colorCode']);
             $episode->setStatus($status);
+            return $episode;
+        } else {
+            throw new Exception('Episode not found');
         }
-        return $episode;
     }
 
     /**
@@ -168,7 +170,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
 
     /**
      * @param int $episodenId
-     * @return array
+     * @return Logs_Model_Charakter[]
      * @throws Exception
      */
     public function getParticipantsByEpisode($episodenId) {
