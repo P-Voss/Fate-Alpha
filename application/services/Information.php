@@ -31,31 +31,40 @@ class Application_Service_Information {
         $this->charakter = $charakter;
         $this->requirementValidator = new Application_Service_Requirement($charakter);
     }
-    
+
     /**
-     * @param Zend_Controller_Request_Http $request
+     * @param int $informationId
      * @param int $userId
+     *
      * @return Application_Model_Information
+     * @throws Exception
      */
-    public function getInformation(Zend_Controller_Request_Http $request, $userId) {
-        return $this->informationMapper->getInformation($userId, $request->getParam('id'));
+    public function getInformation($informationId, $userId) {
+        return $this->informationMapper->getInformation($userId, $informationId);
     }
-    
+
     /**
-     * @return \Application_Model_Information
+     * @return Application_Model_Information[]
+     * @throws Exception
      */
     public function getInformations() {
         return $this->informationMapper->getInformationsByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
-    
-    
+
+    /**
+     *
+     */
     public function refreshInformation() {
         $charakterService = new Application_Service_Charakter();
         $informations = $this->initInformations();
         $users = $this->initUsers();
         $informationZuo = [];
         foreach ($users as $user) {
-            $charakter = $charakterService->getCharakterByUserid($user->getId());
+            try {
+                $charakter = $charakterService->getCharakterByUserid($user->getId());
+            } catch (Exception $exception) {
+                continue;
+            }
             $this->charakter = $charakter === false ? null : $charakter;
             $informationZuo[] = [
                 'userId' => $user->getId(),
@@ -65,7 +74,12 @@ class Application_Service_Information {
         $this->informationMapper->truncateBenutzerinformationen();
         $this->informationMapper->saveBenutzerinformationen($informationZuo);
     }
-    
+
+    /**
+     * @param Application_Model_Information[] $informations
+     *
+     * @return array
+     */
     private function buildInformationZuo($informations) {
         $returnArray = [];
         foreach ($informations as $information) {
@@ -87,27 +101,32 @@ class Application_Service_Information {
      * @param Application_Model_Information $information
      *
      * @return boolean
-     * @throws Exception
      */
     private function checkValidation(Application_Model_Information $information){
         $validatorFactory = new Application_Model_Requirements_Factory();
-        foreach ($information->getRequirementList()->getRequirements() as $requirement) {
-            $validator = $validatorFactory->getValidator($requirement->getArt());
-            if($validator->check($this->charakter, $requirement->getRequiredValue()) !== true){
-                return false;
+        try {
+            foreach ($information->getRequirementList()->getRequirements() as $requirement) {
+                $validator = $validatorFactory->getValidator($requirement->getArt());
+                if($validator->check($this->charakter, $requirement->getRequiredValue()) !== true){
+                    return false;
+                }
             }
+            return true;
+        } catch (Exception $exception) {
+            return false;
         }
-        return true;
     }
-    
-    
+
+    /**
+     * @return Application_Model_User[]
+     */
     private function initUsers() {
         $userService = new Application_Service_User();
         return $userService->getActiveUsers();
     }
     
     /**
-     * @return Application_Model_Information
+     * @return Application_Model_Information[]
      */
     private function initInformations() {
         $informations = $this->informationMapper->getInformations();

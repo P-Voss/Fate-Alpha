@@ -13,7 +13,7 @@ class Application_Model_Requirementlist implements Iterator {
     private $requirements = array();
     
     /**
-     * @return Application_Model_Requirement
+     * @return Application_Model_Requirement[]
      */
     public function getRequirements() {
         return $this->requirements;

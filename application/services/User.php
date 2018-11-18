@@ -214,7 +214,6 @@ class Application_Service_User {
 
     /**
      * @return Application_Model_User[]
-     * @throws Exception
      */
     public function getActiveUsers() {
         return $this->userMapper->getActiveUsers();

@@ -1,19 +1,22 @@
 <?php
 
-class Application_Model_Mapper_InformationMapper {
+class Application_Model_Mapper_InformationMapper
+{
 
     /**
      * @param string $tablename
+     *
      * @return \Zend_Db_Table_Abstract
      * @throws Exception
      */
-    public function getDbTable($tablename) {
+    public function getDbTable ($tablename)
+    {
         $className = 'Application_Model_DbTable_' . $tablename;
-        if(!class_exists($className)){
+        if (!class_exists($className)) {
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if(!$dbTable instanceof Zend_Db_Table_Abstract){
+        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
@@ -26,7 +29,8 @@ class Application_Model_Mapper_InformationMapper {
      * @return Application_Model_Information
      * @throws Exception
      */
-    public function getInformation($userId, $informationId) {
+    public function getInformation ($userId, $informationId)
+    {
         $information = new Application_Model_Information();
         $sql = <<<SQL
 SELECT * 
@@ -80,25 +84,32 @@ SQL;
         $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
         $stmt->execute([$userId, $userId, $informationId]);
         $row = $stmt->fetch();
-        if($row !== false){
+        if ($row !== false) {
             $information->setInformationId($row['infoId']);
             $information->setName($row['name']);
             $information->setInhalt($row['inhalt']);
         }
         return $information;
     }
-    
-    
-    public function getInformations() {
-        $returnArray = array();
-        $select = $this->getDbTable('Information')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('informationen');
-        $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
-        $select->order('kategorie');
-        $result = $this->getDbTable('Information')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+
+    /**
+     * @return Application_Model_Information[]
+     */
+    public function getInformations ()
+    {
+        $returnArray = [];
+        try {
+            $select = $this->getDbTable('Information')->select();
+            $select->setIntegrityCheck(false);
+            $select->from('informationen');
+            $select->joinInner('informationenTexte', 'informationen.infoId = informationenTexte.infoId');
+            $select->order('kategorie');
+            $result = $this->getDbTable('Information')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
+        }
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $information = new Application_Model_Information();
                 $information->setInformationId($row->infoId);
                 $information->setName($row->name);
@@ -108,9 +119,15 @@ SQL;
         }
         return $returnArray;
     }
-    
-    
-    public function getInformationsByUserId($userId) {
+
+    /**
+     * @param $userId
+     *
+     * @return Application_Model_Information[]
+     * @throws Exception
+     */
+    public function getInformationsByUserId ($userId)
+    {
         $returnArray = [];
         $sql = <<<SQL
 SELECT * 
@@ -164,7 +181,7 @@ SQL;
         $stmt->execute([$userId, $userId]);
         $result = $stmt->fetchAll();
         $activeIds = [];
-        foreach ($result as $row){
+        foreach ($result as $row) {
             if (in_array($row['informationId'], $activeIds)) {
                 continue;
             }
@@ -180,16 +197,25 @@ SQL;
 
     /**
      * @param int $informationId
-     * @return \Application_Model_Requirementlist
-     * @throws Exception
+     *
+     * @return Application_Model_Requirementlist
      */
-    public function getRequirements($informationId) {
+    public function getRequirements ($informationId)
+    {
         $requirementList = new Application_Model_Requirementlist();
-        $select = $this->getDbTable('InfoCharakterVoraussetzungen')->select();
-        $select->where('infoId = ?', $informationId);
-        $result = $this->getDbTable('InfoCharakterVoraussetzungen')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
+        try {
+            $select = $this->getDbTable('InfoCharakterVoraussetzungen')->select();
+            $select->where('infoId = ?', $informationId);
+            $result = $this->getDbTable('InfoCharakterVoraussetzungen')->fetchAll($select);
+        } catch (Exception $exception) {
+            $requirement = new Application_Model_Requirement();
+            $requirement->setArt('Str');
+            $requirement->setRequiredValue(99999999);
+            $requirementList->addRequirement($requirement);
+            return $requirementList;
+        }
+        if ($result->count() > 0) {
+            foreach ($result as $row) {
                 $requirement = new Application_Model_Requirement();
                 $requirement->setArt($row->art);
                 $requirement->setRequiredValue($row->voraussetzung);
@@ -198,14 +224,16 @@ SQL;
         }
         return $requirementList;
     }
-    
-    
-    public function truncateBenutzerinformationen() {
+
+
+    public function truncateBenutzerinformationen ()
+    {
         $this->getDbTable('UserInfos')->getDefaultAdapter()->query('TRUNCATE benutzerInformationen');
     }
-    
-    
-    public function saveBenutzerinformationen($informationZuo) {
+
+
+    public function saveBenutzerinformationen ($informationZuo)
+    {
         $sql = 'INSERT INTO benutzerInformationen (userId, informationId) VALUES (?, ?)';
         $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
         foreach ($informationZuo as $userZuo) {
@@ -215,5 +243,5 @@ SQL;
             }
         }
     }
-    
+
 }

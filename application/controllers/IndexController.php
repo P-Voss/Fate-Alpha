@@ -2,15 +2,15 @@
 
 class IndexController extends Zend_Controller_Action {
 
-    protected $_newsService;
+    /**
+     * @var Application_Service_News
+     */
+    protected $newsService;
 
     public function init(){
-        if($this->_helper->logincheck() === false){
-//            $this->redirect('index');
-        }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->_newsService = new Application_Service_News();
+        $this->newsService = new Application_Service_News();
         $this->view->message = '';
         $messages = $this->_helper->flashMessenger->getMessages();
         if(count($messages) > 0){
@@ -20,7 +20,7 @@ class IndexController extends Zend_Controller_Action {
 
     public function indexAction()
     {
-        $this->view->news = $this->_newsService->getNews();
+        $this->view->news = $this->newsService->getNews();
     }
     
     public function introAction(){
@@ -32,11 +32,14 @@ class IndexController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $informationService = new Application_Service_Information();
-        $information = $informationService->getInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $information = $informationService->getInformation(
+            $this->getRequest()->getParam('id', 0),
+            Zend_Auth::getInstance()->getIdentity()->userId
+        );
         if($information !== false){
             $this->view->information = $information;
         } else {
-            $this->_redirect('index');
+            $this->redirect('index');
         }
     }
     

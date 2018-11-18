@@ -49,7 +49,10 @@ class Application_Model_Information {
     public function setWeitergabe($weitergabe) {
         $this->weitergabe = $weitergabe;
     }
-    
+
+    /**
+     * @return Application_Model_Requirementlist
+     */
     public function getRequirementList() {
         return $this->requirementList;
     }

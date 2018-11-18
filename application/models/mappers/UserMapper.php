@@ -275,13 +275,16 @@ class Application_Model_Mapper_UserMapper
 
     /**
      * @return Application_Model_User[]
-     * @throws Exception
      */
     public function getActiveUsers ()
     {
         $returnArray = [];
-        $select = $this->getDbTable('User')->select()->where('active=1');
-        $result = $this->getDbTable('User')->fetchAll($select);
+        try {
+            $select = $this->getDbTable('User')->select()->where('active=1');
+            $result = $this->getDbTable('User')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
+        }
         foreach ($result as $row) {
             $user = new Application_Model_User();
             $user->setUsername($row->username);

@@ -22,7 +22,10 @@ class InformationController extends Zend_Controller_Action {
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $informationService = new Application_Service_Information();
-        $information = $informationService->getInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $information = $informationService->getInformation(
+            $this->getRequest()->getParam('id', 0),
+            Zend_Auth::getInstance()->getIdentity()->userId
+        );
         $this->view->information = $information;
         $html = $this->view->render('information/load.phtml');
         echo json_encode(array('html' => $html));
