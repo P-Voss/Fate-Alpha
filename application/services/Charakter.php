@@ -88,9 +88,8 @@ class Application_Service_Charakter {
             $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
             $charakter->setNaturelement($this->charakterMapper->getNaturelement($charakter->getCharakterid()));
             $charakter->setCharakterwerte($this->charakterMapper->getCharakterwerte($charakter->getCharakterid()));
-            $charakter->setVorteile($this->charakterMapper->getVorteileByCharakterId($charakter->getCharakterid()));
-            $charakter->setNachteile($this->charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
-            $charakter->getCharakterwerte()->vorteilToUebermenschMod($charakter->getVorteile());
+            $charakter->setTraits($this->charakterMapper->getTraitsByCharacterId($charakterId));
+            $charakter->getCharakterwerte()->traitsToUebermenschMod($charakter->getTraits());
             
             $charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakter->getCharakterid()));
             

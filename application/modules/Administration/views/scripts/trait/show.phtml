@@ -1,0 +1,44 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
+$trait = $this->trait;
+?>
+<h1>Trait anpassen</h1>
+<form action="<?= $this->baseUrl() ?>/Administration/trait/edit" method="post">
+    <fieldset>
+        <p>
+            <label for="name">Name</label>
+            <input type="text" size="30" name="name" value="<?= $trait->getName() ?>" />
+            <label for="kosten">Kosten</label>
+            <input type="number" name="kosten" value="<?= $trait->getKosten() ?>" />
+        </p>
+        <textarea name="beschreibung" cols="80" rows="10">
+            <?= $trait->getBeschreibung() ?>
+        </textarea>
+        <label for="vorteile">
+            Nicht kombinierbar mit den Traits:
+        </label>
+        <select name="traits[]" multiple="true" size="8">
+            <?php foreach ($this->traits as $traitOption) { ?>
+            <option value="<?= $traitOption->getTraitId() ?>">
+                <?= $traitOption->getName() ?>
+            </option>
+            <?php } ?>
+        </select>
+        <br />
+        <label for="klassen">
+            Nicht kombinierbar mit den Klassen:
+        </label>
+        <select name="klassen[]" multiple="true" size="8">
+            <?php foreach ($this->klassen as $klasse) { ?>
+            <option value="<?= $klasse->getId() ?>">
+                <?= $klasse->getBezeichnung() ?>
+            </option>
+            <?php } ?>
+        </select>
+    </fieldset>
+    <div align="center">
+        <input type="hidden" name="traitId" value="<?= $trait->getTraitId() ?>">
+        <input type="submit" name="Abschicken" id="Abschicken" value="Trait ändern" />
+    </div>
+</form>

@@ -111,13 +111,9 @@ class Application_Model_Charakter
      */
     protected $magieStufe;
     /**
-     * @var array
+     * @var Application_Model_Trait[]
      */
-    protected $vorteile = [];
-    /**
-     * @var array
-     */
-    protected $nachteile = [];
+    protected $traits = [];
     /**
      * @var array
      */
@@ -460,52 +456,6 @@ class Application_Model_Charakter
     }
 
     /**
-     * @param array $vorteile
-     *
-     * @return $this
-     */
-    public function setVorteile ($vorteile = [])
-    {
-        foreach ($vorteile as $vorteil) {
-            if ($vorteil instanceof Application_Model_Vorteil) {
-                $this->addVorteil($vorteil);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param Application_Model_Vorteil $vorteil
-     */
-    public function addVorteil (Application_Model_Vorteil $vorteil)
-    {
-        $this->vorteile[] = $vorteil;
-    }
-
-    /**
-     * @param $nachteile
-     *
-     * @return $this
-     */
-    public function setNachteile ($nachteile)
-    {
-        foreach ($nachteile as $nachteil) {
-            if ($nachteil instanceof Application_Model_Nachteil) {
-                $this->addNachteil($nachteil);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param Application_Model_Nachteil $nachteil
-     */
-    public function addNachteil (Application_Model_Nachteil $nachteil)
-    {
-        $this->nachteile[] = $nachteil;
-    }
-
-    /**
      * @param array $elemente
      *
      * @return $this
@@ -837,6 +787,38 @@ class Application_Model_Charakter
     public function setUndead ($undead)
     {
         $this->undead = $undead;
+    }
+
+    /**
+     * @return Application_Model_Trait[]
+     */
+    public function getTraits (): array
+    {
+        return $this->traits;
+    }
+
+    /**
+     * @param Application_Model_Trait[] $traits
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setTraits (array $traits): Application_Model_Charakter
+    {
+        foreach ($traits as $trait) {
+            $this->addTrait($trait);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Application_Model_Trait $trait
+     *
+     * @return Application_Model_Charakter
+     */
+    public function addTrait (Application_Model_Trait $trait): Application_Model_Charakter
+    {
+        $this->traits[] = $trait;
+        return $this;
     }
 
     /**

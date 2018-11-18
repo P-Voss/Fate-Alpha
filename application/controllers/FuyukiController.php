@@ -6,32 +6,17 @@
  * @author Vosser
  */
 class FuyukiController extends Zend_Controller_Action{
-    
+
     /**
-     * @var Application_Model_Charakter
+     * @var Application_Service_Places
      */
-    protected $charakter;
-    /**
-     * @var Application_Service_Charakter
-     */
-    protected $charakterService;
-    /**
-     * @var Application_Service_Layout
-     */
-    protected $layoutService;
-    /**
-     * @var Application_Service_Erstellung
-     */
-    protected $erstellungsService;
+    protected $placesService;
 
 
     public function init() {
-        $this->charakterService = new Application_Service_Charakter();
-        $this->layoutService = new Application_Service_Layout();
-        $this->erstellungsService = new Application_Service_Erstellung();
+        $this->placesService = new Application_Service_Places();
         
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
+        $this->_helper->layout()->disableLayout();
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null){
             $this->redirect('index');
@@ -45,14 +30,12 @@ class FuyukiController extends Zend_Controller_Action{
     
     public function orteAction() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->_erstellungService = new Application_Service_Erstellung();
-        echo json_encode($this->_erstellungService->getOrtePreview($this->getRequest()));
+        echo json_encode($this->placesService->getOrtePreview($this->getRequest()->getPost('name')));
     }
     
     public function stadtteileAction() {
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->_erstellungService = new Application_Service_Erstellung();
-        echo json_encode($this->_erstellungService->getStadtteilePreview($this->getRequest()));
+        echo json_encode($this->placesService->getStadtteilePreview($this->getRequest()->getPost('name')));
     }
     
 }

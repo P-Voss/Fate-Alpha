@@ -19,10 +19,6 @@ class CharakterController extends Zend_Controller_Action{
      * @var Application_Service_Layout
      */
     protected $layoutService;
-    /**
-     * @var Application_Service_Erstellung
-     */
-    protected $erstellungsService;
 
 
     /**
@@ -33,7 +29,6 @@ class CharakterController extends Zend_Controller_Action{
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
         $this->layoutService = new Application_Service_Layout();
-        $this->erstellungsService = new Application_Service_Erstellung();
         
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
@@ -109,36 +104,6 @@ class CharakterController extends Zend_Controller_Action{
         }
         $this->view->charakter = $this->charakter;
     }
-
-    /**
-     *
-     */
-    public function erstellungAction() {
-        $this->redirect('Erstellung/Charakter');
-        $layout = $this->_helper->layout();
-        $layout->setLayout('erstellung');
-        $this->view->creationParams = $this->erstellungsService->getCreationParams();
-    }
-
-    /**
-     *
-     */
-    public function mapAction() {
-        $layout = $this->_helper->layout();
-        $layout->setLayout('partials');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function createAction() {
-        $charakter = $this->erstellungsService->createCharakter($this->getRequest());
-        if($charakter === false){
-            $this->redirect('charakter/erstellung');
-        }
-        $this->redirect('charakter/index');
-    }
-
     /**
      * @throws Exception
      */
@@ -291,8 +256,8 @@ class CharakterController extends Zend_Controller_Action{
     private function initCharakter($userId) {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         if ($charakterBuilder->initCharakterByUserId($userId)) {
-            $charakterBuilder->setVorteile()
-                ->setNachteile()
+            $charakterBuilder
+                ->setTraits()
                 ->setCircuit()
                 ->setNaturelement()
                 ->setClassData()

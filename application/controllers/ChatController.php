@@ -19,10 +19,6 @@ class ChatController extends Zend_Controller_Action{
      * @var Application_Service_Layout
      */
     protected $layoutService;
-    /**
-     * @var Application_Service_Erstellung
-     */
-    protected $erstellungsService;
 
 
     public function init() {
@@ -30,8 +26,7 @@ class ChatController extends Zend_Controller_Action{
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
         $this->layoutService = new Application_Service_Layout();
-        $this->erstellungsService = new Application_Service_Erstellung();
-        
+
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null) {

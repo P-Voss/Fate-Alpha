@@ -5,194 +5,177 @@
  *
  * @author Voß
  */
-class Erstellung_Service_Information {
-    
-    public function getKlassen() {
+class Erstellung_Service_Information
+{
+
+    public function getKlassen ()
+    {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         return $mapper->getKlassengruppen();
     }
-    
-    
-    public function getFamiliennamen() {
+
+
+    public function getFamiliennamen ()
+    {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         return $mapper->getFamiliennamen();
     }
-    
-    
-    public function getKlasse($id) {
+
+
+    public function getKlasse ($id)
+    {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         $klasse = $mapper->getKlassengruppeById($id);
-        if($klasse !== false){
-            $returnArray = array(
+        if ($klasse !== false) {
+            $returnArray = [
                 'success' => true,
                 'klasse' => $klasse->getBezeichnung(),
                 'beschreibung' => $klasse->getBeschreibung(),
-            );
-        }else{
-            $returnArray = array('success' => false);
+            ];
+        } else {
+            $returnArray = ['success' => false];
         }
         return $returnArray;
     }
-    
-    
-    public function getUnterklassen() {
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getUnterklassen ()
+    {
         $mapper = new Application_Model_Mapper_ErstellungMapper();
         return $unterklassen = $mapper->getAllClasses();
     }
-    
-    
-    public function getUnterklassenByCharakter(Erstellung_Model_Charakter $charakter) {
+
+    /**
+     * @param Erstellung_Model_Charakter $charakter
+     *
+     * @return Erstellung_Model_Unterklasse[]
+     * @throws Exception
+     */
+    public function getUnterklassenByCharakter (Erstellung_Model_Charakter $charakter): array
+    {
         $requirementValidator = new Erstellung_Service_Requirement($charakter);
         $mapper = new Application_Model_Mapper_ErstellungMapper();
         $unterklassenToValidate = $mapper->getUnterklassenForCharakter($charakter);
-        $unterklassen = array();
-        foreach ($unterklassenToValidate as $unterklasse){
+        $unterklassen = [];
+        foreach ($unterklassenToValidate as $unterklasse) {
             $unterklasse->setRequirementList($mapper->getUnterklassenRequirements($unterklasse->getId()));
-            if($requirementValidator->validate($unterklasse->getRequirementList()) === true){
+            if ($requirementValidator->validate($unterklasse->getRequirementList())) {
                 $unterklassen[] = $unterklasse;
             }
         }
         return $unterklassen;
     }
-    
-    
-    public function getUnterklasse($id) {
+
+    /**
+     * @param $id
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getUnterklasse ($id)
+    {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         $klasse = $mapper->getKlasseById($id);
-        if($klasse !== false){
-            $returnArray = array(
+        if ($klasse !== false) {
+            $returnArray = [
                 'success' => true,
                 'klasse' => $klasse->getBezeichnung(),
                 'beschreibung' => $klasse->getBeschreibung(),
                 'points' => $klasse->getKosten(),
-            );
-        }else{
-            $returnArray = array('success' => false);
+            ];
+        } else {
+            $returnArray = ['success' => false];
         }
         return $returnArray;
     }
-    
-    
-    public function getCreationParams() {
+
+    /**
+     * @return array
+     */
+    public function getCreationParams ()
+    {
         $mapper = new Application_Model_Mapper_ErstellungMapper();
-        $creationParamContainer = array();
+        $creationParamContainer = [];
         $creationParamContainer['odo'] = $mapper->getAllOdo();
         $creationParamContainer['circuits'] = $mapper->getAllCircuits();
         $creationParamContainer['elemente'] = $mapper->getAllElements();
         $creationParamContainer['luck'] = $mapper->getAllLuckvalues();
         return $creationParamContainer;
     }
-    
-    
-    public function getVorteile() {
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
-        return $mapper->getAllVorteile();
-    }
-    
-    
-    public function vorteilIncompatibilities() {
-        $returnArray = array();
-        $vorteilMapper = new Application_Model_Mapper_VorteilMapper();
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
-        $vorteile = $mapper->getAllVorteile();
-        foreach ($vorteile as $vorteil) {
-            $returnArray[$vorteil->getId()]['vorteile'] = $vorteilMapper->getIncompatibleVorteile($vorteil->getId());
-            $returnArray[$vorteil->getId()]['nachteile'] = $vorteilMapper->getIncompatibleNachteile($vorteil->getId());
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getTraits (): array
+    {
+        $mapper = new Application_Model_Mapper_TraitMapper();
+        $traits = $mapper->getAllTraits();
+        foreach ($traits as $trait) {
+            $trait->setIncompatibleTraits($mapper->getIncompatibleTraits($trait->getTraitId()));
         }
-        return $returnArray;
+        return $mapper->getAllTraits();
     }
-    
-    
-    public function getVorteil($id) {
-        $mapper = new Application_Model_Mapper_VorteilMapper();
-        return array(
-            'points' => $mapper->getPunkte($id),
-            'beschreibung' => $mapper->getBeschreibung($id),
-        );
+
+    /**
+     * @param $traitId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getTraitDetails (int $traitId): array
+    {
+        $mapper = new Application_Model_Mapper_TraitMapper();
+        $trait = $mapper->getTraitById($traitId);
+        return [
+            'points' => $trait->getKosten(),
+            'beschreibung' => $trait->getBeschreibung(),
+        ];
     }
-    
-    
-    public function getNachteile() {
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
-        return $mapper->getAllNachteile();
-    }
-    
-    
-    
-    public function nachteilIncompatibilities() {
-        $returnArray = array();
-        $nachteilMapper = new Application_Model_Mapper_NachteilMapper();
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
-        $nachteile = $mapper->getAllNachteile();
-        foreach ($nachteile as $nachteil) {
-            $returnArray[$nachteil->getId()]['vorteile'] = $nachteilMapper->getIncompatibleVorteile($nachteil->getId());
-            $returnArray[$nachteil->getId()]['nachteile'] = $nachteilMapper->getIncompatibleNachteile($nachteil->getId());
-        }
-        return $returnArray;
-    }
-    
-    
-    public function getNachteil($id) {
-        $mapper = new Application_Model_Mapper_NachteilMapper();
-        return array(
-            'points' => $mapper->getPunkte($id),
-            'beschreibung' => $mapper->getBeschreibung($id),
-        );
-    }
-    
-    
-    public function hasCircuit(Erstellung_Model_Charakter $charakter) {
+
+    /**
+     * @param Erstellung_Model_Charakter $charakter
+     *
+     * @return bool
+     */
+    public function hasCircuit (Erstellung_Model_Charakter $charakter)
+    {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
         $klassenId = $mapper->getKlasse($charakter);
         return $klassenId === 1;
     }
-    
-    
-    public function getOdo($id) {
+
+
+    public function getOdo ($id)
+    {
         $mapper = new Application_Model_Mapper_OdoMapper();
-        return array(
+        return [
             'points' => $mapper->getPunkte($id),
             'beschreibung' => $mapper->getBeschreibung($id),
-        );
+        ];
     }
-    
-    
-    public function getCircuit($id) {
+
+
+    public function getCircuit ($id)
+    {
         $mapper = new Application_Model_Mapper_CircuitMapper();
-        return array(
+        return [
             'points' => $mapper->getPunkte($id),
             'beschreibung' => $mapper->getBeschreibung($id),
-        );
+        ];
     }
-    
-    
-    public function getLuck($id) {
+
+
+    public function getLuck ($id)
+    {
         $mapper = new Application_Model_Mapper_LuckMapper();
-        return array(
+        return [
             'points' => $mapper->getPunkte($id),
             'beschreibung' => $mapper->getBeschreibung($id),
-        );
+        ];
     }
-    
-    public function getIncompatibilities(Zend_Controller_Request_Http $request) {
-        if(is_null($request->getPost('id')) OR is_null($request->getPost('type'))){
-            return array('success' => false, 'errors' => array('falsche Parameter übergeben'));
-        }
-        if($request->getPost('type') === 'vorteil'){
-            $mapper = new Application_Model_Mapper_VorteilMapper();
-            return array(
-                'success' => true,
-                'vorteile' => $mapper->getIncompatibleVorteile($request->getPost('id')),
-                'nachteile' => $mapper->getIncompatibleNachteile($request->getPost('id')),
-            );
-        }else{
-            $mapper = new Application_Model_Mapper_NachteilMapper();
-            return array(
-                'success' => true,
-                'vorteile' => $mapper->getIncompatibleVorteile($request->getPost('id')),
-                'nachteile' => $mapper->getIncompatibleNachteile($request->getPost('id')),
-            );
-        }
-    }
-    
+
 }

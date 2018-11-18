@@ -5,117 +5,107 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Mapper_ErstellungMapper {
-    
-    public function getDbTable($tablename) {
+class Application_Model_Mapper_ErstellungMapper
+{
+
+    /**
+     * @param $tablename
+     *
+     * @return Zend_Db_Table_Abstract
+     * @throws Exception
+     */
+    public function getDbTable ($tablename): Zend_Db_Table_Abstract
+    {
         $className = 'Application_Model_DbTable_' . $tablename;
-        if(!class_exists($className)){
+        if (!class_exists($className)) {
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if(!$dbTable instanceof Zend_Db_Table_Abstract){
+        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
     }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
-    public function getAllVorteile() {
-        $return = array();
-        $select = $this->getDbTable('Vorteil')->select();
-        $result = $this->getDbTable('Vorteil')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Application_Model_Vorteil();
-                $model->setId($row->vorteilId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setKosten($row->kosten);
-                $model->setGruppe($row->kombo);
-                $return[] = $model;
-            }
-        }
-        return $return;
-    }
-    
-    public function getVorteilIncompatibilities($vorteilIds = null, $nachteilIds = null) {
-        $disabledVorteile = array();
-        foreach ($vorteilIds as $vorteilId){
+
+    public function getVorteilIncompatibilities ($vorteilIds = null, $nachteilIds = null)
+    {
+        $disabledVorteile = [];
+        foreach ($vorteilIds as $vorteilId) {
             $select1 = $this->getDbTable('VorteilToVorteil')->select();
-            $select1->from('inkVorteilToVorteil', array('id' => 'vorteilId2'));
+            $select1->from('inkVorteilToVorteil', ['id' => 'vorteilId2']);
             $select1->where('vorteilId1 = ?', $vorteilId);
 
             $select2 = $this->getDbTable('VorteilToVorteil')->select();
-            $select2->from('inkVorteilToVorteil', array('id' => 'vorteilId1'));
+            $select2->from('inkVorteilToVorteil', ['id' => 'vorteilId1']);
             $select2->Where('vorteilId2 = ?', $vorteilId);
 
             $select = $this->getDbTable('VorteilToVorteil')->select();
-            $select->union(array($select1, $select2));
+            $select->union([$select1, $select2]);
             $result = $this->getDbTable('VorteilToVorteil')->fetchAll($select);
-            if($result->count() > 0){
-                foreach ($result as $row){
+            if ($result->count() > 0) {
+                foreach ($result as $row) {
                     $disabledVorteile[] = $row->id;
                 }
             }
         }
-        foreach ($nachteilIds as $nachteilId){
+        foreach ($nachteilIds as $nachteilId) {
             $select = $this->getDbTable('NachteilToVorteil')->select();
-            $select->from('inkNachteilToVorteil', array('id' => 'vorteilId'));
+            $select->from('inkNachteilToVorteil', ['id' => 'vorteilId']);
             $select->where('nachteilId = ?', $nachteilId);
 
             $result = $this->getDbTable('NachteilToVorteil')->fetchAll($select);
-            if($result->count() > 0){
-                foreach ($result as $row){
+            if ($result->count() > 0) {
+                foreach ($result as $row) {
                     $disabledVorteile[] = $row->id;
                 }
             }
         }
         return $disabledVorteile;
     }
-    
-    public function getNachteilIncompatibilities($nachteilIds = null, $vorteilIds = null) {
-        $disabledNachteile = array();
-        foreach ($nachteilIds as $nachteilId){
+
+    public function getNachteilIncompatibilities ($nachteilIds = null, $vorteilIds = null)
+    {
+        $disabledNachteile = [];
+        foreach ($nachteilIds as $nachteilId) {
             $select1 = $this->getDbTable('NachteilToNachteil')->select();
-            $select1->from('inkNachteilToNachteil', array('id' => 'nachteilId2'));
+            $select1->from('inkNachteilToNachteil', ['id' => 'nachteilId2']);
             $select1->where('nachteilId1 = ?', $nachteilId);
 
             $select2 = $this->getDbTable('NachteilToNachteil')->select();
-            $select2->from('inkNachteilToNachteil', array('id' => 'nachteilId1'));
+            $select2->from('inkNachteilToNachteil', ['id' => 'nachteilId1']);
             $select2->Where('nachteilId2 = ?', $nachteilId);
 
             $select = $this->getDbTable('NachteilToNachteil')->select();
-            $select->union(array($select1, $select2));
+            $select->union([$select1, $select2]);
             $result = $this->getDbTable('NachteilToNachteil')->fetchAll($select);
-            if($result->count() > 0){
-                foreach ($result as $row){
+            if ($result->count() > 0) {
+                foreach ($result as $row) {
                     $disabledNachteile[] = $row->id;
                 }
             }
         }
-        foreach ($vorteilIds as $vorteilId){
+        foreach ($vorteilIds as $vorteilId) {
             $select = $this->getDbTable('VorteilToNachteil')->select();
-            $select->from('inkVorteilToNachteil', array('id' => 'nachteilId'));
+            $select->from('inkVorteilToNachteil', ['id' => 'nachteilId']);
             $select->where('vorteilId = ?', $vorteilId);
 
             $result = $this->getDbTable('VorteilToNachteil')->fetchAll($select);
-            if($result->count() > 0){
-                foreach ($result as $row){
+            if ($result->count() > 0) {
+                foreach ($result as $row) {
                     $disabledNachteile[] = $row->id;
                 }
             }
         }
         return $disabledNachteile;
     }
-    
-    public function getAllNachteile() {
-        $return = array();
+
+    public function getAllNachteile ()
+    {
+        $return = [];
         $select = $this->getDbTable('Nachteil')->select();
         $result = $this->getDbTable('Nachteil')->fetchAll($select);
-        foreach ($result as $row){
+        foreach ($result as $row) {
             $model = new Application_Model_Nachteil();
             $model->setId($row->nachteilId);
             $model->setBezeichnung($row->name);
@@ -125,33 +115,38 @@ class Application_Model_Mapper_ErstellungMapper {
         }
         return $return;
     }
-    
-    public function getAllClasses() {
-        $select = $this->getDbTable('Klasse')->select();
-        $result = $this->getDbTable('Klasse')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
-                $model = new Application_Model_Klasse();
-                $model->setId($row->klassenId);
-                $model->setBezeichnung($row->klasse);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setKosten($row->kosten);
-                $model->setGruppe($row->klassengruppenId);
-                $return[] = $model;
-            }
-            return $return;
-        }else{
-            return null;
+
+    /**
+     * @return Application_Model_Klasse[]
+     */
+    public function getAllClasses (): array
+    {
+        try {
+            $select = $this->getDbTable('Klasse')->select();
+            $result = $this->getDbTable('Klasse')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
         }
+        $return = [];
+        foreach ($result as $row) {
+            $model = new Application_Model_Klasse();
+            $model->setId($row->klassenId);
+            $model->setBezeichnung($row->klasse);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setKosten($row->kosten);
+            $model->setGruppe($row->klassengruppenId);
+            $return[] = $model;
+        }
+        return $return;
     }
-    
-    public function getAllClassgroups() {
+
+    public function getAllClassgroups ()
+    {
         $select = $this->getDbTable('Klassengruppe')->select();
         $result = $this->getDbTable('Klassengruppe')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            $return = [];
+            foreach ($result as $row) {
                 $model = new Application_Model_Klassengruppe();
                 $model->setId($row->klassengruppenId);
                 $model->setBezeichnung($row->name);
@@ -159,17 +154,18 @@ class Application_Model_Mapper_ErstellungMapper {
                 $return[] = $model;
             }
             return $return;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public function getAllCircuits() {
+
+    public function getAllCircuits ()
+    {
         $select = $this->getDbTable('Circuit')->select();
         $result = $this->getDbTable('Circuit')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            $return = [];
+            foreach ($result as $row) {
                 $model = new Application_Model_Circuit();
                 $model->setId($row->circuitId);
                 $model->setKategorie($row->kategorie);
@@ -179,17 +175,18 @@ class Application_Model_Mapper_ErstellungMapper {
                 $return[] = $model;
             }
             return $return;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public function getAllLuckvalues() {
+
+    public function getAllLuckvalues ()
+    {
         $select = $this->getDbTable('Luck')->select();
         $result = $this->getDbTable('Luck')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            $return = [];
+            foreach ($result as $row) {
                 $model = new Application_Model_Luck();
                 $model->setId($row->luckId);
                 $model->setKategorie($row->kategorie);
@@ -198,36 +195,41 @@ class Application_Model_Mapper_ErstellungMapper {
                 $return[] = $model;
             }
             return $return;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public function getAllElements() {
-        $select = $this->getDbTable('Element')->select();
-        $result = $this->getDbTable('Element')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
-                $model = new Application_Model_Element();
-                $model->setId($row->elementId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setCharakterisierung($row->charakterisierung);
-                $return[] = $model;
-            }
-            return $return;
-        }else{
-            return null;
+
+    /**
+     * @return Application_Model_Element[]
+     */
+    public function getAllElements (): array
+    {
+        try {
+            $select = $this->getDbTable('Element')->select();
+            $result = $this->getDbTable('Element')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
         }
+        $return = [];
+        foreach ($result as $row) {
+            $model = new Application_Model_Element();
+            $model->setId($row->elementId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setCharakterisierung($row->charakterisierung);
+            $return[] = $model;
+        }
+        return $return;
     }
-    
-    public function getAllOdo() {
+
+    public function getAllOdo ()
+    {
         $select = $this->getDbTable('Odo')->select();
         $result = $this->getDbTable('Odo')->fetchAll($select);
-        if($result->count() > 0){
-            $return = array();
-            foreach ($result as $row){
+        if ($result->count() > 0) {
+            $return = [];
+            foreach ($result as $row) {
                 $model = new Application_Model_Odo();
                 $model->setId($row->odoId);
                 $model->setKategorie($row->kategorie);
@@ -236,63 +238,67 @@ class Application_Model_Mapper_ErstellungMapper {
                 $return[] = $model;
             }
             return $return;
-        }else{
+        } else {
             return null;
         }
     }
-    
-    
-    public function getUnterklassenForCharakter(Application_Model_Charakter $charakter) {
-        $returnArray = array();
+
+    /**
+     * @param Application_Model_Charakter $charakter
+     *
+     * @return Erstellung_Model_Unterklasse[]
+     * @throws Exception
+     */
+    public function getUnterklassenForCharakter (Application_Model_Charakter $charakter): array
+    {
+        $returnArray = [];
         $select = $this->getDbTable('Charakter')->select();
         $select->setIntegrityCheck(false);
         $select->from('charakter');
         $select->joinInner('klassen', 'charakter.klassengruppenId = klassen.klassengruppenId');
         $select->where('charakter.charakterId = ?', $charakter->getCharakterid());
         $result = $this->getDbTable('Charakter')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row) {
-                if($row->maxCount > 0){
-                    $select = $this->getDbTable('Charakter')->select();
-                    $select->from('charakter');
-                    $select->where('klassenId = ? and active = 1', $row->klassenId);
-                    $result = $this->getDbTable('Charakter')->fetchAll($select);
-                    if($result->count() >= $row->maxCount){
-                        continue;
-                    }
+        foreach ($result as $row) {
+            if ($row->maxCount > 0) {
+                $select = $this->getDbTable('Charakter')->select();
+                $select->from('charakter');
+                $select->where('klassenId = ? and active = 1', $row->klassenId);
+                $result = $this->getDbTable('Charakter')->fetchAll($select);
+                if ($result->count() >= $row->maxCount) {
+                    continue;
                 }
-                $klasse = new Erstellung_Model_Unterklasse();
-                $klasse->setId($row->klassenId);
-                $klasse->setBezeichnung($row->klasse);
-                $klasse->setBeschreibung($row->beschreibung);
-                $klasse->setKosten($row->kosten);
-                $klasse->setFamilienname($row->familienname);
-                $returnArray[] = $klasse;
             }
+            $klasse = new Erstellung_Model_Unterklasse();
+            $klasse->setId($row->klassenId);
+            $klasse->setBezeichnung($row->klasse);
+            $klasse->setBeschreibung($row->beschreibung);
+            $klasse->setKosten($row->kosten);
+            $klasse->setFamilienname($row->familienname);
+            $returnArray[] = $klasse;
         }
+
         return $returnArray;
     }
 
     /**
      * @param int $unterklassenId
      *
-     * @return \Erstellung_Model_Requirementlist
+     * @return Erstellung_Model_Requirementlist
      * @throws Exception
      */
-    public function getUnterklassenRequirements($unterklassenId) {
+    public function getUnterklassenRequirements ($unterklassenId): Erstellung_Model_Requirementlist
+    {
         $requirementList = new Erstellung_Model_Requirementlist();
         $select = $this->getDbTable('KlasseVoraussetzung')->select();
         $select->where('unterklassenId = ?', $unterklassenId);
         $result = $this->getDbTable('KlasseVoraussetzung')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $requirement = new Erstellung_Model_Requirement();
-                $requirement->setArt($row->art);
-                $requirement->setRequiredValue($row->voraussetzung);
-                $requirementList->addRequirement($requirement);
-            }
+        foreach ($result as $row) {
+            $requirement = new Erstellung_Model_Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }
-    
+
 }

@@ -1,0 +1,24 @@
+<?php
+/* @var $trait Administration_Model_Trait*/
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+<h1>
+    Traits
+</h1>
+<?php
+foreach ($this->list as $trait){
+?>
+<a href="<?= $this->baseUrl() ?>/Administration/trait/show/id/<?= $trait->getTraitId() ?>">
+    <fieldset>
+        <p>
+            <?= $purifier->purify($trait->getName()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify(substr($trait->getBeschreibung(), 0, 100)) ?>
+            <?= (strlen($trait->getBeschreibung()) > 100) ? '...' : '' ?>
+        </p>
+    </fieldset>
+</a>
+<?php
+}

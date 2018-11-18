@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Nachteil
+ * Description of Administration_Model_Trait
  *
  * @author Vosser
  */
-class Administration_Model_Nachteil extends Application_Model_Nachteil implements Administration_Model_CrudObject {
+class Administration_Model_Trait extends Application_Model_Trait {
     
     private $creator;
     private $editor;

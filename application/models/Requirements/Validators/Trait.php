@@ -5,19 +5,19 @@
  *
  * @author Voß
  */
-class Application_Model_Requirements_Validators_Vorteil implements Application_Model_Requirements_ValidationInterface {
+class Application_Model_Requirements_Validators_Trait implements Application_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
-     * @param mixed $value
+     * @param string $value
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode(':', $value);
         foreach ($values as $value){
             $result = false;
-            foreach ($charakter->getVorteile() as $vorteil){
-                if($vorteil->getId() == $value){
+            foreach ($charakter->getTraits() as $trait){
+                if($trait->getTraitId() == $value){
                     $result = true;
                 }
             }

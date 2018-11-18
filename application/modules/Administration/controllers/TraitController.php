@@ -1,13 +1,19 @@
 <?php
 
 /**
- * Description of IndexController
+ * Description of Administration_TraitController
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_NachteilController extends Zend_Controller_Action {
+class Administration_TraitController extends Zend_Controller_Action {
 
+    /**
+     * @var Administration_Service_Erstellung
+     */
     protected $erstellungService;
+    /**
+     * @var Administration_Service_Trait
+     */
     private $service;
 
     public function init(){
@@ -19,24 +25,22 @@ class Administration_NachteilController extends Zend_Controller_Action {
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->service = new Administration_Service_Nachteil();
+        $this->service = new Administration_Service_Trait();
         $this->erstellungService = new Administration_Service_Erstellung();
     }
     
     public function indexAction() {
-        $this->view->list = $this->erstellungService->getNachteilList();
+        $this->view->list = $this->service->getTraits();
     }
     
     public function showAction() {
-        $this->view->nachteil = $this->service->getNachteilById($this->getRequest()->getParam('id'));
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->trait = $this->service->getTraitById($this->getRequest()->getParam('id'));
+        $this->view->traits = $this->service->getTraits();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function newAction() {
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
+        $this->view->traits = $this->service->getTraits();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
@@ -45,12 +49,12 @@ class Administration_NachteilController extends Zend_Controller_Action {
     }
     
     public function editAction() {
-        $this->service->editNachteil($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->editTrait($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     
     public function createAction() {
-        $this->service->createNachteil($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->createTrait($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
     

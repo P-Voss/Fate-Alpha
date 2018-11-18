@@ -221,8 +221,7 @@ class Application_Service_Training
         $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
         $charakter->setElemente($charakterMapper->getCharakterElemente($charakter->getCharakterid()));
         $charakter->setCharakterwerte($charakterMapper->getCharakterwerte($charakter->getCharakterid()));
-        $charakter->setVorteile($charakterMapper->getVorteileByCharakterId($charakter->getCharakterid()));
-        $charakter->setNachteile($charakterMapper->getNachteileByCharakterId($charakter->getCharakterid()));
+        $charakter->setTraits($charakterMapper->getTraitsByCharacterId($charakterId));
         return $charakter;
     }
 

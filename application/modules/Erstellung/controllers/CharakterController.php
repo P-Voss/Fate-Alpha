@@ -84,16 +84,11 @@ class Erstellung_CharakterController extends Zend_Controller_Action {
         echo json_encode(array('html' => $html, 'helptext' => $helptext));
     }
     
-    public function vornachteileAction() {
+    public function traitsAction() {
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->vorteile = $this->informationService->getVorteile();
-        $this->view->nachteile = $this->informationService->getNachteile();
-        $klasse = $this->erstellungService->getKlasse($this->charakter);
-        $html = $this->view->render('charakter/vornachteile.phtml');
-        $helptext = $this->view->render('helptexts/vornachteile.phtml');
-        echo json_encode(array('html' => $html, 'helptext' => $helptext, 'vorteilCount' => ($klasse === 2) ? 4 : 3));
+        $traits = $this->informationService->getTraits();
     }
     
     public function unterklasseAction() {

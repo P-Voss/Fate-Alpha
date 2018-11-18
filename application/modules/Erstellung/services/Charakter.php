@@ -17,8 +17,7 @@ class Erstellung_Service_Charakter extends Application_Service_Charakter {
         $mapper = new Erstellung_Model_Mapper_CharakterMapper();
         $charakter = $mapper->getInactiveCharakterByUserId($userId);
         if($charakter !== false){
-            $charakter->setVorteile($mapper->getVorteileByCharakterId($charakter->getCharakterid()));
-            $charakter->setNachteile($mapper->getNachteileByCharakterId($charakter->getCharakterid()));
+            $charakter->setTraits($mapper->getTraitsByCharacterId($charakter->getCharakterid()));
             $charakter->setUserid($userId);
         }
         return $charakter;

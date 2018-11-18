@@ -5,8 +5,9 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Charakterwerte {
-    
+class Application_Model_Charakterwerte
+{
+
     protected $staerke;
     protected $agilitaet;
     protected $ausdauer;
@@ -38,112 +39,128 @@ class Application_Model_Charakterwerte {
     /**
      * @return mixed
      */
-    public function getStaerke() {
+    public function getStaerke ()
+    {
         return $this->staerke;
     }
 
     /**
      * @return mixed
      */
-    public function getAgilitaet() {
+    public function getAgilitaet ()
+    {
         return $this->agilitaet;
     }
 
     /**
      * @return mixed
      */
-    public function getAusdauer() {
+    public function getAusdauer ()
+    {
         return $this->ausdauer;
     }
 
     /**
      * @return mixed
      */
-    public function getDisziplin() {
+    public function getDisziplin ()
+    {
         return $this->disziplin;
     }
 
     /**
      * @return mixed
      */
-    public function getKontrolle() {
+    public function getKontrolle ()
+    {
         return $this->kontrolle;
     }
 
     /**
      * @return mixed
      */
-    public function getUebung() {
+    public function getUebung ()
+    {
         return $this->uebung;
     }
 
     /**
      * @return mixed
      */
-    public function getFp() {
+    public function getFp ()
+    {
         return $this->fp;
     }
 
     /**
      * @return mixed
      */
-    public function getStartpunkte() {
+    public function getStartpunkte ()
+    {
         return $this->startpunkte;
     }
 
     /**
      * @param $staerke
      */
-    public function setStaerke($staerke) {
+    public function setStaerke ($staerke)
+    {
         $this->staerke = $staerke;
     }
 
     /**
      * @param $agilitaet
      */
-    public function setAgilitaet($agilitaet) {
+    public function setAgilitaet ($agilitaet)
+    {
         $this->agilitaet = $agilitaet;
     }
 
     /**
      * @param $ausdauer
      */
-    public function setAusdauer($ausdauer) {
+    public function setAusdauer ($ausdauer)
+    {
         $this->ausdauer = $ausdauer;
     }
 
     /**
      * @param $disziplin
      */
-    public function setDisziplin($disziplin) {
+    public function setDisziplin ($disziplin)
+    {
         $this->disziplin = $disziplin;
     }
 
     /**
      * @param $kontrolle
      */
-    public function setKontrolle($kontrolle) {
+    public function setKontrolle ($kontrolle)
+    {
         $this->kontrolle = $kontrolle;
     }
 
     /**
      * @param $uebung
      */
-    public function setUebung($uebung) {
+    public function setUebung ($uebung)
+    {
         $this->uebung = $uebung;
     }
 
     /**
      * @param $fp
      */
-    public function setFp($fp) {
+    public function setFp ($fp)
+    {
         $this->fp = $fp;
     }
 
     /**
      * @param $startpunkte
      */
-    public function setStartpunkte($startpunkte) {
+    public function setStartpunkte ($startpunkte)
+    {
         $this->startpunkte = $startpunkte;
     }
 
@@ -153,8 +170,9 @@ class Application_Model_Charakterwerte {
      * @param Application_Model_Training_Attribute $attribute
      * @param int $klassengruppe
      */
-    public function addTraining(Application_Model_Training_Attribute $attribute, $klassengruppe = 0) {
-        switch ($attribute->getAttributeKey()){
+    public function addTraining (Application_Model_Training_Attribute $attribute, $klassengruppe = 0)
+    {
+        switch ($attribute->getAttributeKey()) {
             case 'staerke':
                 $this->setStaerke($this->getStaerke() + $attribute->getValue());
                 break;
@@ -166,7 +184,7 @@ class Application_Model_Charakterwerte {
                 break;
             case 'disziplin':
                 $this->setDisziplin($this->getDisziplin() + $attribute->getValue());
-                if($klassengruppe === 2){
+                if ($klassengruppe === 2) {
                     $this->setUebung($this->getUebung() + $attribute->getValue());
                 }
                 break;
@@ -185,7 +203,8 @@ class Application_Model_Charakterwerte {
      *
      * @return Application_Model_Charakterwertecategory
      */
-    public function getCategory($attr) {
+    public function getCategory ($attr)
+    {
         $ubermenschMod = $this->uebermenschMods[$attr] === 1;
         $attributes = [
             'str' => $this->staerke,
@@ -195,7 +214,7 @@ class Application_Model_Charakterwerte {
             'dis' => $this->disziplin,
         ];
         $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
-        
+
         $categories = [
             ['category' => 'F-', 'lowerbound' => -10, 'ueber' => false],
             ['category' => 'F', 'lowerbound' => -1, 'ueber' => false],
@@ -236,7 +255,7 @@ class Application_Model_Charakterwerte {
         ];
         foreach ($categories as $key => $category) {
             if ($category['lowerbound'] <= $value
-                    && ($category['ueber'] === false || $ubermenschMod === true)) {
+                && ($category['ueber'] === false || $ubermenschMod === true)) {
                 $activeCategory = $category;
                 $activeKey = $key;
             }
@@ -257,7 +276,8 @@ class Application_Model_Charakterwerte {
     /**
      * @return int
      */
-    public function getEnergie() {
+    public function getEnergie ()
+    {
         $category = $this->getCategory('aus');
         $energie = new Application_Model_Lebensenergie();
         return $energie->getEnergiewert($category->getCategory(), $category->getUebermensch());
@@ -266,11 +286,12 @@ class Application_Model_Charakterwerte {
     /**
      * @return array
      */
-    public function toArray() {
-        $returnArray = array();
+    public function toArray ()
+    {
+        $returnArray = [];
         $nonArrayMethods = ['getCategory', 'getEnergie', 'getUebermenschMods'];
-        foreach (get_class_methods(get_class($this)) as $method){
-            if(substr($method, 0, 3) === 'get' AND !in_array($method, $nonArrayMethods)){ 
+        foreach (get_class_methods(get_class($this)) as $method) {
+            if (substr($method, 0, 3) === 'get' AND !in_array($method, $nonArrayMethods)) {
                 $returnArray[lcfirst(substr($method, 3))] = $this->{$method}();
             }
         }
@@ -280,7 +301,8 @@ class Application_Model_Charakterwerte {
     /**
      * @return array
      */
-    public function getUebermenschMods() {
+    public function getUebermenschMods ()
+    {
         return $this->uebermenschMods;
     }
 
@@ -289,24 +311,27 @@ class Application_Model_Charakterwerte {
      *
      * @return mixed
      */
-    public function addUebermenschMods($mod) {
+    public function addUebermenschMods ($mod)
+    {
         return $this->uebermenschMods[] = $mod;
     }
 
     /**
      * @param $uebermenschMods
      */
-    public function setUebermenschMods($uebermenschMods) {
+    public function setUebermenschMods ($uebermenschMods)
+    {
         $this->uebermenschMods = $uebermenschMods;
     }
 
     /**
-     * @param array $vorteile
+     * @param Application_Model_Trait[] $traits
      */
-    public function vorteilToUebermenschMod($vorteile = array()) {
-        foreach ($vorteile as $vorteil) {
-            if ($vorteil instanceof Application_Model_Vorteil) {
-                switch ((int) $vorteil->getId()) {
+    public function traitsToUebermenschMod ($traits = [])
+    {
+        foreach ($traits as $trait) {
+            if ($trait instanceof Application_Model_Trait) {
+                switch ((int) $trait->getTraitId()) {
                     case 1:
                         $this->uebermenschMods['str'] = 1;
                         break;
@@ -331,7 +356,8 @@ class Application_Model_Charakterwerte {
     /**
      * @param $circuitKategorie
      */
-    public function setCircuitMod($circuitKategorie) {
+    public function setCircuitMod ($circuitKategorie)
+    {
         switch ($circuitKategorie) {
             case 'A':
                 $this->circuitBonus = 1;
@@ -347,5 +373,5 @@ class Application_Model_Charakterwerte {
                 break;
         }
     }
-    
+
 }

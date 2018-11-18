@@ -8,6 +8,7 @@ class IndexController extends Zend_Controller_Action {
     protected $newsService;
 
     public function init(){
+        if($this->_helper->logincheck() === false){}
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->newsService = new Application_Service_News();

@@ -2,7 +2,13 @@
 
 class Application_Model_Mapper_KlasseMapper implements Application_Model_Erstellung_Information_InformationInterface{
 
-    
+
+    /**
+     * @param $tablename
+     *
+     * @return Zend_Db_Table_Abstract
+     * @throws Exception
+     */
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){

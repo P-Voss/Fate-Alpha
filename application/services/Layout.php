@@ -28,8 +28,8 @@ class Application_Service_Layout {
         if($userMapper->hasChara($auth->userId)){
             
             if ($charakterBuilder->initCharakterByUserId($auth->userId)) {
-                $charakterBuilder->setVorteile()
-                    ->setNachteile()
+                $charakterBuilder
+                    ->setTraits()
                     ->setCircuit()
                     ->setNaturelement()
                     ->setClassData()

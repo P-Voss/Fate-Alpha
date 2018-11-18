@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Application_Service_Charakter
+ * Description of Application_Service_CharakterBuilder
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
@@ -102,10 +102,10 @@ class Application_Service_CharakterBuilder
     public function setWerte ()
     {
         $this->charakter->setCharakterwerte($this->charakterMapper->getCharakterwerte($this->charakterId));
-        if ($this->charakter->getVorteile() === null) {
-            $this->setVorteile();
+        if (count($this->charakter->getTraits()) === 0) {
+            $this->setTraits();
         }
-        $this->charakter->getCharakterwerte()->vorteilToUebermenschMod($this->charakter->getVorteile());
+        $this->charakter->getCharakterwerte()->traitsToUebermenschMod($this->charakter->getTraits());
         if ($this->charakter->getMagiccircuit() === null) {
             $this->setCircuit();
         }
@@ -119,19 +119,9 @@ class Application_Service_CharakterBuilder
      * @return $this
      * @throws Exception
      */
-    public function setVorteile ()
+    public function setTraits ()
     {
-        $this->charakter->setVorteile($this->charakterMapper->getVorteileByCharakterId($this->charakterId));
-        return $this;
-    }
-
-    /**
-     * @return $this
-     * @throws Exception
-     */
-    public function setNachteile ()
-    {
-        $this->charakter->setNachteile($this->charakterMapper->getNachteileByCharakterId($this->charakterId));
+        $this->charakter->setTraits($this->charakterMapper->getTraitsByCharacterId($this->charakterId));
         return $this;
     }
 

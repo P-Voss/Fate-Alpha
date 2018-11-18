@@ -6,10 +6,12 @@
  * @author Voß
  */
 class Erstellung_Service_Erstellung {
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return array
+     * @throws Exception
      */
     public function savePersonaldata(Zend_Controller_Request_Http $request) {
         $errorArray = array();
