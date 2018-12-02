@@ -27,95 +27,6 @@ class Application_Model_Mapper_ErstellungMapper
         return $dbTable;
     }
 
-
-    public function getVorteilIncompatibilities ($vorteilIds = null, $nachteilIds = null)
-    {
-        $disabledVorteile = [];
-        foreach ($vorteilIds as $vorteilId) {
-            $select1 = $this->getDbTable('VorteilToVorteil')->select();
-            $select1->from('inkVorteilToVorteil', ['id' => 'vorteilId2']);
-            $select1->where('vorteilId1 = ?', $vorteilId);
-
-            $select2 = $this->getDbTable('VorteilToVorteil')->select();
-            $select2->from('inkVorteilToVorteil', ['id' => 'vorteilId1']);
-            $select2->Where('vorteilId2 = ?', $vorteilId);
-
-            $select = $this->getDbTable('VorteilToVorteil')->select();
-            $select->union([$select1, $select2]);
-            $result = $this->getDbTable('VorteilToVorteil')->fetchAll($select);
-            if ($result->count() > 0) {
-                foreach ($result as $row) {
-                    $disabledVorteile[] = $row->id;
-                }
-            }
-        }
-        foreach ($nachteilIds as $nachteilId) {
-            $select = $this->getDbTable('NachteilToVorteil')->select();
-            $select->from('inkNachteilToVorteil', ['id' => 'vorteilId']);
-            $select->where('nachteilId = ?', $nachteilId);
-
-            $result = $this->getDbTable('NachteilToVorteil')->fetchAll($select);
-            if ($result->count() > 0) {
-                foreach ($result as $row) {
-                    $disabledVorteile[] = $row->id;
-                }
-            }
-        }
-        return $disabledVorteile;
-    }
-
-    public function getNachteilIncompatibilities ($nachteilIds = null, $vorteilIds = null)
-    {
-        $disabledNachteile = [];
-        foreach ($nachteilIds as $nachteilId) {
-            $select1 = $this->getDbTable('NachteilToNachteil')->select();
-            $select1->from('inkNachteilToNachteil', ['id' => 'nachteilId2']);
-            $select1->where('nachteilId1 = ?', $nachteilId);
-
-            $select2 = $this->getDbTable('NachteilToNachteil')->select();
-            $select2->from('inkNachteilToNachteil', ['id' => 'nachteilId1']);
-            $select2->Where('nachteilId2 = ?', $nachteilId);
-
-            $select = $this->getDbTable('NachteilToNachteil')->select();
-            $select->union([$select1, $select2]);
-            $result = $this->getDbTable('NachteilToNachteil')->fetchAll($select);
-            if ($result->count() > 0) {
-                foreach ($result as $row) {
-                    $disabledNachteile[] = $row->id;
-                }
-            }
-        }
-        foreach ($vorteilIds as $vorteilId) {
-            $select = $this->getDbTable('VorteilToNachteil')->select();
-            $select->from('inkVorteilToNachteil', ['id' => 'nachteilId']);
-            $select->where('vorteilId = ?', $vorteilId);
-
-            $result = $this->getDbTable('VorteilToNachteil')->fetchAll($select);
-            if ($result->count() > 0) {
-                foreach ($result as $row) {
-                    $disabledNachteile[] = $row->id;
-                }
-            }
-        }
-        return $disabledNachteile;
-    }
-
-    public function getAllNachteile ()
-    {
-        $return = [];
-        $select = $this->getDbTable('Nachteil')->select();
-        $result = $this->getDbTable('Nachteil')->fetchAll($select);
-        foreach ($result as $row) {
-            $model = new Application_Model_Nachteil();
-            $model->setId($row->nachteilId);
-            $model->setBezeichnung($row->name);
-            $model->setBeschreibung($row->beschreibung);
-            $model->setKosten($row->kosten);
-            $return[] = $model;
-        }
-        return $return;
-    }
-
     /**
      * @return Application_Model_Klasse[]
      */
@@ -140,6 +51,10 @@ class Application_Model_Mapper_ErstellungMapper
         return $return;
     }
 
+    /**
+     * @return array|null
+     * @throws Exception
+     */
     public function getAllClassgroups ()
     {
         $select = $this->getDbTable('Klassengruppe')->select();
@@ -159,49 +74,49 @@ class Application_Model_Mapper_ErstellungMapper
         }
     }
 
+    /**
+     * @return Erstellung_Model_Circuit[]
+     * @throws Exception
+     */
     public function getAllCircuits ()
     {
+        $return = [];
         $select = $this->getDbTable('Circuit')->select();
         $result = $this->getDbTable('Circuit')->fetchAll($select);
-        if ($result->count() > 0) {
-            $return = [];
-            foreach ($result as $row) {
-                $model = new Application_Model_Circuit();
-                $model->setId($row->circuitId);
-                $model->setKategorie($row->kategorie);
-                $model->setBeschreibung($row->besonderheit);
-                $model->setMenge($row->menge);
-                $model->setKosten($row->kosten);
-                $return[] = $model;
-            }
-            return $return;
-        } else {
-            return null;
+        foreach ($result as $row) {
+            $model = new Erstellung_Model_Circuit();
+            $model->setId($row->circuitId);
+            $model->setKategorie($row->kategorie);
+            $model->setBeschreibung($row->besonderheit);
+            $model->setMenge($row->menge);
+            $model->setKosten($row->kosten);
+            $return[] = $model;
         }
-    }
-
-    public function getAllLuckvalues ()
-    {
-        $select = $this->getDbTable('Luck')->select();
-        $result = $this->getDbTable('Luck')->fetchAll($select);
-        if ($result->count() > 0) {
-            $return = [];
-            foreach ($result as $row) {
-                $model = new Application_Model_Luck();
-                $model->setId($row->luckId);
-                $model->setKategorie($row->kategorie);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setKosten($row->kosten);
-                $return[] = $model;
-            }
-            return $return;
-        } else {
-            return null;
-        }
+        return $return;
     }
 
     /**
-     * @return Application_Model_Element[]
+     * @return Erstellung_Model_Luck[]
+     * @throws Exception
+     */
+    public function getAllLuckvalues ()
+    {
+        $return = [];
+        $select = $this->getDbTable('Luck')->select();
+        $result = $this->getDbTable('Luck')->fetchAll($select);
+        foreach ($result as $row) {
+            $model = new Erstellung_Model_Luck();
+            $model->setId($row->luckId);
+            $model->setKategorie($row->kategorie);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setKosten($row->kosten);
+            $return[] = $model;
+        }
+        return $return;
+    }
+
+    /**
+     * @return Erstellung_Model_Element[]
      */
     public function getAllElements (): array
     {
@@ -213,7 +128,10 @@ class Application_Model_Mapper_ErstellungMapper
         }
         $return = [];
         foreach ($result as $row) {
-            $model = new Application_Model_Element();
+            if (!in_array($row->elementId, [4,5,6,9])) {
+                continue;
+            }
+            $model = new Erstellung_Model_Element();
             $model->setId($row->elementId);
             $model->setBezeichnung($row->name);
             $model->setBeschreibung($row->beschreibung);
@@ -223,24 +141,24 @@ class Application_Model_Mapper_ErstellungMapper
         return $return;
     }
 
+    /**
+     * @return Erstellung_Model_Odo[]
+     * @throws Exception
+     */
     public function getAllOdo ()
     {
+        $return = [];
         $select = $this->getDbTable('Odo')->select();
         $result = $this->getDbTable('Odo')->fetchAll($select);
-        if ($result->count() > 0) {
-            $return = [];
-            foreach ($result as $row) {
-                $model = new Application_Model_Odo();
-                $model->setId($row->odoId);
-                $model->setKategorie($row->kategorie);
-                $model->setAmount($row->menge);
-                $model->setKosten($row->kosten);
-                $return[] = $model;
-            }
-            return $return;
-        } else {
-            return null;
+        foreach ($result as $row) {
+            $model = new Erstellung_Model_Odo();
+            $model->setId($row->odoId);
+            $model->setKategorie($row->kategorie);
+            $model->setAmount($row->menge);
+            $model->setKosten($row->kosten);
+            $return[] = $model;
         }
+        return $return;
     }
 
     /**
