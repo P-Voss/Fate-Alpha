@@ -94,14 +94,15 @@ class Erstellung_Service_Information
 
     /**
      * @return array
+     * @throws Exception
      */
     public function getCreationParams ()
     {
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
+        $mapper = new Erstellung_Model_Mapper_AttributeMapper();
         $creationParamContainer = [];
         $creationParamContainer['odo'] = $mapper->getAllOdo();
         $creationParamContainer['circuits'] = $mapper->getAllCircuits();
-        $creationParamContainer['elemente'] = $mapper->getAllElements();
+        $creationParamContainer['elements'] = $mapper->getAllElements();
         $creationParamContainer['luck'] = $mapper->getAllLuckvalues();
         return $creationParamContainer;
     }

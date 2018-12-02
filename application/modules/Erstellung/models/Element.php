@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Erstellung_Model_Klasse
+ * Description of Element
  *
  * @author Vosser
  */
-class Erstellung_Model_Klasse extends Application_Model_Klassengruppe implements JsonSerializable {
+class Erstellung_Model_Element extends Application_Model_Element implements JsonSerializable {
 
     /**
      * @return array
@@ -16,8 +16,9 @@ class Erstellung_Model_Klasse extends Application_Model_Klassengruppe implements
             'id' => $this->id,
             'bezeichnung' => $this->bezeichnung,
             'beschreibung' => $this->beschreibung,
+            'charakterisierung' => $this->charakterisierung,
+            'kosten' => $this->kosten,
         ];
     }
-
 
 }
