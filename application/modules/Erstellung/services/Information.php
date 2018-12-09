@@ -113,12 +113,12 @@ class Erstellung_Service_Information
      */
     public function getTraits (): array
     {
-        $mapper = new Application_Model_Mapper_TraitMapper();
+        $mapper = new Erstellung_Model_Mapper_TraitMapper();
         $traits = $mapper->getAllTraits();
         foreach ($traits as $trait) {
             $trait->setIncompatibleTraits($mapper->getIncompatibleTraits($trait->getTraitId()));
         }
-        return $mapper->getAllTraits();
+        return $traits;
     }
 
     /**

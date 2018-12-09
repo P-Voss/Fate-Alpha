@@ -10,19 +10,22 @@ class Erstellung_Model_Mapper_KlassenMapper extends Application_Model_Mapper_Kla
         $returnArray = array();
         $select = parent::getDbTable('Klassengruppe')->select();
         $result = parent::getDbTable('Klassengruppe')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $klasse = new Erstellung_Model_Klasse();
-                $klasse->setId($row->klassengruppenId);
-                $klasse->setBezeichnung($row->name);
-                $klasse->setBeschreibung($row->beschreibung);
-                $returnArray[] = $klasse;
-            }
+        foreach ($result as $row){
+            $klasse = new Erstellung_Model_Klasse();
+            $klasse->setId($row->klassengruppenId);
+            $klasse->setBezeichnung($row->name);
+            $klasse->setBeschreibung($row->beschreibung);
+            $returnArray[] = $klasse;
         }
         return $returnArray;
     }
-    
-    
+
+    /**
+     * @param $klassengruppenId
+     *
+     * @return bool|Erstellung_Model_Klasse
+     * @throws Exception
+     */
     public function getKlassengruppeById($klassengruppenId) {
         $select = parent::getDbTable('Klassengruppe')->select();
         $select->where('klassengruppenId = ?', $klassengruppenId);

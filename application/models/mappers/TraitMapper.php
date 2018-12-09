@@ -80,15 +80,15 @@ class Application_Model_Mapper_TraitMapper
         $incompatibleTraits = [];
         $select = $this->getDbTable('TraitInc')->select();
         $select->setIntegrityCheck(false)
-            ->from('traitIncompatibilities', [])
-            ->joinInner('traits', 'traits.traitId = traitIncompatibilities.traitId', ['traitId', 'name'])
-            ->where('traitId = ?', $traitId);
+            ->from('traitIncompatibilities', ['inkTraitId'])
+            ->joinInner('traits', 'traits.traitId = traitIncompatibilities.inkTraitId', ['name'])
+            ->where('traitIncompatibilities.traitId = ?', $traitId);
 
         $result = $this->getDbTable('TraitInc')->fetchAll($select);
         foreach ($result as $row) {
             $trait = new Application_Model_Trait();
             $trait->setName($row->name)
-                ->setTraitId($row->traitId);
+                ->setTraitId($row->inkTraitId);
             $incompatibleTraits[] = $trait;
         }
         return $incompatibleTraits;
