@@ -3,6 +3,9 @@
 class LoginController extends Zend_Controller_Action
 {
 
+    /**
+     * @var Application_Service_Login
+     */
     protected $service;
 
 
@@ -47,18 +50,20 @@ class LoginController extends Zend_Controller_Action
     public function newpwAction() {
         $this->_helper->viewRenderer->setnorender(true);
         $this->_helper->layout()->disableLayout();
-        $userId = $this->service->getUserIdByUsernameAndEmail($this->getRequest()->getPost('loginname'), $this->getRequest()->getPost('email'));
-        if ($userId !== false) {
-            $password = $this->service->resetPassword($userId);
-            if ($password !== false) {
+        try {
+            $userId = $this->service->getUserIdByUsernameAndEmail($this->getRequest()->getPost('loginname'), $this->getRequest()->getPost('email'));
+            try {
+                $password = $this->service->resetPassword($userId);
                 $this->service->sendPassword($this->getRequest()->getPost('email'), $password);
                 $this->initFlashMessage("Eine Email mit dem neuen Passwort wurde verschickt.");
+                $this->redirect('index');
+            } catch (Exception $exception) {
+                $this->initFlashMessage("Es trat ein Fehler beim Versenden des neuen Passworts auf.");
+                $this->redirect('index');
             }
-            $this->initFlashMessage("Das Passwort konnte nicht neu gesetzt werden. Frag am besten mal einen Admin im Chat oder im Forum.");
-            $this->redirect('index');
-        } else {
+        } catch (Exception $exception) {
             $this->initFlashMessage("Zu dieser Email und dem Usernamen gibt es keinen Account");
-            $this->redirect('login/passwort');
+            $this->redirect('index');
         }
     }
     

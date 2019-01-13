@@ -55,14 +55,17 @@ class Application_Service_Login{
     public function getUserIdByUsernameAndEmail($username, $email) {
         return $this->mapper->usernameAndEmailExists($username, $email);
     }
-    
-    
+
+    /**
+     * @param $userId
+     *
+     * @return string
+     * @throws Exception
+     */
     public function resetPassword($userId) {
        $newPassword = $this->createPassword();
-       if ($this->mapper->changePassword($userId, $newPassword)) {
-           return $newPassword;
-       }
-       return false;
+        $this->mapper->changePassword($userId, $newPassword);
+       return $newPassword;
     }
     
     /**
@@ -80,6 +83,16 @@ class Application_Service_Login{
     }
     
     public function sendPassword($email, $password) {
+        /**
+         * @var $config Zend_Config_Ini
+         */
+        $config = Zend_Registry::get('zendconf');
+        $mailTransport = new Zend_Mail_Transport_Smtp($config->mail->url, array(
+            'auth'     => 'login',
+            'username' => $config->mail->username,
+            'password' => $config->mail->password,
+            'port'     => $config->mail->port,
+        ));
         $txt = <<<MAIL
 Hallo,
 dein neues Passwort lautet: {$password}
@@ -89,7 +102,7 @@ MAIL;
         $mail->addTo($email);
         $mail->setSubject('Neues Passwort');
         $mail->setBodyText($txt);
-        $mail->send();
+        $mail->send($mailTransport);
     }
     
 }

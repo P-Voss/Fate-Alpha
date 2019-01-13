@@ -353,8 +353,12 @@ class Application_Model_Mapper_UserMapper
         $select = $this->getDbTable('User')->select();
         $select->where('username = ?', $username);
         $select->where('mail = ? AND active = 1', $email);
-        $result = $this->getDbTable('User')->fetchRow($select);
-        return $result === null ? false : $result['userId'];
+        $row = $this->getDbTable('User')->fetchRow($select);
+        if ($row !== null) {
+            return $row['userId'];
+        } else {
+            throw new Exception('Username und Email Kombination existieren nicht.');
+        }
     }
 
 
