@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Vorteil
+ * Description of Erstellung_Model_Requirements_Validators_Trait
  *
  * @author Voß
  */
-class Erstellung_Model_Requirements_Validators_Vorteil implements Erstellung_Model_Requirements_ValidationInterface {
+class Erstellung_Model_Requirements_Validators_Trait implements Erstellung_Model_Requirements_ValidationInterface {
     
     /**
      * @param Erstellung_Model_Charakter $charakter
@@ -15,8 +15,8 @@ class Erstellung_Model_Requirements_Validators_Vorteil implements Erstellung_Mod
     public function check(Erstellung_Model_Charakter $charakter, $value) {
         $values = explode('OR', $value);
         foreach ($values as $value){
-            foreach ($charakter->getVorteile() as $vorteil){
-                if($vorteil->getId() == $value){
+            foreach ($charakter->getTraits() as $trait){
+                if($trait->getTraitId() == $value){
                     return true;
                 }
             }
