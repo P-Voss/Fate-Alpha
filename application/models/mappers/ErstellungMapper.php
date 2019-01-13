@@ -28,19 +28,20 @@ class Application_Model_Mapper_ErstellungMapper
     }
 
     /**
-     * @return Application_Model_Klasse[]
+     * @param $classId
+     * @return Erstellung_Model_Unterklasse[]
      */
-    public function getAllClasses (): array
+    public function getSubclasses($classId): array
     {
         try {
-            $select = $this->getDbTable('Klasse')->select();
+            $select = $this->getDbTable('Klasse')->select()->where('klassengruppenId = ?', $classId);
             $result = $this->getDbTable('Klasse')->fetchAll($select);
         } catch (Exception $exception) {
             return [];
         }
         $return = [];
         foreach ($result as $row) {
-            $model = new Application_Model_Klasse();
+            $model = new Erstellung_Model_Unterklasse();
             $model->setId($row->klassenId);
             $model->setBezeichnung($row->klasse);
             $model->setBeschreibung($row->beschreibung);

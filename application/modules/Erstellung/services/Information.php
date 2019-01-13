@@ -39,13 +39,24 @@ class Erstellung_Service_Information
     }
 
     /**
+     * @param Application_Model_Charakter $charakter
+     *
      * @return array
      * @throws Exception
      */
-    public function getUnterklassen ()
+    public function getSubclassesByCharacter(Application_Model_Charakter $charakter)
     {
+        $requirementValidator = new Erstellung_Service_Requirement($charakter);
         $mapper = new Application_Model_Mapper_ErstellungMapper();
-        return $unterklassen = $mapper->getAllClasses();
+        $unterklassenToValidate = $mapper->getSubclasses($charakter->getKlassengruppe()->getId());
+        $unterklassen = [];
+        foreach ($unterklassenToValidate as $unterklasse) {
+            $unterklasse->setRequirementList($mapper->getUnterklassenRequirements($unterklasse->getId()));
+            if ($requirementValidator->validate($unterklasse->getRequirementList())) {
+                $unterklassen[] = $unterklasse;
+            }
+        }
+        return $unterklassen;
     }
 
     /**
