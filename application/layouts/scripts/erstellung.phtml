@@ -16,6 +16,7 @@ $layoutData = $this->layoutData;
     <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->baseUrl() ?>/js/jquery-ui-1.11.2/themes/cupertino/jquery-ui.css" />
     <?= $this->headLink() ?>
     <?= $this->headScript() ?>
+    <link href="<?= $this->autoVersion($this->baseUrl() . 'js/custom/charaktererstellung/build/static/css/main.b85edb81.chunk') ?>" rel="stylesheet">
 </head>
 <body>
 <div id="header">
@@ -23,54 +24,7 @@ $layoutData = $this->layoutData;
 
     </div>
 </div>
-<div id="seitenbereich1">
-    <div id="beschreibungRechts">
-        <p>
-            Verfügbare Erstellungspunkte <span id="Erstellungspunkte"></span>
-        </p>
-        <hr/>
-        <p id="Beschreibung">
-
-        </p>
-    </div>
-    <div id="beschreibungLinks">
-        <p id="namen">
-                <span id="Vorname">
-
-                </span>
-            <span id="Nachname">
-
-                </span>
-            <span id="Geschlecht">
-
-                </span>
-        </p>
-        <p>
-                <span id="Geburtsdatum">
-
-                </span>
-        </p>
-        <p>
-                <span id="Augenfarbe">
-
-                </span>
-        </p>
-        <p>
-                <span id="Körpergröße">
-
-                </span>
-        </p>
-        <p>
-                <span id="Sexualität">
-
-                </span>
-        </p>
-        <p>
-                <span id="Wohnort">
-
-                </span>
-        </p>
-    </div>
+    <div id="seitenbereich1">
     <div id="seitenbereich2">
         <div id="steuerung">
             <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
