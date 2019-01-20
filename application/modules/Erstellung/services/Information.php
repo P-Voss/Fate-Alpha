@@ -8,43 +8,23 @@
 class Erstellung_Service_Information
 {
 
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function getKlassen ()
     {
         $mapper = new Erstellung_Model_Mapper_KlassenMapper();
         return $mapper->getKlassengruppen();
     }
 
-
-    public function getFamiliennamen ()
-    {
-        $mapper = new Erstellung_Model_Mapper_KlassenMapper();
-        return $mapper->getFamiliennamen();
-    }
-
-
-    public function getKlasse ($id)
-    {
-        $mapper = new Erstellung_Model_Mapper_KlassenMapper();
-        $klasse = $mapper->getKlassengruppeById($id);
-        if ($klasse !== false) {
-            $returnArray = [
-                'success' => true,
-                'klasse' => $klasse->getBezeichnung(),
-                'beschreibung' => $klasse->getBeschreibung(),
-            ];
-        } else {
-            $returnArray = ['success' => false];
-        }
-        return $returnArray;
-    }
-
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param Erstellung_Model_Character $charakter
      *
      * @return array
      * @throws Exception
      */
-    public function getSubclassesByCharacter(Application_Model_Charakter $charakter)
+    public function getSubclassesByCharacter(Erstellung_Model_Character $charakter)
     {
         $requirementValidator = new Erstellung_Service_Requirement($charakter);
         $mapper = new Application_Model_Mapper_ErstellungMapper();
@@ -59,49 +39,6 @@ class Erstellung_Service_Information
         return $unterklassen;
     }
 
-    /**
-     * @param Erstellung_Model_Charakter $charakter
-     *
-     * @return Erstellung_Model_Unterklasse[]
-     * @throws Exception
-     */
-    public function getUnterklassenByCharakter (Erstellung_Model_Charakter $charakter): array
-    {
-        $requirementValidator = new Erstellung_Service_Requirement($charakter);
-        $mapper = new Application_Model_Mapper_ErstellungMapper();
-        $unterklassenToValidate = $mapper->getUnterklassenForCharakter($charakter);
-        $unterklassen = [];
-        foreach ($unterklassenToValidate as $unterklasse) {
-            $unterklasse->setRequirementList($mapper->getUnterklassenRequirements($unterklasse->getId()));
-            if ($requirementValidator->validate($unterklasse->getRequirementList())) {
-                $unterklassen[] = $unterklasse;
-            }
-        }
-        return $unterklassen;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getUnterklasse ($id)
-    {
-        $mapper = new Erstellung_Model_Mapper_KlassenMapper();
-        $klasse = $mapper->getKlasseById($id);
-        if ($klasse !== false) {
-            $returnArray = [
-                'success' => true,
-                'klasse' => $klasse->getBezeichnung(),
-                'beschreibung' => $klasse->getBeschreibung(),
-                'points' => $klasse->getKosten(),
-            ];
-        } else {
-            $returnArray = ['success' => false];
-        }
-        return $returnArray;
-    }
 
     /**
      * @return array
@@ -130,64 +67,6 @@ class Erstellung_Service_Information
             $trait->setIncompatibleTraits($mapper->getIncompatibleTraits($trait->getTraitId()));
         }
         return $traits;
-    }
-
-    /**
-     * @param $traitId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getTraitDetails (int $traitId): array
-    {
-        $mapper = new Application_Model_Mapper_TraitMapper();
-        $trait = $mapper->getTraitById($traitId);
-        return [
-            'points' => $trait->getKosten(),
-            'beschreibung' => $trait->getBeschreibung(),
-        ];
-    }
-
-    /**
-     * @param Erstellung_Model_Charakter $charakter
-     *
-     * @return bool
-     */
-    public function hasCircuit (Erstellung_Model_Charakter $charakter)
-    {
-        $mapper = new Erstellung_Model_Mapper_CharakterMapper();
-        $klassenId = $mapper->getKlasse($charakter);
-        return $klassenId === 1;
-    }
-
-
-    public function getOdo ($id)
-    {
-        $mapper = new Application_Model_Mapper_OdoMapper();
-        return [
-            'points' => $mapper->getPunkte($id),
-            'beschreibung' => $mapper->getBeschreibung($id),
-        ];
-    }
-
-
-    public function getCircuit ($id)
-    {
-        $mapper = new Application_Model_Mapper_CircuitMapper();
-        return [
-            'points' => $mapper->getPunkte($id),
-            'beschreibung' => $mapper->getBeschreibung($id),
-        ];
-    }
-
-
-    public function getLuck ($id)
-    {
-        $mapper = new Application_Model_Mapper_LuckMapper();
-        return [
-            'points' => $mapper->getPunkte($id),
-            'beschreibung' => $mapper->getBeschreibung($id),
-        ];
     }
 
 }

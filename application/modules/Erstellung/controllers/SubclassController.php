@@ -17,10 +17,15 @@ class Erstellung_SubclassController extends Zend_Controller_Action
         header('Access-Control-Allow-Methods: POST, OPTIONS');
         header('Access-Control-Allow-Headers:  Content-Type');
         header('X-Frame-Options ALLOW-FROM uri');
-//        $auth = Zend_Auth::getInstance()->getIdentity();
-//        if($auth === null){
-//            $this->redirect('index');
-//        }
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        if($auth === null){
+            $this->redirect('index');
+        }
+        $this->layoutService = new Application_Service_Layout();
+        $layoutData = $this->layoutService->getLayoutData($auth);
+        if ($layoutData->getHasChara()) {
+            $this->redirect('index');
+        }
         $this->informationService = new Erstellung_Service_Information();
     }
 
@@ -31,7 +36,7 @@ class Erstellung_SubclassController extends Zend_Controller_Action
         $layout = $this->_helper->layout();
         $layout->disableLayout();
 
-        $character = new Erstellung_Model_Charakter();
+        $character = new Erstellung_Model_Character();
         $character->setTraits(
             array_map(function($traitId) {
                 $trait = new Application_Model_Trait();

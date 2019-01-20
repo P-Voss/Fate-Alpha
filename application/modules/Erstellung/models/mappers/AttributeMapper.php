@@ -57,5 +57,69 @@ class Erstellung_Model_Mapper_AttributeMapper extends Application_Model_Mapper_E
         }
         return $returnArray;
     }
-    
+
+    /**
+     * @param $id
+     *
+     * @return Erstellung_Model_Circuit
+     * @throws Exception
+     */
+    public function getCircuit ($id)
+    {
+        $row = $this->getDbTable('Circuit')->fetchRow(
+            $this->getDbTable('Circuit')->select()->where('circuitId = ?', $id)
+        );
+        if ($row === null) {
+            throw new Exception('cant find circuit');
+        }
+        $circuit = new Erstellung_Model_Circuit();
+        $circuit->setId($row->circuitId);
+        $circuit->setKosten($row->kosten);
+        $circuit->setKategorie($row->kategorie);
+        return $circuit;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Erstellung_Model_Odo
+     * @throws Exception
+     */
+    public function getOdo ($id)
+    {
+        $row = $this->getDbTable('Odo')->fetchRow(
+            $this->getDbTable('Odo')->select()->where('odoId = ?', $id)
+        );
+        if ($row === null) {
+            throw new Exception('cant find odo');
+        }
+        $odo = new Erstellung_Model_Odo();
+        $odo->setId($row->odoId);
+        $odo->setKosten($row->kosten);
+        $odo->setKategorie($row->kategorie);
+        return $odo;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Erstellung_Model_Luck
+     * @throws Exception
+     */
+    public function getLuck ($id)
+    {
+        $row = $this->getDbTable('Luck')->fetchRow(
+            $this->getDbTable('Luck')->select()->where('luckId = ?', $id)
+        );
+        if ($row === null) {
+            throw new Exception('cant find luck');
+        }
+        $luck = new Erstellung_Model_Luck();
+        $luck->setId($row->luckId);
+        $luck->setBeschreibung($row->beschreibung);
+        $luck->setKosten($row->kosten);
+        $luck->setKategorie($row->kategorie);
+        return $luck;
+    }
+
 }

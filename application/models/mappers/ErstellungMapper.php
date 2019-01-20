@@ -47,6 +47,7 @@ class Application_Model_Mapper_ErstellungMapper
             $model->setBeschreibung($row->beschreibung);
             $model->setKosten($row->kosten);
             $model->setGruppe($row->klassengruppenId);
+            $model->setFamilienname($row->familienname);
             $return[] = $model;
         }
         return $return;

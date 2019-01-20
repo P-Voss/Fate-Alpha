@@ -10,7 +10,7 @@ class Erstellung_Service_Charakter extends Application_Service_Charakter {
     /**
      * @param $userId
      *
-     * @return bool|Erstellung_Model_Charakter
+     * @return bool|Erstellung_Model_Character
      * @throws Exception
      */
     public function getInactiveCharakterByUserId($userId) {
