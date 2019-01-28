@@ -77,6 +77,32 @@ class Application_Model_Mapper_ErstellungMapper
     }
 
     /**
+     * @return Erstellung_Model_Unterklasse[]
+     */
+    public function getAllSubclasses ()
+    {
+        try {
+            $result = $this->getDbTable('Klasse')->fetchAll(
+                $this->getDbTable('Klasse')->select()
+            );
+        } catch (Exception $exception) {
+            return [];
+        }
+        $return = [];
+        foreach ($result as $row) {
+            $model = new Erstellung_Model_Unterklasse();
+            $model->setId($row->klassenId);
+            $model->setBezeichnung($row->klasse);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setKosten($row->kosten);
+            $model->setGruppe($row->klassengruppenId);
+            $model->setFamilienname($row->familienname);
+            $return[] = $model;
+        }
+        return $return;
+    }
+
+    /**
      * @return Erstellung_Model_Circuit[]
      * @throws Exception
      */

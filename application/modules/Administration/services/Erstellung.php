@@ -11,33 +11,50 @@ class Administration_Service_Erstellung {
      * @var Administration_Model_Mapper_ErstellungMapper
      */
     private $erstellungMapper;
-    
+
+    /**
+     * Administration_Service_Erstellung constructor.
+     */
     public function __construct() {
         $this->erstellungMapper = new Administration_Model_Mapper_ErstellungMapper();
     }
-    
-    public function getNachteilList() {
-        return $this->erstellungMapper->getNachteile();
-    }
-    
-    public function getVorteilList() {
-        return $this->erstellungMapper->getVorteile();
-    }
-    
+
+    /**
+     * @return Application_Model_Klasse[]
+     */
     public function getKlassenList() {
-        return $this->erstellungMapper->getAllClasses();
+        return $this->erstellungMapper->getKlassen();
     }
-    
+
+    /**
+     * @return array|null
+     * @throws Exception
+     */
     public function getKlassengruppenList() {
         return $this->erstellungMapper->getAllClassgroups();
     }
-    
+
+    /**
+     * @return array|Erstellung_Model_Element[]
+     */
     public function getElementList() {
         return $this->erstellungMapper->getAllElements();
     }
-    
+
+    /**
+     * @return Erstellung_Model_Circuit[]
+     * @throws Exception
+     */
     public function getCircuitList() {
         return $this->erstellungMapper->getAllCircuits();
     }
-    
+
+    /**
+     * @return Erstellung_Model_Trait[]
+     */
+    public function getTraits ()
+    {
+        $mapper = new Erstellung_Model_Mapper_TraitMapper();
+        return $mapper->getAllTraits();
+    }
 }

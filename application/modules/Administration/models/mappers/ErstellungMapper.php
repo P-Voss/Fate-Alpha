@@ -12,7 +12,7 @@ class Administration_Model_Mapper_ErstellungMapper extends Application_Model_Map
      * @return Application_Model_Klasse[]
      */
     public function getKlassen() {
-        return parent::getAllClasses();
+        return parent::getAllSubclasses();
     }
 
     /**

@@ -30,24 +30,14 @@ $klasse = $this->klasse;
             <input type="text" size="30" name="familienname" value="<?= $klasse->getFamilienname() ?>" />
         </p>
         <p>
-            <label for="nachteile">
-                Nicht kombinierbar mit den Nachteilen:
+            <label for="traits">
+                Nicht kombinierbar mit den Traits:
             </label>
-            <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteilOption) { ?>
-                <option value="<?= $nachteilOption->getId() ?>">
-                    <?= $nachteilOption->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-            <label for="vorteile">
-                Nicht kombinierbar mit den Vorteilen:
-            </label>
-            <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteilOption) { ?>
-                <option value="<?= $vorteilOption->getId() ?>">
-                    <?= $vorteilOption->getBezeichnung() ?>
-                </option>
+            <select name="traits[]" multiple="true" size="8">
+                <?php foreach ($this->traits as $trait) { ?>
+                    <option value="<?= $trait->getTraitId() ?>">
+                        <?= $trait->getName() ?>
+                    </option>
                 <?php } ?>
             </select>
         </p>

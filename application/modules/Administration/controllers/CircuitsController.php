@@ -17,6 +17,8 @@ class Administration_CircuitsController extends Zend_Controller_Action {
         if(!$this->_helper->admincheck()){
             $this->redirect('index');
         }
+        $layout = $this->_helper->layout();
+        $layout->setLayout('admin');
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->service = new Administration_Service_Circuit();
