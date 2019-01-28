@@ -21,27 +21,44 @@ class Administration_Service_Logs extends Logs_Service_Log {
     private $mapper;
     
     private $charakterMapper;
-    
-    
+
+
+    /**
+     * Administration_Service_Logs constructor.
+     */
     public function __construct() {
         parent::__construct();
         $this->mapper = new Administration_Model_Mapper_LogsMapper();
         $this->charakterMapper = new Application_Model_Mapper_CharakterMapper();
     }
-    
-    
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function getEpisodesToReview() {
         return $this->mapper->getEpisodesToReview();
     }
-    
-    
+
+
+    /**
+     * @param $episodeId
+     *
+     * @return Administration_Model_Episode
+     * @throws Exception
+     */
     public function getEpisode($episodeId) {
         $episode = $this->mapper->getEpisodeToReview($episodeId);
         $episode->setAuswertungen($this->mapper->getLogreaderResults($episodeId));
         return $episode;
     }
-    
-    
+
+
+    /**
+     * @param $episodeId
+     * @param Zend_Controller_Request_Http $request
+     */
     public function rejectEpisode($episodeId, Zend_Controller_Request_Http $request) {
         $auswertung = new Administration_Model_Auswertung();
         $auswertung->setUserId(Zend_Auth::getInstance()->getIdentity()->userId);
@@ -49,8 +66,13 @@ class Administration_Service_Logs extends Logs_Service_Log {
         $this->mapper->insertRejection($episodeId, $auswertung);
         $this->mapper->updateStatus($episodeId, self::EPISODE_REJECTED_STATUS);
     }
-    
-    
+
+
+    /**
+     * @param $episodeId
+     *
+     * @throws Exception
+     */
     public function acceptEpisode($episodeId) {
         $mapper = new Story_Model_Mapper_EpisodeMapper();
         $skillMapper = new Shop_Model_Mapper_SkillMapper();
@@ -92,7 +114,7 @@ class Administration_Service_Logs extends Logs_Service_Log {
     private function killCharakter($charakterId) {
         $charakterService = new Application_Service_Charakter();
         $charakter = $charakterService->getCharakterById($charakterId);
-        switch ($this->getActionOnDeath($charakter->getVorteile())) {
+        switch ($this->getActionOnDeath($charakter->getTraits())) {
             case self::SCND_LIFE_NONE:
                 $this->charakterMapper->deactivateCharakter($charakterId);
                 break;
@@ -109,18 +131,18 @@ class Administration_Service_Logs extends Logs_Service_Log {
     }
 
     /**
-     * @param Application_Model_Vorteil[] $vorteile
+     * @param Application_Model_Trait[] $traits
      *
      * @return int
      */
-    private function getActionOnDeath(array $vorteile) {
-        foreach ($vorteile as $vorteil) {
-            if ($vorteil->getId() === self::SCND_LIFE_UNDEAD) {
+    private function getActionOnDeath(array $traits) {
+        foreach ($traits as $trait) {
+            if ($trait->getTraitId() === self::SCND_LIFE_UNDEAD) {
                 return self::SCND_LIFE_UNDEAD;
             }
         }
-        foreach ($vorteile as $vorteil) {
-            if ($vorteil->getId() === self::SCND_LIFE_SCHICKSAL) {
+        foreach ($traits as $trait) {
+            if ($trait->getTraitId() === self::SCND_LIFE_SCHICKSAL) {
                 return self::SCND_LIFE_SCHICKSAL;
             }
         }
@@ -132,7 +154,7 @@ class Administration_Service_Logs extends Logs_Service_Log {
      * @throws Exception
      */
     private function setCharakterUndead(Application_Model_Charakter $charakter) {
-        $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_UNDEAD);
+        $this->charakterMapper->removeTrait($charakter->getCharakterid(), self::SCND_LIFE_UNDEAD);
         $this->charakterMapper->setUndead($charakter->getCharakterid());
     }
 
@@ -141,7 +163,7 @@ class Administration_Service_Logs extends Logs_Service_Log {
      * @throws Exception
      */
     private function setCharakterSecondChance(Application_Model_Charakter $charakter) {
-        $this->charakterMapper->removeVorteil($charakter->getCharakterid(), self::SCND_LIFE_SCHICKSAL);
+        $this->charakterMapper->removeTrait($charakter->getCharakterid(), self::SCND_LIFE_SCHICKSAL);
     }
     
 }
