@@ -109,7 +109,7 @@ class Application_Model_Mapper_CharakterMapper
      * @return int
      * @throws Exception
      */
-    public function addCharacterTrait($traitId, $characterId)
+    public function addCharacterTrait ($traitId, $characterId)
     {
         $data = [
             'characterId' => $characterId,
@@ -1210,17 +1210,17 @@ SQL;
 
     /**
      * @param $charakterId
-     * @param $vorteilId
+     * @param $traitId
      *
      * @throws Exception
      */
-    public function removeVorteil ($charakterId, $vorteilId)
+    public function removeTrait ($charakterId, $traitId)
     {
-        $this->getDbTable('CharakterVorteil')
+        $this->getDbTable('CharakterTrait')
             ->delete(
                 [
                     'charakterId = ?' => $charakterId,
-                    'vorteilId = ?' => $vorteilId,
+                    'traitId = ?' => $traitId,
                 ]
             );
     }
@@ -1237,7 +1237,7 @@ SQL;
         $select->setIntegrityCheck(false)
             ->from(['user' => 'benutzerdaten'], [])
             ->joinInner('charakter', 'charakter.userId = user.userId', ['charakter.charakterId'])
-            ->where('user.accessKey = ?', $accessKey);
+            ->where('user.accessKey = ? AND charakter.active = 1', $accessKey);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if ($row !== null) {
             return $row->charakterId;

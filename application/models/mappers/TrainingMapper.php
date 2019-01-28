@@ -158,11 +158,8 @@ class Application_Model_Mapper_TrainingMapper
     public function getTrainingMods (Application_Model_Charakter $charakter)
     {
         $changesContainer = [];
-        foreach ($charakter->getVorteile() as $vorteil) {
-            $changesContainer = array_merge($changesContainer, $this->checkVorteil($vorteil->getId()));
-        }
-        foreach ($charakter->getNachteile() as $nachteil) {
-            $changesContainer = array_merge($changesContainer, $this->checkNachteil($nachteil->getId()));
+        foreach ($charakter->getTraits() as $trait) {
+            $changesContainer = array_merge($changesContainer, $this->checkTrait($trait->getTraitId()));
         }
         if ($charakter->getKlasse() !== null) {
             $changesContainer = array_merge($changesContainer, $this->checkKlasse($charakter->getKlasse()->getId()));
@@ -304,48 +301,25 @@ class Application_Model_Mapper_TrainingMapper
         return $this->getDbTable('Training')->update($data, ['charakterId = ?' => $charakterId]);
     }
 
-
     /**
-     * @param $vorteilId
+     * @param $traitId
      *
      * @return array
      * @throws Exception
      */
-    protected function checkVorteil ($vorteilId)
+    protected function checkTrait ($traitId)
     {
         $return = [];
-        $select = $this->getDbTable('TrainingVorteil')->select();
+        $select = $this->getDbTable('TraitTraining')->select();
         $select->setIntegrityCheck(false);
-        $select->from('vorteilToTraining');
-        $select->where('vorteilId = ?', $vorteilId);
-        $result = $this->getDbTable('TrainingVorteil')->fetchAll($select);
+        $select->from('traitToTraining');
+        $select->where('traitId = ?', $traitId);
+        $result = $this->getDbTable('TraitTraining')->fetchAll($select);
         foreach ($result as $row) {
-            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
+            $return[] = new Application_Model_Training_Mods($row->attribute, $row->value);
         }
         return $return;
     }
-
-
-    /**
-     * @param $nachteilId
-     *
-     * @return array
-     * @throws Exception
-     */
-    protected function checkNachteil ($nachteilId)
-    {
-        $return = [];
-        $select = $this->getDbTable('TrainingNachteil')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('nachteilToTraining');
-        $select->where('nachteilId = ?', $nachteilId);
-        $result = $this->getDbTable('TrainingNachteil')->fetchAll($select);
-        foreach ($result as $row) {
-            $return[] = new Application_Model_Training_Mods($row->wert, $row->effekt);
-        }
-        return $return;
-    }
-
 
     /**
      * @param $klassenId
