@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Vorteil
+ * Description of Shop_Model_Requirements_Validators_Trait
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Validators_Vorteil implements Shop_Model_Requirements_ValidationInterface
+class Shop_Model_Requirements_Validators_Trait implements Shop_Model_Requirements_ValidationInterface
 {
 
     /**
@@ -18,8 +18,8 @@ class Shop_Model_Requirements_Validators_Vorteil implements Shop_Model_Requireme
     {
         $values = explode(':', $value);
         foreach ($values as $value) {
-            foreach ($charakter->getVorteile() as $vorteil) {
-                if ($vorteil->getId() == $value) {
+            foreach ($charakter->getTraits() as $trait) {
+                if ($trait->getTraitId() == $value) {
                     return true;
                 }
             }

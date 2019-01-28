@@ -264,22 +264,6 @@ class Application_Model_Charakter
     }
 
     /**
-     * @return Application_Model_Vorteil[]
-     */
-    public function getVorteile ()
-    {
-        return $this->vorteile;
-    }
-
-    /**
-     * @return Application_Model_Nachteil[]
-     */
-    public function getNachteile ()
-    {
-        return $this->nachteile;
-    }
-
-    /**
      * @return Application_Model_Element[]
      */
     public function getElemente ()
