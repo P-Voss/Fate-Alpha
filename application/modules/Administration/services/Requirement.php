@@ -1,25 +1,29 @@
 <?php
+
 /**
  * Description of Requirement
  *
  * @author Voß
  */
-class Administration_Service_Requirement {
-    
+class Administration_Service_Requirement
+{
+
     /**
      * @param array $requirements
+     *
      * @return \Administration_Model_Requirementlist
      */
-    public function createRequirementListFromArray(array $requirements){
+    public function createRequirementListFromArray (array $requirements)
+    {
         $requirementList = new Administration_Model_Requirementlist();
-        foreach ($requirements as $validator => $value){
-            if($value === null){
+        foreach ($requirements as $validator => $value) {
+            if ($value === null) {
                 continue;
             }
             $requirement = new Administration_Model_Requirement();
-            if(is_array($value)){
-                    $requirement->setRequiredValue(implode(':', $value));
-            }else{
+            if (is_array($value)) {
+                $requirement->setRequiredValue(implode(':', $value));
+            } else {
                 $requirement->setRequiredValue($value);
             }
             $requirement->setArt($validator);
@@ -27,71 +31,76 @@ class Administration_Service_Requirement {
         }
         return $requirementList;
     }
-    
-    
-    public function getRequirementListSkill($skillId) {
+
+    /**
+     * @param $skillId
+     *
+     * @return Administration_Model_Requirementlist
+     * @throws Exception
+     */
+    public function getRequirementListSkill ($skillId)
+    {
         $mapper = new Administration_Model_Mapper_SkillMapper();
         return $mapper->getRequirementsSkill($skillId);
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return array
      */
-    public function buildRequirementArray(Zend_Controller_Request_Http $request) {
-        $requirements = array();
-        if($request->getParam('uebung', 0) > 0){
+    public function buildRequirementArray (Zend_Controller_Request_Http $request)
+    {
+        $requirements = [];
+        if ($request->getParam('uebung', 0) > 0) {
             $requirements['Uebung'] = $request->getParam('uebung');
         }
-        if($request->getParam('disziplin', 0) > 0){
+        if ($request->getParam('disziplin', 0) > 0) {
             $requirements['Disziplin'] = $request->getParam('disziplin');
         }
-        if($request->getParam('staerke', 0) > 0){
+        if ($request->getParam('staerke', 0) > 0) {
             $requirements['Staerke'] = $request->getParam('staerke');
         }
-        if($request->getParam('agilitaet', 0) > 0){
+        if ($request->getParam('agilitaet', 0) > 0) {
             $requirements['Agilitaet'] = $request->getParam('agilitaet');
         }
-        if($request->getParam('ausdauer', 0) > 0){
+        if ($request->getParam('ausdauer', 0) > 0) {
             $requirements['Ausdauer'] = $request->getParam('ausdauer');
         }
-        if($request->getParam('kontrolle', 0) > 0){
+        if ($request->getParam('kontrolle', 0) > 0) {
             $requirements['Kontrolle'] = $request->getParam('kontrolle');
         }
-        if($request->getParam('skills') !== null){
+        if ($request->getParam('skills') !== null) {
             $requirements['Faehigkeit'] = $request->getParam('skills');
         }
-        if($request->getParam('skillsAny') !== null){
+        if ($request->getParam('skillsAny') !== null) {
             $requirements['FaehigkeitAny'] = implode('|', $request->getParam('skillsAny'));
         }
-        if($request->getParam('skillsIncompatible') !== null){
+        if ($request->getParam('skillsIncompatible') !== null) {
             $requirements['FaehigkeitInc'] = implode('|', $request->getParam('skillsIncompatible'));
         }
-        if($request->getParam('nachteilIncompatible') !== null){
-            $requirements['NachteilInc'] = implode('|', $request->getParam('nachteilIncompatible'));
+        if ($request->getParam('traitIncompatible') !== null) {
+            $requirements['traitInc'] = implode('|', $request->getParam('traitIncompatible'));
         }
-        if($request->getParam('magien') !== null){
+        if ($request->getParam('magien') !== null) {
             $requirements['Magie'] = $request->getParam('magien');
         }
-        if($request->getParam('magienAny') !== null){
+        if ($request->getParam('magienAny') !== null) {
             $requirements['MagieAny'] = implode('|', $request->getParam('magienAny'));
         }
-        if($request->getParam('magieschule') !== null){
+        if ($request->getParam('magieschule') !== null) {
             $requirements['Schule'] = $request->getParam('magieschule');
         }
-        if($request->getParam('gruppen') !== null){
+        if ($request->getParam('gruppen') !== null) {
             $requirements['Gruppe'] = implode('|', $request->getParam('gruppen'));
         }
-        if($request->getParam('klassen') !== null){
+        if ($request->getParam('klassen') !== null) {
             $requirements['Klasse'] = implode('|', $request->getParam('klassen'));
         }
-        if($request->getParam('vorteile') !== null){
-            $requirements['Vorteil'] = $request->getParam('vorteile');
-        }
-        if($request->getParam('nachteile') !== null){
-            $requirements['Nachteil'] = $request->getParam('nachteile');
+        if ($request->getParam('trait') !== null) {
+            $requirements['Trait'] = $request->getParam('trait');
         }
         return $requirements;
     }
-    
+
 }

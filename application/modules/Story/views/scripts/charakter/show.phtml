@@ -179,31 +179,6 @@ $categoryDis = $werte->getCategory('dis');
     <div style="clear: both"></div>
 </div>
 <div>
-    <fieldset style="display: inline-block; width: 49%; float: left">
-        <legend><h2>Vorteile</h2></legend>
-        <?php foreach ($charakter->getVorteile() as $vorteil): ?>
-            <h3>
-                <?= $purifier->purify($vorteil->getBezeichnung()) ?>
-            </h3>
-            <p>
-                <?= $purifier->purify($vorteil->getBeschreibung()) ?>
-            </p>
-        <?php endforeach; ?>
-    </fieldset>
-    <fieldset style="display: inline-block; width: 49%; float: right">
-        <legend><h2>Nachteile</h2></legend>
-        <?php foreach ($charakter->getNachteile() as $nachteil): ?>
-            <h3>
-                <?= $purifier->purify($nachteil->getBezeichnung()) ?>
-            </h3>
-            <p>
-                <?= $purifier->purify($nachteil->getBeschreibung()) ?>
-            </p>
-        <?php endforeach; ?>
-    </fieldset>
-    <div style="clear: both"></div>
-</div>
-<div>
     <fieldset>
         <legend><h2>Klasse</h2></legend>
         <h3>
@@ -258,6 +233,19 @@ $categoryDis = $werte->getCategory('dis');
                     <?php endforeach; ?>
                 </div>
             </fieldset>
+        <?php endforeach; ?>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend><h2>Traits</h2></legend>
+        <?php foreach ($charakter->getTraits() as $trait): ?>
+            <h3>
+                <?= $purifier->purify($trait->getName()) ?>
+            </h3>
+            <p>
+                <?= $purifier->purify($trait->getBeschreibung()) ?>
+            </p>
         <?php endforeach; ?>
     </fieldset>
 </div>
