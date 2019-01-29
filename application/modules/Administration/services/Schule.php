@@ -75,9 +75,17 @@ class Administration_Service_Schule {
         $this->mapper->setDependencies($schule);
         return $this->mapper->updateSchule($schule);
     }
-    
+
+    /**
+     * @param $schuleId
+     *
+     * @return Administration_Model_Schule
+     * @throws Exception
+     */
     public function getSchuleById($schuleId) {
-        return $this->mapper->getSchuleById($schuleId);
+        $school = $this->mapper->getSchuleById($schuleId);
+        $school->setRequirementList($this->requirementService->getRequirementListSchool($schuleId));
+        return $school;
     }
     
     public function deleteSchule(Zend_Controller_Request_Http $request) {

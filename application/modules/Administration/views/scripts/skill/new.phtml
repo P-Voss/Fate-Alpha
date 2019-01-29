@@ -120,30 +120,16 @@ $lernbedingungen = [
             </div>
         </div>
         <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="nachteile" style="vertical-align: top">
-                    benötigte Nachteile
-                </label>
-                <select name="nachteile[]" multiple="true" size="8">
-                    <?php foreach ($this->nachteile as $nachteil): ?>
-                    <option value="<?= $nachteil->getId() ?>">
-                        <?= $nachteil->getBezeichnung() ?>
+            <label for="trait">
+                Nicht kombinierbar mit den Traits:
+            </label>
+            <select name="trait[]" multiple="true" size="8">
+                <?php foreach ($this->traits as $trait) { ?>
+                    <option value="<?= $trait->getTraitId() ?>">
+                        <?= $trait->getName() ?>
                     </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="vorteile" style="vertical-align: top">
-                    benötigte Vorteile
-                </label>
-                <select name="vorteile[]" multiple="true" size="8">
-                    <?php foreach ($this->vorteile as $vorteil): ?>
-                    <option value="<?= $vorteil->getId() ?>">
-                        <?= $vorteil->getBezeichnung() ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <?php } ?>
+            </select>
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">

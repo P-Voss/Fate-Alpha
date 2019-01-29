@@ -33,6 +33,25 @@ class Administration_Service_Requirement
     }
 
     /**
+     * @param $infoId
+     *
+     * @return Administration_Model_Requirementlist
+     * @throws Exception
+     */
+    public function getRequirementListInformation ($infoId)
+    {
+        $requirementList = new Administration_Model_Requirementlist();
+        $mapper = new Administration_Model_Mapper_InformationMapper();
+        foreach ($mapper->getRequirements($infoId)->getRequirements() as $requirement) {
+            $infoReq = new Administration_Model_Requirement();
+            $infoReq->setArt($requirement->getArt());
+            $infoReq->setRequiredValue($requirement->getRequiredValue());
+            $requirementList->addRequirement($infoReq);
+        }
+        return $requirementList;
+    }
+
+    /**
      * @param $skillId
      *
      * @return Administration_Model_Requirementlist
@@ -42,6 +61,18 @@ class Administration_Service_Requirement
     {
         $mapper = new Administration_Model_Mapper_SkillMapper();
         return $mapper->getRequirementsSkill($skillId);
+    }
+
+    /**
+     * @param $schuleId
+     *
+     * @return Administration_Model_Requirementlist
+     * @throws Exception
+     */
+    public function getRequirementListSchool($schuleId)
+    {
+        $mapper = new Administration_Model_Mapper_SchuleMapper();
+        return $mapper->getRequirementListSchool($schuleId);
     }
 
     /**
@@ -98,7 +129,7 @@ class Administration_Service_Requirement
             $requirements['Klasse'] = implode('|', $request->getParam('klassen'));
         }
         if ($request->getParam('trait') !== null) {
-            $requirements['Trait'] = $request->getParam('trait');
+            $requirements['Trait'] = implode('|', $request->getParam('trait'));
         }
         return $requirements;
     }

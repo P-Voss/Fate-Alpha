@@ -214,13 +214,11 @@ SQL;
             $requirementList->addRequirement($requirement);
             return $requirementList;
         }
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $requirement = new Application_Model_Requirement();
-                $requirement->setArt($row->art);
-                $requirement->setRequiredValue($row->voraussetzung);
-                $requirementList->addRequirement($requirement);
-            }
+        foreach ($result as $row) {
+            $requirement = new Application_Model_Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }

@@ -24,7 +24,7 @@ class Application_Model_Magie implements JsonSerializable {
     protected $gruppe;
     protected $stufe;
     /**
-     * @var Application_Model_Magieschule
+     * @var Application_Model_Schule
      */
     protected $schule;
     /**

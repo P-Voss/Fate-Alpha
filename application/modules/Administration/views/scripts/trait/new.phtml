@@ -12,10 +12,10 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <input id="kosten" type="number" name="kosten" />
         </p>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>
-        <label for="vorteile">
-            Nicht kombinierbar mit den Vorteilen:
+        <label for="trait">
+            Nicht kombinierbar mit den Traits:
         </label>
-        <select name="traits[]" multiple="true" size="8">
+        <select name="trait[]" multiple="true" size="8">
             <?php foreach ($this->traits as $traitOption) { ?>
             <option value="<?= $traitOption->getTraitId() ?>">
                 <?= $traitOption->getName() ?>

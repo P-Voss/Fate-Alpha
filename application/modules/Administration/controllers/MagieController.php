@@ -7,8 +7,17 @@
  */
 class Administration_MagieController extends Zend_Controller_Action {
 
+    /**
+     * @var Administration_Service_Erstellung
+     */
     protected $erstellungService;
+    /**
+     * @var Administration_Service_Skill
+     */
     protected $skillService;
+    /**
+     * @var Administration_Service_Schule
+     */
     protected $schulService;
 
     public function init(){
@@ -43,8 +52,7 @@ class Administration_MagieController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->traits = $this->erstellungService->getTraits();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }
@@ -54,8 +62,7 @@ class Administration_MagieController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->traits = $this->erstellungService->getTraits();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }

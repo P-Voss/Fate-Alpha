@@ -54,26 +54,22 @@ class Application_Model_Mapper_ErstellungMapper
     }
 
     /**
-     * @return array|null
+     * @return Application_Model_Klassengruppe[]
      * @throws Exception
      */
     public function getAllClassgroups ()
     {
+        $return = [];
         $select = $this->getDbTable('Klassengruppe')->select();
         $result = $this->getDbTable('Klassengruppe')->fetchAll($select);
-        if ($result->count() > 0) {
-            $return = [];
-            foreach ($result as $row) {
-                $model = new Application_Model_Klassengruppe();
-                $model->setId($row->klassengruppenId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $return[] = $model;
-            }
-            return $return;
-        } else {
-            return null;
+        foreach ($result as $row) {
+            $model = new Application_Model_Klassengruppe();
+            $model->setId($row->klassengruppenId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $return[] = $model;
         }
+        return $return;
     }
 
     /**

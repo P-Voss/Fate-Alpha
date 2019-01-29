@@ -5,8 +5,9 @@
  *
  * @author Voß
  */
-class Application_Model_Information {
-    
+class Application_Model_Information
+{
+
     protected $informationId;
     protected $name;
     protected $kategorie;
@@ -16,57 +17,69 @@ class Application_Model_Information {
      * @var Application_Model_Requirementlist
      */
     protected $requirementList;
-    
-    
-    public function getInformationId() {
+
+
+    public function getInformationId ()
+    {
         return $this->informationId;
     }
 
-    public function getName() {
+    public function getName ()
+    {
         return $this->name;
     }
 
-    public function getInhalt() {
+    public function getInhalt ()
+    {
         return $this->inhalt;
     }
 
-    public function getWeitergabe() {
+    public function getWeitergabe ()
+    {
         return $this->weitergabe;
     }
 
-    public function setInformationId($informationId) {
+    public function setInformationId ($informationId)
+    {
         $this->informationId = $informationId;
     }
 
-    public function setName($informationName) {
+    public function setName ($informationName)
+    {
         $this->name = $informationName;
     }
 
-    public function setInhalt($inhalt) {
+    public function setInhalt ($inhalt)
+    {
         $this->inhalt = $inhalt;
     }
 
-    public function setWeitergabe($weitergabe) {
+    public function setWeitergabe ($weitergabe)
+    {
         $this->weitergabe = $weitergabe;
     }
 
     /**
      * @return Application_Model_Requirementlist
      */
-    public function getRequirementList() {
+    public function getRequirementList ()
+    {
         return $this->requirementList;
     }
 
-    public function setRequirementList(Application_Model_Requirementlist $requirementList) {
+    public function setRequirementList (Application_Model_Requirementlist $requirementList)
+    {
         $this->requirementList = $requirementList;
     }
 
-    public function getKategorie() {
+    public function getKategorie ()
+    {
         return $this->kategorie;
     }
 
-    public function setKategorie($kategorie) {
+    public function setKategorie ($kategorie)
+    {
         $this->kategorie = $kategorie;
     }
-    
+
 }

@@ -5,22 +5,40 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_InformationController extends Zend_Controller_Action {
+class Administration_InformationController extends Zend_Controller_Action
+{
 
+    /**
+     * @var Administration_Service_Erstellung
+     */
     protected $erstellungService;
+    /**
+     * @var Administration_Service_Skill
+     */
     protected $skillService;
+    /**
+     * @var Administration_Service_Schule
+     */
     protected $schulService;
+    /**
+     * @var Administration_Service_Information
+     */
     private $informationService;
-    private $kategorien = array(
-        'Charakter','Regeln','Welt','Fähigkeiten','Magien','Familien','Clans','Magi','Menschen','Spiel','Orte','Geschichte'
-    );
-    
-    
-    public function init(){
-        if($this->_helper->logincheck() === false){
+    /**
+     * @var array
+     */
+    private $kategorien = [
+        'Charakter', 'Regeln', 'Welt', 'Fähigkeiten', 'Magien', 'Familien', 'Clans', 'Magi', 'Menschen', 'Spiel',
+        'Orte', 'Geschichte',
+    ];
+
+
+    public function init ()
+    {
+        if ($this->_helper->logincheck() === false) {
             $this->redirect('index');
         }
-        if(!$this->_helper->admincheck()){
+        if (!$this->_helper->admincheck()) {
             $this->redirect('index');
         }
         $config = HTMLPurifier_Config::createDefault();
@@ -30,48 +48,52 @@ class Administration_InformationController extends Zend_Controller_Action {
         $this->skillService = new Administration_Service_Skill();
         $this->informationService = new Administration_Service_Information();
     }
-    
-    public function indexAction() {
+
+    public function indexAction ()
+    {
         $this->view->list = $this->informationService->getInformationList();
     }
-    
-    public function showAction() {
+
+    public function showAction ()
+    {
         $this->view->kategorien = $this->kategorien;
         $this->view->information = $this->informationService->getInformationById($this->getRequest()->getParam('id'));
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->traits = $this->erstellungService->getTraits();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }
-    
-    public function newAction() {
+
+    public function newAction ()
+    {
         $this->view->kategorien = $this->kategorien;
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
-        $this->view->vorteile = $this->erstellungService->getVorteilList();
-        $this->view->nachteile = $this->erstellungService->getNachteilList();
+        $this->view->traits = $this->erstellungService->getTraits();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }
-    
-    public function deleteAction() {
-        
+
+    public function deleteAction ()
+    {
+
     }
-    
-    public function createAction() {
+
+    public function createAction ()
+    {
         $this->informationService->createInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
-    
-    public function editAction() {
+
+    public function editAction ()
+    {
         $this->informationService->editInformation($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
         $this->redirect('Administration');
     }
-    
+
 }

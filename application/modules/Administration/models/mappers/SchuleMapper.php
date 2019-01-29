@@ -52,6 +52,26 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
     }
 
     /**
+     * @param int $schuleId
+     *
+     * @return Administration_Model_Requirementlist
+     * @throws Exception
+     */
+    public function getRequirementListSchool($schuleId) {
+        $requirementList = new Administration_Model_Requirementlist();
+        $select = $this->getDbTable('SchuleVoraussetzung')->select();
+        $select->where('magieschuleId = ?', $schuleId);
+        $result = $this->getDbTable('SchuleVoraussetzung')->fetchAll($select);
+        foreach ($result as $row){
+            $requirement = new Administration_Model_Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
+        }
+        return $requirementList;
+    }
+
+    /**
      * @param Administration_Model_Schule $schule
      *
      * @return int

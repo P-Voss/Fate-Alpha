@@ -80,31 +80,15 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             </select>
         </p>
         <p>
-            <label for="vorteile">
-                benötigte Vorteile
+            <label for="trait">
+                Nicht kombinierbar mit den Traits:
             </label>
-            <select name="vorteile[]" multiple="true" size="8">
-                <?php foreach ($this->vorteile as $vorteil):
-                    $selected = (in_array($vorteil->getId(), $vorteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $vorteil->getId() ?>" <?= $selected ?>>
-                    <?= $vorteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label for="nachteile">
-                benötigte Nachteile
-            </label>
-            <select name="nachteile[]" multiple="true" size="8">
-                <?php foreach ($this->nachteile as $nachteil):
-                    $selected = (in_array($nachteil->getId(), $nachteileReq)) ? 'selected=""' : '';
-                ?>
-                <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
-                    <?= $nachteil->getBezeichnung() ?>
-                </option>
-                <?php endforeach; ?>
+            <select name="trait[]" multiple="true" size="8">
+                <?php foreach ($this->traits as $trait) { ?>
+                    <option value="<?= $trait->getTraitId() ?>">
+                        <?= $trait->getName() ?>
+                    </option>
+                <?php } ?>
             </select>
         </p>
         </fieldset>

@@ -30,10 +30,10 @@ $klasse = $this->klasse;
             <input type="text" size="30" name="familienname" value="<?= $klasse->getFamilienname() ?>" />
         </p>
         <p>
-            <label for="traits">
+            <label for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select name="traits[]" multiple="true" size="8">
+            <select name="trait[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
                     <option value="<?= $trait->getTraitId() ?>">
                         <?= $trait->getName() ?>
@@ -50,6 +50,6 @@ $klasse = $this->klasse;
     </fieldset>
     <div align="center">
         <input type="hidden" name="klassenId" value="<?= $klasse->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Element ändern" />
+        <input type="submit" name="Abschicken" id="Abschicken" value="Klasse ändern" />
     </div>
 </form>

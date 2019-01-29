@@ -27,7 +27,7 @@ class Administration_Service_Erstellung {
     }
 
     /**
-     * @return array|null
+     * @return Application_Model_Klassengruppe[]
      * @throws Exception
      */
     public function getKlassengruppenList() {

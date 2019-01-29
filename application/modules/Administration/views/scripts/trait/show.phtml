@@ -1,6 +1,7 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
+/** @var Administration_Model_Trait $trait */
 $trait = $this->trait;
 ?>
 <h1>Trait anpassen</h1>
@@ -15,10 +16,10 @@ $trait = $this->trait;
         <textarea name="beschreibung" cols="80" rows="10">
             <?= $trait->getBeschreibung() ?>
         </textarea>
-        <label for="vorteile">
+        <label for="trait">
             Nicht kombinierbar mit den Traits:
         </label>
-        <select name="traits[]" multiple="true" size="8">
+        <select name="trait[]" multiple="true" size="8">
             <?php foreach ($this->traits as $traitOption) { ?>
             <option value="<?= $traitOption->getTraitId() ?>">
                 <?= $traitOption->getName() ?>
