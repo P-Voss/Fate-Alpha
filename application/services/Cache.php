@@ -36,7 +36,6 @@ class Application_Service_Cache {
         } else {
             $this->isActive = $this->cache->addServer('localhost', 11211);
         }
-        return $this->isActive;
     }
     
     

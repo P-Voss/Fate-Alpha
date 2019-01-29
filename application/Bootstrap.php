@@ -17,10 +17,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $autoloader = Zend_Loader_Autoloader::getInstance();
 
         $autoloader->registerNamespace('application_');
-        $autoloader->registerNamespace('PHPExcel_');
-        $autoloader->registerNamespace('PHPExcel');
-        $autoloader->registerNamespace('Spreadsheet_');
-        $autoloader->registerNamespace('Spreadsheet');
         Zend_Registry::set('autoloader', $autoloader);
         
     }
@@ -37,22 +33,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $config = HTMLPurifier_Config::createDefault();
         $view->purifier = new HTMLPurifier($config);
     }
-    
-//    public function _initAutoversioning() {
-//        $this->bootstrap('view');
-//        $view = $this->getResource('view');
-//        $f = function ($file) {
-//            if (strpos($file, '/') !== 0 
-//                || 
-//                !file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) 
-//            {
-//                return $file;
-//            }
-//            $mtime = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
-//            return preg_replace('{\\.([^./]+)$}', ".$mtime.\$1", $file);
-//        };
-//        $view->autoVersion = $f;
-//    }
 
     public function _initDb() {
         $this->bootstrap('multidb');

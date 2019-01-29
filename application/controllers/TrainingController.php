@@ -63,9 +63,6 @@ class TrainingController extends Zend_Controller_Action
 
     public function programsAction ()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('X-Frame-Options ALLOW-FROM uri');
-
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -100,9 +97,6 @@ class TrainingController extends Zend_Controller_Action
 
     public function attributesAction ()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('X-Frame-Options ALLOW-FROM uri');
-
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -192,11 +186,6 @@ class TrainingController extends Zend_Controller_Action
 
     public function executeAction ()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST, OPTIONS');
-        header('Access-Control-Allow-Headers:  Content-Type');
-        header('X-Frame-Options ALLOW-FROM uri');
-
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
