@@ -8,8 +8,17 @@
 class UserController extends Zend_Controller_Action
 {
 
+    /**
+     * @var Application_Service_User
+     */
     protected $_userService;
+    /**
+     * @var Application_Service_Layout
+     */
     protected $_layoutService;
+    /**
+     * @var Application_Service_Charakter
+     */
     protected $_charakterService;
 
     public function init ()

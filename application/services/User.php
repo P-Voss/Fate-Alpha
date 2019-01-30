@@ -158,7 +158,7 @@ class Application_Service_User {
      * @throws Exception
      */
     public function deleteCharakter(Zend_Controller_Request_Http $request, $userId) {
-        if($this->userMapper->verifyPassword($userId, $request->getParam('password')) === false
+        if(!$this->userMapper->verifyPassword($userId, $request->getParam('password'))
                 ||
             $request->getParam('password') !== $request->getParam('passwordConfirm')
         ) {

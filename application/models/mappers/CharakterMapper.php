@@ -66,25 +66,10 @@ class Application_Model_Mapper_CharakterMapper
      */
     public function deleteCharakter (Application_Model_Charakter $charakter)
     {
-        $db = $this->getDbTable('Charakter')->getAdapter();
-        $db->beginTransaction();
-        $db->delete('charakter', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterElemente', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterItemAusruestung', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterItemRPG', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterItems', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterMagien', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterMagieschulen', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterProfil', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterSkillarten', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterSkills', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('characterTraits', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterWerte', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('charakterGruppen', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('training', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('beziehungen', ['charakterId = ?' => $charakter->getCharakterid()]);
-        $db->delete('beziehungen', ['profilId = ?' => $charakter->getCharakterid()]);
-        $db->commit();
+        $db = $this->getDbTable('Charakter')->update(
+                ['active' => 0],
+                ['charakterId = ?' => $charakter->getCharakterid()]
+            );
     }
 
     /**
