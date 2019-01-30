@@ -216,7 +216,7 @@ class Application_Model_Charakterwerte
         $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
 
         $categories = [
-            ['category' => 'F-', 'lowerbound' => -10, 'ueber' => false],
+            ['category' => 'F-', 'lowerbound' => -10000000, 'ueber' => false],
             ['category' => 'F', 'lowerbound' => -1, 'ueber' => false],
             ['category' => 'F+', 'lowerbound' => 0, 'ueber' => false],
             ['category' => 'E-', 'lowerbound' => 40, 'ueber' => false],
