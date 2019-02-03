@@ -55,7 +55,7 @@ class Erstellung_Service_Validation {
         if (!in_array($character->getSexualitaet(), ['Heterosexuell', 'Bisexuell', 'Homosexuell'])) {
             throw new Exception('Die sexuelle Orientierung fehlt.');
         }
-        if (!in_array($character->getWohnort(), ['City', 'Kizaka', 'Kurokizaka', 'Miyama-Nord', 'Miyama-Sued', 'Miyamachou'])) {
+        if (!in_array($character->getWohnort(), ['City', 'Kizaka', 'Kurokizaka', 'Miyama-Nord', 'Miyama-Süd', 'Miyamachou'])) {
             throw new Exception('Wo wohnt der Charakter?');
         }
         if (!$this->validateAttributes($character)) {

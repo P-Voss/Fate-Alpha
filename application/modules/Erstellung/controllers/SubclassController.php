@@ -13,10 +13,6 @@ class Erstellung_SubclassController extends Zend_Controller_Action
 
     public function init ()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST, OPTIONS');
-        header('Access-Control-Allow-Headers:  Content-Type');
-        header('X-Frame-Options ALLOW-FROM uri');
         $auth = Zend_Auth::getInstance()->getIdentity();
         if($auth === null){
             $this->redirect('index');
