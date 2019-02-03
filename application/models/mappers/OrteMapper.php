@@ -154,7 +154,7 @@ class Application_Model_Mapper_OrteMapper
                 'Name' => '',
                 'img' => '',
                 'Beschreibung' => '',
-                'bewohner' => 0
+                'bewohner' => 0,
             ];
         }
         if (count($stadtteil) > 0) {
@@ -164,8 +164,32 @@ class Application_Model_Mapper_OrteMapper
                 'Name' => '',
                 'img' => '',
                 'Beschreibung' => '',
-                'bewohner' => 0
+                'bewohner' => 0,
             ];
+        }
+    }
+
+
+    public function getAttractions ()
+    {
+        return $this->orteArray;
+    }
+
+
+    public function getDistricts ()
+    {
+        try {
+            return $this->getDbTable('Stadtteile')
+                ->getAdapter()
+                ->query(
+                    'SELECT stadtteile.*, IFNULL(charas.bewohner, 0) AS bewohner
+                                FROM stadtteile 
+                                LEFT JOIN (SELECT wohnort, count(*) AS bewohner FROM charakter GROUP BY wohnort) AS charas 
+                                    ON charas.wohnort = stadtteile.name'
+                )
+                ->fetchAll();
+        } catch (Exception $exception) {
+            return [];
         }
     }
 

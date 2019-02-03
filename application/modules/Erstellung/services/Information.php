@@ -69,4 +69,22 @@ class Erstellung_Service_Information
         return $traits;
     }
 
+    /**
+     * @return array
+     */
+    public function getDistricts ()
+    {
+        $mapper = new Application_Model_Mapper_OrteMapper();
+        return $mapper->getDistricts();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttractions ()
+    {
+        $mapper = new Application_Model_Mapper_OrteMapper();
+        return $mapper->getAttractions();
+    }
+
 }
