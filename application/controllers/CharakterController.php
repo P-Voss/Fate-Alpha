@@ -49,7 +49,7 @@ class CharakterController extends Zend_Controller_Action{
      */
     public function indexAction() {
         if($this->charakter === false){
-            $this->redirect('Erstellung/Charakter');
+            $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
     }
@@ -59,7 +59,7 @@ class CharakterController extends Zend_Controller_Action{
      */
     public function profilAction() {
         if($this->charakter === false){
-            $this->redirect('Erstellung/Charakter');
+            $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
     }
@@ -69,7 +69,7 @@ class CharakterController extends Zend_Controller_Action{
      */
     public function abilitiesAction() {
         if($this->charakter === false){
-            $this->redirect('Erstellung/Charakter');
+            $this->redirect('Erstellung/creation');
         }
         $magieService = new Shop_Service_Magie();
         $magieschulen = $magieService->getMagieschulenForCharakter($this->charakter);
@@ -100,7 +100,7 @@ class CharakterController extends Zend_Controller_Action{
      */
     public function inventarAction() {
         if($this->charakter === false){
-            $this->redirect('Erstellung/Charakter');
+            $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
     }
@@ -205,9 +205,6 @@ class CharakterController extends Zend_Controller_Action{
 
     public function attributesAction ()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('X-Frame-Options ALLOW-FROM uri');
-
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
