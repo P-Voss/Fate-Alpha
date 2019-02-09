@@ -495,7 +495,7 @@ class Application_Model_Mapper_CharakterMapper
         try {
             $select = $this->getDbTable('CharacterTraits')->select();
             $select->setIntegrityCheck(false);
-            $select->from(['CT' => 'characterTraits']);
+            $select->from(['CT' => 'characterTraits'], ['CT.storyType', 'CT.story']);
             $select->joinInner(
                 'traits',
                 'traits.traitId = CT.traitId',
@@ -512,6 +512,8 @@ class Application_Model_Mapper_CharakterMapper
             $trait->setTraitId($row->traitId);
             $trait->setName($row->name);
             $trait->setBeschreibung($row->beschreibung);
+            $trait->setStoryType($row->storyType ?? 0);
+            $trait->setStory($row->story ?? '');
 
             $returnArray[] = $trait;
         }
@@ -1228,6 +1230,25 @@ SQL;
             return $row->charakterId;
         } else {
             throw new Exception('Keinen Charakter gefunden');
+        }
+    }
+
+    /**
+     * @param Application_Model_Trait $trait
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function updateTraitStory (Application_Model_Trait $trait, $characterId)
+    {
+        try {
+            $this->getDbTable('CharakterTrait')->update(
+                ['story' => $trait->getStory(), 'storyType' => $trait->getStoryType()],
+                ['characterId = ?' => $characterId, 'traitId = ?' => $trait->getTraitId()]
+            );
+        } catch (Throwable $exception) {
+            Zend_Debug::dump($exception);
+            exit;
         }
     }
 

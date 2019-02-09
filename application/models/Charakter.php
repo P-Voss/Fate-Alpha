@@ -806,6 +806,25 @@ class Application_Model_Charakter
     }
 
     /**
+     * @param $storyKey
+     *
+     * @return Application_Model_Trait
+     * @throws Exception
+     */
+    public function getTraitByStory ($storyKey)
+    {
+        if (!in_array($storyKey, Application_Model_Trait::STORY_TYPES)) {
+            throw new Exception('Key does not exist');
+        }
+        foreach ($this->traits as $trait) {
+            if ($storyKey === $trait->getStoryType()) {
+                return $trait;
+            }
+        }
+        return new Application_Model_Trait();
+    }
+
+    /**
      * @param array $modifiers
      */
     public function setModifiers ($modifiers = [])

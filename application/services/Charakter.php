@@ -345,5 +345,16 @@ HTML;
     public function getAchievements($charakterId) {
         return $this->charakterMapper->getAchievements($charakterId);
     }
+
+    /**
+     * @param Application_Model_Trait $trait
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function updateTraitStory (Application_Model_Trait $trait, $characterId)
+    {
+        $this->charakterMapper->updateTraitStory($trait, $characterId);
+    }
     
 }

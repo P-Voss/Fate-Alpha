@@ -243,6 +243,20 @@ class CharakterController extends Zend_Controller_Action{
         exit;
     }
 
+
+    public function traitsAction ()
+    {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $trait = new Application_Model_Trait();
+        $trait->setStoryType($this->getRequest()->getPost('storyType', 0));
+        $trait->setStory($this->getRequest()->getPost('story', ''));
+        $trait->setTraitId($this->getRequest()->getPost('traitId', 0));
+        $this->charakterService->updateTraitStory($trait, $this->charakter->getCharakterid());
+        $this->redirect('charakter/profil');
+    }
+
     /**
      * @param $userId
      *
