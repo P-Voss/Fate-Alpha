@@ -72,8 +72,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                 <h4>Trait aus der Kindheit</h4>
                 <div>
                     <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId">
-                            <option>Bitte wählen</option>
+                        <select name="traitId" required>
                             <?php
                             foreach($charakter->getTraits() as $trait):
                                 if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_BIRTH) {
@@ -97,8 +96,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                 <h4>Trait aus der Erziehung</h4>
                 <div>
                     <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId">
-                            <option>Bitte wählen</option>
+                        <select name="traitId" required>
                             <?php
                             foreach($charakter->getTraits() as $trait):
                                 if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_RAISED) {
@@ -122,8 +120,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                 <h4>Trait durch ein Ereignis</h4>
                 <div>
                     <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId">
-                            <option>Bitte wählen</option>
+                        <select name="traitId" required>
                             <?php
                             foreach($charakter->getTraits() as $trait):
                                 if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_EVENT) {
@@ -147,8 +144,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                 <h4>Erarbeiteter Trait</h4>
                 <div>
                     <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId">
-                            <option>Bitte wählen</option>
+                        <select name="traitId" required>
                             <?php
                             foreach($charakter->getTraits() as $trait):
                                 if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_GAINED) {
@@ -172,8 +168,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                 <h4>Fokustrait</h4>
                 <div>
                     <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId">
-                            <option>Bitte wählen</option>
+                        <select name="traitId" required>
                             <?php
                             foreach($charakter->getTraits() as $trait):
                                 if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_FOCUS) {
