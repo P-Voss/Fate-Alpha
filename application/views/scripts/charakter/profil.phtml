@@ -3,7 +3,7 @@
 $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
-$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/editor.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/ckeditor.js'));
 /* @var $purifier HTMLpurifier */
 $purifier = $this->purifier;
 /* @var $charakter Application_Model_Charakter */
@@ -14,6 +14,16 @@ $eventTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_EV
 $gainedTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_GAINED);
 $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FOCUS);
 ?>
+<script src="<?= $this->baseurl ?>/js/ckeditor/ckeditor.js"></script>
+<style type="text/css">
+    .cke_textarea_inline {
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 300px;
+        background: #fff;
+        color: #000;
+    }
+</style>
 <h1>
     Profil
 </h1>
@@ -77,7 +87,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                             <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <textarea class="data" id="private" name="story" rows="10"><?= $purifier->purify($childhoodTrait->getStory()) ?></textarea>
+                        <textarea class="data" name="story" rows="10" id="childhoodEditor"><?= $purifier->purify($childhoodTrait->getStory()) ?></textarea>
                         <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_BIRTH ?>">
                         <input type="submit" class="save" value="Eintrag speichern">
                     </form>
@@ -102,7 +112,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                             <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <textarea class="data" id="private" name="story" rows="10"><?= $purifier->purify($raisedTrait->getStory()) ?></textarea>
+                        <textarea class="data" id="raisedEditor" name="story" rows="10"><?= $purifier->purify($raisedTrait->getStory()) ?></textarea>
                         <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_RAISED ?>">
                         <input type="submit" class="save" value="Eintrag speichern">
                     </form>
@@ -127,7 +137,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                             <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <textarea class="data" id="private" name="story" rows="10"><?= $purifier->purify($eventTrait->getStory()) ?></textarea>
+                        <textarea class="data" id="eventEditor" name="story" rows="10"><?= $purifier->purify($eventTrait->getStory()) ?></textarea>
                         <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_EVENT ?>">
                         <input type="submit" class="save" value="Eintrag speichern">
                     </form>
@@ -152,7 +162,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                             <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <textarea class="data" id="private" name="story" rows="10"><?= $purifier->purify($gainedTrait->getStory()) ?></textarea>
+                        <textarea class="data" id="gainedEditor" name="story" rows="10"><?= $purifier->purify($gainedTrait->getStory()) ?></textarea>
                         <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_GAINED ?>">
                         <input type="submit" class="save" value="Eintrag speichern">
                     </form>
@@ -177,7 +187,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                             <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <textarea class="data" id="private" name="story" rows="10"><?= $purifier->purify($focusTrait->getStory()) ?></textarea>
+                        <textarea class="data" id="focusEditor" name="story" rows="10"><?= $purifier->purify($focusTrait->getStory()) ?></textarea>
                         <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_FOCUS?>">
                         <input type="submit" class="save" value="Eintrag speichern">
                     </form>
