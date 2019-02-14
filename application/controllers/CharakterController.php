@@ -112,7 +112,7 @@ class CharakterController extends Zend_Controller_Action{
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->saveCharpic($this->charakter, $this->getRequest());
-        $this->redirect('charakter/index');
+        $this->redirect('charakter/profil');
     }
 
     /**
@@ -123,7 +123,7 @@ class CharakterController extends Zend_Controller_Action{
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->saveProfilpic($this->charakter, $this->getRequest());
-        $this->redirect('charakter/index');
+        $this->redirect('charakter/profil');
     }
 
     /**
@@ -134,6 +134,7 @@ class CharakterController extends Zend_Controller_Action{
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->saveStory($this->charakter, $this->getRequest());
+        $this->redirect('charakter/profil');
     }
 
     /**
@@ -144,6 +145,7 @@ class CharakterController extends Zend_Controller_Action{
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->charakterService->savePrivate($this->charakter, $this->getRequest());
+        $this->redirect('charakter/profil');
     }
 
     /**
