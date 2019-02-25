@@ -21,7 +21,7 @@ $circuit = $this->circuit;
             <label for="beschreibung">
                 Beschreibung
             </label>
-            <textarea name="beschreibung" id="beschreibung" cols="80" rows="10"><?= $circuit->getBeschreibung() ?></textarea>
+            <textarea name="beschreibung" id="beschreibung" cols="80" rows="10"><?= $purifier->purify($circuit->getBeschreibung()) ?></textarea>
         </div>
     </fieldset>
     <div align="center">

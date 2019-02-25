@@ -1,6 +1,8 @@
 <?php
 /* @var $user Application_Model_User */
 $user = $this->user;
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 $this->headLink()->prependStylesheet($this->autoVersion($this->baseUrl() . '/styles/Profil.css'));
 $this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/user/profile.js'));
@@ -16,7 +18,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 Profilname
             </label>
             <span>
-                <?= $user->getProfilname() ?>
+                <?= $purifier->purify($user->getProfilname()) ?>
             </span>
         </span>
         <span style="float: right; width: 50%">
@@ -24,7 +26,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 Loginname
             </label>
             <span>
-                <?= $user->getUsername() ?>
+                <?= $purifier->purify($user->getUsername()) ?>
             </span>
         </span>
     </p>
@@ -51,7 +53,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             aktuelle Email-Adresse
         </label>
         <span>
-            <?= $user->getEmail() ?>
+            <?= $purifier->purify($user->getEmail()) ?>
         </span>
     </p>
     <hr />

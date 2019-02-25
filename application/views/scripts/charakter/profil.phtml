@@ -83,7 +83,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                                     $selected = 'selected=""';
                                 }
                             ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <textarea class="data" name="story" rows="10" id="childhoodEditor"><?= $purifier->purify($childhoodTrait->getStory()) ?></textarea>
@@ -107,7 +107,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                                     $selected = 'selected=""';
                                 }
                             ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <textarea class="data" id="raisedEditor" name="story" rows="10"><?= $purifier->purify($raisedTrait->getStory()) ?></textarea>
@@ -131,7 +131,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                                     $selected = 'selected=""';
                                 }
                             ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <textarea class="data" id="eventEditor" name="story" rows="10"><?= $purifier->purify($eventTrait->getStory()) ?></textarea>
@@ -155,7 +155,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                                     $selected = 'selected=""';
                                 }
                             ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <textarea class="data" id="gainedEditor" name="story" rows="10"><?= $purifier->purify($gainedTrait->getStory()) ?></textarea>
@@ -179,7 +179,7 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
                                     $selected = 'selected=""';
                                 }
                             ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <textarea class="data" id="focusEditor" name="story" rows="10"><?= $purifier->purify($focusTrait->getStory()) ?></textarea>

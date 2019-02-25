@@ -11,6 +11,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /* @var $requirement Administration_Model_Requirement */
 /* @var $vorteil Application_Model_Vorteil */
 /* @var $nachteil Application_Model_Nachteil */
+$purifier = $this->purifier;
 ?>
 <h1>Magie erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
@@ -43,7 +44,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="magieschule">
                     <?php foreach ($this->schulen as $schule) { ?>
                     <option value="<?= $schule->getId() ?>">
-                        <?= $schule->getBezeichnung() ?>
+                        <?= $purifier->purify($schule->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -55,7 +56,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="element">
                     <?php foreach ($this->elemente as $element) { ?>
                     <option value="<?= $element->getId() ?>">
-                        <?= $element->getBezeichnung() ?>
+                        <?= $purifier->purify($element->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -127,7 +128,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="gruppen[]" multiple="true" size="5">
                     <?php foreach ($this->klassengruppen as $gruppe) { ?>
                     <option value="<?= $gruppe->getId() ?>">
-                        <?= $gruppe->getBezeichnung() ?>
+                        <?= $purifier->purify($gruppe->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -139,7 +140,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="klassen[]" multiple="true" size="5">
                     <?php foreach ($this->klassen as $klasse) { ?>
                     <option value="<?= $klasse->getId() ?>">
-                        <?= $klasse->getBezeichnung() ?>
+                        <?= $purifier->purify($klasse->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -152,7 +153,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <select name="trait[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
                     <option value="<?= $trait->getTraitId() ?>">
-                        <?= $trait->getName() ?>
+                        <?= $purifier->purify($trait->getName()) ?>
                     </option>
                 <?php } ?>
             </select>
@@ -165,7 +166,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="skills[]" id="skills" multiple="true" size="8">
                     <?php foreach ($this->skills as $skill) { ?>
                     <option value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -177,7 +178,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
                     <?php foreach ($this->skills as $skill) { ?>
                     <option value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -191,7 +192,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="skillsIncompatible[]" multiple="true" size="8">
                     <?php foreach ($this->skills as $skill) { ?>
                     <option value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -205,7 +206,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="magien[]" id="magien" multiple="true" size="8">
                     <?php foreach ($this->magien as $magie) { ?>
                     <option value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -217,7 +218,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <select name="magienAny[]" id="magienAny" multiple="true" size="8">
                     <?php foreach ($this->magien as $magie) { ?>
                     <option value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>

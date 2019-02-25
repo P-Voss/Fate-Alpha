@@ -28,7 +28,7 @@ foreach ($this->charakters as $charakter){
             am: <?= $birthDate->format('d.m.Y') ?>
         </p>
         <p style="width: 200px; display: inline-block; font-weight: bold">
-            <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+            <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
         </p>
     </div>
 </a>

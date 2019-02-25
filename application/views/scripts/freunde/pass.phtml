@@ -1,4 +1,6 @@
 <?php
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
 if($charakter === null){
@@ -15,19 +17,19 @@ if($charakter === null){
 </colgroup>
     <tr>
         <td rowspan="8">
-            <img src="<?= $charakter->getCharakterprofil()->getProfilpic() ?>" border="0" height="260" width="200" />
+            <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" border="0" height="260" width="200" />
         </td>
         <td style="border: 0;">
         <b>Vorname</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getVorname() ?>
+        <?= $purifier->purify($charakter->getVorname()) ?>
         </td>
         <td style="border: 0;">
         <b>Nachname</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getNachname() ?>
+        <?= $purifier->purify($charakter->getNachname()) ?>
         </td>
     </tr>
     <tr>
@@ -35,7 +37,7 @@ if($charakter === null){
         <b>Geschlecht</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getGeschlecht() ?>
+        <?= $purifier->purify($charakter->getGeschlecht()) ?>
         </td>
         <td style="border: 0;"></td>
         <td style="border: 0;"></td>
@@ -47,7 +49,7 @@ if($charakter === null){
         <b>Wohnort</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getWohnort() ?>
+        <?= $purifier->purify($charakter->getWohnort()) ?>
         </td>
     </tr>
     <tr>
@@ -55,13 +57,13 @@ if($charakter === null){
         <b>Alter</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getAlter('y') ?>
+        <?= $purifier->purify($charakter->getAlter('y')) ?>
         </td>
         <td style="border: 0;">
         <b>Geburtsdatum</b>
         </td>        
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getGeburtsdatum() ?>
+        <?= $purifier->purify($charakter->getGeburtsdatum()) ?>
         </td>
     </tr>
     <tr>
@@ -69,13 +71,13 @@ if($charakter === null){
         <b>Augenfarbe</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getAugenfarbe() ?>
+        <?= $purifier->purify($charakter->getAugenfarbe()) ?>
         </td>
         <td style="border: 0;">
         <b>Größe</b>
         </td>
         <td bgcolor="#C0C0C0">
-        <?= $charakter->getSize() ?>
+        <?= (int) $charakter->getSize() ?>
         </td>
     </tr>
     <tr>
@@ -83,7 +85,7 @@ if($charakter === null){
         <b>Künstler-, Religions-, Ordensname</b>
         </td>
         <td bgcolor="#C0C0C0">        
-        <?= $charakter->getNickname() ?>
+        <?= $purifier->purify($charakter->getNickname()) ?>
         </td>
     </tr>
     <tr>

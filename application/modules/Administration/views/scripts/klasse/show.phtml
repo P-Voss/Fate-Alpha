@@ -3,13 +3,14 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 /* @var $klasse Administration_Model_Klasse */
 $klasse = $this->klasse;
+$purifier = $this->purifier
 ?>
 <h1>Klasse anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/klasse/edit" method="post">
     <fieldset>
         <p>
             <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $klasse->getBezeichnung() ?>" />
+            <input type="text" size="30" name="name" value="<?= $purifier->purify($klasse->getBezeichnung()) ?>" />
             <label for="kosten">Kosten</label>
             <input type="number" name="kosten" value="<?= $klasse->getKosten() ?>" />
             <label for="klassengruppe">
@@ -21,13 +22,13 @@ $klasse = $this->klasse;
                     $selected = ($gruppe->getId() === $klasse->getGruppe()) ? 'selected="true"' : '';
                 ?>
                 <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
-                    <?= $gruppe->getBezeichnung() ?>
+                    <?= $purifier->purify($gruppe->getBezeichnung()) ?>
                 </option>
                 <?php } ?>
             </select>
             <br />
             <label for="familienname">Familienname</label>
-            <input type="text" size="30" name="familienname" value="<?= $klasse->getFamilienname() ?>" />
+            <input type="text" size="30" name="familienname" value="<?= $purifier->purify($klasse->getFamilienname()) ?>" />
         </p>
         <p>
             <label for="trait">
@@ -36,7 +37,7 @@ $klasse = $this->klasse;
             <select name="trait[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
                     <option value="<?= $trait->getTraitId() ?>">
-                        <?= $trait->getName() ?>
+                        <?= $purifier->purify($trait->getName()) ?>
                     </option>
                 <?php } ?>
             </select>
@@ -45,7 +46,7 @@ $klasse = $this->klasse;
             Beschreibung
         </label>
         <textarea name="beschreibung" cols="80" rows="10">
-            <?= $klasse->getBeschreibung() ?>
+            <?= $purifier->purify($klasse->getBeschreibung()) ?>
         </textarea>
     </fieldset>
     <div align="center">

@@ -100,7 +100,7 @@ $magieschulen = $this->magieschulen;
                 <p>
                     <span class="skill">
                         <input type="hidden" value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
                     </span>
                 </p>
                 <?php endforeach; ?>
@@ -120,7 +120,7 @@ $magieschulen = $this->magieschulen;
                     <p>
                         <span class="magie">
                             <input type="hidden" value="<?= $magie->getId() ?>">
-                            <?= $magie->getBezeichnung() ?>
+                            <?= $purifier->purify($magie->getBezeichnung()) ?>
                         </span>
                     </p>
                     <?php endforeach; ?>

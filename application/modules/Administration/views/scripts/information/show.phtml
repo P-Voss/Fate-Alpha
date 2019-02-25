@@ -70,7 +70,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
-                        <?= $gruppe->getBezeichnung() ?>
+                        <?= $purifier->purify($gruppe->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -89,7 +89,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $klasse->getId() ?>">
-                        <?= $klasse->getBezeichnung() ?>
+                        <?= $purifier->purify($klasse->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -104,7 +104,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                     $selected = in_array($trait->getTraitId(), $traitReq) ? 'selected' : '';
                 ?>
                     <option <?= $selected ?>  value="<?= $trait->getTraitId() ?>">
-                        <?= $trait->getName() ?>
+                        <?= $purifier->purify($trait->getName()) ?>
                     </option>
                 <?php } ?>
             </select>
@@ -124,7 +124,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
+                        <?= $purifier->purify($listedSkill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -141,7 +141,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
+                        <?= $purifier->purify($listedSkill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -162,7 +162,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
+                        <?= $purifier->purify($listedSkill->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -183,7 +183,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>
@@ -200,7 +200,7 @@ $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey
                         }
                     ?>
                     <option <?= $selected ?> value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
                     </option>
                     <?php } ?>
                 </select>

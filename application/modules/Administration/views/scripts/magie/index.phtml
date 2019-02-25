@@ -14,17 +14,17 @@ $schoolArray = [];
     <div>
         <select id="magieschulen" multiple size="7" style="vertical-align: top">
             <?php foreach ($this->schulen as $schule) : ?>
-            <option value="<?= $schule->getId() ?>"><?= $schule->getBezeichnung() ?></option>
+            <option value="<?= $schule->getId() ?>"><?= $purifier->purify($schule->getBezeichnung()) ?></option>
             <?php endforeach; ?>
         </select>
         <select id="gruppen" multiple size="5" style="vertical-align: top">
             <?php foreach ($this->klassengruppen as $gruppe) : ?>
-            <option value="<?= $gruppe->getId() ?>"><?= $gruppe->getBezeichnung() ?></option>
+            <option value="<?= $gruppe->getId() ?>"><?= $purifier->purify($gruppe->getBezeichnung()) ?></option>
             <?php endforeach; ?>
         </select>
         <select id="klassen" multiple size="7" style="vertical-align: top">
             <?php foreach ($this->klassen as $klasse) : ?>
-            <option value="<?= $klasse->getId() ?>"><?= $klasse->getBezeichnung() ?></option>
+            <option value="<?= $klasse->getId() ?>"><?= $purifier->purify($klasse->getBezeichnung()) ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -35,7 +35,7 @@ $schoolArray = [];
     foreach ($this->list as $magie){ 
         if(!in_array($magie->getSchule()->getId(), $schoolArray)){ ?>
             <h2 id="<?= $magie->getSchule()->getId() ?>">
-                <?= $magie->getSchule()->getBezeichnung() ?>
+                <?= $purifier->purify($magie->getSchule()->getBezeichnung()) ?>
             </h2>
         <?php } ?>
     <a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">

@@ -49,7 +49,7 @@ $magieschulen = $this->magieschulen;
                         <p>
                     <span class="skill">
                         <input type="hidden" value="<?= $skill->getId() ?>">
-                        <?= $skill->getBezeichnung() ?>
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
                     </span>
                             <span class="skillRank">
                         Rang: <?= $skill->getRang() ?>
@@ -71,13 +71,13 @@ $magieschulen = $this->magieschulen;
         <legend>Besondere Fähigkeiten</legend>
         <?php foreach ($magieschulen as $schule): ?>
             <fieldset>
-                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <legend><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($schule->getMagien() as $magie): ?>
                         <p>
                         <span class="magie">
                             <input type="hidden" value="<?= $magie->getId() ?>">
-                            <?= $magie->getBezeichnung() ?>
+                            <?= $purifier->purify($magie->getBezeichnung()) ?>
                         </span>
                             <span class="magicRank">
                             Rang: <?= $magie->getRang() ?>

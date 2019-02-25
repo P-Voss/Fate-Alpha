@@ -4,22 +4,22 @@ $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styl
 /* @var $layoutData Application_Model_Layout */
 /* @var $information Application_Model_Information */
 $layoutData = $this->layoutData;
-$kategorien = array(
-    'Spiel' => array(),
-    'Regeln' => array(),
-    'Welt' => array(),
-    'Orte' => array(),
-    'Charakter' => array(),
-    'Fähigkeiten' => array(),
-    'Magien' => array(),
-    'Familien' => array(),
-    'Clans' => array(),
-    'Magi' => array(),
-    'Menschen' => array(),
-    'Geschichte' => array(),
-);
+$categories = [
+    'Spiel' => [],
+    'Regeln' => [],
+    'Welt' => [],
+    'Orte' => [],
+    'Charakter' => [],
+    'Fähigkeiten' => [],
+    'Magien' => [],
+    'Familien' => [],
+    'Clans' => [],
+    'Magi' => [],
+    'Menschen' => [],
+    'Geschichte' => [],
+];
 foreach ($layoutData->getInformations() as $information) {
-    $kategorien[$information->getKategorie()][] = $information;
+    $categories[$information->getKategorie()][] = $information;
 }
 ?>
 <h1>
@@ -27,41 +27,41 @@ foreach ($layoutData->getInformations() as $information) {
 </h1>
 <div id="informationNavigation" class="informationBox">
     <?php
-    foreach($kategorien as $kategorie => $informationen):
-    ?>
-    <h2 class="kategorie" data-id="<?= $kategorie ?>">
-        <?= $this->purifier->purify($kategorie) ?>
-    </h2>
-    <?php
-    if(count($informationen) === 0):
-    ?>
-    -
-    <?php
-    endif;
-    foreach($informationen as $information):
-    ?>
-    <a class="information"
-       href="<?= $this->baseurl() ?>/information/index/id/<?= $information->getInformationId() ?>"
-       data-id="<?= $information->getInformationId() ?>"
-    >
-        <h4 title="<?= $this->purifier->purify($information->getName()) ?>">
-            <?= $this->purifier->purify($information->getName()) ?>
-        </h4>
-    </a>
-    <?php    
-    endforeach;
+    foreach ($categories as $kategorie => $informations):
+        ?>
+        <h2 class="kategorie" data-id="<?= $kategorie ?>">
+            <?= $this->purifier->purify($kategorie) ?>
+        </h2>
+        <?php
+        if (count($informations) === 0):
+            ?>
+            -
+        <?php
+        endif;
+        foreach ($informations as $information):
+            ?>
+            <a class="information"
+               href="<?= $this->baseurl() ?>/information/index/id/<?= $information->getInformationId() ?>"
+               data-id="<?= $information->getInformationId() ?>"
+            >
+                <h4 title="<?= $this->purifier->purify($information->getName()) ?>">
+                    <?= $this->purifier->purify($information->getName()) ?>
+                </h4>
+            </a>
+        <?php
+        endforeach;
     endforeach;
     ?>
 </div>
 <div id="informationMain" class="informationBox">
     <div id="informationContent">
         <?php if ($this->information !== null): ?>
-        <h2>
-            <?= $this->purifier->purify($this->information->getName()) ?>
-        </h2>
-        <div>
-            <?= $this->purifier->purify($this->information->getInhalt()) ?>
-        </div>
+            <h2>
+                <?= $this->purifier->purify($this->information->getName()) ?>
+            </h2>
+            <div>
+                <?= $this->purifier->purify($this->information->getInhalt()) ?>
+            </div>
         <?php endif; ?>
     </div>
 </div>
