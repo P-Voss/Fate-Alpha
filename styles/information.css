@@ -17,7 +17,16 @@
     float: left;
     width: 23%;
     overflow-y: scroll;
+    overflow-x: hidden;
     max-height: 500px;
+    font-size: 0.8em;
+}
+
+#informationNavigation h4 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
 }
 
 #informationMain {
@@ -33,9 +42,9 @@
     clear: both;
 }
 
-img{
-  display: block;
-  max-width:570px;
-  width: auto;
-  height: auto;
+img {
+    display: block;
+    max-width: 570px;
+    width: auto;
+    height: auto;
 }

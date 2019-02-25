@@ -2,6 +2,9 @@
 
 class InformationController extends Zend_Controller_Action {
 
+    /**
+     * @var Application_Service_Information
+     */
     protected $informationService;
 
     public function init(){
@@ -13,22 +16,13 @@ class InformationController extends Zend_Controller_Action {
     
     
     public function indexAction() {
-        
-    }
-    
-    
-    public function loadAction() {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $informationService = new Application_Service_Information();
-        $information = $informationService->getInformation(
-            $this->getRequest()->getParam('id', 0),
-            Zend_Auth::getInstance()->getIdentity()->userId
-        );
-        $this->view->information = $information;
-        $html = $this->view->render('information/load.phtml');
-        echo json_encode(array('html' => $html));
+        if ((int) $this->getRequest()->getParam('id', 0) > 0) {{
+            $information = $this->informationService->getInformation(
+                $this->getRequest()->getParam('id', 0),
+                Zend_Auth::getInstance()->getIdentity()->userId
+            );
+            $this->view->information = $information;
+        }}
     }
     
 }

@@ -1,6 +1,6 @@
 <?php
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/information.css'));
-$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/information/information.js'));
+
 /* @var $layoutData Application_Model_Layout */
 /* @var $information Application_Model_Information */
 $layoutData = $this->layoutData;
@@ -30,7 +30,7 @@ foreach ($layoutData->getInformations() as $information) {
     foreach($kategorien as $kategorie => $informationen):
     ?>
     <h2 class="kategorie" data-id="<?= $kategorie ?>">
-        <?= $kategorie ?>
+        <?= $this->purifier->purify($kategorie) ?>
     </h2>
     <?php
     if(count($informationen) === 0):
@@ -40,9 +40,12 @@ foreach ($layoutData->getInformations() as $information) {
     endif;
     foreach($informationen as $information):
     ?>
-    <a class="information" data-id="<?= $information->getInformationId() ?>">
-        <h4>
-            <?= $information->getName() ?>
+    <a class="information"
+       href="<?= $this->baseurl() ?>/information/index/id/<?= $information->getInformationId() ?>"
+       data-id="<?= $information->getInformationId() ?>"
+    >
+        <h4 title="<?= $this->purifier->purify($information->getName()) ?>">
+            <?= $this->purifier->purify($information->getName()) ?>
         </h4>
     </a>
     <?php    
@@ -52,7 +55,14 @@ foreach ($layoutData->getInformations() as $information) {
 </div>
 <div id="informationMain" class="informationBox">
     <div id="informationContent">
-        Links das Thema auswählen, hier steht dann der Inhalt.
+        <?php if ($this->information !== null): ?>
+        <h2>
+            <?= $this->purifier->purify($this->information->getName()) ?>
+        </h2>
+        <div>
+            <?= $this->purifier->purify($this->information->getInhalt()) ?>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 <div class="clear"></div>
