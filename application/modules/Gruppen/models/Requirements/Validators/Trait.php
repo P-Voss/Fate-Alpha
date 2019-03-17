@@ -5,7 +5,7 @@
  *
  * @author Voß
  */
-class Gruppen_Model_Requirements_Validators_Vorteil implements Gruppen_Model_Requirements_ValidationInterface {
+class Gruppen_Model_Requirements_Validators_Trait implements Gruppen_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -16,8 +16,8 @@ class Gruppen_Model_Requirements_Validators_Vorteil implements Gruppen_Model_Req
         $values = explode(':', $value);
         foreach ($values as $value){
             $result = false;
-            foreach ($charakter->getVorteile() as $vorteil){
-                if($vorteil->getId() == $value){
+            foreach ($charakter->getTraits() as $trait){
+                if($trait->getTraitId() == $value){
                     $result = true;
                 }
             }

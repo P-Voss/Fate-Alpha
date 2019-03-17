@@ -13,7 +13,7 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
     {
         $date = new DateTime();
         $data = [];
-        $data['userId'] = 3;//Zend_Auth::getInstance()->getIdentity()->userId;
+        $data['userId'] = Zend_Auth::getInstance()->getIdentity()->userId;
         $data['uuid'] = $this->gen_uuid();
         $data['vorname'] = $charakter->getVorname();
         $data['nachname'] = $charakter->getNachname();

@@ -136,24 +136,13 @@ $magieschulen = $this->magieschulen;
 </div>
 <div>
     <fieldset style="display: inline-block; width: 45%; float: left">
-        <legend>Vorteile</legend>
-<?php foreach($charakter->getVorteile() as $vorteil): ?>
+        <legend>Traits</legend>
+<?php foreach($charakter->getTraits() as $trait): ?>
         <h4>
-            <?= $purifier->purify($vorteil->getBezeichnung()) ?>
+            <?= $purifier->purify($trait->getName()) ?>
         </h4>
         <p>
-            <?= $purifier->purify($vorteil->getBeschreibung()) ?>
-        </p>
-<?php endforeach; ?>
-    </fieldset>
-    <fieldset style="display: inline-block; width: 45%; float: right">
-        <legend>Nachteile</legend>
-<?php foreach($charakter->getNachteile() as $nachteil): ?>
-        <h4>
-            <?= $purifier->purify($nachteil->getBezeichnung()) ?>
-        </h4>
-        <p>
-            <?= $purifier->purify($nachteil->getBeschreibung()) ?>
+            <?= $purifier->purify($trait->getBeschreibung()) ?>
         </p>
 <?php endforeach; ?>
     </fieldset>

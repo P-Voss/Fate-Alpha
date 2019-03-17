@@ -892,60 +892,6 @@ class Application_Model_Mapper_CharakterMapper
 
     /**
      *
-     * @param Application_Model_Nachteil[] $nachteile
-     *
-     * @return Application_Model_Modifier[]
-     * @throws Exception
-     */
-    public function getModifierNachteile ($nachteile = [])
-    {
-        $returnArray = [];
-        $select = $this->getDbTable('NachteilEigenschaften')->select();
-        $select->where('1 = 2');
-        foreach ($nachteile as $nachteil) {
-            $select->orWhere('nachteilId = ?', $nachteil->getId());
-        }
-        $result = $this->getDbTable('NachteilEigenschaften')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $modifier = new Application_Model_Modifier();
-                $modifier->setAttribute($row->eigenschaft);
-                $modifier->setValue($row->effekt);
-                $returnArray[] = $modifier;
-            }
-        }
-        return $returnArray;
-    }
-
-    /**
-     *
-     * @param Application_Model_Vorteil[] $vorteile
-     *
-     * @return \Application_Model_Modifier[]
-     * @throws Exception
-     */
-    public function getModifierVorteile ($vorteile = [])
-    {
-        $returnArray = [];
-        $select = $this->getDbTable('VorteilEigenschaften')->select();
-        $select->where('1 = 2');
-        foreach ($vorteile as $vorteil) {
-            $select->orWhere('vorteilId = ?', $vorteil->getId());
-        }
-        $result = $this->getDbTable('VorteilEigenschaften')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $modifier = new Application_Model_Modifier();
-                $modifier->setAttribute($row->eigenschaft);
-                $modifier->setValue($row->effekt);
-                $returnArray[] = $modifier;
-            }
-        }
-        return $returnArray;
-    }
-
-    /**
-     *
      * @param Application_Model_Skill[] $skills
      *
      * @return \Application_Model_Modifier[]
@@ -976,8 +922,6 @@ class Application_Model_Mapper_CharakterMapper
      * @param int $charakterId
      *
      * @return Application_Model_Modifier[]
-     * @throws Zend_Db_Statement_Exception
-     * @throws Exception
      */
     public function getModifierByCharakter ($charakterId)
     {
@@ -989,15 +933,10 @@ class Application_Model_Mapper_CharakterMapper
             INNER JOIN skillToEigenschaft 
                 USING (skillId)
         UNION 
-            SELECT vorteilToEigenschaft.*, charakterId 
-                FROM charakterVorteile 
-                INNER JOIN vorteilToEigenschaft 
-                    USING (vorteilId)
-        UNION 
-            SELECT nachteilToEigenschaft.*, charakterId 
-                FROM charakterNachteile 
-                INNER JOIN nachteilToEigenschaft 
-                    USING (nachteilId)
+            SELECT effectId, traitId, traitToAttribute.attribute as eigenschaft, traitToAttribute.value as effekt, '' as effektart, characterId AS charakterId 
+                FROM characterTraits 
+                INNER JOIN traitToAttribute 
+                    USING (traitId)
         UNION 
             SELECT klasseToEigenschaft.*, charakterId 
                 FROM charakter 
@@ -1006,15 +945,20 @@ class Application_Model_Mapper_CharakterMapper
         ) AS modifications
     WHERE charakterId = ?
 SQL;
-        $db = $this->getDbTable('charakter')->getDefaultAdapter();
-        $result = $db->query($sql, [$charakterId])->fetchAll();
-        foreach ($result as $row) {
-            $modifier = new Application_Model_Modifier();
-            $modifier->setAttribute($row['eigenschaft']);
-            $modifier->setValue($row['effekt']);
-            $returnArray[] = $modifier;
+
+        try {
+            $db = $this->getDbTable('charakter')->getDefaultAdapter();
+            $result = $db->query($sql, [$charakterId])->fetchAll();
+            foreach ($result as $row) {
+                $modifier = new Application_Model_Modifier();
+                $modifier->setAttribute($row['eigenschaft']);
+                $modifier->setValue($row['effekt']);
+                $returnArray[] = $modifier;
+            }
+            return $returnArray;
+        } catch (Exception $exception) {
+            return [];
         }
-        return $returnArray;
     }
 
     /**
