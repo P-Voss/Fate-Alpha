@@ -8,7 +8,6 @@
 class Application_Service_CharakterBuilder
 {
 
-
     /**
      * @var Application_Model_Mapper_CharakterMapper
      */

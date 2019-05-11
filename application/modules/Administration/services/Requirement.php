@@ -122,6 +122,9 @@ class Administration_Service_Requirement
         if ($request->getParam('magieschule') !== null) {
             $requirements['Schule'] = $request->getParam('magieschule');
         }
+        if ($request->getParam('magieschulenAny') !== null) {
+            $requirements['SchulenAny'] = implode('|', $request->getParam('magieschulenAny'));
+        }
         if ($request->getParam('gruppen') !== null) {
             $requirements['Gruppe'] = implode('|', $request->getParam('gruppen'));
         }

@@ -1,0 +1,25 @@
+<?php
+
+/* @var $item Administration_Model_Item */
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+?>
+    <h1>
+        Items
+    </h1>
+<?php
+foreach ($this->items as $item){
+    ?>
+    <a href="<?= $this->baseUrl() ?>/Administration/item/show/id/<?= $item->getId() ?>">
+        <fieldset>
+            <p>
+                <?= $purifier->purify($item->getName()) ?>
+            </p>
+            <p>
+                <?= $purifier->purify(substr($item->getDescription(), 0, 100)) ?>
+                <?= (strlen($item->getDescription()) > 100) ? '...' : '' ?>
+            </p>
+        </fieldset>
+    </a>
+    <?php
+}

@@ -28,7 +28,6 @@ class Administration_Service_Erstellung {
 
     /**
      * @return Application_Model_Klassengruppe[]
-     * @throws Exception
      */
     public function getKlassengruppenList() {
         return $this->erstellungMapper->getAllClassgroups();

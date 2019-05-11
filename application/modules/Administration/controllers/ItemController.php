@@ -7,7 +7,21 @@
  */
 class Administration_ItemController extends Zend_Controller_Action {
 
+    /**
+     * @var Administration_Service_Erstellung
+     */
     protected $erstellungService;
+    /**
+     * @var Administration_Service_Skill
+     */
+    protected $skillService;
+    /**
+     * @var Administration_Service_Schule
+     */
+    protected $schulService;
+    /**
+     * @var Administration_Service_Items
+     */
     private $service;
 
     public function init(){
@@ -19,33 +33,58 @@ class Administration_ItemController extends Zend_Controller_Action {
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->service = new Administration_Service_Klassen();
+        $this->service = new Administration_Service_Items();
         $this->erstellungService = new Administration_Service_Erstellung();
+        $this->skillService = new Administration_Service_Skill();
+        $this->schulService = new Administration_Service_Schule();
     }
     
     public function indexAction() {
-        
+        $this->view->items = $this->service->getItemList();
     }
     
     public function showAction() {
-        
+        try {
+            $this->view->item = $this->service->getItemById($this->getRequest()->getParam('id', ''));
+        } catch (Exception $exception) {
+            $this->redirect('Administration/item');
+        }
+        $this->view->magien = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->traits = $this->erstellungService->getTraits();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function newAction() {
-        
+        $this->view->magien = $this->skillService->getMagieList();
+        $this->view->schulen = $this->schulService->getSchulList();
+        $this->view->elemente = $this->erstellungService->getElementList();
+        $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
+        $this->view->traits = $this->erstellungService->getTraits();
+        $this->view->skills = $this->skillService->getSkillList();
+        $this->view->klassen = $this->erstellungService->getKlassenList();
     }
     
     public function deleteAction() {
         
     }
-    
+
+    /**
+     *
+     */
     public function editAction() {
-        $this->service->editKlasse($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->editItem($this->getRequest());
         $this->redirect('Administration');
     }
-    
+
+    /**
+     * @throws Exception
+     */
     public function createAction() {
-        $this->service->createKlasse($this->getRequest(), Zend_Auth::getInstance()->getIdentity()->userId);
+        $this->service->createItem($this->getRequest());
         $this->redirect('Administration');
     }
     

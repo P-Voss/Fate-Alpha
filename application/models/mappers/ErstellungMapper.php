@@ -55,13 +55,16 @@ class Application_Model_Mapper_ErstellungMapper
 
     /**
      * @return Application_Model_Klassengruppe[]
-     * @throws Exception
      */
     public function getAllClassgroups ()
     {
         $return = [];
+        try {
         $select = $this->getDbTable('Klassengruppe')->select();
         $result = $this->getDbTable('Klassengruppe')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
+        }
         foreach ($result as $row) {
             $model = new Application_Model_Klassengruppe();
             $model->setId($row->klassengruppenId);
