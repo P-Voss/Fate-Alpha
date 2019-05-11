@@ -26,7 +26,7 @@ class Application_Service_Charakter {
     /**
      * @param int $userId
      *
-     * @return boolean|\Application_Model_Charakter
+     * @return Application_Model_Charakter
      * @throws Exception
      */
     public function getCharakterByUserid($userId) {
@@ -54,22 +54,16 @@ class Application_Service_Charakter {
      * @throws Exception
      */
     public function getCharakterById($charakterId) {
-        $charakter = false;
-        if ($charakterId !== false && $charakterId > 0) {
-            if ($this->cacheService->isActive()) {
-                $charakter = $this->cacheService->fetch('charakter', $charakterId);
-            }
-            if ($charakter === false) {
-                $charakter = $this->buildCharakter($charakterId);
-            }
-            if ($charakter !== false && $this->cacheService->isActive()) {
-                $this->cacheService->storeCharakter('charakter', $charakter->getCharakterid(), $charakter);
-            }
-            return $charakter;
-        } else {
-            return $charakter;
-            # return new Application_Model_Charakter();
+        if ($this->cacheService->isActive()) {
+            $charakter = $this->cacheService->fetch('charakter', $charakterId);
         }
+        if (!isset($charakter)) {
+            $charakter = $this->buildCharakter($charakterId);
+        }
+        if ($charakter !== false && $this->cacheService->isActive()) {
+            $this->cacheService->storeCharakter('charakter', $charakter->getCharakterid(), $charakter);
+        }
+        return $charakter;
     }
 
     /**

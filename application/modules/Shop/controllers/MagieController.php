@@ -22,10 +22,9 @@ class Shop_MagieController extends Zend_Controller_Action {
         }
         $this->charakterService = new Application_Service_Charakter();
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
-        $this->charakter->setMagieschulen($this->charakterService->getMagieschulen($this->charakter->getCharakterid()));
-        $this->charakter->setMagien($this->charakterService->getMagien($this->charakter->getCharakterid()));
-        if($this->charakter === false){
+        try {
+            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+        } catch (Exception $exception) {
             $this->redirect('index/index');
         }
         $config = HTMLPurifier_Config::createDefault();

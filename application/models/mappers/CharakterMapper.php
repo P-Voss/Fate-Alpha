@@ -184,7 +184,7 @@ class Application_Model_Mapper_CharakterMapper
     /**
      * @param int $userId
      *
-     * @return boolean|int
+     * @return int
      * @throws Exception
      */
     public function getCharakterIdByUserId ($userId)
@@ -194,7 +194,10 @@ class Application_Model_Mapper_CharakterMapper
         $select->from(['C' => 'charakter'], ['C.*']);
         $select->where('C.userId = ? AND active = 1', $userId);
         $result = $this->getDbTable('Charakter')->fetchRow($select);
-        return $result !== null ? $result->charakterId : false;
+        if ($result === null) {
+            throw new Exception('Character does not exist');
+        }
+        return $result->charakterId;
     }
 
     /**

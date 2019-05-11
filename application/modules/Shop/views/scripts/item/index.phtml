@@ -1,1 +1,58 @@
 <?php
+$this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
+$this->headLink()->prependStylesheet($this->baseUrl() . '/js/tooltipster/css/tooltipster.css');
+$this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.tooltipster.min.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.js');
+$this->headScript()->prependFile($this->baseUrl() . '/js/custom/shop/items.js');
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+
+$itemCategoryNames = [
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Schöne Waffen zum Draufhauen'],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Pfeile, Bolzen, Patronen'],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_CONCEPT => ['name' => 'Konzeptwaffen', 'descr' => 'Laser?'],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MYSTIC => ['name' => 'Mystic Codes', 'descr' => 'Dunno'],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RECIPE => ['name' => 'Rezepte', 'descr' => 'Was zu futtern.'],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MISC => ['name' => 'Sonstiges', 'descr' => 'Alles mögliche'],
+];
+$itemCategories = [
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE => [],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED => [],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_CONCEPT => [],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MYSTIC => [],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RECIPE => [],
+    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MISC => [],
+];
+foreach ($this->items as $item) {
+    $itemCategories[$item->getType()][] = $item;
+}
+?>
+<h1>Shop</h1>
+<?php
+foreach ($itemCategories as $key => $category):
+    if (count($category) === 0) {
+        continue;
+    }
+?>
+<fieldset>
+    <legend><?= $itemCategoryNames[$key]['name'] ?></legend>
+    <p>
+        <?= $itemCategoryNames[$key]['descr'] ?>
+    </p>
+    <fieldset>
+        <legend>Gegenstände anzeigen</legend>
+        <div class="subContent">
+            <?php foreach ($category as $item): ?>
+                <div class="item">
+                    <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
+                    <p>
+                        <?= $purifier->purify($item->getDescription()) ?>
+                    </p>
+                    <p><button class="buy" data-id="<?= $item->getId() ?>">Gegenstand kaufen - <?= $item->getCost() ?> FP</button></p>
+                    <hr />
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </fieldset>
+</fieldset>
+<?php endforeach; ?>

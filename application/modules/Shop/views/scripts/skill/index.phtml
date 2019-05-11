@@ -12,46 +12,46 @@ $purifier = $this->purifier;
     Fähigkeiten
 </h1>
 <?php
-$lockedSkillarten = array();
+$lockedSkillarten = [];
 foreach ($this->skillarten as $skillart):
-    if($skillart->getLearned() === false){
+    if ($skillart->getLearned() === false) {
         $lockedSkillarten[] = $skillart;
         continue;
     }
-    if($skillart->getId() === 3): ?>
-<img src="http://i.imgur.com/QDDjNup.jpg">
+    if ($skillart->getId() === 3): ?>
+        <img src="http://i.imgur.com/QDDjNup.jpg">
     <?php
     endif;
     ?>
-<fieldset style="margin-bottom: 1.5em">
-    <legend>
-        <?= $purifier->purify($skillart->getBezeichnung()) ?>
-    </legend>
-    <p>
-        <?= $purifier->purify($skillart->getBeschreibung()) ?>
-    </p>
-    <fieldset>
-        <legend class="skillart" data-id="<?= $skillart->getId() ?>">Fähigkeiten anzeigen</legend>
-        <div class="subContent"></div>
+    <fieldset style="margin-bottom: 1.5em">
+        <legend>
+            <?= $purifier->purify($skillart->getBezeichnung()) ?>
+        </legend>
+        <p>
+            <?= $purifier->purify($skillart->getBeschreibung()) ?>
+        </p>
+        <fieldset>
+            <legend class="skillart" data-id="<?= $skillart->getId() ?>">Fähigkeiten anzeigen</legend>
+            <div class="subContent"></div>
+        </fieldset>
     </fieldset>
-</fieldset>
-<hr />
+    <hr/>
 <?php endforeach;
 foreach ($lockedSkillarten as $skillart):
-?>
-<fieldset style="margin-bottom: 1.5em">
-    <p>
-        <?= $purifier->purify($skillart->getBezeichnung()) ?>
-    </p>
-    <p>
-        <?= $purifier->purify($skillart->getBeschreibung()) ?>
-    </p>
-    <form method="POST" action="<?= $this->baseUrl() ?>/Shop/skill/unlockskillart">
-        <input type="hidden" value="<?= $skillart->getId() ?>" name="skillartId">
-        <input type="submit" value="Kategorie freischalten">
-    </form>
-</fieldset>
-<hr />
+    ?>
+    <fieldset style="margin-bottom: 1.5em">
+        <p>
+            <?= $purifier->purify($skillart->getBezeichnung()) ?>
+        </p>
+        <p>
+            <?= $purifier->purify($skillart->getBeschreibung()) ?>
+        </p>
+        <form method="POST" action="<?= $this->baseUrl() ?>/Shop/skill/unlockskillart">
+            <input type="hidden" value="<?= $skillart->getId() ?>" name="skillartId">
+            <input type="submit" value="Kategorie freischalten">
+        </form>
+    </fieldset>
+    <hr/>
 <?php
 endforeach;
 ?>
