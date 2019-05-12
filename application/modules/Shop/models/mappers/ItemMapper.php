@@ -59,20 +59,21 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
     }
 
     /**
-     * @param int $characterId
+     * @param Application_Model_Charakter $character
      * @param Shop_Model_Item $item
      *
      * @return int
      * @throws Exception
      */
-    public function unlock ($characterId, Shop_Model_Item $item)
+    public function unlock (Application_Model_Charakter $character, Shop_Model_Item $item)
     {
         $data = [
-            'charakterId' => $characterId,
+            'charakterId' => $character->getCharakterid(),
             'itemId' => $item->getId(),
         ];
+        $cost = $item->getActualCost($character);
         $this->getDbTable('charakterWerte')->getDefaultAdapter()
-            ->query('UPDATE charakterWerte SET fp = fp - ' . $item->getCost() . ' WHERE charakterId = ' . $characterId);
+            ->query('UPDATE charakterWerte SET fp = fp - ' . $cost . ' WHERE charakterId = ' . $character->getCharakterid());
         return $this->getDbTable('charakterItems')->insert($data);
     }
 

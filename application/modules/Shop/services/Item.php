@@ -47,23 +47,26 @@ class Shop_Service_Item {
 
     /**
      * @param $itemId
-     * @param $characterId
+     * @param Application_Model_Charakter $character
      *
      * @throws Exception
      */
-    public function buy ($itemId, $characterId)
+    public function buy ($itemId, Application_Model_Charakter $character)
     {
-        if ($this->mapper->checkIfLearned($characterId, $itemId)) {
-            throw new Exception('Gegenstand wurde schon gekauft.');
+        if ($this->mapper->checkIfLearned($character->getCharakterid(), $itemId)) {
+            throw new Exception('Der Gegenstand wurde schon gekauft.');
         }
         if (!$this->requirementService->validate($this->mapper->getRequirements($itemId))) {
-            throw new Exception('Charakter erfüllt nicht alle Voraussetzungen.');
+            throw new Exception('Dein Charakter erfüllt nicht alle Voraussetzungen.');
         }
         $item = $this->mapper->getItem($itemId);
+        if ($character->getCharakterwerte()->getFp() < $item->getActualCost($character)) {
+            throw new Exception('Nicht genug FP um den Gegenstand zu kaufen.');
+        }
         if ($item->getBedingung() === 'Standard') {
-            $this->mapper->unlock($characterId, $item);
+            $this->mapper->unlock($character, $item);
         } else {
-            throw new Exception('Item kann nur über RPG erhalten werden.');
+            throw new Exception('Das Item kann nur über RPG erhalten werden.');
         }
     }
 

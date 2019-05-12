@@ -58,7 +58,7 @@ class Shop_ItemController extends Zend_Controller_Action
         try {
             $service->buy(
                 $this->getRequest()->getPost('id', 0),
-                $this->character->getCharakterid()
+                $this->character
             );
             echo json_encode(['success' => true]);
             exit;

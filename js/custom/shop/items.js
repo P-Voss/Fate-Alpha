@@ -66,7 +66,7 @@ jQuery(document).ready(function () {
                             swal({
                                 type: 'error',
                                 title: 'Oops...',
-                                text: 'Du konntest den Gegenstand nicht kaufen',
+                                text: 'Du konntest den Gegenstand nicht kaufen: ' + data.message,
                             })
                         }
                     }
