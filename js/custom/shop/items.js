@@ -1,6 +1,5 @@
 jQuery(document).ready(function () {
 
-
     indicators();
 
     function indicators() {

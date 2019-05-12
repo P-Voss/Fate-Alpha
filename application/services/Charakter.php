@@ -67,46 +67,32 @@ class Application_Service_Charakter {
     }
 
     /**
-     * @todo Builder-Pattern
-     *
      * @param int $charakterId
      *
-     * @return boolean|Application_Model_Charakter
+     * @return Application_Model_Charakter
      * @throws Exception
      */
     private function buildCharakter($charakterId) {
-        $klassenMapper = new Application_Model_Mapper_KlasseMapper();
-        $charakter = $this->charakterMapper->getCharakter($charakterId);
-        if($charakter !== false){
-            $charakter->setKlasse($this->charakterMapper->getCharakterKlasse($charakter->getCharakterid()));
-            $charakter->setKlassengruppe($klassenMapper->getKlassengruppe($charakter->getKlasse()->getId()));
-            $charakter->setNaturelement($this->charakterMapper->getNaturelement($charakter->getCharakterid()));
-            $charakter->setCharakterwerte($this->charakterMapper->getCharakterwerte($charakter->getCharakterid()));
-            $charakter->setTraits($this->charakterMapper->getTraitsByCharacterId($charakterId));
-            $charakter->getCharakterwerte()->traitsToUebermenschMod($charakter->getTraits());
-            
-            $charakter->setModifiers($this->charakterMapper->getModifierByCharakter($charakter->getCharakterid()));
-            
-            $charakter->setLuck($this->charakterMapper->getLuck($charakter->getCharakterid(), $charakter->getModifiers()));
-            $charakter->setVermoegen($this->charakterMapper->getVermoegen($charakter->getCharakterid(), $charakter->getModifiers()));
-            $charakter->setMagiccircuit($this->charakterMapper->getMagiccircuit($charakter->getCharakterid()));
-            $charakter->setOdo($this->charakterMapper->getOdo($charakter->getCharakterid(), $charakter->getModifiers()));
-
-            if (in_array($charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C'])) {
-                $charakter->getCharakterwerte()->setCircuitMod($charakter->getMagiccircuit()->getKategorie());
-            }
-            
-            $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
-            
-            $charakter->setSkills($this->charakterMapper->getCharakterSkills($charakterId));
-            $charakter->setMagieschulen($this->charakterMapper->getCharakterMagieschulen($charakterId));
-            $charakter->setMagien($this->charakterMapper->getCharakterMagien($charakterId));
-            
-            $odo = $charakter->getOdo();
-            $odo->calculateActualOdo($charakter->getMagiccircuit(), $charakter->getCharakterwerte()->getCategory('kon'), $charakter->getKlassengruppe());
-            $charakter->setOdo($odo);
+        $charakterBuilder = new Application_Service_CharakterBuilder();
+        if ($charakterBuilder->initCharakterByCharakterId($charakterId)) {
+            $charakterBuilder
+                ->setTraits()
+                ->setCircuit()
+                ->setNaturelement()
+                ->setClassData()
+                ->setLuck()
+                ->setMagien()
+                ->setMagieschulen()
+                ->setOdo()
+                ->setProfile()
+                ->setSkills()
+                ->setItems()
+                ->setVermoegen()
+                ->setWerte();
+            return $charakterBuilder->getCharakter();
+        } else {
+            throw new Exception('Character could not be loaded');
         }
-        return $charakter;
     }
 
     /**

@@ -5,8 +5,9 @@
  *
  * @author Vosser
  */
-class CharakterController extends Zend_Controller_Action{
-    
+class CharakterController extends Zend_Controller_Action
+{
+
     /**
      * @var Application_Model_Charakter
      */
@@ -24,21 +25,19 @@ class CharakterController extends Zend_Controller_Action{
     /**
      * @throws Zend_Db_Statement_Exception
      */
-    public function init() {
+    public function init ()
+    {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
         $this->layoutService = new Application_Service_Layout();
-        
+
         $layout = $this->_helper->layout();
         $auth = Zend_Auth::getInstance()->getIdentity();
-        if($auth === null){
+        if ($auth === null) {
             $this->redirect('index');
-        }  else {
-            $this->charakter = $this->initCharakter($auth->userId);
-            if($this->charakter !== false){
-                $this->charakter->setCharakterprofil($this->charakterService->getProfile($this->charakter->getCharakterid()));
-            }
+        } else {
+            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
             $this->view->layoutData = $this->layoutService->getLayoutData($auth);
             $layout->setLayout('online');
         }
@@ -47,8 +46,9 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function indexAction() {
-        if($this->charakter === false){
+    public function indexAction ()
+    {
+        if ($this->charakter === false) {
             $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
@@ -57,8 +57,9 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function profilAction() {
-        if($this->charakter === false){
+    public function profilAction ()
+    {
+        if ($this->charakter === false) {
             $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
@@ -67,27 +68,28 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function abilitiesAction() {
-        if($this->charakter === false){
+    public function abilitiesAction ()
+    {
+        if ($this->charakter === false) {
             $this->redirect('Erstellung/creation');
         }
         $magieService = new Shop_Service_Magie();
         $magieschulen = $magieService->getMagieschulenForCharakter($this->charakter);
-        $schulen = array();
-        foreach ($magieschulen as $schule){
-            if($schule->getLearned() === true){
+        $schulen = [];
+        foreach ($magieschulen as $schule) {
+            if ($schule->getLearned()) {
                 $schule->setMagien($magieService->getLearnedMagieBySchule($this->charakter->getCharakterid(), $schule));
                 $schulen[] = $schule;
             }
         }
         $this->view->magieschulen = $schulen;
-        
+
         $skillService = new Shop_Service_Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($this->charakter);
         foreach ($skillarten as $skillart) {
-            if($skillart->getLearned() === false){
+            if ($skillart->getLearned() === false) {
                 unset($skillart);
-            }else{
+            } else {
                 $skillart->setSkills($skillService->getLearnedSkillBySkillart($this->charakter->getCharakterid(), $skillart));
             }
         }
@@ -98,16 +100,19 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function inventarAction() {
-        if($this->charakter === false){
+    public function inventarAction ()
+    {
+        if ($this->charakter === false) {
             $this->redirect('Erstellung/creation');
         }
         $this->view->charakter = $this->charakter;
     }
+
     /**
      * @throws Exception
      */
-    public function charpicAction() {
+    public function charpicAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -118,7 +123,8 @@ class CharakterController extends Zend_Controller_Action{
     /**
      * @throws Exception
      */
-    public function profilpicAction() {
+    public function profilpicAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -129,7 +135,8 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function storyAction() {
+    public function storyAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -140,7 +147,8 @@ class CharakterController extends Zend_Controller_Action{
     /**
      *
      */
-    public function privateAction() {
+    public function privateAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -149,12 +157,11 @@ class CharakterController extends Zend_Controller_Action{
     }
 
     /**
-     * @todo Auf neues Trainingssystem umstellen
-     *
      * @throws Exception
      */
-    public function bonusAction() {
-        if($this->charakter->getCharakterwerte()->getStartpunkte() <= 0){
+    public function bonusAction ()
+    {
+        if ($this->charakter->getCharakterwerte()->getStartpunkte() <= 0) {
             $this->redirect('charakter');
         }
         $this->view->accessKey = Zend_Auth::getInstance()->getIdentity()->accessKey;
@@ -164,7 +171,8 @@ class CharakterController extends Zend_Controller_Action{
     /**
      * @throws Exception
      */
-    public function trainingpreviewAction() {
+    public function trainingpreviewAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $layout = $this->_helper->layout();
         $layout->disableLayout();
@@ -175,34 +183,38 @@ class CharakterController extends Zend_Controller_Action{
             'disziplin' => 'dis',
             'kontrolle' => 'kon',
         ];
-        if(!array_key_exists($this->getRequest()->getParam('attribute'), $attributes)
-                ||
-            (int)$this->getRequest()->getParam('days') < 0){
-            echo json_encode(array(
-                'success' => false,
-                'wert' => '',
-                'kategorie' => '',
-            ));
+        if (!array_key_exists($this->getRequest()->getParam('attribute'), $attributes)
+            ||
+            (int)$this->getRequest()->getParam('days') < 0) {
+            echo json_encode(
+                [
+                    'success' => false,
+                    'wert' => '',
+                    'kategorie' => '',
+                ]
+            );
         }
-        
+
         $service = new Application_Service_Training();
         $trainingswerte = $service->getTrainingswerte($this->charakter);
         $werte = $this->charakter->getCharakterwerte();
-        
-        for($i = 0; $i < (int)$this->getRequest()->getParam('days') && $i < $werte->getStartpunkte(); $i++){
-            $werte->addTraining(array('training' => $this->getRequest()->getParam('attribute')), $trainingswerte);
+
+        for ($i = 0; $i < (int)$this->getRequest()->getParam('days') && $i < $werte->getStartpunkte(); $i++) {
+            $werte->addTraining(['training' => $this->getRequest()->getParam('attribute')], $trainingswerte);
         }
-        
+
         $category = $werte->getCategory($attributes[$this->getRequest()->getParam('attribute')])->getCategory();
         $function = "get" . ucfirst($this->getRequest()->getParam('attribute'));
         $wert = $werte->$function();
-        
-        echo json_encode(array(
-            'success' => true,
-            'wert' => $wert,
-            'kategorie' => $category,
-        ));
-        
+
+        echo json_encode(
+            [
+                'success' => true,
+                'wert' => $wert,
+                'kategorie' => $category,
+            ]
+        );
+
     }
 
     public function attributesAction ()
@@ -215,7 +227,7 @@ class CharakterController extends Zend_Controller_Action{
             echo json_encode(
                 [
                     'success' => false,
-                    'error' => 'Auth Error'
+                    'error' => 'Auth Error',
                 ]
             );
             exit;
@@ -226,7 +238,7 @@ class CharakterController extends Zend_Controller_Action{
             echo json_encode(
                 [
                     'success' => true,
-                    'attributes' => $charakter->getCharakterwerte()->toArray()
+                    'attributes' => $charakter->getCharakterwerte()->toArray(),
                 ]
             );
         } catch (Throwable $exception) {
@@ -239,7 +251,7 @@ class CharakterController extends Zend_Controller_Action{
         echo json_encode(
             [
                 'success' => true,
-                'data' => $this->charakter->getCharakterwerte()->toArray()
+                'data' => $this->charakter->getCharakterwerte()->toArray(),
             ]
         );
         exit;
@@ -266,7 +278,8 @@ class CharakterController extends Zend_Controller_Action{
      * @throws Zend_Db_Statement_Exception
      * @throws Exception
      */
-    private function initCharakter($userId) {
+    private function initCharakter ($userId)
+    {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         if ($charakterBuilder->initCharakterByUserId($userId)) {
             $charakterBuilder
@@ -280,6 +293,7 @@ class CharakterController extends Zend_Controller_Action{
                 ->setOdo()
                 ->setProfile()
                 ->setSkills()
+                ->setItems()
                 ->setVermoegen()
                 ->setWerte();
             return $charakterBuilder->getCharakter();
@@ -287,5 +301,5 @@ class CharakterController extends Zend_Controller_Action{
             return false;
         }
     }
-    
+
 }

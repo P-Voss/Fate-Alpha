@@ -151,6 +151,10 @@ class Application_Model_Charakter
      * @var int
      */
     protected $killCount;
+    /**
+     * @var Application_Model_Item[]
+     */
+    protected $items = [];
 
     /**
      * @return int
@@ -822,6 +826,36 @@ class Application_Model_Charakter
             }
         }
         return new Application_Model_Trait();
+    }
+
+    /**
+     * @return Application_Model_Item[]
+     */
+    public function getItems (): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param Application_Model_Item[] $items
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setItems (array $items): Application_Model_Charakter
+    {
+        $this->items = $items;
+        return $this;
+    }
+
+    /**
+     * @param Application_Model_Item $item
+     *
+     * @return Application_Model_Charakter
+     */
+    public function addItem (Application_Model_Item $item): Application_Model_Charakter
+    {
+        $this->items[] = $item;
+        return $this;
     }
 
     /**

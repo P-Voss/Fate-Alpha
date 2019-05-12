@@ -216,5 +216,14 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
+    public function setItems ()
+    {
+        $this->charakter->setItems($this->charakterMapper->getCharacterItems($this->charakterId));
+        return $this;
+    }
+
 
 }

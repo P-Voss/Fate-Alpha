@@ -857,16 +857,46 @@ class Application_Model_Mapper_CharakterMapper
         );
         $select->where('charakterMagien.charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $magie = new Application_Model_Magie();
-                $magie->setId($row->magieId);
-                $magie->setBezeichnung($row->name);
-                $magie->setBeschreibung($row->beschreibung);
-                $returnArray[] = $magie;
-            }
+        foreach ($result as $row) {
+            $magie = new Application_Model_Magie();
+            $magie->setId($row->magieId);
+            $magie->setBezeichnung($row->name);
+            $magie->setBeschreibung($row->beschreibung);
+            $returnArray[] = $magie;
         }
         return $returnArray;
+    }
+
+    /**
+     * @param $characterId
+     *
+     * @return Application_Model_Item[]
+     */
+    public function getCharacterItems ($characterId)
+    {
+        $returnArray = [];
+        try {
+            $select = $this->getDbTable('Item')
+                ->select()
+                ->setIntegrityCheck(false)
+                ->from('charakterItems', [])
+                ->joinInner('items', 'items.itemId = charakterItems.itemId')
+                ->where('charakterItems.charakterId = ?', $characterId);
+            $result = $this->getDbTable('Item')->fetchAll($select);
+            foreach ($result as $row) {
+                $item = new Application_Model_Item();
+                $item->setId($row->itemId)
+                    ->setName($row->name)
+                    ->setType($row->type)
+                    ->setRank($row->rank)
+                    ->setDescription($row->description)
+                    ->setCost($row->cost);
+                $returnArray[] = $item;
+            }
+            return $returnArray;
+        } catch (Exception $exception) {
+            return [];
+        }
     }
 
     /**

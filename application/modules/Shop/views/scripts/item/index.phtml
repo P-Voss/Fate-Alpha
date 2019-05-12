@@ -33,26 +33,29 @@ foreach ($itemCategories as $key => $category):
     if (count($category) === 0) {
         continue;
     }
+    usort($category, function (Shop_Model_Item $previous, Shop_Model_Item $next) {
+        return $previous->getRank() <=> $next->getRank();
+    })
 ?>
 <fieldset>
-    <legend><?= $itemCategoryNames[$key]['name'] ?></legend>
+    <legend><?= $itemCategoryNames[$key]['name'] ?> <span class="indicator"></span></legend>
     <p>
         <?= $itemCategoryNames[$key]['descr'] ?>
     </p>
-    <fieldset>
-        <legend>Gegenstände anzeigen</legend>
-        <div class="subContent">
-            <?php foreach ($category as $item): ?>
-                <div class="item">
-                    <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
-                    <p>
-                        <?= $purifier->purify($item->getDescription()) ?>
-                    </p>
-                    <p><button class="buy" data-id="<?= $item->getId() ?>">Gegenstand kaufen - <?= $item->getCost() ?> FP</button></p>
-                    <hr />
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </fieldset>
+    <div class="subContent">
+        <?php foreach ($category as $item): ?>
+            <div class="item">
+                <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
+                <p>
+                    Rang: <span style="font-weight: bold"><?= $purifier->purify($item->getRank()) ?></span>
+                </p>
+                <p>
+                    <?= $purifier->purify($item->getDescription()) ?>
+                </p>
+                <p><button class="buy" data-id="<?= $item->getId() ?>">Gegenstand kaufen - <?= $item->getCost() ?> FP</button></p>
+                <hr />
+            </div>
+        <?php endforeach; ?>
+    </div>
 </fieldset>
 <?php endforeach; ?>
