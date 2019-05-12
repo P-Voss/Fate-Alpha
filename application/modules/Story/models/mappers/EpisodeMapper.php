@@ -25,7 +25,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                     INNER JOIN plots ON plots.userId = ? AND plots.plotId = episoden.plotId
                     WHERE episoden.episodenId = ?';
             $stmt = $db->prepare($sql);
-            $stmt->execute([$episodenId, $userId]);
+            $stmt->execute([$userId, $episodenId]);
             return count($stmt->fetchAll()) > 0;
         } catch (Exception $exception) {
             return false;
