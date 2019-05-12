@@ -32,7 +32,7 @@ class Shop_Model_Mapper_ItemMapper
     {
         $returnArray = [];
         try {
-            $result = $this->getDbTable('Item')->fetchAll();
+            $result = $this->getDbTable('Item')->fetchAll('bedingung = "Standard"');
         } catch (Exception $exception) {
             return [];
         }

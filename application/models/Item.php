@@ -31,6 +31,10 @@ class Application_Model_Item {
      * @var int
      */
     protected $cost;
+    /**
+     * @var string
+     */
+    private $bedingung = 'Standard';
 
     /**
      * @return int
@@ -143,6 +147,25 @@ class Application_Model_Item {
     public function setCost (int $cost): Application_Model_Item
     {
         $this->cost = $cost;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBedingung ()
+    {
+        return $this->bedingung;
+    }
+
+    /**
+     * @param string $bedingung
+     *
+     * @return Application_Model_Item
+     */
+    public function setBedingung ($bedingung)
+    {
+        $this->bedingung = $bedingung;
         return $this;
     }
     

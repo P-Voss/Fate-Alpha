@@ -54,13 +54,17 @@ class Shop_Service_Item {
     public function buy ($itemId, $characterId)
     {
         if ($this->mapper->checkIfLearned($characterId, $itemId)) {
-            throw new Exception('Item already bought');
+            throw new Exception('Gegenstand wurde schon gekauft.');
         }
         if (!$this->requirementService->validate($this->mapper->getRequirements($itemId))) {
-            throw new Exception('Can not buy this item');
+            throw new Exception('Charakter erfüllt nicht alle Voraussetzungen.');
         }
         $item = $this->mapper->getItem($itemId);
-        $this->mapper->unlock($characterId, $item);
+        if ($item->getBedingung() === 'Standard') {
+            $this->mapper->unlock($characterId, $item);
+        } else {
+            throw new Exception('Item kann nur über RPG erhalten werden.');
+        }
     }
 
 }

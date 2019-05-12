@@ -22,6 +22,7 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
             'rank' => $item->getRank(),
             'description' => $item->getDescription(),
             'cost' => $item->getCost(),
+            'bedingung' => $item->getBedingung()
         ];
         return $this->getDbTable('Item')->insert($data);
     }
@@ -42,6 +43,7 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
                 ->setType($row->type)
                 ->setRank($row->rank)
                 ->setDescription($row->description)
+                ->setBedingung($row->bedingung)
                 ->setCost($row->cost);
             return $item;
         } else {
@@ -63,6 +65,7 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
             'rank' => $item->getRank(),
             'description' => $item->getDescription(),
             'cost' => $item->getCost(),
+            'bedingung' => $item->getBedingung()
         ];
         return $this->getDbTable('Item')->update($data, ['itemId = ?' => $item->getId()]);
     }
@@ -85,6 +88,7 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
                 ->setType($row->type)
                 ->setRank($row->rank)
                 ->setDescription($row->description)
+                ->setBedingung($row->bedingung)
                 ->setCost($row->cost);
             $items[] = $item;
         }

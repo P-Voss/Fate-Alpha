@@ -22,6 +22,15 @@ $purifier = $this->purifier;
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
+                <label for="bedingung">Kaufbedingung</label>
+                <select name="bedingung" id="bedingung">
+                    <option>Standard</option>
+                    <option>RPG</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
                 <label for="type">Item Art</label>
                 <select name="type">
                     <option value="<?= Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE ?>">Waffe - Nahkampf</option>

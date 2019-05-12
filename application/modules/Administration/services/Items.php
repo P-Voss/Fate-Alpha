@@ -30,6 +30,7 @@ class Administration_Service_Items {
         $item = new Administration_Model_Item();
 
         $item->setName($request->getPost('name'));
+        $item->setBedingung($request->getPost('bedingung'));
         $item->setDescription($request->getPost('beschreibung'));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
         $item->setRank($request->getPost('rang'));
@@ -55,6 +56,7 @@ class Administration_Service_Items {
         $item = new Administration_Model_Item();
 
         $item->setId($request->getPost('itemId'));
+        $item->setBedingung($request->getPost('bedingung'));
         $item->setName($request->getPost('name'));
         $item->setDescription($request->getPost('beschreibung'));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
