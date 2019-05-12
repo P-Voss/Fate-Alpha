@@ -88,7 +88,7 @@ $magieschulen = $this->magieschulen;
 <div>
     <fieldset>
         <legend>Fähigkeiten</legend>
-        <?php foreach ($skillarten as $skillart): 
+        <?php foreach ($skillarten as $skillart):
             if(count($skillart->getSkills()) === 0){
                 continue;
             }
@@ -129,4 +129,5 @@ $magieschulen = $this->magieschulen;
         <?php endforeach; ?>
     </fieldset>
 </div>
+<?php include __DIR__ . '/partials/inventar.phtml' ?>
 <div id="dialog"></div>

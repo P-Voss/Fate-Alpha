@@ -6,9 +6,15 @@
  * @author Voß
  */
 class Shop_Model_Skillart extends Application_Model_Skillart {
-    
+
+    /**
+     * @var Shop_Model_Requirementlist
+     */
     private $requirementList;
-    private $learned;
+    /**
+     * @var bool
+     */
+    private $learned = false;
     
     /**
      * @return Shop_Model_Requirementlist
@@ -17,6 +23,9 @@ class Shop_Model_Skillart extends Application_Model_Skillart {
         return $this->requirementList;
     }
 
+    /**
+     * @return bool
+     */
     public function getLearned() {
         return $this->learned;
     }
@@ -28,10 +37,11 @@ class Shop_Model_Skillart extends Application_Model_Skillart {
         $this->requirementList = $requirementList;
     }
 
+    /**
+     * @param $learned
+     */
     public function setLearned($learned) {
         $this->learned = $learned;
     }
 
-
-    
 }

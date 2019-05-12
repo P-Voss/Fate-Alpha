@@ -55,7 +55,7 @@ class Administration_CharakterController extends Zend_Controller_Action
         $skillService = new Shop_Service_Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($charakter);
         foreach ($skillarten as $skillart) {
-            if ($skillart->getLearned()) {
+            if (!$skillart->getLearned()) {
                 unset($skillart);
             } else {
                 $skillart->setSkills($skillService->getLearnedSkillBySkillart($charakter->getCharakterid(), $skillart));

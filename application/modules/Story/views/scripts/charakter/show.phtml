@@ -236,16 +236,17 @@ $categoryDis = $werte->getCategory('dis');
         <?php endforeach; ?>
     </fieldset>
 </div>
+<?php include __DIR__ . '/partials/inventar.phtml' ?>
 <div>
     <fieldset>
         <legend><h2>Traits</h2></legend>
         <?php foreach ($charakter->getTraits() as $trait): ?>
-            <h3>
-                <?= $purifier->purify($trait->getName()) ?>
-            </h3>
-            <p>
+        <fieldset>
+            <legend><?= $purifier->purify($trait->getName()) ?> <span class="indicator"></span></legend>
+            <div class="subContent">
                 <?= $purifier->purify($trait->getBeschreibung()) ?>
-            </p>
+            </div>
+        </fieldset>
         <?php endforeach; ?>
     </fieldset>
 </div>

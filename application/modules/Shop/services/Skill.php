@@ -58,13 +58,12 @@ class Shop_Service_Skill
      * @param int $charakterId
      * @param Application_Model_Skillart $skillart
      *
-     * @return Application_Model_Skillart
+     * @return Shop_Model_Skill[]
      * @throws Exception
      */
     public function getLearnedSkillBySkillart ($charakterId, Application_Model_Skillart $skillart)
     {
-        $skillart->setSkills($this->mapper->getLearnedSkillsBySkillArtId($skillart->getId(), $charakterId));
-        return $skillart;
+        return $this->mapper->getLearnedSkillsBySkillArtId($skillart->getId(), $charakterId);
     }
 
     /**
