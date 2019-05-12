@@ -1,4 +1,5 @@
 <?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/custom/training/indicators.js');
 /**
  * @var $trainingsprograms Application_Model_Training_Program[]
  */
@@ -9,43 +10,43 @@ $trainingsprograms = $this->trainingsprograms;
 </h1>
 <?php foreach ($trainingsprograms as $program): ?>
 <fieldset>
-    <legend><?= $program->getName() ?></legend>
+    <legend><?= $program->getName() ?> <span class="indicator"></span></legend>
     <p>
         <?= $program->getDescription() ?>
     </p>
-    <form method="post" action="<?= $this->baseUrl() ?>/training/set">
+    <div class="subContent">
         <p class="trainingDescription"></p>
         <div class="trainingInformation">
             <p class="trainingDescription">
                 Diese Werte werden auf jeden Fall trainiert
             </p>
             <p>
-                <span class="trainingAttribute">
-                    <?= Application_Model_Training_Attribute::getAttributeName($program->getPrimaryAttribute()->getAttributeKey()) ?>
-                </span>
+            <span class="trainingAttribute">
+                <?= Application_Model_Training_Attribute::getAttributeName($program->getPrimaryAttribute()->getAttributeKey()) ?>
+            </span>
                 <span class="trainingValue">
-                    <?= $program->getPrimaryAttribute()->getValue() ?>
-                </span>
+                <?= $program->getPrimaryAttribute()->getValue() ?>
+            </span>
             </p>
             <p>
-                <span class="trainingAttribute">
-                    <?= Application_Model_Training_Attribute::getAttributeName($program->getSecondaryAttribute()->getAttributeKey()) ?>
-                </span>
+            <span class="trainingAttribute">
+                <?= Application_Model_Training_Attribute::getAttributeName($program->getSecondaryAttribute()->getAttributeKey()) ?>
+            </span>
                 <span class="trainingValue">
-                    <?= $program->getSecondaryAttribute()->getValue() ?>
-                </span>
+                <?= $program->getSecondaryAttribute()->getValue() ?>
+            </span>
             </p>
             <p class="trainingDescription">
                 Jeden Tag wird einer von diesen Werten zusätzlich trainiert
             </p>
             <?php foreach ($program->getOptionalAttributes() as $attribute): ?>
                 <p>
-                    <span class="trainingAttribute">
-                        <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
-                    </span>
+                <span class="trainingAttribute">
+                    <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
+                </span>
                     <span class="trainingValue">
-                        <?= $attribute->getValue() ?>
-                    </span>
+                    <?= $attribute->getValue() ?>
+                </span>
                 </p>
             <?php endforeach; ?>
             <p class="trainingDescription">
@@ -53,15 +54,17 @@ $trainingsprograms = $this->trainingsprograms;
             </p>
             <?php foreach ($program->getDecreasingAttributes() as $attribute): ?>
                 <p>
-                    <span class="trainingAttribute">
-                        <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
-                    </span>
-                        <span class="trainingValue">
-                        <?= $attribute->getValue() ?>
-                    </span>
+                <span class="trainingAttribute">
+                    <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
+                </span>
+                    <span class="trainingValue">
+                    <?= $attribute->getValue() ?>
+                </span>
                 </p>
             <?php endforeach; ?>
         </div>
+    </div>
+    <form method="post" action="<?= $this->baseUrl() ?>/training/set">
         <div class="trainingControl">
             <span>
                 <input class="trainingInput" type="number" name="days" placeholder="0" min="0"> Tage
