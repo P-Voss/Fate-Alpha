@@ -104,8 +104,7 @@ SQL;
     /**
      * @param int $skillArtId
      *
-     * @return array
-     * @return array
+     * @return Shop_Model_Skill[]
      * @throws Exception
      */
     public function getShopSkillsBySkillArtId($skillArtId) {

@@ -5,63 +5,118 @@
  *
  * @author Vosser
  */
-class Application_Model_Schule {
-    
+class Application_Model_Schule
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $bezeichnung;
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var int
+     */
     protected $kosten;
-    protected $magien = array();
-    
-    public function getId() {
+    /**
+     * @var Application_Model_Magie[]
+     */
+    protected $magien = [];
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    /**
+     * @return string
+     */
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getKosten() {
+    /**
+     * @return int
+     */
+    public function getKosten ()
+    {
         return $this->kosten;
     }
 
-    public function setId($id) {
+    /**
+     * @param int $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    /**
+     * @param string $bezeichnung
+     */
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param string $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setKosten($kosten) {
+    /**
+     * @param int $kosten
+     */
+    public function setKosten ($kosten)
+    {
         $this->kosten = $kosten;
     }
-    
+
     /**
      * @return Application_Model_Magie[]
      */
-    public function getMagien() {
+    public function getMagien ()
+    {
         return $this->magien;
     }
 
-    public function setMagien($magien) {
+    /**
+     * @param Application_Model_Magie[] $magien
+     */
+    public function setMagien ($magien)
+    {
         foreach ($magien as $magie) {
-            if($magie instanceof Application_Model_Magie){
-                $this->addMagie($magie);
-            }
+            $this->addMagie($magie);
         }
     }
-    
-    public function addMagie(Application_Model_Magie $magie) {
+
+    /**
+     * @param Application_Model_Magie $magie
+     */
+    public function addMagie (Application_Model_Magie $magie)
+    {
         $this->magien[] = $magie;
     }
-    
+
 }
