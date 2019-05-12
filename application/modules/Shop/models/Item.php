@@ -59,4 +59,42 @@ class Shop_Model_Item extends Application_Model_Item
         return $return;
     }
 
+    /**
+     * @param Application_Model_Charakter $character
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function getActualCost (Application_Model_Charakter $character)
+    {
+        $date = new DateTime();
+        $currentDay = $date->format('N');
+
+        $discountByWealth = 0;
+        switch ($character->getVermoegen()->getKategorie()) {
+            case 'C':
+                $discountByWealth = 10;
+                break;
+            case 'B':
+                $discountByWealth = 20;
+                break;
+            case 'A':
+                $discountByWealth = 30;
+                break;
+            case 'A+':
+                $discountByWealth = 40;
+                break;
+            case 'EX':
+                $discountByWealth = 80;
+                break;
+        }
+        $costAfterDiscount = $this->cost - ceil($this->cost * ($discountByWealth / 100));
+
+        if (in_array($currentDay, $this->discountDays)) {
+            return $costAfterDiscount - ceil($costAfterDiscount * 0.2);
+        } else {
+            return $costAfterDiscount;
+        }
+    }
+
 }

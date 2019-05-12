@@ -10,6 +10,15 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /* @var $schule Administration_Model_Schule */
 /* @var $requirement Administration_Model_Requirement */
 $purifier = $this->purifier;
+$days = [
+    1 => 'Montag',
+    2 => 'Dienstag',
+    3 => 'Mittwoch',
+    4 => 'Donnerstag',
+    5 => 'Freitag',
+    6 => 'Samstag',
+    7 => 'Sonntag',
+];
 ?>
 <h1>Magie erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/item/create" method="post" >
@@ -19,13 +28,21 @@ $purifier = $this->purifier;
                 <label for="name">Name</label>
                 <input type="text" size="30" name="name" />
             </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
+            <div style="width: 45%; display: inline-block;">
                 <label for="bedingung">Kaufbedingung</label>
                 <select name="bedingung" id="bedingung">
                     <option>Standard</option>
                     <option>RPG</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="discountDays">Rabatt-Tage</label>
+                <select name="discountDays[]" id="discountDays" multiple size="7">
+                    <?php foreach ($days as $key => $day): ?>
+                    <option value="<?= $key ?>"><?= $day ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>

@@ -29,6 +29,7 @@ class Shop_ItemController extends Zend_Controller_Action
         $auth = Zend_Auth::getInstance()->getIdentity();
         try {
             $this->character = $this->characterService->getCharakterByUserid($auth->userId);
+            $this->view->character = $this->character;
         } catch (Exception $exception) {
             $this->redirect('index/index');
         }

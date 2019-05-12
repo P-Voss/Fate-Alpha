@@ -50,6 +50,15 @@ $types = [
     Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RECIPE => 'Rezepte',
     Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MISC => 'Sonstiges',
 ];
+$days = [
+    1 => 'Montag',
+    2 => 'Dienstag',
+    3 => 'Mittwoch',
+    4 => 'Donnerstag',
+    5 => 'Freitag',
+    6 => 'Samstag',
+    7 => 'Sonntag',
+];
 ?>
 <h1>Item anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/item/edit" method="post">
@@ -59,13 +68,24 @@ $types = [
                 <label for="name">Name</label>
                 <input type="text" size="30" name="name" id="name" value="<?= $item->getName() ?>" />
             </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
+            <div style="width: 45%; display: inline-block;">
                 <label for="bedingung">Kaufbedingung</label>
                 <select name="bedingung" id="bedingung">
                     <option <?= $item->getBedingung() === 'Standard' ? 'selected=""' : '' ?>>Standard</option>
                     <option <?= $item->getBedingung() === 'RPG' ? 'selected=""' : '' ?>>RPG</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="discountDays">Rabatt-Tage</label>
+                <select name="discountDays[]" id="discountDays" multiple size="7">
+                    <?php
+                    foreach ($days as $key => $day):
+                        $selected = in_array($key, $item->getDiscountDays()) ? 'selected=""' : '';
+                    ?>
+                        <option <?= $selected ?> value="<?= $key ?>"><?= $day ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
@@ -83,7 +103,7 @@ $types = [
             </div>
             <div style="width: 45%; display: inline-block;">
                 <label for="fp">FP-Kosten</label>
-                <input type="number" name="fp"/>
+                <input type="number" name="fp" value="<?= $item->getCost() ?>"/>
             </div>
         </div>
         <div>

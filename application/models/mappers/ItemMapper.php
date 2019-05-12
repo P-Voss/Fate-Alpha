@@ -24,5 +24,22 @@ class Application_Model_Mapper_ItemMapper {
         }
         return $dbTable;
     }
+
+    /**
+     * @param $itemId
+     *
+     * @return array
+     */
+    public function getDiscountDays ($itemId)
+    {
+        try {
+            return array_map(
+                function($entry) {return $entry['day'];},
+                $this->getDbTable('ItemDiscountDays')->fetchAll(['itemId = ?' => $itemId])->toArray()
+            );
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
     
 }

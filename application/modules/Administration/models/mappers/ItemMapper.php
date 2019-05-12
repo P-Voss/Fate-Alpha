@@ -44,7 +44,8 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
                 ->setRank($row->rank)
                 ->setDescription($row->description)
                 ->setBedingung($row->bedingung)
-                ->setCost($row->cost);
+                ->setCost($row->cost)
+                ->setDiscountDays($this->getDiscountDays($itemId));
             return $item;
         } else {
             throw new Exception('item does not exist');
@@ -71,6 +72,24 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
     }
 
     /**
+     * @param Administration_Model_Item $item
+     *
+     * @throws Exception
+     */
+    public function saveDiscountDays (Administration_Model_Item $item)
+    {
+        $this->getDbTable('ItemDiscountDays')->delete(['itemId = ?' => $item->getId()]);
+        foreach ($item->getDiscountDays() as $day) {
+            $this->getDbTable('ItemDiscountDays')->insert(
+                [
+                    'itemId' => $item->getId(),
+                    'day' => $day,
+                ]
+            );
+        }
+    }
+
+    /**
      * @return Administration_Model_Item[]
      */
     public function getAllItems ()
@@ -89,7 +108,8 @@ class Administration_Model_Mapper_ItemMapper extends Application_Model_Mapper_It
                 ->setRank($row->rank)
                 ->setDescription($row->description)
                 ->setBedingung($row->bedingung)
-                ->setCost($row->cost);
+                ->setCost($row->cost)
+                ->setDiscountDays($this->getDiscountDays($row->itemId));
             $items[] = $item;
         }
         return $items;

@@ -34,7 +34,11 @@ class Application_Model_Item {
     /**
      * @var string
      */
-    private $bedingung = 'Standard';
+    protected $bedingung = 'Standard';
+    /**
+     * @var array
+     */
+    protected $discountDays = [];
 
     /**
      * @return int
@@ -166,6 +170,25 @@ class Application_Model_Item {
     public function setBedingung ($bedingung)
     {
         $this->bedingung = $bedingung;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDiscountDays (): array
+    {
+        return $this->discountDays;
+    }
+
+    /**
+     * @param array $discountDays
+     *
+     * @return Application_Model_Item
+     */
+    public function setDiscountDays (array $discountDays): Application_Model_Item
+    {
+        $this->discountDays = $discountDays;
         return $this;
     }
     

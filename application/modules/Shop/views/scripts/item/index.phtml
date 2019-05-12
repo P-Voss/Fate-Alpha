@@ -5,8 +5,10 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.t
 $this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.js');
 $this->headScript()->prependFile($this->baseUrl() . '/js/custom/shop/items.js');
 /* @var $purifier HTMLPurifier */
+/** @var $item Shop_Model_Item */
+/** @var $character Application_Model_Charakter */
 $purifier = $this->purifier;
-
+$character = $this->character;
 $itemCategoryNames = [
     Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Schöne Waffen zum Draufhauen'],
     Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Pfeile, Bolzen, Patronen'],
@@ -52,7 +54,11 @@ foreach ($itemCategories as $key => $category):
                 <p>
                     <?= $purifier->purify($item->getDescription()) ?>
                 </p>
-                <p><button class="buy" data-id="<?= $item->getId() ?>">Gegenstand kaufen - <?= $item->getCost() ?> FP</button></p>
+                <p>
+                    <button class="buy" data-id="<?= $item->getId() ?>">
+                        Gegenstand kaufen - <?= $item->getActualCost($character) ?> FP
+                    </button>
+                </p>
                 <hr />
             </div>
         <?php endforeach; ?>

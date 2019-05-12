@@ -32,6 +32,7 @@ class Administration_Service_Items {
         $item->setName($request->getPost('name'));
         $item->setBedingung($request->getPost('bedingung'));
         $item->setDescription($request->getPost('beschreibung'));
+        $item->setDiscountDays($request->getPost('discountDays'));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
         $item->setRank($request->getPost('rang'));
         $item->setType($request->getPost('type'));
@@ -45,6 +46,7 @@ class Administration_Service_Items {
         $item->setId($this->mapper->createItem($item));
         $this->mapper->deleteDependencies($item);
         $this->mapper->setDependencies($item);
+        $this->mapper->saveDiscountDays($item);
     }
 
     /**
@@ -59,6 +61,7 @@ class Administration_Service_Items {
         $item->setBedingung($request->getPost('bedingung'));
         $item->setName($request->getPost('name'));
         $item->setDescription($request->getPost('beschreibung'));
+        $item->setDiscountDays($request->getPost('discountDays'));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
         $item->setRank($request->getPost('rang'));
         $item->setType($request->getPost('type'));
@@ -72,6 +75,7 @@ class Administration_Service_Items {
         $this->mapper->updateItem($item);
         $this->mapper->deleteDependencies($item);
         $this->mapper->setDependencies($item);
+        $this->mapper->saveDiscountDays($item);
     }
 
     /**
