@@ -6,6 +6,16 @@ $charakterId = $this->charakterId;
 <fieldset>
     <legend>Errungenschaften eintragen</legend>
     <div>
-        Als ob, doch nicht für sowas.
+        <label for="title<?= $charakterId ?>">
+            Titel
+        </label>
+        <input type="text" id="title<?= $charakterId ?>" />
     </div>
+    <div>
+        <label for="description<?= $charakterId ?>">
+            Beschreibung
+        </label>
+        <textarea id="description<?= $charakterId ?>" />
+    </div>
+    <input type="submit" data-id="<?= $charakterId ?>" class="saveAchievement" />
 </fieldset>

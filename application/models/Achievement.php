@@ -5,35 +5,128 @@
  *
  * @author Voß
  */
-class Application_Model_Achievement {
-    
+class Application_Model_Achievement
+{
+
+    /**
+     * @var int
+     */
     protected $id;
-    protected $charakterId;
-    protected $titel;
-    protected $beschreibung;
+    /**
+     * @var string
+     */
+    protected $title;
+    /**
+     * @var string
+     */
+    protected $description;
+    /**
+     * @var int
+     */
+    protected $episodeId;
+    /**
+     * @var string
+     */
     protected $creationDate;
-    
-    public function getId() {
+
+    /**
+     * Application_Model_Achievement constructor.
+     *
+     * @param $id
+     * @param $title
+     * @param $description
+     */
+    public function __construct ($id, $title, $description)
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getCharakterId() {
-        return $this->charakterId;
+    /**
+     * @param mixed $id
+     *
+     * @return Application_Model_Achievement
+     */
+    public function setId ($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
-    public function getTitel() {
-        return $this->titel;
+    /**
+     * @return mixed
+     */
+    public function getTitle ()
+    {
+        return $this->title;
     }
 
-    public function getBeschreibung() {
-        return $this->beschreibung;
+    /**
+     * @param mixed $title
+     *
+     * @return Application_Model_Achievement
+     */
+    public function setTitle ($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription ()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     *
+     * @return Application_Model_Achievement
+     */
+    public function setDescription ($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEpisodeId (): int
+    {
+        return $this->episodeId;
+    }
+
+    /**
+     * @param int $episodeId
+     *
+     * @return Application_Model_Achievement
+     */
+    public function setEpisodeId (int $episodeId): Application_Model_Achievement
+    {
+        $this->episodeId = $episodeId;
+        return $this;
     }
 
     /**
      * @param string $format
+     *
      * @return string
+     * @throws Exception
      */
-    public function getCreationDate($format = 'd.m.Y H:i') {
+    public function getCreationDate ($format = 'd.m.Y H:i')
+    {
         if ($this->creationDate === null) {
             $date = new DateTime();
         } else {
@@ -42,24 +135,12 @@ class Application_Model_Achievement {
         return $date->format($format);
     }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function setCharakterId($charakterId) {
-        $this->charakterId = $charakterId;
-    }
-
-    public function setTitel($titel) {
-        $this->titel = $titel;
-    }
-
-    public function setBeschreibung($beschreibung) {
-        $this->beschreibung = $beschreibung;
-    }
-
-    public function setCreationDate($creationDate) {
+    /**
+     * @param $creationDate
+     */
+    public function setCreationDate ($creationDate)
+    {
         $this->creationDate = $creationDate;
     }
-    
+
 }

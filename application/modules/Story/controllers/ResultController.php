@@ -19,6 +19,9 @@ class Story_ResultController extends Zend_Controller_Action {
      * @var Story_Service_Shop
      */
     protected $shopService;
+    /**
+     * @var Story_Service_Episode
+     */
     protected $episodenService;
     protected $userId;
 
@@ -91,7 +94,7 @@ class Story_ResultController extends Zend_Controller_Action {
         $html = $this->view->render('add/achievement.phtml');
         echo json_encode(['html' => $html]);
     }
-    
+
     
     public function removeachievementAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
@@ -247,6 +250,26 @@ class Story_ResultController extends Zend_Controller_Action {
         $this->episodenService->updateCharakterComment($episodeId, $charakterId, $this->getRequest()->getPost('comment', ''));
         echo json_encode([]);
         exit;
+    }
+
+
+    public function addachievementAction() {
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $charakterId = $this->getRequest()->getPost('charakterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+            echo json_encode([]);
+            exit;
+        }
+        $achievement = new Story_Model_Achievement(
+            $charakterId,
+            $this->getRequest()->getPost('title'),
+            $this->getRequest()->getPost('description'),
+            $episodeId
+        );
+        $this->episodenService->addAchievement($achievement);
+        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
+        $html = $this->view->render('add/achievement.phtml');
+        echo json_encode(['html' => $html]);
     }
     
     

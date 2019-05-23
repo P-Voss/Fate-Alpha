@@ -63,40 +63,45 @@ jQuery(document).ready(function () {
     });
     
     jQuery('#inhalt').on('click', '.save', function(){
-        selected = new Array;
+        var selected = [];
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-//        if(selected.length > 0){
-            addResultStats(jQuery(this).attr('data-art'), 
+        addResultStats(
+            jQuery(this).attr('data-art'),
             jQuery(this).attr('data-request'),
-            selected, 
-            jQuery(this).attr('data-id'));
-//        }
+            selected,
+            jQuery(this).attr('data-id')
+        );
         jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
     });
     
     
     jQuery('#inhalt').on('click', '.saveKills', function(){
-        selected = new Array;
+        var selected = [];
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-//        if(selected.length > 0){
-            addCharakterKills(selected, jQuery(this).attr('data-id'));
-//        }
+        addCharakterKills(selected, jQuery(this).attr('data-id'));
         jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
     });
     
     
     jQuery('#inhalt').on('click', '.saveComment', function(){
-        selected = new Array;
-        id = jQuery(this).attr('data-id');
-        content = tinymce.get('comment' + id).getContent();
+        var id = jQuery(this).attr('data-id');
+        var content = tinymce.get('comment' + id).getContent();
         updateComment(id, content);
         jQuery('.results[data-id="' + id + '"]').html('');
     });
-    
+
+    jQuery('#inhalt').on('click', '.saveAchievement', function(){
+        var id = jQuery(this).attr('data-id');
+        var title = jQuery('#title' + id).val();
+        console.log(id)
+        var description = tinymce.get('description' + id).getContent();
+        addAchievement(title, description, id);
+    });
+
 });
 
 function updateComment(charakterId, comment){
@@ -189,6 +194,27 @@ function addCharakterKills(ids, charakterId){
         },
         success: function() {
             refreshResult(charakterId);
+        },
+        error: function() {
+            console.log('error');
+        }
+    });
+}
+
+
+function addAchievement(title, description, characterId) {
+    jQuery.ajax({
+        type: 'Post',
+        url: baseUrl + '/Story/result/addachievement',
+        dataType: 'json',
+        data: {
+            'episode': jQuery('#auswertung').attr('data-id'),
+            'charakterId': characterId,
+            'title': title,
+            'description': description
+        },
+        success: function() {
+            refreshResult(characterId);
         },
         error: function() {
             console.log('error');
