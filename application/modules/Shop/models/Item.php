@@ -60,6 +60,20 @@ class Shop_Model_Item extends Application_Model_Item
     }
 
     /**
+     * @return bool
+     */
+    public function activeDiscountDay ()
+    {
+        try {
+            $date = new DateTime();
+            $currentDay = $date->format('N');
+            return in_array($currentDay, $this->discountDays);
+        } catch (Exception $exception) {
+            return false;
+        }
+    }
+
+    /**
      * @param Application_Model_Charakter $character
      *
      * @return int

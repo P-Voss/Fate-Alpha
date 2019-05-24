@@ -48,6 +48,9 @@ foreach ($itemCategories as $key => $category):
         <?php foreach ($category as $item): ?>
             <div class="item">
                 <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
+                <?php if ($item->activeDiscountDay()): ?>
+                    <p style="font-weight: bold; color: red">20% Tagesrabatt</p>
+                <?php endif; ?>
                 <p>
                     Rang: <span style="font-weight: bold"><?= $purifier->purify($item->getRank()) ?></span>
                 </p>
