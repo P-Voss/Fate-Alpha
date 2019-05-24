@@ -5,56 +5,108 @@
  *
  * @author Voß
  */
-class Application_Model_CharakterResult implements Application_Model_Interfaces_CharakterResult {
-    
-    protected $requestedSkills = [];
-    protected $requestedMagien = [];
-    protected $requestedItems = [];
-    protected $requestedEigenschaften = [];
-    protected $charaktersKilled = [];
-    protected $died;
-    protected $killNpcs;
-    protected $comment;
-    
+class Application_Model_CharakterResult implements Application_Model_Interfaces_CharakterResult
+{
+
     /**
-     * @return \Story_Model_Skill
+     * @var Story_Model_Skill[]
      */
-    public function getRequestedSkills() {
+    protected $requestedSkills = [];
+    /**
+     * @var Story_Model_Magie[]
+     */
+    protected $requestedMagien = [];
+    /**
+     * @var Application_Model_Item[]
+     */
+    protected $requestedItems = [];
+    /**
+     * @var array
+     */
+    protected $requestedEigenschaften = [];
+    /**
+     * @var Application_Model_Charakter[]
+     */
+    protected $charaktersKilled = [];
+    /**
+     * @var Application_Model_Achievement[]
+     */
+    protected $achievements = [];
+    /**
+     * @var bool
+     */
+    protected $died;
+    /**
+     * @var int
+     */
+    protected $killNpcs = 0;
+    /**
+     * @var string
+     */
+    protected $comment;
+
+    /**
+     * @return Story_Model_Skill[]
+     */
+    public function getRequestedSkills ()
+    {
         return $this->requestedSkills;
     }
 
-    
+
     /**
-     * @return \Story_Model_Magie
+     * @return Story_Model_Magie[]
      */
-    public function getRequestedMagien() {
+    public function getRequestedMagien ()
+    {
         return $this->requestedMagien;
     }
 
-    public function getRequestedItems() {
+    /**
+     * @return Application_Model_Item[]
+     */
+    public function getRequestedItems ()
+    {
         return $this->requestedItems;
     }
 
-    public function getRequestedEigenschaften() {
+    /**
+     * @return array
+     */
+    public function getRequestedEigenschaften ()
+    {
         return $this->requestedEigenschaften;
     }
-    
+
     /**
-     * @return \Application_Model_Charakter
+     * @return array
      */
-    public function getCharaktersKilled() {
+    public function getCharaktersKilled ()
+    {
         return $this->charaktersKilled;
     }
 
-    public function getDied() {
+    /**
+     * @return boolean
+     */
+    public function getDied ()
+    {
         return $this->died;
     }
 
-    public function getKillNpcs() {
+    /**
+     * @return int
+     */
+    public function getKillNpcs ()
+    {
         return $this->killNpcs;
     }
 
-    public function setRequestedSkills($requestedSkills) {
+    /**
+     * @param Application_Model_Skill[] $requestedSkills
+     */
+    public function setRequestedSkills ($requestedSkills)
+    {
         foreach ($requestedSkills as $skill) {
             if ($skill instanceof Application_Model_Skill) {
                 $this->requestedSkills[] = $skill;
@@ -62,7 +114,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         }
     }
 
-    public function setRequestedMagien($requestedMagien) {
+    /**
+     * @param Application_Model_Magie[] $requestedMagien
+     */
+    public function setRequestedMagien ($requestedMagien)
+    {
         foreach ($requestedMagien as $magie) {
             if ($magie instanceof Application_Model_Magie) {
                 $this->requestedMagien[] = $magie;
@@ -70,32 +126,83 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         }
     }
 
-    public function setRequestedItems($requestedItems) {
-        $this->requestedItems = $requestedItems;
+    /**
+     * @param Application_Model_Item[] $requestedItems
+     */
+    public function setRequestedItems ($requestedItems = [])
+    {
+        foreach ($requestedItems as $item) {
+            if ($item instanceof Application_Model_Item) {
+                $this->requestedItems[] = $item;
+            }
+        }
     }
 
-    public function setRequestedEigenschaften($requestedEigenschaften) {
+    /**
+     * @param $requestedEigenschaften
+     */
+    public function setRequestedEigenschaften ($requestedEigenschaften)
+    {
         $this->requestedEigenschaften = $requestedEigenschaften;
     }
 
-    public function setCharaktersKilled($charaktersKilled) {
+    /**
+     * @param $charaktersKilled
+     */
+    public function setCharaktersKilled ($charaktersKilled)
+    {
         $this->charaktersKilled = $charaktersKilled;
     }
 
-    public function setDied($died) {
+    /**
+     * @param boolean $died
+     */
+    public function setDied ($died)
+    {
         $this->died = $died;
     }
 
-    public function setKillNpcs($killNpcs) {
+    /**
+     * @param int $killNpcs
+     */
+    public function setKillNpcs ($killNpcs)
+    {
         $this->killNpcs = $killNpcs;
     }
-    
-    public function getComment() {
+
+    /**
+     * @return string
+     */
+    public function getComment ()
+    {
         return $this->comment !== null ? $this->comment : '';
     }
 
-    public function setComment($comment) {
+    /**
+     * @param string $comment
+     */
+    public function setComment ($comment)
+    {
         $this->comment = $comment;
     }
-    
+
+    /**
+     * @return Application_Model_Achievement[]
+     */
+    public function getAchievements (): array
+    {
+        return $this->achievements;
+    }
+
+    /**
+     * @param Application_Model_Achievement[] $achievements
+     *
+     * @return Application_Model_CharakterResult
+     */
+    public function setAchievements (array $achievements): Application_Model_CharakterResult
+    {
+        $this->achievements = $achievements;
+        return $this;
+    }
+
 }

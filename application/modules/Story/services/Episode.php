@@ -38,10 +38,12 @@ class Story_Service_Episode {
     public function isPlayer($episodeId, $charakterId) {
         return $this->episodeMapper->verifyPlayer($episodeId, $charakterId);
     }
-    
+
     /**
      * @param Zend_Controller_Request_Http $request
+     *
      * @return int
+     * @throws Exception
      */
     public function createEpisode(Zend_Controller_Request_Http $request) {
         $episode = new Story_Model_Episode();
@@ -167,7 +169,7 @@ class Story_Service_Episode {
      * @param $episodenId
      * @param $charakterId
      *
-     * @return Application_Model_Charakter
+     * @return Story_Model_Charakter
      * @throws Exception
      */
     public function getParticipant($episodenId, $charakterId) {
@@ -244,6 +246,8 @@ class Story_Service_Episode {
      * @param $episodenId
      * @param $charakterId
      * @param $comment
+     *
+     * @throws Exception
      */
     public function updateCharakterComment($episodenId, $charakterId, $comment) {
         $this->episodeMapper->updateCharakterComment($episodenId, $charakterId, $comment);
@@ -264,6 +268,8 @@ class Story_Service_Episode {
      * @param $episodenId
      * @param $charakterId
      * @param Zend_Controller_Request_Http $request
+     *
+     * @throws Exception
      */
     public function updateCharakterKills($episodenId, $charakterId, Zend_Controller_Request_Http $request) {
         if($request->getPost('ids') === null) {
@@ -294,5 +300,17 @@ class Story_Service_Episode {
     {
         return $this->episodeMapper->addAchievementRequest($achievement);
     }
-    
+
+    /**
+     * @param $episodeId
+     * @param $charakterId
+     * @param int $achievementId
+     *
+     * @throws Exception
+     */
+    public function removeAchievement ($episodeId, $charakterId, $achievementId)
+    {
+        $this->episodeMapper->removeAchievement($episodeId, $charakterId, $achievementId);
+    }
+
 }

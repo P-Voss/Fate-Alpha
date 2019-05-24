@@ -5,39 +5,69 @@
  *
  * @author Voß
  */
-class Story_Model_Charakter extends Application_Model_Charakter {
-    
-    
-    protected $datenFreigabe;
-    protected $involved;
-    protected $result;
-    
+class Story_Model_Charakter extends Application_Model_Charakter
+{
 
-    public function getDatenFreigabe() {
+    /**
+     * @var
+     */
+    protected $datenFreigabe;
+    /**
+     * @var
+     */
+    protected $involved;
+    /**
+     * @var
+     */
+    protected $result;
+
+
+    /**
+     * @return bool
+     */
+    public function getDatenFreigabe ()
+    {
         return $this->datenFreigabe !== null ? $this->datenFreigabe : false;
     }
 
-    public function setDatenFreigabe($datenFreigabe) {
+    /**
+     * @param $datenFreigabe
+     */
+    public function setDatenFreigabe ($datenFreigabe)
+    {
         $this->datenFreigabe = $datenFreigabe;
     }
-    
-    public function getInvolved() {
+
+    /**
+     * @return bool
+     */
+    public function getInvolved ()
+    {
         return $this->involved !== null ? $this->involved : false;
     }
 
-    public function setInvolved($involved) {
+    /**
+     * @param $involved
+     */
+    public function setInvolved ($involved)
+    {
         $this->involved = $involved;
     }
-    
+
     /**
      * @return Story_Model_CharakterResult
      */
-    public function getResult() {
+    public function getResult ()
+    {
         return $this->result;
     }
 
-    public function setResult(Story_Model_CharakterResult $result) {
+    /**
+     * @param Story_Model_CharakterResult $result
+     */
+    public function setResult (Story_Model_CharakterResult $result)
+    {
         $this->result = $result;
     }
-    
+
 }

@@ -34,11 +34,11 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return boolean
      */
-    public function verifyPlayer ($episodenId, $charakterId)
+    public function verifyPlayer ($episodenId, $characterId)
     {
         try {
             $db = $this->getDbTable('Plots')->getDefaultAdapter();
@@ -47,7 +47,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                 FROM episodenToCharakter
                 WHERE episodenId = ? AND charakterId = ?';
             $stmt = $db->prepare($sql);
-            $stmt->execute([$episodenId, $charakterId]);
+            $stmt->execute([$episodenId, $characterId]);
             return count($stmt->fetchAll()) > 0;
         } catch (Exception $exception) {
             return false;
@@ -253,15 +253,15 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param int $episodenId
-     * @param array $charakterIds
+     * @param array $characterIds
      *
      * @throws Exception
      */
-    public function addParticipants ($episodenId, $charakterIds = [])
+    public function addParticipants ($episodenId, $characterIds = [])
     {
         $data['episodenId'] = $episodenId;
-        foreach ($charakterIds as $charakterId) {
-            $data['charakterId'] = $charakterId;
+        foreach ($characterIds as $characterId) {
+            $data['charakterId'] = $characterId;
             $this->getDbTable('EpisodenCharakter')->insert($data);
         }
     }
@@ -376,7 +376,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     /**
      * @param int $episodenId
      *
-     * @return array
+     * @return Story_Model_Charakter[]
      * @throws Exception
      */
     public function getParticipantsByEpisode ($episodenId)
@@ -402,19 +402,19 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
-     * @return \Application_Model_Charakter
+     * @return Story_Model_Charakter
      * @throws Exception
      */
-    public function getParticipant ($episodenId, $charakterId)
+    public function getParticipant ($episodenId, $characterId)
     {
         $charakter = new Story_Model_Charakter();
         $select = $this->getDbTable('EpisodenCharakter')->select();
         $select->setIntegrityCheck(false);
         $select->from('episodenToCharakter', []);
         $select->joinInner('charakter', 'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1');
-        $select->where('episodenToCharakter.charakterId = ?', $charakterId);
+        $select->where('episodenToCharakter.charakterId = ?', $characterId);
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $row = $this->getDbTable('EpisodenCharakter')->fetchRow($select);
         if ($row !== null) {
@@ -428,12 +428,12 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param $episodenId
-     * @param $charakterId
+     * @param $characterId
      *
      * @return Story_Model_CharakterResult
      * @throws Exception
      */
-    public function getCharakterResult ($episodenId, $charakterId)
+    public function getCharakterResult ($episodenId, $characterId)
     {
         $result = new Story_Model_CharakterResult();
         $select = $this->getDbTable('EpisodenCharakter')->select();
@@ -447,7 +447,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                 'gotKilled', 'npcsKilled', 'comment',
             ]
         );
-        $select->where('episodenToCharakter.charakterId = ?', $charakterId);
+        $select->where('episodenToCharakter.charakterId = ?', $characterId);
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $row = $this->getDbTable('EpisodenCharakter')->fetchRow($select);
         if ($row !== null) {
@@ -455,21 +455,52 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
             $result->setKillNpcs($row['npcsKilled']);
             $result->setDied($row['gotKilled']);
             $result->setComment($row['comment']);
-            $result->setRequestedMagien($this->getRequestedMagien($episodenId, $charakterId));
-            $result->setRequestedSkills($this->getRequestedSkills($episodenId, $charakterId));
-            $result->setCharaktersKilled($this->getRequestedCharakterKills($episodenId, $charakterId));
+            $result->setRequestedMagien($this->getRequestedMagien($episodenId, $characterId));
+            $result->setRequestedSkills($this->getRequestedSkills($episodenId, $characterId));
+            $result->setCharaktersKilled($this->getRequestedCharakterKills($episodenId, $characterId));
+            $result->setAchievements($this->getRequestedAchievements($episodenId, $characterId));
         }
         return $result;
     }
 
     /**
+     * @param $episodenId
+     * @param $characterId
+     *
+     * @return Story_Model_Achievement[]
+     * @throws Exception
+     */
+    public function getRequestedAchievements ($episodenId, $characterId)
+    {
+        $returnArray = [];
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $sql = 'SELECT eCAR.* 
+                FROM episodenCharakterAchievementRequest AS eCAR
+                WHERE eCAR.episodeId = ? AND eCAR.characterId = ?';
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$episodenId, $characterId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+            $achievement = new Story_Model_Achievement(
+                $row['characterId'],
+                $row['title'],
+                $row['description'],
+                $row['episodeId'],
+                $row['id']
+            );
+            $returnArray[] = $achievement;
+        }
+        return $returnArray;
+    }
+
+    /**
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return array
      * @throws Exception
      */
-    public function getRequestedCharakterKills ($episodenId, $charakterId)
+    public function getRequestedCharakterKills ($episodenId, $characterId)
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -481,7 +512,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                     ON eTC.charakterId = eKR.killedId AND eTC.episodenId = eKR.episodenId
                 WHERE eKR.episodenId = ? AND eKR.charakterId = ?';
         $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $charakterId]);
+        $stmt->execute([$episodenId, $characterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
             $charakter = new Application_Model_Charakter();
@@ -496,12 +527,12 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     /**
      *
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return array
      * @throws Exception
      */
-    public function getRequestedSkills ($episodenId, $charakterId)
+    public function getRequestedSkills ($episodenId, $characterId)
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -513,7 +544,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                     AND request = "add"
                 WHERE episodenId = ? AND charakterId = ?';
         $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $charakterId]);
+        $stmt->execute([$episodenId, $characterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
             $skill = new Story_Model_Skill();
@@ -526,12 +557,12 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return array
      * @throws Exception
      */
-    public function getRequestedMagien ($episodenId, $charakterId)
+    public function getRequestedMagien ($episodenId, $characterId)
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -543,7 +574,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                     AND eCSR.id = magien.magieId
                 WHERE episodenId = ? AND charakterId = ?';
         $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $charakterId]);
+        $stmt->execute([$episodenId, $characterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
             $magie = new Story_Model_Magie();
@@ -588,12 +619,12 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
 
     /**
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      * @param int $killcount
      *
      * @throws Exception
      */
-    public function updateCharakterNpckills ($episodenId, $charakterId, $killcount)
+    public function updateCharakterNpckills ($episodenId, $characterId, $killcount)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -601,18 +632,18 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                                 SET npcsKilled = ?
                                 WHERE episodenId = ? AND charakterId = ?'
         );
-        $stmt->execute([$killcount, $episodenId, $charakterId]);
+        $stmt->execute([$killcount, $episodenId, $characterId]);
     }
 
 
     /**
      * @param $episodenId
-     * @param $charakterId
+     * @param $characterId
      * @param $comment
      *
      * @throws Exception
      */
-    public function updateCharakterComment ($episodenId, $charakterId, $comment)
+    public function updateCharakterComment ($episodenId, $characterId, $comment)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -620,17 +651,17 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                                 SET comment = ?
                                 WHERE episodenId = ? AND charakterId = ?'
         );
-        $stmt->execute([$comment, $episodenId, $charakterId]);
+        $stmt->execute([$comment, $episodenId, $characterId]);
     }
 
     /**
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      * @param int $gotKilled
      *
      * @throws Exception
      */
-    public function updateCharakterGotKilled ($episodenId, $charakterId, $gotKilled)
+    public function updateCharakterGotKilled ($episodenId, $characterId, $gotKilled)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -638,18 +669,18 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                                 SET gotKilled = ?
                                 WHERE episodenId = ? AND charakterId = ?'
         );
-        $stmt->execute([$gotKilled === 'true' ? 1 : 0, $episodenId, $charakterId]);
+        $stmt->execute([$gotKilled === 'true' ? 1 : 0, $episodenId, $characterId]);
     }
 
 
     /**
      * @param $episodenId
-     * @param $charakterId
+     * @param $characterId
      * @param array $ids
      *
      * @throws Exception
      */
-    public function addCharakterKillRequests ($episodenId, $charakterId, $ids = [])
+    public function addCharakterKillRequests ($episodenId, $characterId, $ids = [])
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -657,35 +688,35 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                                 VALUES (?, ?, ?)'
         );
         foreach ($ids as $id) {
-            $stmt->execute([$episodenId, $charakterId, $id]);
+            $stmt->execute([$episodenId, $characterId, $id]);
         }
     }
 
 
     /**
      * @param $episodenId
-     * @param $charakterId
+     * @param $characterId
      *
      * @throws Exception
      */
-    public function removeCharakterKillRequests ($episodenId, $charakterId)
+    public function removeCharakterKillRequests ($episodenId, $characterId)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
             'DELETE FROM episodenKillRequest
                                 WHERE episodenId = ? AND charakterId = ?'
         );
-        $stmt->execute([$episodenId, $charakterId]);
+        $stmt->execute([$episodenId, $characterId]);
     }
 
     /**
      * @param int $newStatus
      * @param int $episodenId
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @throws Exception
      */
-    public function updateCharakterStatus ($newStatus, $episodenId, $charakterId)
+    public function updateCharakterStatus ($newStatus, $episodenId, $characterId)
     {
         $data = [
             'isReady' => $newStatus,
@@ -693,7 +724,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
         $this->getDbTable('EpisodenCharakter')->update(
             $data, [
             'episodenId = ?' => $episodenId,
-            'charakterId = ?' => $charakterId,
+            'charakterId = ?' => $characterId,
         ]
         );
     }
@@ -782,7 +813,7 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare(
-            'INSERT INTO episodenCharakterAchievementRequest (episodenId, charakterId, titel, beschreibung)
+            'INSERT INTO episodenCharakterAchievementRequest (episodeId, characterId, title, description)
                                 VALUES (?, ?, ?, ?)'
         );
         $stmt->execute(
@@ -793,6 +824,22 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
                 $achievement->getDescription()
             ]
         );
+    }
+
+    /**
+     * @param $episodeId
+     * @param $charakterId
+     * @param int $achievementId
+     *
+     * @throws Exception
+     */
+    public function removeAchievement ($episodeId, $charakterId, $achievementId)
+    {
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $stmt = $db->prepare(
+            'DELETE FROM episodenCharakterAchievementRequest WHERE id = ? AND characterId = ? AND episodeId = ?'
+        );
+        $stmt->execute([$achievementId, $charakterId, $episodeId]);
     }
 
 }

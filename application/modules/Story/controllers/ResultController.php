@@ -30,13 +30,14 @@ class Story_ResultController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->charakterService = new Application_Service_Charakter();
+        $this->episodenService = new Story_Service_Episode();
         if($this->_helper->logincheck() === false){
             $this->redirect('index');
         }
         $this->userId = Zend_Auth::getInstance()->getIdentity()->userId;
+
         $this->charakter = $this->charakterService->getCharakterByUserid($this->userId);
         $this->shopService = new Story_Service_Shop();
-        $this->episodenService = new Story_Service_Episode();
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -67,12 +68,50 @@ class Story_ResultController extends Zend_Controller_Action {
         echo json_encode([]);
         exit;
     }
+
+
+    public function itemAction() {
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $charakterId = $this->getRequest()->getPost('charakterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
+            echo json_encode([]);
+            exit;
+        }
+        $this->view->items = $this->shopService->getItemsToAcquire($charakterId);
+        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
+        $html = $this->view->render('add/item.phtml');
+        echo json_encode(['html' => $html]);
+    }
+
+    public function removeitemAction() {
+        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $charakterId = $this->getRequest()->getPost('charakterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
+            echo json_encode([]);
+            exit;
+        }
+        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
+        $html = $this->view->render('remove/item.phtml');
+        echo json_encode(['html' => $html]);
+    }
+
+
+    public function additemAction ()
+    {
+
+    }
+
+
+    public function deleteitemAction ()
+    {
+
+    }
     
     
     public function magieAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -86,7 +125,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function achievementAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -94,25 +133,11 @@ class Story_ResultController extends Zend_Controller_Action {
         $html = $this->view->render('add/achievement.phtml');
         echo json_encode(['html' => $html]);
     }
-
-    
-    public function removeachievementAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $this->view->achievements = $this->charakterService->getAchievements($charakterId);
-        $html = $this->view->render('remove/achievement.phtml');
-        echo json_encode(['html' => $html]);
-    }
     
     public function removemagieAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -126,7 +151,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function skillAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -139,7 +164,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function removeskillAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -150,35 +175,10 @@ class Story_ResultController extends Zend_Controller_Action {
     }
     
     
-    public function itemAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $html = $this->view->render('add/item.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
-    public function removeitemAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $html = $this->view->render('remove/item.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
-    
     public function injuryAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -190,7 +190,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function removeinjuryAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -203,7 +203,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function attributeAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -216,7 +216,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function killerAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -230,7 +230,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function commentAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -243,7 +243,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function setcommentAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -256,7 +256,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function addachievementAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -267,16 +267,29 @@ class Story_ResultController extends Zend_Controller_Action {
             $episodeId
         );
         $this->episodenService->addAchievement($achievement);
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $html = $this->view->render('add/achievement.phtml');
-        echo json_encode(['html' => $html]);
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+
+    public function removeachievementAction() {
+        $achievementId = (int)$this->getRequest()->getParam('achievementId');
+        $episodeId = (int)$this->getRequest()->getParam('episodeId');
+        $charakterId = $this->getRequest()->getPost('characterId');
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
+            echo json_encode([]);
+            exit;
+        }
+        $this->episodenService->removeAchievement($episodeId, $charakterId, $achievementId);
+        echo json_encode(['success' => true]);
+        exit;
     }
     
     
     public function killsAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -291,7 +304,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function npcAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -306,7 +319,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function deathAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }
@@ -319,7 +332,7 @@ class Story_ResultController extends Zend_Controller_Action {
     public function refreshAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId)){
+        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);
             exit;
         }

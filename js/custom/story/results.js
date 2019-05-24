@@ -97,9 +97,15 @@ jQuery(document).ready(function () {
     jQuery('#inhalt').on('click', '.saveAchievement', function(){
         var id = jQuery(this).attr('data-id');
         var title = jQuery('#title' + id).val();
-        console.log(id)
         var description = tinymce.get('description' + id).getContent();
         addAchievement(title, description, id);
+    });
+
+    jQuery('#inhalt').on('click', '.removeAchievement', function(){
+        var id = jQuery(this).attr('data-id');
+        var characterId = jQuery(this).attr('data-characterId');
+        var episodeId = jQuery(this).attr('data-episodeId');
+        removeAchievement(id, characterId, episodeId);
     });
 
 });
@@ -212,6 +218,25 @@ function addAchievement(title, description, characterId) {
             'charakterId': characterId,
             'title': title,
             'description': description
+        },
+        success: function() {
+            refreshResult(characterId);
+        },
+        error: function() {
+            console.log('error');
+        }
+    });
+}
+
+function removeAchievement(achievementId, characterId, episodeId) {
+    jQuery.ajax({
+        type: 'Post',
+        url: baseUrl + '/Story/result/removeachievement',
+        dataType: 'json',
+        data: {
+            'achievementId': achievementId,
+            'characterId': characterId,
+            'episodeId': episodeId
         },
         success: function() {
             refreshResult(characterId);

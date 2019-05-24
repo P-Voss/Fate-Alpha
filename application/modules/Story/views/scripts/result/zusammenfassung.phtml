@@ -1,51 +1,61 @@
 <?php
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+/** @var Story_Model_Charakter $charakter */
 $charakter = $this->charakter;
 $charakterId = $charakter->getCharakterId();
+/** @var Story_Model_CharakterResult $result */
 $result = $charakter->getResult();
 
-$skills = '';
-if (count($result->getRequestedSkills()) > 0) {
-    foreach($result->getRequestedSkills() as $skill):
-        $skills .= $skill->getBezeichnung() . ', ';
-    endforeach;
-    $skills = substr($skills, 0, strlen($skills) - 2);
-}
-
-$magien = '';
-if (count($result->getRequestedMagien()) > 0) {
-    foreach($result->getRequestedMagien() as $magie ):
-        $magien .= $magie->getBezeichnung() . ', ';
-    endforeach;
-    $magien = substr($magien, 0, strlen($magien) - 2);
-}
-        
-$charakterKills = '';
-if (count($result->getCharaktersKilled()) > 0) {
-    foreach ($result->getCharaktersKilled() as $kill) {
-        $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
-    }
-    $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
-}
 ?>
-<div style="display: inline-block; width: 60%; vertical-align: top;">
+<div style="display: inline-block; width: 50%; vertical-align: top;">
     <?= $purifier->purify($charakter->getResult()->getComment()) ?>
 </div>
-<div style="display: inline-block; width: 30%; vertical-align: top;">
-    <?php if($skills !== ''): ?>
-    <p>
-        Gelernte Fähigkeiten: <?= $skills ?>
-    </p>
+<div style="display: inline-block; width: 45%; vertical-align: top;">
+    <?php if(count($result->getRequestedSkills()) > 0): ?>
+        <p>
+            Gelernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
+                return $skill->getBezeichnung();
+            }, $result->getRequestedSkills()))) ?>
+        </p>
     <?php endif; ?>
-    <?php if($magien !== ''): ?>
-    <p>
-        Gelernte Magien: <?= $magien ?>
-    </p>
+    <?php if(count($result->getRequestedMagien()) > 0): ?>
+        <p>
+            Gelernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
+                return $magie->getBezeichnung();
+            }, $result->getRequestedMagien()))) ?>
+        </p>
     <?php endif; ?>
-    <?php if($charakterKills !== ''): ?>
-    <p>
-        Getötete Spielercharaktere: <?= $charakterKills ?>
-    </p>
+    <?php if(count($result->getRequestedItems()) > 0): ?>
+        <p>
+            Erlangte Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
+                return $item->getName();
+            }, $result->getRequestedItems()))) ?>
+        </p>
+    <?php endif; ?>
+    <?php if(count($result->getCharaktersKilled()) > 0): ?>
+        <p>
+            Getötete Spielercharaktere: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Charakter $charakter) {
+                return $charakter->getVorname() . ' ' . $charakter->getNachname();
+            }, $result->getCharaktersKilled()))) ?>
+        </p>
+    <?php endif; ?>
+    <?php if (count($result->getAchievements()) > 0): ?>
+        <div>
+            <?php foreach ($result->getAchievements() as $achievement): ?>
+                <div>
+                    <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
+                    <button
+                            class="removeAchievement"
+                            data-id="<?= $achievement->getId() ?>"
+                            data-characterId="<?= $charakter->getCharakterid() ?>"
+                            data-episodeId="<?= $achievement->getEpisodeId() ?>"
+                    >
+                        Löschen
+                    </button>
+                    <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 </div>
