@@ -455,42 +455,8 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
             $result->setKillNpcs($row['npcsKilled']);
             $result->setDied($row['gotKilled']);
             $result->setComment($row['comment']);
-            $result->setRequestedMagien($this->getRequestedMagien($episodenId, $characterId));
-            $result->setRequestedSkills($this->getRequestedSkills($episodenId, $characterId));
-            $result->setCharaktersKilled($this->getRequestedCharakterKills($episodenId, $characterId));
-            $result->setAchievements($this->getRequestedAchievements($episodenId, $characterId));
         }
         return $result;
-    }
-
-    /**
-     * @param $episodenId
-     * @param $characterId
-     *
-     * @return Story_Model_Achievement[]
-     * @throws Exception
-     */
-    public function getRequestedAchievements ($episodenId, $characterId)
-    {
-        $returnArray = [];
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'SELECT eCAR.* 
-                FROM episodenCharakterAchievementRequest AS eCAR
-                WHERE eCAR.episodeId = ? AND eCAR.characterId = ?';
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $characterId]);
-        $result = $stmt->fetchAll();
-        foreach ($result as $row) {
-            $achievement = new Story_Model_Achievement(
-                $row['characterId'],
-                $row['title'],
-                $row['description'],
-                $row['episodeId'],
-                $row['id']
-            );
-            $returnArray[] = $achievement;
-        }
-        return $returnArray;
     }
 
     /**
@@ -802,44 +768,6 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $stmt = $db->prepare('UPDATE episodenAuswertung SET isActive = 0 WHERE episodenId = ?');
         $stmt->execute([$episodeId]);
-    }
-
-    /**
-     * @param Story_Model_Achievement $achievement
-     *
-     * @throws Exception
-     */
-    public function addAchievementRequest (Story_Model_Achievement $achievement)
-    {
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $stmt = $db->prepare(
-            'INSERT INTO episodenCharakterAchievementRequest (episodeId, characterId, title, description)
-                                VALUES (?, ?, ?, ?)'
-        );
-        $stmt->execute(
-            [
-                $achievement->getEpisodeId(),
-                $achievement->getCharacterId(),
-                $achievement->getTitle(),
-                $achievement->getDescription()
-            ]
-        );
-    }
-
-    /**
-     * @param $episodeId
-     * @param $charakterId
-     * @param int $achievementId
-     *
-     * @throws Exception
-     */
-    public function removeAchievement ($episodeId, $charakterId, $achievementId)
-    {
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $stmt = $db->prepare(
-            'DELETE FROM episodenCharakterAchievementRequest WHERE id = ? AND characterId = ? AND episodeId = ?'
-        );
-        $stmt->execute([$achievementId, $charakterId, $episodeId]);
     }
 
 }

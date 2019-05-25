@@ -195,9 +195,15 @@ class Story_Service_Episode {
      * @throws Exception
      */
     public function getParticipantsByEpisode($episodeId) {
+        $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
         $participants = $this->episodeMapper->getParticipantsByEpisode($episodeId);
         foreach ($participants as $participant) {
-            $participant->setResult($this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid()));
+            $result = $this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid());
+            $result->setRequestedMagien($this->episodeMapper->getRequestedMagien($episodeId, $participant->getCharakterid()));
+            $result->setRequestedSkills($this->episodeMapper->getRequestedSkills($episodeId, $participant->getCharakterid()));
+            $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $participant->getCharakterid()));
+            $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $participant->getCharakterid()));
+            $participant->setResult($result);
         }
         return $participants;
     }

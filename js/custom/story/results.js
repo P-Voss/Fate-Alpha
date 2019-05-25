@@ -1,59 +1,83 @@
 
+var urls = {
+    addMasks: {
+        achievement: baseUrl + '/Story/achievement/show',
+        skill: baseUrl + '/Story/skill/show',
+        magic: baseUrl + '/Story/magic/show',
+        item: baseUrl + '/Story/item/show',
+        injury: baseUrl + '/Story/item/show',
+    },
+    removalMasks: {
+        achievement: baseUrl + '/Story/achievement/removal',
+        skill: baseUrl + '/Story/skill/removal',
+        magic: baseUrl + '/Story/magic/removal',
+        item: baseUrl + '/Story/item/removal',
+        injury: baseUrl + '/Story/item/removal',
+    },
+    comment: baseUrl + '/Story/result/comment',
+    kills: baseUrl + '/Story/result/kills',
+    attributes: baseUrl + '/Story/result/attributes',
+}
+
+function getCharacterId (element) {
+    return jQuery(element).closest('.character').attr('data-id')
+}
 
 jQuery(document).ready(function () {
     
     jQuery('.add .magie').on('click', function(){
-        displayMask('magie', 'add', jQuery(this).attr('data-id'));
+        displayMask(urls.addMasks.magic, getCharacterId(jQuery(this)));
     });
     
     jQuery('.add .skill').on('click', function(){
-        displayMask('skill', 'add', jQuery(this).attr('data-id'));
+        displayMask(urls.addMasks.skill, getCharacterId(jQuery(this)));
     });
     
     jQuery('.add .injury').on('click', function(){
-        displayMask('injury', 'add', jQuery(this).attr('data-id'));
+        displayMask(urls.addMasks.injury, getCharacterId(jQuery(this)));
     });
     
     jQuery('.add .item').on('click', function(){
-        displayMask('item', 'add', jQuery(this).attr('data-id'));
+        displayMask(urls.addMasks.item, getCharacterId(jQuery(this)));
     });
     
     jQuery('.add .achievement').on('click', function(){
-        displayMask('achievement', 'add', jQuery(this).attr('data-id'));
+        displayMask(urls.addMasks.achievement, getCharacterId(jQuery(this)));
     });
     
     jQuery('.remove .magie').on('click', function(){
-        displayMask('magie', 'removal', jQuery(this).attr('data-id'));
+        displayMask(urls.removalMasks.magic, getCharacterId(jQuery(this)));
     });
     
     jQuery('.remove .skill').on('click', function(){
-        displayMask('skill', 'removal', jQuery(this).attr('data-id'));
+        displayMask(urls.removalMasks.skill, getCharacterId(jQuery(this)));
     });
     
     jQuery('.remove .injury').on('click', function(){
-        displayMask('injury', 'removal', jQuery(this).attr('data-id'));
+        displayMask(urls.removalMasks.injury, getCharacterId(jQuery(this)));
     });
     
     jQuery('.remove .item').on('click', function(){
-        displayMask('item', 'removal', jQuery(this).attr('data-id'));
+        displayMask(urls.removalMasks.item, getCharacterId(jQuery(this)));
     });
     
     jQuery('.remove .achievement').on('click', function(){
-        displayMask('achievement', 'removal', jQuery(this).attr('data-id'));
+        displayMask(urls.removalMasks.achievement, getCharacterId(jQuery(this)));
     });
-    
+
     jQuery('.attribute').on('click', function(){
-        displayMask('attribute', '', jQuery(this).attr('data-id'));
+        displayMask(urls.attributes, getCharacterId(jQuery(this)));
     });
     
     jQuery('.killer').on('click', function(){
-        displayMask('killer', '', jQuery(this).attr('data-id'));
+        displayMask(urls.kills, getCharacterId(jQuery(this)));
     });
     
     jQuery('.comment').on('click', function(){
-        displayMask('comment', '', jQuery(this).attr('data-id'));
+        displayMask(urls.comment, getCharacterId(jQuery(this)));
     });
-    
+
+
     jQuery('.npcKills').on('change', function(){
         updateNpcKills(jQuery(this).attr('data-id'), jQuery(this).val());
     });
@@ -94,19 +118,6 @@ jQuery(document).ready(function () {
         jQuery('.results[data-id="' + id + '"]').html('');
     });
 
-    jQuery('#inhalt').on('click', '.saveAchievement', function(){
-        var id = jQuery(this).attr('data-id');
-        var title = jQuery('#title' + id).val();
-        var description = tinymce.get('description' + id).getContent();
-        addAchievement(title, description, id);
-    });
-
-    jQuery('#inhalt').on('click', '.removeAchievement', function(){
-        var id = jQuery(this).attr('data-id');
-        var characterId = jQuery(this).attr('data-characterId');
-        var episodeId = jQuery(this).attr('data-episodeId');
-        removeAchievement(id, characterId, episodeId);
-    });
 
 });
 
@@ -208,60 +219,18 @@ function addCharakterKills(ids, charakterId){
 }
 
 
-function addAchievement(title, description, characterId) {
+
+function displayMask(url, characterId) {
     jQuery.ajax({
         type: 'Post',
-        url: baseUrl + '/Story/result/addachievement',
+        url: url,
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': characterId,
-            'title': title,
-            'description': description
-        },
-        success: function() {
-            refreshResult(characterId);
-        },
-        error: function() {
-            console.log('error');
-        }
-    });
-}
-
-function removeAchievement(achievementId, characterId, episodeId) {
-    jQuery.ajax({
-        type: 'Post',
-        url: baseUrl + '/Story/result/removeachievement',
-        dataType: 'json',
-        data: {
-            'achievementId': achievementId,
-            'characterId': characterId,
-            'episodeId': episodeId
-        },
-        success: function() {
-            refreshResult(characterId);
-        },
-        error: function() {
-            console.log('error');
-        }
-    });
-}
-
-
-function displayMask(action, type, id) {
-    if(type === 'removal'){
-        action = 'remove' + action;
-    }
-    jQuery.ajax({
-        type: 'Post',
-        url: baseUrl + '/Story/result/' + action,
-        dataType: 'json',
-        data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': id
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': characterId
         },
         success: function(data) {
-            jQuery('.results[data-id="' + id + '"]').html(data['html']);
+            jQuery('.results[data-id="' + characterId + '"]').html(data['html']);
             initEditor();
         },
         error: function() {

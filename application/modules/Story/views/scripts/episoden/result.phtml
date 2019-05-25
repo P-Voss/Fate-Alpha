@@ -1,6 +1,7 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/editor.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/result/achievement.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/results.js'));
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
@@ -11,7 +12,9 @@ $episode = $this->episode;
 $participants = $this->participants;
 /* @var $skill Story_Model_Skill */
 ?>
-<h2>Auswertung der Episode für die Teilnehmer von <?= $episode->getName() ?></h2>
+<h2 id="episodeId" data-id="<?= $episode->getId() ?>">
+    Auswertung der Episode für die Teilnehmer von <?= $episode->getName() ?>
+</h2>
 <div>
     <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
         Zurück zum Plot
@@ -25,71 +28,71 @@ $participants = $this->participants;
         $charakterId = $charakter->getCharakterId();
         $result = $charakter->getResult();
     ?>
-    <fieldset>
+    <fieldset class="character" data-id="<?= $charakterId ?>">
         <legend><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
         <div>
             <div style="display: inline-block; width: 30%; vertical-align: top">
                 <p>
-                    <label for="npcKills<?= $charakterId ?>">NPCs getötet</label> 
-                    <input id="npcKills<?= $charakterId ?>" data-id="<?= $charakterId ?>" type="number" value="<?= $result->getKillNpcs() ?>" class="npcKills">
+                    <label for="npcKills_<?= $charakterId ?>">NPCs getötet</label>
+                    <input id="npcKills_<?= $charakterId ?>" type="number" value="<?= $result->getKillNpcs() ?>" class="npcKills">
                 </p>
                 <p>
-                    <label for="died<?= $charakterId ?>">Ist gestorben</label> 
-                    <input <?= $result->getDied() === 1 ? 'checked=""' : '' ?> id="died<?= $charakterId ?>" data-id="<?= $charakterId ?>" class="died" type="checkbox">
+                    <label for="died_<?= $charakterId ?>">Ist gestorben</label>
+                    <input <?= $result->getDied() === 1 ? 'checked=""' : '' ?> id="died_<?= $charakterId ?>" class="died" type="checkbox">
                 </p>
             </div>
             <fieldset class="add" style="display: inline-block; width: 33%; vertical-align: top">
                 <legend>Hinzufügen</legend>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="magie">Magien</button>
+                    <button class="magie">Magien</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="skill">Fähigkeiten</button>
+                    <button class="skill">Fähigkeiten</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="injury">Verletzungen</button>
+                    <button class="injury">Verletzungen</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="item">Items</button>
+                    <button class="item">Items</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="achievement">Errungenschaften</button>
+                    <button class="achievement">Errungenschaften</button>
                 </span>
             </fieldset>
             <fieldset class="remove" style="display: inline-block; width: 33%; vertical-align: top">
                 <legend>Entfernen</legend>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="magie">Magien</button>
+                    <button class="magie">Magien</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="skill">Fähigkeiten</button>
+                    <button class="skill">Fähigkeiten</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="injury">Verletzungen</button>
+                    <button class="injury">Verletzungen</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="item">Items</button>
+                    <button class="item">Items</button>
                 </span>
                 <span class="resultButton">
-                    <button data-id="<?= $charakterId ?>" class="achievement">Errungenschaften</button>
+                    <button class="achievement">Errungenschaften</button>
                 </span>
             </fieldset>
         </div>
         <div>
             <span class="resultButton">
-                <button data-id="<?= $charakterId ?>" class="killer">Hat Spielercharaktere getötet</button>
+                <button class="killer">Hat Spielercharaktere getötet</button>
             </span>
             <span class="resultButton">
-                <button data-id="<?= $charakterId ?>" class="comment">Kommentar</button>
+                <button class="comment">Kommentar</button>
             </span>
             <span class="resultButton">
-                <button data-id="<?= $charakterId ?>" class="attribute">Attribute ändern</button>
+                <button class="attribute">Attribute ändern</button>
             </span>
         </div>
-        <div class="results" data-id="<?= $charakterId ?>"></div>
+        <div class="results" data-id="<?= $charakterId ?>""></div>
         <fieldset>
             <legend>Zusammenfassung</legend>
-            <div data-id="<?= $charakter->getCharakterid() ?>" class="zusammenfassung">
+            <div class="zusammenfassung">
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
                     <?= $purifier->purify($result->getComment()) ?>
                 </div>
@@ -128,10 +131,8 @@ $participants = $this->participants;
                             <div>
                                 <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
                                 <button
-                                        class="removeAchievement"
-                                        data-id="<?= $achievement->getId() ?>"
-                                        data-characterId="<?= $charakter->getCharakterid() ?>"
-                                        data-episodeId="<?= $achievement->getEpisodeId() ?>"
+                                    class="removeAchievement"
+                                    data-id="<?= $achievement->getId() ?>"
                                 >
                                     Löschen
                                 </button>
