@@ -5,16 +5,16 @@ class Story_Service_Result_Magic
 {
 
     /**
-     * @var Story_Model_Mapper_ShopMapper
+     * @var Story_Model_Mapper_Result_MagicMapper
      */
-    protected $shopMapper;
+    protected $resultMapper;
 
     /**
      * Story_Service_Shop constructor.
      */
     public function __construct ()
     {
-        $this->shopMapper = new Story_Model_Mapper_ShopMapper();
+        $this->resultMapper = new Story_Model_Mapper_Result_MagicMapper();
     }
 
     /**
@@ -25,7 +25,7 @@ class Story_Service_Result_Magic
     public function getLearnableMagien ($charakterId)
     {
         try {
-            return $this->shopMapper->getMagienToLearnByRpg($charakterId);
+            return $this->resultMapper->getMagienToLearnByRpg($charakterId);
         } catch (Exception $exception) {
             return [];
         }
@@ -39,7 +39,7 @@ class Story_Service_Result_Magic
      */
     public function getLearnedMagien ($charakterId)
     {
-        return $this->shopMapper->getCharakterMagien($charakterId);
+        return $this->resultMapper->getCharakterMagien($charakterId);
     }
 
     /**
@@ -52,7 +52,7 @@ class Story_Service_Result_Magic
      */
     public function addRequests ($episodeId, $characterId, $magicIds = [])
     {
-        $this->shopMapper->removeSkillrequest($episodeId, $characterId, 'magie', 'add');
+        $this->resultMapper->removeSkillrequest($episodeId, $characterId, 'magie', 'add');
         if (count($magicIds) > 0) {
             $this->addMagicrequest($episodeId, $magicIds, $characterId);
         }
@@ -68,7 +68,7 @@ class Story_Service_Result_Magic
      */
     public function addMagicrequest ($episodenId, $ids, $charakterId)
     {
-        $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'add', $ids);
+        $this->resultMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'add', $ids);
     }
 
     /**
@@ -94,8 +94,8 @@ class Story_Service_Result_Magic
      */
     public function addMagicRemovalrequest ($episodenId, $ids, $charakterId)
     {
-        $this->shopMapper->removeSkillrequest($episodenId, $charakterId, 'magie', 'remove');
-        $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'remove', $ids);
+        $this->resultMapper->removeSkillrequest($episodenId, $charakterId, 'magie', 'remove');
+        $this->resultMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'remove', $ids);
     }
 
 }

@@ -5,14 +5,14 @@ var urls = {
         skill: baseUrl + '/Story/skill/show',
         magic: baseUrl + '/Story/magic/show',
         item: baseUrl + '/Story/item/show',
-        injury: baseUrl + '/Story/item/show',
+        injury: baseUrl + '/Story/injury/show',
     },
     removalMasks: {
         achievement: baseUrl + '/Story/achievement/removal',
         skill: baseUrl + '/Story/skill/removal',
         magic: baseUrl + '/Story/magic/removal',
         item: baseUrl + '/Story/item/removal',
-        injury: baseUrl + '/Story/item/removal',
+        injury: baseUrl + '/Story/injury/removal',
     },
     comment: baseUrl + '/Story/result/comment',
     kills: baseUrl + '/Story/result/kills',
@@ -79,25 +79,11 @@ jQuery(document).ready(function () {
 
 
     jQuery('.npcKills').on('change', function(){
-        updateNpcKills(jQuery(this).attr('data-id'), jQuery(this).val());
+        updateNpcKills(getCharacterId(jQuery(this)), jQuery(this).val());
     });
     
     jQuery('.died').on('change', function(){
-        updateGotKilled(jQuery(this).attr('data-id'), jQuery(this).prop('checked'));
-    });
-    
-    jQuery('#inhalt').on('click', '.save', function(){
-        var selected = [];
-        jQuery(this).parent().find('select option:selected').each(function(){
-            selected.push(jQuery(this).val());
-        });
-        addResultStats(
-            jQuery(this).attr('data-art'),
-            jQuery(this).attr('data-request'),
-            selected,
-            jQuery(this).attr('data-id')
-        );
-        jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
+        updateGotKilled(getCharacterId(jQuery(this)), jQuery(this).prop('checked'));
     });
     
     
@@ -106,16 +92,15 @@ jQuery(document).ready(function () {
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-        addCharakterKills(selected, jQuery(this).attr('data-id'));
-        jQuery('.results[data-id="' + jQuery(this).attr('data-id') + '"]').html('');
+        addCharakterKills(selected, getCharacterId(jQuery(this)));
+        jQuery('.results[data-id="' + getCharacterId(jQuery(this)) + '"]').html('');
     });
     
     
     jQuery('#inhalt').on('click', '.saveComment', function(){
-        var id = jQuery(this).attr('data-id');
-        var content = tinymce.get('comment' + id).getContent();
-        updateComment(id, content);
-        jQuery('.results[data-id="' + id + '"]').html('');
+        var content = tinymce.get('comment' + getCharacterId(jQuery(this))).getContent();
+        updateComment(getCharacterId(jQuery(this)), content);
+        jQuery('.results[data-id="' + getCharacterId(jQuery(this)) + '"]').html('');
     });
 
 
@@ -127,8 +112,8 @@ function updateComment(charakterId, comment){
         url: baseUrl + '/Story/result/setcomment',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': charakterId,
             'comment': comment,
         },
         success: function() {
@@ -146,8 +131,8 @@ function updateGotKilled(charakterId, gotKilled){
         url: baseUrl + '/Story/result/death',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': charakterId,
             'gotKilled': gotKilled,
         },
         success: function() {
@@ -165,8 +150,8 @@ function updateNpcKills(charakterId, value){
         url: baseUrl + '/Story/result/npc',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': charakterId,
             'killcount': value,
         },
         success: function() {
@@ -178,26 +163,6 @@ function updateNpcKills(charakterId, value){
     });
 }
 
-function addResultStats(art, request, ids, charakterId){
-    jQuery.ajax({
-        type: 'Post',
-        url: baseUrl + '/Story/result/request',
-        dataType: 'json',
-        data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
-            'requesttype': request,
-            'art': art,
-            'ids': ids
-        },
-        success: function() {
-            refreshResult(charakterId);
-        },
-        error: function() {
-            console.log('error');
-        }
-    });
-}
 
 function addCharakterKills(ids, charakterId){
     jQuery.ajax({
@@ -205,8 +170,8 @@ function addCharakterKills(ids, charakterId){
         url: baseUrl + '/Story/result/kills',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': charakterId,
             'ids': ids
         },
         success: function() {
@@ -217,8 +182,6 @@ function addCharakterKills(ids, charakterId){
         }
     });
 }
-
-
 
 function displayMask(url, characterId) {
     jQuery.ajax({
@@ -247,7 +210,7 @@ function refreshResult(charakterId) {
         dataType: 'json',
         data: {
             'episodeId': jQuery('#auswertung').attr('data-id'),
-            'charakterId': charakterId,
+            'characterId': charakterId,
         },
         success: function(data) {
             jQuery('.zusammenfassung[data-id="' + charakterId + '"]').html(data['html']);

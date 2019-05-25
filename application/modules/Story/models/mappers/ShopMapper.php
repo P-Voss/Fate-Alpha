@@ -30,34 +30,6 @@ class Story_Model_Mapper_ShopMapper
     /**
      * @param int $charakterId
      *
-     * @return Story_Model_Magie[]
-     * @throws Exception
-     */
-    public function getMagienToLearnByRpg ($charakterId)
-    {
-        $returnArray = [];
-        $select = $this->getDbTable('Magie')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('magien');
-        $select->joinLeft(
-            'charakterMagien',
-            'magien.magieId = charakterMagien.magieId AND charakterMagien.charakterId = ' . (int)$charakterId,
-            []
-        );
-        $select->where('magien.lernbedingung = "RPG-Ereignis" AND charakterMagien.magieId IS NULL');
-        $result = $this->getDbTable('Magie')->fetchAll($select);
-        foreach ($result as $row) {
-            $magie = new Story_Model_Magie();
-            $magie->setId($row->magieId);
-            $magie->setBezeichnung($row->name);
-            $returnArray[] = $magie;
-        }
-        return $returnArray;
-    }
-
-    /**
-     * @param int $charakterId
-     *
      * @return Story_Model_Skill[]
      * @throws Exception
      */
@@ -154,35 +126,6 @@ class Story_Model_Mapper_ShopMapper
             $skill->setBezeichnung($row->name);
             $skill->setBeschreibung($row->beschreibung);
             $returnArray[] = $skill;
-        }
-        return $returnArray;
-    }
-
-    /**
-     * @param int $charakterId
-     *
-     * @return Application_Model_Magie[]
-     * @throws Exception
-     */
-    public function getCharakterMagien ($charakterId)
-    {
-        $returnArray = [];
-        $select = $this->getDbTable('CharakterMagie')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('charakterMagien', []);
-        $select->joinInner(
-            'magien',
-            'charakterMagien.magieId = magien.magieId',
-            ['magieId', 'name', 'beschreibung']
-        );
-        $select->where('charakterMagien.charakterId = ?', $charakterId);
-        $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
-        foreach ($result as $row) {
-            $magie = new Story_Model_Magie();
-            $magie->setId($row->magieId);
-            $magie->setBezeichnung($row->name);
-            $magie->setBeschreibung($row->beschreibung);
-            $returnArray[] = $magie;
         }
         return $returnArray;
     }
