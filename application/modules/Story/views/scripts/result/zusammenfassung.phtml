@@ -46,10 +46,8 @@ $result = $charakter->getResult();
                 <div>
                     <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
                     <button
-                            class="removeAchievement"
-                            data-id="<?= $achievement->getId() ?>"
-                            data-characterId="<?= $charakter->getCharakterid() ?>"
-                            data-episodeId="<?= $achievement->getEpisodeId() ?>"
+                        class="removeAchievementRequest"
+                        data-id="<?= $achievement->getId() ?>"
                     >
                         Löschen
                     </button>

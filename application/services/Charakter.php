@@ -87,6 +87,7 @@ class Application_Service_Charakter {
                 ->setProfile()
                 ->setSkills()
                 ->setItems()
+                ->setAchievements()
                 ->setVermoegen()
                 ->setWerte();
             return $charakterBuilder->getCharakter();

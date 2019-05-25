@@ -16,36 +16,45 @@ class Story_Model_Mapper_Result_AchievementMapper
      */
     public function addAchievementRequest (Story_Model_Achievement $achievement)
     {
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $stmt = $db->prepare(
-            'INSERT INTO episodenCharakterAchievementRequest (episodeId, characterId, title, description, requestType)
-                                VALUES (?, ?, ?, ?, ?)'
-        );
-        $stmt->execute(
-            [
-                $achievement->getEpisodeId(),
-                $achievement->getCharacterId(),
-                $achievement->getTitle(),
-                $achievement->getDescription(),
-                $achievement->getRequestType()
-            ]
-        );
+        try {
+            $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+            $stmt = $db->prepare(
+                'INSERT INTO episodenCharakterAchievementRequest (episodeId, characterId, title, description, requestType, achievementId)
+                                VALUES (?, ?, ?, ?, ?, ?)'
+            );
+            $stmt->execute(
+                [
+                    $achievement->getEpisodeId(),
+                    $achievement->getCharacterId(),
+                    $achievement->getTitle(),
+                    $achievement->getDescription(),
+                    $achievement->getRequestType(),
+                    $achievement->getId()
+                ]
+            );
+        } catch (Exception $exception) {
+            Zend_Debug::dump($exception);
+            exit;
+        }
     }
 
     /**
      * @param $episodeId
      * @param $charakterId
-     * @param int $achievementId
-     *
-     * @throws Exception
+     * @param $requestId
      */
-    public function removeAchievement ($episodeId, $charakterId, $achievementId)
+    public function removeAchievement ($episodeId, $charakterId, $requestId)
     {
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $stmt = $db->prepare(
-            'DELETE FROM episodenCharakterAchievementRequest WHERE id = ? AND characterId = ? AND episodeId = ?'
-        );
-        $stmt->execute([$achievementId, $charakterId, $episodeId]);
+        try {
+            $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+            $db->query(
+                'DELETE FROM episodenCharakterAchievementRequest WHERE id = ? AND characterId = ? AND episodeId = ?',
+                [$requestId, $charakterId, $episodeId]
+            );
+        } catch (Exception $exception) {
+            Zend_Debug::dump($exception);
+            exit;
+        }
     }
 
     /**
@@ -59,8 +68,9 @@ class Story_Model_Mapper_Result_AchievementMapper
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'SELECT eCAR.* 
+        $sql = 'SELECT eCAR.*, charakterAchievements.titel AS existingTitle 
                 FROM episodenCharakterAchievementRequest AS eCAR
+                LEFT JOIN charakterAchievements ON charakterAchievements.id = eCAR.achievementId
                 WHERE eCAR.episodeId = ? AND eCAR.characterId = ?';
         $stmt = $db->prepare($sql);
         $stmt->execute([$episodenId, $characterId]);
@@ -69,10 +79,11 @@ class Story_Model_Mapper_Result_AchievementMapper
             $achievement = new Story_Model_Achievement(
                 $row['characterId'],
                 $row['episodeId'],
-                $row['title'],
+                $row['existingTitle'] !== null ? $row['existingTitle'] : $row['title'],
                 $row['description'],
-                $row['id']
+                $row['requestType']
             );
+            $achievement->setId($row['id']);
             $returnArray[] = $achievement;
         }
         return $returnArray;

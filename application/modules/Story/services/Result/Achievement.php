@@ -37,10 +37,16 @@ class Story_Service_Result_Achievement
         $this->resultMapper->addAchievementRequest($achievement);
     }
 
-
-    public function removeRequest ($episodeId, $characterId, $achievementId)
+    /**
+     * @param $episodeId
+     * @param $charakterId
+     * @param $requestId
+     *
+     * @throws Exception
+     */
+    public function removeRequest ($episodeId, $charakterId, $requestId)
     {
-
+        $this->resultMapper->removeAchievement($episodeId, $charakterId, $requestId);
     }
 
 }

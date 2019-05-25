@@ -92,7 +92,7 @@ $participants = $this->participants;
         <div class="results" data-id="<?= $charakterId ?>""></div>
         <fieldset>
             <legend>Zusammenfassung</legend>
-            <div class="zusammenfassung">
+            <div class="zusammenfassung" data-id="<?= $charakterId ?>">
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
                     <?= $purifier->purify($result->getComment()) ?>
                 </div>
@@ -125,13 +125,31 @@ $participants = $this->participants;
                             }, $result->getCharaktersKilled()))) ?>
                         </p>
                     <?php endif; ?>
-                    <?php if (count($result->getAchievements()) > 0): ?>
+                    <?php if (count($result->getAchievementsToAdd()) > 0): ?>
                         <div>
-                            <?php foreach ($result->getAchievements() as $achievement): ?>
+                            <p>Neue Erfolge:</p>
+                            <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
                             <div>
                                 <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
                                 <button
-                                    class="removeAchievement"
+                                    class="removeAchievementRequest"
+                                    data-id="<?= $achievement->getId() ?>"
+                                >
+                                    Löschen
+                                </button>
+                                <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (count($result->getAchievementsToRemove()) > 0): ?>
+                        <div>
+                            <p>Erfolge entfernen:</p>
+                            <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
+                            <div>
+                                <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
+                                <button
+                                    class="removeAchievementRequest"
                                     data-id="<?= $achievement->getId() ?>"
                                 >
                                     Löschen

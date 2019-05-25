@@ -195,6 +195,26 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     /**
+     * @return Application_Model_Achievement[]
+     */
+    public function getAchievementsToAdd ()
+    {
+        return array_filter($this->achievements, function (Story_Model_Achievement $achievement) {
+            return $achievement->getRequestType() === Story_Model_RequestTypes::ADD;
+        });
+    }
+
+    /**
+     * @return Application_Model_Achievement[]
+     */
+    public function getAchievementsToRemove ()
+    {
+        return array_filter($this->achievements, function (Story_Model_Achievement $achievement) {
+            return $achievement->getRequestType() === Story_Model_RequestTypes::REMOVE;
+        });
+    }
+
+    /**
      * @param Application_Model_Achievement[] $achievements
      *
      * @return Application_Model_CharakterResult

@@ -8,11 +8,19 @@ jQuery(document).ready(function () {
         addAchievement(title, description, id)
     })
 
-    jQuery("#inhalt").on("click", ".removeAchievement", function () {
-        var id = jQuery(this).attr("data-id")
+    jQuery("#inhalt").on("click", ".removeExistingAchievement", function () {
         var characterId = getCharacterId(jQuery(this))
-        var episodeId = jQuery(this).attr("data-episodeId")
-        removeAchievement(id, characterId, episodeId)
+        var achievementIds = []
+        jQuery('#removeAchievement option:selected').each(function () {
+            achievementIds.push(jQuery(this).val())
+        })
+        addRemovalRequest(characterId, achievementIds)
+    })
+
+    jQuery("#inhalt").on("click", ".removeAchievementRequest", function () {
+        var requestId = jQuery(this).attr("data-id")
+        var characterId = getCharacterId(jQuery(this))
+        removeAchievement(requestId, characterId, episodeId)
     })
 
 })
@@ -21,6 +29,24 @@ function getCharacterId (element) {
     return jQuery(element).closest('.character').attr('data-id')
 }
 
+function addRemovalRequest(characterId, achievementIds) {
+    jQuery.ajax({
+        type: 'Post',
+        url: baseUrl + '/Story/achievement/addremovalrequest',
+        dataType: 'json',
+        data: {
+            'episodeId': jQuery('#auswertung').attr('data-id'),
+            'characterId': characterId,
+            'achievementIds': achievementIds
+        },
+        success: function() {
+            refreshResult(characterId);
+        },
+        error: function() {
+            console.log('error');
+        }
+    });
+}
 
 function addAchievement(title, description, characterId) {
     jQuery.ajax({
@@ -28,7 +54,7 @@ function addAchievement(title, description, characterId) {
         url: baseUrl + '/Story/achievement/addrequest',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
+            'episodeId': jQuery('#auswertung').attr('data-id'),
             'characterId': characterId,
             'title': title,
             'description': description
@@ -42,15 +68,15 @@ function addAchievement(title, description, characterId) {
     });
 }
 
-function removeAchievement(achievementId, characterId, episodeId) {
+function removeAchievement(requestId, characterId, episodeId) {
     jQuery.ajax({
         type: 'Post',
-        url: baseUrl + '/Story/result/removerequest',
+        url: baseUrl + '/Story/achievement/removerequest',
         dataType: 'json',
         data: {
-            'achievementId': achievementId,
+            'requestId': requestId,
             'characterId': characterId,
-            'episodeId': episodeId
+            'episodeId': jQuery('#auswertung').attr('data-id')
         },
         success: function() {
             refreshResult(characterId);

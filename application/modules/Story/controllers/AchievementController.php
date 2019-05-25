@@ -44,7 +44,7 @@ class Story_AchievementController extends Zend_Controller_Action
         ){
             $this->redirect('index');
         }
-        $this->episodeId = (int)$this->getRequest()->getParam('episode');
+        $this->episodeId = (int)$this->getRequest()->getParam('episodeId');
         $this->character = $this->characterService->getCharakterById($this->getRequest()->getPost('characterId'));
 
         $this->_helper->layout()->disableLayout();
@@ -61,14 +61,16 @@ class Story_AchievementController extends Zend_Controller_Action
         $this->view->charakterId = $this->character->getCharakterid();
         $html = $this->view->render('achievement/show.phtml');
         echo json_encode(['html' => $html]);
+        exit;
     }
 
 
     public function removalAction ()
     {
-        $this->view->charakterId = $this->character->getCharakterid();
+        $this->view->achievements = $this->character->getAchievements();
         $html = $this->view->render('achievement/removal.phtml');
         echo json_encode(['html' => $html]);
+        exit;
     }
 
 
@@ -82,19 +84,38 @@ class Story_AchievementController extends Zend_Controller_Action
             Story_Model_RequestTypes::ADD
         );
         $this->resultService->addRequest($achievement);
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+
+    public function addremovalrequestAction ()
+    {
+        $achievement = new Story_Model_Achievement(
+            $this->character->getCharakterid(),
+            $this->episodeId,
+            null,
+            null,
+            Story_Model_RequestTypes::REMOVE
+        );
+        foreach ($this->getRequest()->getPost('achievementIds') as $id) {
+            $achievement->setId($id);
+            $this->resultService->addRequest($achievement);
+        }
+        echo json_encode(['success' => true]);
+        exit;
     }
 
 
     public function removerequestAction ()
     {
-        $achievement = new Story_Model_Achievement(
-            $this->character->getCharakterid(),
+        $this->resultService->removeRequest(
             $this->episodeId,
-            $this->getRequest()->getPost('title'),
-            $this->getRequest()->getPost('description'),
-            Story_Model_RequestTypes::REMOVE
+            $this->character->getCharakterid(),
+            $this->getRequest()->getPost('requestId')
         );
-        $this->resultService->addRequest($achievement);
+        echo json_encode(['success' => true]);
+        exit;
     }
 
 
@@ -105,6 +126,8 @@ class Story_AchievementController extends Zend_Controller_Action
             $this->character->getCharakterid(),
             $this->getRequest()->getPost('achievementId')
         );
+        echo json_encode(['success' => true]);
+        exit;
     }
 
 }

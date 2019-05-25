@@ -317,7 +317,7 @@ class Story_ResultController extends Zend_Controller_Action {
     
     
     public function refreshAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
+        $episodeId = (int)$this->getRequest()->getParam('episodeId');
         $charakterId = $this->getRequest()->getPost('charakterId');
         if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
             echo json_encode([]);

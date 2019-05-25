@@ -246,7 +246,7 @@ function refreshResult(charakterId) {
         url: baseUrl + '/Story/result/refresh',
         dataType: 'json',
         data: {
-            'episode': jQuery('#auswertung').attr('data-id'),
+            'episodeId': jQuery('#auswertung').attr('data-id'),
             'charakterId': charakterId,
         },
         success: function(data) {

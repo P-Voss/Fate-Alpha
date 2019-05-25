@@ -57,7 +57,6 @@ class Application_Service_CharakterBuilder
      * @param int $userId
      *
      * @return bool
-     * @throws Zend_Db_Statement_Exception
      * @throws Exception
      */
     public function initCharakterByUserId ($userId)
@@ -225,5 +224,14 @@ class Application_Service_CharakterBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function setAchievements ()
+    {
+        $this->charakter->setAchievements($this->charakterMapper->getAchievements($this->charakterId));
+        return $this;
+    }
 
 }

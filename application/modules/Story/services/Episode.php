@@ -166,15 +166,22 @@ class Story_Service_Episode {
     }
 
     /**
-     * @param $episodenId
+     * @param $episodeId
      * @param $charakterId
      *
      * @return Story_Model_Charakter
      * @throws Exception
      */
-    public function getParticipant($episodenId, $charakterId) {
-        $participant = $this->episodeMapper->getParticipant($episodenId, $charakterId);
-        $participant->setResult($this->episodeMapper->getCharakterResult($episodenId, $charakterId));
+    public function getParticipant($episodeId, $charakterId) {
+        $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
+        $participant = $this->episodeMapper->getParticipant($episodeId, $charakterId);
+        $result = $this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid());
+        $result->setRequestedMagien($this->episodeMapper->getRequestedMagien($episodeId, $participant->getCharakterid()));
+        $result->setRequestedSkills($this->episodeMapper->getRequestedSkills($episodeId, $participant->getCharakterid()));
+        $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $participant->getCharakterid()));
+        $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $participant->getCharakterid()));
+        $participant->setResult($result);
+        
         return $participant;
     }
 

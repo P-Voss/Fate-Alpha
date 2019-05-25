@@ -1097,10 +1097,9 @@ SQL;
         $result = $this->getDbTable('Charakter')->fetchAll($select);
         foreach ($result as $row) {
             $achievement = new Application_Model_Achievement();
-            $achievement->setCharakterId($row['charakterId']);
             $achievement->setId($row['id']);
-            $achievement->setTitel($row['titel']);
-            $achievement->setBeschreibung($row['beschreibung']);
+            $achievement->setTitle($row['titel']);
+            $achievement->setDescription($row['beschreibung']);
             $returnArray[] = $achievement;
         }
         return $returnArray;

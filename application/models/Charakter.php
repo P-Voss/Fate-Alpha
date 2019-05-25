@@ -155,6 +155,11 @@ class Application_Model_Charakter
      * @var Application_Model_Item[]
      */
     protected $items = [];
+    /**
+     * @var Application_Model_Achievement[]
+     */
+    protected $achievements = [];
+
 
     /**
      * @return int
@@ -843,7 +848,9 @@ class Application_Model_Charakter
      */
     public function setItems (array $items): Application_Model_Charakter
     {
-        $this->items = $items;
+        foreach ($items as $item) {
+            $this->addItem($item);
+        }
         return $this;
     }
 
@@ -855,6 +862,38 @@ class Application_Model_Charakter
     public function addItem (Application_Model_Item $item): Application_Model_Charakter
     {
         $this->items[] = $item;
+        return $this;
+    }
+
+    /**
+     * @return Application_Model_Achievement[]
+     */
+    public function getAchievements (): array
+    {
+        return $this->achievements;
+    }
+
+    /**
+     * @param Application_Model_Achievement[] $achievements
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setAchievements (array $achievements): Application_Model_Charakter
+    {
+        foreach ($achievements as $achievement) {
+            $this->addAchievement($achievement);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Application_Model_Achievement $achievement
+     *
+     * @return $this
+     */
+    public function addAchievement (Application_Model_Achievement $achievement)
+    {
+        $this->achievements[] = $achievement;
         return $this;
     }
 

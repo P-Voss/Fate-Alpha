@@ -36,7 +36,7 @@ class Application_Model_Achievement
      * @param $title
      * @param $description
      */
-    public function __construct ($id, $title, $description)
+    public function __construct ($id = null, $title = null, $description = null)
     {
         $this->id = $id;
         $this->title = $title;
