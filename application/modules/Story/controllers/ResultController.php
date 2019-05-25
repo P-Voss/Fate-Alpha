@@ -107,34 +107,6 @@ class Story_ResultController extends Zend_Controller_Action {
 
     }
     
-    
-    public function magieAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $this->view->magien = $this->shopService->getLearnableMagien($charakterId);
-        $html = $this->view->render('add/magie.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
-    public function removemagieAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->charakterId = $this->getRequest()->getPost('charakterId');
-        $this->view->magien = $this->shopService->getLearnedMagien($charakterId);
-        $html = $this->view->render('remove/magie.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
-    
     public function skillAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $charakterId = $this->getRequest()->getPost('charakterId');
@@ -239,39 +211,6 @@ class Story_ResultController extends Zend_Controller_Action {
         exit;
     }
 
-
-    public function addachievementAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $charakterId = $this->getRequest()->getPost('charakterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $achievement = new Story_Model_Achievement(
-            $charakterId,
-            $this->getRequest()->getPost('title'),
-            $this->getRequest()->getPost('description'),
-            $episodeId
-        );
-        $this->episodenService->addAchievement($achievement);
-        echo json_encode(['success' => true]);
-        exit;
-    }
-
-
-    public function removeachievementAction() {
-        $achievementId = (int)$this->getRequest()->getParam('achievementId');
-        $episodeId = (int)$this->getRequest()->getParam('episodeId');
-        $charakterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $charakterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->episodenService->removeAchievement($episodeId, $charakterId, $achievementId);
-        echo json_encode(['success' => true]);
-        exit;
-    }
-    
     
     public function killsAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');

@@ -79,8 +79,12 @@ class Story_Service_Episode {
         $status->setId(1);
         $this->episodeMapper->updateStatus($status, $episode->getId());
     }
-    
-    
+
+    /**
+     * @param Story_Model_Episode $episode
+     *
+     * @throws Exception
+     */
     public function deleteEpisode(Story_Model_Episode $episode) {
         $this->episodeMapper->deleteEpisode($episode->getId());
     }
@@ -181,7 +185,7 @@ class Story_Service_Episode {
         $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $participant->getCharakterid()));
         $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $participant->getCharakterid()));
         $participant->setResult($result);
-        
+
         return $participant;
     }
 
@@ -311,7 +315,7 @@ class Story_Service_Episode {
      */
     public function addAchievement (Story_Model_Achievement $achievement)
     {
-        return $this->episodeMapper->addAchievementRequest($achievement);
+        $this->episodeMapper->addAchievementRequest($achievement);
     }
 
     /**

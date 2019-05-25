@@ -24,28 +24,6 @@ class Story_Service_Shop
     /**
      * @param $charakterId
      *
-     * @return Story_Model_Magie[]
-     * @throws Exception
-     */
-    public function getLearnableMagien ($charakterId)
-    {
-        return $this->shopMapper->getMagienToLearnByRpg($charakterId);
-    }
-
-    /**
-     * @param $charakterId
-     *
-     * @return Application_Model_Magie[]
-     * @throws Exception
-     */
-    public function getLearnedMagien ($charakterId)
-    {
-        return $this->shopMapper->getCharakterMagien($charakterId);
-    }
-
-    /**
-     * @param $charakterId
-     *
      * @return Story_Model_Skill[]
      * @throws Exception
      */
@@ -112,31 +90,6 @@ class Story_Service_Shop
 
         }
         return true;
-    }
-
-    /**
-     * @param $episodenId
-     * @param $ids
-     * @param $charakterId
-     *
-     * @throws Exception
-     */
-    public function addMagicrequest ($episodenId, $ids, $charakterId)
-    {
-        $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'add', $ids);
-    }
-
-    /**
-     * @param $episodenId
-     * @param $ids
-     * @param $charakterId
-     *
-     * @throws Exception
-     */
-    public function addMagicRemovalrequest ($episodenId, $ids, $charakterId)
-    {
-        $this->shopMapper->removeSkillrequest($episodenId, $charakterId, 'magie', 'remove');
-        $this->shopMapper->addSkillrequest($episodenId, $charakterId, 'magie', 'remove', $ids);
     }
 
     /**
