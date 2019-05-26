@@ -49,33 +49,18 @@ $participants = $this->participants;
 </div>
 <h2>Eintragungen für die teilnehmenden Charaktere</h2>
 <div id="auswertung" data-id="<?= $episode->getId() ?>">
-    <?php foreach($participants as $charakter): 
-    $charakterId = $charakter->getCharakterId();
-    $result = $charakter->getResult();
-    
-    $skills = '';
-    if (count($result->getRequestedSkills()) > 0) {
-        foreach($result->getRequestedSkills() as $skill):
-            $skills .= $skill->getBezeichnung() . ', ';
-        endforeach;
-        $skills = substr($skills, 0, strlen($skills) - 2);
-    }
+    <?php
+    foreach($participants as $charakter):
+        $charakterId = $charakter->getCharakterId();
+        $result = $charakter->getResult();
 
-    $magien = '';
-    if (count($result->getRequestedMagien()) > 0) {
-        foreach($result->getRequestedMagien() as $magie ):
-            $magien .= $magie->getBezeichnung() . ', ';
-        endforeach;
-        $magien = substr($magien, 0, strlen($magien) - 2);
-    }
-    
-    $charakterKills = '';
-    if (count($result->getCharaktersKilled()) > 0) {
-        foreach ($result->getCharaktersKilled() as $kill) {
-            $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
+        $charakterKills = '';
+        if (count($result->getCharaktersKilled()) > 0) {
+            foreach ($result->getCharaktersKilled() as $kill) {
+                $charakterKills .= $kill->getVorname() . ' ' . $kill->getNachname() . ', ';
+            }
+            $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
         }
-        $charakterKills = substr($charakterKills, 0, strlen($charakterKills) - 2);
-    }
     ?>
     <fieldset>
         <legend>Charakter: <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
@@ -97,18 +82,46 @@ $participants = $this->participants;
                 <?= $result->getComment() !== '' ? $purifier->purify($result->getComment()) : 'Keine' ?>
             </p>
         </div>
+        <div>Besondere Leistungen:</div>
+        <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
+        <div>
+            <p style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?> (hinzugefügt)</p>
+            <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+        </div>
+        <?php endforeach; ?>
+        <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
+        <div>
+            <p style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?> (entfernt)</p>
+            <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+        </div>
+        <?php endforeach; ?>
+
         <fieldset>
-            <legend>Während der Episode gelernte Fähigkeiten oder Magien</legend>
-            <?php if($magien === '' && $skills === '') { ?>
-            Keine
-            <?php } else { ?>
+            <legend>Fähigkeiten, Magien, Items</legend>
+            <div>
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
-                    Gelernte Fähigkeiten: <?= $purifier->purify($skills) ?>
+                    Gelernte Fähigkeiten: <?= $purifier->purify($result->getSkillsToAddString()) ?>
                 </div>
                 <div style="display: inline-block; width: 40%; vertical-align: top;">
-                    Gelernte Magien: <?= $purifier->purify($magien) ?>
+                    Verlernte Fähigkeiten: <?= $purifier->purify($result->getSkillsToRemoveString()) ?>
                 </div>
-            <?php } ?>
+            </div>
+            <div>
+                <div style="display: inline-block; width: 50%; vertical-align: top;">
+                    Gelernte Magien: <?= $purifier->purify($result->getMagicToAddString()) ?>
+                </div>
+                <div style="display: inline-block; width: 40%; vertical-align: top;">
+                    Verlernte Magien: <?= $purifier->purify($result->getMagicToRemoveString()) ?>
+                </div>
+            </div>
+            <div>
+                <div style="display: inline-block; width: 50%; vertical-align: top;">
+                    Neue Items: <?= $purifier->purify($result->getItemsToAddString()) ?>
+                </div>
+                <div style="display: inline-block; width: 40%; vertical-align: top;">
+                    Verlorene Items: <?= $purifier->purify($result->getItemsToRemoveString()) ?>
+                </div>
+            </div>
         </fieldset>
         <?php if ($charakterKills !== '') : ?>
         <fieldset>

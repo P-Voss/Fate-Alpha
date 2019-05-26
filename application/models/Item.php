@@ -191,5 +191,13 @@ class Application_Model_Item {
         $this->discountDays = $discountDays;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString ()
+    {
+        return $this->name;
+    }
     
 }

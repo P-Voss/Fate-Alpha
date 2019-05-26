@@ -172,11 +172,26 @@ class Shop_Model_Mapper_MagieMapper
     }
 
     /**
+     * @param int $charakterId
+     * @param int $magieId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function removeMagic ($charakterId, $magieId)
+    {
+        $data = [
+            'charakterId = ?' => $charakterId,
+            'magieId = ?' => $magieId,
+        ];
+        return $this->getDbTable('charakterMagie')->delete($data);
+    }
+
+    /**
      *
      * @param int $charakterId
      * @param int $magieId
      *
-     * @return bool
      * @return bool
      * @throws Exception
      */
@@ -187,30 +202,6 @@ class Shop_Model_Mapper_MagieMapper
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
         return $result->count() > 0;
-    }
-
-    /**
-     * @param int $elementId
-     *
-     * @return \Application_Model_Element
-     * @throws Exception
-     */
-    private function getElement ($elementId)
-    {
-        $element = new Application_Model_Element();
-        if ($elementId === null) {
-            return $element;
-        }
-        $select = $this->getDbTable('Element')->select();
-        $select->where('elementId = ?', $elementId);
-        $result = $this->getDbTable('Element')->fetchAll($select);
-        if ($result->count() > 0) {
-            $row = $result->current();
-            $element->setId($row->elementId);
-            $element->setBezeichnung($row->name);
-            $element->setBeschreibung($row->beschreibung);
-        }
-        return $element;
     }
 
     /**

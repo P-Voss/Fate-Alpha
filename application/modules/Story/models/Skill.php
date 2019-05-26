@@ -31,4 +31,12 @@ class Story_Model_Skill extends Application_Model_Skill {
         return $this;
     }
 
+    /**
+     * @return  string
+     */
+    public function __toString ()
+    {
+        return $this->bezeichnung;
+    }
+
 }

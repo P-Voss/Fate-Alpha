@@ -117,4 +117,35 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
         return $requirementList;
     }
 
+    /**
+     * @param $characterId
+     * @param $itemId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function unlockByRpg ($characterId, $itemId)
+    {
+        $data = [
+            'charakterId' => $characterId,
+            'itemId' => $itemId,
+        ];
+        return $this->getDbTable('charakterItems')->insert($data);
+    }
+
+    /**
+     * @param int $charakterId
+     * @param int $itemId
+     *
+     * @throws Exception
+     */
+    public function removeItem ($charakterId, $itemId)
+    {
+        $data = [
+            'charakterId = ?' => $charakterId,
+            'itemId = ?' => $itemId,
+        ];
+        $this->getDbTable('charakterItems')->delete($data);
+    }
+
 }

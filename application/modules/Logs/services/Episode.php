@@ -6,8 +6,14 @@
  * @author Voß
  */
 class Logs_Service_Episode {
-    
+
+    /**
+     * @var Logs_Model_Mapper_PlotMapper
+     */
     protected $plotMapper;
+    /**
+     * @var Logs_Model_Mapper_EpisodeMapper
+     */
     protected $episodeMapper;
 
     public function __construct() {
@@ -45,11 +51,8 @@ class Logs_Service_Episode {
      * @throws Exception
      */
     public function getParticipantsByEpisode($episodeId) {
-        $participants = $this->episodeMapper->getParticipantsByEpisode($episodeId);
-        foreach ($participants as $participant) {
-            $participant->setResult($this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid()));
-        }
-        return $participants;
+        $storyEpisodeService = new Story_Service_Episode();
+        return $storyEpisodeService->getParticipantsByEpisode($episodeId);
     }
 
     /**
@@ -59,7 +62,7 @@ class Logs_Service_Episode {
      * @throws Exception
      */
     public function saveAuswertung(Logs_Model_Auswertung $auswertung, $episodenId) {
-        $this->episodeMapper->removeAuswertung($auswertung, $episodenId);
+        $this->episodeMapper->removeAuswertung($auswertung->getUserId(), $episodenId);
         $this->episodeMapper->saveAuswertung($auswertung, $episodenId);
     }
     

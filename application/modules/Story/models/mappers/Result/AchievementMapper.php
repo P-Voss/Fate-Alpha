@@ -83,7 +83,7 @@ class Story_Model_Mapper_Result_AchievementMapper
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'SELECT eCAR.*, charakterAchievements.titel AS existingTitle 
+        $sql = 'SELECT eCAR.*, charakterAchievements.title AS existingTitle 
                 FROM episodenCharakterAchievementRequest AS eCAR
                 LEFT JOIN charakterAchievements ON charakterAchievements.id = eCAR.achievementId
                 WHERE eCAR.episodeId = ? AND eCAR.characterId = ?';
@@ -99,6 +99,7 @@ class Story_Model_Mapper_Result_AchievementMapper
                 $row['requestType']
             );
             $achievement->setId($row['id']);
+            $achievement->setAchievementId($row['achievementId']);
             $returnArray[] = $achievement;
         }
         return $returnArray;

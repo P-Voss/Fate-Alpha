@@ -2,8 +2,13 @@
 
 
 class Administration_Model_Mapper_LogsMapper {
-    
-    
+
+    /**
+     * @param szting $tablename
+     *
+     * @return Zend_Db_Table_Abstract
+     * @throws Exception
+     */
     public function getDbTable($tablename) {
         $className = 'Application_Model_DbTable_' . $tablename;
         if(!class_exists($className)){
@@ -14,6 +19,24 @@ class Administration_Model_Mapper_LogsMapper {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
+    }
+
+    /**
+     * @param int $episodeId
+     *
+     * @return Administration_Model_Episode
+     * @throws Exception
+     */
+    public function getEpisode ($episodeId)
+    {
+        $row = $this->getDbTable('Episoden')->fetchRow(['episodenId = ?' => $episodeId]);
+        $episode = new Administration_Model_Episode();
+        $episode->setId($episodeId);
+        $episode->setName($row->name);
+        $status = new Application_Model_EpisodenStatus();
+        $status->setId($row->statusId);
+        $episode->setStatus($status);
+        return $episode;
     }
 
     /**

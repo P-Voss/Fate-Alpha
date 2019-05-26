@@ -67,7 +67,6 @@
 .episodeActive {
     border: 1px solid black;
     margin-bottom: 1px;
-    height: 90px;
 }
 
 .episodeRejected {

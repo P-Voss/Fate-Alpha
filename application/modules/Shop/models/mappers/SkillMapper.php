@@ -191,6 +191,22 @@ SQL;
     }
 
     /**
+     * @param int $charakterId
+     * @param int $skillId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function removeSkill ($charakterId, $skillId)
+    {
+        $data = [
+            'charakterId = ?' => $charakterId,
+            'skillId = ?' => $skillId,
+        ];
+        return $this->getDbTable('CharakterSkill')->delete($data);
+    }
+
+    /**
      *
      * @param int $charakterId
      * @param int $skillId

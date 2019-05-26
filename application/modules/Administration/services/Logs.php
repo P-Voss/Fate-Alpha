@@ -32,6 +32,18 @@ class Administration_Service_Logs extends Logs_Service_Log {
         $this->charakterMapper = new Application_Model_Mapper_CharakterMapper();
     }
 
+    /**
+     * @param int $episodeId
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function alreadyJudged ($episodeId)
+    {
+        $episode = $this->mapper->getEpisode($episodeId);
+        return in_array($episode->getStatus()->getId(), [self::EPISODE_ACCEPTED_STATUS, self::EPISODE_REJECTED_STATUS]);
+    }
+
 
     /**
      * @return array
@@ -74,24 +86,56 @@ class Administration_Service_Logs extends Logs_Service_Log {
      * @throws Exception
      */
     public function acceptEpisode($episodeId) {
-        $mapper = new Story_Model_Mapper_EpisodeMapper();
+        $storyEpisodeService = new Story_Service_Episode();
         $skillMapper = new Shop_Model_Mapper_SkillMapper();
         $magieMapper = new Shop_Model_Mapper_MagieMapper();
-        
-        $participants = $mapper->getParticipantsByEpisode($episodeId);
+        $itemMapper = new Shop_Model_Mapper_ItemMapper();
+        $achievementMapper = new Application_Model_Mapper_CharakterMapper();
+
+        $participants = $storyEpisodeService->getParticipantsByEpisode($episodeId);
         foreach ($participants as $charakter) {
             $charakterId = $charakter->getCharakterid();
-            $result = $mapper->getCharakterResult($episodeId, $charakterId);
-            foreach ($result->getRequestedSkills() as $skill) {
+            $result = $charakter->getResult();
+
+            foreach ($result->getSkillsToAdd() as $skill) {
                 if (!$skillMapper->checkIfLearned($charakterId, $skill->getId())) {
                     $skillMapper->unlockSkillByRPG($charakterId, $skill->getId());
                 }
             }
-            foreach ($result->getRequestedMagien() as $magie) {
+            foreach ($result->getSkillsToRemove() as $skill) {
+                $skillMapper->removeSkill($charakterId, $skill->getId());
+            }
+            foreach ($result->getMagicToAdd() as $magie) {
                 if (!$magieMapper->checkIfLearned($charakterId, $magie->getId())) {
                     $magieMapper->unlockMagieByRPG($charakterId, $magie->getId());
                 }
             }
+            foreach ($result->getMagicToRemove() as $magie) {
+                $magieMapper->unlockMagieByRPG($charakterId, $magie->getId());
+            }
+            foreach ($result->getItemsToAdd() as $item) {
+                if (!$itemMapper->checkIfLearned($charakterId, $item->getId())) {
+                    $itemMapper->unlockByRpg($charakterId, $item->getId());
+                }
+            }
+            foreach ($result->getItemsToRemove() as $item) {
+                $itemMapper->removeItem($charakterId, $item->getId());
+            }
+            foreach ($result->getItemsToAdd() as $item) {
+                if (!$itemMapper->checkIfLearned($charakterId, $item->getId())) {
+                    $itemMapper->unlockByRpg($charakterId, $item->getId());
+                }
+            }
+            foreach ($result->getItemsToRemove() as $item) {
+                $itemMapper->removeItem($charakterId, $item->getId());
+            }
+            foreach ($result->getAchievementsToAdd() as $achievement) {
+                $achievementMapper->addAchievement($achievement, $charakterId);
+            }
+            foreach ($result->getAchievementsToRemove() as $achievement) {
+                $achievementMapper->deleteAchievement($achievement->getAchievementId());
+            }
+
             foreach ($result->getCharaktersKilled() as $kill) {
                 $this->charakterMapper->setCharakterKill($charakterId, $kill->getCharakterId(), $episodeId);
                 $this->killCharakter($kill->getCharakterid());

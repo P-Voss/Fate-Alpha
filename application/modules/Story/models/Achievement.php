@@ -12,6 +12,10 @@ class Story_Model_Achievement extends Application_Model_Achievement
      * @var string
      */
     private $requestType;
+    /**
+     * @var int
+     */
+    private $achievementId;
 
     /**
      * Story_Model_Achievement constructor.
@@ -66,6 +70,25 @@ class Story_Model_Achievement extends Application_Model_Achievement
     public function setRequestType (string $requestType): Story_Model_Achievement
     {
         $this->requestType = $requestType;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAchievementId (): int
+    {
+        return $this->achievementId;
+    }
+
+    /**
+     * @param int $achievementId
+     *
+     * @return Story_Model_Achievement
+     */
+    public function setAchievementId (int $achievementId = null): Story_Model_Achievement
+    {
+        $this->achievementId = $achievementId;
         return $this;
     }
 

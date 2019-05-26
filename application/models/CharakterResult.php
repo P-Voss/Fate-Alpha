@@ -79,7 +79,7 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     /**
-     * @return array
+     * @return Application_Model_Charakter[]
      */
     public function getCharaktersKilled ()
     {
@@ -236,6 +236,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     /**
+     * @return string
+     */
+    public function getSkillsToAddString ()
+    {
+        return implode(', ', $this->getSkillsToAdd());
+    }
+
+    /**
      * @return Story_Model_Skill[]
      */
     public function getSkillsToRemove ()
@@ -243,6 +251,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         return array_filter($this->requestedSkills, function (Story_Model_Skill $skill) {
             return $skill->getRequestType() === Story_Model_RequestTypes::REMOVE;
         });
+    }
+
+    /**
+     * @return string
+     */
+    public function getSkillsToRemoveString ()
+    {
+        return implode(', ', $this->getSkillsToRemove());
     }
 
     /**
@@ -256,6 +272,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     /**
+     * @return string
+     */
+    public function getMagicToAddString ()
+    {
+        return implode(', ', $this->getMagicToAdd());
+    }
+
+    /**
      * @return Story_Model_Magie[]
      */
     public function getMagicToRemove ()
@@ -263,6 +287,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         return array_filter($this->requestedMagien, function (Story_Model_Magie $magic) {
             return $magic->getRequestType() === Story_Model_RequestTypes::REMOVE;
         });
+    }
+
+    /**
+     * @return string
+     */
+    public function getMagicToRemoveString ()
+    {
+        return implode(', ', $this->getMagicToRemove());
     }
 
     /**
@@ -276,6 +308,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
     }
 
     /**
+     * @return string
+     */
+    public function getItemsToAddString ()
+    {
+        return implode(', ', $this->getItemsToAdd());
+    }
+
+    /**
      * @return Application_Model_Item[]
      */
     public function getItemsToRemove ()
@@ -283,6 +323,14 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         return array_filter($this->requestedItems, function (Story_Model_Item $item) {
             return $item->getRequestType() === Story_Model_RequestTypes::REMOVE;
         });
+    }
+
+    /**
+     * @return string
+     */
+    public function getItemsToRemoveString ()
+    {
+        return implode(', ', $this->getItemsToRemove());
     }
 
 }

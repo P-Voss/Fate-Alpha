@@ -8,7 +8,13 @@
 class Application_Model_Skill implements JsonSerializable {
     
     protected $id;
+    /**
+     * @var string
+     */
     protected $bezeichnung;
+    /**
+     * @var string
+     */
     protected $beschreibung;
     protected $skillArt;
     protected $fp;

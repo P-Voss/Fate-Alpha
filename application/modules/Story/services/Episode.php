@@ -214,7 +214,7 @@ class Story_Service_Episode
     /**
      * @param int $episodeId
      *
-     * @return array
+     * @return Story_Model_Charakter[]
      * @throws Exception
      */
     public function getParticipantsByEpisode ($episodeId)

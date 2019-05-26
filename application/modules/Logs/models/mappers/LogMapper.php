@@ -12,6 +12,7 @@ class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
      *
      * @return boolean
      * @throws Zend_Db_Statement_Exception
+     * @throws Exception
      */
     public function isLogleser($userId) {
         $db = $this->getDbTable('Logs')->getDefaultAdapter();
@@ -21,7 +22,7 @@ class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
 
     /**
      * @param int $episodenId
-     * @return array
+     * @return Logs_Model_Log[]
      * @throws Exception
      */
     public function getLogsByEpisodenId($episodenId) {

@@ -15,11 +15,11 @@ class Application_Model_Achievement
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
     /**
      * @var string
      */
-    protected $description;
+    protected $description = '';
     /**
      * @var int
      */

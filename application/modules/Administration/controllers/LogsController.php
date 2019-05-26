@@ -6,7 +6,10 @@
  * @author Philipp Voß <voss.ph@web.de>
  */
 class Administration_LogsController extends Zend_Controller_Action {
-    
+
+    /**
+     * @var Administration_Service_Logs
+     */
     protected $logsService;
 
     public function init(){
@@ -28,7 +31,9 @@ class Administration_LogsController extends Zend_Controller_Action {
     
     
     public function reviewAction() {
-        if((int)$this->getRequest()->getParam('episode') <= 0){
+        if((int)$this->getRequest()->getParam('episode') <= 0
+            || $this->logsService->alreadyJudged((int)$this->getRequest()->getParam('episode'))
+        ){
             $this->redirect('index');
         }
         $logsEpisodenService = new Logs_Service_Episode();
@@ -42,7 +47,10 @@ class Administration_LogsController extends Zend_Controller_Action {
     
     
     public function judgeAction() {
-        if((int)$this->getRequest()->getParam('episodenId') <= 0){
+        if(
+            (int)$this->getRequest()->getParam('episodenId') <= 0
+            || $this->logsService->alreadyJudged((int)$this->getRequest()->getParam('episodenId'))
+        ){
             $this->redirect('index');
         }
         $episodeId = (int)$this->getRequest()->getParam('episodenId');

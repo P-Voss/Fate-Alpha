@@ -67,9 +67,9 @@ class Application_Model_Mapper_CharakterMapper
     public function deleteCharakter (Application_Model_Charakter $charakter)
     {
         $db = $this->getDbTable('Charakter')->update(
-                ['active' => 0],
-                ['charakterId = ?' => $charakter->getCharakterid()]
-            );
+            ['active' => 0],
+            ['charakterId = ?' => $charakter->getCharakterid()]
+        );
     }
 
     /**
@@ -436,13 +436,13 @@ class Application_Model_Mapper_CharakterMapper
     }
 
     /**
-     * @todo Datenfreigabe als Klasse
-     *
      * @param int $profilId
      * @param int $charakterId
      *
      * @return array
      * @throws Exception
+     * @todo Datenfreigabe als Klasse
+     *
      */
     public function getDatenfreigabe ($profilId, $charakterId)
     {
@@ -1084,8 +1084,8 @@ SQL;
      * @param int $charakterId
      *
      * @return Application_Model_Achievement[]
-     * @todo dbTable
      * @throws Exception
+     * @todo dbTable
      */
     public function getAchievements ($charakterId)
     {
@@ -1226,6 +1226,34 @@ SQL;
             Zend_Debug::dump($exception);
             exit;
         }
+    }
+
+    /**
+     * @param Application_Model_Achievement $achievement
+     * @param int $characterId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function addAchievement (Application_Model_Achievement $achievement, $characterId)
+    {
+        $data = [
+            'charakterId' => $characterId,
+            'title' => $achievement->getTitle(),
+            'description' => $achievement->getDescription(),
+            'episodeId' => $achievement->getEpisodeId()
+        ];
+        return $this->getDbTable('CharakterAchievement')->insert($data);
+    }
+
+    /**
+     * @param int $achievementId
+     *
+     * @throws Exception
+     */
+    public function deleteAchievement ($achievementId)
+    {
+        $this->getDbTable('CharakterAchievement')->update(['isActive' => 0], ['id = ?' => $achievementId]);
     }
 
 }

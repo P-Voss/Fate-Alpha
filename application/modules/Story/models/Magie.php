@@ -30,5 +30,13 @@ class Story_Model_Magie extends Application_Model_Magie {
         $this->requestType = $requestType;
         return $this;
     }
+
+    /**
+     * @return  string
+     */
+    public function __toString ()
+    {
+        return $this->bezeichnung;
+    }
     
 }
