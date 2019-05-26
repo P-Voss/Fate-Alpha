@@ -11,7 +11,6 @@ class Application_Service_Layout {
      * @param $auth
      *
      * @return Application_Model_Layout
-     * @throws Zend_Db_Statement_Exception
      * @throws Exception
      */
     public function getLayoutData($auth){

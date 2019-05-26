@@ -37,9 +37,14 @@ class CharakterController extends Zend_Controller_Action
         if ($auth === null) {
             $this->redirect('index');
         } else {
-            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
-            $this->view->layoutData = $this->layoutService->getLayoutData($auth);
-            $layout->setLayout('online');
+            try {
+                $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+                $this->view->layoutData = $this->layoutService->getLayoutData($auth);
+                $layout->setLayout('online');
+            } catch (Throwable $exception) {
+                Zend_Debug::dump($exception);
+                exit;
+            }
         }
     }
 

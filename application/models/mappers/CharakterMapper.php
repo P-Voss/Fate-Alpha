@@ -1098,8 +1098,8 @@ SQL;
         foreach ($result as $row) {
             $achievement = new Application_Model_Achievement();
             $achievement->setId($row['id']);
-            $achievement->setTitle($row['titel']);
-            $achievement->setDescription($row['beschreibung']);
+            $achievement->setTitle($row['title']);
+            $achievement->setDescription($row['description']);
             $returnArray[] = $achievement;
         }
         return $returnArray;

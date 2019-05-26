@@ -1,0 +1,14 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+?>
+<fieldset>
+    <legend>Hooks <span class="indicator"></span></legend>
+    <div class="subContent">
+        <?php foreach ($charakter->getAchievements() as $achievement): ?>
+            <h4><?= $purifier->purify($achievement->getTitle()) ?></h4>
+            <p>
+                <?= $purifier->purify($achievement->getDescription()) ?>
+            </p>
+        <?php endforeach; ?>
+    </div>
+</fieldset>
