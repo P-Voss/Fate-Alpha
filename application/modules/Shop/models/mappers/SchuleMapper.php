@@ -16,6 +16,7 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
             $schule->setId($row->magieschuleId);
             $schule->setBeschreibung($row->beschreibung);
             $schule->setBezeichnung($row->name);
+            $schule->setMagiOrganization($row->organization);
             $returnArray[] = $schule;
         }
         return $returnArray;
@@ -62,7 +63,7 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
     /**
      * @param int $magieschuleId
      *
-     * @return Shop_Model_Schule|boolean
+     * @return Shop_Model_Schule
      * @throws Exception
      */
     public function getMagieschuleById ($magieschuleId)
@@ -75,6 +76,7 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
             $magieschule->setId($row->magieschuleId);
             $magieschule->setBeschreibung($row->beschreibung);
             $magieschule->setBezeichnung($row->name);
+            $magieschule->setMagiOrganization($row->organization);
             return $magieschule;
         }
         throw new Exception('School does not exist');
@@ -86,20 +88,20 @@ class Shop_Model_Mapper_SchuleMapper extends Application_Model_Mapper_SchuleMapp
      *
      * @throws Exception
      */
-    public function unlockMagieschuleForCharakter (Application_Model_Charakter $charakter, Shop_Model_Schule $magieschule)
+    public function unlockMagieschuleForCharakter (Application_Model_Charakter $charakter, Shop_Model_Schule $magieschule, $cost)
     {
-        $kostenfaktor = $this->getMagieschulenKostenFaktor($charakter->getCharakterid());
         $data['charakterId'] = $charakter->getCharakterid();
         $data['magieschuleId'] = $magieschule->getId();
-        parent::getDbTable('CharakterSchule')->insert($data);
-        if ($magieschule->getId() !== 17) {
-            parent::getDbTable('CharakterWerte')
-                ->getAdapter()
-                ->query(
-                    'UPDATE charakterWerte SET fp = fp - ? WHERE charakterId = ?', [
-                    ($kostenfaktor * 50), $charakter->getCharakterid()]
-                );
-        }
+        parent::getDbTable('Charakter')->update(
+            ['magischoolId' => $magieschule->getId()],
+            ['charakterId = ?' => $charakter->getCharakterid()]
+        );
+        parent::getDbTable('CharakterWerte')
+            ->getAdapter()
+            ->query(
+                'UPDATE charakterWerte SET fp = fp - ? WHERE charakterId = ?',
+                [$cost, $charakter->getCharakterid()]
+            );
     }
 
     /**

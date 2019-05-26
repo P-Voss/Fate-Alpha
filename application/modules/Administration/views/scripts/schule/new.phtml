@@ -16,6 +16,14 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 Vorraussetzungen
             </legend>
             <p>
+                <label for="MagiOrganization">Magi Organisation</label>
+                <select name="MagiOrganization" id="MagiOrganization">
+                    <option value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+                    <option value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+                    <option value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+                </select>
+            </p>
+            <p>
                 <label for="staerke">Stärke</label>
                 <input type="checkbox" name="str" id="str">
                 <input type="text" size="30" name="staerke" id="staerke" disabled="true" />

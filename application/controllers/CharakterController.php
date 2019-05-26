@@ -23,7 +23,6 @@ class CharakterController extends Zend_Controller_Action
 
 
     /**
-     * @throws Zend_Db_Statement_Exception
      */
     public function init ()
     {
@@ -79,15 +78,8 @@ class CharakterController extends Zend_Controller_Action
             $this->redirect('Erstellung/creation');
         }
         $magieService = new Shop_Service_Magie();
-        $magieschulen = $magieService->getMagieschulenForCharakter($this->charakter);
-        $schulen = [];
-        foreach ($magieschulen as $schule) {
-            if ($schule->getLearned()) {
-                $schule->setMagien($magieService->getLearnedMagieBySchule($this->charakter->getCharakterid(), $schule));
-                $schulen[] = $schule;
-            }
-        }
-        $this->view->magieschulen = $schulen;
+        $this->view->magieschulen = $magieService->getSchoolsByCharacter($this->charakter->getCharakterid());
+        $this->view->magien = $this->charakter->getMagien();
 
         $skillService = new Shop_Service_Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($this->charakter);

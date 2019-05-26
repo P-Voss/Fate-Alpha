@@ -35,6 +35,7 @@ class Shop_MagieController extends Zend_Controller_Action {
     public function indexAction() {
         $service = new Shop_Service_Magie();
         $this->view->magieschulen = $service->getMagieschulenForCharakter($this->charakter);
+        $this->view->organization = $this->charakter->getMagiOrganization();
     }
     
     public function unlockschoolAction() {
@@ -82,6 +83,17 @@ class Shop_MagieController extends Zend_Controller_Action {
             $layout->setLayout('partials');
             $this->view->magie = $magie;
         }
+    }
+
+    public function organizationAction ()
+    {
+        if ($this->charakter->getMagiOrganization() === 0) {
+            $this->charakterService->updateOrganization(
+                $this->getRequest()->getPost('organization', 1),
+                $this->charakter->getCharakterid()
+            );
+        }
+        $this->redirect('Shop/magie/index');
     }
     
 }

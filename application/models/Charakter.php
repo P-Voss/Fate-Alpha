@@ -138,7 +138,6 @@ class Application_Model_Charakter
      * @var DateTime
      */
     protected $undeadDate;
-
     /**
      * @var
      */
@@ -159,6 +158,18 @@ class Application_Model_Charakter
      * @var Application_Model_Achievement[]
      */
     protected $achievements = [];
+    /**
+     * @var int
+     */
+    protected $magiOrganization = 0;
+    /**
+     * @var int
+     */
+    protected $magischoolId = 0;
+    /**
+     * @var Application_Model_Schule
+     */
+    protected $magischool;
 
 
     /**
@@ -205,6 +216,7 @@ class Application_Model_Charakter
      * @param string $modifier
      *
      * @return mixed
+     * @throws Exception
      */
     public function getAlter ($modifier = 'y')
     {
@@ -361,6 +373,7 @@ class Application_Model_Charakter
 
     /**
      * @return $this
+     * @throws Exception
      */
     public function calcAlter ()
     {
@@ -374,6 +387,7 @@ class Application_Model_Charakter
      * @param $geburtsdatum
      *
      * @return $this
+     * @throws Exception
      */
     public function setGeburtsdatum ($geburtsdatum)
     {
@@ -898,6 +912,63 @@ class Application_Model_Charakter
     }
 
     /**
+     * @return int
+     */
+    public function getMagiOrganization (): int
+    {
+        return $this->magiOrganization;
+    }
+
+    /**
+     * @param int $magiOrganization
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setMagiOrganization (int $magiOrganization): Application_Model_Charakter
+    {
+        $this->magiOrganization = $magiOrganization;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMagischoolId (): int
+    {
+        return $this->magischoolId;
+    }
+
+    /**
+     * @param int $magischool
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setMagischoolId (int $magischool): Application_Model_Charakter
+    {
+        $this->magischoolId = $magischool;
+        return $this;
+    }
+
+    /**
+     * @return Application_Model_Schule
+     */
+    public function getMagischool (): Application_Model_Schule
+    {
+        return $this->magischool;
+    }
+
+    /**
+     * @param Application_Model_Schule $magischool
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setMagischool (Application_Model_Schule $magischool): Application_Model_Charakter
+    {
+        $this->magischool = $magischool;
+        return $this;
+    }
+
+    /**
      * @param array $modifiers
      */
     public function setModifiers ($modifiers = [])
@@ -923,29 +994,6 @@ class Application_Model_Charakter
     public function getModifiers ()
     {
         return $this->modifiers;
-    }
-
-    /**
-     *
-     */
-    public function applyModifiers ()
-    {
-        foreach ($this->modifiers as $modifier) {
-            switch ($modifier->getAttribute()) {
-                case 'luck':
-                    $this->luck->setModified(true);
-                    $this->luck->setModification($modifier->getValue());
-                    break;
-                case 'odo':
-                    $this->odo->setModified(true);
-                    $this->odo->setModification($modifier->getValue());
-                    break;
-                case 'vermoegen':
-                    $this->vermoegen->setModified(true);
-                    $this->vermoegen->setModification($modifier->getValue());
-                    break;
-            }
-        }
     }
 
 }

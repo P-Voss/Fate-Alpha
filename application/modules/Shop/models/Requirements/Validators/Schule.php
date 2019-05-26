@@ -13,12 +13,7 @@ class Shop_Model_Requirements_Validators_Schule implements Shop_Model_Requiremen
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        foreach ($charakter->getMagieschulen() as $magieschule) {
-            if($magieschule->getId() == $value){
-                return true;
-            }
-        }
-        return false;
+        return $charakter->getMagischoolId() === (int) $value;
     }
     
 }

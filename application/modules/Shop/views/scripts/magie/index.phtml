@@ -9,10 +9,42 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.
 /* @var $magieschule Shop_Model_Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$clockTower = '';
+$atlas = '';
+$wanderingSea = '';
+switch ($this->organization) {
+    case Application_Model_MagiOrganization::CLOCK_TOWER:
+        $clockTower = 'selected=""';
+        break;
+    case Application_Model_MagiOrganization::ATLAS:
+        $atlas = 'selected=""';
+        break;
+    case Application_Model_MagiOrganization::WANDERING_SEA:
+        $wanderingSea = 'selected=""';
+        break;
+}
 ?>
-    <h1>
-        Magieschulen
-    </h1>
+<h1>
+    Magieschulen
+</h1>
+<?php if($this->organization === 0): ?>
+<div>
+
+    <h2>Organisation</h2>
+    <form method="post" action="<?= $this->baseUrl() ?>/Shop/magie/organization">
+        <p>
+            <label for="organization">Tritt einer Organisation bei: </label>
+        </p>
+        <select id="organization" name="organization">
+            <option>Bitte wählen</option>
+            <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+            <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+            <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+        </select>
+        <input type="submit" value="Speichern" />
+    </form>
+</div>
+<?php endif; ?>
 <?php
 if (count($this->magieschulen) < 1):
     ?>

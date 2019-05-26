@@ -82,7 +82,7 @@ class Application_Service_Charakter {
                 ->setClassData()
                 ->setLuck()
                 ->setMagien()
-                ->setMagieschulen()
+//                ->setMagieschulen()
                 ->setOdo()
                 ->setProfile()
                 ->setSkills()
@@ -336,6 +336,27 @@ HTML;
     public function updateTraitStory (Application_Model_Trait $trait, $characterId)
     {
         $this->charakterMapper->updateTraitStory($trait, $characterId);
+    }
+
+    /**
+     * @param $organizationId
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function updateOrganization ($organizationId, $characterId)
+    {
+        if (!in_array(
+            $organizationId,
+            [
+                Application_Model_MagiOrganization::CLOCK_TOWER,
+                Application_Model_MagiOrganization::ATLAS,
+                Application_Model_MagiOrganization::WANDERING_SEA
+            ])
+        ) {
+            return;
+        }
+        $this->charakterMapper->updateOrganization($organizationId, $characterId);
     }
     
 }

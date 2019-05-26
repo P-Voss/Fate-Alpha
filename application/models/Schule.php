@@ -28,6 +28,11 @@ class Application_Model_Schule
      * @var Application_Model_Magie[]
      */
     protected $magien = [];
+    /**
+     * @var int
+     */
+    protected $magiOrganization = 0;
+
 
     /**
      * @return int
@@ -91,6 +96,25 @@ class Application_Model_Schule
     public function setKosten ($kosten)
     {
         $this->kosten = $kosten;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMagiOrganization (): int
+    {
+        return $this->magiOrganization;
+    }
+
+    /**
+     * @param int $magiOrganization
+     *
+     * @return Application_Model_Schule
+     */
+    public function setMagiOrganization (int $magiOrganization): Application_Model_Schule
+    {
+        $this->magiOrganization = $magiOrganization;
+        return $this;
     }
 
     /**

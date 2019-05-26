@@ -42,15 +42,8 @@ class Administration_CharakterController extends Zend_Controller_Action
         $this->view->creationParams = $informationService->getCreationParams();
 
         $magieService = new Shop_Service_Magie();
-        $magieschulen = $magieService->getMagieschulenForCharakter($charakter);
-        $schulen = [];
-        foreach ($magieschulen as $schule) {
-            if ($schule->getLearned()) {
-                $schule->setMagien($magieService->getLearnedMagieBySchule($charakter->getCharakterid(), $schule));
-                $schulen[] = $schule;
-            }
-        }
-        $this->view->magieschulen = $schulen;
+        $this->view->magieschulen = $magieService->getSchoolsByCharacter($charakter->getCharakterid());
+        $this->view->magien = $charakter->getMagien();
 
         $skillService = new Shop_Service_Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($charakter);

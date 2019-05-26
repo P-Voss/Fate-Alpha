@@ -567,6 +567,9 @@ class Application_Model_Mapper_CharakterMapper
             $model->setNickname($row->nickname);
             $model->setWohnort($row->wohnort);
             $model->setKillCount($row->npcKills);
+            $model->setMagiOrganization($row->magiOrganization);
+            $model->setMagischoolId($row->magischoolId);
+            $model->setKillCount($row->npcKills);
             $date = new DateTime($row->createDate);
             $model->setCreatedate($date);
             $model->setUndead($row->undead === 1);
@@ -637,6 +640,18 @@ class Application_Model_Mapper_CharakterMapper
     private function updateAssociation (array $data, $associateId)
     {
         return $this->getDbTable('Beziehungen')->update($data, ['zuordnungId =?' => $associateId]);
+    }
+
+    /**
+     * @param $organizationId
+     * @param $charakterId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function updateOrganization ($organizationId, $charakterId)
+    {
+        return $this->getDbTable('Charakter')->update(['magiOrganization' => $organizationId], ['charakterId = ?' => $charakterId]);
     }
 
     /**
@@ -846,6 +861,7 @@ class Application_Model_Mapper_CharakterMapper
      */
     public function getCharakterMagien ($charakterId)
     {
+        $schuleMapper = new Application_Model_Mapper_SchuleMapper();
         $returnArray = [];
         $select = $this->getDbTable('CharakterMagie')->select();
         $select->setIntegrityCheck(false);
@@ -853,7 +869,7 @@ class Application_Model_Mapper_CharakterMapper
         $select->joinInner(
             'magien',
             'charakterMagien.magieId = magien.magieId',
-            ['magieId', 'name', 'beschreibung']
+            ['magieId', 'name', 'beschreibung', 'rang', 'element', 'stufe']
         );
         $select->where('charakterMagien.charakterId = ?', $charakterId);
         $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
@@ -862,6 +878,9 @@ class Application_Model_Mapper_CharakterMapper
             $magie->setId($row->magieId);
             $magie->setBezeichnung($row->name);
             $magie->setBeschreibung($row->beschreibung);
+            $magie->setRang($row->rang);
+            $magie->setStufe($row->stufe);
+            $magie->setSchule($schuleMapper->getSchoolByMagieId($magie->getId()));
             $returnArray[] = $magie;
         }
         return $returnArray;

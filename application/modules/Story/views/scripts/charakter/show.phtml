@@ -27,6 +27,7 @@ $skillarten = $this->skillarten;
 usort($skillarten, $order);
 /* @var $schule Application_Model_Schule */
 $magieschulen = $this->magieschulen;
+$magien = $this->magien;
 $categoryStr = $werte->getCategory('str');
 $categoryAgi = $werte->getCategory('agi');
 $categoryAus = $werte->getCategory('aus');
@@ -218,17 +219,22 @@ $categoryDis = $werte->getCategory('dis');
 <div>
     <fieldset>
         <legend><h2>Magien</h2></legend>
-        <?php foreach ($magieschulen as $schule): ?>
+        <?php
+        foreach ($magieschulen as $schule):
+            /** @var Application_Model_Schule $schoolMagic */
+            $schoolMagic = array_filter($magien, function (Application_Model_Magie $magie) use ($schule) {
+                return $magie->getSchule()->getId() === $schule->getId();
+            });
+            ?>
             <fieldset>
-                <legend><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
+                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
                 <div class="subContent">
-                    <?php foreach ($schule->getMagien() as $magie): ?>
-                        <h3><?= $purifier->purify($magie->getBezeichnung()) ?></h3>
+                    <?php foreach ($schoolMagic as $magie): ?>
                         <p>
-                            Rang: <?= $magie->getRang() ?>
-                        </p>
-                        <p>
-                            <?= $purifier->purify($magie->getBeschreibung()) ?>
+                        <span class="magie">
+                            <input type="hidden" value="<?= $magie->getId() ?>">
+                            <?= $purifier->purify($magie->getBezeichnung()) ?>
+                        </span>
                         </p>
                     <?php endforeach; ?>
                 </div>

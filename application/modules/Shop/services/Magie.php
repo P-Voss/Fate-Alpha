@@ -38,26 +38,42 @@ class Shop_Service_Magie
     {
         $schulen = [];
         $this->requirementValidator->setCharakter($charakter);
-        $kostenFaktor = $this->mapper->getMagieschulenKostenFaktor($charakter->getCharakterid());
 
         $magieschulen = $this->mapper->getAllSchools();
         foreach ($magieschulen as $magieschule) {
-            if ($this->mapper->checkIfLearned($charakter->getCharakterid(), $magieschule->getId())) {
+            if ($charakter->getMagiOrganization() !== $magieschule->getMagiOrganization()) {
+                continue;
+            }
+            if ($charakter->getMagischoolId() === $magieschule->getId()) {
                 $magieschule->setLearned(true);
                 $magieschule->setRequirementList(new Shop_Model_Requirementlist());
             } else {
                 $magieschule->setRequirementList($this->mapper->getRequirements($magieschule->getId()));
                 $magieschule->setLearned(false);
             }
-            if ($this->requirementValidator->validate($magieschule->getRequirementList()) === true) {
-                $magieschule->setKosten($kostenFaktor * 50);
-                if ($magieschule->getId() === 17) {
+
+            if ($this->requirementValidator->validate($magieschule->getRequirementList())) {
+                if ($charakter->getMagischoolId() !== 0) {
+                    $magieschule->setKosten(40);
+                } else {
                     $magieschule->setKosten(0);
                 }
                 $schulen[] = $magieschule;
             }
         }
         return $schulen;
+    }
+
+    /**
+     * @param $characterId
+     *
+     * @return Application_Model_Schule[]
+     * @throws Exception
+     */
+    public function getSchoolsByCharacter ($characterId)
+    {
+        $schoolMapper = new Application_Model_Mapper_SchuleMapper();
+        return $schoolMapper->getSchoolsByCharacter($characterId);
     }
 
     /**
@@ -93,16 +109,22 @@ class Shop_Service_Magie
         $this->requirementValidator->setCharakter($charakter);
         $magieschule = $this->mapper->getMagieschuleById($schuleId);
         $requirements = $this->mapper->getRequirements($magieschule->getId());
-        $kostenFaktor = $this->mapper->getMagieschulenKostenFaktor($charakter->getCharakterid());
+
+        $kosten = 0;
+        if ($charakter->getMagischoolId() !== 0) {
+            $kosten = 40;
+        }
+
+        $organizationRequirement = new Shop_Model_Requirement();
+        $organizationRequirement->setArt('Organization')->setRequiredValue($magieschule->getMagiOrganization());
 
         $fpRequirement = new Shop_Model_Requirement();
-        $fpRequirement->setArt('FP')->setRequiredValue($kostenFaktor * 50);
-        if ($magieschule->getId() === 17) {
-            $fpRequirement->setArt('FP')->setRequiredValue(0);
-        }
+        $fpRequirement->setArt('FP')->setRequiredValue($kosten);
         $requirements->addRequirement($fpRequirement);
-        if ($this->requirementValidator->validate($requirements) === true) {
-            $this->mapper->unlockMagieschuleForCharakter($charakter, $magieschule);
+        $requirements->addRequirement($organizationRequirement);
+
+        if ($this->requirementValidator->validate($requirements)) {
+            $this->mapper->unlockMagieschuleForCharakter($charakter, $magieschule, $kosten);
         }
     }
 

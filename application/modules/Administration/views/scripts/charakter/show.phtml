@@ -26,6 +26,7 @@ $skillarten = $this->skillarten;
 usort($skillarten, $order);
 /* @var $schule Application_Model_Schule */
 $magieschulen = $this->magieschulen;
+$magien = $this->magien;
 ?>
 <h1>
     Charakterdaten
@@ -112,11 +113,17 @@ $magieschulen = $this->magieschulen;
 <div>
     <fieldset>
         <legend>Besondere Fähigkeiten</legend>
-        <?php foreach ($magieschulen as $schule): ?>
+        <?php
+        foreach ($magieschulen as $schule):
+            /** @var Application_Model_Schule $schoolMagic */
+            $schoolMagic = array_filter($magien, function (Application_Model_Magie $magie) use ($schule) {
+                return $magie->getSchule()->getId() === $schule->getId();
+            });
+        ?>
             <fieldset>
                 <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
                 <div class="subContent">
-                    <?php foreach ($schule->getMagien() as $magie): ?>
+                    <?php foreach ($schoolMagic as $magie): ?>
                     <p>
                         <span class="magie">
                             <input type="hidden" value="<?= $magie->getId() ?>">

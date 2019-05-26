@@ -16,6 +16,9 @@ class Application_Service_CharakterBuilder
      * @var Application_Model_Charakter
      */
     private $charakter;
+    /**
+     * @var int
+     */
     private $charakterId;
 
     /**
@@ -39,7 +42,6 @@ class Application_Service_CharakterBuilder
      * @param int $charakterId
      *
      * @return bool
-     * @throws Zend_Db_Statement_Exception
      * @throws Exception
      */
     public function initCharakterByCharakterId ($charakterId)
@@ -202,6 +204,17 @@ class Application_Service_CharakterBuilder
     public function setMagieschulen ()
     {
         $this->charakter->setMagieschulen($this->charakterMapper->getCharakterMagieschulen($this->charakterId));
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function setMagieschule ()
+    {
+        $schoolMapper = new Application_Model_Mapper_SchuleMapper();
+        $this->charakter->setMagischool($schoolMapper->getSchoolById($this->charakter->getMagischoolId()));
         return $this;
     }
 
