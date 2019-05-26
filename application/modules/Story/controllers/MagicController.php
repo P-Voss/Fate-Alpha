@@ -26,10 +26,6 @@ class Story_MagicController extends Zend_Controller_Action
      * @var Story_Service_Result_Magic
      */
     private $resultService;
-    /**
-     * @var Story_Service_Shop
-     */
-    protected $shopService;
 
 
     public function init(){
@@ -51,8 +47,6 @@ class Story_MagicController extends Zend_Controller_Action
         }
         $this->episodeId = (int)$this->getRequest()->getParam('episodeId');
         $this->character = $this->characterService->getCharakterById($this->getRequest()->getPost('characterId'));
-
-        $this->shopService = new Story_Service_Shop();
 
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -92,13 +86,11 @@ class Story_MagicController extends Zend_Controller_Action
             $this->resultService->removalRequests(
                 $this->episodeId,
                 $this->character->getCharakterid(),
-                $this->getRequest()->getPost('magicIds')
+                $this->getRequest()->getPost('magicIds', [])
             );
         }
         echo json_encode([]);
         exit;
     }
-
-
 
 }

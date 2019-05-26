@@ -3,6 +3,8 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/editor.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/result/achievement.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/result/magic.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/result/skill.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/result/item.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/results.js'));
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
 /* @var $purifier HTMLPurifier */
@@ -98,25 +100,46 @@ $participants = $this->participants;
                     <?= $purifier->purify($result->getComment()) ?>
                 </div>
                 <div style="display: inline-block; width: 45%; vertical-align: top;">
-                    <?php if(count($result->getRequestedSkills()) > 0): ?>
+                    <?php if(count($result->getSkillsToAdd()) > 0): ?>
                         <p>
                             Gelernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
                                 return $skill->getBezeichnung();
                             }, $result->getRequestedSkills()))) ?>
                         </p>
                     <?php endif; ?>
-                    <?php if(count($result->getRequestedMagien()) > 0): ?>
+                    <?php if(count($result->getSkillsToRemove()) > 0): ?>
+                        <p>
+                            Verlernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
+                                return $skill->getBezeichnung();
+                            }, $result->getSkillsToRemove()))) ?>
+                        </p>
+                    <?php endif; ?>
+                    <?php if(count($result->getMagicToAdd()) > 0): ?>
                         <p>
                             Gelernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
                                 return $magie->getBezeichnung();
-                            }, $result->getRequestedMagien()))) ?>
+                            }, $result->getMagicToAdd()))) ?>
                         </p>
                     <?php endif; ?>
-                    <?php if(count($result->getRequestedItems()) > 0): ?>
+                    <?php if(count($result->getMagicToRemove()) > 0): ?>
                         <p>
-                            Erlangte Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
+                            Verlernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
+                                return $magie->getBezeichnung();
+                            }, $result->getMagicToRemove()))) ?>
+                        </p>
+                    <?php endif; ?>
+                    <?php if(count($result->getItemsToAdd()) > 0): ?>
+                        <p>
+                            Neue Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
                                 return $item->getName();
-                            }, $result->getRequestedItems()))) ?>
+                            }, $result->getItemsToAdd()))) ?>
+                        </p>
+                    <?php endif; ?>
+                    <?php if(count($result->getItemsToRemove()) > 0): ?>
+                        <p>
+                            Verlorene Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
+                                return $item->getName();
+                            }, $result->getItemsToRemove()))) ?>
                         </p>
                     <?php endif; ?>
                     <?php if(count($result->getCharaktersKilled()) > 0): ?>
@@ -128,7 +151,7 @@ $participants = $this->participants;
                     <?php endif; ?>
                     <?php if (count($result->getAchievementsToAdd()) > 0): ?>
                         <div>
-                            <p>Neue Erfolge:</p>
+                            <h4>Neue Erfolge:</h4>
                             <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
                             <div>
                                 <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
@@ -145,17 +168,16 @@ $participants = $this->participants;
                     <?php endif; ?>
                     <?php if (count($result->getAchievementsToRemove()) > 0): ?>
                         <div>
-                            <p>Erfolge entfernen:</p>
+                            <h4>Entfernte Erfolge:</h4>
                             <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
                             <div>
-                                <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
+                                <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?></span>
                                 <button
                                     class="removeAchievementRequest"
                                     data-id="<?= $achievement->getId() ?>"
                                 >
                                     Löschen
                                 </button>
-                                <p><?= $purifier->purify($achievement->getDescription()) ?></p>
                             </div>
                             <?php endforeach; ?>
                         </div>

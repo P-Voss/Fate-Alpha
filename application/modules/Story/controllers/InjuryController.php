@@ -22,10 +22,6 @@ class Story_InjuryController extends Zend_Controller_Action
      * @var Application_Model_Charakter
      */
     private $character;
-    /**
-     * @var Story_Service_Result_Magic
-     */
-    private $resultService;
 
 
     public function init(){
@@ -33,7 +29,6 @@ class Story_InjuryController extends Zend_Controller_Action
         $this->view->purifier = new HTMLPurifier($config);
         $this->characterService = new Application_Service_Charakter();
         $this->episodeService = new Story_Service_Episode();
-//        $this->resultService = new Story_Service_Result_Magic();
         $userId = Zend_Auth::getInstance()->getIdentity()->userId;
         if(
             !$this->_helper->logincheck()
@@ -59,7 +54,6 @@ class Story_InjuryController extends Zend_Controller_Action
 
 
     public function showAction() {
-//        $this->view->magien = $this->resultService->getLearnableMagien($this->character->getCharakterid());
         $html = $this->view->render('injury/show.phtml');
         echo json_encode(['html' => $html]);
         exit;
@@ -67,32 +61,10 @@ class Story_InjuryController extends Zend_Controller_Action
 
 
     public function removalAction() {
-//        $this->view->magien = $this->resultService->getLearnedMagien($this->character->getCharakterid());
         $html = $this->view->render('injury/removal.phtml');
         echo json_encode(['html' => $html]);
         exit;
     }
-
-
-    public function requestAction()
-    {
-        if($this->getRequest()->getParam('requesttype') === 'add'){
-            $this->resultService->addRequests(
-                $this->episodeId,
-                $this->character->getCharakterid(),
-                $this->getRequest()->getPost('magicIds', [])
-            );
-        } else {
-            $this->resultService->removalRequests(
-                $this->episodeId,
-                $this->character->getCharakterid(),
-                $this->getRequest()->getPost('magicIds')
-            );
-        }
-        echo json_encode([]);
-        exit;
-    }
-
 
 
 }

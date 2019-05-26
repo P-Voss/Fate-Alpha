@@ -265,4 +265,24 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         });
     }
 
+    /**
+     * @return Application_Model_Item[]
+     */
+    public function getItemsToAdd ()
+    {
+        return array_filter($this->requestedItems, function (Story_Model_Item $item) {
+            return $item->getRequestType() === Story_Model_RequestTypes::ADD;
+        });
+    }
+
+    /**
+     * @return Application_Model_Item[]
+     */
+    public function getItemsToRemove ()
+    {
+        return array_filter($this->requestedItems, function (Story_Model_Item $item) {
+            return $item->getRequestType() === Story_Model_RequestTypes::REMOVE;
+        });
+    }
+
 }

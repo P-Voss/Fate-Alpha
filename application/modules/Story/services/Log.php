@@ -108,6 +108,7 @@ class Story_Service_Log {
      * @param $episodeId
      *
      * @return Story_Model_Log
+     * @throws Exception
      */
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {
         return $this->logMapper->getLogByLogIdAndEpisodeId($logId, $episodeId);

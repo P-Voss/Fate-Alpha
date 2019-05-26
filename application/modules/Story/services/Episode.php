@@ -238,12 +238,14 @@ class Story_Service_Episode
         $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
         $magicMapper = new Story_Model_Mapper_Result_MagicMapper();
         $skillMapper = new Story_Model_Mapper_Result_SkillMapper();
+        $itemMapper = new Story_Model_Mapper_Result_ItemMapper();
 
         $result = $this->episodeMapper->getCharakterResult($episodeId, $characterId);
         $result->setRequestedMagien($magicMapper->getRequestedMagic($episodeId, $characterId));
         $result->setRequestedSkills($skillMapper->getRequestedSkills($episodeId, $characterId));
         $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $characterId));
         $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $characterId));
+        $result->setRequestedItems($itemMapper->getRequestedItems($episodeId, $characterId));
 
         return $result;
     }

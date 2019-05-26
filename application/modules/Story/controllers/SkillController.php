@@ -86,7 +86,7 @@ class Story_SkillController extends Zend_Controller_Action
             $this->resultService->addSkillRemovalrequest(
                 $this->episodeId,
                 $this->character->getCharakterid(),
-                $this->getRequest()->getPost('skillIds')
+                $this->getRequest()->getPost('skillIds', [])
             );
         }
         echo json_encode([]);

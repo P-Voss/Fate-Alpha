@@ -16,10 +16,6 @@ class Story_ResultController extends Zend_Controller_Action {
      */
     protected $charakter;
     /**
-     * @var Story_Service_Shop
-     */
-    protected $shopService;
-    /**
      * @var Story_Service_Episode
      */
     protected $episodenService;
@@ -36,8 +32,6 @@ class Story_ResultController extends Zend_Controller_Action {
         }
         $this->userId = Zend_Auth::getInstance()->getIdentity()->userId;
 
-//        $this->charakter = $this->charakterService->getCharakterByUserid($this->userId);
-        $this->shopService = new Story_Service_Shop();
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -47,43 +41,6 @@ class Story_ResultController extends Zend_Controller_Action {
         $this->redirect('index');
     }
 
-
-    public function itemAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->items = $this->shopService->getItemsToAcquire($characterId);
-        $this->view->characterId = $this->getRequest()->getPost('characterId');
-        $html = $this->view->render('add/item.phtml');
-        echo json_encode(['html' => $html]);
-    }
-
-    public function removeitemAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->characterId = $this->getRequest()->getPost('characterId');
-        $html = $this->view->render('remove/item.phtml');
-        echo json_encode(['html' => $html]);
-    }
-
-
-    public function additemAction ()
-    {
-
-    }
-
-
-    public function deleteitemAction ()
-    {
-
-    }
     
     public function injuryAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
@@ -110,7 +67,7 @@ class Story_ResultController extends Zend_Controller_Action {
     }
     
     
-    public function attributeAction() {
+    public function attributesAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $characterId = $this->getRequest()->getPost('characterId');
         if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){

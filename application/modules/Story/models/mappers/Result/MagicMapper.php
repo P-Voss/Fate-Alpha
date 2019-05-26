@@ -9,12 +9,12 @@ class Story_Model_Mapper_Result_MagicMapper
     use Story_Model_Mapper_DbTableTrait;
 
     /**
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return Story_Model_Magie[]
      * @throws Exception
      */
-    public function getMagienToLearnByRpg ($charakterId)
+    public function getMagienToLearnByRpg ($characterId)
     {
         $returnArray = [];
         $select = $this->getDbTable('Magie')->select();
@@ -22,7 +22,7 @@ class Story_Model_Mapper_Result_MagicMapper
         $select->from('magien');
         $select->joinLeft(
             'charakterMagien',
-            'magien.magieId = charakterMagien.magieId AND charakterMagien.charakterId = ' . (int)$charakterId,
+            'magien.magieId = charakterMagien.magieId AND charakterMagien.charakterId = ' . (int)$characterId,
             []
         );
         $select->where('magien.lernbedingung = "RPG-Ereignis" AND charakterMagien.magieId IS NULL');
@@ -38,14 +38,14 @@ class Story_Model_Mapper_Result_MagicMapper
 
 
     /**
-     * @param $episodenId
-     * @param $charakterId
+     * @param $episodeId
+     * @param $characterId
      * @param $art
      * @param $request
      *
      * @throws Exception
      */
-    public function removeSkillrequest ($episodenId, $charakterId, $art, $request)
+    public function removeSkillrequest ($episodeId, $characterId, $art, $request)
     {
         $db = $this->getDbTable('Magie')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -55,20 +55,20 @@ class Story_Model_Mapper_Result_MagicMapper
                                 AND request = ? 
                                 AND art = ?'
         );
-        $stmt->execute([$episodenId, $charakterId, $request, $art]);
+        $stmt->execute([$episodeId, $characterId, $request, $art]);
     }
 
 
     /**
-     * @param $episodenId
-     * @param $charakterId
+     * @param $episodeId
+     * @param $characterId
      * @param $art
      * @param $request
      * @param array $ids
      *
      * @throws Exception
      */
-    public function addSkillrequest ($episodenId, $charakterId, $art, $request, $ids = [])
+    public function addSkillrequest ($episodeId, $characterId, $art, $request, $ids = [])
     {
         $db = $this->getDbTable('Magie')->getDefaultAdapter();
         $stmt = $db->prepare(
@@ -77,17 +77,17 @@ class Story_Model_Mapper_Result_MagicMapper
                                 VALUES (?, ?, ?, ?, ?)'
         );
         foreach ($ids as $id) {
-            $stmt->execute([$episodenId, $charakterId, $art, $id, $request]);
+            $stmt->execute([$episodeId, $characterId, $art, $id, $request]);
         }
     }
 
     /**
-     * @param int $charakterId
+     * @param int $characterId
      *
      * @return Application_Model_Magie[]
      * @throws Exception
      */
-    public function getCharakterMagien ($charakterId)
+    public function getCharakterMagien ($characterId)
     {
         $returnArray = [];
         $select = $this->getDbTable('CharakterMagie')->select();
@@ -98,7 +98,7 @@ class Story_Model_Mapper_Result_MagicMapper
             'charakterMagien.magieId = magien.magieId',
             ['magieId', 'name', 'beschreibung']
         );
-        $select->where('charakterMagien.charakterId = ?', $charakterId);
+        $select->where('charakterMagien.charakterId = ?', $characterId);
         $result = $this->getDbTable('CharakterMagie')->fetchAll($select);
         foreach ($result as $row) {
             $magie = new Story_Model_Magie();
@@ -111,13 +111,13 @@ class Story_Model_Mapper_Result_MagicMapper
     }
 
     /**
-     * @param int $episodenId
+     * @param int $episodeId
      * @param int $characterId
      *
      * @return array
      * @throws Exception
      */
-    public function getRequestedMagic ($episodenId, $characterId)
+    public function getRequestedMagic ($episodeId, $characterId)
     {
         $returnArray = [];
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -128,7 +128,7 @@ class Story_Model_Mapper_Result_MagicMapper
                     AND eCSR.id = magien.magieId
                 WHERE episodenId = ? AND charakterId = ?';
         $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $characterId]);
+        $stmt->execute([$episodeId, $characterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
             $magie = new Story_Model_Magie();
