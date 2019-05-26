@@ -491,67 +491,6 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
     }
 
     /**
-     *
-     * @param int $episodenId
-     * @param int $characterId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getRequestedSkills ($episodenId, $characterId)
-    {
-        $returnArray = [];
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'SELECT skillId, name 
-                FROM episodenCharakterSkillRequest AS eCSR
-                INNER JOIN skills 
-                    ON eCSR.art = "skill" 
-                    AND eCSR.id = skills.skillId
-                    AND request = "add"
-                WHERE episodenId = ? AND charakterId = ?';
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $characterId]);
-        $result = $stmt->fetchAll();
-        foreach ($result as $row) {
-            $skill = new Story_Model_Skill();
-            $skill->setId($row['skillId']);
-            $skill->setBezeichnung($row['name']);
-            $returnArray[] = $skill;
-        }
-        return $returnArray;
-    }
-
-    /**
-     * @param int $episodenId
-     * @param int $characterId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getRequestedMagien ($episodenId, $characterId)
-    {
-        $returnArray = [];
-        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
-        $sql = 'SELECT magieId, name 
-                FROM episodenCharakterSkillRequest AS eCSR
-                INNER JOIN magien 
-                    ON eCSR.art = "magie" 
-                    AND request = "add" 
-                    AND eCSR.id = magien.magieId
-                WHERE episodenId = ? AND charakterId = ?';
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$episodenId, $characterId]);
-        $result = $stmt->fetchAll();
-        foreach ($result as $row) {
-            $magie = new Story_Model_Magie();
-            $magie->setId($row['magieId']);
-            $magie->setBezeichnung($row['name']);
-            $returnArray[] = $magie;
-        }
-        return $returnArray;
-    }
-
-    /**
      * @param Story_Model_EpisodenStatus $newStatus
      * @param int $episodenId
      *

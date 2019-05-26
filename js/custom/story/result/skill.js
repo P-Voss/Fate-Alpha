@@ -1,28 +1,27 @@
 
 
-
 jQuery(document).ready(function () {
 
-    jQuery('#inhalt').on('click', '.saveMagic', function(){
+    jQuery('#inhalt').on('click', '.saveSkills', function(){
         var characterId = getCharacterId(jQuery(this))
         var selected = [];
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-        addMagicRequest(
+        addSkillRequest(
             selected,
             characterId
         );
         jQuery('.results[data-id="' + characterId + '"]').html('');
     });
 
-    jQuery('#inhalt').on('click', '.removeMagic', function(){
+    jQuery('#inhalt').on('click', '.removeSkills', function(){
         var characterId = getCharacterId(jQuery(this))
         var selected = [];
         jQuery(this).parent().find('select option:selected').each(function(){
             selected.push(jQuery(this).val());
         });
-        removeMagicRequest(
+        removeSkillRequest(
             selected,
             characterId
         );
@@ -35,15 +34,15 @@ function getCharacterId (element) {
     return jQuery(element).closest('.character').attr('data-id')
 }
 
-function addMagicRequest(magicIds, charakterId){
+function addSkillRequest(skillIds, charakterId){
     jQuery.ajax({
         type: 'Post',
-        url: baseUrl + '/Story/magic/request',
+        url: baseUrl + '/Story/skill/request',
         dataType: 'json',
         data: {
             'episodeId': jQuery('#auswertung').attr('data-id'),
             'characterId': charakterId,
-            'magicIds': magicIds,
+            'skillIds': skillIds,
             'requesttype': 'add'
         },
         success: function() {
@@ -55,15 +54,15 @@ function addMagicRequest(magicIds, charakterId){
     });
 }
 
-function removeMagicRequest(magicIds, charakterId){
+function removeSkillRequest(skillIds, charakterId){
     jQuery.ajax({
         type: 'Post',
-        url: baseUrl + '/Story/magic/request',
+        url: baseUrl + '/Story/skill/request',
         dataType: 'json',
         data: {
             'episodeId': jQuery('#auswertung').attr('data-id'),
             'characterId': charakterId,
-            'magicIds': magicIds,
+            'skillIds': skillIds,
             'requesttype': 'remove'
         },
         success: function() {
@@ -74,5 +73,3 @@ function removeMagicRequest(magicIds, charakterId){
         }
     });
 }
-
-

@@ -39,6 +39,17 @@ class Story_Service_Result_Achievement
 
     /**
      * @param $episodeId
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function resetRemovalRequests ($episodeId, $characterId)
+    {
+        $this->resultMapper->resetRemovalRequests($episodeId, $characterId);
+    }
+
+    /**
+     * @param $episodeId
      * @param $charakterId
      * @param $requestId
      *

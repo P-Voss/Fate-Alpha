@@ -6,7 +6,7 @@
 class Story_Model_RequestTypes
 {
 
-    const ADD = 'ADD';
-    const REMOVE = 'REMOVE';
+    const ADD = 'add';
+    const REMOVE = 'remove';
 
 }

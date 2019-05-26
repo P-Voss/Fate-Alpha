@@ -40,6 +40,21 @@ class Story_Model_Mapper_Result_AchievementMapper
 
     /**
      * @param $episodeId
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function resetRemovalRequests ($episodeId, $characterId)
+    {
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $db->query(
+            'DELETE FROM episodenCharakterAchievementRequest WHERE characterId = ? AND episodeId = ? AND requestType = "remove"',
+            [$characterId, $episodeId]
+        );
+    }
+
+    /**
+     * @param $episodeId
      * @param $charakterId
      * @param $requestId
      */

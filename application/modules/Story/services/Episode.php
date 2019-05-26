@@ -5,7 +5,8 @@
  *
  * @author Voß
  */
-class Story_Service_Episode {
+class Story_Service_Episode
+{
 
     /**
      * @var Story_Model_Mapper_PlotMapper
@@ -16,26 +17,31 @@ class Story_Service_Episode {
      */
     protected $episodeMapper;
 
-    public function __construct() {
+    public function __construct ()
+    {
         $this->plotMapper = new Story_Model_Mapper_PlotMapper();
         $this->episodeMapper = new Story_Model_Mapper_EpisodeMapper();
     }
-    
+
     /**
      * @param int $episodeId
      * @param int $userId
+     *
      * @return boolean
      */
-    public function isSL($episodeId, $userId) {
+    public function isSL ($episodeId, $userId)
+    {
         return $this->episodeMapper->verifySl($episodeId, $userId);
     }
-    
+
     /**
      * @param int $episodeId
      * @param int $charakterId
+     *
      * @return boolean
      */
-    public function isPlayer($episodeId, $charakterId) {
+    public function isPlayer ($episodeId, $charakterId)
+    {
         return $this->episodeMapper->verifyPlayer($episodeId, $charakterId);
     }
 
@@ -45,13 +51,14 @@ class Story_Service_Episode {
      * @return int
      * @throws Exception
      */
-    public function createEpisode(Zend_Controller_Request_Http $request) {
+    public function createEpisode (Zend_Controller_Request_Http $request)
+    {
         $episode = new Story_Model_Episode();
         $episode->setName($request->getPost('episodename'));
         $episode->setBeschreibung($request->getPost('beschreibung'));
         $episode->setPlotId($request->getPost('plotId'));
         $episodenId = $this->episodeMapper->createEpisode($episode);
-        if(count($request->getPost('participants')) > 0){
+        if (count($request->getPost('participants')) > 0) {
             $this->episodeMapper->addParticipants($episodenId, $request->getPost('participants'));
         }
         $episode->setId($episodenId);
@@ -64,14 +71,15 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function editEpisode(Zend_Controller_Request_Http $request) {
+    public function editEpisode (Zend_Controller_Request_Http $request)
+    {
         $episode = new Story_Model_Episode();
         $episode->setId($request->getPost('episodeId'));
         $episode->setName($request->getPost('episodename'));
         $episode->setBeschreibung($request->getPost('beschreibung'));
         $this->episodeMapper->removeParticipants($episode->getId());
         $this->episodeMapper->updateEpisode($episode);
-        if(count($request->getPost('participants')) > 0){
+        if (count($request->getPost('participants')) > 0) {
             $this->episodeMapper->addParticipants($episode->getId(), $request->getPost('participants'));
         }
         $this->episodeMapper->setBeschreibung($episode);
@@ -85,7 +93,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function deleteEpisode(Story_Model_Episode $episode) {
+    public function deleteEpisode (Story_Model_Episode $episode)
+    {
         $this->episodeMapper->deleteEpisode($episode->getId());
     }
 
@@ -94,7 +103,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function startEpisode($episodeId) {
+    public function startEpisode ($episodeId)
+    {
         $status = new Story_Model_EpisodenStatus();
         $status->setId(2);
         $this->episodeMapper->updateStatus($status, $episodeId);
@@ -106,7 +116,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function finishEpisode($episodeId, $zusammenfassung) {
+    public function finishEpisode ($episodeId, $zusammenfassung)
+    {
         $episode = new Story_Model_Episode();
         $episode->setId($episodeId);
         $episode->setZusammenfassung($zusammenfassung);
@@ -124,7 +135,8 @@ class Story_Service_Episode {
      * @return array
      * @throws Exception
      */
-    public function getEpisodesByPlotId($plotId) {
+    public function getEpisodesByPlotId ($plotId)
+    {
         return $this->episodeMapper->getEpisodesByPlotId($plotId);
     }
 
@@ -134,7 +146,8 @@ class Story_Service_Episode {
      * @return array
      * @throws Exception
      */
-    public function getActiveEpisodesByPlotId($plotId) {
+    public function getActiveEpisodesByPlotId ($plotId)
+    {
         return $this->episodeMapper->getActiveEpisodesByPlotId($plotId);
     }
 
@@ -145,7 +158,8 @@ class Story_Service_Episode {
      * @return array
      * @throws Exception
      */
-    public function getEpisodesByPlotIdForUser($plotId, $userId) {
+    public function getEpisodesByPlotIdForUser ($plotId, $userId)
+    {
         return $this->episodeMapper->getEpisodesByPlotIdForUser($plotId, $userId);
     }
 
@@ -155,7 +169,8 @@ class Story_Service_Episode {
      * @return Story_Model_Episode
      * @throws Exception
      */
-    public function getEpisode($episodeId) {
+    public function getEpisode ($episodeId)
+    {
         return $this->episodeMapper->getEpisodeById($episodeId);
     }
 
@@ -165,26 +180,33 @@ class Story_Service_Episode {
      * @return array
      * @throws Exception
      */
-    public function getParticipantsByEpisodeId($episodeId) {
+    public function getParticipantsByEpisodeId ($episodeId)
+    {
         return $this->episodeMapper->getParticipants($episodeId);
     }
 
     /**
+     * @param int $episodeId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getParticipantsReady ($episodeId)
+    {
+        return $this->episodeMapper->getParticipantsByEpisodeAndStatus($episodeId, 1);
+    }
+
+    /**
      * @param $episodeId
-     * @param $charakterId
+     * @param $characterId
      *
      * @return Story_Model_Charakter
      * @throws Exception
      */
-    public function getParticipant($episodeId, $charakterId) {
-        $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
-        $participant = $this->episodeMapper->getParticipant($episodeId, $charakterId);
-        $result = $this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid());
-        $result->setRequestedMagien($this->episodeMapper->getRequestedMagien($episodeId, $participant->getCharakterid()));
-        $result->setRequestedSkills($this->episodeMapper->getRequestedSkills($episodeId, $participant->getCharakterid()));
-        $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $participant->getCharakterid()));
-        $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $participant->getCharakterid()));
-        $participant->setResult($result);
+    public function getParticipant ($episodeId, $characterId)
+    {
+        $participant = $this->episodeMapper->getParticipant($episodeId, $characterId);
+        $participant->setResult($this->getResult($episodeId, $characterId));
 
         return $participant;
     }
@@ -195,37 +217,45 @@ class Story_Service_Episode {
      * @return array
      * @throws Exception
      */
-    public function getParticipantsReady($episodeId) {
-        return $this->episodeMapper->getParticipantsByEpisodeAndStatus($episodeId, 1);
-    }
-
-    /**
-     * @param int $episodeId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getParticipantsByEpisode($episodeId) {
-        $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
+    public function getParticipantsByEpisode ($episodeId)
+    {
         $participants = $this->episodeMapper->getParticipantsByEpisode($episodeId);
         foreach ($participants as $participant) {
-            $result = $this->episodeMapper->getCharakterResult($episodeId, $participant->getCharakterid());
-            $result->setRequestedMagien($this->episodeMapper->getRequestedMagien($episodeId, $participant->getCharakterid()));
-            $result->setRequestedSkills($this->episodeMapper->getRequestedSkills($episodeId, $participant->getCharakterid()));
-            $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $participant->getCharakterid()));
-            $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $participant->getCharakterid()));
-            $participant->setResult($result);
+            $participant->setResult($this->getResult($episodeId, $participant->getCharakterid()));
         }
         return $participants;
     }
 
     /**
+     * @param $episodeId
+     * @param $characterId
+     *
+     * @return Story_Model_CharakterResult
+     * @throws Exception
+     */
+    private function getResult ($episodeId, $characterId)
+    {
+        $achievementMapper = new Story_Model_Mapper_Result_AchievementMapper();
+        $magicMapper = new Story_Model_Mapper_Result_MagicMapper();
+        $skillMapper = new Story_Model_Mapper_Result_SkillMapper();
+
+        $result = $this->episodeMapper->getCharakterResult($episodeId, $characterId);
+        $result->setRequestedMagien($magicMapper->getRequestedMagic($episodeId, $characterId));
+        $result->setRequestedSkills($skillMapper->getRequestedSkills($episodeId, $characterId));
+        $result->setCharaktersKilled($this->episodeMapper->getRequestedCharakterKills($episodeId, $characterId));
+        $result->setAchievements($achievementMapper->getRequestedAchievements($episodeId, $characterId));
+
+        return $result;
+    }
+
+    /**
      * @param int $episodeId
      *
      * @return array
      * @throws Exception
      */
-    public function getParticipantsPending($episodeId) {
+    public function getParticipantsPending ($episodeId)
+    {
         return $this->episodeMapper->getParticipantsByEpisodeAndStatus($episodeId, 0);
     }
 
@@ -236,11 +266,12 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function updateReadyStatus($status, $episodeId, $charakterId) {
-        if(!$this->episodeMapper->allReady($episodeId)){
+    public function updateReadyStatus ($status, $episodeId, $charakterId)
+    {
+        if (!$this->episodeMapper->allReady($episodeId)) {
             $this->episodeMapper->updateCharakterStatus($status, $episodeId, $charakterId);
         }
-        if($this->episodeMapper->allReady($episodeId)){
+        if ($this->episodeMapper->allReady($episodeId)) {
             $status = new Story_Model_EpisodenStatus();
             $status->setId(3);
             $this->episodeMapper->updateStatus($status, $episodeId);
@@ -255,7 +286,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function updateCharakterNpckills($episodenId, $charakterId, $killcount) {
+    public function updateCharakterNpckills ($episodenId, $charakterId, $killcount)
+    {
         $this->episodeMapper->updateCharakterNpckills($episodenId, $charakterId, $killcount);
     }
 
@@ -266,7 +298,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function updateCharakterComment($episodenId, $charakterId, $comment) {
+    public function updateCharakterComment ($episodenId, $charakterId, $comment)
+    {
         $this->episodeMapper->updateCharakterComment($episodenId, $charakterId, $comment);
     }
 
@@ -277,7 +310,8 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function updateCharakterGotKilled($episodenId, $charakterId, $gotKilled) {
+    public function updateCharakterGotKilled ($episodenId, $charakterId, $gotKilled)
+    {
         $this->episodeMapper->updateCharakterGotKilled($episodenId, $charakterId, $gotKilled);
     }
 
@@ -288,8 +322,9 @@ class Story_Service_Episode {
      *
      * @throws Exception
      */
-    public function updateCharakterKills($episodenId, $charakterId, Zend_Controller_Request_Http $request) {
-        if($request->getPost('ids') === null) {
+    public function updateCharakterKills ($episodenId, $charakterId, Zend_Controller_Request_Http $request)
+    {
+        if ($request->getPost('ids') === null) {
             $ids = [];
         } else {
             $ids = is_array($request->getPost('ids')) ? $request->getPost('ids') : [$request->getPost('ids')];
@@ -304,7 +339,8 @@ class Story_Service_Episode {
      * @return Story_Model_Auswertung
      * @throws Exception
      */
-    public function getRejection($episodeId) {
+    public function getRejection ($episodeId)
+    {
         return $this->episodeMapper->getRejection($episodeId);
     }
 

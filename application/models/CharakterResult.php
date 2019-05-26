@@ -225,4 +225,44 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
         return $this;
     }
 
+    /**
+     * @return Story_Model_Skill[]
+     */
+    public function getSkillsToAdd ()
+    {
+        return array_filter($this->requestedSkills, function (Story_Model_Skill $skill) {
+            return $skill->getRequestType() === Story_Model_RequestTypes::ADD;
+        });
+    }
+
+    /**
+     * @return Story_Model_Skill[]
+     */
+    public function getSkillsToRemove ()
+    {
+        return array_filter($this->requestedSkills, function (Story_Model_Skill $skill) {
+            return $skill->getRequestType() === Story_Model_RequestTypes::REMOVE;
+        });
+    }
+
+    /**
+     * @return Story_Model_Magie[]
+     */
+    public function getMagicToAdd ()
+    {
+        return array_filter($this->requestedMagien, function (Story_Model_Magie $magic) {
+            return $magic->getRequestType() === Story_Model_RequestTypes::ADD;
+        });
+    }
+
+    /**
+     * @return Story_Model_Magie[]
+     */
+    public function getMagicToRemove ()
+    {
+        return array_filter($this->requestedMagien, function (Story_Model_Magie $magic) {
+            return $magic->getRequestType() === Story_Model_RequestTypes::REMOVE;
+        });
+    }
+
 }

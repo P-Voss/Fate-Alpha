@@ -98,7 +98,8 @@ class Story_AchievementController extends Zend_Controller_Action
             null,
             Story_Model_RequestTypes::REMOVE
         );
-        foreach ($this->getRequest()->getPost('achievementIds') as $id) {
+        $this->resultService->resetRemovalRequests($this->episodeId, $this->character->getCharakterid());
+        foreach ($this->getRequest()->getPost('achievementIds', []) as $id) {
             $achievement->setId($id);
             $this->resultService->addRequest($achievement);
         }

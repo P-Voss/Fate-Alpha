@@ -46,28 +46,6 @@ class Story_ResultController extends Zend_Controller_Action {
     public function indexAction() {
         $this->redirect('index');
     }
-    
-    
-    public function requestAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId)){
-            echo json_encode([]);
-            exit;
-        }
-        
-        if(!in_array($this->getRequest()->getParam('requesttype'), ['add', 'remove'])){
-            
-        } else {
-            if($this->getRequest()->getParam('requesttype') === 'add'){
-                $this->shopService->addRequests($this->getRequest());
-            } else {
-                $this->shopService->removalRequests($this->getRequest());
-            }
-        }
-        echo json_encode([]);
-        exit;
-    }
 
 
     public function itemAction() {
@@ -106,33 +84,6 @@ class Story_ResultController extends Zend_Controller_Action {
     {
 
     }
-    
-    public function skillAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->characterId = $this->getRequest()->getPost('characterId');
-        $this->view->skills = $this->shopService->getLearnableSkills($characterId);
-        $html = $this->view->render('add/skill.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
-    public function removeskillAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
-            exit;
-        }
-        $this->view->characterId = $this->getRequest()->getPost('characterId');
-        $this->view->skills = $this->shopService->getLearnedSkills($characterId);
-        $html = $this->view->render('remove/skill.phtml');
-        echo json_encode(['html' => $html]);
-    }
-    
     
     public function injuryAction() {
         $episodeId = (int)$this->getRequest()->getParam('episode');

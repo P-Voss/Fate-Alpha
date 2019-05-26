@@ -110,4 +110,34 @@ class Story_Model_Mapper_Result_MagicMapper
         return $returnArray;
     }
 
+    /**
+     * @param int $episodenId
+     * @param int $characterId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getRequestedMagic ($episodenId, $characterId)
+    {
+        $returnArray = [];
+        $db = $this->getDbTable('Episoden')->getDefaultAdapter();
+        $sql = 'SELECT magieId, name, request as requestType 
+                FROM episodenCharakterSkillRequest AS eCSR
+                INNER JOIN magien 
+                    ON eCSR.art = "magie" 
+                    AND eCSR.id = magien.magieId
+                WHERE episodenId = ? AND charakterId = ?';
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$episodenId, $characterId]);
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+            $magie = new Story_Model_Magie();
+            $magie->setId($row['magieId']);
+            $magie->setBezeichnung($row['name']);
+            $magie->setRequestType($row['requestType']);
+            $returnArray[] = $magie;
+        }
+        return $returnArray;
+    }
+
 }
