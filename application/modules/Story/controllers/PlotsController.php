@@ -9,10 +9,6 @@ class Story_PlotsController extends Zend_Controller_Action
 {
 
     /**
-     * @var Application_Model_Charakter
-     */
-    protected $charakter;
-    /**
      * @var Story_Service_Plot
      */
     protected $plotService;
@@ -30,7 +26,6 @@ class Story_PlotsController extends Zend_Controller_Action
         if ($this->_helper->logincheck() === false) {
             $this->redirect('index');
         }
-        $this->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
         $this->plotService = new Story_Service_Plot();
         $this->episodenService = new Story_Service_Episode();
     }

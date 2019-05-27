@@ -31,7 +31,6 @@ class Gruppen_CharakterController extends Zend_Controller_Action
         if ($this->_helper->logincheck() === false) {
             $this->redirect('index');
         }
-        $this->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
         $this->gruppenService = new Gruppen_Service_Gruppen();
     }
 

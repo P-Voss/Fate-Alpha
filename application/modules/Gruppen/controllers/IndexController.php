@@ -41,7 +41,11 @@ class Gruppen_IndexController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $this->auth = Zend_Auth::getInstance()->getIdentity();
-        $this->charakter = $this->charakterService->getCharakterByUserid($this->auth->userId);
+        try {
+            $this->charakter = $this->charakterService->getCharakterByUserid($this->auth->userId);
+        } catch (Exception $exception) {
+            $this->charakter = false;
+        }
     }
     
     public function indexAction() {

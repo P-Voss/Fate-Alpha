@@ -41,8 +41,7 @@ class CharakterController extends Zend_Controller_Action
                 $this->view->layoutData = $this->layoutService->getLayoutData($auth);
                 $layout->setLayout('online');
             } catch (Throwable $exception) {
-                Zend_Debug::dump($exception);
-                exit;
+                $this->redirect('Erstellung/creation');
             }
         }
     }

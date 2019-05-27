@@ -32,9 +32,10 @@ class ChatController extends Zend_Controller_Action{
         if($auth === null) {
             $this->redirect('index');
         }  else {
-            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
-            if($this->charakter !== false){
-                $this->charakter->setCharakterprofil($this->charakterService->getProfile($this->charakter->getCharakterid()));
+            try {
+                $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
+            } catch (Exception $exception) {
+
             }
             $this->view->layoutData = $this->layoutService->getLayoutData($auth);
             $layout->setLayout('online');

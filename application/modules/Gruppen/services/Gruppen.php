@@ -5,7 +5,8 @@
  *
  * @author Voß
  */
-class Gruppen_Service_Gruppen {
+class Gruppen_Service_Gruppen
+{
 
 
     /**
@@ -13,7 +14,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return array
      */
-    public function getGruppenByCharakterId($charakterId) {
+    public function getGruppenByCharakterId ($charakterId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->getGruppenByCharakterId($charakterId);
     }
@@ -24,7 +26,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return array
      */
-    public function getGruppenByUserId($userId) {
+    public function getGruppenByUserId ($userId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->getGruppenByUserId($userId);
     }
@@ -35,7 +38,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return array
      */
-    public function getGruppenByLeaderId($userId) {
+    public function getGruppenByLeaderId ($userId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->getGruppenByLeaderId($userId);
     }
@@ -46,7 +50,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return Gruppen_Model_Gruppe
      */
-    public function getGruppeByGruppenId($gruppenId) {
+    public function getGruppeByGruppenId ($gruppenId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByGruppenId($gruppenId);
         if ($gruppe !== false) {
@@ -63,7 +68,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return bool
      */
-    public function validateAccess($gruppenId, $charakterId, $userId) {
+    public function validateAccess ($gruppenId, $charakterId, $userId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->validateAccess($gruppenId, $charakterId, $userId);
     }
@@ -73,8 +79,9 @@ class Gruppen_Service_Gruppen {
      *
      * @return bool
      */
-    public function createGruppe(Zend_Controller_Request_Http $request) {
-        if($request->getPost('gruppenname') == ''){
+    public function createGruppe (Zend_Controller_Request_Http $request)
+    {
+        if ($request->getPost('gruppenname') == '') {
             return false;
         }
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
@@ -94,7 +101,8 @@ class Gruppen_Service_Gruppen {
      * @param Zend_Controller_Request_Http $request
      * @param $charakterId
      */
-    public function switchDataExposure(Zend_Controller_Request_Http $request, $charakterId) {
+    public function switchDataExposure (Zend_Controller_Request_Http $request, $charakterId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $mapper->setFreigabe($charakterId, $request->getPost('gruppenId'), $request->getPost('exposed'));
     }
@@ -104,7 +112,8 @@ class Gruppen_Service_Gruppen {
      * @param $gruppenId
      * @param $charakterId
      */
-    public function leaveGroup($gruppenId, $charakterId) {
+    public function leaveGroup ($gruppenId, $charakterId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $mapper->removeCharakterFromGroup($charakterId, $gruppenId);
     }
@@ -116,7 +125,8 @@ class Gruppen_Service_Gruppen {
      * @return int
      * @throws Exception
      */
-    public function addNachricht(Zend_Controller_Request_Http $request, $userId) {
+    public function addNachricht (Zend_Controller_Request_Http $request, $userId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $userMapper = new Application_Model_Mapper_UserMapper();
         $date = new DateTime();
@@ -130,23 +140,24 @@ class Gruppen_Service_Gruppen {
         return $nachrichtenId;
     }
 
-
     /**
      * @param $gruppenId
      *
      * @return array
+     * @throws Exception
      */
-    public function getGruppenchat($gruppenId) {
+    public function getGruppenchat ($gruppenId)
+    {
         $userService = new Application_Service_User();
         $charakterService = new Application_Service_Charakter();
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $nachrichten = $mapper->getNachrichtenByGruppenId($gruppenId);
         foreach ($nachrichten as $nachricht) {
             $nachricht->setUser($userService->getUserById($nachricht->getUserId()));
-            $charakter = $charakterService->getCharakterByUserid($nachricht->getUserId());
-            if($charakter !==  false){
+            try {
+                $charakter = $charakterService->getCharakterByUserid($nachricht->getUserId());
                 $nachricht->setCharakter($charakter);
-            }
+            } catch (Exception $exception) {}
         }
         return $nachrichten;
     }
@@ -157,8 +168,9 @@ class Gruppen_Service_Gruppen {
      *
      * @return bool
      */
-    public function editGruppe(Zend_Controller_Request_Http $request) {
-        if($request->getPost('gruppenname') == ''){
+    public function editGruppe (Zend_Controller_Request_Http $request)
+    {
+        if ($request->getPost('gruppenname') == '') {
             return false;
         }
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
@@ -175,10 +187,11 @@ class Gruppen_Service_Gruppen {
      * @param Zend_Controller_Request_Http $request
      * @param $charakterId
      */
-    public function joinGruppe(Zend_Controller_Request_Http $request, $charakterId) {
+    public function joinGruppe (Zend_Controller_Request_Http $request, $charakterId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByCredentials($request->getPost('gruppenname'), $request->getPost('passwort'));
-        if($gruppe !== false){
+        if ($gruppe !== false) {
             $mapper->addCharakterToGroup($charakterId, $gruppe->getId());
         }
     }
@@ -186,8 +199,9 @@ class Gruppen_Service_Gruppen {
     /**
      *
      */
-    public function setSl() {
-        
+    public function setSl ()
+    {
+
     }
 
     /**
@@ -196,7 +210,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return bool
      */
-    public function dataExposed($gruppenId, $charakterId) {
+    public function dataExposed ($gruppenId, $charakterId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->checkFreigabe($gruppenId, $charakterId);
     }
@@ -207,7 +222,8 @@ class Gruppen_Service_Gruppen {
      *
      * @return array
      */
-    public function getExposedIds($gruppenId) {
+    public function getExposedIds ($gruppenId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         return $mapper->getFreigaben($gruppenId);
     }
@@ -217,8 +233,9 @@ class Gruppen_Service_Gruppen {
      * @param Zend_Controller_Request_Http $request
      * @param $leaderId
      */
-    public function addToGroup(Zend_Controller_Request_Http $request, $leaderId) {
-        if($this->isLeader($leaderId, $request->getPost('gruppenId'))){
+    public function addToGroup (Zend_Controller_Request_Http $request, $leaderId)
+    {
+        if ($this->isLeader($leaderId, $request->getPost('gruppenId'))) {
             $mapper = new Gruppen_Model_Mapper_GruppenMapper();
             foreach ($request->getPost('charaktere') as $charakterId) {
                 $mapper->addCharakterToGroup($charakterId, $request->getPost('gruppenId'));
@@ -231,8 +248,9 @@ class Gruppen_Service_Gruppen {
      * @param Zend_Controller_Request_Http $request
      * @param $leaderId
      */
-    public function removeFromGroup(Zend_Controller_Request_Http $request, $leaderId) {
-        if($this->isLeader($leaderId, $request->getPost('gruppenId'))){
+    public function removeFromGroup (Zend_Controller_Request_Http $request, $leaderId)
+    {
+        if ($this->isLeader($leaderId, $request->getPost('gruppenId'))) {
             $mapper = new Gruppen_Model_Mapper_GruppenMapper();
             foreach ($request->getPost('charaktere') as $charakterId) {
                 $mapper->removeCharakterFromGroup($charakterId, $request->getPost('gruppenId'));
@@ -246,11 +264,12 @@ class Gruppen_Service_Gruppen {
      *
      * @return bool
      */
-    public function isLeader($leaderId, $gruppenId){
+    public function isLeader ($leaderId, $gruppenId)
+    {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppen = $mapper->getGruppenByUserId($leaderId);
         foreach ($gruppen as $gruppe) {
-            if($gruppe->getId() == $gruppenId){
+            if ($gruppe->getId() == $gruppenId) {
                 return true;
             }
         }
@@ -264,7 +283,8 @@ class Gruppen_Service_Gruppen {
      * @return array
      * @throws Exception
      */
-    public function getLogsByGruppenId($gruppenId) {
+    public function getLogsByGruppenId ($gruppenId)
+    {
         $mapper = new Gruppen_Model_Mapper_LogMapper();
         return $mapper->getLogsByGruppe($gruppenId);
     }
@@ -276,9 +296,10 @@ class Gruppen_Service_Gruppen {
      *
      * @throws Exception
      */
-    public function removeNotifications($userId, $gruppenId) {
+    public function removeNotifications ($userId, $gruppenId)
+    {
         $mapper = new Application_Model_Mapper_UserMapper();
         $mapper->removeUserNotificationsForGroup($userId, $gruppenId);
     }
-    
+
 }

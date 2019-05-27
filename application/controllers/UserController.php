@@ -34,7 +34,6 @@ class UserController extends Zend_Controller_Action
         if ($auth === null) {
             $layout->setLayout('offline');
         } else {
-            $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
             $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
             $layout->setLayout('online');
         }

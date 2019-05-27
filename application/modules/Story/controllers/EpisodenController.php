@@ -32,7 +32,11 @@ class Story_EpisodenController extends Zend_Controller_Action {
         if($this->_helper->logincheck() === false){
             $this->redirect('index');
         }
-        $this->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
+        try {
+            $this->charakter = $this->charakterService->getCharakterByUserid(Zend_Auth::getInstance()->getIdentity()->userId);
+        } catch (Exception $exception) {
+
+        }
         $this->plotService = new Story_Service_Plot();
         $this->episodenService = new Story_Service_Episode();
         $this->logService = new Story_Service_Log();
