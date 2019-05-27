@@ -46,7 +46,7 @@ class TrainingController extends Zend_Controller_Action
         } else {
             try {
                 $this->charakter = $this->charakterService->getCharakterByUserid($this->auth->userId);
-                $this->view->layoutData = $this->layoutService->getLayoutData($auth);
+                $this->view->layoutData = $this->layoutService->getLayoutData($this->auth);
                 $layout->setLayout('training');
             } catch (Throwable $exception) {
                 $this->redirect('Erstellung/creation');

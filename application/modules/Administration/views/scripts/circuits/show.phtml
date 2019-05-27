@@ -3,6 +3,7 @@
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 $circuit = $this->circuit;
+$purifier = $this->purifier;
 ?>
 <h1>Circuit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/circuits/edit" method="post">
