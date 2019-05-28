@@ -38,8 +38,8 @@ class FreundeController extends Zend_Controller_Action {
             $this->redirect('index');
         }  else {
             try {
-                $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
-                $this->view->layoutData = $this->layoutService->getLayoutData($auth);
+                $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
+                $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
                 $layout->setLayout('online');
             } catch (Throwable $exception) {
                 $this->redirect('Erstellung/creation');
