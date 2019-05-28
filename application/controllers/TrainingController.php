@@ -71,18 +71,19 @@ class TrainingController extends Zend_Controller_Action
         $layout = $this->_helper->layout();
         $layout->disableLayout();
 
-        if ($this->getRequest()->getParam('key', '') === '') {
-            echo json_encode(
-                [
-                'success' => false,
-                'error' => 'Auth Error'
-                ]
-            );
-            exit;
-        }
+//        if ($this->getRequest()->getParam('key', '') === '') {
+//            echo json_encode(
+//                [
+//                'success' => false,
+//                'error' => 'Auth Error'
+//                ]
+//            );
+//            exit;
+//        }
 
         try {
-            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            //            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            $charakter = $this->charakter;
             echo json_encode(
                 [
                 'success' => true,
@@ -105,18 +106,19 @@ class TrainingController extends Zend_Controller_Action
         $layout = $this->_helper->layout();
         $layout->disableLayout();
 
-        if ($this->getRequest()->getParam('key', '') === '') {
-            echo json_encode(
-                [
-                    'success' => false,
-                    'error' => 'Auth Error'
-                ]
-            );
-            exit;
-        }
+//        if ($this->getRequest()->getParam('key', '') === '') {
+//            echo json_encode(
+//                [
+//                    'success' => false,
+//                    'error' => 'Auth Error'
+//                ]
+//            );
+//            exit;
+//        }
 
         try {
-            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+//            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getParam('key'));
+            $charakter = $this->charakter;
             echo json_encode(
                 [
                     'success' => true,
@@ -195,7 +197,8 @@ class TrainingController extends Zend_Controller_Action
         $layout->disableLayout();
 
         try {
-            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getPost('accessKey', ""));
+//            $charakter = $this->charakterService->getCharakterByAccessKey($this->getRequest()->getPost('accessKey', ""));
+            $charakter = $this->charakter;
         } catch (Exception $exception) {
             echo json_encode([]);
             exit;
