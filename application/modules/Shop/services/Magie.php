@@ -41,7 +41,7 @@ class Shop_Service_Magie
 
         $magieschulen = $this->mapper->getAllSchools();
         foreach ($magieschulen as $magieschule) {
-            if ($charakter->getMagiOrganization() !== $magieschule->getMagiOrganization()) {
+            if ($charakter->getMagiOrganization() !== $magieschule->getMagiOrganization() && $magieschule->getMagiOrganization() > 0) {
                 continue;
             }
             if ($charakter->getMagischoolId() === $magieschule->getId()) {
