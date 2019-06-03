@@ -32,7 +32,7 @@ class Administration_Service_Items {
         $item->setName($request->getPost('name'));
         $item->setBedingung($request->getPost('bedingung'));
         $item->setDescription($request->getPost('beschreibung'));
-        $item->setDiscountDays($request->getPost('discountDays'));
+        $item->setDiscountDays($request->getPost('discountDays', []));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
         $item->setRank($request->getPost('rang'));
         $item->setType($request->getPost('type'));
@@ -61,7 +61,7 @@ class Administration_Service_Items {
         $item->setBedingung($request->getPost('bedingung'));
         $item->setName($request->getPost('name'));
         $item->setDescription($request->getPost('beschreibung'));
-        $item->setDiscountDays($request->getPost('discountDays'));
+        $item->setDiscountDays($request->getPost('discountDays', []));
         $item->setCost((int) max($request->getPost('fp', 0), 0));
         $item->setRank($request->getPost('rang'));
         $item->setType($request->getPost('type'));
