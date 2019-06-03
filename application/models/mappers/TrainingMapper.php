@@ -7,11 +7,6 @@ class Application_Model_Mapper_TrainingMapper
 {
 
     /**
-     * @var array
-     */
-    private $changesContainer = [];
-
-    /**
      * @param string $tablename
      *
      * @return \Zend_Db_Table_Abstract
@@ -184,70 +179,6 @@ class Application_Model_Mapper_TrainingMapper
 
 
     /**
-     * @param Application_Model_Trainingswerte $defaultTraining
-     * @param Application_Model_Charakter $charakter
-     *
-     * @return Application_Model_Trainingswerte
-     * @throws Exception
-     */
-    public function getRealTraining (Application_Model_Trainingswerte $defaultTraining, Application_Model_Charakter $charakter)
-    {
-        $this->changesContainer = [];
-        $trainingswerte = new Application_Model_Trainingswerte();
-        $trainingswerte->setAgiTraining($defaultTraining->getAgiTraining());
-        $trainingswerte->setStrTraining($defaultTraining->getStrTraining());
-        $trainingswerte->setAusTraining($defaultTraining->getAusTraining());
-        $trainingswerte->setDisTraining($defaultTraining->getDisTraining());
-        $trainingswerte->setPraTraining($defaultTraining->getPraTraining());
-        $trainingswerte->setKonTraining($defaultTraining->getKonTraining());
-        foreach ($charakter->getVorteile() as $vorteil) {
-            $changes = $this->_checkVorteil($vorteil->getId());
-            if (count($changes) > 0) {
-                $this->changesContainer[] = $changes;
-            }
-        }
-        foreach ($charakter->getNachteile() as $nachteil) {
-            $changes = $this->_checkNachteil($nachteil->getId());
-            if (count($changes) > 0) {
-                $this->changesContainer[] = $changes;
-            }
-        }
-        if ($this->_checkKlasse($charakter->getKlasse()->getId())) {
-            $changes = $this->_checkKlasse($charakter->getKlasse()->getId());
-            if (count($changes) > 0) {
-                $this->changesContainer[] = $changes;
-            }
-        }
-        if ($this->_checkKlassengruppe($charakter->getKlassengruppe()->getId())) {
-            $changes = $this->_checkKlassengruppe($charakter->getKlassengruppe()->getId());
-            if (count($changes) > 0) {
-                $this->changesContainer[] = $changes;
-            }
-        }
-        if (count($this->changesContainer) > 0) {
-            $trainingswerte = $this->_transformValues($trainingswerte);
-        }
-        return $trainingswerte;
-    }
-
-
-    /**
-     * @param Application_Model_Trainingswerte $trainingswerte
-     * @param Application_Model_Charakter $charakter
-     *
-     * @return Application_Model_Trainingswerte
-     */
-    public function setOtherValuesNull (Application_Model_Trainingswerte $trainingswerte, Application_Model_Charakter $charakter)
-    {
-        //        if($charakter->getKlassengruppe()->getId() == 2){
-        //            $trainingswerte->setDisTraining(null);
-        //            $trainingswerte->setKonTraining(null);
-        //        }
-        return $trainingswerte;
-    }
-
-
-    /**
      * @param $charakterId
      *
      * @return bool
@@ -260,11 +191,8 @@ class Application_Model_Mapper_TrainingMapper
         $select->from('training');
         $select->where('charakterId = ?', $charakterId);
         $result = $this->getDbTable('Training')->fetchAll($select);
-        if ($result->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $result->count() > 0;
     }
 
 
@@ -363,40 +291,6 @@ class Application_Model_Mapper_TrainingMapper
     }
 
     /**
-     * @param Application_Model_Trainingswerte $trainingswerte
-     *
-     * @return Application_Model_Trainingswerte
-     */
-    protected function _transformValues ($trainingswerte)
-    {
-        foreach ($this->changesContainer as $changesCategories) {
-            foreach ($changesCategories as $key => $values) {
-                switch ($key) {
-                    case 'Staerke':
-                        $trainingswerte->setStrTraining($trainingswerte->getStrTraining() + $values['Effekt']);
-                        break;
-                    case 'Agilitaet':
-                        $trainingswerte->setAgiTraining($trainingswerte->getAgiTraining() + $values['Effekt']);
-                        break;
-                    case 'Ausdauer':
-                        $trainingswerte->setAusTraining($trainingswerte->getAusTraining() + $values['Effekt']);
-                        break;
-                    case 'Uebung':
-                        $trainingswerte->setPraTraining($trainingswerte->getPraTraining() + $values['Effekt']);
-                        break;
-                    case 'Kontrolle':
-                        $trainingswerte->setKonTraining($trainingswerte->getKonTraining() + $values['Effekt']);
-                        break;
-                    case 'Disziplin':
-                        $trainingswerte->setDisTraining($trainingswerte->getDisTraining() + $values['Effekt']);
-                        break;
-                }
-            }
-        }
-        return $trainingswerte;
-    }
-
-    /**
      * @return array
      * @throws Exception
      */
@@ -413,20 +307,6 @@ class Application_Model_Mapper_TrainingMapper
             $returnArray[] = $row['charakterId'];
         }
         return $returnArray;
-    }
-
-    /**
-     * @param Application_Model_Charakter $charakter
-     * @param Application_Model_Trainingswerte $trainingswerte
-     *
-     * @throws Exception
-     */
-    public function updateStats (Application_Model_Charakter $charakter, Application_Model_Trainingswerte $trainingswerte)
-    {
-        $training = $this->getCurrentTraining($charakter->getCharakterid());
-        $charakter->getCharakterwerte()->addTraining($training, $trainingswerte, $charakter->getKlassengruppe()->getId());
-        $this->getDbTable('CharakterWerte')->update($charakter->getCharakterwerte()->toArray(), ['charakterId = ?' => $charakter->getCharakterid()]);
-        $this->updateTraining($charakter->getCharakterid(), $training['training'], $training['dauer'] - 1);
     }
 
     /**
