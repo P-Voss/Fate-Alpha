@@ -24,6 +24,7 @@ class Application_Service_Layout {
         $layoutModel->setUsergruppe($auth->usergruppe);
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
         $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
+
         if($userMapper->hasChara($auth->userId)){
             
             if ($charakterBuilder->initCharakterByUserId($auth->userId)) {

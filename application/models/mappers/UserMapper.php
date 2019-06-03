@@ -52,11 +52,8 @@ class Application_Model_Mapper_UserMapper
         $select->from('charakter');
         $select->where('userId = ? AND active = 1', $userId);
         $result = $this->getDbTable('User')->fetchAll($select);
-        if ($result->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $result->count() > 0;
     }
 
     /**
@@ -70,11 +67,8 @@ class Application_Model_Mapper_UserMapper
         $select = $this->getDbTable('Admins')->select();
         $select->where('userId = ?', $userId);
         $result = $this->getDbTable('Admins')->fetchAll($select);
-        if ($result->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $result->count() > 0;
     }
 
     /**
@@ -160,11 +154,11 @@ class Application_Model_Mapper_UserMapper
     }
 
     /**
-     * @todo
-     *
      * @param string $password
      *
      * @return string
+     * @todo
+     *
      */
     function generateHash ($password)
     {

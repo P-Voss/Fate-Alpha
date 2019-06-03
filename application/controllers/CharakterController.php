@@ -164,55 +164,6 @@ class CharakterController extends Zend_Controller_Action
         $this->view->charakter = $this->charakter;
     }
 
-    /**
-     * @throws Exception
-     */
-    public function trainingpreviewAction ()
-    {
-        $this->_helper->viewRenderer->setNoRender(true);
-        $layout = $this->_helper->layout();
-        $layout->disableLayout();
-        $attributes = [
-            'staerke' => 'str',
-            'agilitaet' => 'agi',
-            'ausdauer' => 'aus',
-            'disziplin' => 'dis',
-            'kontrolle' => 'kon',
-        ];
-        if (!array_key_exists($this->getRequest()->getParam('attribute'), $attributes)
-            ||
-            (int)$this->getRequest()->getParam('days') < 0) {
-            echo json_encode(
-                [
-                    'success' => false,
-                    'wert' => '',
-                    'kategorie' => '',
-                ]
-            );
-        }
-
-        $service = new Application_Service_Training();
-        $trainingswerte = $service->getTrainingswerte($this->charakter);
-        $werte = $this->charakter->getCharakterwerte();
-
-        for ($i = 0; $i < (int)$this->getRequest()->getParam('days') && $i < $werte->getStartpunkte(); $i++) {
-            $werte->addTraining(['training' => $this->getRequest()->getParam('attribute')], $trainingswerte);
-        }
-
-        $category = $werte->getCategory($attributes[$this->getRequest()->getParam('attribute')])->getCategory();
-        $function = "get" . ucfirst($this->getRequest()->getParam('attribute'));
-        $wert = $werte->$function();
-
-        echo json_encode(
-            [
-                'success' => true,
-                'wert' => $wert,
-                'kategorie' => $category,
-            ]
-        );
-
-    }
-
     public function attributesAction ()
     {
         $this->_helper->viewRenderer->setNoRender(true);

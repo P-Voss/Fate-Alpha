@@ -107,6 +107,7 @@ class Application_Model_Mapper_TrainingMapper
         $program->setName($row->name);
         $program->setProgramId($row->trainingprogramId);
         $program->setDescription($row->description);
+
         foreach ($this->getAttributesByProgram($row->trainingprogramId) as $attribute) {
             switch ($attribute->focus) {
                 case 'primary':
@@ -436,7 +437,11 @@ class Application_Model_Mapper_TrainingMapper
      */
     public function updateCharakterwerte ($charakterId, Application_Model_Charakterwerte $werte)
     {
-        $this->getDbTable('CharakterWerte')->update($werte->toArray(), ['charakterId = ?' => $charakterId]);
+        $updateValues = array_map(
+            function ($value) {return max($value, 0);},
+            $werte->toArray()
+        );
+        $this->getDbTable('CharakterWerte')->update($updateValues, ['charakterId = ?' => $charakterId]);
     }
 
 

@@ -99,21 +99,6 @@ class Application_Service_Training
 
     /**
      * @param Application_Model_Charakter $charakter
-     *
-     * @return Application_Model_Trainingswerte
-     * @throws Exception
-     */
-    public function getTrainingswerte (Application_Model_Charakter $charakter)
-    {
-        if (($trainingswerte = $this->trainingsMapper->getDefaultTraining()) === false) {
-            throw new Exception('Es wurden keine Standardwerte angegeben');
-        }
-        $trainingswerte = $this->trainingsMapper->getRealTraining($trainingswerte, $charakter);
-        return $this->trainingsMapper->setOtherValuesNull($trainingswerte, $charakter);
-    }
-
-    /**
-     * @param Application_Model_Charakter $charakter
      * @param Application_Model_Training_Program $program
      *
      * @return bool|int|mixed
@@ -140,7 +125,9 @@ class Application_Service_Training
         foreach ($charakterIds as $id) {
             $charakter = $this->initCharakter($id);
             $currentProgram = $this->trainingsMapper->getCurrentTraining($id);
+
             $program = $this->getCharakterTrainingProgramById($charakter, $currentProgram->getProgramId());
+            $program->setRemainingDuration($currentProgram->getRemainingDuration() - 1);
 
             $charakter->getCharakterwerte()->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
             $charakter->getCharakterwerte()->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
@@ -152,7 +139,6 @@ class Application_Service_Training
             $charakter->getCharakterwerte()->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
 
             $this->trainingsMapper->updateCharakterwerte($id, $charakter->getCharakterwerte());
-            $program->setRemainingDuration($program->getRemainingDuration() - 1);
             $this->trainingsMapper->updateTraining($id, $program);
         }
     }
@@ -178,16 +164,6 @@ class Application_Service_Training
         $charakter->getCharakterwerte()->setStartpunkte($charakter->getCharakterwerte()->getStartpunkte() - 1);
 
         $this->trainingsMapper->updateCharakterwerte($charakter->getCharakterid(), $charakter->getCharakterwerte());
-    }
-
-    /**
-     * @param Application_Model_Charakter $charakter
-     *
-     * @throws Exception
-     */
-    public function reduceBonusDays (Application_Model_Charakter $charakter)
-    {
-        $this->trainingsMapper->reduceBonusDays($charakter->getCharakterid());
     }
 
     /**
@@ -223,25 +199,6 @@ class Application_Service_Training
         $charakter->setCharakterwerte($charakterMapper->getCharakterwerte($charakter->getCharakterid()));
         $charakter->setTraits($charakterMapper->getTraitsByCharacterId($charakterId));
         return $charakter;
-    }
-
-    /**
-     * @param Application_Model_Charakter $charakter
-     * @param int $days
-     * @param string $attribute
-     *
-     * @throws Exception
-     */
-    public function addBonusTraining (Application_Model_Charakter $charakter, $days, $attribute)
-    {
-        $trainingswerte = $this->getTrainingswerte($charakter);
-        $werte = $charakter->getCharakterwerte();
-
-        for ($i = 0; $i < $days && $i < $werte->getStartpunkte(); $i++) {
-            $werte->addTraining(['training' => $attribute], $trainingswerte);
-        }
-        $werte->setStartpunkte($werte->getStartpunkte() - $i);
-        $this->trainingsMapper->addBonusTraining($charakter->getCharakterid(), $werte);
     }
 
 }
