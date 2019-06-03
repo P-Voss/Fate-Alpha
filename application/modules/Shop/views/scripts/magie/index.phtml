@@ -27,7 +27,7 @@ switch ($this->organization) {
 <h1>
     Magieschulen
 </h1>
-<?php if($this->organization === 0): ?>
+<?php if($this->organization === 0 && $this->layoutData->getCharakter()->getKlassengruppe()->getId() === 1): ?>
 <div>
 
     <h2>Organisation</h2>
