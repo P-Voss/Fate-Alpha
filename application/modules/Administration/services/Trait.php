@@ -52,7 +52,7 @@ class Administration_Service_Trait {
     public function editTrait(Zend_Controller_Request_Http $request, $userId) {
         $trait = new Administration_Model_Trait();
         $date = new DateTime();
-        $trait->setTraitId($request->getPost('nachteilId'));
+        $trait->setTraitId($request->getPost('traitId'));
         $trait->setEditDate($date->format('Y-m-d H:i:s'));
         $trait->setName($request->getPost('name'));
         $trait->setBeschreibung($request->getPost('beschreibung'));

@@ -11,6 +11,7 @@ foreach ($information->getRequirementList()->getRequirements() as $requirement) 
 }
 $skillsAny = explode('|', $information->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
+$purifier = $this->purifier;
 ?>
 <h1>Information ändern</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/information/edit" method="post">
