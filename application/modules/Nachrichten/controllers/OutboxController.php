@@ -7,6 +7,9 @@
  */
 class Nachrichten_OutboxController extends Zend_Controller_Action {
 
+    /**
+     * @var Nachrichten_Service_Nachrichten
+     */
     private $service;
     
     public function init(){

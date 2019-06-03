@@ -204,10 +204,11 @@ class Application_Service_User {
         $charakterMapper = new Application_Model_Mapper_CharakterMapper();
         $users = $this->userMapper->getUsers();
         foreach ($users as $user) {
-            $charakter = $charakterMapper->getCharakterByUserId($user->getId());
-            if($charakter !== false){
-                $user->setCharakter($charakter);
-            }
+            try {
+                if ($this->userMapper->hasChara($user->getId())) {
+                    $user->setCharakter($charakterMapper->getCharakterByUserId($user->getId()));
+                }
+            } catch (Exception $exception) {}
         }
         return $users;
     }
