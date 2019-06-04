@@ -42,8 +42,8 @@ class Erstellung_CreationController extends Zend_Controller_Action
 
     public function saveAction ()
     {
-        $character = $this->getCharacterFromRequest($this->getRequest());
         try {
+            $character = $this->getCharacterFromRequest($this->getRequest());
             if ($this->validationService->validateCharacter($character)) {
                 $characterId = $this->creationService->saveCharacter($character);
                 echo json_encode(
@@ -72,6 +72,7 @@ class Erstellung_CreationController extends Zend_Controller_Action
      * @param Zend_Controller_Request_Http $request
      *
      * @return Erstellung_Model_Character
+     * @throws Exception
      */
     private function getCharacterFromRequest(Zend_Controller_Request_Http $request) {
         $character = new Erstellung_Model_Character();
