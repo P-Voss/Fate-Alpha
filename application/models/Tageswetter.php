@@ -75,7 +75,7 @@ class Application_Model_Tageswetter {
     }
 
     /**
-     * @param DateTime $tag
+     * @param string $tag
      */
     public function setTag($tag) {
         $date = new DateTime($tag);

@@ -500,6 +500,14 @@ img {
     display: block;
 }
 
+#weatherIcon {
+    text-align: left;
+    margin-right: 0;
+    margin-left: 0;
+    display: block;
+    float: right;
+}
+
 .img {
     max-width: 700px;
     max-height: 700px;

@@ -19,11 +19,13 @@ class Application_Service_Layout {
         $layoutModel = new Application_Model_Layout();
         $userMapper = new Application_Model_Mapper_UserMapper();
         $trainingMapper = new Application_Model_Mapper_TrainingMapper();
+        $wetterMapper = new Application_Model_Mapper_WetterMapper();
         
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
         $layoutModel->setUsergruppe($auth->usergruppe);
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
         $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
+        $layoutModel->setWeather($wetterMapper->getWetterByDate(new DateTime()));
 
         if($userMapper->hasChara($auth->userId)){
             
@@ -55,6 +57,7 @@ class Application_Service_Layout {
             }
         }
         $layoutModel->setInformations($informationService->getInformations());
+
         return $layoutModel;
     }
 }

@@ -7,9 +7,9 @@
  */
 class Application_Model_Wetter {
     
-    private $name;
-    private $beschreibung;
-    private $image;
+    public $name;
+    public $beschreibung;
+    public $image;
     
     public  function getName() {
         return $this->name;

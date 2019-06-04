@@ -1,5 +1,30 @@
-<p></p>
+<?php
+$dayWeather = $layoutData->getWeather();
+$currentDateTime = new DateTime();
+if ($currentDateTime->format('H') < 11) {
+    $currentWeather = $dayWeather->getWetterVormittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 11 && $currentDateTime->format('H' < 14)) {
+    $currentWeather = $dayWeather->getWetterMittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 14 && $currentDateTime->format('H' < 18)) {
+    $currentWeather = $dayWeather->getWetterNachmittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 18 && $currentDateTime->format('H' < 21)) {
+    $currentWeather = $dayWeather->getWetterAbend();
+    $time = 'Abend';
+}
+if ($currentDateTime->format('H') > 21 && $currentDateTime->format('H' < 24)) {
+    $currentWeather = $dayWeather->getWetterNacht();
+    $time = 'Nacht';
+}
+?>
 <h3>Fuyuki-City</h3>
+<img id="weatherIcon" height="40px" width="40px" src="<?= $this->baseUrl() ?>/images/Wetter/<?= $time . '/' . $currentWeather->getName() ?>.jpg" />
+<hr />
 <ul style="list-style-type: none;">
     <li><a href="<?= $this->baseUrl() ?>/index/news">Fuyuki-News</a></li>
     <li><a href="<?= $this->baseUrl() ?>/index/wetter">Wetterbericht</a></li>

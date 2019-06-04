@@ -28,6 +28,10 @@ class Application_Model_Layout
      * @var array
      */
     public $notifications = [];
+    /**
+     * @var Application_Model_Tageswetter
+     */
+    private $weather;
 
 
     /**
@@ -116,9 +120,7 @@ class Application_Model_Layout
     public function setInformations ($informations = [])
     {
         foreach ($informations as $information) {
-            if ($information instanceof Application_Model_Information) {
-                $this->informations[] = $information;
-            }
+            $this->addInformation($information);
         }
     }
 
@@ -171,14 +173,12 @@ class Application_Model_Layout
     }
 
     /**
-     * @param $notifications[]
+     * @param $notifications []
      */
-    public function setNotifications ($notifications)
+    public function setNotifications ($notifications = [])
     {
         foreach ($notifications as $notification) {
-            if ($notification instanceof Application_Model_Notification) {
-                $this->notifications[] = $notification;
-            }
+            $this->addNotification($notification);
         }
     }
 
@@ -188,6 +188,25 @@ class Application_Model_Layout
     public function addNotification (Application_Model_Notification $notification)
     {
         $this->notifications[] = $notification;
+    }
+
+    /**
+     * @return Application_Model_Tageswetter
+     */
+    public function getWeather (): Application_Model_Tageswetter
+    {
+        return $this->weather;
+    }
+
+    /**
+     * @param Application_Model_Tageswetter $weather
+     *
+     * @return Application_Model_Layout
+     */
+    public function setWeather (Application_Model_Tageswetter $weather): Application_Model_Layout
+    {
+        $this->weather = $weather;
+        return $this;
     }
 
 }
