@@ -99,25 +99,13 @@
                 Naturelement
             </label>
             <select name="element">
-                <?php foreach($this->creationParams['elemente'] as $element): 
+                <?php foreach($this->creationParams['elements'] as $element):
                     if($element->getCharakterisierung() === null){
                         continue;
                     }
                 ?>
                 <option value="<?= $element->getId() ?>" <?= $element->getId() == $charakter->getNaturElement()->getId() ? 'selected' : '' ?>>
                         <?= $element->getBezeichnung(); ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label>
-                Glück
-            </label>
-            <select name="luck">
-                <?php foreach($this->creationParams['luck'] as $luck): ?>
-                <option value="<?= $luck->getId() ?>" <?= $luck->getId() == $charakter->getLuck()->getId() ? 'selected' : '' ?>>
-                        <?= $luck->getKategorie() ?>
                 </option>
                 <?php endforeach; ?>
             </select>

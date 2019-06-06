@@ -1032,7 +1032,6 @@ SQL;
             'size' => $charakter->getSize(),
             'odo' => $charakter->getOdo()->getId(),
             'naturelement' => $charakter->getNaturElement()->getId(),
-            'luck' => $charakter->getLuck()->getId(),
         ];
         return $this->getDbTable('Charakter')->update($data, ['charakterId = ?' => $charakter->getCharakterid()]);
     }

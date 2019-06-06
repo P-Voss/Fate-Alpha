@@ -33,11 +33,7 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         $element = new Application_Model_Element();
         $element->setId($request->getPost('element'));
         $charakter->setNaturElement($element);
-        
-        $luck = new Application_Model_Luck();
-        $luck->setId($request->getPost('luck'));
-        $charakter->setLuck($luck);
-        
+
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->editCharakter($charakter);
     }
