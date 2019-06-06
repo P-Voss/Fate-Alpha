@@ -193,7 +193,9 @@ class Application_Model_Charakterwerte
                 break;
             case 'uebung':
                 $this->setUebung($this->getUebung() + $attribute->getValue());
-                $this->setFp($this->getFp() + ceil($attribute->getValue()));
+                if ($attribute->getValue() > 0) {
+                    $this->setFp($this->getFp() + ceil($attribute->getValue()));
+                }
                 break;
         }
     }
