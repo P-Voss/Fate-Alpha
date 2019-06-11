@@ -6,8 +6,13 @@
  * @author Voß
  */
 class Erstellung_Model_Requirements_Factory {
-    
-    
+
+    /**
+     * @param $validator
+     *
+     * @return Erstellung_Model_Requirements_ValidationInterface
+     * @throws Exception
+     */
     public function getValidator($validator) {
         $class = 'Erstellung_Model_Requirements_Validators_' . ucfirst($validator);
         if(class_exists($class)){
