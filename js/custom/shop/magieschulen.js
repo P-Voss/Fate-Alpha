@@ -4,7 +4,8 @@ jQuery(document).ready(function () {
         e.preventDefault();
         var form = jQuery(this).parent('form');
         swal({
-            title: 'Magieschule freischalten?',
+            title: 'Magieschule beitreten?',
+            text: 'Falls du bereits einer anderen Magieschule beigetreten bist, verlässt du sie wieder. Gelernte Magien gehen nicht verloren.',
             type: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
