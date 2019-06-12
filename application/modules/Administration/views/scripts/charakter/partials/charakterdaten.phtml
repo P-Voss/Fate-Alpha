@@ -1,5 +1,6 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
+/** @var $odo Application_Model_Odo */
 ?>
 <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" style="margin: 0">
     <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
@@ -89,7 +90,7 @@
             <select name="odo">
                 <?php foreach($this->creationParams['odo'] as $odo): ?>
                 <option value="<?= $odo->getId() ?>" <?= $odo->getKategorie() == $charakter->getOdo()->getKategorie() ? 'selected' : '' ?>>
-                        <?= $charakter->getOdo()->getActualAmount() . '(' . $odo->getKategorie() . ')' ?>
+                        <?= $odo->getAmount() . '(' . $odo->getKategorie() . ')' ?>
                 </option>
                 <?php endforeach; ?>
             </select>
