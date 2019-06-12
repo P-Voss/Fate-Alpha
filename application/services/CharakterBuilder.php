@@ -75,6 +75,15 @@ class Application_Service_CharakterBuilder
 
     /**
      * @return $this
+     */
+    public function unsetModifiers ()
+    {
+        $this->charakter->setModifiers([]);
+        return $this;
+    }
+
+    /**
+     * @return $this
      * @throws Exception
      */
     public function setClassData ()

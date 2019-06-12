@@ -8,6 +8,47 @@
 class Administration_Service_Charakter extends Application_Service_Charakter {
 
     /**
+     * @param int $charakterId
+     *
+     * @return Application_Model_Charakter
+     * @throws Exception
+     */
+    public function getCharakterById($charakterId) {
+        $charakter = $this->buildCharakter($charakterId);
+        return $charakter;
+    }
+
+    /**
+     * @param int $charakterId
+     *
+     * @return Application_Model_Charakter
+     * @throws Exception
+     */
+    private function buildCharakter($charakterId) {
+        $charakterBuilder = new Application_Service_CharakterBuilder();
+        if ($charakterBuilder->initCharakterByCharakterId($charakterId)) {
+            $charakterBuilder
+                ->unsetModifiers()
+                ->setTraits()
+                ->setCircuit()
+                ->setNaturelement()
+                ->setClassData()
+                ->setLuck()
+                ->setMagien()
+                ->setOdo()
+                ->setProfile()
+                ->setSkills()
+                ->setItems()
+                ->setAchievements()
+                ->setVermoegen()
+                ->setWerte();
+            return $charakterBuilder->getCharakter();
+        } else {
+            throw new Exception('Character could not be loaded');
+        }
+    }
+
+    /**
      * @param Zend_Controller_Request_Http $request
      *
      * @return int
@@ -34,11 +75,20 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         $element->setId($request->getPost('element'));
         $charakter->setNaturElement($element);
 
+        $luck = new Application_Model_Luck();
+        $luck->setId($request->getPost('luck'));
+        $charakter->setLuck($luck);
+
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->editCharakter($charakter);
     }
-    
-    
+
+    /**
+     * @param Zend_Controller_Request_Http $request
+     *
+     * @return int
+     * @throws Exception
+     */
     public function saveCharakterWerte(Zend_Controller_Request_Http $request) {
         $charakter = new Application_Model_Charakter();
         $charakter->setCharakterid($request->getPost('charakterId'));

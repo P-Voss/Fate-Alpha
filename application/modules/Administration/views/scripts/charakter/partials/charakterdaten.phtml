@@ -110,6 +110,18 @@
                 <?php endforeach; ?>
             </select>
         </p>
+        <p>
+            <label>
+                Glück
+            </label>
+            <select name="luck">
+                <?php foreach($this->creationParams['luck'] as $luck): ?>
+                <option value="<?= $luck->getId() ?>" <?= $luck->getId() == $charakter->getLuck()->getId() ? 'selected' : '' ?>>
+                        <?= $luck->getKategorie() ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
         <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
         <p>
             <label>

@@ -973,6 +973,7 @@ class Application_Model_Charakter
      */
     public function setModifiers ($modifiers = [])
     {
+        $this->modifiers = [];
         foreach ($modifiers as $modifier) {
             if ($modifier instanceof Application_Model_Modifier) {
                 $this->modifiers[] = $modifier;
