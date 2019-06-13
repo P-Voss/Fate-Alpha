@@ -9,7 +9,7 @@ class Application_Model_Mapper_CharakterMapper
     /**
      * @param string $tablename
      *
-     * @return \Zend_Db_Table_Abstract
+     * @return Zend_Db_Table_Abstract
      * @throws Exception
      */
     public function getDbTable ($tablename)
@@ -532,10 +532,15 @@ class Application_Model_Mapper_CharakterMapper
     public function getFriendlist ($charakterId)
     {
         $returnArray = [];
-        $select = $this->getDbTable('Beziehungen')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('beziehungen');
-        $select->where('charakterId = ?', $charakterId);
+        $select = $this->getDbTable('Beziehungen')->select()
+            ->setIntegrityCheck(false)
+            ->from('beziehungen')
+            ->joinInner(
+                'charakter',
+                'charakter.charakterId = beziehungen.profilId AND charakter.active = 1',
+                []
+            )
+            ->where('beziehungen.charakterId = ?', $charakterId);
         $result = $this->getDbTable('Beziehungen')->fetchAll($select);
         foreach ($result as $row) {
             $returnArray[] = $this->getCharakter($row->profilId);
@@ -546,7 +551,7 @@ class Application_Model_Mapper_CharakterMapper
     /**
      * @param int $charakterId
      *
-     * @return \Application_Model_Charakter
+     * @return Application_Model_Charakter
      * @throws Exception
      */
     public function getCharakter ($charakterId)
