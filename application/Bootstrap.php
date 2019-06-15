@@ -2,6 +2,10 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
+    private $libraryNamespaces = [
+        'Ramsey\\Uuid\\' => APPLICATION_PATH . '/../library/Uuid/src/'
+    ];
+
     
     public function _initConfig() {
         $zendconf = new Zend_Config_Ini(APPLICATION_PATH
@@ -13,12 +17,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
     
     public function _initAutoloader() {
-
         $autoloader = Zend_Loader_Autoloader::getInstance();
-
         $autoloader->registerNamespace('application_');
         Zend_Registry::set('autoloader', $autoloader);
-        
+
+        foreach ($this->libraryNamespaces as $prefix => $base_dir) {
+            spl_autoload_register(function ($class) use ($prefix, $base_dir) {
+                $len = strlen($prefix);
+                if (strncmp($prefix, $class, $len) !== 0) {
+                    return;
+                }
+
+                $relative_class = substr($class, $len);
+
+                $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+                if (file_exists($file)) {
+                    require $file;
+                }
+            });
+        }
     }
     
     public function _initDoctype(){
