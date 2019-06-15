@@ -27,6 +27,17 @@ class Application_Model_Mapper_UserMapper
     }
 
     /**
+     * @param $userId
+     * @param $accessKey
+     *
+     * @throws Exception
+     */
+    public function updateAccessKey ($userId, $accessKey)
+    {
+        $this->getDbTable('User')->update(['accessKey' => $accessKey], ['userId = ?' => $userId]);
+    }
+
+    /**
      * @param int $userId
      *
      * @return boolean
