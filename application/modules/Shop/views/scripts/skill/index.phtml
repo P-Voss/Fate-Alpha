@@ -12,10 +12,8 @@ $purifier = $this->purifier;
     Fähigkeiten
 </h1>
 <?php
-$lockedSkillarten = [];
 foreach ($this->skillarten as $skillart):
-    if ($skillart->getLearned() === false) {
-        $lockedSkillarten[] = $skillart;
+    if (!$skillart->getLearned()) {
         continue;
     }
     if ($skillart->getId() === 3): ?>
@@ -36,23 +34,5 @@ foreach ($this->skillarten as $skillart):
         </fieldset>
     </fieldset>
     <hr/>
-<?php endforeach;
-foreach ($lockedSkillarten as $skillart):
-    ?>
-    <fieldset style="margin-bottom: 1.5em">
-        <p>
-            <?= $purifier->purify($skillart->getBezeichnung()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify($skillart->getBeschreibung()) ?>
-        </p>
-        <form method="POST" action="<?= $this->baseUrl() ?>/Shop/skill/unlockskillart">
-            <input type="hidden" value="<?= $skillart->getId() ?>" name="skillartId">
-            <input type="submit" value="Kategorie freischalten">
-        </form>
-    </fieldset>
-    <hr/>
-<?php
-endforeach;
-?>
+<?php endforeach; ?>
 <div id="dialog"></div>

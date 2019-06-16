@@ -27,7 +27,6 @@ class Erstellung_Service_Creation {
     {
         try {
             $characterId = $this->characterMapper->createCharakter($character);
-            $this->characterMapper->setInitalSkillarten($characterId);
 
             $this->characterMapper->saveCharakterWerte($characterId);
             $this->characterMapper->createCharakterProfile($characterId);

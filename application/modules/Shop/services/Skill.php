@@ -36,22 +36,8 @@ class Shop_Service_Skill
      */
     public function getSkillArtenForCharakter (Application_Model_Charakter $charakter)
     {
-        $arten = [];
-        $this->requirementValidator->setCharakter($charakter);
         $skillarten = $this->skillartMapper->getSkillArten();
-        foreach ($skillarten as $skillart) {
-            if ($this->skillartMapper->checkIfLearned($charakter->getCharakterid(), $skillart->getId())) {
-                $skillart->setLearned(true);
-                $skillart->setRequirementList(new Shop_Model_Requirementlist());
-            } else {
-                $skillart->setRequirementList($this->mapper->getRequirements($skillart->getId()));
-                $skillart->setLearned(false);
-            }
-            if ($this->requirementValidator->validate($skillart->getRequirementList())) {
-                $arten[] = $skillart;
-            }
-        }
-        return $arten;
+        return $skillarten;
     }
 
     /**
@@ -79,29 +65,14 @@ class Shop_Service_Skill
         $skills = $this->mapper->getShopSkillsBySkillArtId($skillartId);
         $returnSkills = [];
         foreach ($skills as $skill) {
-            if ($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId()) === true) {
+            if ($this->mapper->checkIfLearned($charakter->getCharakterid(), $skill->getId())) {
                 continue;
             }
-            if ($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId())) === true) {
+            if ($this->requirementValidator->validate($this->mapper->getRequirements($skill->getId()))) {
                 $returnSkills[] = $skill;
             }
         }
         return $returnSkills;
-    }
-
-    /**
-     * @param Application_Model_Charakter $charakter
-     * @param $skillartId
-     *
-     * @throws Exception
-     */
-    public function unlockSkillart (Application_Model_Charakter $charakter, $skillartId)
-    {
-        $this->requirementValidator->setCharakter($charakter);
-        $skillart = $this->skillartMapper->getSkillartById($skillartId);
-        if ($this->requirementValidator->validate($skillart->getRequirementList()) === true) {
-            $this->skillartMapper->unlockSkillartForCharakter($charakter, $skillart);
-        }
     }
 
     /**

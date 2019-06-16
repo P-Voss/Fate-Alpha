@@ -721,26 +721,6 @@ class Application_Model_Mapper_CharakterMapper
     /**
      * @param int $charakterId
      *
-     * @throws Exception
-     */
-    public function setInitalSkillarten ($charakterId)
-    {
-        $data = [
-            'charakterId' => $charakterId,
-            'skillartId' => 3,
-        ];
-        $this->getDbTable('CharakterSkillart')->insert($data);
-        $data['skillartId'] = 4;
-        $this->getDbTable('CharakterSkillart')->insert($data);
-        $data['skillartId'] = 1;
-        $this->getDbTable('CharakterSkillart')->insert($data);
-        $data['skillartId'] = 2;
-        $this->getDbTable('CharakterSkillart')->insert($data);
-    }
-
-    /**
-     * @param int $charakterId
-     *
      * @return \Application_Model_Klasse
      * @throws Exception
      */

@@ -5,8 +5,9 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Shop_SkillController extends Zend_Controller_Action {
-    
+class Shop_SkillController extends Zend_Controller_Action
+{
+
     /**
      * @var Application_Model_Charakter;
      */
@@ -16,8 +17,9 @@ class Shop_SkillController extends Zend_Controller_Action {
      */
     private $charakterService;
 
-    public function init(){
-        if(!$this->_helper->logincheck()){
+    public function init ()
+    {
+        if (!$this->_helper->logincheck()) {
             $this->redirect('index/index');
         }
         $this->charakterService = new Application_Service_Charakter();
@@ -31,39 +33,37 @@ class Shop_SkillController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
     }
-    
-    public function indexAction() {
+
+    public function indexAction ()
+    {
         $service = new Shop_Service_Skill();
         $this->view->skillarten = $service->getSkillArtenForCharakter($this->charakter);
     }
-    
-    public function showAction() {
+
+    public function showAction ()
+    {
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $service = new Shop_Service_Skill();
         $this->view->skills = $service->getUnlearnedSkillsByArtId($this->charakter, $this->getRequest()->getParam('id'));
         $html = $this->view->render('skill/show.phtml');
-        echo json_encode(array('html' => $html));
+        echo json_encode(['html' => $html]);
     }
-    
-    public function unlockskillartAction() {
-        $service = new Shop_Service_Skill();
-        $service->unlockSkillart($this->charakter, $this->getRequest()->getPost('skillartId'));
-        $this->redirect('Shop/skill/index');
-    }
-    
-    public function unlockAction() {
+
+    public function unlockAction ()
+    {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Skill();
         echo json_encode($service->unlockSkill($this->charakter, $this->getRequest()->getParam('id')));
     }
-    
-    public function previewAction() {
+
+    public function previewAction ()
+    {
         $service = new Shop_Service_Skill();
         $skill = $service->getSkillById($this->charakter, $this->getRequest()->getParam('id'));
-        if($this->getRequest()->getParam('tooltip') !== null){
+        if ($this->getRequest()->getParam('tooltip') !== null) {
             $this->_helper->viewRenderer->setNoRender(true);
             $this->_helper->layout()->disableLayout();
             echo json_encode($skill);
@@ -73,5 +73,5 @@ class Shop_SkillController extends Zend_Controller_Action {
             $this->view->skill = $skill;
         }
     }
-    
+
 }
