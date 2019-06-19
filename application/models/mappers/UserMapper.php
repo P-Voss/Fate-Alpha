@@ -6,6 +6,9 @@
 class Application_Model_Mapper_UserMapper
 {
 
+    const NOTIFICATION_TYPE_GROUPMESSAGE = 1;
+    const NOTIFICATION_TYPE_FEEDBACK_WISH = 2;
+
 
     /**
      * @param $tablename
@@ -463,8 +466,8 @@ SQL;
      */
     public function addNotificationForGroup ($nachrichtenId)
     {
-        $this->getDbTable('Notification')->
-        getDefaultAdapter()
+        $this->getDbTable('Notification')
+            ->getDefaultAdapter()
             ->query(
                 '
                     INSERT INTO notifications (userId, elementId, notificationTypeId) 
@@ -488,14 +491,35 @@ SQL;
     }
 
     /**
+     * @param $wishId
+     *
+     * @throws Exception
+     * @todo eigener Mapper
+     */
+    public function addNotificationForAdmins ($wishId)
+    {
+        $this->getDbTable('Notification')
+            ->getDefaultAdapter()
+            ->query(
+                '
+                    INSERT INTO notifications (userId, elementId, notificationTypeId) 
+                    SELECT 
+                        admins.userId, ?, ' . self::NOTIFICATION_TYPE_FEEDBACK_WISH. '
+                    FROM 
+                        admins 
+                    ', [$wishId]
+            );
+    }
+
+    /**
      * @param int $nachrichtenId
      *
      * @throws Exception
      */
     public function addGroupleaderNotification ($nachrichtenId)
     {
-        $this->getDbTable('Notification')->
-        getDefaultAdapter()
+        $this->getDbTable('Notification')
+            ->getDefaultAdapter()
             ->query(
                 '
                     INSERT INTO notifications (userId, elementId, notificationTypeId) 
@@ -513,4 +537,9 @@ SQL;
             );
     }
 
+
+    public function removeNotification ($notificationId)
+    {
+
+    }
 }

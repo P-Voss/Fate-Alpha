@@ -506,6 +506,7 @@ img {
     margin-left: 0;
     display: block;
     float: right;
+    height: 40px;
 }
 
 .img {

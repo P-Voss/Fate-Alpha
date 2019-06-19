@@ -13,7 +13,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         Zend_Registry::set('zendconf', $zendconf);
         Zend_Registry::set('env', APPLICATION_ENV);
         Zend_Registry::set('path', APPLICATION_PATH);
-        
     }
     
     public function _initAutoloader() {

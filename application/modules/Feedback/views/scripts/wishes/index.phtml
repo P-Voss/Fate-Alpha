@@ -1,0 +1,26 @@
+<h1>Deine Wünsche für das Spiel</h1>
+<p>
+    Hallo!
+</p>
+<p>
+    Du kannst hier eintragen was du so für die Zukunft von Fate/Alpha wünschst.
+</p>
+<p>
+    Was du hier einträgst können nur die Administratoren (Kirika, Heinrich) sehen.<br />
+    Die Einträge sind nicht anonym.
+</p>
+<div>
+    <form method="post" action="<?= $this->baseUrl()?>/Feedback/wishes/create">
+        <p>
+            <label for="title">Titel</label>
+            <input type="text" name="title" id="title" />
+        </p>
+        <p>
+            <label for="description">Dein Wunsch</label>
+            <textarea name="description" id="description"></textarea>
+        </p>
+        <p>
+            <input type="submit"/>
+        </p>
+    </form>
+</div>
