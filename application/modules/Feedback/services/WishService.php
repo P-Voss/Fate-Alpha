@@ -34,4 +34,23 @@ class WishService
         return $wishId;
     }
 
+    /**
+     * @return array
+     */
+    public function loadAll ()
+    {
+        return $this->wishMapper->loadAll();
+    }
+
+    /**
+     * @param $wishId
+     *
+     * @return Wish
+     * @throws \Exception
+     */
+    public function load ($wishId)
+    {
+        return $this->wishMapper->load($wishId);
+    }
+
 }

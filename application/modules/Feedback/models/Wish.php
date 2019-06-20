@@ -30,7 +30,7 @@ class Wish
     /**
      * @var string
      */
-    private $creationDate;
+    private $creationDatetime;
 
     /**
      * @return int
@@ -109,21 +109,28 @@ class Wish
     }
 
     /**
+     * @param string $format
+     *
      * @return string
      */
-    public function getCreationDate (): string
+    public function getCreationDatetime ($format = 'd.m.Y H:i:s'): string
     {
-        return $this->creationDate;
+        try {
+            $datetime = new \DateTime($this->creationDatetime);
+            return $datetime->format($format);
+        } catch (\Exception $exception) {
+            return '';
+        }
     }
 
     /**
-     * @param string $creationDate
+     * @param string $creationDatetime
      *
      * @return Wish
      */
-    public function setCreationDate (string $creationDate): Wish
+    public function setCreationDatetime (string $creationDatetime): Wish
     {
-        $this->creationDate = $creationDate;
+        $this->creationDatetime = $creationDatetime;
         return $this;
     }
 

@@ -39,4 +39,49 @@ class WishMapper
         return $this->getDbTable('Wishes')->insert($wish->toArray());
     }
 
+    /**
+     * @return array
+     */
+    public function loadAll ()
+    {
+        $wishes = [];
+        try {
+            foreach ($this->getDbTable('Wishes')->fetchAll() as $row) {
+                $wish = new Wish();
+                $wish->setWishId($row->wishId)
+                    ->setTitle($row->title)
+                    ->setDescription($row->description)
+                    ->setUserId($row->userId)
+                    ->setCreationDatetime($row->creationDatetime);
+                $wishes[] = $wish;
+            }
+            return $wishes;
+        } catch (\Exception $exception) {
+            return [];
+        }
+    }
+
+    /**
+     * @param $wishId
+     *
+     * @return Wish
+     * @throws \Exception
+     */
+    public function load ($wishId)
+    {
+        $row = $this->getDbTable('Wishes')->fetchRow(['wishId = ?' => $wishId]);
+        if ($row === null) {
+            throw new \Exception('Wish does not exist');
+        }
+        $wish = new Wish();
+        $wish->setWishId($row->wishId)
+            ->setTitle($row->title)
+            ->setDescription($row->description)
+            ->setUserId($row->userId)
+            ->setCreationDatetime($row->creationDatetime);
+
+        return $wish;
+    }
+
+
 }
