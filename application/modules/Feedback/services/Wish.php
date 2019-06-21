@@ -5,9 +5,9 @@ namespace Feedback\Services;
 
 use Application_Model_Mapper_UserMapper;
 use Feedback\Models\Mappers\WishMapper;
-use Feedback\Models\Wish;
+use Feedback\Models\Wish as WishModel;
 
-class WishService
+class Wish
 {
 
     /**
@@ -21,12 +21,12 @@ class WishService
     }
 
     /**
-     * @param Wish $wish
+     * @param WishModel $wish
      *
      * @return int
      * @throws \Exception
      */
-    public function create (Wish $wish)
+    public function create (WishModel $wish)
     {
         $userMapper = new Application_Model_Mapper_UserMapper();
         $wishId = $this->wishMapper->create($wish);
@@ -45,7 +45,7 @@ class WishService
     /**
      * @param $wishId
      *
-     * @return Wish
+     * @return WishModel
      * @throws \Exception
      */
     public function load ($wishId)

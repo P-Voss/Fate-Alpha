@@ -1,7 +1,7 @@
 <?php
 
 use Feedback\Models\Wish;
-use Feedback\Services\WishService;
+use Feedback\Services\Wish as WishService;
 
 /**
  * Class Feedback_WishesController
