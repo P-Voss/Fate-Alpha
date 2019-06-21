@@ -1,0 +1,4 @@
+.wishDescription {
+    text-overflow: ellipsis;
+    height: 60px;
+}

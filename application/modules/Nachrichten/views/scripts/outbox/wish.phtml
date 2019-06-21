@@ -1,0 +1,55 @@
+<?php
+$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/nachrichtencenter/editor.js'));
+
+/* @var $purifier HTMLPurifier */
+$purifier = $this->purifier;
+/** @var \Feedback\Models\Wish $wish */
+$wish = $this->wish;
+/** @var Application_Model_User[] $users */
+$users = $this->users;
+?>
+<h1>
+    Nachricht verfassen
+</h1>
+<div class="submenu">
+    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+</div>
+<br />
+<fieldset>
+    <form method="post" action="<?= $this->baseUrl() ?>/Nachrichten/index/send">
+        <p>
+            <label for="user">
+                An:
+            </label>
+            <select class="userSelect" id="user" name="user" <?= ($respondTo !== null) ?  'disabled=""' : '' ?>>
+                <?php foreach ($users as $user) : ?>
+                <option <?= ($wish->getUserId() === $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
+                    <?php 
+                    if($user->getCharakter() !== null){
+                        $name = $user->getProfilname() . ' - ' . $user->getCharakter()->getVorname();
+                    } else {
+                        $name = $user->getProfilname();
+                    }
+                    ?>
+                    <?= $purifier->purify($name) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="betreff">Betreff</label>
+            <input class="betreffInput"
+                   type="text"
+                   name="betreff"
+                   value="RE: <?= $purifier->purify($wish->getTitle()) ?>"
+            >
+        </p>
+        <p>
+            <label for="admin">Als Admin anonym versenden: </label>
+            <input type="checkbox" name="admin" />
+        </p>
+        <textarea rows="20" cols="95" name="nachricht"></textarea>
+        <input type="submit" value="Nachricht senden">
+    </form>
+</fieldset>

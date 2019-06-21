@@ -8,3 +8,4 @@ $purifier = $this->purifier;
 <h2><?= $purifier->purify($wish->getTitle()) ?></h2>
 <p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
 <div><?= $purifier->purify($wish->getDescription()) ?></div>
+<p><a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/wish/<?= $wish->getId() ?>"><button>User antworten</button></a></p>

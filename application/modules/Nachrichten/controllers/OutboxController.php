@@ -34,6 +34,22 @@ class Nachrichten_OutboxController extends Zend_Controller_Action {
                 $this->view->respondTo = $nachricht;
             }
         }
+        if((int) $this->getRequest()->getParam('wish') > 0){
+            $this->forward('wish');
+//            $nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
+//            if($nachricht->getAdmin() !== true){
+//                $this->view->respondTo = $nachricht;
+//            }
+        }
+    }
+
+
+    public function wishAction() {
+        if(!$this->_helper->admincheck()){
+            $this->redirect('index');
+        }
+        $service = new \Feedback\Services\WishService();
+        $this->view->wish = $service->load($this->getRequest()->getParam('wish'));
     }
     
 }
