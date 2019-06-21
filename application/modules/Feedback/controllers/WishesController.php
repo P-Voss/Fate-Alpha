@@ -13,6 +13,10 @@ class Feedback_WishesController extends Zend_Controller_Action
      * @var WishService
      */
     private $wishService;
+    /**
+     * @var Application_Service_User
+     */
+    private $userService;
 
     public function init ()
     {
@@ -20,6 +24,7 @@ class Feedback_WishesController extends Zend_Controller_Action
             $this->redirect('index');
         }
         $this->wishService = new WishService();
+        $this->userService = new Application_Service_User();
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
     }
@@ -39,7 +44,9 @@ class Feedback_WishesController extends Zend_Controller_Action
         if (!$this->_helper->admincheck()) {
             $this->redirect('Feedback/wishes/index');
         }
-        $this->view->wishes = $this->wishService->loadAll();
+        $this->view->wishes = array_map(function (Wish $wish) {
+            return new \Feedback\Models\View\Wish($wish, $this->userService->getUserById($wish->getUserId()));
+        }, $this->wishService->loadAll());
     }
 
 
@@ -49,7 +56,11 @@ class Feedback_WishesController extends Zend_Controller_Action
             $this->redirect('Feedback/wishes/index');
         }
         try {
-            $this->view->wish = $this->wishService->load($this->getRequest()->getParam('id'));
+            $wish = $this->wishService->load($this->getRequest()->getParam('id'));
+            $this->view->wish = new \Feedback\Models\View\Wish(
+                $wish,
+                $this->userService->getUserById($wish->getUserId())
+            );
         } catch (Exception $exception) {
             $this->redirect('Feedback/wishes/list');
         }

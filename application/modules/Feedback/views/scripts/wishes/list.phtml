@@ -1,5 +1,5 @@
 <?php
-/** @var \Feedback\Models\Wish[] $wishes */
+/** @var \Feedback\Models\View\Wish[] $wishes */
 $wishes = $this->wishes;
 /** @var HTMLPurifier $purifier */
 $purifier = $this->purifier;
@@ -8,9 +8,9 @@ $purifier = $this->purifier;
 <div>
     <?php foreach ($wishes as $wish): ?>
     <div>
-        <a href="<?= $this->baseUrl() ?>/Feedback/wishes/show/id/<?= $wish->getWishId() ?>"><?= $purifier->purify($wish->getTitle()) ?></a>
-        <a href="#<?= $wish->getWishId() ?>">#</a>
-        <p><?= $wish->getCreationDatetime() ?></p>
+        <a href="<?= $this->baseUrl() ?>/Feedback/wishes/show/id/<?= $wish->getId() ?>"><?= $purifier->purify($wish->getTitle()) ?></a>
+        <a href="#<?= $wish->getId() ?>">#<?= $wish->getId() ?></a>
+        <p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
         <p><?= $purifier->purify($wish->getDescription()) ?></p>
     </div>
     <hr />

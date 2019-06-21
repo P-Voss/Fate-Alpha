@@ -1,10 +1,10 @@
 <?php
-/** @var \Feedback\Models\Wish $wish */
+/** @var \Feedback\Models\View\Wish $wish */
 $wish = $this->wish;
 /** @var HTMLPurifier $purifier */
 $purifier = $this->purifier;
 ?>
 <h1>Spielerwunsch</h1>
 <h2><?= $purifier->purify($wish->getTitle()) ?></h2>
-<p><?= $wish->getCreationDatetime() ?></p>
+<p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
 <div><?= $purifier->purify($wish->getDescription()) ?></div>
