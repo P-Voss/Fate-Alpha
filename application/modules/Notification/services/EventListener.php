@@ -58,6 +58,12 @@ class EventListener implements \Application_Model_Events_Observer
                         NotificationTypes::WISH
                     );
                     break;
+                case \Gruppen_Service_Gruppen::NEW_MESSAGE_EVENT:
+                    $this->notificationService->handle(
+                        $event['messageId'],
+                        NotificationTypes::GROUP_MESSAGE
+                    );
+                    break;
             }
         }
     }

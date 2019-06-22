@@ -5,79 +5,161 @@
  *
  * @author Voß
  */
-class Gruppen_Model_Gruppe {
-    
+class Gruppen_Model_Gruppe
+{
+
+    /**
+     * @var
+     */
     protected $id;
+    /**
+     * @var
+     */
     protected $name;
+    /**
+     * @var
+     */
     protected $beschreibung;
+    /**
+     * @var
+     */
     protected $passwort;
-    protected $mitglieder = array();
+    /**
+     * @var Application_Model_Charakter[]
+     */
+    protected $mitglieder = [];
+    /**
+     * @var
+     */
     protected $gruender;
+    /**
+     * @var
+     */
     protected $createDate;
-    
-    
-    public function getId() {
+
+
+    /**
+     * @return mixed
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
-    
-    public function getName() {
+
+    /**
+     * @return mixed
+     */
+    public function getName ()
+    {
         return $this->name;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return mixed
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getPasswort() {
+    /**
+     * @return mixed
+     */
+    public function getPasswort ()
+    {
         return $this->passwort;
     }
 
-    public function getMitglieder() {
+    /**
+     * @return Application_Model_Charakter[]
+     */
+    public function getMitglieder ()
+    {
         return $this->mitglieder;
     }
 
-    public function getGruender() {
+    /**
+     * @return mixed
+     */
+    public function getGruender ()
+    {
         return $this->gruender;
     }
 
-    public function getCreateDate() {
+    /**
+     * @return mixed
+     */
+    public function getCreateDate ()
+    {
         return $this->createDate;
     }
 
-    public function setName($name) {
+    /**
+     * @param $name
+     */
+    public function setName ($name)
+    {
         $this->name = $name;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setPasswort($passwort) {
+    /**
+     * @param $passwort
+     */
+    public function setPasswort ($passwort)
+    {
         $this->passwort = $passwort;
     }
 
-    public function setMitglieder($mitglieder = array()) {
-        foreach ($mitglieder as $mitglied){
-            if($mitglied instanceof Application_Model_Charakter){
+    /**
+     * @param Application_Model_Charakter[] $mitglieder
+     */
+    public function setMitglieder ($mitglieder = [])
+    {
+        foreach ($mitglieder as $mitglied) {
+            if ($mitglied instanceof Application_Model_Charakter) {
                 $this->addMitglied($mitglied);
             }
         }
     }
-    
-    public function addMitglied(Application_Model_Charakter $charakter) {
+
+    /**
+     * @param Application_Model_Charakter $charakter
+     */
+    public function addMitglied (Application_Model_Charakter $charakter)
+    {
         $this->mitglieder[] = $charakter;
     }
 
-    public function setGruender($gruender) {
+    /**
+     * @param $gruender
+     */
+    public function setGruender ($gruender)
+    {
         $this->gruender = $gruender;
     }
 
-    public function setCreateDate($createDate) {
+    /**
+     * @param $createDate
+     */
+    public function setCreateDate ($createDate)
+    {
         $this->createDate = $createDate;
     }
-    
+
 }

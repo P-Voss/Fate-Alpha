@@ -516,9 +516,4 @@ SQL;
             );
     }
 
-
-    public function removeNotification ($notificationId)
-    {
-
-    }
 }

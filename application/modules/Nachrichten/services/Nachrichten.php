@@ -10,8 +10,8 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
 
     use Application_Model_Events_SubjectTrait;
 
-    const NEW_MESSAGE_EVENT = 'NEW_MESSAGE';
-    const READ_MESSAGE_EVENT = 'READ_MESSAGE';
+    const NEW_MESSAGE_EVENT = 'NEW_PERSONAL_MESSAGE';
+    const READ_MESSAGE_EVENT = 'READ_PERSONAL_MESSAGE';
 
     /**
      * @var array

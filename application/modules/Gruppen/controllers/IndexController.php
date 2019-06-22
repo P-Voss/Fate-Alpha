@@ -5,13 +5,14 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Gruppen_IndexController extends Zend_Controller_Action {
-    
+class Gruppen_IndexController extends Zend_Controller_Action
+{
+
     /**
-     * @var Application_Service_Charakter 
+     * @var Application_Service_Charakter
      */
     protected $charakterService;
-    
+
     /**
      * @var Application_Model_Charakter
      */
@@ -21,23 +22,22 @@ class Gruppen_IndexController extends Zend_Controller_Action {
      * @var Gruppen_Service_Gruppen
      */
     protected $gruppenService;
-    
+
     protected $auth;
-    
-    public function init(){
+
+    public function init ()
+    {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->gruppenService = new Gruppen_Service_Gruppen();
-        if (Zend_Auth::getInstance()->getIdentity() !== null
-                && (int) $this->getRequest()->getParam('id', 0) !== 0)
-        {
-            $this->gruppenService->removeNotifications(
-                    Zend_Auth::getInstance()->getIdentity()->userId, 
-                    (int) $this->getRequest()->getParam('id')
-            );
-        }
+        $this->gruppenService->attach(
+            new \Notification\Services\EventListener(
+                new \Notification\Services\NotificationFacade()
+            )
+        );
         $this->charakterService = new Application_Service_Charakter();
-        if($this->_helper->logincheck() === false){
+
+        if ($this->_helper->logincheck() === false) {
             $this->redirect('index');
         }
         $this->auth = Zend_Auth::getInstance()->getIdentity();
@@ -47,42 +47,47 @@ class Gruppen_IndexController extends Zend_Controller_Action {
             $this->charakter = false;
         }
     }
-    
-    public function indexAction() {
-        if($this->charakter !== false){
-            $this->view->gruppen  = $this->gruppenService->getGruppenByCharakterId($this->charakter->getCharakterId());
-        }else{
-            $this->view->gruppen = array();
+
+    public function indexAction ()
+    {
+        if ($this->charakter !== false) {
+            $this->view->gruppen = $this->gruppenService->getGruppenByCharakterId($this->charakter->getCharakterId());
+        } else {
+            $this->view->gruppen = [];
         }
         $this->view->eigeneGruppen = $this->gruppenService->getGruppenByLeaderId($this->auth->userId);
     }
-    
-    public function createAction() {
+
+    public function createAction ()
+    {
         $this->gruppenService->createGruppe($this->getRequest());
         $this->redirect('Gruppen');
     }
-    
-    public function enterAction() {
+
+    public function enterAction ()
+    {
         $this->gruppenService->joinGruppe($this->getRequest(), $this->charakter->getCharakterid());
         $this->redirect('Gruppen');
     }
-    
-    public function exitAction() {
+
+    public function exitAction ()
+    {
         $this->gruppenService->leaveGroup($this->getRequest()->getPost('gruppenId'), $this->charakter->getCharakterid());
         $this->redirect('Gruppen');
     }
-    
-    public function showAction() {
+
+    public function showAction ()
+    {
         $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        $gruppenId = (int) $this->getRequest()->getParam('id', 0);
-        if(!$this->gruppenService->validateAccess(
-                $gruppenId, 
-                $charakterId, 
-                $this->auth->userId
-        ))
-        {
+        $gruppenId = (int)$this->getRequest()->getParam('id', 0);
+        if (!$this->gruppenService->validateAccess(
+            $gruppenId,
+            $charakterId,
+            $this->auth->userId
+        )) {
             $this->redirect('Gruppen');
         }
+
         $gruppe = $this->gruppenService->getGruppeByGruppenId($gruppenId);
         if ($gruppe === false) {
             $this->redirect('Gruppen');
@@ -94,94 +99,102 @@ class Gruppen_IndexController extends Zend_Controller_Action {
         $this->view->charaktere = $this->charakterService->getCharakters();
         $this->view->gruppenchat = $this->gruppenService->getGruppenchat($gruppenId);
     }
-    
-    public function addAction() {
-        if(!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getParam('gruppenId'))){
+
+    public function addAction ()
+    {
+        if (!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getParam('gruppenId'))) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+        if (!is_null($this->getRequest()->getParam('gruppenId'))) {
             $this->gruppenService->addToGroup($this->getRequest(), $this->auth->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
-    public function editAction() {
-        if(!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getPost('gruppenId'))){
+
+    public function editAction ()
+    {
+        if (!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getPost('gruppenId'))) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getPost('gruppenId'))){
+        if (!is_null($this->getRequest()->getPost('gruppenId'))) {
             $this->gruppenService->editGruppe($this->getRequest());
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getPost('gruppenId'));
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
-    public function removeAction() {
-        if(!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getParam('gruppenId'))){
+
+    public function removeAction ()
+    {
+        if (!$this->gruppenService->isLeader($this->auth->userId, $this->getRequest()->getParam('gruppenId'))) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+        if (!is_null($this->getRequest()->getParam('gruppenId'))) {
             $this->gruppenService->removeFromGroup($this->getRequest(), $this->auth->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
-    public function chatAction() {
+
+    public function chatAction ()
+    {
         $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('gruppenId'), 
-                $charakterId, 
-                $this->auth->userId
-            ))
-        {
+        if (!$this->gruppenService->validateAccess(
+            $this->getRequest()->getParam('gruppenId'),
+            $charakterId,
+            $this->auth->userId
+        )) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+
+        if (!is_null($this->getRequest()->getParam('gruppenId'))) {
             $this->gruppenService->addNachricht($this->getRequest(), $this->auth->userId);
+            $this->gruppenService->notify();
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
-    public function uploadAction() {
+
+    public function uploadAction ()
+    {
         $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('gruppenId'), 
-                $charakterId, 
-                $this->auth->userId
-            ))
-        {
+        if (!$this->gruppenService->validateAccess(
+            $this->getRequest()->getParam('gruppenId'),
+            $charakterId,
+            $this->auth->userId
+        )) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getParam('gruppenId'))){
+        if (!is_null($this->getRequest()->getParam('gruppenId'))) {
             $service = new Gruppen_Service_File();
             $service->uploadLog($this->getRequest(), $this->auth->userId);
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
-    
-    public function downloadAction() {
+
+
+    public function downloadAction ()
+    {
         $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        if(!$this->gruppenService->validateAccess($this->getRequest()->getParam('id'), 
-                $charakterId, 
-                $this->auth->userId
-            ))
-        {
+        if (!$this->gruppenService->validateAccess(
+            $this->getRequest()->getParam('id'),
+            $charakterId,
+            $this->auth->userId
+        )) {
             $this->redirect('Gruppen');
         }
-        if(!is_null($this->getRequest()->getParam('id'))){
+        if (!is_null($this->getRequest()->getParam('id'))) {
             $service = new Gruppen_Service_File();
             $service->downloadLog($this->getRequest());
-        }else{
+        } else {
             $this->redirect('Gruppen');
         }
     }
-    
+
 }

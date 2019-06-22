@@ -5,14 +5,19 @@
  *
  * @author Voß
  */
-class Gruppen_Service_Gruppen
+class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
 {
 
+    use Application_Model_Events_SubjectTrait;
+
+    const NEW_MESSAGE_EVENT = 'NEW_GROUP_MESSAGE';
+    const READ_MESSAGE_EVENT = 'READ_GROUP_MESSAGE';
 
     /**
      * @param $charakterId
      *
      * @return array
+     * @throws Exception
      */
     public function getGruppenByCharakterId ($charakterId)
     {
@@ -25,6 +30,7 @@ class Gruppen_Service_Gruppen
      * @param $userId
      *
      * @return array
+     * @throws Zend_Db_Select_Exception
      */
     public function getGruppenByUserId ($userId)
     {
@@ -37,6 +43,7 @@ class Gruppen_Service_Gruppen
      * @param $userId
      *
      * @return array
+     * @throws Exception
      */
     public function getGruppenByLeaderId ($userId)
     {
@@ -49,6 +56,7 @@ class Gruppen_Service_Gruppen
      * @param $gruppenId
      *
      * @return Gruppen_Model_Gruppe
+     * @throws Exception
      */
     public function getGruppeByGruppenId ($gruppenId)
     {
@@ -67,6 +75,7 @@ class Gruppen_Service_Gruppen
      * @param $userId
      *
      * @return bool
+     * @throws Zend_Db_Select_Exception
      */
     public function validateAccess ($gruppenId, $charakterId, $userId)
     {
@@ -77,7 +86,8 @@ class Gruppen_Service_Gruppen
     /**
      * @param Zend_Controller_Request_Http $request
      *
-     * @return bool
+     * @return int
+     * @throws Exception
      */
     public function createGruppe (Zend_Controller_Request_Http $request)
     {
@@ -92,14 +102,15 @@ class Gruppen_Service_Gruppen
         $gruppe->setName($request->getPost('gruppenname'));
         $gruppe->setPasswort($request->getPost('passwort'));
         $gruppe->setCreateDate($date->format('Y-m-d'));
-        $mapper->createGruppe($gruppe);
-        return true;
+        return $mapper->createGruppe($gruppe);
     }
 
 
     /**
      * @param Zend_Controller_Request_Http $request
      * @param $charakterId
+     *
+     * @throws Exception
      */
     public function switchDataExposure (Zend_Controller_Request_Http $request, $charakterId)
     {
@@ -111,6 +122,8 @@ class Gruppen_Service_Gruppen
     /**
      * @param $gruppenId
      * @param $charakterId
+     *
+     * @throws Exception
      */
     public function leaveGroup ($gruppenId, $charakterId)
     {
@@ -134,10 +147,12 @@ class Gruppen_Service_Gruppen
         $nachricht->setCreateDate($date->format('Y-m-d H:i:s'));
         $nachricht->setNachricht($request->getPost('nachricht'));
         $nachricht->setUserId($userId);
-        $nachrichtenId = $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
-        $userMapper->addNotificationForGroup($nachrichtenId);
-        $userMapper->addGroupleaderNotification($nachrichtenId);
-        return $nachrichtenId;
+        $messageId = $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
+//        $userMapper->addNotificationForGroup($messageId);
+//        $userMapper->addGroupleaderNotification($messageId);
+        $this->events[] = ['event' => self::NEW_MESSAGE_EVENT, 'messageId' => $messageId];
+
+        return $messageId;
     }
 
     /**
@@ -167,6 +182,7 @@ class Gruppen_Service_Gruppen
      * @param Zend_Controller_Request_Http $request
      *
      * @return bool
+     * @throws Exception
      */
     public function editGruppe (Zend_Controller_Request_Http $request)
     {
@@ -186,6 +202,8 @@ class Gruppen_Service_Gruppen
     /**
      * @param Zend_Controller_Request_Http $request
      * @param $charakterId
+     *
+     * @throws Exception
      */
     public function joinGruppe (Zend_Controller_Request_Http $request, $charakterId)
     {
@@ -197,18 +215,11 @@ class Gruppen_Service_Gruppen
     }
 
     /**
-     *
-     */
-    public function setSl ()
-    {
-
-    }
-
-    /**
      * @param $gruppenId
      * @param $charakterId
      *
      * @return bool
+     * @throws Exception
      */
     public function dataExposed ($gruppenId, $charakterId)
     {
@@ -221,6 +232,7 @@ class Gruppen_Service_Gruppen
      * @param $gruppenId
      *
      * @return array
+     * @throws Exception
      */
     public function getExposedIds ($gruppenId)
     {
@@ -232,6 +244,8 @@ class Gruppen_Service_Gruppen
     /**
      * @param Zend_Controller_Request_Http $request
      * @param $leaderId
+     *
+     * @throws Exception
      */
     public function addToGroup (Zend_Controller_Request_Http $request, $leaderId)
     {
@@ -247,6 +261,8 @@ class Gruppen_Service_Gruppen
     /**
      * @param Zend_Controller_Request_Http $request
      * @param $leaderId
+     *
+     * @throws Exception
      */
     public function removeFromGroup (Zend_Controller_Request_Http $request, $leaderId)
     {
@@ -263,6 +279,7 @@ class Gruppen_Service_Gruppen
      * @param $gruppenId
      *
      * @return bool
+     * @throws Zend_Db_Select_Exception
      */
     public function isLeader ($leaderId, $gruppenId)
     {
