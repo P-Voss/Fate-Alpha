@@ -14,6 +14,8 @@ $displayTraining = [
     'kontrolle' => 'Kontrolle',
     'disziplin' => 'Disziplin',
 ];
+/** @var HTMLPurifier $purifier */
+$purifier = $this->purifier;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -75,14 +77,13 @@ $displayTraining = [
             <?php if (count($layoutData->getNotifications()) > 0) : ?>
                 <div id="notifications">
                     <?php
-                    /* @var $notification Application_Model_Notification */
+                    /* @var $notification \Notification\Models\Notification */
                     foreach ($layoutData->getNotifications() as $notification) :?>
+                    <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
                         <p class="notification">
-                            Neue Nachricht im Gruppenchat der Gruppe:
-                            <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $notification->getParentId() ?>#<?= $notification->getNotificationElementId() ?>">
-                                <?= htmlentities($notification->getParentName()) ?>
-                            </a>
+                            <span><?= $purifier->purify($notification->getDescription()) ?>(<?= $purifier->purify($notification->getTitle()) ?>)</span>
                         </p>
+                    </a>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

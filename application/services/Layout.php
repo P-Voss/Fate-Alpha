@@ -20,11 +20,12 @@ class Application_Service_Layout {
         $userMapper = new Application_Model_Mapper_UserMapper();
         $trainingMapper = new Application_Model_Mapper_TrainingMapper();
         $wetterMapper = new Application_Model_Mapper_WetterMapper();
+        $notificationService = new \Notification\Services\NotificationFacade();
         
         $layoutModel->setUnreadPmCount($userMapper->countNewPm($auth->userId));
         $layoutModel->setUsergruppe($auth->usergruppe);
         $layoutModel->setLogleser($userMapper->isLogleser($auth->userId));
-        $layoutModel->setNotifications($userMapper->getNotifications($auth->userId));
+        $layoutModel->setNotifications($notificationService->loadByUserId($auth->userId));
         $layoutModel->setWeather($wetterMapper->getWetterByDate(new DateTime()));
 
         if($userMapper->hasChara($auth->userId)){

@@ -1,5 +1,7 @@
 <?php
 
+use Notification\Models\Notification;
+
 /**
  * Description of Layout
  *
@@ -25,7 +27,7 @@ class Application_Model_Layout
     public $logleser;
     public $informations = [];
     /**
-     * @var array
+     * @var Notification[]
      */
     public $notifications = [];
     /**
@@ -165,7 +167,7 @@ class Application_Model_Layout
     }
 
     /**
-     * @return array
+     * @return Notification[]
      */
     public function getNotifications ()
     {
@@ -173,7 +175,7 @@ class Application_Model_Layout
     }
 
     /**
-     * @param $notifications []
+     * @param $notifications Notification[]
      */
     public function setNotifications ($notifications = [])
     {
@@ -183,9 +185,9 @@ class Application_Model_Layout
     }
 
     /**
-     * @param Application_Model_Notification $notification
+     * @param Notification $notification
      */
-    public function addNotification (Application_Model_Notification $notification)
+    public function addNotification (Notification $notification)
     {
         $this->notifications[] = $notification;
     }

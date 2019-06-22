@@ -73,14 +73,13 @@ $displayTraining = [
             <?php if (count($layoutData->getNotifications()) > 0) : ?>
                 <div id="notifications">
                     <?php
-                    /* @var $notification Application_Model_Notification */
+                    /* @var $notification \Notification\Models\Notification */
                     foreach ($layoutData->getNotifications() as $notification) :?>
-                        <p class="notification">
-                            Neue Nachricht im Gruppenchat der Gruppe:
-                            <a href="<?= $this->baseUrl() ?>/Gruppen/index/show/id/<?= $notification->getParentId() ?>#<?= $notification->getNotificationElementId() ?>">
-                                <?= htmlentities($notification->getParentName()) ?>
-                            </a>
-                        </p>
+                        <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
+                            <p class="notification">
+                                <span><?= $purifier->purify($notification->getDescription()) ?>(<?= $purifier->purify($notification->getTitle()) ?>)</span>
+                            </p>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
