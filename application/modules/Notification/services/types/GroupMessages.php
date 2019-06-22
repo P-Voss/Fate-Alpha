@@ -16,11 +16,16 @@ class GroupMessages extends NotificationService
      */
     private $notificationMapper;
 
-    public function create (Notification $notification): int
+
+    public function create (Notification $notification)
     {
         // TODO: Implement create() method.
     }
 
+    /**
+     * @param int $subjectId
+     * @param int $notificationType
+     */
     public function handle (int $subjectId, int $notificationType)
     {
         // TODO: Implement handle() method.

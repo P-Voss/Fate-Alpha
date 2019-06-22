@@ -27,6 +27,11 @@ class Feedback_WishesController extends Zend_Controller_Action
         $this->userService = new Application_Service_User();
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
+        $this->wishService->attach(
+            new \Notification\Services\EventListener(
+                new \Notification\Services\NotificationFacade()
+            )
+        );
     }
 
 
@@ -73,7 +78,8 @@ class Feedback_WishesController extends Zend_Controller_Action
         $wish->setTitle($this->getRequest()->getPost('title', ''))
             ->setDescription($this->getRequest()->getPost('description', ''))
             ->setUserId(\Zend_Auth::getInstance()->getIdentity()->userId);
-        $this->wishService->create($wish);
+        $wishId = $this->wishService->create($wish);
+        $this->wishService->notify();
 
         $this->redirect('Feedback/wishes/index');
     }

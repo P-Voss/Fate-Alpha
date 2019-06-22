@@ -27,7 +27,7 @@ class PersonalMessageSubject implements NotificationSubject
     /**
      * @return int
      */
-    public function getId (): int
+    public function getSubjectId (): int
     {
         return $this->message->getId();
     }
@@ -35,15 +35,15 @@ class PersonalMessageSubject implements NotificationSubject
     /**
      * @return string
      */
-    public function getTitle (): string
+    public function getSubjectTitle (): string
     {
-        return $this->message->getBetreff();
+        return '(' . $this->message->getBetreff() . ')';
     }
 
     /**
      * @return string
      */
-    public function getDescription (): string
+    public function getSubjectDescription (): string
     {
         return sprintf(
             "Neue Nachricht von: %s",

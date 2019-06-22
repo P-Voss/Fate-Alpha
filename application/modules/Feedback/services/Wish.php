@@ -3,12 +3,20 @@
 
 namespace Feedback\Services;
 
-use Application_Model_Mapper_UserMapper;
 use Feedback\Models\Mappers\WishMapper;
 use Feedback\Models\Wish as WishModel;
 
-class Wish
+class Wish implements \Application_Model_Events_Subject
 {
+
+    use \Application_Model_Events_SubjectTrait;
+
+    const NEW_WISH_EVENT = 'NEW_WISH';
+
+    /**
+     * @var array
+     */
+    private $events = [];
 
     /**
      * @var WishMapper
@@ -28,9 +36,8 @@ class Wish
      */
     public function create (WishModel $wish)
     {
-        $userMapper = new Application_Model_Mapper_UserMapper();
         $wishId = $this->wishMapper->create($wish);
-        $userMapper->addNotificationForAdmins($wishId);
+        $this->events[] = ['event' => self::NEW_WISH_EVENT, 'wishId' => $wishId];
         return $wishId;
     }
 

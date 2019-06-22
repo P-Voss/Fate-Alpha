@@ -491,27 +491,6 @@ SQL;
     }
 
     /**
-     * @param $wishId
-     *
-     * @throws Exception
-     * @todo eigener Mapper
-     */
-    public function addNotificationForAdmins ($wishId)
-    {
-        $this->getDbTable('Notification')
-            ->getDefaultAdapter()
-            ->query(
-                '
-                    INSERT INTO notifications (userId, elementId, notificationTypeId) 
-                    SELECT 
-                        admins.userId, ?, ' . self::NOTIFICATION_TYPE_FEEDBACK_WISH. '
-                    FROM 
-                        admins 
-                    ', [$wishId]
-            );
-    }
-
-    /**
      * @param int $nachrichtenId
      *
      * @throws Exception

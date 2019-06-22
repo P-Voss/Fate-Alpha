@@ -109,27 +109,19 @@ class Notification implements NotificationSubject
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId (): int
+    public function getSubjectTitle (): string
     {
-        return $this->subject->getId();
+        return $this->subject->getSubjectTitle();
     }
 
     /**
      * @return string
      */
-    public function getTitle (): string
+    public function getSubjectDescription (): string
     {
-        return $this->subject->getTitle();
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription (): string
-    {
-        return $this->subject->getDescription();
+        return $this->subject->getSubjectDescription();
     }
 
     /**

@@ -64,10 +64,9 @@ class NotificationFacade extends NotificationService
     /**
      * @param Notification $notification
      *
-     * @return int
      * @throws \Exception
      */
-    public function create (Notification $notification): int
+    public function create (Notification $notification)
     {
         return $this->getService($notification->getType())->create($notification);
     }

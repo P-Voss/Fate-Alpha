@@ -74,10 +74,14 @@ $displayTraining = [
                 <div id="notifications">
                     <?php
                     /* @var $notification \Notification\Models\Notification */
-                    foreach ($layoutData->getNotifications() as $notification) :?>
+                    foreach ($layoutData->getNotifications() as $notification) :
+                        ?>
                         <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
                             <p class="notification">
-                                <span><?= $purifier->purify($notification->getDescription()) ?>(<?= $purifier->purify($notification->getTitle()) ?>)</span>
+                            <span>
+                                <?= $purifier->purify($notification->getSubjectDescription()) ?>
+                                <?= $purifier->purify($notification->getSubjectTitle()) ?>
+                            </span>
                             </p>
                         </a>
                     <?php endforeach; ?>

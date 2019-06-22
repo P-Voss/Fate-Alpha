@@ -41,13 +41,11 @@ abstract class NotificationMapper
     /**
      * @param Notification $notification
      *
-     * @return int
      * @throws \Exception
      */
-    public function create(Notification $notification): int
+    public function create(Notification $notification)
     {
-        return $this->getDbTable('Notification')->insert($notification->toArray());
+        $this->getDbTable('Notification')->insert($notification->toArray());
     }
-
 
 }

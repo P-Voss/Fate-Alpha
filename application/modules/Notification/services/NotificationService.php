@@ -16,10 +16,8 @@ abstract class NotificationService
 
     /**
      * @param Notification $notification
-     *
-     * @return int
      */
-    abstract public function create (Notification $notification): int;
+    abstract public function create (Notification $notification);
 
     /**
      * creates Notifications based on type and subject

@@ -14,16 +14,16 @@ interface NotificationSubject
     /**
      * @return int
      */
-    public function getId (): int;
+    public function getSubjectId (): int;
 
     /**
      * @return string
      */
-    public function getTitle (): string;
+    public function getSubjectTitle (): string;
 
     /**
      * @return string
      */
-    public function getDescription (): string;
+    public function getSubjectDescription (): string;
 
 }

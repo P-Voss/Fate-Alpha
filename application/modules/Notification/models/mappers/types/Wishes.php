@@ -34,4 +34,21 @@ class Wishes extends NotificationMapper
         return $notifications;
     }
 
+    /**
+     * @param Notification $notification
+     *
+     * @return int
+     * @throws \Exception
+     */
+    public function create(Notification $notification): int
+    {
+        $sql = <<<SQL
+INSERT INTO notifications (userId, subjectId, type)
+SELECT admins.userId, ?, ?
+FROM admins
+SQL;
+        $stmt = $this->getDbTable('Notification')->getAdapter()->prepare($sql);
+        return $stmt->execute([$notification->getSubjectId(), $notification->getType()]);
+    }
+
 }

@@ -38,7 +38,7 @@ class Notification_IndexController extends \Zend_Controller_Action
                     $this->redirect('Nachrichten/index/show/id/' . $notification->getSubjectId() . '/read/true');
                     break;
                 case NotificationTypes::WISH:
-                    $this->forward('group');
+                    $this->redirect('Feedback/wishes/show/id/' . $notification->getSubjectId());
                     break;
             }
         } catch (\Exception $exception) {
@@ -46,22 +46,10 @@ class Notification_IndexController extends \Zend_Controller_Action
         }
     }
 
-
-    public function messageAction ()
-    {
-        \Zend_Debug::dump('dsfsdf');
-        exit;
-    }
-
     public function groupAction ()
     {
-//        $this->redirect('Gruppen/index/show/id/' . $notification->getSubjectId());
-        \Zend_Debug::dump('dsfsdf');
-        exit;
-    }
 
-    public function wishAction ()
-    {
+//        $this->redirect('Gruppen/index/show/id/' . $notification->getSubjectId());
         \Zend_Debug::dump('dsfsdf');
         exit;
     }

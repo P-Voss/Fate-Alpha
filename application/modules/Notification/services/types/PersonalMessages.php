@@ -11,6 +11,10 @@ use Notification\Models\NotificationSubject;
 use Notification\Models\View\PersonalMessageSubject;
 use Notification\Services\NotificationService;
 
+/**
+ * Class PersonalMessages
+ * @package Notification\Services\Types
+ */
 class PersonalMessages extends NotificationService
 {
 
@@ -33,12 +37,11 @@ class PersonalMessages extends NotificationService
     /**
      * @param Notification $notification
      *
-     * @return int
      * @throws \Exception
      */
-    public function create (Notification $notification): int
+    public function create (Notification $notification)
     {
-        return $this->getMapper()->create($notification);
+        $this->getMapper()->create($notification);
     }
 
     /**

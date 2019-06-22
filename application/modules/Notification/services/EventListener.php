@@ -52,6 +52,12 @@ class EventListener implements \Application_Model_Events_Observer
                         NotificationTypes::PERSONAL_MESSAGE
                     );
                     break;
+                case \Feedback\Services\Wish::NEW_WISH_EVENT:
+                    $this->notificationService->handle(
+                        $event['wishId'],
+                        NotificationTypes::WISH
+                    );
+                    break;
             }
         }
     }
