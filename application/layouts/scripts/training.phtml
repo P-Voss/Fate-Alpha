@@ -14,6 +14,8 @@ $displayTraining = [
     'kontrolle' => 'Kontrolle',
     'disziplin' => 'Disziplin',
 ];
+/** @var HTMLPurifier $purifier */
+$purifier = $this->purifier;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -70,6 +72,25 @@ $displayTraining = [
             <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
         </div>
         <div id="inhalt">
+            <?php if (count($layoutData->getNotifications()) > 0) : ?>
+                <div id="notifications">
+                    <?php
+                    /* @var $notification \Notification\Models\Notification */
+                    foreach ($layoutData->getNotifications() as $notification) :
+                        ?>
+                        <div class="notification">
+                            <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
+                            <span class="text">
+                                <?= $purifier->purify($notification->getSubjectDescription()) ?>
+                                <?= $purifier->purify($notification->getSubjectTitle()) ?>
+                            </span>
+                            </a>
+                            <span class="dismiss" data-id="<?= $notification->getNotificationId() ?>">X</span>
+                            <hr />
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <?php echo $this->layout()->content; ?>
         </div>
         <div id="footer">

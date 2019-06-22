@@ -80,14 +80,16 @@ $purifier = $this->purifier;
                     /* @var $notification \Notification\Models\Notification */
                     foreach ($layoutData->getNotifications() as $notification) :
                     ?>
-                    <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
-                        <p class="notification">
-                            <span>
+                    <div class="notification">
+                        <a href="<?= $this->baseUrl() ?>/Notification/index/show/id/<?= $notification->getNotificationId() ?>">
+                            <span class="text">
                                 <?= $purifier->purify($notification->getSubjectDescription()) ?>
                                 <?= $purifier->purify($notification->getSubjectTitle()) ?>
                             </span>
-                        </p>
-                    </a>
+                        </a>
+                        <span class="dismiss" data-id="<?= $notification->getNotificationId() ?>">X</span>
+                        <hr />
+                    </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

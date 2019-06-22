@@ -23,8 +23,8 @@ class Notification_IndexController extends \Zend_Controller_Action
     public function showAction ()
     {
         try {
-            $mapper = new General();
             $id = $this->getRequest()->getParam('id', 0);
+            $mapper = new General();
             $notification = $mapper->load($id);
             if ($notification->getUserId() !== Zend_Auth::getInstance()->getIdentity()->userId) {
                 $this->redirect('index');
@@ -32,7 +32,10 @@ class Notification_IndexController extends \Zend_Controller_Action
             $mapper->remove($notification->getNotificationId());
             switch ($notification->getType()) {
                 case NotificationTypes::GROUP_MESSAGE:
-                    $this->forward('group');
+                    $groupMapper = new Gruppen_Model_Mapper_GruppenMapper();
+                    $group = $groupMapper->getGroupByMessageId($notification->getSubjectId());
+
+                    $this->redirect('Gruppen/index/show/id/' . $group->getId());
                     break;
                 case NotificationTypes::PERSONAL_MESSAGE:
                     $this->redirect('Nachrichten/index/show/id/' . $notification->getSubjectId() . '/read/true');
@@ -46,12 +49,39 @@ class Notification_IndexController extends \Zend_Controller_Action
         }
     }
 
-    public function groupAction ()
-    {
 
-//        $this->redirect('Gruppen/index/show/id/' . $notification->getSubjectId());
-        \Zend_Debug::dump('dsfsdf');
-        exit;
+    public function removeAction ()
+    {
+        try {
+            $id = $this->getRequest()->getPost('id', 0);
+            $mapper = new General();
+            $notification = $mapper->load($id);
+            if ($notification->getUserId() !== Zend_Auth::getInstance()->getIdentity()->userId) {
+                echo json_encode(
+                    [
+                        'success' => false,
+                        'message' => 'not your notification'
+                    ]
+                );
+                exit;
+            }
+            $mapper->remove($notification->getNotificationId());
+            echo json_encode(
+                [
+                    'success' => true
+                ]
+            );
+            exit;
+        } catch (\Exception $exception) {
+            echo json_encode(
+                [
+                    'success' => false,
+                    'message' => 'error on server'
+                ]
+            );
+            exit;
+        }
+
     }
 
 }

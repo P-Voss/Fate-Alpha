@@ -2,3 +2,9 @@
     text-overflow: ellipsis;
     height: 60px;
 }
+
+.wishTitle {
+    text-overflow: ellipsis;
+    font-weight: bold;
+    font-size: 1.1em;
+}
