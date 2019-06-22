@@ -19,6 +19,18 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
         $this->service = new Nachrichten_Service_Nachrichten();
+        $this->service->attach(
+            new \Notification\Services\EventListener(
+                new \Notification\Services\NotificationFacade()
+            )
+        );
+    }
+
+
+    public function postDispatch ()
+    {
+        $this->service->notify();
+        parent::postDispatch();
     }
     
     public function indexAction() {

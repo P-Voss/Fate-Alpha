@@ -4,9 +4,10 @@
 namespace Notification\Services;
 
 
+use Feedback\Models\NotificationTypes;
 use SplSubject;
 
-class EventListener implements \SplObserver
+class EventListener implements \Application_Model_Events_Observer
 {
 
     const NEW_GROUP_MESSAGE = 1;
@@ -33,8 +34,20 @@ class EventListener implements \SplObserver
      */
     public function update (SplSubject $subject)
     {
+        if (!$subject instanceof \Application_Model_Events_Subject) {
+            return;
+        }
 
-        // TODO: Implement update() method.
+        foreach ($subject->getEvents() as $event) {
+            switch ($event['event']) {
+                case \Nachrichten_Service_Nachrichten::NEW_MESSAGE_EVENT:
+                    $this->notificationService->handle(
+                        $event['messageId'],
+                        NotificationTypes::PERSONAL_MESSAGE
+                    );
+                    break;
+            }
+        }
     }
 
 

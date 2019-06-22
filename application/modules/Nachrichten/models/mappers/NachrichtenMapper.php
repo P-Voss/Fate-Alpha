@@ -9,7 +9,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
 {
 
     /**
-     * @param type $tablename
+     * @param string $tablename
      *
      * @return \Zend_Db_Table_Abstract
      * @throws Exception
@@ -172,6 +172,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param Nachrichten_Model_Nachricht $nachricht
      *
+     * @return int
      * @throws Exception
      */
     public function saveMessage (Nachrichten_Model_Nachricht $nachricht)
@@ -185,7 +186,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
             'creationDate' => $date->format('Y-m-d H:i:s'),
             'admin' => ($nachricht->getAdmin() === true) ? 1 : 0,
         ];
-        $this->getDbTable('Pm')->insert($data);
+        return $this->getDbTable('Pm')->insert($data);
     }
 
     /**
@@ -197,7 +198,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     public function setRead ($nachrichtId)
     {
         $data = ['status' => 'gelesen'];
-        return $this->getDbTable('Pm')->update($data, ['nachrichtId = ?' => $nachrichtId]);
+        $this->getDbTable('Pm')->update($data, ['nachrichtId = ?' => $nachrichtId]);
     }
 
     /**

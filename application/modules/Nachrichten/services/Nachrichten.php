@@ -5,8 +5,17 @@
  *
  * @author Voß
  */
-class Nachrichten_Service_Nachrichten
+class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subject
 {
+
+    use Application_Model_Events_SubjectTrait;
+
+    const NEW_MESSAGE_EVENT = 'NEW_MESSAGE';
+
+    /**
+     * @var array
+     */
+    private $events = [];
 
     /**
      * @var Application_Model_Mapper_UserMapper
@@ -107,7 +116,8 @@ class Nachrichten_Service_Nachrichten
         } else {
             $nachricht->setAdmin(false);
         }
-        $this->mapper->saveMessage($nachricht);
+        $messageId = $this->mapper->saveMessage($nachricht);
+        $this->events[] = ['event' => self::NEW_MESSAGE_EVENT, 'messageId' => $messageId];
     }
 
     /**
@@ -124,14 +134,13 @@ class Nachrichten_Service_Nachrichten
     }
 
     /**
-     * @param int $nachrichtId
+     * @param int $messageId
      *
-     * @return int
      * @throws Exception
      */
-    public function readMessage ($nachrichtId)
+    public function readMessage ($messageId)
     {
-        return $this->mapper->setRead($nachrichtId);
+        $this->mapper->setRead($messageId);
     }
 
 }
