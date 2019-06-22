@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Feedback\Models;
+namespace Notification\Models;
 
 /**
  * Class NotificationTypes
- * @package Feedback\models
+ * @package Notification\Models
  */
 class NotificationTypes
 {

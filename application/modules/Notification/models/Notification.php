@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Feedback\Models;
+namespace Notification\Models;
 
 
-class Notification
+class Notification implements NotificationSubject
 {
 
     /**
@@ -18,11 +18,34 @@ class Notification
     /**
      * @var int
      */
-    private $notificationElementId;
+    private $subjectId;
     /**
      * @var int
      */
     private $userId;
+    /**
+     * @var NotificationSubject
+     */
+    private $subject;
+
+    /**
+     * @return int
+     */
+    public function getNotificationId (): int
+    {
+        return $this->notificationId;
+    }
+
+    /**
+     * @param int $notificationId
+     *
+     * @return Notification
+     */
+    public function setNotificationId (int $notificationId): Notification
+    {
+        $this->notificationId = $notificationId;
+        return $this;
+    }
 
     /**
      * @return int
@@ -50,19 +73,19 @@ class Notification
     /**
      * @return int
      */
-    public function getNotificationElementId (): int
+    public function getSubjectId (): int
     {
-        return $this->notificationElementId;
+        return $this->subjectId;
     }
 
     /**
-     * @param int $notificationElementId
+     * @param int $subjectId
      *
      * @return Notification
      */
-    public function setNotificationElementId (int $notificationElementId): Notification
+    public function setSubjectId (int $subjectId): Notification
     {
-        $this->notificationElementId = $notificationElementId;
+        $this->subjectId = $subjectId;
         return $this;
     }
 
@@ -86,12 +109,47 @@ class Notification
     }
 
     /**
+     * @return int
+     */
+    public function getId (): int
+    {
+        return $this->subject->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle (): string
+    {
+        return $this->subject->getTitle();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription (): string
+    {
+        return $this->subject->getDescription();
+    }
+
+    /**
+     * @param NotificationSubject $notificationSubject
+     *
+     * @return $this
+     */
+    public function setSubject (NotificationSubject $notificationSubject)
+    {
+        $this->subject = $notificationSubject;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray ()
     {
         $data = [
-            'subjectId' => $this->notificationElementId,
+            'subjectId' => $this->subjectId,
             'type' => $this->type,
             'userId' => $this->userId
         ];

@@ -4,26 +4,71 @@
 namespace Notification\Services\Types;
 
 
-use Feedback\Models\Notification;
+use Notification\Models\Notification;
+use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
+use Notification\Models\NotificationSubject;
+use Notification\Models\View\PersonalMessageSubject;
 use Notification\Services\NotificationService;
 
 class PersonalMessages extends NotificationService
 {
 
+    /**
+     * @var \Nachrichten_Model_Mapper_NachrichtenMapper
+     */
+    private $messagesMapper;
+    /**
+     * @var NotificationMapper
+     */
+    private $notificationMapper;
+
+
+    public function __construct ()
+    {
+        $this->messagesMapper = new \Nachrichten_Model_Mapper_NachrichtenMapper();
+    }
+
+
+    /**
+     * @param Notification $notification
+     *
+     * @return int
+     * @throws \Exception
+     */
     public function create (Notification $notification): int
     {
-        // TODO: Implement create() method.
+        return $this->getMapper()->create($notification);
     }
 
+    /**
+     * @param int $subjectId
+     * @param int $notificationType
+     *
+     * @throws \Exception
+     */
     public function handle (int $subjectId, int $notificationType)
     {
-        // TODO: Implement handle() method.
+        $message = $this->messagesMapper->getNachrichtById($subjectId);
+        $notification = new Notification();
+        $notification->setUserId($message->getEmpfaengerId())
+            ->setType(NotificationTypes::PERSONAL_MESSAGE)
+            ->setSubjectId($message->getId());
+        $this->getMapper()->create($notification);
     }
 
-    public function loadByUserId (int $userId): array
+    /**
+     * @param int $id
+     *
+     * @return NotificationSubject
+     * @throws \Exception
+     */
+    protected function getSubject (int $id): NotificationSubject
     {
-        // TODO: Implement loadByUserId() method.
+        $userMapper = new \Application_Model_Mapper_UserMapper();
+        $message = $this->messagesMapper->getNachrichtById($id);
+        $message->setVerfasser($userMapper->getUserById($message->getVerfasserId()));
+        return new PersonalMessageSubject($message);
     }
 
     /**
@@ -31,7 +76,10 @@ class PersonalMessages extends NotificationService
      */
     protected function getMapper (): NotificationMapper
     {
-        // TODO: Implement getMapper() method.
+        if ($this->notificationMapper === null) {
+            $this->notificationMapper = new \Notification\Models\Mappers\Types\PersonalMessages();
+        }
+        return $this->notificationMapper;
     }
 
 }

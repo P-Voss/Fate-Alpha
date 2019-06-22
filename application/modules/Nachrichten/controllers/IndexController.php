@@ -25,13 +25,6 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
             )
         );
     }
-
-
-    public function postDispatch ()
-    {
-        $this->service->notify();
-        parent::postDispatch();
-    }
     
     public function indexAction() {
         $this->redirect('Nachrichten/inbox/');
@@ -55,6 +48,7 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
     
     public function sendAction() {
         $this->service->saveMessage($this->getRequest());
+        $this->service->notify();
         $this->redirect('Nachrichten');
     }
     

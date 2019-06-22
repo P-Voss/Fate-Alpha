@@ -192,7 +192,6 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $nachrichtId
      *
-     * @return int
      * @throws Exception
      */
     public function setRead ($nachrichtId)

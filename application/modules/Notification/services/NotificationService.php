@@ -1,11 +1,11 @@
 <?php
 
-
 namespace Notification\Services;
 
 
-use Feedback\Models\Notification;
+use Notification\Models\Notification;
 use Notification\Models\Mappers\NotificationMapper;
+use Notification\Models\NotificationSubject;
 
 /**
  * Class NotificationService
@@ -30,24 +30,30 @@ abstract class NotificationService
     abstract public function handle (int $subjectId, int $notificationType);
 
     /**
-     * @param int $userId
-     *
-     * @return Notification[]
-     */
-    abstract public function loadByUserId (int $userId): array;
-
-    /**
      * @return NotificationMapper
      */
     abstract protected function getMapper(): NotificationMapper;
 
     /**
-     * @param int $notificationId
+     * @param int $id
      *
-     * @throws \Exception
+     * @return NotificationSubject
      */
-    final public function remove (int $notificationId) {
-        $this->getMapper()->remove($notificationId);
+    abstract protected function getSubject(int $id): NotificationSubject;
+
+    /**
+     * @param int $userId
+     *
+     * @return Notification[]
+     */
+    public function loadByUserId (int $userId): array
+    {
+        $notifications = [];
+        foreach ($this->getMapper()->loadByUserId($userId) as $notification) {
+            $notification->setSubject($this->getSubject($notification->getSubjectId()));
+            $notifications[] = $notification;
+        }
+        return $notifications;
     }
 
 }

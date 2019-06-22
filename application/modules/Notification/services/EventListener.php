@@ -4,9 +4,13 @@
 namespace Notification\Services;
 
 
-use Feedback\Models\NotificationTypes;
-use SplSubject;
+use Notification\Models\Notification;
+use Notification\Models\NotificationTypes;
 
+/**
+ * Class EventListener
+ * @package Notification\Services
+ */
 class EventListener implements \Application_Model_Events_Observer
 {
 
@@ -30,9 +34,11 @@ class EventListener implements \Application_Model_Events_Observer
     }
 
     /**
-     * @param SplSubject $subject
+     * @param \SplSubject $subject
+     *
+     * @throws \Exception
      */
-    public function update (SplSubject $subject)
+    public function update (\SplSubject $subject)
     {
         if (!$subject instanceof \Application_Model_Events_Subject) {
             return;
@@ -48,6 +54,11 @@ class EventListener implements \Application_Model_Events_Observer
                     break;
             }
         }
+    }
+
+
+    private function findNotificationByMessageId() {
+
     }
 
 

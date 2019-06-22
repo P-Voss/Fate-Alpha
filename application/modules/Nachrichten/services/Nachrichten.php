@@ -11,6 +11,7 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     use Application_Model_Events_SubjectTrait;
 
     const NEW_MESSAGE_EVENT = 'NEW_MESSAGE';
+    const READ_MESSAGE_EVENT = 'READ_MESSAGE';
 
     /**
      * @var array
@@ -141,6 +142,7 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     public function readMessage ($messageId)
     {
         $this->mapper->setRead($messageId);
+        $this->events[] = ['event' => self::READ_MESSAGE_EVENT, 'messageId' => $messageId];
     }
 
 }

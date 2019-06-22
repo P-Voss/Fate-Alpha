@@ -4,12 +4,17 @@
 namespace Notification\Services\Types;
 
 
-use Feedback\Models\Notification;
+use Notification\Models\Notification;
 use Notification\Models\Mappers\NotificationMapper;
+use Notification\Models\NotificationSubject;
 use Notification\Services\NotificationService;
 
 class GroupMessages extends NotificationService
 {
+    /**
+     * @var NotificationMapper
+     */
+    private $notificationMapper;
 
     public function create (Notification $notification): int
     {
@@ -21,17 +26,26 @@ class GroupMessages extends NotificationService
         // TODO: Implement handle() method.
     }
 
-    public function loadByUserId (int $userId): array
-    {
-        // TODO: Implement loadByUserId() method.
-    }
-
     /**
      * @return NotificationMapper
      */
     protected function getMapper (): NotificationMapper
     {
-        // TODO: Implement getMapper() method.
+        if ($this->notificationMapper === null) {
+            $this->notificationMapper = new \Notification\Models\Mappers\Types\GroupMessages();
+        }
+        return $this->notificationMapper;
     }
+
+    /**
+     * @param int $id
+     *
+     * @return NotificationSubject
+     */
+    protected function getSubject (int $id): NotificationSubject
+    {
+        // TODO: Implement getSubject() method.
+    }
+
 
 }

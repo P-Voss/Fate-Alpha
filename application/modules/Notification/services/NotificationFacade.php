@@ -4,9 +4,10 @@
 namespace Notification\Services;
 
 
-use Feedback\Models\Notification;
-use Feedback\Models\NotificationTypes;
+use Notification\Models\Notification;
+use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
+use Notification\Models\NotificationSubject;
 use Notification\Services\Types\GroupMessages;
 use Notification\Services\Types\PersonalMessages;
 use Notification\Services\Types\Wishes;
@@ -92,11 +93,14 @@ class NotificationFacade extends NotificationService
         $notifications = [];
         foreach (NotificationTypes::getNotificationTypes() as $type) {
             try {
-                array_merge(
-                    $notifications,
-                    $this->getService($type)->loadByUserId($userId)
+                $notifications = array_merge(
+                    $this->getService($type)->loadByUserId($userId),
+                    $notifications
                 );
-            } catch (\Exception $exception) {}
+            } catch (\Exception $exception) {
+                \Zend_Debug::dump($exception);
+                exit;
+            }
         }
         return $notifications;
     }
@@ -106,6 +110,17 @@ class NotificationFacade extends NotificationService
      * @throws \Exception
      */
     protected function getMapper (): NotificationMapper
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return NotificationSubject
+     * @throws \Exception
+     */
+    protected function getSubject (int $id): NotificationSubject
     {
         throw new \Exception('Not implemented');
     }

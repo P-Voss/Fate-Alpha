@@ -3,7 +3,7 @@
 
 namespace Notification\Models\Mappers;
 
-use Feedback\Models\Notification;
+use Notification\Models\Notification;
 
 /**
  * Class NotificationMapper
@@ -47,16 +47,6 @@ abstract class NotificationMapper
     public function create(Notification $notification): int
     {
         return $this->getDbTable('Notification')->insert($notification->toArray());
-    }
-
-    /**
-     * @param int $notificationId
-     *
-     * @throws \Exception
-     */
-    final public function remove (int $notificationId)
-    {
-        $this->getDbTable('Notification')->delete(['notificationId = ?' => $notificationId]);
     }
 
 
