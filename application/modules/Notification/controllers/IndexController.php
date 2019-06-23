@@ -49,6 +49,14 @@ class Notification_IndexController extends \Zend_Controller_Action
 
                     $this->redirect('Gruppen/index/show/id/' . $group->getId());
                     break;
+                case NotificationTypes::EPISODE_KICKOFF:
+                    $this->redirect('Story/episoden/details/episode/' . $notification->getSubjectId());
+                    break;
+                case NotificationTypes::EPISODE_STARTED:
+                    $episodeMapper = new Story_Model_Mapper_EpisodeMapper();
+                    $episode = $episodeMapper->getEpisodeById($notification->getSubjectId());
+                    $this->redirect('Story/plots/sl/id/' . $episode->getPlotId());
+                    break;
             }
         } catch (\Exception $exception) {
             $this->redirect('index');

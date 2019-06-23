@@ -39,6 +39,11 @@ class Story_EpisodenController extends Zend_Controller_Action {
         }
         $this->plotService = new Story_Service_Plot();
         $this->episodenService = new Story_Service_Episode();
+        $this->episodenService->attach(
+            new \Notification\Services\EventListener(
+                new \Notification\Services\NotificationFacade()
+            )
+        );
         $this->logService = new Story_Service_Log();
     }
     
@@ -130,6 +135,7 @@ class Story_EpisodenController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $this->episodenService->startEpisode($episodeId);
+        $this->episodenService->notify();
         $this->redirect('Story/episoden/status/episode/' . $episodeId);
     }
     
@@ -167,7 +173,7 @@ class Story_EpisodenController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $episodeId = (int)$this->getRequest()->getParam('episode');
-        if(!$this->episodenService->isSL($episodeId, Zend_Auth::getInstance()->getIdentity()->userId)){
+        if(!$this->episodenService->isPlayer($episodeId, $this->charakter->getCharakterId())){
             $this->redirect('index');
         }
         $episode = $this->episodenService->getEpisode($episodeId);
@@ -186,6 +192,7 @@ class Story_EpisodenController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         $this->episodenService->updateReadyStatus(1, $episodeId, $this->charakter->getCharakterid());
+        $this->episodenService->notify();
         $this->redirect('Story/episoden/details/episode/' . $episodeId);
     }
     

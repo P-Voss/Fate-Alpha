@@ -8,6 +8,8 @@ use Notification\Models\Notification;
 use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
 use Notification\Models\NotificationSubject;
+use Notification\Services\Types\EpisodeKickoff;
+use Notification\Services\Types\EpisodeStart;
 use Notification\Services\Types\GroupEntry;
 use Notification\Services\Types\GroupMessages;
 use Notification\Services\Types\PersonalMessages;
@@ -32,6 +34,14 @@ class NotificationFacade extends NotificationService
      * @var GroupEntry
      */
     private $groupEntryService;
+    /**
+     * @var EpisodeKickoff
+     */
+    private $episodeKickoffService;
+    /**
+     * @var EpisodeStart
+     */
+    private $episodeStartService;
 
     /**
      * NotificationFacade constructor.
@@ -42,6 +52,8 @@ class NotificationFacade extends NotificationService
         $this->personalmessagesService = new PersonalMessages();
         $this->wishesService = new Wishes();
         $this->groupEntryService = new GroupEntry();
+        $this->episodeKickoffService = new EpisodeKickoff();
+        $this->episodeStartService = new EpisodeStart();
     }
 
     /**
@@ -64,6 +76,12 @@ class NotificationFacade extends NotificationService
                 break;
             case NotificationTypes::JOINED_GROUP:
                 return $this->groupEntryService;
+                break;
+            case NotificationTypes::EPISODE_KICKOFF:
+                return $this->episodeKickoffService;
+                break;
+            case NotificationTypes::EPISODE_STARTED:
+                return $this->episodeStartService;
                 break;
             default:
                 throw new \Exception('Invalid NotificationType');

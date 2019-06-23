@@ -15,6 +15,11 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
     const JOINED_GROUP_EVENT = 'JOINED_GROUP';
 
     /**
+     * @var array
+     */
+    private $events = [];
+
+    /**
      * @param $charakterId
      *
      * @return array

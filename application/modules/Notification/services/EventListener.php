@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Notification\Services;
 
 
-use Notification\Models\Notification;
 use Notification\Models\NotificationTypes;
 
 /**
@@ -68,6 +66,18 @@ class EventListener implements \Application_Model_Events_Observer
                     $this->notificationService->handle(
                         $event['characterGroupId'],
                         NotificationTypes::JOINED_GROUP
+                    );
+                    break;
+                case \Story_Service_Episode::EPISODE_KICKOFF:
+                    $this->notificationService->handle(
+                        $event['episodeId'],
+                        NotificationTypes::EPISODE_KICKOFF
+                    );
+                    break;
+                case \Story_Service_Episode::EPISODE_STARTED:
+                    $this->notificationService->handle(
+                        $event['episodeId'],
+                        NotificationTypes::EPISODE_STARTED
                     );
                     break;
             }

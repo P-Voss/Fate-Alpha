@@ -14,6 +14,8 @@ class NotificationTypes
     const PERSONAL_MESSAGE = 2;
     const WISH = 3;
     const JOINED_GROUP = 4;
+    const EPISODE_KICKOFF = 5;
+    const EPISODE_STARTED = 6;
 
     /**
      * @return array
@@ -24,6 +26,8 @@ class NotificationTypes
             static::PERSONAL_MESSAGE,
             static::WISH,
             static::JOINED_GROUP,
+            static::EPISODE_KICKOFF,
+            static::EPISODE_STARTED,
         ];
     }
 

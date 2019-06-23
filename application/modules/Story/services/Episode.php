@@ -5,8 +5,18 @@
  *
  * @author Voß
  */
-class Story_Service_Episode
+class Story_Service_Episode implements Application_Model_Events_Subject
 {
+
+    use Application_Model_Events_SubjectTrait;
+
+    const EPISODE_KICKOFF = 'EPISODE_KICKOFF';
+    const EPISODE_STARTED = 'EPISODE_STARTED';
+
+    /**
+     * @var array
+     */
+    private $events = [];
 
     /**
      * @var Story_Model_Mapper_PlotMapper
@@ -108,6 +118,7 @@ class Story_Service_Episode
         $status = new Story_Model_EpisodenStatus();
         $status->setId(2);
         $this->episodeMapper->updateStatus($status, $episodeId);
+        $this->events[] = ['event' => self::EPISODE_KICKOFF, 'episodeId' => $episodeId];
     }
 
     /**
@@ -278,6 +289,7 @@ class Story_Service_Episode
             $status->setId(3);
             $this->episodeMapper->updateStatus($status, $episodeId);
             $this->episodeMapper->initCharakterResult($episodeId);
+            $this->events[] = ['event' => self::EPISODE_STARTED, 'episodeId' => $episodeId];
         }
     }
 
