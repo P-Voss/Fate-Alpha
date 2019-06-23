@@ -556,36 +556,36 @@ class Application_Model_Mapper_CharakterMapper
      */
     public function getCharakter ($charakterId)
     {
-        $model = new Application_Model_Charakter();
         $select = $this->getDbTable('Charakter')->select();
         $select->where('charakterId = ? AND active = 1', $charakterId);
         $row = $this->getDbTable('Charakter')->fetchRow($select);
-        if ($row !== null) {
-            $model->setVorname($row->vorname);
-            $model->setNachname($row->nachname);
-            $model->setCharakterid($row->charakterId);
-            $model->setSize($row->size);
-            $model->setAugenfarbe($row->augenfarbe);
-            $model->setGeburtsdatum($row->geburtsdatum);
-            $model->setGeschlecht($row->geschlecht);
-            $model->setSexualitaet($row->sexualitaet);
-            $model->setNickname($row->nickname);
-            $model->setWohnort($row->wohnort);
-            $model->setKillCount($row->npcKills);
-            $model->setMagiOrganization($row->magiOrganization);
-            $model->setMagischoolId($row->magischoolId);
-            $model->setKillCount($row->npcKills);
-            $date = new DateTime($row->createDate);
-            $model->setCreatedate($date);
-            $model->setUndead($row->undead === 1);
-            if ($model->getUndead()) {
-                $undeadDate = new DateTime($row->undeadDate);
-                $model->setUndeadDate($undeadDate);
-            }
-            return $model;
-        } else {
-            throw new Exception();
+        if ($row === null) {
+            throw new Exception('Character does not exist');
         }
+        $model = new Application_Model_Charakter();
+        $model->setUserid($row->userId);
+        $model->setVorname($row->vorname);
+        $model->setNachname($row->nachname);
+        $model->setCharakterid($row->charakterId);
+        $model->setSize($row->size);
+        $model->setAugenfarbe($row->augenfarbe);
+        $model->setGeburtsdatum($row->geburtsdatum);
+        $model->setGeschlecht($row->geschlecht);
+        $model->setSexualitaet($row->sexualitaet);
+        $model->setNickname($row->nickname);
+        $model->setWohnort($row->wohnort);
+        $model->setKillCount($row->npcKills);
+        $model->setMagiOrganization($row->magiOrganization);
+        $model->setMagischoolId($row->magischoolId);
+        $model->setKillCount($row->npcKills);
+        $date = new DateTime($row->createDate);
+        $model->setCreatedate($date);
+        $model->setUndead($row->undead === 1);
+        if ($model->getUndead()) {
+            $undeadDate = new DateTime($row->undeadDate);
+            $model->setUndeadDate($undeadDate);
+        }
+        return $model;
     }
 
     /**

@@ -199,17 +199,17 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
 
     /**
      * @param Zend_Controller_Request_Http $request
-     * @param $charakterId
+     * @param $characterId
      *
      * @throws Exception
      */
-    public function joinGruppe (Zend_Controller_Request_Http $request, $charakterId)
+    public function joinGruppe (Zend_Controller_Request_Http $request, $characterId)
     {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByCredentials($request->getPost('gruppenname'), $request->getPost('passwort'));
         if ($gruppe !== false) {
-            $zuoId = $mapper->addCharakterToGroup($charakterId, $gruppe->getId());
-            $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'zuoId' => $zuoId];
+            $mapper->addCharakterToGroup($characterId, $gruppe->getId());
+            $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'characterId' => $characterId];
         }
     }
 
@@ -250,9 +250,9 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
     {
         if ($this->isLeader($leaderId, $request->getPost('gruppenId'))) {
             $mapper = new Gruppen_Model_Mapper_GruppenMapper();
-            foreach ($request->getPost('charaktere') as $charakterId) {
-                $zuoId = $mapper->addCharakterToGroup($charakterId, $request->getPost('gruppenId'));
-                $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'zuoId' => $zuoId];
+            foreach ($request->getPost('charaktere') as $characterId) {
+                $characterGroupId = $mapper->addCharakterToGroup($characterId, $request->getPost('gruppenId'));
+                $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'characterGroupId' => $characterGroupId];
             }
         }
     }
@@ -268,8 +268,8 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
     {
         if ($this->isLeader($leaderId, $request->getPost('gruppenId'))) {
             $mapper = new Gruppen_Model_Mapper_GruppenMapper();
-            foreach ($request->getPost('charaktere') as $charakterId) {
-                $mapper->removeCharakterFromGroup($charakterId, $request->getPost('gruppenId'));
+            foreach ($request->getPost('charaktere') as $characterId) {
+                $mapper->removeCharakterFromGroup($characterId, $request->getPost('gruppenId'));
             }
         }
     }

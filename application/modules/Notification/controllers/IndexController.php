@@ -43,6 +43,12 @@ class Notification_IndexController extends \Zend_Controller_Action
                 case NotificationTypes::WISH:
                     $this->redirect('Feedback/wishes/show/id/' . $notification->getSubjectId());
                     break;
+                case NotificationTypes::JOINED_GROUP:
+                    $groupMapper = new Gruppen_Model_Mapper_GruppenMapper();
+                    $group = $groupMapper->getGroupByCharacterZuo($notification->getSubjectId());
+
+                    $this->redirect('Gruppen/index/show/id/' . $group->getId());
+                    break;
             }
         } catch (\Exception $exception) {
             $this->redirect('index');

@@ -13,6 +13,13 @@ abstract class NotificationMapper
 {
 
     /**
+     * @param int $userId
+     *
+     * @return Notification[]
+     */
+    abstract public function loadByUserId(int $userId): array;
+
+    /**
      * @param string $adaptername
      *
      * @return \Zend_Db_Table_Abstract
@@ -33,10 +40,27 @@ abstract class NotificationMapper
 
     /**
      * @param int $userId
+     * @param int $notificationType
      *
-     * @return Notification[]
+     * @return array
+     * @throws \Exception
      */
-    abstract public function loadByUserId(int $userId): array;
+    final protected function load (int $userId, int $notificationType): array
+    {
+        $notifications = [];
+        $result = $this->getDbTable('Notification')->fetchAll(
+            ['userId = ?' => $userId, 'type = ?' => $notificationType]
+        );
+        foreach ($result as $row) {
+            $notification = new Notification();
+            $notification->setUserId($userId)
+                ->setNotificationId($row->notificationId)
+                ->setSubjectId($row->subjectId)
+                ->setType($notificationType);
+            $notifications[] = $notification;
+        }
+        return $notifications;
+    }
 
     /**
      * @param Notification $notification

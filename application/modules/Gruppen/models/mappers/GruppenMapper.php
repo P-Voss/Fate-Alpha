@@ -195,6 +195,53 @@ class Gruppen_Model_Mapper_GruppenMapper
     }
 
     /**
+     * @param int $zuoId
+     *
+     * @return Gruppen_Model_Gruppe
+     * @throws Exception
+     */
+    public function getGroupByCharacterZuo (int $zuoId)
+    {
+        $select = $this->getDbTable('Spielergruppen')->select();
+        $select->setIntegrityCheck(false)
+            ->from('spielergruppen')
+            ->joinInner('charakterGruppen', 'charakterGruppen.gruppenId = spielergruppen.gruppenId', [])
+            ->where('charakterGruppen.zuoId = ?', $zuoId);
+        $row = $this->getDbTable('Spielergruppen')->fetchRow($select);
+        if ($row === null) {
+            throw new Exception('Group does not exist');
+        }
+        $gruppe = new Gruppen_Model_Gruppe();
+        $gruppe->setId($row->gruppenId);
+        $gruppe->setName($row->name);
+        $gruppe->setBeschreibung($row->beschreibung);
+        $gruppe->setPasswort($row->passwort);
+        $gruppe->setGruender($row->userId);
+        $gruppe->setCreateDate($row->createDate);
+        return $gruppe;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Gruppen_Model_CharacterToGroup
+     * @throws Exception
+     */
+    public function getCharacterToGroup ($id)
+    {
+        $select = $this->getDbTable('Spielergruppen')
+            ->select()
+            ->setIntegrityCheck(false)
+            ->from('charakterGruppen')
+            ->where('charakterGruppen.zuoId = ?', $id);
+        $row = $this->getDbTable('Spielergruppen')->fetchRow($select);
+        if ($row === null) {
+            throw new Exception('Group does not exist');
+        }
+        return new Gruppen_Model_CharacterToGroup($row->charakterId, $row->gruppenId);
+    }
+
+    /**
      * @param int $gruppenId
      *
      * @return Application_Model_Charakter[]
@@ -349,7 +396,7 @@ class Gruppen_Model_Mapper_GruppenMapper
      * @param int $charakterId
      * @param int $gruppenId
      *
-     * @return int
+     * @return mixed
      * @throws Exception
      */
     public function addCharakterToGroup ($charakterId, $gruppenId)

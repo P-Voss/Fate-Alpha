@@ -107,6 +107,7 @@ class Gruppen_IndexController extends Zend_Controller_Action
         }
         if (!is_null($this->getRequest()->getParam('gruppenId'))) {
             $this->gruppenService->addToGroup($this->getRequest(), $this->auth->userId);
+            $this->gruppenService->notify();
             $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
         } else {
             $this->redirect('Gruppen');

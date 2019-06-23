@@ -8,6 +8,7 @@ use Notification\Models\Notification;
 use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
 use Notification\Models\NotificationSubject;
+use Notification\Services\Types\GroupEntry;
 use Notification\Services\Types\GroupMessages;
 use Notification\Services\Types\PersonalMessages;
 use Notification\Services\Types\Wishes;
@@ -27,6 +28,10 @@ class NotificationFacade extends NotificationService
      * @var Wishes
      */
     private $wishesService;
+    /**
+     * @var GroupEntry
+     */
+    private $groupEntryService;
 
     /**
      * NotificationFacade constructor.
@@ -36,6 +41,7 @@ class NotificationFacade extends NotificationService
         $this->groupmessagesService = new GroupMessages();
         $this->personalmessagesService = new PersonalMessages();
         $this->wishesService = new Wishes();
+        $this->groupEntryService = new GroupEntry();
     }
 
     /**
@@ -55,6 +61,9 @@ class NotificationFacade extends NotificationService
                 break;
             case NotificationTypes::WISH:
                 return $this->wishesService;
+                break;
+            case NotificationTypes::JOINED_GROUP:
+                return $this->groupEntryService;
                 break;
             default:
                 throw new \Exception('Invalid NotificationType');

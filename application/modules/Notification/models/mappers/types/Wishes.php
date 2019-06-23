@@ -19,19 +19,7 @@ class Wishes extends NotificationMapper
      */
     public function loadByUserId (int $userId): array
     {
-        $notifications = [];
-        $result = $this->getDbTable('Notification')->fetchAll(
-            ['userId = ?' => $userId, 'type = ?' => NotificationTypes::WISH]
-        );
-        foreach ($result as $row) {
-            $notification = new Notification();
-            $notification->setUserId($userId)
-                ->setNotificationId($row->notificationId)
-                ->setSubjectId($row->subjectId)
-                ->setType(NotificationTypes::WISH);
-            $notifications[] = $notification;
-        }
-        return $notifications;
+        return $this->load($userId, NotificationTypes::WISH);
     }
 
     /**

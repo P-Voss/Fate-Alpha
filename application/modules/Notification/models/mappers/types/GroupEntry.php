@@ -8,7 +8,11 @@ use Notification\Models\Notification;
 use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
 
-class PersonalMessages extends NotificationMapper
+/**
+ * Class GroupEntry
+ * @package Notification\Models\Mappers\Types
+ */
+class GroupEntry extends NotificationMapper
 {
 
     /**
@@ -19,7 +23,7 @@ class PersonalMessages extends NotificationMapper
      */
     public function loadByUserId (int $userId): array
     {
-        return $this->load($userId, NotificationTypes::PERSONAL_MESSAGE);
+        return $this->load($userId, NotificationTypes::JOINED_GROUP);
     }
 
 }

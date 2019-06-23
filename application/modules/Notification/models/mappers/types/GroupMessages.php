@@ -19,19 +19,7 @@ class GroupMessages extends NotificationMapper
      */
     public function loadByUserId (int $userId): array
     {
-        $notifications = [];
-        $result = $this->getDbTable('Notification')->fetchAll(
-            ['userId = ?' => $userId, 'type = ?' => NotificationTypes::GROUP_MESSAGE]
-        );
-        foreach ($result as $row) {
-            $notification = new Notification();
-            $notification->setUserId($userId)
-                ->setNotificationId($row->notificationId)
-                ->setSubjectId($row->subjectId)
-                ->setType(NotificationTypes::GROUP_MESSAGE);
-            $notifications[] = $notification;
-        }
-        return $notifications;
+        return $this->load($userId, NotificationTypes::GROUP_MESSAGE);
     }
 
     /**

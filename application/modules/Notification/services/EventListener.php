@@ -64,14 +64,14 @@ class EventListener implements \Application_Model_Events_Observer
                         NotificationTypes::GROUP_MESSAGE
                     );
                     break;
+                case \Gruppen_Service_Gruppen::JOINED_GROUP_EVENT:
+                    $this->notificationService->handle(
+                        $event['characterGroupId'],
+                        NotificationTypes::JOINED_GROUP
+                    );
+                    break;
             }
         }
     }
-
-
-    private function findNotificationByMessageId() {
-
-    }
-
 
 }
