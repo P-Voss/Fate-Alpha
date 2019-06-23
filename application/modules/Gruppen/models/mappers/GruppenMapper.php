@@ -81,7 +81,7 @@ class Gruppen_Model_Mapper_GruppenMapper
     /**
      * @param int $userId
      *
-     * @return array
+     * @return Gruppen_Model_Gruppe[]
      * @throws Zend_Db_Select_Exception
      */
     public function getGruppenByUserId ($userId)
@@ -349,6 +349,7 @@ class Gruppen_Model_Mapper_GruppenMapper
      * @param int $charakterId
      * @param int $gruppenId
      *
+     * @return int
      * @throws Exception
      */
     public function addCharakterToGroup ($charakterId, $gruppenId)
@@ -358,7 +359,7 @@ class Gruppen_Model_Mapper_GruppenMapper
             'gruppenId' => $gruppenId,
             'freigabe' => 0,
         ];
-        $this->getDbTable('CharakterGruppen')->insert($data);
+        return $this->getDbTable('CharakterGruppen')->insert($data);
     }
 
     /**
@@ -399,8 +400,7 @@ class Gruppen_Model_Mapper_GruppenMapper
     /**
      * @param int $gruppenId
      *
-     * @return array
-     * @return array
+     * @return Gruppen_Model_Nachricht[]
      * @throws Exception
      */
     public function getNachrichtenByGruppenId ($gruppenId)

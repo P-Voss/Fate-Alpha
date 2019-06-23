@@ -12,6 +12,7 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
 
     const NEW_MESSAGE_EVENT = 'NEW_GROUP_MESSAGE';
     const READ_MESSAGE_EVENT = 'READ_GROUP_MESSAGE';
+    const JOINED_GROUP_EVENT = 'JOINED_GROUP';
 
     /**
      * @param $charakterId
@@ -141,15 +142,12 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
     public function addNachricht (Zend_Controller_Request_Http $request, $userId)
     {
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
-        $userMapper = new Application_Model_Mapper_UserMapper();
         $date = new DateTime();
         $nachricht = new Gruppen_Model_Nachricht();
         $nachricht->setCreateDate($date->format('Y-m-d H:i:s'));
         $nachricht->setNachricht($request->getPost('nachricht'));
         $nachricht->setUserId($userId);
         $messageId = $mapper->addNachricht($nachricht, $request->getPost('gruppenId'));
-//        $userMapper->addNotificationForGroup($messageId);
-//        $userMapper->addGroupleaderNotification($messageId);
         $this->events[] = ['event' => self::NEW_MESSAGE_EVENT, 'messageId' => $messageId];
 
         return $messageId;
@@ -210,7 +208,8 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
         $mapper = new Gruppen_Model_Mapper_GruppenMapper();
         $gruppe = $mapper->getGruppeByCredentials($request->getPost('gruppenname'), $request->getPost('passwort'));
         if ($gruppe !== false) {
-            $mapper->addCharakterToGroup($charakterId, $gruppe->getId());
+            $zuoId = $mapper->addCharakterToGroup($charakterId, $gruppe->getId());
+            $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'zuoId' => $zuoId];
         }
     }
 
@@ -252,7 +251,8 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
         if ($this->isLeader($leaderId, $request->getPost('gruppenId'))) {
             $mapper = new Gruppen_Model_Mapper_GruppenMapper();
             foreach ($request->getPost('charaktere') as $charakterId) {
-                $mapper->addCharakterToGroup($charakterId, $request->getPost('gruppenId'));
+                $zuoId = $mapper->addCharakterToGroup($charakterId, $request->getPost('gruppenId'));
+                $this->events[] = ['event' => self::JOINED_GROUP_EVENT, 'zuoId' => $zuoId];
             }
         }
     }
@@ -304,19 +304,6 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
     {
         $mapper = new Gruppen_Model_Mapper_LogMapper();
         return $mapper->getLogsByGruppe($gruppenId);
-    }
-
-
-    /**
-     * @param $userId
-     * @param $gruppenId
-     *
-     * @throws Exception
-     */
-    public function removeNotifications ($userId, $gruppenId)
-    {
-        $mapper = new Application_Model_Mapper_UserMapper();
-        $mapper->removeUserNotificationsForGroup($userId, $gruppenId);
     }
 
 }
