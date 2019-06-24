@@ -54,7 +54,12 @@ class Erstellung_CreationController extends Zend_Controller_Action
                 );
                 exit;
             } else {
-                Zend_Debug::dump($character);
+                echo json_encode(
+                    [
+                        'success' => false,
+                        'error' => "Charakter konnte nicht erstellt werden."
+                    ]
+                );
                 exit;
             }
         } catch (Throwable $exception) {
