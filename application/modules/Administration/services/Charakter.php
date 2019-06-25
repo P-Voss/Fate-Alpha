@@ -66,6 +66,8 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         $charakter->setGeschlecht($request->getPost('geschlecht'));
         $charakter->setSexualitaet($request->getPost('sex'));
         $charakter->setSize($request->getPost('size'));
+
+        $charakter->setMagiOrganization($request->getPost('organization', 0));
         
         $odo = new Application_Model_Odo();
         $odo->setId($request->getPost('odo'));

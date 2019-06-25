@@ -1,6 +1,20 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 /** @var $odo Application_Model_Odo */
+$clockTower = '';
+$atlas = '';
+$wanderingSea = '';
+switch ($charakter->getMagiOrganization()) {
+    case Application_Model_MagiOrganization::CLOCK_TOWER:
+        $clockTower = 'selected=""';
+        break;
+    case Application_Model_MagiOrganization::ATLAS:
+        $atlas = 'selected=""';
+        break;
+    case Application_Model_MagiOrganization::WANDERING_SEA:
+        $wanderingSea = 'selected=""';
+        break;
+}
 ?>
 <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" style="margin: 0">
     <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
@@ -121,6 +135,15 @@
                         <?= $luck->getKategorie() ?>
                 </option>
                 <?php endforeach; ?>
+            </select>
+        </p>
+        <p>
+            <label for="organization">Magiorganisation</label>
+            <select id="organization" name="organization">
+                <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?>>Keine</option>
+                <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+                <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+                <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
             </select>
         </p>
         <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>

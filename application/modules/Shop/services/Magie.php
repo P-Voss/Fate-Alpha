@@ -77,6 +77,18 @@ class Shop_Service_Magie
     }
 
     /**
+     * @param $organizationId
+     *
+     * @return Application_Model_Schule[]
+     * @throws Exception
+     */
+    public function getSchoolByOrganization ($organizationId)
+    {
+        $schoolMapper = new Application_Model_Mapper_SchuleMapper();
+        return $schoolMapper->getSchoolByOrganization($organizationId);
+    }
+
+    /**
      * @param int $charakterId
      * @param Application_Model_Schule $schule
      *

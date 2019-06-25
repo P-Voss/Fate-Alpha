@@ -43,6 +43,7 @@ class Administration_CharakterController extends Zend_Controller_Action
 
         $magieService = new Shop_Service_Magie();
         $this->view->magieschulen = $magieService->getSchoolsByCharacter($charakter->getCharakterid());
+        $this->view->schoolsToChoose = $magieService->getSchoolByOrganization($charakter->getMagiOrganization());
         $this->view->magien = $charakter->getMagien();
 
         $skillService = new Shop_Service_Skill();

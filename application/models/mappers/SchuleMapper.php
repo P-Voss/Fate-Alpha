@@ -120,4 +120,24 @@ class Application_Model_Mapper_SchuleMapper
         return $schools;
     }
 
+    /**
+     * @param int $organizationId
+     *
+     * @return Application_Model_Schule[]
+     * @throws Exception
+     */
+    public function getSchoolByOrganization ($organizationId)
+    {
+        $schools = [];
+        $result = $this->getDbTable('Schule')->fetchAll(['organization = ?' => $organizationId]);
+        foreach ($result as $row) {
+            $model = new Application_Model_Schule();
+            $model->setId($row->magieschuleId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $schools[] = $model;
+        }
+        return $schools;
+    }
+
 }
