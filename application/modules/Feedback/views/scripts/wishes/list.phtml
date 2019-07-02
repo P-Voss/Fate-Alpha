@@ -8,14 +8,14 @@ $purifier = $this->purifier;
 <h1>Spielerwünsche</h1>
 <div>
     <?php foreach ($wishes as $wish): ?>
-    <div>
+    <div class="wishEntry">
         <p class="wishTitle">
             <a href="<?= $this->baseUrl() ?>/Feedback/wishes/show/id/<?= $wish->getId() ?>"><?= $purifier->purify($wish->getTitle()) ?></a>
             <a href="#<?= $wish->getId() ?>">#<?= $wish->getId() ?></a>
         </p>
         <p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
         <div class="wishDescription"><?= $purifier->purify($wish->getDescription()) ?></div>
+        <hr />
     </div>
-    <hr />
     <?php endforeach; ?>
 </div>

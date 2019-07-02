@@ -1,5 +1,11 @@
+.wishEntry {
+    margin-bottom: 15px;
+}
+
 .wishDescription {
-    text-overflow: ellipsis;
+    width: 740px;
+    overflow: hidden;
+    white-space: nowrap;
     height: 60px;
 }
 
