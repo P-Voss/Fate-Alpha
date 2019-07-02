@@ -42,12 +42,24 @@ class GroupMessages extends NotificationMapper
      * @return bool
      * @throws \Exception
      */
-    public function hasNotification (int $userId, int $subjectId): bool
+    private function hasNotification (int $userId, int $subjectId): bool
     {
-        $row = $this->getDbTable('Notification')->fetchRow(
-            ['userId = ?' => $userId, 'subjectId = ?' => $subjectId]
+        $select = $this->getDbTable('Notification')
+            ->select()
+            ->setIntegrityCheck(false)
+            ->from('gruppenchat', ['nachrichtenId'])
+            ->joinInner(['oldMessages' => 'gruppenchat'], 'oldMessages.gruppenId = gruppenchat.gruppenId', [])
+            ->joinInner(
+                'notifications',
+                'notifications.subjectId = oldMessages.nachrichtenId AND notifications.type = 1',
+                []
+            )
+            ->where('gruppenchat.nachrichtenId = ?', $subjectId)
+            ->where('notifications.userId = ?', $userId);
+        $result = $this->getDbTable('Notification')->fetchAll(
+            $select
         );
-        return $row !== null;
+        return $result->count() > 0;
     }
 
 }
