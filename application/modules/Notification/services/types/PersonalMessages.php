@@ -1,9 +1,8 @@
 <?php
 
-
 namespace Notification\Services\Types;
 
-
+use Nachrichten\Models\Mappers\MessageMapper;
 use Notification\Models\Notification;
 use Notification\Models\NotificationTypes;
 use Notification\Models\Mappers\NotificationMapper;
@@ -19,7 +18,7 @@ class PersonalMessages extends NotificationService
 {
 
     /**
-     * @var \Nachrichten_Model_Mapper_NachrichtenMapper
+     * @var MessageMapper
      */
     private $messagesMapper;
     /**
@@ -30,7 +29,7 @@ class PersonalMessages extends NotificationService
 
     public function __construct ()
     {
-        $this->messagesMapper = new \Nachrichten_Model_Mapper_NachrichtenMapper();
+        $this->messagesMapper = new MessageMapper();
     }
 
 

@@ -4,22 +4,23 @@
 namespace Notification\Models\View;
 
 
+use Nachrichten\Model\Message;
 use Notification\Models\NotificationSubject;
 
 class PersonalMessageSubject implements NotificationSubject
 {
 
     /**
-     * @var \Nachrichten_Model_Nachricht
+     * @var Message
      */
     private $message;
 
     /**
      * PersonalMessageSubject constructor.
      *
-     * @param \Nachrichten_Model_Nachricht $message
+     * @param Message $message
      */
-    public function __construct (\Nachrichten_Model_Nachricht $message)
+    public function __construct (Message $message)
     {
         $this->message = $message;
     }

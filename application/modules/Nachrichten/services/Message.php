@@ -1,14 +1,18 @@
 <?php
 
+namespace Nachrichten\Services;
+
+use Nachrichten\Models\Mappers\MessageMapper;
+
 /**
  * Description of Nachrichten
  *
  * @author Voß
  */
-class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subject
+class Message implements \Application_Model_Events_Subject
 {
 
-    use Application_Model_Events_SubjectTrait;
+    use \Application_Model_Events_SubjectTrait;
 
     const NEW_MESSAGE_EVENT = 'NEW_PERSONAL_MESSAGE';
     const READ_MESSAGE_EVENT = 'READ_PERSONAL_MESSAGE';
@@ -19,11 +23,11 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     private $events = [];
 
     /**
-     * @var Application_Model_Mapper_UserMapper
+     * @var \Application_Model_Mapper_UserMapper
      */
     private $userMapper;
     /**
-     * @var Nachrichten_Model_Mapper_NachrichtenMapper
+     * @var MessageMapper
      */
     private $mapper;
 
@@ -33,17 +37,17 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
      */
     public function __construct ()
     {
-        $this->userMapper = new Application_Model_Mapper_UserMapper();
-        $this->mapper = new Nachrichten_Model_Mapper_NachrichtenMapper();
+        $this->userMapper = new \Application_Model_Mapper_UserMapper();
+        $this->mapper = new MessageMapper();
     }
 
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_Nachricht[]
-     * @throws Exception
+     * @return \Nachrichten\Models\Message[]
+     * @throws \Exception
      */
-    public function getNachrichtenReceivedByUserId ($userId)
+    public function getNachrichtenReceivedByUserId ($userId): array
     {
         $nachrichten = $this->mapper->getNachrichtenByReceiverId($userId);
         foreach ($nachrichten as $nachricht) {
@@ -56,8 +60,8 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_Nachricht[]
-     * @throws Exception
+     * @return \Nachrichten\Models\Message[]
+     * @throws \Exception
      */
     public function getNachrichtenSentByUserId ($userId)
     {
@@ -73,8 +77,8 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     /**
      * @param $userId
      *
-     * @return array
-     * @throws Exception
+     * @return \Nachrichten\Models\Message[]
+     * @throws \Exception
      */
     public function getNachrichtenArchivByUserId ($userId)
     {
@@ -89,8 +93,8 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     /**
      * @param int $nachrichtId
      *
-     * @return Nachrichten_Model_Nachricht
-     * @throws Exception
+     * @return \Nachrichten\Models\Message
+     * @throws \Exception
      */
     public function getNachrichtById ($nachrichtId)
     {
@@ -101,15 +105,15 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     }
 
     /**
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      *
-     * @throws Exception
+     * @throws \Exception
      */
-    public function saveMessage (Zend_Controller_Request_Http $request)
+    public function saveMessage (\Zend_Controller_Request_Http $request)
     {
-        $nachricht = new Nachrichten_Model_Nachricht();
+        $nachricht = new \Nachrichten\Models\Message();
         $nachricht->setNachricht($request->getPost('nachricht'));
-        $nachricht->setVerfasserId(Zend_Auth::getInstance()->getIdentity()->userId);
+        $nachricht->setVerfasserId(\Zend_Auth::getInstance()->getIdentity()->userId);
         $nachricht->setEmpfaengerId($request->getPost('user'));
         $nachricht->setBetreff($request->getPost('betreff'));
         if ($request->getPost('admin') !== null) {
@@ -122,14 +126,14 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     }
 
     /**
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      *
-     * @throws Exception
+     * @throws \Exception
      */
-    public function deleteMessage (Zend_Controller_Request_Http $request)
+    public function deleteMessage (\Zend_Controller_Request_Http $request)
     {
         $nachricht = $this->mapper->getNachrichtById($request->getParam('id'));
-        if ($nachricht->getEmpfaengerId() === Zend_Auth::getInstance()->getIdentity()->userId) {
+        if ($nachricht->getEmpfaengerId() === \Zend_Auth::getInstance()->getIdentity()->userId) {
             $this->mapper->deleteMessage($nachricht);
         }
     }
@@ -137,7 +141,7 @@ class Nachrichten_Service_Nachrichten implements Application_Model_Events_Subjec
     /**
      * @param int $messageId
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function readMessage ($messageId)
     {

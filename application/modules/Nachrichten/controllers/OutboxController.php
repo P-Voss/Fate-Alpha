@@ -1,5 +1,7 @@
 <?php
 
+use Nachrichten\Services\Message as MessageService;
+
 /**
  * Description of OutboxController
  *
@@ -8,7 +10,7 @@
 class Nachrichten_OutboxController extends Zend_Controller_Action {
 
     /**
-     * @var Nachrichten_Service_Nachrichten
+     * @var MessageService
      */
     private $service;
     
@@ -18,7 +20,7 @@ class Nachrichten_OutboxController extends Zend_Controller_Action {
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->service = new Nachrichten_Service_Nachrichten();
+        $this->service = new MessageService();
     }
     
     public function indexAction() {

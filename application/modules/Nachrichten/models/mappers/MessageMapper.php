@@ -1,28 +1,33 @@
 <?php
 
+namespace Nachrichten\Models\Mappers;
+
+use Nachrichten\Models\Message;
+use Nachrichten\Models\User;
+
 /**
- * Description of NachrichtenMapper
+ * Description of MessageMapper
  *
  * @author Voß
  */
-class Nachrichten_Model_Mapper_NachrichtenMapper
+class MessageMapper
 {
 
     /**
      * @param string $tablename
      *
      * @return \Zend_Db_Table_Abstract
-     * @throws Exception
+     * @throws \Exception
      */
     public function getDbTable ($tablename)
     {
         $className = 'Application_Model_DbTable_' . $tablename;
         if (!class_exists($className)) {
-            throw new Exception('Falsche Tabellenadapter angegeben');
+            throw new \Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception('Invalid table data gateway provided');
+        if (!$dbTable instanceof \Zend_Db_Table_Abstract) {
+            throw new \Exception('Invalid table data gateway provided');
         }
         return $dbTable;
     }
@@ -30,8 +35,8 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_Nachricht[]
-     * @throws Exception
+     * @return Message[]
+     * @throws \Exception
      */
     public function getNachrichtenByReceiverId ($userId)
     {
@@ -42,7 +47,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
         $select->order('creationDate DESC');
         $result = $this->getDbTable('Pm')->fetchAll($select);
         foreach ($result as $row) {
-            $nachricht = new Nachrichten_Model_Nachricht();
+            $nachricht = new Message();
             $nachricht->setId($row->nachrichtId);
             $nachricht->setVerfasserId($row->verfasserId);
             $nachricht->setEmpfaengerId($row->empfaengerId);
@@ -59,8 +64,8 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_Nachricht[]
-     * @throws Exception
+     * @return Message[]
+     * @throws \Exception
      */
     public function getNachrichtenByDispatcherId ($userId)
     {
@@ -70,7 +75,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
         $select->order('creationDate DESC');
         $result = $this->getDbTable('Pm')->fetchAll($select);
         foreach ($result as $row) {
-            $nachricht = new Nachrichten_Model_Nachricht();
+            $nachricht = new Message();
             $nachricht->setId($row->nachrichtId);
             $nachricht->setVerfasserId($row->verfasserId);
             $nachricht->setEmpfaengerId($row->empfaengerId);
@@ -87,8 +92,8 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_Nachricht[]
-     * @throws Exception
+     * @return Message[]
+     * @throws \Exception
      */
     public function getNachrichtenarchivById ($userId)
     {
@@ -99,7 +104,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
         $select->order('creationDate DESC');
         $result = $this->getDbTable('Pm')->fetchAll($select);
         foreach ($result as $row) {
-            $nachricht = new Nachrichten_Model_Nachricht();
+            $nachricht = new Message();
             $nachricht->setId($row->nachrichtId);
             $nachricht->setVerfasserId($row->verfasserId);
             $nachricht->setEmpfaengerId($row->empfaengerId);
@@ -116,12 +121,12 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $nachrichtId
      *
-     * @return \Nachrichten_Model_Nachricht
-     * @throws Exception
+     * @return Message
+     * @throws \Exception
      */
     public function getNachrichtById ($nachrichtId)
     {
-        $nachricht = new Nachrichten_Model_Nachricht();
+        $nachricht = new Message();
         $select = $this->getDbTable('Pm')->select();
         $select->where('nachrichtId = ?', $nachrichtId);
         $result = $this->getDbTable('Pm')->fetchRow($select);
@@ -141,12 +146,12 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $userId
      *
-     * @return Nachrichten_Model_User
-     * @throws Exception
+     * @return User
+     * @throws \Exception
      */
     public function getUserForPmById ($userId)
     {
-        $user = new Nachrichten_Model_User();
+        $user = new User();
         $select = $this->getDbTable('User')->select();
         $select->setIntegrityCheck(false);
         $select->from('benutzerdaten', ['profilname', 'username', 'mail', 'usergruppe']);
@@ -170,14 +175,14 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     }
 
     /**
-     * @param Nachrichten_Model_Nachricht $nachricht
+     * @param Message $nachricht
      *
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
-    public function saveMessage (Nachrichten_Model_Nachricht $nachricht)
+    public function saveMessage (Message $nachricht)
     {
-        $date = new DateTime();
+        $date = new \DateTime();
         $data = [
             'verfasserId' => $nachricht->getVerfasserId(),
             'empfaengerId' => $nachricht->getEmpfaengerId(),
@@ -192,7 +197,7 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     /**
      * @param int $nachrichtId
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function setRead ($nachrichtId)
     {
@@ -201,12 +206,12 @@ class Nachrichten_Model_Mapper_NachrichtenMapper
     }
 
     /**
-     * @param Nachrichten_Model_Nachricht $nachricht
+     * @param Message $nachricht
      *
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
-    public function deleteMessage (Nachrichten_Model_Nachricht $nachricht)
+    public function deleteMessage (Message $nachricht)
     {
         $data = ['status' => 'archiv'];
         return $this->getDbTable('Pm')->update($data, ['nachrichtId = ?' => $nachricht->getId()]);
