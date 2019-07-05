@@ -140,7 +140,7 @@ switch ($charakter->getMagiOrganization()) {
         <p>
             <label for="organization">Magiorganisation</label>
             <select id="organization" name="organization">
-                <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?>>Keine</option>
+                <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?> value="0">Keine</option>
                 <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
                 <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
                 <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
