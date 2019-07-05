@@ -21,6 +21,35 @@ class Administration_Model_Mapper_TraitMapper
         }
         return $dbTable;
     }
+
+    /**
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function removeIndividualTraitsFromCharacter ($characterId)
+    {
+        $stmt = $this->getDbTable('Traits')->getAdapter()->prepare(
+            'DELETE characterTraits.*
+            FROM characterTraits
+            INNER JOIN traits ON traits.traitId = characterTraits.traitId  AND traits.isIndividual = 1
+            WHERE characterTraits.characterId = ?'
+        );
+        $stmt->execute([$characterId]);
+    }
+
+    /**
+     * @param $traitId
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function addTraitToCharacter ($traitId, $characterId)
+    {
+        $data = ['traitId' => $traitId, 'characterId' => $characterId];
+        $this->getDbTable('CharakterTrait')->insert($data);
+    }
+
     /**
      * @return Application_Model_Trait[]
      */
@@ -28,6 +57,62 @@ class Administration_Model_Mapper_TraitMapper
     {
         $mapper = new Application_Model_Mapper_TraitMapper();
         return $mapper->getAllTraits();
+    }
+
+    /**
+     * @param int $characterId
+     *
+     * @return Application_Model_Trait[]
+     */
+    public function getIndividualTraitsByCharacter (int $characterId)
+    {
+        try {
+            $traits = [];
+            $select = $this->getDbTable('Traits')->select()
+                ->setIntegrityCheck(false)
+                ->from('traits')
+                ->joinLeft('characterTraits', 'characterTraits.traitId = traits.traitId')
+                ->where('characterTraits.characterId = ? AND traits.isIndividual = 1', $characterId);
+
+            $result = $this->getDbTable('Traits')->fetchAll($select);
+            foreach ($result as $row) {
+                $model = new Administration_Model_Trait();
+                $model->setTraitId($row['traitId']);
+                $model->setName($row['name']);
+                $model->setBeschreibung($row['beschreibung']);
+                $model->setKosten($row['kosten']);
+                $model->setIsIndividual($row['isIndividual']);
+                $traits[] = $model;
+            }
+            return $traits;
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    /**
+     * @return Administration_Model_Trait[]
+     */
+    public function getIndividualTraits ()
+    {
+        try {
+            $traits = [];
+            $result = $this->getDbTable('Traits')->fetchAll(
+                $this->getDbTable('Traits')->select()->where('isIndividual = 1')
+            );
+            foreach ($result as $row) {
+                $model = new Administration_Model_Trait();
+                $model->setTraitId($row['traitId']);
+                $model->setName($row['name']);
+                $model->setBeschreibung($row['beschreibung']);
+                $model->setKosten($row['kosten']);
+                $model->setIsIndividual($row['isIndividual']);
+                $traits[] = $model;
+            }
+            return $traits;
+        } catch (Exception $exception) {
+            return [];
+        }
     }
 
     /**
@@ -42,7 +127,7 @@ class Administration_Model_Mapper_TraitMapper
         $data['beschreibung'] = $trait->getBeschreibung();
         $data['kosten'] = $trait->getKosten();
         $data['createDate'] = $trait->getCreateDate('Y-m-d H:i:s');
-        $data['creator'] = $trait->getEditor();
+        $data['isIndividual'] = (int) $trait->isIndividual();
 
         return $this->getDbTable('Traits')->insert($data);
     }
@@ -64,6 +149,7 @@ class Administration_Model_Mapper_TraitMapper
             $model->setName($row['name']);
             $model->setBeschreibung($row['beschreibung']);
             $model->setKosten($row['kosten']);
+            $model->setIsIndividual($row['isIndividual']);
         }
         return $model;
     }
@@ -80,7 +166,7 @@ class Administration_Model_Mapper_TraitMapper
         $select = $this->getDbTable('TraitInc')->select();
         $select->setIntegrityCheck(false)
             ->from('traitIncompatibilities', [])
-            ->joinInner('traits', 'traits.traitId = traitIncompatibilities.traitId', ['traits.traitId', 'name'])
+            ->joinInner('traits', 'traits.traitId = traitIncompatibilities.inkTraitId', ['traits.traitId', 'name'])
             ->where('traitIncompatibilities.traitId = ?', $traitId);
 
         $result = $this->getDbTable('TraitInc')->fetchAll($select);
@@ -106,8 +192,47 @@ class Administration_Model_Mapper_TraitMapper
         $data['kosten'] = $trait->getKosten();
         $data['editDate'] = $trait->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $trait->getEditor();
+        $data['isIndividual'] = (int) $trait->isIndividual();
 
         return $this->getDbTable('Traits')->update($data, ['traitId = ?' => $trait->getTraitId()]);
+    }
+
+    /**
+     * @param $traitId
+     *
+     * @throws Exception
+     */
+    public function removeTraitIncompatibilites ($traitId)
+    {
+        $this->getDbTable('TraitInc')->delete(['traitId = ?' => $traitId]);
+        $this->getDbTable('TraitInc')->delete(['inkTraitId = ?' => $traitId]);
+    }
+
+    /**
+     * @param $traitId
+     * @param $incompatibleTrait
+     *
+     * @throws Exception
+     */
+    public function addIncompatibleTrait ($traitId, $incompatibleTrait)
+    {
+        $data = ['traitId' => $incompatibleTrait, 'inkTraitId' => $traitId];
+        $this->getDbTable('TraitInc')->insert($data);
+    }
+
+
+    /**
+     * @param $traitId
+     *
+     * @throws Exception
+     */
+    public function setTraitsIncompatibilities ($traitId)
+    {
+        $stmt = $this->getDbTable('TraitInc')->getAdapter()->prepare(
+            'INSERT INTO traitIncompatibilities (traitId, inkTraitId) 
+                    SELECT inkTraitId, traitId FROM traitIncompatibilities WHERE inkTraitId = ?'
+        );
+        $stmt->execute([$traitId]);
     }
 
     /**

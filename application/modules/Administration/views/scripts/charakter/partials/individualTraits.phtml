@@ -1,0 +1,26 @@
+<?php
+/** @var Administration_Model_Trait[] $individualTraits */
+$individualTraits = $this->individualTraits;
+$characterTraitIds = array_map(function (Administration_Model_Trait $trait) {
+    return $trait->getTraitId();
+}, $this->characterTraits)
+?>
+<fieldset>
+    <legend>Individuelle Traits</legend>
+    <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/traits">
+        <select name="traitIds[]" multiple size="5">
+            <?php
+            foreach($individualTraits as $trait):
+                $selected = '';
+                if (in_array($trait->getTraitId(), $characterTraitIds)) {
+                    $selected = 'selected=""';
+                }
+                ?>
+                <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+            <?php endforeach; ?>
+        </select>
+        <br />
+        <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
+        <input type="submit" value="Traits eintragen" />
+    </form>
+</fieldset>

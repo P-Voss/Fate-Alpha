@@ -27,8 +27,9 @@ class Erstellung_Model_Mapper_TraitMapper {
     public function getAllTraits () : array
     {
         try {
-            $select = $this->getDbTable('Traits')->select();
-            $result = $this->getDbTable('Traits')->fetchAll($select);
+            $result = $this->getDbTable('Traits')->fetchAll(
+                $this->getDbTable('Traits')->select()->where('isIndividual = 0')
+            );
         } catch (Exception $exception) {
             return [];
         }

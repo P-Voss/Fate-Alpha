@@ -3,6 +3,11 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 /** @var Administration_Model_Trait $trait */
 $trait = $this->trait;
+$individual = $trait->isIndividual();
+$incompatibleTraitIds = array_map(function (Application_Model_Trait $trait) {
+    return $trait->getTraitId();
+    },$trait->getIncompatibleTraits()
+);
 ?>
 <h1>Trait anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/trait/edit" method="post">
@@ -13,6 +18,13 @@ $trait = $this->trait;
             <label for="kosten">Kosten</label>
             <input type="number" name="kosten" value="<?= $trait->getKosten() ?>" />
         </p>
+        <p>
+            <label for="isIndividual">Individueller Trait?</label>
+            <select name="isIndividual" id="isIndividual">
+                <option value="0" <?= $individual ? '' : 'selected=""' ?>>Nein</option>
+                <option value="1" <?= $individual ? 'selected=""' : '' ?>>Ja</option>
+            </select>
+        </p>
         <textarea name="beschreibung" cols="80" rows="10">
             <?= $trait->getBeschreibung() ?>
         </textarea>
@@ -20,20 +32,16 @@ $trait = $this->trait;
             Nicht kombinierbar mit den Traits:
         </label>
         <select name="trait[]" multiple="true" size="8">
-            <?php foreach ($this->traits as $traitOption) { ?>
-            <option value="<?= $traitOption->getTraitId() ?>">
+            <?php
+            foreach ($this->traits as $traitOption) {
+                /** @var $traitOption Administration_Model_Trait */
+                $selected = '';
+                if (in_array($traitOption->getTraitId(), $incompatibleTraitIds)) {
+                    $selected = 'selected=""';
+                }
+            ?>
+            <option <?= $selected ?> value="<?= $traitOption->getTraitId() ?>">
                 <?= $traitOption->getName() ?>
-            </option>
-            <?php } ?>
-        </select>
-        <br />
-        <label for="klassen">
-            Nicht kombinierbar mit den Klassen:
-        </label>
-        <select name="klassen[]" multiple="true" size="8">
-            <?php foreach ($this->klassen as $klasse) { ?>
-            <option value="<?= $klasse->getId() ?>">
-                <?= $klasse->getBezeichnung() ?>
             </option>
             <?php } ?>
         </select>

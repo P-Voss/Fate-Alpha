@@ -110,8 +110,11 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->editCharakterWerte($charakter);
     }
-    
-    
+
+    /**
+     * @return Application_Model_Charakter[]
+     * @throws Zend_Db_Statement_Exception
+     */
     public function getCharaktersByNextBirthdays() {
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->getCharaktersOrderedByNextBirthday();

@@ -17,6 +17,10 @@ class Administration_Model_Trait extends Application_Model_Trait {
      * @var DateTime
      */
     private $editDate;
+    /**
+     * @var bool
+     */
+    private $isIndividual = false;
     
     public function getCreator() {
         return $this->creator;
@@ -50,6 +54,25 @@ class Administration_Model_Trait extends Application_Model_Trait {
 
     public function setEditDate($editDate) {
         $this->editDate = $editDate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIndividual (): bool
+    {
+        return (bool) $this->isIndividual;
+    }
+
+    /**
+     * @param bool $isIndividual
+     *
+     * @return Administration_Model_Trait
+     */
+    public function setIsIndividual ($isIndividual): Administration_Model_Trait
+    {
+        $this->isIndividual = (bool) $isIndividual;
+        return $this;
     }
 
 }

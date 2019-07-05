@@ -38,8 +38,15 @@ class Administration_Service_Trait {
         $trait->setName($request->getPost('name'));
         $trait->setBeschreibung($request->getPost('beschreibung'));
         $trait->setKosten($request->getPost('kosten'));
-        $trait->setCreator($userId);
-        return $this->mapper->createTrait($trait);
+        $trait->setIsIndividual($request->getPost('isIndividual', false));
+
+        $traitId = $this->mapper->createTrait($trait);
+        foreach ($request->getPost('trait', []) as $incTraitId) {
+            $this->mapper->addIncompatibleTrait($traitId, $incTraitId);
+        }
+        $this->mapper->setTraitsIncompatibilities($traitId);
+
+        return$traitId;
     }
 
     /**
@@ -58,6 +65,14 @@ class Administration_Service_Trait {
         $trait->setBeschreibung($request->getPost('beschreibung'));
         $trait->setKosten($request->getPost('kosten'));
         $trait->setEditor($userId);
+        $trait->setIsIndividual($request->getPost('isIndividual', false));
+
+        $this->mapper->removeTraitIncompatibilites($trait->getTraitId());
+        foreach ($request->getPost('trait', []) as $incTraitId) {
+            $this->mapper->addIncompatibleTrait($trait->getTraitId(), $incTraitId);
+        }
+        $this->mapper->setTraitsIncompatibilities($trait->getTraitId());
+
         return $this->mapper->updateTrait($trait);
     }
 

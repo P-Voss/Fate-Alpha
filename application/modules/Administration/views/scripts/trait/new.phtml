@@ -11,6 +11,13 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <label for="kosten">Kosten</label>
             <input id="kosten" type="number" name="kosten" />
         </p>
+        <p>
+            <label for="isIndividual">Individueller Trait?</label>
+            <select name="isIndividual" id="isIndividual">
+                <option value="0">Nein</option>
+                <option value="1">Ja</option>
+            </select>
+        </p>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>
         <label for="trait">
             Nicht kombinierbar mit den Traits:
@@ -19,17 +26,6 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <?php foreach ($this->traits as $traitOption) { ?>
             <option value="<?= $traitOption->getTraitId() ?>">
                 <?= $traitOption->getName() ?>
-            </option>
-            <?php } ?>
-        </select>
-        <br />
-        <label for="klassen">
-            Nicht kombinierbar mit den Klassen:
-        </label>
-        <select name="klassen[]" multiple="true" size="8">
-            <?php foreach ($this->klassen as $klasse) { ?>
-            <option value="<?= $klasse->getId() ?>">
-                <?= $klasse->getBezeichnung() ?>
             </option>
             <?php } ?>
         </select>

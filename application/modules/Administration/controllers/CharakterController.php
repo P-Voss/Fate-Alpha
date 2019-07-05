@@ -56,6 +56,23 @@ class Administration_CharakterController extends Zend_Controller_Action
             }
         }
         $this->view->skillarten = $skillarten;
+
+        $traitMapper = new Administration_Model_Mapper_TraitMapper();
+        $this->view->individualTraits = $traitMapper->getIndividualTraits();
+        $this->view->characterTraits = $traitMapper->getIndividualTraitsByCharacter($charakter->getCharakterid());
+    }
+
+    public function traitsAction ()
+    {
+        if (!(int) $this->getRequest()->getPost('characterId', 0) > 0) {
+            $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('charakterId'));
+        }
+        $traitMapper = new Administration_Model_Mapper_TraitMapper();
+        $traitMapper->removeIndividualTraitsFromCharacter($this->getRequest()->getPost('characterId'));
+        foreach ($this->getRequest()->getPost('traitIds', []) as $traitId) {
+            $traitMapper->addTraitToCharacter($traitId, (int) $this->getRequest()->getPost('characterId'));
+        }
+        $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('characterId'));
     }
 
 
