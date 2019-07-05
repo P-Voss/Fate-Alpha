@@ -60,6 +60,10 @@ class Administration_CharakterController extends Zend_Controller_Action
         $traitMapper = new Administration_Model_Mapper_TraitMapper();
         $this->view->individualTraits = $traitMapper->getIndividualTraits();
         $this->view->characterTraits = $traitMapper->getIndividualTraitsByCharacter($charakter->getCharakterid());
+
+        $informationMapper = new Administration_Model_Mapper_InformationMapper();
+        $this->view->informations = $informationMapper->getAllInformations();
+        $this->view->characterInformations = $informationMapper->getCharacterInformation($charakter->getCharakterid());
     }
 
     public function traitsAction ()
@@ -71,6 +75,19 @@ class Administration_CharakterController extends Zend_Controller_Action
         $traitMapper->removeIndividualTraitsFromCharacter($this->getRequest()->getPost('characterId'));
         foreach ($this->getRequest()->getPost('traitIds', []) as $traitId) {
             $traitMapper->addTraitToCharacter($traitId, (int) $this->getRequest()->getPost('characterId'));
+        }
+        $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('characterId'));
+    }
+
+    public function informationsAction ()
+    {
+        if (!(int) $this->getRequest()->getPost('characterId', 0) > 0) {
+            $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('charakterId'));
+        }
+        $informationMapper = new Administration_Model_Mapper_InformationMapper();
+        $informationMapper->removeCharacterInformation($this->getRequest()->getPost('characterId'));
+        foreach ($this->getRequest()->getPost('infoIds', []) as $infoId) {
+            $informationMapper->addCharacterInformation($infoId, (int) $this->getRequest()->getPost('characterId'));
         }
         $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('characterId'));
     }

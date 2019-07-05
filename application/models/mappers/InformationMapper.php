@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Application_Model_Mapper_InformationMapper
+ */
 class Application_Model_Mapper_InformationMapper
 {
 
@@ -224,12 +227,20 @@ SQL;
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function truncateBenutzerinformationen ()
     {
         $this->getDbTable('UserInfos')->getDefaultAdapter()->query('TRUNCATE benutzerInformationen');
     }
 
 
+    /**
+     * @param $informationZuo
+     *
+     * @throws Exception
+     */
     public function saveBenutzerinformationen ($informationZuo)
     {
         $sql = 'INSERT INTO benutzerInformationen (userId, informationId) VALUES (?, ?)';
@@ -239,6 +250,34 @@ SQL;
             foreach ($userZuo['informationIds'] as $informationId) {
                 $stmt->execute([$userId, $informationId]);
             }
+        }
+    }
+
+    /**
+     * @param $characterId
+     *
+     * @return Application_Model_Information[]
+     */
+    public function getCharacterInformations ($characterId)
+    {
+        try {
+            $informations = [];
+            $select = $this->getDbTable('Information')->select()
+                ->setIntegrityCheck(false)
+                ->from('informationen')
+                ->joinInner('characterInformation', 'characterInformation.informationId = informationen.infoId', [])
+                ->where('characterInformation.characterId = ?', $characterId);
+            $result = $this->getDbTable('Information')->fetchAll($select);
+            foreach ($result as $row) {
+                $information = new Application_Model_Information();
+                $information->setInformationId($row['infoId']);
+                $information->setName($row['name']);
+                $information->setKategorie($row->kategorie);
+                $informations[] = $information;
+            }
+            return $informations;
+        } catch (Exception $exception) {
+            return [];
         }
     }
 

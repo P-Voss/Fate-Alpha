@@ -66,9 +66,22 @@ class Application_Service_Information {
                 continue;
             }
             $this->charakter = $charakter === false ? null : $charakter;
+            if ($charakter !== false) {
+                $informationIds = array_unique(
+                    array_merge(
+                        $this->buildInformationZuo($informations),
+                        array_map(
+                            function(Application_Model_Information $information) {return $information->getInformationId();},
+                            $this->informationMapper->getCharacterInformations($charakter->getCharakterid())
+                        )
+                    )
+                );
+            } else {
+                $informationIds = $this->buildInformationZuo($informations);
+            }
             $informationZuo[] = [
                 'userId' => $user->getId(),
-                'informationIds' => $this->buildInformationZuo($informations),
+                'informationIds' => $informationIds,
             ];
         }
         $this->informationMapper->truncateBenutzerinformationen();
