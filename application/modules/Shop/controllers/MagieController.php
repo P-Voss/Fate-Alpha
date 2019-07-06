@@ -34,7 +34,8 @@ class Shop_MagieController extends Zend_Controller_Action {
     
     public function indexAction() {
         $service = new Shop_Service_Magie();
-        $this->view->magieschulen = $service->getMagieschulenForCharakter($this->charakter);
+        $this->view->schools = $service->getSchoolsWithoutOrganization($this->charakter);
+        $this->view->organizationSchools = $service->getSchoolsFromOrganization($this->charakter);
         $this->view->organization = $this->charakter->getMagiOrganization();
     }
     

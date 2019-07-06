@@ -23,13 +23,17 @@ switch ($this->organization) {
         $wanderingSea = 'selected=""';
         break;
 }
+/** @var Shop_Model_Schule[] $organizationSchools */
+$organizationSchools = $this->organizationSchools;
+/** @var Shop_Model_Schule[] $schools */
+$schools = $this->schools;
 ?>
 <h1>
     Magieschulen
 </h1>
+<img src="http://i.imgur.com/eJTNdlH.jpg"/>
 <?php if($this->organization === 0 && $this->layoutData->getCharakter()->getKlassengruppe()->getId() === 1): ?>
 <div>
-
     <h2>Organisation</h2>
     <form method="post" action="<?= $this->baseUrl() ?>/Shop/magie/organization">
         <p>
@@ -44,42 +48,37 @@ switch ($this->organization) {
         <input type="submit" value="Speichern" />
     </form>
 </div>
-<?php endif; ?>
-<?php
-if (count($this->magieschulen) < 1):
-    ?>
-    <p>
-        Für deinen Charakter gibt es zur Zeit keine Magieschulen.
-    </p>
 <?php
 endif;
+if (count($organizationSchools) > 0):
 ?>
-    <img src="http://i.imgur.com/eJTNdlH.jpg">
-<?php
-$lockedSchools = [];
-foreach ($this->magieschulen as $magieschule):
-    if ($magieschule->getLearned() === false) {
-        $lockedSchools[] = $magieschule;
-        continue;
-    }
+<fieldset>
+    <legend>Magieschulen deiner Organisation</legend>
+    <?php
+    $lockedSchools = [];
+    foreach ($organizationSchools as $organizationSchool) {
+        if ($organizationSchool->getLearned() === false) {
+            $lockedSchools[] = $organizationSchool;
+            continue;
+        }
     ?>
-    <fieldset style="margin-bottom: 1.5em">
-        <legend>
-            <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
-        </legend>
-        <div class="subContent">
-            <p>
-                <?= $purifier->purify($magieschule->getBeschreibung()) ?>
-            </p>
-        </div>
-        <fieldset>
-            <legend class="school" data-id="<?= $magieschule->getId() ?>">Magien dieser Schule anzeigen</legend>
-            <div class="subContent"></div>
+        <fieldset style="margin-bottom: 1.5em">
+            <legend>
+                <?= $purifier->purify($organizationSchool->getBezeichnung()) ?> <span class="indicator">+</span>
+            </legend>
+            <div class="subContent">
+                <p>
+                    <?= $purifier->purify($organizationSchool->getBeschreibung()) ?>
+                </p>
+            </div>
+            <fieldset>
+                <legend class="school" data-id="<?= $organizationSchool->getId() ?>">Magien dieser Schule anzeigen</legend>
+                <div class="subContent"></div>
+            </fieldset>
         </fieldset>
-    </fieldset>
-<?php
-endforeach;
-foreach ($lockedSchools as $magieschule):
+    <?php
+    }
+    foreach ($lockedSchools as $magieschule):
     ?>
     <fieldset style="margin-bottom: 1.5em">
         <legend>
@@ -96,6 +95,60 @@ foreach ($lockedSchools as $magieschule):
                    value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
         </form>
     </fieldset>
-<?php
+    <?php
 endforeach;
 ?>
+</fieldset>
+<?php
+endif;
+if (count($schools) > 0):
+?>
+<fieldset>
+    <legend>Magieschulen</legend>
+    <?php
+    $lockedSchools = [];
+    foreach ($schools as $school) {
+        if ($school->getLearned() === false) {
+            $lockedSchools[] = $school;
+            continue;
+        }
+        ?>
+        <fieldset style="margin-bottom: 1.5em">
+            <legend>
+                <?= $purifier->purify($school->getBezeichnung()) ?> <span class="indicator">+</span>
+            </legend>
+            <div class="subContent">
+                <p>
+                    <?= $purifier->purify($school->getBeschreibung()) ?>
+                </p>
+            </div>
+            <fieldset>
+                <legend class="school" data-id="<?= $school->getId() ?>">Magien dieser Schule anzeigen</legend>
+                <div class="subContent"></div>
+            </fieldset>
+        </fieldset>
+        <?php
+    }
+    foreach ($lockedSchools as $magieschule):
+        ?>
+        <fieldset style="margin-bottom: 1.5em">
+            <legend>
+                <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
+            </legend>
+            <div class="subContent">
+                <p>
+                    <?= $purifier->purify($magieschule->getBeschreibung()) ?>
+                </p>
+            </div>
+            <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
+                <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
+                <input type="submit" class="unlockSchool"
+                       value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
+            </form>
+        </fieldset>
+    <?php
+    endforeach;
+    ?>
+</fieldset>
+<?php
+endif;
