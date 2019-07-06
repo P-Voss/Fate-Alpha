@@ -82,7 +82,6 @@ class Application_Service_Charakter {
                 ->setClassData()
                 ->setLuck()
                 ->setMagien()
-//                ->setMagieschulen()
                 ->setOdo()
                 ->setProfile()
                 ->setSkills()
