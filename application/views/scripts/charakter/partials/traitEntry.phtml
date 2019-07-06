@@ -1,0 +1,32 @@
+<?php
+/** @var Application_Model_Charakter $character */
+$character = $this->character;
+$purifier = $this->purifier;
+$hasStoryTrait = $character->hasStoryTrait($this->historyKey);
+$storyTrait = $character->getTraitByStory($this->historyKey);
+
+$traitId = 'trait_' . $this->historyKey;
+?>
+<h4><?= $purifier->purify($this->headline) ?></h4>
+<div>
+    <?php if($hasStoryTrait) { ?>
+        <h5><?= $purifier->purify($storyTrait->getName()) ?></h5>
+        <div><?= $purifier->purify($storyTrait->getStory()) ?></div>
+    <?php } else { ?>
+        <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
+            <select name="traitId" required>
+                <?php
+                foreach($character->getTraits() as $trait):
+                    if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== $this->historyKey) {
+                        continue;
+                    }
+                    ?>
+                    <option value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <textarea class="data" name="story" rows="10" id="<?= $traitId ?>"></textarea>
+            <input type="hidden" name="storyType" value="<?= $this->historyKey ?>">
+            <input type="submit" class="save" value="Eintrag speichern">
+        </form>
+    <?php } ?>
+</div>

@@ -1,18 +1,13 @@
 <?php
-
 $this->headScript()->setScript("var baseUrl ='{$this->baseUrl()}';", 'text/javascript');
-$this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
-$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
+
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/ckeditor.js'));
+$this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
+
 /* @var $purifier HTMLpurifier */
 $purifier = $this->purifier;
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
-$childhoodTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_BIRTH);
-$raisedTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_RAISED);
-$eventTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_EVENT);
-$gainedTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_GAINED);
-$focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FOCUS);
 ?>
 <script src="<?= $this->baseurl ?>/js/ckeditor/ckeditor.js"></script>
 <style type="text/css">
@@ -69,124 +64,44 @@ $focusTrait = $charakter->getTraitByStory(Application_Model_Trait::STORY_TYPE_FO
         <legend>Traithistorie <span class="indicator"></span></legend>
         <div class="subContent">
             <div>
-                <h4>Trait aus der Kindheit</h4>
-                <div>
-                    <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId" required>
-                            <?php
-                            foreach($charakter->getTraits() as $trait):
-                                if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_BIRTH) {
-                                    continue;
-                                }
-                                $selected = '';
-                                if ($trait->getStoryType() === Application_Model_Trait::STORY_TYPE_BIRTH) {
-                                    $selected = 'selected=""';
-                                }
-                            ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <textarea class="data" name="story" rows="10" id="childhoodEditor"><?= $purifier->purify($childhoodTrait->getStory()) ?></textarea>
-                        <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_BIRTH ?>">
-                        <input type="submit" class="save" value="Eintrag speichern">
-                    </form>
-                </div>
+                <?= $this->partial('charakter/partials/traitEntry.phtml', [
+                        'headline' => 'Trait aus der Kindheit',
+                        'character' => $charakter,
+                        'historyKey' => Application_Model_Trait::STORY_TYPE_BIRTH,
+                        'purifier' => $purifier,
+                ]) ?>
             </div>
             <div>
-                <h4>Trait aus der Erziehung</h4>
-                <div>
-                    <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId" required>
-                            <?php
-                            foreach($charakter->getTraits() as $trait):
-                                if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_RAISED) {
-                                    continue;
-                                }
-                                $selected = '';
-                                if ($trait->getStoryType() === Application_Model_Trait::STORY_TYPE_RAISED) {
-                                    $selected = 'selected=""';
-                                }
-                            ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <textarea class="data" id="raisedEditor" name="story" rows="10"><?= $purifier->purify($raisedTrait->getStory()) ?></textarea>
-                        <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_RAISED ?>">
-                        <input type="submit" class="save" value="Eintrag speichern">
-                    </form>
-                </div>
+                <?= $this->partial('charakter/partials/traitEntry.phtml', [
+                        'headline' => 'Trait aus der Erziehung',
+                        'character' => $charakter,
+                        'historyKey' => Application_Model_Trait::STORY_TYPE_RAISED,
+                        'purifier' => $purifier,
+                ]) ?>
             </div>
             <div>
-                <h4>Trait durch ein Ereignis</h4>
-                <div>
-                    <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId" required>
-                            <?php
-                            foreach($charakter->getTraits() as $trait):
-                                if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_EVENT) {
-                                    continue;
-                                }
-                                $selected = '';
-                                if ($trait->getStoryType() === Application_Model_Trait::STORY_TYPE_EVENT) {
-                                    $selected = 'selected=""';
-                                }
-                            ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <textarea class="data" id="eventEditor" name="story" rows="10"><?= $purifier->purify($eventTrait->getStory()) ?></textarea>
-                        <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_EVENT ?>">
-                        <input type="submit" class="save" value="Eintrag speichern">
-                    </form>
-                </div>
+                <?= $this->partial('charakter/partials/traitEntry.phtml', [
+                        'headline' => 'Trait durch ein Ereignis',
+                        'character' => $charakter,
+                        'historyKey' => Application_Model_Trait::STORY_TYPE_EVENT,
+                        'purifier' => $purifier,
+                ]) ?>
             </div>
             <div>
-                <h4>Erarbeiteter Trait</h4>
-                <div>
-                    <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId" required>
-                            <?php
-                            foreach($charakter->getTraits() as $trait):
-                                if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_GAINED) {
-                                    continue;
-                                }
-                                $selected = '';
-                                if ($trait->getStoryType() === Application_Model_Trait::STORY_TYPE_GAINED) {
-                                    $selected = 'selected=""';
-                                }
-                            ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <textarea class="data" id="gainedEditor" name="story" rows="10"><?= $purifier->purify($gainedTrait->getStory()) ?></textarea>
-                        <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_GAINED ?>">
-                        <input type="submit" class="save" value="Eintrag speichern">
-                    </form>
-                </div>
+                <?= $this->partial('charakter/partials/traitEntry.phtml', [
+                        'headline' => 'Erarbeiteter Trait',
+                        'character' => $charakter,
+                        'historyKey' => Application_Model_Trait::STORY_TYPE_GAINED,
+                        'purifier' => $purifier,
+                ]) ?>
             </div>
             <div>
-                <h4>Fokustrait</h4>
-                <div>
-                    <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
-                        <select name="traitId" required>
-                            <?php
-                            foreach($charakter->getTraits() as $trait):
-                                if ($trait->getStoryType() !== 0 && $trait->getStoryType() !== Application_Model_Trait::STORY_TYPE_FOCUS) {
-                                    continue;
-                                }
-                                $selected = '';
-                                if ($trait->getStoryType() === Application_Model_Trait::STORY_TYPE_FOCUS) {
-                                    $selected = 'selected=""';
-                                }
-                            ?>
-                            <option <?= $selected ?> value="<?= $trait->getTraitId() ?>"><?= $purifier->purify($trait->getName()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <textarea class="data" id="focusEditor" name="story" rows="10"><?= $purifier->purify($focusTrait->getStory()) ?></textarea>
-                        <input type="hidden" name="storyType" value="<?= Application_Model_Trait::STORY_TYPE_FOCUS?>">
-                        <input type="submit" class="save" value="Eintrag speichern">
-                    </form>
-                </div>
+                <?= $this->partial('charakter/partials/traitEntry.phtml', [
+                        'headline' => 'Fokustrait',
+                        'character' => $charakter,
+                        'historyKey' => Application_Model_Trait::STORY_TYPE_FOCUS,
+                        'purifier' => $purifier,
+                ]) ?>
             </div>
         </div>
     </fieldset>

@@ -848,6 +848,21 @@ class Application_Model_Charakter
     }
 
     /**
+     * @param $storyKey
+     *
+     * @return bool
+     */
+    public function hasStoryTrait ($storyKey)
+    {
+        foreach ($this->traits as $trait) {
+            if ($storyKey === $trait->getStoryType()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return Application_Model_Item[]
      */
     public function getItems (): array
