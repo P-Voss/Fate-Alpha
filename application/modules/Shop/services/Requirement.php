@@ -16,6 +16,10 @@ class Shop_Service_Requirement
      * @var Shop_Model_Requirements_Factory
      */
     private $factory;
+    /**
+     * @var array
+     */
+    private $lastErrors = [];
 
     /**
      * @param Application_Model_Charakter $charakter
@@ -44,18 +48,26 @@ class Shop_Service_Requirement
      */
     public function validate (Shop_Model_Requirementlist $requirementList)
     {
-        $errors = [];
+        $this->lastErrors = [];
         $requirements = $requirementList->getRequirements();
         foreach ($requirements as $requirement) {
             $validator = $this->factory->getValidator($requirement->getArt());
             if ($validator->check($this->charakter, $requirement->getRequiredValue()) === false) {
-                $errors[] = [
+                $this->lastErrors[] = [
                     'art' => $requirement->getArt(),
                     'wert' => $requirement->getRequiredValue(),
                 ];
             }
         }
-        return count($errors) === 0;
+        return count($this->lastErrors) === 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors ()
+    {
+        return $this->lastErrors;
     }
 
 }

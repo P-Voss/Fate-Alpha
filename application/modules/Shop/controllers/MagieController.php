@@ -49,13 +49,14 @@ class Shop_MagieController extends Zend_Controller_Action {
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
+
+        $service = new Shop_Service_Magie();
         $this->charakter->setMagieStufe(
             $this->charakterService->getMagieStufe(
                 $this->charakter->getCharakterid(),
                 $this->getRequest()->getParam('id')
             )
         );
-        $service = new Shop_Service_Magie();
         $this->view->magien = $service->getUnlearnedMagienBySchulId(
             $this->charakter,
             $this->getRequest()->getParam('id')
@@ -65,7 +66,12 @@ class Shop_MagieController extends Zend_Controller_Action {
     }
     
     public function unlockAction() {
-        $this->charakter->setMagieStufe($this->charakterService->getMagieStufe($this->charakter->getCharakterid(), $this->getRequest()->getParam('id')));
+        $this->charakter->setMagieStufe(
+            $this->charakterService->getMagieStufe(
+                $this->charakter->getCharakterid(),
+                $this->getRequest()->getParam('id')
+            )
+        );
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
         $service = new Shop_Service_Magie();

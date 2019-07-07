@@ -52,8 +52,8 @@ $schools = $this->schools;
 endif;
 if (count($organizationSchools) > 0):
 ?>
-<fieldset>
-    <legend>Magieschulen deiner Organisation</legend>
+<div>
+    <h2>Magieschulen deiner Organisation</h2>
     <?php
     $lockedSchools = [];
     foreach ($organizationSchools as $organizationSchool) {
@@ -98,20 +98,15 @@ if (count($organizationSchools) > 0):
     <?php
 endforeach;
 ?>
-</fieldset>
+</div>
 <?php
 endif;
 if (count($schools) > 0):
 ?>
-<fieldset>
-    <legend>Magieschulen</legend>
+<div>
+    <h2>Allgemeine Magieschulen</h2>
     <?php
-    $lockedSchools = [];
     foreach ($schools as $school) {
-        if ($school->getLearned() === false) {
-            $lockedSchools[] = $school;
-            continue;
-        }
         ?>
         <fieldset style="margin-bottom: 1.5em">
             <legend>
@@ -127,28 +122,9 @@ if (count($schools) > 0):
                 <div class="subContent"></div>
             </fieldset>
         </fieldset>
-        <?php
-    }
-    foreach ($lockedSchools as $magieschule):
-        ?>
-        <fieldset style="margin-bottom: 1.5em">
-            <legend>
-                <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
-            </legend>
-            <div class="subContent">
-                <p>
-                    <?= $purifier->purify($magieschule->getBeschreibung()) ?>
-                </p>
-            </div>
-            <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
-                <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
-                <input type="submit" class="unlockSchool"
-                       value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
-            </form>
-        </fieldset>
     <?php
-    endforeach;
+    }
     ?>
-</fieldset>
+</div>
 <?php
 endif;

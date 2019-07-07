@@ -37,12 +37,20 @@ class Shop_Service_Magie
     {
         $schulen = [];
         $this->requirementValidator->setCharakter($charakter);
+        $schoolCost = $charakter->getMagischoolId() !== 0 ? 40 : 0;
         try {
             $magieschulen = $this->mapper->getAllSchools();
             foreach ($magieschulen as $magieschule) {
                 if ($magieschule->getMagiOrganization() > 0) {
                     continue;
                 }
+                $characterService = new Application_Service_Charakter();
+                $charakter->setMagieStufe(
+                    $characterService->getMagieStufe(
+                        $charakter->getCharakterid(),
+                        $magieschule->getId()
+                    )
+                );
                 if ($charakter->getMagischoolId() === $magieschule->getId()) {
                     $magieschule->setLearned(true);
                     $magieschule->setRequirementList(new Shop_Model_Requirementlist());
@@ -51,18 +59,11 @@ class Shop_Service_Magie
                     $magieschule->setLearned(false);
                 }
 
-                if (count($this->getUnlearnedMagienBySchulId($charakter, $magieschule->getId())) === 0) {
+                if (!$this->requirementValidator->validate($magieschule->getRequirementList())) {
                     continue;
                 }
-
-                if ($this->requirementValidator->validate($magieschule->getRequirementList())) {
-                    if ($charakter->getMagischoolId() !== 0) {
-                        $magieschule->setKosten(40);
-                    } else {
-                        $magieschule->setKosten(0);
-                    }
-                    $schulen[] = $magieschule;
-                }
+                $magieschule->setKosten($schoolCost);
+                $schulen[] = $magieschule;
             }
             return $schulen;
         } catch (Exception $exception) {
@@ -79,15 +80,21 @@ class Shop_Service_Magie
     {
         $schulen = [];
         $this->requirementValidator->setCharakter($charakter);
-        if ($charakter->getKlassengruppe()->getId() === 5) {
-            $charakter->setMagiOrganization(Application_Model_MagiOrganization::CHURCH);
-        }
+
+        $schoolCost = $charakter->getMagischoolId() !== 0 ? 40 : 0;
         try {
             $magieschulen = $this->mapper->getAllSchools();
             foreach ($magieschulen as $magieschule) {
-                if ($charakter->getMagiOrganization() === $magieschule->getMagiOrganization()) {
+                if ($charakter->getMagiOrganization() !== $magieschule->getMagiOrganization()) {
                     continue;
                 }
+                $characterService = new Application_Service_Charakter();
+                $charakter->setMagieStufe(
+                    $characterService->getMagieStufe(
+                        $charakter->getCharakterid(),
+                        $magieschule->getId()
+                    )
+                );
                 if ($charakter->getMagischoolId() === $magieschule->getId()) {
                     $magieschule->setLearned(true);
                     $magieschule->setRequirementList(new Shop_Model_Requirementlist());
@@ -96,18 +103,18 @@ class Shop_Service_Magie
                     $magieschule->setLearned(false);
                 }
 
-                if (count($this->getUnlearnedMagienBySchulId($charakter, $magieschule->getId())) === 0) {
+                if (
+                    count($this->getUnlearnedMagienBySchulId($charakter, $magieschule->getId())) === 0
+                    && $magieschule->getLearned() === false
+                ) {
                     continue;
                 }
 
-                if ($this->requirementValidator->validate($magieschule->getRequirementList())) {
-                    if ($charakter->getMagischoolId() !== 0) {
-                        $magieschule->setKosten(40);
-                    } else {
-                        $magieschule->setKosten(0);
-                    }
-                    $schulen[] = $magieschule;
+                if (!$this->requirementValidator->validate($magieschule->getRequirementList())) {
+                    continue;
                 }
+                $magieschule->setKosten($schoolCost);
+                $schulen[] = $magieschule;
             }
             return $schulen;
         } catch (Exception $exception) {
@@ -207,7 +214,7 @@ class Shop_Service_Magie
                 'failure' => 'Du brauchst einen Lehrer um die Magie zu lernen.',
             ];
         }
-        if ($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()) === true) {
+        if ($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId())) {
             return [
                 'failure' => 'Magie wurde schon erlernt!',
             ];
@@ -221,7 +228,7 @@ class Shop_Service_Magie
                 'failure' => 'Du hast nicht genug FP!',
             ];
         }
-        if ($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId())) !== true) {
+        if (!$this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))) {
             return [
                 'failure' => 'Der Charakter erfüllt nicht alle Voraussetzungen zum Erlernen der Magie!',
             ];
@@ -254,9 +261,10 @@ class Shop_Service_Magie
                 $magie->setFp($magie->getFp() * 0.9);
             }
             $magie->setLearned($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()));
-            if ($this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))) {
-                $returnMagien[] = $magie;
+            if (!$this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))) {
+                continue;
             }
+            $returnMagien[] = $magie;
         }
         return $returnMagien;
     }

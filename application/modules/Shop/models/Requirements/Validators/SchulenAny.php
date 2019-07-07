@@ -14,13 +14,7 @@ class Shop_Model_Requirements_Validators_SchulenAny implements Shop_Model_Requir
      */
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode('|', $value);
-        foreach ($charakter->getMagieschulen() as $magieschule){
-            if (in_array($magieschule->getId(), $values)) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($charakter->getMagischoolId(), $values);
     }
     
 }
