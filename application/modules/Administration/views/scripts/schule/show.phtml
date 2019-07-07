@@ -9,6 +9,13 @@ foreach ($schule->getRequirementList()->getRequirements() as $requirement) {
         $traitReq = explode('|', $requirement->getRequiredValue());
     }
 }
+$organizations = [
+    0 => 'Keine Organisation',
+    Application_Model_MagiOrganization::CLOCK_TOWER => 'Clock Tower',
+    Application_Model_MagiOrganization::ATLAS => 'Atlas',
+    Application_Model_MagiOrganization::WANDERING_SEA => 'Wandering Sea',
+    Application_Model_MagiOrganization::CHURCH => 'Glaubenstypen',
+];
 ?>
 <h1>Magieschule anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/schule/edit" method="post">
@@ -16,6 +23,19 @@ foreach ($schule->getRequirementList()->getRequirements() as $requirement) {
         <p>
             <label for="name">Name</label>
             <input type="text" size="30" name="name" value="<?= $schule->getBezeichnung() ?>" />
+        </p>
+        <p>
+            <label for="MagiOrganization">Magi Organisation</label>
+            <select name="MagiOrganization" id="MagiOrganization">
+                <?php foreach ($organizations as $key => $organization) {
+                    $selected = '';
+                    if ($key === $schule->getMagiOrganization()) {
+                        $selected = 'selected=""';
+                    }
+                ?>
+                    <option value="<?= $key ?>" <?= $selected ?>><?= $organization ?></option>
+                <?php } ?>
+            </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10"><?= $schule->getBeschreibung() ?></textarea>
         <fieldset>

@@ -37,7 +37,8 @@ class Administration_Service_Schule {
         $schule->setBezeichnung($request->getPost('name'));
         $schule->setBeschreibung($request->getPost('beschreibung'));
         $schule->setCreator($userId);
-        
+        $schule->setMagiOrganization($request->getPost('MagiOrganization'));
+
         $schule->setRequirementList(
             $this->requirementService->createRequirementListFromArray(
                 array(
@@ -65,6 +66,7 @@ class Administration_Service_Schule {
         $schule->setBezeichnung($request->getPost('name'));
         $schule->setBeschreibung($request->getPost('beschreibung'));
         $schule->setEditor($userId);
+        $schule->setMagiOrganization($request->getPost('MagiOrganization'));
         
         $schule->setRequirementList(
             $this->requirementService->createRequirementListFromArray(

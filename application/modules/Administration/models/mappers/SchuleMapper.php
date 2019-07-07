@@ -13,6 +13,7 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         $data['beschreibung'] = $schule->getBeschreibung();
         $data['createDate'] = $schule->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $schule->getCreator();
+        $data['organization'] = $schule->getMagiOrganization();
         
         return parent::getDbTable('Schule')->insert($data);
     }
@@ -32,6 +33,7 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
             $model->setId($row['magieschuleId']);
             $model->setBezeichnung($row['name']);
             $model->setBeschreibung($row['beschreibung']);
+            $model->setMagiOrganization($row['organization']);
         }
         return $model;
     }
@@ -47,7 +49,8 @@ class Administration_Model_Mapper_SchuleMapper extends Application_Model_Mapper_
         $data['beschreibung'] = $schule->getBeschreibung();
         $data['editDate'] = $schule->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $schule->getEditor();
-        
+        $data['organization'] = $schule->getMagiOrganization();
+
         return parent::getDbTable('Schule')->update($data, array('magieschuleId = ?' => $schule->getId()));
     }
 

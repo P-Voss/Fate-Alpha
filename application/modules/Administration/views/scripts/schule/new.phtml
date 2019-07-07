@@ -18,9 +18,11 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <p>
                 <label for="MagiOrganization">Magi Organisation</label>
                 <select name="MagiOrganization" id="MagiOrganization">
+                    <option value="0">Keine Organisation</option>
                     <option value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
                     <option value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
                     <option value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+                    <option value="<?= Application_Model_MagiOrganization::CHURCH ?>">Glaubenstypen</option>
                 </select>
             </p>
             <p>
