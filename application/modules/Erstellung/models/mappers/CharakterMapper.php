@@ -30,6 +30,7 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
         $data['odo'] = $charakter->getOdo()->getId();
         $data['circuit'] = $charakter->getMagiccircuit()->getId();
         $data['luck'] = $charakter->getLuck()->getId();
+        $data['magiOrganization'] = $charakter->getKlassengruppe()->getId() === 5 ? Application_Model_MagiOrganization::CHURCH : 0;
 
         $data['createDate'] = $date->format('Y-m-d H:i:s');
         $data['active'] = 1;
