@@ -11,7 +11,11 @@ $traitId = 'trait_' . $this->historyKey;
 <div>
     <?php if($hasStoryTrait) { ?>
         <h5><?= $purifier->purify($storyTrait->getName()) ?></h5>
-        <div><?= $purifier->purify($storyTrait->getStory()) ?></div>
+        <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traitdesc">
+            <textarea class="data" name="story" rows="10" id="<?= $traitId ?>"><?= $purifier->purify($storyTrait->getStory()) ?></textarea>
+            <input type="hidden" name="traitId" value="<?= $storyTrait->getTraitId() ?>">
+            <input type="submit" class="save" value="Speichern">
+        </form>
     <?php } else { ?>
         <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/traits">
             <select name="traitId" required>

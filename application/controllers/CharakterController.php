@@ -218,35 +218,17 @@ class CharakterController extends Zend_Controller_Action
         $this->redirect('charakter/profil');
     }
 
-    /**
-     * @param $userId
-     *
-     * @return Application_Model_Charakter|bool
-     * @throws Zend_Db_Statement_Exception
-     * @throws Exception
-     */
-    private function initCharakter ($userId)
+    public function traitdescAction ()
     {
-        $charakterBuilder = new Application_Service_CharakterBuilder();
-        if ($charakterBuilder->initCharakterByUserId($userId)) {
-            $charakterBuilder
-                ->setTraits()
-                ->setCircuit()
-                ->setNaturelement()
-                ->setClassData()
-                ->setLuck()
-                ->setMagien()
-                ->setMagieschulen()
-                ->setOdo()
-                ->setProfile()
-                ->setSkills()
-                ->setItems()
-                ->setVermoegen()
-                ->setWerte();
-            return $charakterBuilder->getCharakter();
-        } else {
-            return false;
-        }
+        $this->_helper->viewRenderer->setNoRender(true);
+        $layout = $this->_helper->layout();
+        $layout->disableLayout();
+        $trait = new Application_Model_Trait();
+        $trait->setStory($this->getRequest()->getPost('story', ''));
+        $trait->setTraitId($this->getRequest()->getPost('traitId', 0));
+        $this->charakterService->updateTraitDescription($trait, $this->charakter->getCharakterid());
+        $this->redirect('charakter/profil');
     }
+
 
 }

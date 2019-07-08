@@ -1234,6 +1234,25 @@ SQL;
     }
 
     /**
+     * @param Application_Model_Trait $trait
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function updateTraitDescription (Application_Model_Trait $trait, $characterId)
+    {
+        try {
+            $this->getDbTable('CharakterTrait')->update(
+                ['story' => $trait->getStory()],
+                ['characterId = ?' => $characterId, 'traitId = ?' => $trait->getTraitId()]
+            );
+        } catch (Throwable $exception) {
+            Zend_Debug::dump($exception);
+            exit;
+        }
+    }
+
+    /**
      * @param Application_Model_Achievement $achievement
      * @param int $characterId
      *
@@ -1246,7 +1265,7 @@ SQL;
             'charakterId' => $characterId,
             'title' => $achievement->getTitle(),
             'description' => $achievement->getDescription(),
-            'episodeId' => $achievement->getEpisodeId()
+            'episodeId' => $achievement->getEpisodeId(),
         ];
         return $this->getDbTable('CharakterAchievement')->insert($data);
     }

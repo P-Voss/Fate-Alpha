@@ -338,6 +338,17 @@ HTML;
     }
 
     /**
+     * @param Application_Model_Trait $trait
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function updateTraitDescription (Application_Model_Trait $trait, $characterId)
+    {
+        $this->charakterMapper->updateTraitDescription($trait, $characterId);
+    }
+
+    /**
      * @param $organizationId
      * @param $characterId
      *
