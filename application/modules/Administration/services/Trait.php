@@ -25,6 +25,14 @@ class Administration_Service_Trait {
     }
 
     /**
+     * @return Application_Model_Trait[]
+     */
+    public function getFocusTraits ()
+    {
+        return $this->mapper->getFocusTraits();
+    }
+
+    /**
      * @param Zend_Controller_Request_Http $request
      * @param $userId
      *
@@ -39,6 +47,8 @@ class Administration_Service_Trait {
         $trait->setBeschreibung($request->getPost('beschreibung'));
         $trait->setKosten($request->getPost('kosten'));
         $trait->setIsIndividual($request->getPost('isIndividual', false));
+        $trait->setIsFocusTrait($request->getPost('isFocusTrait', false));
+        $trait->setFocustraitId($request->getPost('focustraitId', 0));
 
         $traitId = $this->mapper->createTrait($trait);
         foreach ($request->getPost('trait', []) as $incTraitId) {
@@ -66,6 +76,8 @@ class Administration_Service_Trait {
         $trait->setKosten($request->getPost('kosten'));
         $trait->setEditor($userId);
         $trait->setIsIndividual($request->getPost('isIndividual', false));
+        $trait->setIsFocusTrait($request->getPost('isFocusTrait', false));
+        $trait->setFocustraitId($request->getPost('focustraitId', 0));
 
         $this->mapper->removeTraitIncompatibilites($trait->getTraitId());
         foreach ($request->getPost('trait', []) as $incTraitId) {

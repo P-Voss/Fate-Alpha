@@ -491,7 +491,6 @@ class Application_Model_Mapper_CharakterMapper
      * @param int $characterId
      *
      * @return Application_Model_Trait[]
-     * @throws Exception
      */
     public function getTraitsByCharacterId ($characterId)
     {
@@ -502,7 +501,7 @@ class Application_Model_Mapper_CharakterMapper
             $select->joinInner(
                 'traits',
                 'traits.traitId = CT.traitId',
-                ['traits.traitId', 'traits.name', 'traits.beschreibung']
+                ['traits.traitId', 'traits.name', 'traits.beschreibung', 'traits.focustraitId']
             );
             $select->where('CT.characterId = ?', $characterId);
             $result = $this->getDbTable('CharacterTraits')->fetchAll($select);
@@ -517,10 +516,37 @@ class Application_Model_Mapper_CharakterMapper
             $trait->setBeschreibung($row->beschreibung);
             $trait->setStoryType($row->storyType ?? 0);
             $trait->setStory($row->story ?? '');
+            if ((int) $row->storyType === Application_Model_Trait::STORY_TYPE_FOCUS && (int) $row->focustraitId > 0) {
+                try {
+                    $focustrait = $this->getTrait($row->focustraitId);
+                    $trait->setTraitId($focustrait->getTraitId());
+                    $trait->setName($focustrait->getName());
+                    $trait->setBeschreibung($focustrait->getBeschreibung());
+                } catch (Exception $exception) {}
+            }
 
             $returnArray[] = $trait;
         }
         return $returnArray;
+    }
+
+    /**
+     * @param $traitId
+     *
+     * @return Application_Model_Trait
+     * @throws Exception
+     */
+    private function getTrait ($traitId)
+    {
+            $row = $this->getDbTable('Traits')->fetchRow(['traitId = ?' => $traitId]);
+            if ($row === null) {
+                throw new Exception('Trait does not exist');
+            }
+            $trait = new Application_Model_Trait();
+            $trait->setTraitId($row->traitId);
+            $trait->setName($row->name);
+            $trait->setBeschreibung($row->beschreibung);
+            return $trait;
     }
 
     /**

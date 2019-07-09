@@ -36,10 +36,12 @@ class Administration_TraitController extends Zend_Controller_Action {
     public function showAction() {
         $this->view->trait = $this->service->getTraitById($this->getRequest()->getParam('id'));
         $this->view->traits = $this->service->getTraits();
+        $this->view->focustraits = $this->service->getFocusTraits();
     }
     
     public function newAction() {
         $this->view->traits = $this->service->getTraits();
+        $this->view->focustraits = $this->service->getFocusTraits();
     }
     
     public function deleteAction() {

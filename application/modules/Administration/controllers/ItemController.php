@@ -69,7 +69,9 @@ class Administration_ItemController extends Zend_Controller_Action {
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
-        $this->view->traits = $this->erstellungService->getTraits();
+
+        $traitService = new Administration_Service_Trait();
+        $this->view->traits = $traitService->getTraits();
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->klassen = $this->erstellungService->getKlassenList();
     }

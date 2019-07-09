@@ -1,6 +1,8 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
+/** @var Administration_Model_Trait $focustraits */
+$focustraits = $this->focustraits;
 ?>
 <h1>Neuen Trait erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/trait/create" method="post">
@@ -18,11 +20,27 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                 <option value="1">Ja</option>
             </select>
         </p>
+        <p>
+            <label for="isFocusTrait">Fokustrait?</label>
+            <select name="isFocusTrait" id="isFocusTrait">
+                <option value="0">Nein</option>
+                <option value="1">Ja</option>
+            </select>
+        </p>
+        <p>
+            <label for="focustrait">Fokustrait</label>
+            <select name="focustraitId" id="focustrait">
+                <option value="0">Keiner</option>
+                <?php foreach ($focustraits as $trait): ?>
+                <option value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>
         <label for="trait">
             Nicht kombinierbar mit den Traits:
         </label>
-        <select name="trait[]" multiple="true" size="8">
+        <select name="trait[]" multiple="true" size="8" id="trait">
             <?php foreach ($this->traits as $traitOption) { ?>
             <option value="<?= $traitOption->getTraitId() ?>">
                 <?= $traitOption->getName() ?>
@@ -31,6 +49,6 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
         </select>
     </fieldset>
     <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Vorteil speichern" />
+        <input type="submit" name="Abschicken" id="Abschicken" value="Trait speichern" />
     </div>
 </form>

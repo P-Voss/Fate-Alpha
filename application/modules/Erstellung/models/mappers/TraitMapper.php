@@ -28,7 +28,7 @@ class Erstellung_Model_Mapper_TraitMapper {
     {
         try {
             $result = $this->getDbTable('Traits')->fetchAll(
-                $this->getDbTable('Traits')->select()->where('isIndividual = 0')
+                $this->getDbTable('Traits')->select()->where('isIndividual = 0 AND isFocusTrait = 0')
             );
         } catch (Exception $exception) {
             return [];
@@ -80,7 +80,7 @@ class Erstellung_Model_Mapper_TraitMapper {
     {
         $select = $this->getDbTable('Traits')->select();
         $select->from('traits');
-        $select->where('traitId = ?', $traitId);
+        $select->where('traitId = ? AND isIndividual = 0 AND isFocusTrait = 0', $traitId);
         $row = $this->getDbTable('Traits')->fetchRow($select);
         if ($row !== null) {
             $trait = new Erstellung_Model_Trait();

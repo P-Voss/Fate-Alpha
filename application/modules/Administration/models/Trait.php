@@ -21,7 +21,11 @@ class Administration_Model_Trait extends Application_Model_Trait {
      * @var bool
      */
     private $isIndividual = false;
-    
+    /**
+     * @var bool
+     */
+    private $isFocusTrait = false;
+
     public function getCreator() {
         return $this->creator;
     }
@@ -72,6 +76,25 @@ class Administration_Model_Trait extends Application_Model_Trait {
     public function setIsIndividual ($isIndividual): Administration_Model_Trait
     {
         $this->isIndividual = (bool) $isIndividual;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFocusTrait (): bool
+    {
+        return (bool) $this->isFocusTrait;
+    }
+
+    /**
+     * @param bool $isFocusTrait
+     *
+     * @return Administration_Model_Trait
+     */
+    public function setIsFocusTrait ($isFocusTrait): Administration_Model_Trait
+    {
+        $this->isFocusTrait = (bool) $isFocusTrait;
         return $this;
     }
 

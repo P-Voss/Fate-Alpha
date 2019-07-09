@@ -51,6 +51,10 @@ class Application_Model_Trait {
      * @var Application_Model_Trait[]
      */
     protected $incompatibleTraits = [];
+    /**
+     * @var int
+     */
+    protected $focustraitId = null;
 
     /**
      * @return int
@@ -192,5 +196,24 @@ class Application_Model_Trait {
         $this->incompatibleTraits[] = $trait;
         return $this;
     }
-    
+
+    /**
+     * @return int
+     */
+    public function getFocustraitId (): int
+    {
+        return $this->focustraitId;
+    }
+
+    /**
+     * @param int $focustraitId
+     *
+     * @return Application_Model_Trait
+     */
+    public function setFocustraitId (int $focustraitId): Application_Model_Trait
+    {
+        $this->focustraitId = $focustraitId;
+        return $this;
+    }
+
 }

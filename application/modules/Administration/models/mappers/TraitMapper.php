@@ -60,6 +60,34 @@ class Administration_Model_Mapper_TraitMapper
     }
 
     /**
+     * @return Application_Model_Trait[]
+     */
+    public function getFocusTraits ()
+    {
+        try {
+            $traits = [];
+            $select = $this->getDbTable('Traits')->select()
+                ->from('traits')
+                ->where('traits.isFocusTrait = 1');
+
+            $result = $this->getDbTable('Traits')->fetchAll($select);
+            foreach ($result as $row) {
+                $model = new Administration_Model_Trait();
+                $model->setTraitId($row['traitId']);
+                $model->setName($row['name']);
+                $model->setBeschreibung($row['beschreibung']);
+                $model->setKosten($row['kosten']);
+                $model->setIsIndividual($row['isIndividual']);
+                $model->setIsIndividual($row['isFocusTrait']);
+                $traits[] = $model;
+            }
+            return $traits;
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    /**
      * @param int $characterId
      *
      * @return Application_Model_Trait[]
@@ -128,6 +156,8 @@ class Administration_Model_Mapper_TraitMapper
         $data['kosten'] = $trait->getKosten();
         $data['createDate'] = $trait->getCreateDate('Y-m-d H:i:s');
         $data['isIndividual'] = (int) $trait->isIndividual();
+        $data['isFocusTrait'] = (int) $trait->isFocusTrait();
+        $data['focustraitId'] = $trait->getFocustraitId();
 
         return $this->getDbTable('Traits')->insert($data);
     }
@@ -150,8 +180,30 @@ class Administration_Model_Mapper_TraitMapper
             $model->setBeschreibung($row['beschreibung']);
             $model->setKosten($row['kosten']);
             $model->setIsIndividual($row['isIndividual']);
+            $model->setIsFocusTrait($row['isFocusTrait']);
+            $model->setFocustraitId((int) $row['focustraitId']);
         }
         return $model;
+    }
+
+    /**
+     * @param Administration_Model_Trait $trait
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function updateTrait (Administration_Model_Trait $trait)
+    {
+        $data['name'] = $trait->getName();
+        $data['beschreibung'] = $trait->getBeschreibung();
+        $data['kosten'] = $trait->getKosten();
+        $data['editDate'] = $trait->getEditDate('Y-m-d H:i:s');
+        $data['editor'] = $trait->getEditor();
+        $data['isIndividual'] = (int) $trait->isIndividual();
+        $data['isFocusTrait'] = (int) $trait->isFocusTrait();
+        $data['focustraitId'] = $trait->getFocustraitId();
+
+        return $this->getDbTable('Traits')->update($data, ['traitId = ?' => $trait->getTraitId()]);
     }
 
     /**
@@ -177,24 +229,6 @@ class Administration_Model_Mapper_TraitMapper
             $incompatibleTraits[] = $trait;
         }
         return $incompatibleTraits;
-    }
-
-    /**
-     * @param Administration_Model_Trait $trait
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function updateTrait (Administration_Model_Trait $trait)
-    {
-        $data['name'] = $trait->getName();
-        $data['beschreibung'] = $trait->getBeschreibung();
-        $data['kosten'] = $trait->getKosten();
-        $data['editDate'] = $trait->getEditDate('Y-m-d H:i:s');
-        $data['editor'] = $trait->getEditor();
-        $data['isIndividual'] = (int) $trait->isIndividual();
-
-        return $this->getDbTable('Traits')->update($data, ['traitId = ?' => $trait->getTraitId()]);
     }
 
     /**

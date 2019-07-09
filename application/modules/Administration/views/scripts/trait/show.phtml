@@ -4,10 +4,13 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /** @var Administration_Model_Trait $trait */
 $trait = $this->trait;
 $individual = $trait->isIndividual();
+$focus = $trait->isFocusTrait();
 $incompatibleTraitIds = array_map(function (Application_Model_Trait $trait) {
     return $trait->getTraitId();
     },$trait->getIncompatibleTraits()
 );
+/** @var Administration_Model_Trait[] $focustraits */
+$focustraits = $this->focustraits;
 ?>
 <h1>Trait anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/trait/edit" method="post">
@@ -23,6 +26,28 @@ $incompatibleTraitIds = array_map(function (Application_Model_Trait $trait) {
             <select name="isIndividual" id="isIndividual">
                 <option value="0" <?= $individual ? '' : 'selected=""' ?>>Nein</option>
                 <option value="1" <?= $individual ? 'selected=""' : '' ?>>Ja</option>
+            </select>
+        </p>
+        <p>
+            <label for="isFocusTrait">Fokustrait?</label>
+            <select name="isFocusTrait" id="isFocusTrait">
+                <option value="0" <?= $focus ? '' : 'selected=""' ?>>Nein</option>
+                <option value="1" <?= $focus ? 'selected=""' : '' ?>>Ja</option>
+            </select>
+        </p>
+        <p>
+            <label for="focustrait">Fokustrait</label>
+            <select name="focustraitId" id="focustrait">
+                <option value="0">Keiner</option>
+                <?php
+                foreach ($focustraits as $focustrait):
+                    $selected = '';
+                    if ($focustrait->getTraitId() === $trait->getFocustraitId()) {
+                        $selected = 'selected=""';
+                    }
+                ?>
+                    <option <?= $selected ?> value="<?= $focustrait->getTraitId() ?>"><?= $focustrait->getName() ?></option>
+                <?php endforeach; ?>
             </select>
         </p>
         <textarea name="beschreibung" cols="80" rows="10">
