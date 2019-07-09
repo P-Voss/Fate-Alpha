@@ -5,10 +5,15 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Lebensenergie {
+class Application_Model_Lebensenergie
+{
 
 
-    private function getKategorienNormal() {
+    /**
+     * @return array
+     */
+    private function getKategorienNormal ()
+    {
         return [
             'F-' => 17,
             'F' => 17,
@@ -31,7 +36,11 @@ class Application_Model_Lebensenergie {
         ];
     }
 
-    private function getKategorienUeber() {
+    /**
+     * @return array
+     */
+    private function getKategorienUeber ()
+    {
         return [
             'F-' => 62,
             'F' => 62,
@@ -68,5 +77,5 @@ class Application_Model_Lebensenergie {
             return $this->getKategorienNormal()[$ausdauerKategorie];
         }
     }
-    
+
 }

@@ -5,52 +5,108 @@
  *
  * @author Vosser
  */
-class Application_Model_Element {
-    
+class Application_Model_Element
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $bezeichnung;
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var string
+     */
     protected $charakterisierung;
+    /**
+     * @var string
+     */
     protected $kosten;
-    
-    public function getId() {
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    /**
+     * @return string
+     */
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getCharakterisierung() {
+    /**
+     * @return string
+     */
+    public function getCharakterisierung ()
+    {
         return $this->charakterisierung;
     }
 
-    public function getKosten() {
+    /**
+     * @return string
+     */
+    public function getKosten ()
+    {
         return $this->kosten;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    /**
+     * @param $bezeichnung
+     */
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setCharakterisierung($charakterisierung) {
+    /**
+     * @param $charakterisierung
+     */
+    public function setCharakterisierung ($charakterisierung)
+    {
         $this->charakterisierung = $charakterisierung;
     }
 
-    public function setKosten($kosten) {
+    /**
+     * @param $kosten
+     */
+    public function setKosten ($kosten)
+    {
         $this->kosten = $kosten;
     }
-    
+
 }

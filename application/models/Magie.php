@@ -5,8 +5,12 @@
  *
  * @author Vosser
  */
-class Application_Model_Magie implements JsonSerializable {
-    
+class Application_Model_Magie implements JsonSerializable
+{
+
+    /**
+     * @var int
+     */
     protected $id;
     /**
      * @var string
@@ -16,136 +20,245 @@ class Application_Model_Magie implements JsonSerializable {
      * @var string
      */
     protected $beschreibung;
+    /**
+     * @var int
+     */
     protected $fp;
+    /**
+     * @var int
+     */
     protected $prana;
     /**
      * @var Application_Model_Element
      */
     protected $element;
+    /**
+     * @var string
+     */
     protected $rang;
     /**
      * @var Application_Model_Klasse
      */
     protected $klasse;
+    /**
+     * @var int
+     */
     protected $gruppe;
+    /**
+     * @var int
+     */
     protected $stufe;
     /**
      * @var Application_Model_Schule
      */
     protected $schule;
     /**
-     * @var string 
+     * @var string
      */
     protected $lernbedingung;
-    
-    public function getId() {
+
+    /**
+     * @return mixed
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    /**
+     * @return string
+     */
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getFp() {
+    /**
+     * @return mixed
+     */
+    public function getFp ()
+    {
         return $this->fp;
     }
 
-    public function getPrana() {
+    /**
+     * @return mixed
+     */
+    public function getPrana ()
+    {
         return $this->prana;
     }
 
     /**
      * @return Application_Model_Element
      */
-    public function getElement() {
+    public function getElement ()
+    {
         return $this->element;
     }
 
-    public function getRang() {
+    /**
+     * @return mixed
+     */
+    public function getRang ()
+    {
         return $this->rang;
     }
 
-    public function getKlasse() {
+    /**
+     * @return Application_Model_Klasse
+     */
+    public function getKlasse ()
+    {
         return $this->klasse;
     }
 
-    public function getGruppe() {
+    /**
+     * @return mixed
+     */
+    public function getGruppe ()
+    {
         return $this->gruppe;
     }
 
-    public function getStufe() {
+    /**
+     * @return mixed
+     */
+    public function getStufe ()
+    {
         return $this->stufe;
     }
 
     /**
      * @return Application_Model_Schule
      */
-    public function getSchule() {
+    public function getSchule ()
+    {
         return $this->schule;
     }
 
-    public function getLernbedingung() {
+    /**
+     * @return string
+     */
+    public function getLernbedingung ()
+    {
         return $this->lernbedingung;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    /**
+     * @param $bezeichnung
+     */
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setFp($fp) {
+    /**
+     * @param $fp
+     */
+    public function setFp ($fp)
+    {
         $this->fp = $fp;
     }
 
-    public function setPrana($prana) {
+    /**
+     * @param $prana
+     */
+    public function setPrana ($prana)
+    {
         $this->prana = $prana;
     }
 
-    public function setElement(Application_Model_Element $element) {
+    /**
+     * @param Application_Model_Element $element
+     */
+    public function setElement (Application_Model_Element $element)
+    {
         $this->element = $element;
     }
 
-    public function setRang($rang) {
+    /**
+     * @param $rang
+     */
+    public function setRang ($rang)
+    {
         $this->rang = $rang;
     }
 
-    public function setKlasse(Application_Model_Klasse $klasse) {
+    /**
+     * @param Application_Model_Klasse $klasse
+     */
+    public function setKlasse (Application_Model_Klasse $klasse)
+    {
         $this->klasse = $klasse;
     }
 
-    public function setGruppe($gruppe) {
+    /**
+     * @param $gruppe
+     */
+    public function setGruppe ($gruppe)
+    {
         $this->gruppe = $gruppe;
     }
 
-    public function setStufe($stufe) {
+    /**
+     * @param $stufe
+     */
+    public function setStufe ($stufe)
+    {
         $this->stufe = $stufe;
     }
 
-    public function setSchule(Application_Model_Schule $schule) {
+    /**
+     * @param Application_Model_Schule $schule
+     */
+    public function setSchule (Application_Model_Schule $schule)
+    {
         $this->schule = $schule;
     }
 
-    public function setLernbedingung($lernbedingung) {
+    /**
+     * @param $lernbedingung
+     */
+    public function setLernbedingung ($lernbedingung)
+    {
         $this->lernbedingung = $lernbedingung;
     }
-    
-    public function jsonSerialize() {
-        $return = array();
-        foreach (get_object_vars($this) as $key => $property){
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize ()
+    {
+        $return = [];
+        foreach (get_object_vars($this) as $key => $property) {
             $return[$key] = $property;
         }
         return $return;
     }
-    
+
 }

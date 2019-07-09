@@ -5,62 +5,129 @@
  *
  * @author Vosser
  */
-class Application_Model_Klasse{
-    
+class Application_Model_Klasse
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $bezeichnung;
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var string
+     */
     protected $familienname;
+    /**
+     * @var string
+     */
     protected $kosten;
+    /**
+     * @var int
+     */
     protected $gruppe;
-    
-    
-    public function getId() {
+
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    /**
+     * @return string
+     */
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getKosten() {
+    /**
+     * @return string
+     */
+    public function getKosten ()
+    {
         return $this->kosten;
     }
 
-    public function getGruppe() {
+    /**
+     * @return int
+     */
+    public function getGruppe ()
+    {
         return $this->gruppe;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    /**
+     * @param $bezeichnung
+     */
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setKosten($kosten) {
+    /**
+     * @param $kosten
+     */
+    public function setKosten ($kosten)
+    {
         $this->kosten = $kosten;
     }
 
-    public function setGruppe($gruppe) {
+    /**
+     * @param $gruppe
+     */
+    public function setGruppe ($gruppe)
+    {
         $this->gruppe = $gruppe;
     }
-    
-    public function getFamilienname() {
+
+    /**
+     * @return string
+     */
+    public function getFamilienname ()
+    {
         return $this->familienname;
     }
 
-    public function setFamilienname($familienname) {
+    /**
+     * @param $familienname
+     */
+    public function setFamilienname ($familienname)
+    {
         $this->familienname = $familienname;
     }
-    
+
 }

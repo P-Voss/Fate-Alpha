@@ -66,7 +66,7 @@ class Application_Model_Mapper_CharakterMapper
      */
     public function deleteCharakter (Application_Model_Charakter $charakter)
     {
-        $db = $this->getDbTable('Charakter')->update(
+        $this->getDbTable('Charakter')->update(
             ['active' => 0],
             ['charakterId = ?' => $charakter->getCharakterid()]
         );

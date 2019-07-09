@@ -5,25 +5,48 @@
  *
  * @author Voß
  */
-class Application_Model_Modifier {
-    
+class Application_Model_Modifier
+{
+
+    /**
+     * @var string
+     */
     protected $attribute;
+    /**
+     * @var int
+     */
     protected $value;
-    
-    public function getAttribute() {
+
+    /**
+     * @return string
+     */
+    public function getAttribute ()
+    {
         return $this->attribute;
     }
 
-    public function getValue() {
+    /**
+     * @return int
+     */
+    public function getValue ()
+    {
         return $this->value;
     }
 
-    public function setAttribute($attribute) {
+    /**
+     * @param $attribute
+     */
+    public function setAttribute ($attribute)
+    {
         $this->attribute = $attribute;
     }
 
-    public function setValue($value) {
+    /**
+     * @param $value
+     */
+    public function setValue ($value)
+    {
         $this->value = $value;
     }
-    
+
 }

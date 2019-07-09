@@ -6,89 +6,174 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Log {
-   
+class Application_Model_Log
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $name;
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var string
+     */
     protected $md5;
+    /**
+     * @var int
+     */
     protected $owner;
+    /**
+     * @var string
+     */
     protected $status;
+    /**
+     * @var string
+     */
     protected $plotId;
+    /**
+     * @var string
+     */
     protected $createDate;
-    
+
     /**
      * @return string
+     * @throws Exception
      */
-    public function getCreatedate($format = 'Y-m-d') {
+    public function getCreatedate ($format = 'Y-m-d')
+    {
         $date = new DateTime($this->createDate);
         return $date->format($format);
     }
 
     /**
      * @param string $createDate
-     * @return \Application_Model_Charakter
+     *
+     * @return Application_Model_Log
      */
-    public function setCreatedate($createDate) {
+    public function setCreatedate ($createDate)
+    {
         $this->createDate = $createDate;
         return $this;
     }
-    
-    public function getId() {
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    /**
+     * @return string
+     */
+    public function getName ()
+    {
         return $this->name;
     }
 
-    public function getMd5() {
+    /**
+     * @return string
+     */
+    public function getMd5 ()
+    {
         return $this->md5;
     }
 
-    public function getOwner() {
+    /**
+     * @return int
+     */
+    public function getOwner ()
+    {
         return $this->owner;
     }
 
-    public function getStatus() {
+    /**
+     * @return string
+     */
+    public function getStatus ()
+    {
         return $this->status;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setName($name) {
+    /**
+     * @param $name
+     */
+    public function setName ($name)
+    {
         $this->name = $name;
     }
 
-    public function setMd5($md5) {
+    /**
+     * @param $md5
+     */
+    public function setMd5 ($md5)
+    {
         $this->md5 = $md5;
     }
 
-    public function setOwner($owner) {
+    /**
+     * @param $owner
+     */
+    public function setOwner ($owner)
+    {
         $this->owner = $owner;
     }
 
-    public function setStatus($status) {
+    /**
+     * @param $status
+     */
+    public function setStatus ($status)
+    {
         $this->status = $status;
     }
-    
-    public function getPlotId() {
+
+    /**
+     * @return string
+     */
+    public function getPlotId ()
+    {
         return $this->plotId;
     }
 
-    public function setPlotId($plotId) {
+    /**
+     * @param $plotId
+     */
+    public function setPlotId ($plotId)
+    {
         $this->plotId = $plotId;
     }
-    
-    public function getBeschreibung() {
+
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
-    
+
 
 }

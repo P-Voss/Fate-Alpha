@@ -199,9 +199,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getAchievementsToAdd ()
     {
-        return array_filter($this->achievements, function (Story_Model_Achievement $achievement) {
+        return array_filter(
+            $this->achievements, function (Story_Model_Achievement $achievement) {
             return $achievement->getRequestType() === Story_Model_RequestTypes::ADD;
-        });
+        }
+        );
     }
 
     /**
@@ -209,9 +211,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getAchievementsToRemove ()
     {
-        return array_filter($this->achievements, function (Story_Model_Achievement $achievement) {
+        return array_filter(
+            $this->achievements, function (Story_Model_Achievement $achievement) {
             return $achievement->getRequestType() === Story_Model_RequestTypes::REMOVE;
-        });
+        }
+        );
     }
 
     /**
@@ -230,9 +234,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getSkillsToAdd ()
     {
-        return array_filter($this->requestedSkills, function (Story_Model_Skill $skill) {
+        return array_filter(
+            $this->requestedSkills, function (Story_Model_Skill $skill) {
             return $skill->getRequestType() === Story_Model_RequestTypes::ADD;
-        });
+        }
+        );
     }
 
     /**
@@ -248,9 +254,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getSkillsToRemove ()
     {
-        return array_filter($this->requestedSkills, function (Story_Model_Skill $skill) {
+        return array_filter(
+            $this->requestedSkills, function (Story_Model_Skill $skill) {
             return $skill->getRequestType() === Story_Model_RequestTypes::REMOVE;
-        });
+        }
+        );
     }
 
     /**
@@ -266,9 +274,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getMagicToAdd ()
     {
-        return array_filter($this->requestedMagien, function (Story_Model_Magie $magic) {
+        return array_filter(
+            $this->requestedMagien, function (Story_Model_Magie $magic) {
             return $magic->getRequestType() === Story_Model_RequestTypes::ADD;
-        });
+        }
+        );
     }
 
     /**
@@ -284,9 +294,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getMagicToRemove ()
     {
-        return array_filter($this->requestedMagien, function (Story_Model_Magie $magic) {
+        return array_filter(
+            $this->requestedMagien, function (Story_Model_Magie $magic) {
             return $magic->getRequestType() === Story_Model_RequestTypes::REMOVE;
-        });
+        }
+        );
     }
 
     /**
@@ -302,9 +314,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getItemsToAdd ()
     {
-        return array_filter($this->requestedItems, function (Story_Model_Item $item) {
+        return array_filter(
+            $this->requestedItems, function (Story_Model_Item $item) {
             return $item->getRequestType() === Story_Model_RequestTypes::ADD;
-        });
+        }
+        );
     }
 
     /**
@@ -320,9 +334,11 @@ class Application_Model_CharakterResult implements Application_Model_Interfaces_
      */
     public function getItemsToRemove ()
     {
-        return array_filter($this->requestedItems, function (Story_Model_Item $item) {
+        return array_filter(
+            $this->requestedItems, function (Story_Model_Item $item) {
             return $item->getRequestType() === Story_Model_RequestTypes::REMOVE;
-        });
+        }
+        );
     }
 
     /**

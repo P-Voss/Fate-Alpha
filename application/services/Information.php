@@ -5,8 +5,9 @@
  *
  * @author Vosser
  */
-class Application_Service_Information {
-    
+class Application_Service_Information
+{
+
     /**
      * @var Application_Model_Charakter
      */
@@ -19,15 +20,17 @@ class Application_Service_Information {
      * @var Application_Model_Mapper_InformationMapper
      */
     private $informationMapper;
-    
-    public function __construct() {
+
+    public function __construct ()
+    {
         $this->informationMapper = new Application_Model_Mapper_InformationMapper();
     }
-    
+
     /**
      * @param Application_Model_Charakter $charakter
      */
-    public function setCharakter(Application_Model_Charakter $charakter) {
+    public function setCharakter (Application_Model_Charakter $charakter)
+    {
         $this->charakter = $charakter;
         $this->requirementValidator = new Application_Service_Requirement($charakter);
     }
@@ -39,7 +42,8 @@ class Application_Service_Information {
      * @return Application_Model_Information
      * @throws Exception
      */
-    public function getInformation($informationId, $userId) {
+    public function getInformation ($informationId, $userId)
+    {
         return $this->informationMapper->getInformation($userId, $informationId);
     }
 
@@ -47,14 +51,17 @@ class Application_Service_Information {
      * @return Application_Model_Information[]
      * @throws Exception
      */
-    public function getInformations() {
+    public function getInformations ()
+    {
         return $this->informationMapper->getInformationsByUserId(Zend_Auth::getInstance()->getIdentity()->userId);
     }
 
     /**
      *
+     * @throws Exception
      */
-    public function refreshInformation() {
+    public function refreshInformation ()
+    {
         $charakterService = new Application_Service_Charakter();
         $informations = $this->initInformations();
         $users = $this->initUsers();
@@ -71,7 +78,9 @@ class Application_Service_Information {
                     array_merge(
                         $this->buildInformationZuo($informations),
                         array_map(
-                            function(Application_Model_Information $information) {return $information->getInformationId();},
+                            function (Application_Model_Information $information) {
+                                return $information->getInformationId();
+                            },
                             $this->informationMapper->getCharacterInformations($charakter->getCharakterid())
                         )
                     )
@@ -93,17 +102,18 @@ class Application_Service_Information {
      *
      * @return array
      */
-    private function buildInformationZuo($informations) {
+    private function buildInformationZuo ($informations)
+    {
         $returnArray = [];
         foreach ($informations as $information) {
-            if(count($information->getRequirementList()->getRequirements()) === 0){
+            if (count($information->getRequirementList()->getRequirements()) === 0) {
                 $returnArray[] = $information->getInformationId();
                 continue;
             }
-            if($this->charakter === null){
+            if ($this->charakter === null) {
                 continue;
             }
-            if($this->checkValidation($information) === true){
+            if ($this->checkValidation($information) === true) {
                 $returnArray[] = $information->getInformationId();
             }
         }
@@ -115,12 +125,13 @@ class Application_Service_Information {
      *
      * @return boolean
      */
-    private function checkValidation(Application_Model_Information $information){
+    private function checkValidation (Application_Model_Information $information)
+    {
         $validatorFactory = new Application_Model_Requirements_Factory();
         try {
             foreach ($information->getRequirementList()->getRequirements() as $requirement) {
                 $validator = $validatorFactory->getValidator($requirement->getArt());
-                if($validator->check($this->charakter, $requirement->getRequiredValue()) !== true){
+                if ($validator->check($this->charakter, $requirement->getRequiredValue()) !== true) {
                     return false;
                 }
             }
@@ -133,20 +144,22 @@ class Application_Service_Information {
     /**
      * @return Application_Model_User[]
      */
-    private function initUsers() {
+    private function initUsers ()
+    {
         $userService = new Application_Service_User();
         return $userService->getActiveUsers();
     }
-    
+
     /**
      * @return Application_Model_Information[]
      */
-    private function initInformations() {
+    private function initInformations ()
+    {
         $informations = $this->informationMapper->getInformations();
         foreach ($informations as $information) {
             $information->setRequirementList($this->informationMapper->getRequirements($information->getInformationId()));
         }
         return $informations;
     }
-    
+
 }

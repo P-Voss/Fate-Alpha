@@ -165,8 +165,6 @@ class Application_Model_Charakterwerte
     }
 
     /**
-     * @todo Bonus auf Übung wenn Menschen Disziplin trainieren?
-     *
      * @param Application_Model_Training_Attribute $attribute
      * @param int $klassengruppe
      */
@@ -333,7 +331,7 @@ class Application_Model_Charakterwerte
     {
         foreach ($traits as $trait) {
             if ($trait instanceof Application_Model_Trait) {
-                switch ((int) $trait->getTraitId()) {
+                switch ((int)$trait->getTraitId()) {
                     case 1:
                         $this->uebermenschMods['str'] = 1;
                         break;

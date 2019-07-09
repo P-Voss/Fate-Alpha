@@ -11,7 +11,7 @@ class Application_Model_Mapper_OrteMapper
     /**
      * @param string $tablename
      *
-     * @return \Zend_Db_Table_Abstract
+     * @return Zend_Db_Table_Abstract
      * @throws Exception
      */
     public function getDbTable ($tablename)
@@ -27,6 +27,9 @@ class Application_Model_Mapper_OrteMapper
         return $dbTable;
     }
 
+    /**
+     * @var array
+     */
     private $orteArray = [
         'Bahnhof' => [
             'Name' => 'Bahnhof',
@@ -170,12 +173,18 @@ class Application_Model_Mapper_OrteMapper
     }
 
 
+    /**
+     * @return array
+     */
     public function getAttractions ()
     {
         return $this->orteArray;
     }
 
 
+    /**
+     * @return array
+     */
     public function getDistricts ()
     {
         try {

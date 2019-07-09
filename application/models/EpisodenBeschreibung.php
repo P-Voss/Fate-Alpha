@@ -5,25 +5,48 @@
  *
  * @author Voß
  */
-class Application_Model_EpisodenBeschreibung {
-    
+class Application_Model_EpisodenBeschreibung
+{
+
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var string
+     */
     protected $creationdate;
-    
-    public function getBeschreibung() {
+
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getCreationdate() {
+    /**
+     * @return string
+     */
+    public function getCreationdate ()
+    {
         return $this->creationdate;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setCreationdate($creationdate) {
+    /**
+     * @param $creationdate
+     */
+    public function setCreationdate ($creationdate)
+    {
         $this->creationdate = $creationdate;
     }
-    
+
 }

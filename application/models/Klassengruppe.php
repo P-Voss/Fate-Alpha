@@ -5,35 +5,69 @@
  *
  * @author Vosser
  */
-class Application_Model_Klassengruppe{
-    
+class Application_Model_Klassengruppe
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $bezeichnung;
+    /**
+     * @var string
+     */
     protected $beschreibung;
-    
-    
-    public function getId() {
+
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    /**
+     * @return string
+     */
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    /**
+     * @param $bezeichnung
+     */
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
-    
+
 }

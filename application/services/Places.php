@@ -5,7 +5,8 @@
  *
  * @author Vosser
  */
-class Application_Service_Places {
+class Application_Service_Places
+{
 
     /**
      * @var Application_Model_Mapper_OrteMapper
@@ -22,7 +23,8 @@ class Application_Service_Places {
      *
      * @return array
      */
-    public function getOrtePreview($name) {
+    public function getOrtePreview ($name)
+    {
         return $this->placesMapper->getOrtePreview($name);
     }
 
@@ -31,8 +33,9 @@ class Application_Service_Places {
      *
      * @return array
      */
-    public function getStadtteilePreview($name) {
+    public function getStadtteilePreview ($name)
+    {
         return $this->placesMapper->getStadtteilPreview($name);
     }
-    
+
 }

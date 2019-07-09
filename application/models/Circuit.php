@@ -5,52 +5,108 @@
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Application_Model_Circuit {
-    
+class Application_Model_Circuit
+{
+
+    /**
+     * @var int
+     */
     protected $id;
+    /**
+     * @var string
+     */
     protected $kategorie;
+    /**
+     * @var string
+     */
     protected $menge;
+    /**
+     * @var string
+     */
     protected $beschreibung;
+    /**
+     * @var string
+     */
     protected $kosten;
-    
-    public function getId() {
+
+    /**
+     * @return int
+     */
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getKategorie() {
+    /**
+     * @return string
+     */
+    public function getKategorie ()
+    {
         return $this->kategorie;
     }
 
-    public function getMenge() {
+    /**
+     * @return string
+     */
+    public function getMenge ()
+    {
         return $this->menge;
     }
 
-    public function getBeschreibung() {
+    /**
+     * @return string
+     */
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getKosten() {
+    /**
+     * @return string
+     */
+    public function getKosten ()
+    {
         return $this->kosten;
     }
 
-    public function setId($id) {
+    /**
+     * @param $id
+     */
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setKategorie($kategorie) {
+    /**
+     * @param $kategorie
+     */
+    public function setKategorie ($kategorie)
+    {
         $this->kategorie = $kategorie;
     }
 
-    public function setMenge($menge) {
+    /**
+     * @param $menge
+     */
+    public function setMenge ($menge)
+    {
         $this->menge = $menge;
     }
 
-    public function setBeschreibung($beschreibung) {
+    /**
+     * @param $beschreibung
+     */
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setKosten($kosten) {
+    /**
+     * @param $kosten
+     */
+    public function setKosten ($kosten)
+    {
         $this->kosten = $kosten;
     }
-    
+
 }
