@@ -12,12 +12,19 @@ foreach ($skill->getRequirementList()->getRequirements() as $requirement) {
     if($requirement->getArt() === 'Trait'){
         $traitReq = explode('|', $requirement->getRequiredValue());
     }
+    if($requirement->getArt() === 'Character'){
+        $characterReq = explode('|', $requirement->getRequiredValue());
+    }
 }
 $beschreibung = $skill->getBeschreibung();
 $skillsAny = explode('|', $skill->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
 $reqClasses = explode('|', $skill->getRequirementList()->getRequirementByKey('Klasse')->getRequiredValue());
 $reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gruppe')->getRequiredValue());
+/** @var HTMLPurifier $purifier */
+$purifier = $this->purifier;
+/** @var Application_Model_Charakter $characters */
+$characters = $this->characters;
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
@@ -28,6 +35,22 @@ $reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gru
         </span>
         <label for="kosten">FP-Kosten</label>
         <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
+    </div>
+    <div>
+        <div style="width: 50%; display: inline-block;">
+            <label for="characters">Nur für</label>
+            <select name="characters[]" id="characters" multiple size="7">
+                <?php
+                foreach ($characters as $character):
+                    $selected = '';
+                    if (in_array($character->getCharakterid(), $characterReq)) {
+                        $selected = 'selected=""';
+                    }
+                    ?>
+                    <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
     <div>
         <span style="width: 50%; display: inline-block">

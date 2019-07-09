@@ -10,6 +10,8 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /* @var $schule Administration_Model_Schule */
 /* @var $requirement Administration_Model_Requirement */
 $purifier = $this->purifier;
+/** @var Application_Model_Charakter $characters */
+$characters = $this->characters;
 ?>
 <h1>Magie erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
@@ -22,6 +24,16 @@ $purifier = $this->purifier;
             <div style="width: 45%; display: inline-block;">
                 <label for="fp">FP-Kosten</label>
                 <input type="number" name="fp"/>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="characters">Nur für</label>
+                <select name="characters[]" id="characters" multiple size="7">
+                    <?php foreach ($characters as $character): ?>
+                        <option value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
         <div>

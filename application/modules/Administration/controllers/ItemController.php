@@ -49,6 +49,9 @@ class Administration_ItemController extends Zend_Controller_Action {
         } catch (Exception $exception) {
             $this->redirect('Administration/item');
         }
+        $characterService = new Administration_Service_Charakter();
+        $this->view->characters = $characterService->getCharakters();
+
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
@@ -59,6 +62,9 @@ class Administration_ItemController extends Zend_Controller_Action {
     }
     
     public function newAction() {
+        $characterService = new Administration_Service_Charakter();
+        $this->view->characters = $characterService->getCharakters();
+
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();

@@ -6,6 +6,8 @@ $lernbedingungen = [
     'RPG-Ereignis',
     'Lehrer',
 ];
+/** @var Application_Model_Charakter $characters */
+$characters = $this->characters;
 ?>
 <h1>Fähigkeit erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/create" method="post">
@@ -16,6 +18,16 @@ $lernbedingungen = [
         </span>
         <label for="kosten">FP-Kosten</label>
         <input type="number" name="fp" value="" />
+    </div>
+    <div>
+        <div style="width: 50%; display: inline-block;">
+            <label for="characters">Nur für</label>
+            <select name="characters[]" id="characters" multiple size="7">
+                <?php foreach ($characters as $character): ?>
+                    <option value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
     <div>
         <span style="width: 50%; display: inline-block">

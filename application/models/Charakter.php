@@ -33,15 +33,15 @@ class Application_Model_Charakter
     /**
      * @var string
      */
-    protected $vorname;
+    protected $vorname = '';
     /**
      * @var string
      */
-    protected $nachname;
+    protected $nachname = '';
     /**
      * @var string
      */
-    protected $nickname;
+    protected $nickname = '';
     /**
      * @var DateInterval
      */
@@ -1010,6 +1010,21 @@ class Application_Model_Charakter
     public function getModifiers ()
     {
         return $this->modifiers;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString ()
+    {
+        if (!empty($this->nickname)) {
+            return implode(
+                ' ',
+                [$this->vorname, '"' . $this->nickname . '""', $this->nachname]
+            );
+        } else {
+            return $this->vorname . ' ' .$this->nachname;
+        }
     }
 
 }

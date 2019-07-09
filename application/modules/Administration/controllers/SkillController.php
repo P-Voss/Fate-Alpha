@@ -45,6 +45,9 @@ class Administration_SkillController extends Zend_Controller_Action {
     }
     
     public function showAction() {
+        $characterService = new Administration_Service_Charakter();
+        $this->view->characters = $characterService->getCharakters();
+
         $this->view->skill = $this->skillService->getSkillById((int) $this->getRequest()->getParam('id'));
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
@@ -56,6 +59,9 @@ class Administration_SkillController extends Zend_Controller_Action {
     }
     
     public function newAction() {
+        $characterService = new Administration_Service_Charakter();
+        $this->view->characters = $characterService->getCharakters();
+
         $this->view->skills = $this->skillService->getSkillList();
         $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();

@@ -35,6 +35,9 @@ foreach ($item->getRequirementList()->getRequirements() as $requirement) {
     if($requirement->getArt() === 'Trait'){
         $traitReq = explode('|', $requirement->getRequiredValue());
     }
+    if($requirement->getArt() === 'Character'){
+        $characterReq = explode('|', $requirement->getRequiredValue());
+    }
 }
 $skillsAny = explode('|', $item->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $item->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
@@ -59,6 +62,10 @@ $days = [
     6 => 'Samstag',
     7 => 'Sonntag',
 ];
+/** @var HTMLPurifier $purifier */
+$purifier = $this->purifier;
+/** @var Application_Model_Charakter $characters */
+$characters = $this->characters;
 ?>
 <h1>Item anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/item/edit" method="post">
@@ -73,6 +80,22 @@ $days = [
                 <select name="bedingung" id="bedingung">
                     <option <?= $item->getBedingung() === 'Standard' ? 'selected=""' : '' ?>>Standard</option>
                     <option <?= $item->getBedingung() === 'RPG' ? 'selected=""' : '' ?>>RPG</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="characters">Nur für</label>
+                <select name="characters[]" id="characters" multiple size="7">
+                    <?php
+                    foreach ($characters as $character):
+                        $selected = '';
+                        if (in_array($character->getCharakterid(), $characterReq)) {
+                            $selected = 'selected=""';
+                        }
+                        ?>
+                        <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>

@@ -97,14 +97,17 @@ class Application_Service_Charakter {
 
     /**
      * @return array
-     * @throws Exception
      */
     public function getCharakters() {
-        $charakters = $this->charakterMapper->getAllCharakters();
-        foreach ($charakters as $charakter) {
-            $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
+        try {
+            $charakters = $this->charakterMapper->getAllCharakters();
+            foreach ($charakters as $charakter) {
+                $charakter->setCharakterprofil($this->getProfile($charakter->getCharakterid()));
+            }
+            return $charakters;
+        } catch (Exception $exception) {
+            return [];
         }
-        return $charakters;
     }
 
     /**

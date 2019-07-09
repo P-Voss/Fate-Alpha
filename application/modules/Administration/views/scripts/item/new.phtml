@@ -9,7 +9,6 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /* @var $element Administration_Model_Element */
 /* @var $schule Administration_Model_Schule */
 /* @var $requirement Administration_Model_Requirement */
-$purifier = $this->purifier;
 $days = [
     1 => 'Montag',
     2 => 'Dienstag',
@@ -19,20 +18,34 @@ $days = [
     6 => 'Samstag',
     7 => 'Sonntag',
 ];
+/** @var HTMLPurifier $purifier */
+$purifier = $this->purifier;
+/** @var Application_Model_Charakter $characters */
+$characters = $this->characters;
 ?>
-<h1>Magie erstellen</h1>
+<h1>Gegenstand erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/item/create" method="post" >
     <fieldset>
         <div>
             <div style="width: 50%; display: inline-block;">
                 <label for="name">Name</label>
-                <input type="text" size="30" name="name" />
+                <input type="text" size="30" name="name" id="name" />
             </div>
             <div style="width: 45%; display: inline-block;">
                 <label for="bedingung">Kaufbedingung</label>
                 <select name="bedingung" id="bedingung">
                     <option>Standard</option>
                     <option>RPG</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 50%; display: inline-block;">
+                <label for="characters">Nur für</label>
+                <select name="characters[]" id="characters" multiple size="7">
+                    <?php foreach ($characters as $character): ?>
+                        <option value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
@@ -49,7 +62,7 @@ $days = [
         <div>
             <div style="width: 50%; display: inline-block;">
                 <label for="type">Item Art</label>
-                <select name="type">
+                <select name="type" id="type">
                     <option value="<?= Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE ?>">Waffe - Nahkampf</option>
                     <option value="<?= Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED ?>">Waffe - Fernkampf</option>
                     <option value="<?= Shop_Model_Itemtypes::ITEMTYPE_WEAPON_CONCEPT ?>">Waffe - Konzept</option>
@@ -60,13 +73,13 @@ $days = [
             </div>
             <div style="width: 45%; display: inline-block;">
                 <label for="fp">FP-Kosten</label>
-                <input type="number" name="fp"/>
+                <input type="number" id="fp" name="fp"/>
             </div>
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
                 <label for="uebung">benötigte Übung</label>
-                <input type="number" name="uebung" />
+                <input type="number" id="uebung" name="uebung" />
             </div>
             <div style="width: 45%; display: inline-block;">
                 <label for="disziplin">benötigte Disziplin</label>
@@ -78,7 +91,7 @@ $days = [
                 <label for="rang">
                     Rang
                 </label>
-                <select name="rang">
+                <select name="rang" id="rang">
                     <option>EX</option>
                     <option>A</option>
                     <option>B</option>
@@ -110,7 +123,7 @@ $days = [
                 <label for="magieschule">
                     Eine von diesen Magieschulen:
                 </label>
-                <select name="magieschulenAny[]" multiple="true" size="5">
+                <select name="magieschulenAny[]" id="magieschule" multiple="true" size="5">
                     <?php foreach ($this->schulen as $schule): ?>
                         <option value="<?= $schule->getId() ?>">
                             <?= $schule->getBezeichnung() ?>
@@ -124,7 +137,7 @@ $days = [
                 <label for="gruppen" style="vertical-align: top">
                     Klassengruppen:
                 </label>
-                <select name="gruppen[]" multiple="true" size="5">
+                <select name="gruppen[]"  id="gruppen" multiple="true" size="5">
                     <?php foreach ($this->klassengruppen as $gruppe) { ?>
                         <option value="<?= $gruppe->getId() ?>">
                             <?= $purifier->purify($gruppe->getBezeichnung()) ?>
@@ -136,7 +149,7 @@ $days = [
                 <label for="klassen" style="vertical-align: top">
                     Klassen:
                 </label>
-                <select name="klassen[]" multiple="true" size="5">
+                <select name="klassen[]" id="klassen" multiple="true" size="5">
                     <?php foreach ($this->klassen as $klasse) { ?>
                         <option value="<?= $klasse->getId() ?>">
                             <?= $purifier->purify($klasse->getBezeichnung()) ?>
@@ -149,7 +162,7 @@ $days = [
             <label for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select name="trait[]" multiple="true" size="8">
+            <select name="trait[]" id="trait" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
                     <option value="<?= $trait->getTraitId() ?>">
                         <?= $purifier->purify($trait->getName()) ?>
@@ -188,7 +201,7 @@ $days = [
                 <label for="skillsIncompatible" style="vertical-align: top">
                     Nicht kombinierbar mit:
                 </label>
-                <select name="skillsIncompatible[]" multiple="true" size="8">
+                <select name="skillsIncompatible[]" id="skillsIncompatible" multiple="true" size="8">
                     <?php foreach ($this->skills as $skill) { ?>
                         <option value="<?= $skill->getId() ?>">
                             <?= $purifier->purify($skill->getBezeichnung()) ?>

@@ -69,7 +69,7 @@ class Administration_Service_Requirement
      * @return Administration_Model_Requirementlist
      * @throws Exception
      */
-    public function getRequirementListSchool($schuleId)
+    public function getRequirementListSchool ($schuleId)
     {
         $mapper = new Administration_Model_Mapper_SchuleMapper();
         return $mapper->getRequirementListSchool($schuleId);
@@ -133,6 +133,9 @@ class Administration_Service_Requirement
         }
         if ($request->getParam('trait') !== null) {
             $requirements['Trait'] = implode('|', $request->getParam('trait'));
+        }
+        if ($request->getParam('characters') !== null) {
+            $requirements['Character'] = implode('|', $request->getParam('characters'));
         }
         return $requirements;
     }
