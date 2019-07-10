@@ -1,0 +1,21 @@
+<?php
+/** @var Application_Model_Skill[] $skills */
+$skills = $this->skills;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<label for="skillsIncompatible" style="vertical-align: top">
+    Nicht kombinierbar mit Fähigkeiten:
+</label>
+<select name="skillsIncompatible[]" id="skillsIncompatible" multiple="" size="8">
+    <?php foreach ($skills as $listedSkill) {
+        $selected = in_array(
+            $listedSkill->getId(),
+            $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::SKILL_INC)
+        ) ? 'selected' : '';
+        ?>
+        <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+            <?= $listedSkill->getBezeichnung() ?>
+        </option>
+    <?php } ?>
+</select>

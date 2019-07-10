@@ -1,0 +1,17 @@
+<?php
+/** @var Application_Model_Klassengruppe[] $groups */
+$groups = $this->groups;
+?>
+<label for="gruppen" style="vertical-align: top">
+    Klassengruppen:
+</label>
+<select name="gruppen[]" id="gruppen" multiple="" size="5">
+    <?php
+    foreach ($groups as $group) {
+        $selected = in_array($group->getId(), $this->ids) ? 'selected' : '';
+        ?>
+        <option <?= $selected ?> value="<?= $group->getId() ?>">
+            <?= $this->purify($group->getBezeichnung()) ?>
+        </option>
+    <?php } ?>
+</select>

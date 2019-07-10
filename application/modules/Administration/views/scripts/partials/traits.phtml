@@ -1,0 +1,21 @@
+<?php
+/** @var Application_Model_Trait[] $traits */
+$traits = $this->traits;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<label for="trait">
+    Nicht kombinierbar mit den Traits:
+</label>
+<select name="trait[]" id="trait" multiple="" size="8">
+    <?php foreach ($this->traits as $trait) {
+        $selected = in_array(
+            $trait->getTraitId(),
+            $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::TRAIT)
+        ) ? 'selected' : '';
+        ?>
+        <option <?= $selected ?>  value="<?= $trait->getTraitId() ?>">
+            <?= $this->purify($trait->getName()) ?>
+        </option>
+    <?php } ?>
+</select>

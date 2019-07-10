@@ -8,21 +8,8 @@ $lernbedingungen = [
     'RPG-Ereignis',
     'Lehrer',
 ];
-foreach ($skill->getRequirementList()->getRequirements() as $requirement) {
-    if($requirement->getArt() === 'Trait'){
-        $traitReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Character'){
-        $characterReq = explode('|', $requirement->getRequiredValue());
-    }
-}
-$beschreibung = $skill->getBeschreibung();
-$skillsAny = explode('|', $skill->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
-$magieAny = explode('|', $skill->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
-$reqClasses = explode('|', $skill->getRequirementList()->getRequirementByKey('Klasse')->getRequiredValue());
-$reqGroups = explode('|', $skill->getRequirementList()->getRequirementByKey('Gruppe')->getRequiredValue());
-/** @var HTMLPurifier $purifier */
-$purifier = $this->purifier;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $skill->getRequirementList();
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
@@ -38,18 +25,7 @@ $characters = $this->characters;
     </div>
     <div>
         <div style="width: 50%; display: inline-block;">
-            <label for="characters">Nur für</label>
-            <select name="characters[]" id="characters" multiple size="7">
-                <?php
-                foreach ($characters as $character):
-                    $selected = '';
-                    if (in_array($character->getCharakterid(), $characterReq)) {
-                        $selected = 'selected=""';
-                    }
-                    ?>
-                    <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
-                <?php endforeach; ?>
-            </select>
+            <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => $requirementList]) ?>
         </div>
     </div>
     <div>
@@ -67,7 +43,7 @@ $characters = $this->characters;
         <label for="rang">
             Rang
         </label>
-        <select name="rang">
+        <select id="rang" name="rang">
             <option <?= ($skill->getRang() === 'EX') ? 'selected="true"' : '' ?>>EX</option>
             <option <?= ($skill->getRang() === 'A') ? 'selected="true"' : '' ?>>A</option>
             <option <?= ($skill->getRang() === 'B') ? 'selected="true"' : '' ?>>B</option>
@@ -102,210 +78,54 @@ $characters = $this->characters;
     <fieldset>
         <legend>Voraussetzungen</legend>
         <div>
-            <span style="width: 50%; display: inline-block">
-                <label for="uebung">
-                    benötigte Übung
-                </label>
-                <input type="number" name="uebung" value="<?= $skill->getUebung() ?>" />
-            </span>
-            <label for="disziplin">
-                benötigte Disziplin
-            </label>
-            <input type="number" name="disziplin" value="<?= $skill->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
-        </div>
-        <div>
             <label for="lernbedingung">
                 Lernbedingung
             </label>
-            <select name="lernbedingung">
+            <select id="lernbedingung" name="lernbedingung">
                 <?php foreach($lernbedingungen as $bedingung): ?>
                 <option <?= ($skill->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-        <div>
-            <label for="staerke">Stärke</label>
-            <input type="number" size="30" name="staerke" id="staerke" value="<?= $skill->getRequirementList()->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="agilitaet">Agilität</label>
-            <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $skill->getRequirementList()->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="ausdauer">Ausdauer</label>
-            <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $skill->getRequirementList()->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="kontrolle">Kontrolle</label>
-            <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $skill->getRequirementList()->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
-        </div>
+        <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
         <div>
             <div style="width: 50%; display: inline-block;">
-                <label for="gruppen" style="vertical-align: top">
-                    Klassengruppen:
-                </label>
-                <select name="gruppen[]" multiple="true" size="5">
-                    <?php 
-                    foreach ($this->klassengruppen as $gruppe) {
-                        $selected = in_array($gruppe->getId(), $reqGroups) ? 'selected' : '';
-                    ?>
-                    <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
-                        <?= $gruppe->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
             </div>
             <div style="width: 45%; display: inline-block;">
-                <label for="klassen" style="vertical-align: top">
-                    Klassen:
-                </label>
-                <select name="klassen[]" multiple="true" size="5">
-                    <?php foreach ($this->klassen as $klasse) {
-                        $selected = in_array($klasse->getId(), $reqClasses) ? 'selected' : '';
-                    ?>
-                    <option <?= $selected ?> value="<?= $klasse->getId() ?>">
-                        <?= $klasse->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
         <div>
-            <label for="trait">
-                Nicht kombinierbar mit den Traits:
-            </label>
-            <select name="trait[]" multiple="true" size="8">
-                <?php foreach ($this->traits as $trait) {
-                    $selected = in_array($trait->getTraitId(), $traitReq) ? 'selected' : '';
-                ?>
-                    <option <?= $selected ?>  value="<?= $trait->getTraitId() ?>">
-                        <?= $trait->getName() ?>
-                    </option>
-                <?php } ?>
-            </select>
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
         </div>
         <div>
             <div style="width: 50%; display: inline-block; vertical-align: top">
-                <label for="skills" style="vertical-align: top">
-                    Fähigkeiten:
-                </label>
-                <select name="skills[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                    ?>
-                    <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
             <div style="width: 45%; display: inline-block;">
-                <label for="skillsAny" style="vertical-align: top">
-                    Irgendeine von diesen Fähigkeiten:
-                </label>
-                <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) { 
-                        $selected = '';
-                        if(in_array($listedSkill->getId(), $skillsAny)){
-                            $selected = 'selected="true"';
-                        }
-                    ?>
-                    <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
-                <label for="magien" style="vertical-align: top">
-                    Magien:
-                </label>
-                <select name="magien[]" id="magien" multiple="true" size="8">
-                    <?php foreach ($this->magien as $magie) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('Magie') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $magie->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                    ?>
-                    <option <?= $selected ?> value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
             </div>
             <div style="width: 45%; display: inline-block;">
-                <label for="magienAny" style="vertical-align: top">
-                    Irgendeine von diesen Magien:
-                </label>
-                <select name="magienAny[]" id="magienAny" multiple="true" size="8">
-                    <?php foreach ($this->magien as $magie) { 
-                        $selected = '';
-                        if(in_array($magie->getId(), $magieAny)){
-                            $selected = 'selected="true"';
-                        }
-                    ?>
-                    <option <?= $selected ?> value="<?= $magie->getId() ?>">
-                        <?= $magie->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
         <div>
             <div style="width: 50%; display: inline-block;">
-                <label for="skillsIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit Fähigkeiten:
-                </label>
-                <select name="skillsIncompatible[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                    ?>
-                    <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
-                        <?= $listedSkill->getBezeichnung() ?>
-                    </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="nachteilIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit Nachteilen:
-                </label>
-                <select name="nachteilIncompatible[]" id="nachteilIncompatible" multiple="true" size="8">
-                    <?php foreach ($this->nachteile as $nachteil):
-                        $selected = '';
-                        foreach ($skill->getRequirementList()->getRequirementArrayByKey('NachteilInc') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $nachteil->getId()){
-                                $selected = 'selected=""';
-                            }
-                        }
-                    ?>
-                    <option value="<?= $nachteil->getId() ?>" <?= $selected ?>>
-                        <?= $nachteil->getBezeichnung() ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
+                <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
     </fieldset>
     <label for="beschreibung">
         Beschreibung
     </label>
-    <textarea name="beschreibung" cols="80" rows="10">
-        <?= $this->purifier->purify($beschreibung) ?>
+    <textarea name="beschreibung" id="beschreibung" cols="80" rows="10">
+        <?= $this->purify($skill->getBeschreibung()) ?>
     </textarea>
     <div align="center">
         <input type="hidden" name="skillId" value="<?= $this->skill->getId() ?>">

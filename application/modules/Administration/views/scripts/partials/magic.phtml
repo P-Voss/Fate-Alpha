@@ -1,0 +1,21 @@
+<?php
+/** @var Application_Model_Magie[] $magic */
+$magics = $this->magic;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<label for="magien" style="vertical-align: top">
+    Magien:
+</label>
+<select name="magien[]" id="magien" multiple="true" size="8">
+    <?php foreach ($magics as $magic) {
+        $selected = in_array(
+            $magic->getId(),
+            $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::MAGIC)
+        ) ? 'selected' : '';
+        ?>
+        <option <?= $selected ?> value="<?= $magic->getId() ?>">
+            <?= $this->purify($magic->getBezeichnung()) ?>
+        </option>
+    <?php } ?>
+</select>

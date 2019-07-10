@@ -1,0 +1,18 @@
+<?php
+/** @var Application_Model_Charakter[] $characters */
+$characters = $this->characters;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<label for="characters">Nur für</label>
+<select name="characters[]" id="characters" multiple size="7">
+    <?php
+    foreach ($characters as $character):
+        $selected = '';
+        if (in_array($character->getCharakterid(), $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::CHARACTER))) {
+            $selected = 'selected=""';
+        }
+        ?>
+        <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $this->purify($character) ?></option>
+    <?php endforeach; ?>
+</select>

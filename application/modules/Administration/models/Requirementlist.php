@@ -5,11 +5,12 @@
  *
  * @author Voß
  */
-class Administration_Model_Requirementlist implements Iterator
+class Administration_Model_Requirementlist
 {
 
+    CONST DELIMITER = '|';
     /**
-     * @var array
+     * @var Administration_Model_Requirement[]
      */
     private $requirements = [];
 
@@ -37,7 +38,7 @@ class Administration_Model_Requirementlist implements Iterator
     /**
      * @param $key
      *
-     * @return Administration_Model_Requirement|mixed
+     * @return Administration_Model_Requirement
      */
     public function getRequirementByKey ($key)
     {
@@ -47,6 +48,21 @@ class Administration_Model_Requirementlist implements Iterator
             }
         }
         return new Administration_Model_Requirement();
+    }
+
+    /**
+     * @param $key
+     *
+     * @return array
+     */
+    public function getRequirementValuesByKey ($key)
+    {
+        foreach ($this->requirements as $requirement) {
+            if ($requirement->getArt() === $key) {
+                return explode(self::DELIMITER, $requirement->getRequiredValue());
+            }
+        }
+        return [];
     }
 
 
@@ -73,46 +89,6 @@ class Administration_Model_Requirementlist implements Iterator
     public function addRequirement (Administration_Model_Requirement $requirement)
     {
         $this->requirements[] = $requirement;
-    }
-
-    /**
-     * @return mixed|void
-     */
-    public function current ()
-    {
-
-    }
-
-    /**
-     *
-     */
-    public function next ()
-    {
-
-    }
-
-    /**
-     * @return mixed|void
-     */
-    public function key ()
-    {
-
-    }
-
-    /**
-     *
-     */
-    public function rewind ()
-    {
-
-    }
-
-    /**
-     * @return bool|void
-     */
-    public function valid ()
-    {
-
     }
 
 }

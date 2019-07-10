@@ -1,0 +1,32 @@
+<?php
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<div>
+    <span style="width: 50%; display: inline-block">
+        <label for="uebung">
+            benötigte Übung
+        </label>
+        <input id="uebung" type="number" name="uebung" value="<?= $requirementList->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
+    </span>
+    <label for="disziplin">
+        benötigte Disziplin
+    </label>
+    <input id="disziplin" type="number" name="disziplin" value="<?= $requirementList->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+</div>
+<div>
+    <label for="staerke">Stärke</label>
+    <input type="number" size="30" name="staerke" id="staerke" value="<?= $requirementList->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
+</div>
+<div>
+    <label for="agilitaet">Agilität</label>
+    <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $requirementList->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
+</div>
+<div>
+    <label for="ausdauer">Ausdauer</label>
+    <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $requirementList->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
+</div>
+<div>
+    <label for="kontrolle">Kontrolle</label>
+    <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $requirementList->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
+</div>
