@@ -1,82 +1,104 @@
 <?php
 
-class Administration_Model_Mapper_SkillMapper {
+/**
+ * Class Administration_Model_Mapper_SkillMapper
+ */
+class Administration_Model_Mapper_SkillMapper
+{
 
-    
-    public function getDbTable($tablename) {
+    /**
+     * @param $tablename
+     *
+     * @return Zend_Db_Table_Abstract
+     * @throws Exception
+     */
+    public function getDbTable ($tablename)
+    {
         $className = 'Application_Model_DbTable_' . $tablename;
-        if(!class_exists($className)){
+        if (!class_exists($className)) {
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if(!$dbTable instanceof Zend_Db_Table_Abstract){
+        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
     }
-    
-    public function getSkills() {
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getSkills ()
+    {
         $returnArray = [];
         $select = $this->getDbTable('Skill')->select();
         $select->distinct();
         $select->order('skillartId');
         $result = $this->getDbTable('Skill')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Skill();
-                $model->setId($row->skillId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setRang($row->rang);
-                $model->setSkillArt($row->skillartId);
-                $model->setDisziplin($row->disziplin);
-                $model->setUebung($row->uebung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Skill();
+            $model->setId($row->skillId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setRang($row->rang);
+            $model->setSkillArt($row->skillartId);
+            $model->setDisziplin($row->disziplin);
+            $model->setUebung($row->uebung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
-    
-    
-    public function searchSkills($skillarten = [], $gruppen = [], $klassen = []) {
+
+
+    /**
+     * @param array $skillarten
+     * @param array $gruppen
+     * @param array $klassen
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function searchSkills ($skillarten = [], $gruppen = [], $klassen = [])
+    {
         $returnArray = [];
         $select = $this->getDbTable('Skill')->select();
         $select->from('skills');
-        
+
         if (count($skillarten) > 0) {
             $select->where('skillartId IN (?)', $skillarten);
         }
         if (count($gruppen) > 0) {
             $select->joinLeft(
-                    ['gruppen' => 'skillCharakterVoraussetzungen'],
-                    'gruppen.skillId = skills.skillId AND gruppen.art = "Gruppe"',
-                    []);
+                ['gruppen' => 'skillCharakterVoraussetzungen'],
+                'gruppen.skillId = skills.skillId AND gruppen.art = "Gruppe"',
+                []
+            );
             $select->where('gruppen.voraussetzung IN (?)', $gruppen);
         }
         if (count($klassen) > 0) {
             $select->joinLeft(
-                    ['klassen' => 'skillCharakterVoraussetzungen'],
-                    'klassen.skillId = skills.skillId AND klassen.art = "Klasse"',
-                    []);
+                ['klassen' => 'skillCharakterVoraussetzungen'],
+                'klassen.skillId = skills.skillId AND klassen.art = "Klasse"',
+                []
+            );
             $select->where('klassen.voraussetzung IN (?)', $klassen);
         }
-        
+
         $select->order('skillartId');
         $result = $this->getDbTable('Skill')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Skill();
-                $model->setId($row->skillId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setRang($row->rang);
-                $model->setSkillArt($row->skillartId);
-                $model->setDisziplin($row->disziplin);
-                $model->setUebung($row->uebung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Skill();
+            $model->setId($row->skillId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setRang($row->rang);
+            $model->setSkillArt($row->skillartId);
+            $model->setDisziplin($row->disziplin);
+            $model->setUebung($row->uebung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
@@ -85,36 +107,42 @@ class Administration_Model_Mapper_SkillMapper {
      * @return array
      * @throws Exception
      */
-    public function getRpgSkills() {
+    public function getRpgSkills ()
+    {
         $returnArray = [];
         $select = $this->getDbTable('Skill')->select();
         $select->distinct();
         $select->where('lernbedingung != "Standard"');
         $select->order('skillartId');
         $result = $this->getDbTable('Skill')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Skill();
-                $model->setId($row->skillId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setRang($row->rang);
-                $model->setSkillArt($row->skillartId);
-                $model->setDisziplin($row->disziplin);
-                $model->setUebung($row->uebung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Skill();
+            $model->setId($row->skillId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setRang($row->rang);
+            $model->setSkillArt($row->skillartId);
+            $model->setDisziplin($row->disziplin);
+            $model->setUebung($row->uebung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
-    
-    public function getSkillById($skillId) {
+
+    /**
+     * @param $skillId
+     *
+     * @return Administration_Model_Skill
+     * @throws Exception
+     */
+    public function getSkillById ($skillId)
+    {
         $model = new Administration_Model_Skill();
         $select = $this->getDbTable('Skill')->select();
         $select->where('skillId = ?', $skillId);
         $row = $this->getDbTable('Skill')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $model->setId($skillId);
             $model->setBezeichnung($row['name']);
             $model->setBeschreibung($row['beschreibung']);
@@ -128,9 +156,16 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $model;
     }
-    
-    
-    public function createSkill(Administration_Model_Skill $skill) {
+
+
+    /**
+     * @param Administration_Model_Skill $skill
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function createSkill (Administration_Model_Skill $skill)
+    {
         $data['name'] = $skill->getBezeichnung();
         $data['beschreibung'] = $skill->getBeschreibung();
         $data['fp'] = $skill->getFp();
@@ -142,15 +177,22 @@ class Administration_Model_Mapper_SkillMapper {
         $data['createDate'] = $skill->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $skill->getCreator();
         $data['replacesSkillId'] = $skill->getReplacesSkillId();
-        
+
         $id = $this->getDbTable('Skill')->insert($data);
         $skill->setId($id);
         $this->setRequirementsSkill($skill);
         return $id;
     }
-    
-    
-    public function updateSkill(Administration_Model_Skill $skill) {
+
+
+    /**
+     * @param Administration_Model_Skill $skill
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function updateSkill (Administration_Model_Skill $skill)
+    {
         $data['name'] = $skill->getBezeichnung();
         $data['beschreibung'] = $skill->getBeschreibung();
         $data['fp'] = $skill->getFp();
@@ -162,31 +204,45 @@ class Administration_Model_Mapper_SkillMapper {
         $data['editDate'] = $skill->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $skill->getEditor();
         $data['replacesSkillId'] = $skill->getReplacesSkillId();
-        
+
         $this->deleteRequirementsSkill($skill);
         $this->setRequirementsSkill($skill);
-        return $this->getDbTable('Skill')->update($data, array(
-            'skillId = ?' => $skill->getId()
-        ));
+        return $this->getDbTable('Skill')->update(
+            $data, [
+                     'skillId = ?' => $skill->getId(),
+                 ]
+        );
     }
-    
-    
-    public function setRequirementsSkill(Administration_Model_Skill $skill) {
+
+
+    /**
+     * @param Administration_Model_Skill $skill
+     *
+     * @throws Exception
+     */
+    public function setRequirementsSkill (Administration_Model_Skill $skill)
+    {
         $data['skillId'] = $skill->getId();
         foreach ($skill->getRequirementList()->getRequirements() as $requirement) {
-            if($requirement->getRequiredValue() === ''){
+            if ($requirement->getRequiredValue() === '') {
                 continue;
             }
             $data['art'] = $requirement->getArt();
-            foreach (explode(':', $requirement->getRequiredValue()) as $value) {
+            foreach (explode('|', $requirement->getRequiredValue()) as $value) {
                 $data['voraussetzung'] = $value;
                 $this->getDbTable('SkillVoraussetzung')->insert($data);
             }
         }
     }
-    
-    
-    public function deleteRequirementsSkill(Administration_Model_Skill $skill) {
+
+
+    /**
+     * @param Administration_Model_Skill $skill
+     *
+     * @throws Exception
+     */
+    public function deleteRequirementsSkill (Administration_Model_Skill $skill)
+    {
         $this->getDbTable('SkillVoraussetzung')->delete(['skillId = ?' => $skill->getId()]);
     }
 
@@ -196,18 +252,17 @@ class Administration_Model_Mapper_SkillMapper {
      * @return \Administration_Model_Requirementlist
      * @throws Exception
      */
-    public function getRequirementsSkill($skillId) {
+    public function getRequirementsSkill ($skillId)
+    {
         $requirementList = new Administration_Model_Requirementlist();
         $select = $this->getDbTable('SkillVoraussetzung')->select();
         $select->where('skillId = ?', $skillId);
         $result = $this->getDbTable('SkillVoraussetzung')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $requirement = new Administration_Model_Requirement();
-                $requirement->setArt($row->art);
-                $requirement->setRequiredValue($row->voraussetzung);
-                $requirementList->addRequirement($requirement);
-            }
+        foreach ($result as $row) {
+            $requirement = new Administration_Model_Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }
@@ -216,72 +271,80 @@ class Administration_Model_Mapper_SkillMapper {
      * @return array Administration_Model_Magie
      * @throws Exception
      */
-    public function getMagien() {
+    public function getMagien ()
+    {
         $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('Magie')->select();
         $select->distinct();
         $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Magie();
-                $model->setId($row->magieId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setPrana($row->prana);
-                $model->setRang($row->rang);
-                $model->setStufe($row->stufe);
-                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
-                $model->setLernbedingung($row->lernbedingung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Magie();
+            $model->setId($row->magieId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setPrana($row->prana);
+            $model->setRang($row->rang);
+            $model->setStufe($row->stufe);
+            $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
+            $model->setLernbedingung($row->lernbedingung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
-    
-    
-    public function searchMagien($magieschulen = [], $gruppen = [], $klassen = []) {
+
+
+    /**
+     * @param array $magieschulen
+     * @param array $gruppen
+     * @param array $klassen
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function searchMagien ($magieschulen = [], $gruppen = [], $klassen = [])
+    {
         $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
         $returnArray = [];
         $select = $this->getDbTable('Magie')->select();
         $select->from('magien');
-        
+
         if (count($magieschulen) > 0) {
             $select->where('magieschuleId IN (?)', $magieschulen);
         }
         if (count($gruppen) > 0) {
             $select->joinLeft(
-                    ['gruppen' => 'magieCharakterVoraussetzungen'],
-                    'gruppen.magieId = magien.magieId AND gruppen.art = "Gruppe"',
-                    []);
+                ['gruppen' => 'magieCharakterVoraussetzungen'],
+                'gruppen.magieId = magien.magieId AND gruppen.art = "Gruppe"',
+                []
+            );
             $select->where('gruppen.voraussetzung IN (?)', $gruppen);
         }
         if (count($klassen) > 0) {
             $select->joinLeft(
-                    ['klassen' => 'magieCharakterVoraussetzungen'],
-                    'klassen.magieId = magien.magieId AND klassen.art = "Klasse"',
-                    []);
+                ['klassen' => 'magieCharakterVoraussetzungen'],
+                'klassen.magieId = magien.magieId AND klassen.art = "Klasse"',
+                []
+            );
             $select->where('klassen.voraussetzung IN (?)', $klassen);
         }
-        
+
         $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Magie();
-                $model->setId($row->magieId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setPrana($row->prana);
-                $model->setRang($row->rang);
-                $model->setStufe($row->stufe);
-                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
-                $model->setLernbedingung($row->lernbedingung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Magie();
+            $model->setId($row->magieId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setPrana($row->prana);
+            $model->setRang($row->rang);
+            $model->setStufe($row->stufe);
+            $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
+            $model->setLernbedingung($row->lernbedingung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
@@ -290,44 +353,45 @@ class Administration_Model_Mapper_SkillMapper {
      * @return array Administration_Model_Magie
      * @throws Exception
      */
-    public function getRpgMagien() {
+    public function getRpgMagien ()
+    {
         $schuleMapper = new Administration_Model_Mapper_SchuleMapper();
-        $returnArray = array();
+        $returnArray = [];
         $select = $this->getDbTable('Magie')->select();
         $select->distinct();
         $select->where('lernbedingung != "Standard"');
         $select->order('magieschuleId');
         $result = $this->getDbTable('Magie')->fetchAll($select);
-        if($result->count() > 0){
-            foreach ($result as $row){
-                $model = new Administration_Model_Magie();
-                $model->setId($row->magieId);
-                $model->setBezeichnung($row->name);
-                $model->setBeschreibung($row->beschreibung);
-                $model->setFp($row->fp);
-                $model->setPrana($row->prana);
-                $model->setRang($row->rang);
-                $model->setStufe($row->stufe);
-                $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
-                $model->setLernbedingung($row->lernbedingung);
-                $returnArray[] = $model;
-            }
+        foreach ($result as $row) {
+            $model = new Administration_Model_Magie();
+            $model->setId($row->magieId);
+            $model->setBezeichnung($row->name);
+            $model->setBeschreibung($row->beschreibung);
+            $model->setFp($row->fp);
+            $model->setPrana($row->prana);
+            $model->setRang($row->rang);
+            $model->setStufe($row->stufe);
+            $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
+            $model->setLernbedingung($row->lernbedingung);
+            $returnArray[] = $model;
         }
         return $returnArray;
     }
 
     /**
      * @param int $magieId
+     *
      * @return \Administration_Model_Magie
      * @throws Exception
      */
-    public function getMagieById($magieId) {
+    public function getMagieById ($magieId)
+    {
         $elementMapper = new Administration_Model_Mapper_ElementMapper();
         $model = new Administration_Model_Magie();
         $select = $this->getDbTable('Magie')->select();
         $select->where('magieId = ?', $magieId);
         $row = $this->getDbTable('Magie')->fetchRow($select);
-        if($row !== null){
+        if ($row !== null) {
             $model->setId($magieId);
             $model->setBezeichnung($row['name']);
             $model->setBeschreibung($row['beschreibung']);
@@ -336,6 +400,7 @@ class Administration_Model_Mapper_SkillMapper {
             $model->setRang($row['rang']);
             $model->setStufe($row['stufe']);
             $model->setLernbedingung($row['lernbedingung']);
+            $model->setMagieschuleId($row['magieschuleId']);
             $model->setElement($elementMapper->getElementById($row['element']));
         }
         return $model;
@@ -343,10 +408,12 @@ class Administration_Model_Mapper_SkillMapper {
 
     /**
      * @param Administration_Model_Magie $magie
+     *
      * @return int
      * @throws Exception
      */
-    public function createMagie(Administration_Model_Magie $magie) {
+    public function createMagie (Administration_Model_Magie $magie)
+    {
         $data['name'] = $magie->getBezeichnung();
         $data['beschreibung'] = $magie->getBeschreibung();
         $data['fp'] = $magie->getFp();
@@ -359,16 +426,18 @@ class Administration_Model_Mapper_SkillMapper {
         $data['lernbedingung'] = $magie->getLernbedingung();
         $data['createDate'] = $magie->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $magie->getCreator();
-        
+
         return $this->getDbTable('Magie')->insert($data);
     }
 
     /**
      * @param Administration_Model_Magie $magie
+     *
      * @return int
      * @throws Exception
      */
-    public function updateMagie(Administration_Model_Magie $magie) {
+    public function updateMagie (Administration_Model_Magie $magie)
+    {
         $data['name'] = $magie->getBezeichnung();
         $data['beschreibung'] = $magie->getBeschreibung();
         $data['fp'] = $magie->getFp();
@@ -381,21 +450,27 @@ class Administration_Model_Mapper_SkillMapper {
         $data['lernbedingung'] = $magie->getLernbedingung();
         $data['createDate'] = $magie->getEditDate('Y-m-d H:i:s');
         $data['creator'] = $magie->getEditor();
-        
-        return $this->getDbTable('Magie')->update($data, array(
-            'magieId = ?' => $magie->getId()
-        ));
+
+        return $this->getDbTable('Magie')->update(
+            $data, [
+                     'magieId = ?' => $magie->getId(),
+                 ]
+        );
     }
 
     /**
      * @param Administration_Model_Magie $magie
+     *
      * @return int
      * @throws Exception
      */
-    public function deleteDependencies(Administration_Model_Magie $magie) {
-        return $this->getDbTable('MagieCharakterVoraussetzungen')->delete(array(
-            'magieId = ?' => $magie->getId()
-        ));
+    public function deleteDependencies (Administration_Model_Magie $magie)
+    {
+        return $this->getDbTable('MagieCharakterVoraussetzungen')->delete(
+            [
+                'magieId = ?' => $magie->getId(),
+            ]
+        );
     }
 
     /**
@@ -403,10 +478,11 @@ class Administration_Model_Mapper_SkillMapper {
      *
      * @throws Exception
      */
-    public function setDependencies(Administration_Model_Magie $magie) {
+    public function setDependencies (Administration_Model_Magie $magie)
+    {
         $data['magieId'] = $magie->getId();
         foreach ($magie->getRequirementList()->getRequirements() as $requirement) {
-            if($requirement->getRequiredValue() === ''){
+            if ($requirement->getRequiredValue() === '') {
                 continue;
             }
             $data['art'] = $requirement->getArt();
@@ -423,12 +499,13 @@ class Administration_Model_Mapper_SkillMapper {
      * @return Administration_Model_Requirementlist
      * @throws Exception
      */
-    public function getRequirementsMagie($magieId) {
+    public function getRequirementsMagie ($magieId)
+    {
         $requirementList = new Administration_Model_Requirementlist();
         $select = $this->getDbTable('MagieCharakterVoraussetzungen')->select();
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('MagieCharakterVoraussetzungen')->fetchAll($select);
-        foreach ($result as $row){
+        foreach ($result as $row) {
             $requirement = new Administration_Model_Requirement();
             $requirement->setArt($row->art);
             $requirement->setRequiredValue($row->voraussetzung);
@@ -436,5 +513,5 @@ class Administration_Model_Mapper_SkillMapper {
         }
         return $requirementList;
     }
-    
+
 }

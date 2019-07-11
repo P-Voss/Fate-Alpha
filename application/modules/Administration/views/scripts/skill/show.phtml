@@ -1,13 +1,13 @@
 <?php
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
-/* @var $skill Administration_Model_Skill */
-$skill = $this->skill;
 $lernbedingungen = [
     'Standard',
     'RPG-Ereignis',
     'Lehrer',
 ];
+/* @var $skill Administration_Model_Skill */
+$skill = $this->skill;
 /** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $skill->getRequirementList();
 /** @var Application_Model_Charakter $characters */
