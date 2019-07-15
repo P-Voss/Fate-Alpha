@@ -118,4 +118,15 @@ class Administration_CharakterController extends Zend_Controller_Action
         $this->view->charakters = $this->charakterService->getCharaktersByNextBirthdays();
     }
 
+
+    public function deleteAction ()
+    {
+        if ($this->getRequest()->getPost('characterId') === null
+            || (int) $this->getRequest()->getPost('adminId') !== (int) Zend_Auth::getInstance()->getIdentity()->userId) {
+            $this->redirect('Administration/charakter/show/charakter/' . $this->getRequest()->getPost('characterId'));
+        }
+        $this->charakterService->delete($this->getRequest()->getPost('characterId'));
+        $this->forward('index');
+    }
+
 }

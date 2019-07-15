@@ -39,6 +39,11 @@ $magien = $this->magien;
     </div>
     <div class="clearRight"></div>
     <div class="contentRight">
+        <form action="<?= $this->baseUrl() ?>/Administration/charakter/delete" method="post">
+            <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
+            <input type="hidden" name="adminId" value="<?= Zend_Auth::getInstance()->getIdentity()->userId ?>"/>
+            <input type="submit" value="Charakter löschen" />
+        </form>
         <?php include __DIR__ . '/partials/statistik.phtml' ?>
         <?php include __DIR__ . '/partials/charakterwerte.phtml' ?>
         <?php include __DIR__ . '/partials/individualTraits.phtml' ?>

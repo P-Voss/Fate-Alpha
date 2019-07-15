@@ -119,5 +119,18 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         $mapper = new Application_Model_Mapper_CharakterMapper();
         return $mapper->getCharaktersOrderedByNextBirthday();
     }
+
+    /**
+     * @param $characterId
+     *
+     * @throws Exception
+     */
+    public function delete ($characterId)
+    {
+        $mapper = new Application_Model_Mapper_CharakterMapper();
+        $character = new Application_Model_Charakter();
+        $character->setCharakterid($characterId);
+        $mapper->deleteCharakter($character);
+    }
     
 }
