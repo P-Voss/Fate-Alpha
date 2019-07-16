@@ -1,13 +1,23 @@
 <?php
 
+namespace Logs\Models\Mappers;
+
+use Exception;
+use Logs\Models\Plot;
+
 /**
- * Description of Logs_Model_Mapper_PlotMapper
+ * Description of PlotMapper
  *
  * @author Voß
  */
-class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
-    
-    
+class PlotMapper extends \Application_Model_Mapper_PlotMapper {
+
+    /**
+     * @param $userId
+     *
+     * @return Plot[]
+     * @throws Exception
+     */
     public function getPlotsOpenToReviewByUser($userId) {
         $returnArray = [];
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
@@ -26,14 +36,20 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
         $stmt = $db->prepare($sql);
         $stmt->execute([$userId]);
         foreach ($stmt->fetchAll() as $row) {
-            $plot = new Logs_Model_Plot();
+            $plot = new Plot();
             $plot->setName($row['name']);
             $plot->setId($row['plotId']);
             $returnArray[] = $plot;
         }
         return $returnArray;
     }
-    
+
+    /**
+     * @param $userId
+     *
+     * @return Plot[]
+     * @throws Exception
+     */
     public function getNonsecretPlotsOpenToReviewByUser($userId) {
         $returnArray = [];
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
@@ -52,7 +68,7 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
         $stmt = $db->prepare($sql);
         $stmt->execute([$userId]);
         foreach ($stmt->fetchAll() as $row) {
-            $plot = new Logs_Model_Plot();
+            $plot = new Plot();
             $plot->setName($row['name']);
             $plot->setId($row['plotId']);
             $returnArray[] = $plot;
@@ -63,11 +79,11 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
     /**
      * @param int $plotId
      *
-     * @return \Logs_Model_Plot
+     * @return Plot
      * @throws Exception
      */
     public function getPlotById($plotId) {
-        $plot = new Logs_Model_Plot();
+        $plot = new Plot();
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
         $sql ='SELECT 
                     plots.plotId, 
@@ -98,7 +114,6 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
             $plot->setName($result['name']);
             $plot->setBeschreibung($result['description']);
             $plot->setSlId($result['userId']);
-            $plot->setCreateDate($result['creationdate']);
             $plot->setZusammenfassung($result['outcome']);
         }
         return $plot;
@@ -106,13 +121,13 @@ class Logs_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper {
 
     /**
      * @param int $plotId
-     * @param Application_Model_Interfaces_Auswertung $auswertung
+     * @param \Application_Model_Interfaces_Auswertung $auswertung
      * @throws Exception
      */
-    public function setPlotFeedback($plotId, Application_Model_Interfaces_Auswertung $auswertung) {
+    public function setPlotFeedback($plotId, \Application_Model_Interfaces_Auswertung $auswertung) {
         $db = $this->getDbTable('Plots')->getDefaultAdapter();
         $stmt = $db->prepare('INSERT INTO plotAuswertung (plotId, userId, feedback, isAccepted) 
-                                VALUES (?, ?)');
+                                VALUES (?, ?, ?, ?)');
         $stmt->execute([
             $plotId, $auswertung->getUserId(), $auswertung->getDescription(), $auswertung->getIsAccepted(),
         ]);

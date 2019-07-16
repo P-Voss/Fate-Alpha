@@ -1,27 +1,36 @@
 <?php
 
+namespace Logs\Models;
+
+use Application_Model_Interfaces_CharakterResult;
+
 /**
- * Description of Logs_Model_Charakter
+ * Description of Charakter
  *
  * @author Voß
  */
-class Logs_Model_Charakter extends Application_Model_Charakter {
-    
-    protected $result;
+class Charakter extends \Application_Model_Charakter
+{
 
+    /**
+     * @var Application_Model_Interfaces_CharakterResult
+     */
+    protected $result;
 
     /**
      * @return Application_Model_Interfaces_CharakterResult
      */
-    public function getResult() {
+    public function getResult ()
+    {
         return $this->result;
     }
 
     /**
      * @param Application_Model_Interfaces_CharakterResult $result
      */
-    public function setResult(Application_Model_Interfaces_CharakterResult $result) {
+    public function setResult (Application_Model_Interfaces_CharakterResult $result)
+    {
         $this->result = $result;
     }
-    
+
 }

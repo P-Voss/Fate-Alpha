@@ -226,13 +226,16 @@ class Story_Service_Episode implements Application_Model_Events_Subject
      * @param int $episodeId
      *
      * @return Story_Model_Charakter[]
-     * @throws Exception
      */
     public function getParticipantsByEpisode ($episodeId)
     {
         $participants = $this->episodeMapper->getParticipantsByEpisode($episodeId);
         foreach ($participants as $participant) {
-            $participant->setResult($this->getResult($episodeId, $participant->getCharakterid()));
+            try {
+                $participant->setResult($this->getResult($episodeId, $participant->getCharakterid()));
+            } catch (Exception $exception) {
+                continue;
+            }
         }
         return $participants;
     }

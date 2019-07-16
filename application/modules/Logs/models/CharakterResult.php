@@ -1,11 +1,13 @@
 <?php
 
+namespace Logs\Models;
+
 /**
- * Description of Logs_Model_CharakterResult
+ * Description of CharakterResult
  *
  * @author Voß
  */
-class Logs_Model_CharakterResult extends Application_Model_CharakterResult implements Application_Model_Interfaces_CharakterResult {
+class CharakterResult extends \Application_Model_CharakterResult implements \Application_Model_Interfaces_CharakterResult {
     
     
 }

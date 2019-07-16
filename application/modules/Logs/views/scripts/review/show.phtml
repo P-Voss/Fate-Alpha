@@ -3,13 +3,12 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/editor.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/results.js'));
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
-/* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
-/* @var $episode Logs_Model_Episode */
+
+/* @var $episode \Logs\Models\Episode */
 $episode = $this->episode;
-/* @var $participants Story_Model_Charakter */
+/* @var $participants \Story_Model_Charakter */
 $participants = $this->participants;
-/* @var $skill Story_Model_Skill */
+/* @var $skill \Story_Model_Skill */
 ?>
 <h1>Review der Episode <?= $episode->getName() ?></h1>
 <hr />
@@ -17,13 +16,13 @@ $participants = $this->participants;
     Beschreibung der Episode
 </h2>
 <div>
-    <?= $purifier->purify($episode->getBeschreibung()) ?>
+    <?= $this->purify($episode->getBeschreibung()) ?>
 </div>
 <h2>
     Ausgang der Episode
 </h2>
 <div>
-    <?= $purifier->purify($episode->getZusammenfassung()) ?>
+    <?= $this->purify($episode->getZusammenfassung()) ?>
 </div>
 <h2>
     Logs
@@ -37,11 +36,11 @@ $participants = $this->participants;
         <div class="documentList">
             <p>
                 <span>
-                    Download: <?= $purifier->purify($log->getName()) ?>
+                    Download: <?= $this->purify($log->getName()) ?>
                 </span>
             </p>
             <p>
-                <?= $purifier->purify($log->getBeschreibung()) ?>
+                <?= $this->purify($log->getBeschreibung()) ?>
             </p>
         </div>
     </a>
@@ -63,7 +62,7 @@ $participants = $this->participants;
         }
     ?>
     <fieldset>
-        <legend>Charakter: <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
+        <legend>Charakter: <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></legend>
         <div>
             <div style="display: inline-block; width: 30%; vertical-align: top">
                 <p>
@@ -79,20 +78,20 @@ $participants = $this->participants;
         <div>
             Bemerkungen vom Spielleiter zum Charakter:
             <p>
-                <?= $result->getComment() !== '' ? $purifier->purify($result->getComment()) : 'Keine' ?>
+                <?= $result->getComment() !== '' ? $this->purify($result->getComment()) : 'Keine' ?>
             </p>
         </div>
         <div>Besondere Leistungen:</div>
         <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
         <div>
-            <p style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?> (hinzugefügt)</p>
-            <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+            <p style="font-weight: bold"><?= $this->purify($achievement->getTitle()) ?> (hinzugefügt)</p>
+            <p><?= $this->purify($achievement->getDescription()) ?></p>
         </div>
         <?php endforeach; ?>
         <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
         <div>
-            <p style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?> (entfernt)</p>
-            <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+            <p style="font-weight: bold"><?= $this->purify($achievement->getTitle()) ?> (entfernt)</p>
+            <p><?= $this->purify($achievement->getDescription()) ?></p>
         </div>
         <?php endforeach; ?>
 
@@ -100,33 +99,33 @@ $participants = $this->participants;
             <legend>Fähigkeiten, Magien, Items</legend>
             <div>
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
-                    Gelernte Fähigkeiten: <?= $purifier->purify($result->getSkillsToAddString()) ?>
+                    Gelernte Fähigkeiten: <?= $this->purify($result->getSkillsToAddString()) ?>
                 </div>
                 <div style="display: inline-block; width: 40%; vertical-align: top;">
-                    Verlernte Fähigkeiten: <?= $purifier->purify($result->getSkillsToRemoveString()) ?>
+                    Verlernte Fähigkeiten: <?= $this->purify($result->getSkillsToRemoveString()) ?>
                 </div>
             </div>
             <div>
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
-                    Gelernte Magien: <?= $purifier->purify($result->getMagicToAddString()) ?>
+                    Gelernte Magien: <?= $this->purify($result->getMagicToAddString()) ?>
                 </div>
                 <div style="display: inline-block; width: 40%; vertical-align: top;">
-                    Verlernte Magien: <?= $purifier->purify($result->getMagicToRemoveString()) ?>
+                    Verlernte Magien: <?= $this->purify($result->getMagicToRemoveString()) ?>
                 </div>
             </div>
             <div>
                 <div style="display: inline-block; width: 50%; vertical-align: top;">
-                    Neue Items: <?= $purifier->purify($result->getItemsToAddString()) ?>
+                    Neue Items: <?= $this->purify($result->getItemsToAddString()) ?>
                 </div>
                 <div style="display: inline-block; width: 40%; vertical-align: top;">
-                    Verlorene Items: <?= $purifier->purify($result->getItemsToRemoveString()) ?>
+                    Verlorene Items: <?= $this->purify($result->getItemsToRemoveString()) ?>
                 </div>
             </div>
         </fieldset>
         <?php if ($charakterKills !== '') : ?>
         <fieldset>
             <legend>Getötete Spielercharaktere</legend>
-            <?= $purifier->purify($charakterKills) ?>
+            <?= $this->purify($charakterKills) ?>
         </fieldset>
         <?php endif; ?>
     </fieldset>

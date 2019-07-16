@@ -1,11 +1,20 @@
 <?php
 
+namespace Logs\Models\Mappers;
+
+use Exception;
+use Logs\Models\Auswertung;
+use Logs\Models\Charakter;
+use Logs\Models\CharakterResult;
+use Logs\Models\Episode;
+use Logs\Models\EpisodenStatus;
+
 /**
  * Description of Story_Model_Mapper_EpisodeMapper
  *
  * @author Voß
  */
-class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMapper
+class EpisodeMapper extends \Application_Model_Mapper_EpisodeMapper
 {
 
     /**
@@ -27,10 +36,10 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     }
 
     /**
-     * @param type $plotId
-     * @param type $userId
+     * @param int $plotId
+     * @param int $userId
      *
-     * @return array
+     * @return Episode[]
      * @throws Exception
      */
     public function getEpisodesToReviewByPlotId ($plotId, $userId)
@@ -51,7 +60,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$userId, $plotId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $episode = new Logs_Model_Episode();
+            $episode = new Episode();
             $episode->setId($row['episodenId']);
             $episode->setName($row['name']);
             $returnArray[] = $episode;
@@ -88,14 +97,13 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$plotId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $episode = new Logs_Model_Episode();
-            $episodenStatus = new Logs_Model_EpisodenStatus();
+            $episode = new Episode();
+            $episodenStatus = new EpisodenStatus();
             $episodenStatus->setId($row['statusId']);
             $episodenStatus->setStatus($row['status']);
             $episodenStatus->setColorCode($row['colorCode']);
             $episode->setId($row['episodenId']);
             $episode->setName($row['name']);
-            $episode->setCreateDate($row['creationdate']);
             $episode->setStatus($episodenStatus);
             $returnArray[] = $episode;
         }
@@ -105,13 +113,13 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     /**
      * @param int $episodeId
      *
-     * @return Logs_Model_Episode
+     * @return Episode
      * @throws Exception
      */
     public function getEpisodeToJudgeById ($episodeId)
     {
-        $episode = new Logs_Model_Episode();
-        $status = new Logs_Model_EpisodenStatus();
+        $episode = new Episode();
+        $status = new EpisodenStatus();
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $sql = 'SELECT 
                     episoden.episodenId, episoden.name, episoden.creationdate, episoden.plotId,
@@ -156,7 +164,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     /**
      * @param int $episodenId
      *
-     * @return array
+     * @return \Story_Model_Charakter[]
      * @throws Exception
      */
     public function getParticipants ($episodenId)
@@ -169,7 +177,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
         foreach ($result as $row) {
-            $charakter = new Story_Model_Charakter();
+            $charakter = new \Story_Model_Charakter();
             $charakter->setCharakterid($row['charakterId']);
             $charakter->setVorname($row['vorname']);
             $charakter->setNachname($row['nachname']);
@@ -181,7 +189,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     /**
      * @param int $episodenId
      *
-     * @return Logs_Model_Charakter[]
+     * @return Charakter[]
      * @throws Exception
      */
     public function getParticipantsByEpisode ($episodenId)
@@ -202,8 +210,8 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
         foreach ($result as $row) {
-            $charakter = new Logs_Model_Charakter();
-            $result = new Logs_Model_CharakterResult();
+            $charakter = new Charakter();
+            $result = new CharakterResult();
             $result->setKillNpcs($row['npcsKilled']);
             $result->setDied($row['gotKilled']);
             $result->setComment($row['comment']);
@@ -221,12 +229,11 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
      * @param int $episodenId
      * @param int $charakterId
      *
-     * @return Logs_Model_CharakterResult
+     * @return CharakterResult
      * @throws Exception
      */
     public function getCharakterResult ($episodenId, $charakterId)
     {
-        $result = new Logs_Model_CharakterResult();
         $select = $this->getDbTable('EpisodenCharakter')->select();
         $select->setIntegrityCheck(false);
         $select->from('episodenToCharakter', []);
@@ -242,7 +249,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $select->where('episodenToCharakter.episodenId = ?', $episodenId);
         $row = $this->getDbTable('EpisodenCharakter')->fetchRow($select);
         if ($row !== null) {
-            $result = new Logs_Model_CharakterResult();
+            $result = new CharakterResult();
             $result->setKillNpcs($row['npcsKilled']);
             $result->setDied($row['gotKilled']);
             $result->setComment($row['comment']);
@@ -257,7 +264,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
      * @param int $episodenId
      * @param int $charakterId
      *
-     * @return array
+     * @return \Application_Model_Charakter[]
      * @throws Exception
      */
     public function getRequestedCharakterKills ($episodenId, $charakterId)
@@ -275,7 +282,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$episodenId, $charakterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $charakter = new Application_Model_Charakter();
+            $charakter = new \Application_Model_Charakter();
             $charakter->setCharakterid($row['charakterId']);
             $charakter->setVorname($row['vorname']);
             $charakter->setNachname($row['nachname']);
@@ -284,7 +291,13 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         return $returnArray;
     }
 
-
+    /**
+     * @param $episodenId
+     * @param $charakterId
+     *
+     * @return \Story_Model_Skill[]
+     * @throws Exception
+     */
     private function getRequestedSkills ($episodenId, $charakterId)
     {
         $returnArray = [];
@@ -300,7 +313,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$episodenId, $charakterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $skill = new Story_Model_Skill();
+            $skill = new \Story_Model_Skill();
             $skill->setId($row['skillId']);
             $skill->setBezeichnung($row['name']);
             $returnArray[] = $skill;
@@ -308,7 +321,13 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         return $returnArray;
     }
 
-
+    /**
+     * @param $episodenId
+     * @param $charakterId
+     *
+     * @return \Story_Model_Magie[]
+     * @throws Exception
+     */
     private function getRequestedMagien ($episodenId, $charakterId)
     {
         $returnArray = [];
@@ -324,7 +343,7 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$episodenId, $charakterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $magie = new Story_Model_Magie();
+            $magie = new \Story_Model_Magie();
             $magie->setId($row['magieId']);
             $magie->setBezeichnung($row['name']);
             $returnArray[] = $magie;
@@ -333,12 +352,12 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     }
 
     /**
-     * @param Logs_Model_EpisodenStatus $newStatus
+     * @param EpisodenStatus $newStatus
      * @param int $episodenId
      *
      * @throws Exception
      */
-    public function updateStatus (Logs_Model_EpisodenStatus $newStatus, $episodenId)
+    public function updateStatus (EpisodenStatus $newStatus, $episodenId)
     {
         $data = [
             'statusId' => $newStatus->getId(),
@@ -382,7 +401,12 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
         $stmt->execute([$gotKilled === 'true' ? 1 : 0, $episodenId, $charakterId]);
     }
 
-
+    /**
+     * @param $episodenId
+     * @param $charakterId
+     *
+     * @throws Exception
+     */
     public function removeCharakterKillRequests ($episodenId, $charakterId)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
@@ -408,12 +432,12 @@ class Logs_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeMa
     }
 
     /**
-     * @param Logs_Model_Auswertung $auswertung
+     * @param Auswertung $auswertung
      * @param int $episodenId
      *
      * @throws Exception
      */
-    public function saveAuswertung (Logs_Model_Auswertung $auswertung, $episodenId)
+    public function saveAuswertung (Auswertung $auswertung, $episodenId)
     {
         $db = $this->getDbTable('Episoden')->getDefaultAdapter();
         $sql = 'INSERT INTO episodenAuswertung (episodenId, userId, feedback, isAccepted, isActive)

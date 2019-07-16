@@ -1,43 +1,68 @@
 <?php
 
+namespace Logs\Services;
+
+use Logs\Models\Mappers\EpisodeMapper;
+use Logs\Models\Mappers\PlotMapper;
+
 /**
- * Description of Logs_Service_Plot
+ * Description of Plot
  *
  * @author Voß
  */
-class Logs_Service_Plot extends Application_Service_Story {
+class Plot extends \Application_Service_Story {
     
     /**
-     * @var Logs_Model_Mapper_PlotMapper 
+     * @var PlotMapper
      */
     protected $plotMapper;
+    /**
+     * @var EpisodeMapper
+     */
     protected $episodeMapper;
-    
+
+
     public function __construct() {
-        $this->plotMapper = new Logs_Model_Mapper_PlotMapper();
-        $this->episodeMapper = new Logs_Model_Mapper_EpisodeMapper();
+        $this->plotMapper = new PlotMapper();
+        $this->episodeMapper = new EpisodeMapper();
     }
-    
+
     /**
      * @param int $userId
-     * @return \Logs_Model_Plot
+     * @return Plot[]
      */
     public function getNonsecretPlotsToReview($userId) {
-        $plotsToReview = $this->plotMapper->getNonsecretPlotsOpenToReviewByUser($userId);
+        try {
+            $plotsToReview = $this->plotMapper->getNonsecretPlotsOpenToReviewByUser($userId);
+        } catch (\Exception $e) {
+            $plotsToReview = [];
+        }
         foreach ($plotsToReview as $plot) {
-            $plot->setEpisoden($this->episodeMapper->getEpisodesToReviewByPlotId($plot->getId(), $userId));
+            try {
+                $plot->setEpisoden($this->episodeMapper->getEpisodesToReviewByPlotId($plot->getId(), $userId));
+            } catch (\Exception $e) {
+                continue;
+            }
         }
         return $plotsToReview;
     }
     
     /**
      * @param int $userId
-     * @return \Logs_Model_Plot
+     * @return Plot[]
      */
     public function getPlotsToReview($userId) {
-        $plotsToReview = $this->plotMapper->getPlotsOpenToReviewByUser($userId);
+        try {
+            $plotsToReview = $this->plotMapper->getPlotsOpenToReviewByUser($userId);
+        } catch (\Exception $e) {
+            $plotsToReview = [];
+        }
         foreach ($plotsToReview as $plot) {
-            $plot->setEpisoden($this->episodeMapper->getEpisodesToReviewByPlotId($plot->getId(), $userId));
+            try {
+                $plot->setEpisoden($this->episodeMapper->getEpisodesToReviewByPlotId($plot->getId(), $userId));
+            } catch (\Exception $e) {
+                continue;
+            }
         }
         return $plotsToReview;
     }

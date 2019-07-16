@@ -1,5 +1,7 @@
 <?php
 
+use Logs\Services\Episode;
+
 /**
  * Description of Administration_LogsController
  *
@@ -36,7 +38,7 @@ class Administration_LogsController extends Zend_Controller_Action {
         ){
             $this->redirect('index');
         }
-        $logsEpisodenService = new Logs_Service_Episode();
+        $logsEpisodenService = new Episode();
         
         $episodeId = (int)$this->getRequest()->getParam('episode');
         $this->view->episode = $this->logsService->getEpisode($episodeId);

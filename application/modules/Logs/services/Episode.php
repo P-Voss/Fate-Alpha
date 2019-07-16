@@ -1,30 +1,38 @@
 <?php
 
+namespace Logs\Services;
+
+use Exception;
+use Logs\Models\Auswertung;
+use Logs\Models\Episode as EpisodeModel;
+use Logs\Models\Mappers\EpisodeMapper;
+use Logs\Models\Mappers\PlotMapper;
+
 /**
- * Description of Logs_Service_Episode
+ * Description of Episode
  *
  * @author Voß
  */
-class Logs_Service_Episode {
+class Episode {
 
     /**
-     * @var Logs_Model_Mapper_PlotMapper
+     * @var PlotMapper
      */
     protected $plotMapper;
     /**
-     * @var Logs_Model_Mapper_EpisodeMapper
+     * @var EpisodeMapper
      */
     protected $episodeMapper;
 
     public function __construct() {
-        $this->plotMapper = new Logs_Model_Mapper_PlotMapper();
-        $this->episodeMapper = new Logs_Model_Mapper_EpisodeMapper();
+        $this->plotMapper = new PlotMapper();
+        $this->episodeMapper = new EpisodeMapper();
     }
 
     /**
      * @param int $episodeId
      *
-     * @return Logs_Model_Episode
+     * @return EpisodeModel
      * @throws Exception
      */
     public function getEpisode($episodeId) {
@@ -47,21 +55,20 @@ class Logs_Service_Episode {
     /**
      * @param int $episodeId
      *
-     * @return array
-     * @throws Exception
+     * @return \Story_Model_Charakter[]
      */
     public function getParticipantsByEpisode($episodeId) {
-        $storyEpisodeService = new Story_Service_Episode();
+        $storyEpisodeService = new \Story_Service_Episode();
         return $storyEpisodeService->getParticipantsByEpisode($episodeId);
     }
 
     /**
-     * @param Logs_Model_Auswertung $auswertung
+     * @param Auswertung $auswertung
      * @param int $episodenId
      *
      * @throws Exception
      */
-    public function saveAuswertung(Logs_Model_Auswertung $auswertung, $episodenId) {
+    public function saveAuswertung(Auswertung $auswertung, $episodenId) {
         $this->episodeMapper->removeAuswertung($auswertung->getUserId(), $episodenId);
         $this->episodeMapper->saveAuswertung($auswertung, $episodenId);
     }

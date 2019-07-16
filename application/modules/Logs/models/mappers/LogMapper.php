@@ -1,28 +1,35 @@
 <?php
 
+namespace Logs\Models\Mappers;
+
+use Exception;
+use Logs\Models\Log;
+
 /**
- * Description of Story_Model_Mapper_LogMapper
+ * Description of LogMapper
  *
  * @author Voß
  */
-class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
+class LogMapper extends \Application_Model_Mapper_LogMapper {
 
     /**
      * @param int $userId
      *
      * @return boolean
-     * @throws Zend_Db_Statement_Exception
-     * @throws Exception
      */
     public function isLogleser($userId) {
-        $db = $this->getDbTable('Logs')->getDefaultAdapter();
-        $result = $db->query('SELECT * FROM logleser WHERE userId = ?', [$userId]);
-        return count($result->fetchAll()) > 0;
+        try {
+            $db = $this->getDbTable('Logs')->getDefaultAdapter();
+            $result = $db->query('SELECT * FROM logleser WHERE userId = ?', [$userId]);
+            return count($result->fetchAll()) > 0;
+        } catch (Exception $exception) {
+            return false;
+        }
     }
 
     /**
      * @param int $episodenId
-     * @return Logs_Model_Log[]
+     * @return Log[]
      * @throws Exception
      */
     public function getLogsByEpisodenId($episodenId) {
@@ -32,7 +39,7 @@ class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
         $stmt = $db->prepare($sql);
         $stmt->execute([$episodenId]);
         foreach ($stmt->fetchAll() as $row) {
-            $log = new Logs_Model_Log();
+            $log = new Log();
             $log->setId($row['logId']);
             $log->setName($row['name']);
             $log->setMd5($row['md5']);
@@ -45,11 +52,11 @@ class Logs_Model_Mapper_LogMapper extends Application_Model_Mapper_LogMapper {
     /**
      * @param int $logId
      * @param int $episodeId
-     * @return Logs_Model_Log
+     * @return Log
      * @throws Exception
      */
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {
-        $log = new Logs_Model_Log();
+        $log = new Log();
         $select = $this->getDbTable('Logs')->select();
         $select->where('logId = ?', $logId);
         $select->where('episodenId = ?', $episodeId);

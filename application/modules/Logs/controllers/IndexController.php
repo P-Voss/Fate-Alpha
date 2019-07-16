@@ -1,5 +1,7 @@
 <?php
 
+use Logs\Services\Plot;
+
 /**
  * Description of Logs_IndexController
  *
@@ -8,7 +10,7 @@
 class Logs_IndexController extends Zend_Controller_Action {
     
     /**
-     * @var Logs_Service_Plot
+     * @var Logs\Services\Plot
      */
     private $plotService;
     
@@ -18,9 +20,7 @@ class Logs_IndexController extends Zend_Controller_Action {
         if(!$this->_helper->logincheck()){
             $this->redirect('index/index');
         }
-        $config = HTMLPurifier_Config::createDefault();
-        $this->view->purifier = new HTMLPurifier($config);
-        $this->plotService = new Logs_Service_Plot();
+        $this->plotService = new Plot();
         $this->auth = Zend_Auth::getInstance()->getIdentity();
     }
     

@@ -1,37 +1,43 @@
 <?php
 
+namespace Logs\Services;
+
+use Logs\Models\Mappers\EpisodeMapper;
+use Logs\Models\Mappers\LogMapper;
+use Logs\Models\Mappers\PlotMapper;
+use Logs\Models\Log as LogModel;
+
 /**
- * Description of Logs_Service_Log
+ * Description of Log
  *
  * @author Voß
  */
-class Logs_Service_Log {
+class Log {
 
     /**
-     * @var Logs_Model_Mapper_PlotMapper
+     * @var PlotMapper
      */
     protected $plotMapper;
     /**
-     * @var Logs_Model_Mapper_EpisodeMapper
+     * @var EpisodeMapper
      */
     protected $episodeMapper;
     /**
-     * @var Logs_Model_Mapper_LogMapper
+     * @var LogMapper
      */
     protected $logMapper;
 
 
     public function __construct() {
-        $this->plotMapper = new Logs_Model_Mapper_PlotMapper();
-        $this->episodeMapper = new Logs_Model_Mapper_EpisodeMapper();
-        $this->logMapper = new Logs_Model_Mapper_LogMapper();
+        $this->plotMapper = new PlotMapper();
+        $this->episodeMapper = new EpisodeMapper();
+        $this->logMapper = new LogMapper();
     }
 
     /**
      * @param int $userId
      *
      * @return boolean
-     * @throws Zend_Db_Statement_Exception
      */
     public function isLogleser($userId) {
         return $this->logMapper->isLogleser($userId);
@@ -41,18 +47,21 @@ class Logs_Service_Log {
      * @param int $episodenId
      *
      * @return array
-     * @throws Exception
      */
     public function getLogsForEpisode($episodenId) {
-        return $this->logMapper->getLogsByEpisodenId($episodenId);
+        try {
+            return $this->logMapper->getLogsByEpisodenId($episodenId);
+        } catch (\Exception $exception) {
+            return [];
+        }
     }
 
     /**
-     * @param Logs_Model_Log $log
+     * @param LogModel $log
      *
      * @return bool
      */
-    public function downloadLog(Logs_Model_Log $log) {
+    public function downloadLog(LogModel $log) {
         if(is_readable(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf')){
             $filename = preg_replace('/[^A-Za-z0-9-.]/', '', $log->getName());
             header("Content-Disposition: attachment; filename=" . $filename);
@@ -66,20 +75,20 @@ class Logs_Service_Log {
     }
 
     /**
-     * @param array $logs
+     * @param LogModel[] $logs
      * @param $episodeName
      *
      * @return bool
-     * @throws Zend_Pdf_Exception
+     * @throws \Zend_Pdf_Exception
      */
     public function downloadGesamtlog(Array $logs, $episodeName) {
-        $resultPdf = new Zend_Pdf();
-        $extractor = new Zend_Pdf_Resource_Extractor();
+        $resultPdf = new \Zend_Pdf();
+        $extractor = new \Zend_Pdf_Resource_Extractor();
         foreach ($logs as $log) {
             if(!is_readable(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf')){
                 continue;
             }
-            $pdf = Zend_Pdf::load(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf');
+            $pdf = \Zend_Pdf::load(APPLICATION_PATH . '/var/logs/' . $log->getMd5() . '.pdf');
             foreach ($pdf->pages as $page) {
                 $resultPdf->pages[] = $extractor->clonePage($page);
             }
@@ -101,8 +110,8 @@ class Logs_Service_Log {
      * @param $logId
      * @param $episodeId
      *
-     * @return Logs_Model_Log
-     * @throws Exception
+     * @return LogModel
+     * @throws \Exception
      */
     public function getLogByLogIdAndEpisodeId($logId, $episodeId) {
         return $this->logMapper->getLogByLogIdAndEpisodeId($logId, $episodeId);

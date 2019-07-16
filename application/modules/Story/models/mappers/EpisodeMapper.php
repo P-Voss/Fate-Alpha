@@ -377,21 +377,24 @@ class Story_Model_Mapper_EpisodeMapper extends Application_Model_Mapper_EpisodeM
      * @param int $episodenId
      *
      * @return Story_Model_Charakter[]
-     * @throws Exception
      */
     public function getParticipantsByEpisode ($episodenId)
     {
         $returnArray = [];
-        $select = $this->getDbTable('EpisodenCharakter')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('episodenToCharakter', []);
-        $select->joinInner(
-            'charakter',
-            'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1',
-            ['userId', 'charakterId', 'vorname', 'nachname']
-        );
-        $select->where('episodenToCharakter.episodenId = ?', $episodenId);
-        $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
+        try {
+            $select = $this->getDbTable('EpisodenCharakter')->select();
+            $select->setIntegrityCheck(false);
+            $select->from('episodenToCharakter', []);
+            $select->joinInner(
+                'charakter',
+                'charakter.charakterId = episodenToCharakter.charakterId AND charakter.active = 1',
+                ['userId', 'charakterId', 'vorname', 'nachname']
+            );
+            $select->where('episodenToCharakter.episodenId = ?', $episodenId);
+            $result = $this->getDbTable('EpisodenCharakter')->fetchAll($select);
+        } catch (Exception $exception) {
+            return [];
+        }
         foreach ($result as $row) {
             $charakter = new Story_Model_Charakter();
             $charakter->setCharakterid($row['charakterId']);

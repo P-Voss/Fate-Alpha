@@ -1,9 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/story.css'));
-/* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
 $plots = $this->plotsToReview;
-/* @var $plot Logs_Model_Plot */
+/* @var $plot \Logs\Models\Plot */
 ?>
 <h1>
     Logcenter
@@ -13,12 +11,12 @@ $plots = $this->plotsToReview;
     <legend>Plots und Episoden zur Bewertung</legend>
     <?php foreach($plots as $plot): ?>
     <div>
-        <h3>Episoden für Plot: <?= $purifier->purify($plot->getName()) ?></h3>
+        <h3>Episoden für Plot: <?= $this->purify($plot->getName()) ?></h3>
         <ul>
             <?php foreach($plot->getEpisoden() as $episode): ?>
             <li>
                 <a href="<?= $this->baseUrl() ?>/Logs/review/show/episode/<?= $episode->getId() ?>">
-                    <?= $purifier->purify($episode->getName()) ?> - Logs lesen
+                    <?= $this->purify($episode->getName()) ?> - Logs lesen
                 </a>
             </li>
             <?php endforeach; ?>

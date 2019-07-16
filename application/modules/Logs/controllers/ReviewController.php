@@ -1,5 +1,10 @@
 <?php
 
+use Logs\Models\Auswertung;
+use Logs\Services\Plot;
+use Logs\Services\Log;
+use Logs\Services\Episode;
+
 /**
  * Description of Logs_ReviewController
  *
@@ -8,15 +13,15 @@
 class Logs_ReviewController extends Zend_Controller_Action {
     
     /**
-     * @var Logs_Service_Plot
+     * @var Plot
      */
     private $plotService;
     /**
-     * @var Logs_Service_Episode
+     * @var Episode
      */
     private $episodenService;
     /**
-     * @var Logs_Service_Log
+     * @var Log
      */
     private $logService;
     
@@ -27,11 +32,11 @@ class Logs_ReviewController extends Zend_Controller_Action {
         if(!$this->_helper->logincheck()){
             $this->redirect('index/index');
         }
-        $this->logService = new Logs_Service_Log();
+        $this->logService = new Log();
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->plotService = new Logs_Service_Plot();
-        $this->episodenService = new Logs_Service_Episode();
+        $this->plotService = new Plot();
+        $this->episodenService = new Episode();
         $this->auth = Zend_Auth::getInstance()->getIdentity();
     }
     
@@ -99,7 +104,7 @@ class Logs_ReviewController extends Zend_Controller_Action {
             $this->redirect('index');
         }
         try {
-            $auswertung = new Logs_Model_Auswertung();
+            $auswertung = new Auswertung();
             $auswertung->setDescription($this->getRequest()->getPost('feedback', ''));
             $auswertung->setUserId(Zend_Auth::getInstance()->getIdentity()->userId);
             $auswertung->setIsAccepted((int)$this->getRequest()->getPost('isAccepted', 0) === 1);

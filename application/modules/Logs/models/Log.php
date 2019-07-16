@@ -1,21 +1,35 @@
 <?php
 
+namespace Logs\Models;
+
 
 /**
- * Description of Logs_Model_Log
+ * Description of Log
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Logs_Model_Log extends Application_Model_Log {
-   
+class Log extends \Application_Model_Log
+{
+
+    /**
+     * @var int
+     */
     protected $episodenId;
-    
-    public function getEpisodenId() {
+
+    /**
+     * @return int
+     */
+    public function getEpisodenId ()
+    {
         return $this->episodenId;
     }
 
-    public function setEpisodenId($episodenId) {
+    /**
+     * @param $episodenId
+     */
+    public function setEpisodenId ($episodenId)
+    {
         $this->episodenId = $episodenId;
     }
-    
+
 }

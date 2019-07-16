@@ -1,11 +1,13 @@
 <?php
 
+use Logs\Services\Log;
+
 /**
  * Description of Administration_Service_Logs
  *
  * @author Philipp Voß <voss.ph@web.de>
  */
-class Administration_Service_Logs extends Logs_Service_Log {
+class Administration_Service_Logs extends Log {
     
     const EPISODE_ACCEPTED_STATUS = 6;
     const EPISODE_REJECTED_STATUS = 7;
@@ -19,7 +21,10 @@ class Administration_Service_Logs extends Logs_Service_Log {
      * @var Administration_Model_Mapper_LogsMapper
      */
     private $mapper;
-    
+
+    /**
+     * @var Application_Model_Mapper_CharakterMapper
+     */
     private $charakterMapper;
 
 
