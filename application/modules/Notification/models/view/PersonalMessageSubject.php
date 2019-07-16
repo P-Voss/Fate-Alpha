@@ -4,7 +4,7 @@
 namespace Notification\Models\View;
 
 
-use Nachrichten\Model\Message;
+use Nachrichten\Models\Message;
 use Notification\Models\NotificationSubject;
 
 class PersonalMessageSubject implements NotificationSubject
