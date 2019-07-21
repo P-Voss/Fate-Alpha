@@ -116,30 +116,37 @@ class Application_Service_Training
         return $return;
     }
 
-    /**
-     * @throws Exception
-     */
     public function executeTraining ()
     {
-        $charakterIds = $this->trainingsMapper->getCharakterIdsToTrain();
+        $charakterIds = [];
+        try {
+            $charakterIds = $this->trainingsMapper->getCharakterIdsToTrain();
+        } catch (Exception $exception) {
+            error_log('CharakterIds für das Training konnten nicht geladen werden.');
+        }
         foreach ($charakterIds as $id) {
-            $charakter = $this->initCharakter($id);
-            $currentProgram = $this->trainingsMapper->getCurrentTraining($id);
+            try {
+                $charakter = $this->initCharakter($id);
+                $currentProgram = $this->trainingsMapper->getCurrentTraining($id);
 
-            $program = $this->getCharakterTrainingProgramById($charakter, $currentProgram->getProgramId());
-            $program->setRemainingDuration($currentProgram->getRemainingDuration() - 1);
+                $program = $this->getCharakterTrainingProgramById($charakter, $currentProgram->getProgramId());
+                $program->setRemainingDuration($currentProgram->getRemainingDuration() - 1);
 
-            $charakter->getCharakterwerte()->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
-            $charakter->getCharakterwerte()->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
+                $charakter->getCharakterwerte()->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
+                $charakter->getCharakterwerte()->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
 
-            $optionalAttributeToTrain = $program->getRandomOptionalAttribute();
-            $decreasingAttribute = $program->getRandomDecreasingAttribute([$optionalAttributeToTrain->getAttributeKey()]);
+                $optionalAttributeToTrain = $program->getRandomOptionalAttribute();
+                $decreasingAttribute = $program->getRandomDecreasingAttribute([$optionalAttributeToTrain->getAttributeKey()]);
 
-            $charakter->getCharakterwerte()->addTraining($optionalAttributeToTrain, $charakter->getKlassengruppe()->getId());
-            $charakter->getCharakterwerte()->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
+                $charakter->getCharakterwerte()->addTraining($optionalAttributeToTrain, $charakter->getKlassengruppe()->getId());
+                $charakter->getCharakterwerte()->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
 
-            $this->trainingsMapper->updateCharakterwerte($id, $charakter->getCharakterwerte());
-            $this->trainingsMapper->updateTraining($id, $program);
+                $this->trainingsMapper->updateCharakterwerte($id, $charakter->getCharakterwerte());
+                $this->trainingsMapper->updateTraining($id, $program);
+            } catch (Exception $exception) {
+                error_log('Charakter konnte nicht trainieren: ' . $id);
+                continue;
+            }
         }
     }
 
