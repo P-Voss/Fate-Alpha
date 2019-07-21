@@ -26,7 +26,7 @@ $respondTo = $this->respondTo;
                 <option <?= ($respondTo !== null AND $respondTo->getVerfasserId() == $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
                     <?php 
                     if($user->getCharakter() !== null){
-                        $name = $user->getProfilname() . ' - ' . $user->getCharakter()->getVorname();
+                        $name = $user->getCharakter()->getVorname() . ' - ' . $user->getProfilname();
                     } else {
                         $name = $user->getProfilname();
                     }
