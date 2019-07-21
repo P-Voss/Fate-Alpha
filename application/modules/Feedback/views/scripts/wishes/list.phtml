@@ -14,7 +14,6 @@ $purifier = $this->purifier;
             <a href="#<?= $wish->getId() ?>">#<?= $wish->getId() ?></a>
         </p>
         <p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
-        <div class="wishDescription"><?= $purifier->purify($wish->getDescription()) ?></div>
         <hr />
     </div>
     <?php endforeach; ?>
