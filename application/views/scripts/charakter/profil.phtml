@@ -40,8 +40,9 @@ $charakter = $this->charakter;
         <legend>Charaktergeschichte <span class="indicator"></span></legend>
         <div class="subContent">
             <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/story">
-                <textarea class="data" id="story" name="story" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></textarea>
-                <br />
+                <div style="overflow-y: auto; height: 350px;">
+                    <textarea class="data" id="story" name="story" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></textarea>
+                </div>
                 <input type="submit" class="save" value="Charaktergeschichte speichern">
             </form>
         </div>
@@ -52,8 +53,9 @@ $charakter = $this->charakter;
         <legend>Private Charakterdaten <span class="indicator"></span></legend>
         <div class="subContent">
             <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/private">
-                <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>
-                <br />
+                <div style="overflow-y: auto; height: 350px;">
+                    <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>
+                </div>
                 <input type="submit" class="save" value="Charaktergeschichte speichern">
             </form>
         </div>
