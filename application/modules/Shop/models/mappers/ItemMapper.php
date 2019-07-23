@@ -1,14 +1,21 @@
 <?php
 
+namespace Shop\Models\Mappers;
+
+use Exception;
+use Shop\Models\Item;
+use Shop\Models\Requirement;
+use Shop\Models\Requirementlist;
+
 /**
- * Class Shop_Model_Mapper_ItemMapper
+ * Class ItemMapper
  */
-class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
+class ItemMapper extends \Application_Model_Mapper_ItemMapper
 {
 
-
     /**
-     * @return Shop_Model_Item[]
+     * @return Item[]
+     * @throws \Exception
      */
     public function getItems ()
     {
@@ -19,7 +26,7 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
             return [];
         }
         foreach ($result as $row) {
-            $item = new Shop_Model_Item();
+            $item = new Item();
             $item->setId($row->itemId)
                 ->setName($row->name)
                 ->setDescription($row->description)
@@ -36,7 +43,7 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
     /**
      * @param int $itemId
      *
-     * @return Shop_Model_Item
+     * @return Item
      * @throws Exception
      */
     public function getItem ($itemId)
@@ -46,7 +53,7 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
         if ($row === null) {
             throw new Exception('Item does not exist');
         }
-        $item = new Shop_Model_Item();
+        $item = new Item();
         $item->setId($itemId)
             ->setName($row->name)
             ->setDescription($row->description)
@@ -59,13 +66,13 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
     }
 
     /**
-     * @param Application_Model_Charakter $character
-     * @param Shop_Model_Item $item
+     * @param \Application_Model_Charakter $character
+     * @param Item $item
      *
      * @return int
      * @throws Exception
      */
-    public function unlock (Application_Model_Charakter $character, Shop_Model_Item $item)
+    public function unlock (\Application_Model_Charakter $character, Item $item)
     {
         $data = [
             'charakterId' => $character->getCharakterid(),
@@ -97,18 +104,18 @@ class Shop_Model_Mapper_ItemMapper extends Application_Model_Mapper_ItemMapper
     /**
      * @param int $itemId
      *
-     * @return Shop_Model_Requirementlist
+     * @return Requirementlist
      * @throws Exception
      */
     public function getRequirements ($itemId)
     {
-        $requirementList = new Shop_Model_Requirementlist();
+        $requirementList = new Requirementlist();
         $select = $this->getDbTable('ItemCharakterVoraussetzungen')->select();
         $select->where('itemId = ?', $itemId);
         $result = $this->getDbTable('ItemCharakterVoraussetzungen')->fetchAll($select);
         if ($result->count() > 0) {
             foreach ($result as $row) {
-                $requirement = new Shop_Model_Requirement();
+                $requirement = new Requirement();
                 $requirement->setArt($row->art);
                 $requirement->setRequiredValue($row->voraussetzung);
                 $requirementList->addRequirement($requirement);

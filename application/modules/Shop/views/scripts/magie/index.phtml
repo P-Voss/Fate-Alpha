@@ -6,7 +6,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/magien.js'));
 $this->headLink()->prependStylesheet($this->autoVersion($this->baseUrl() . '/styles/magieschulen.css'));
 $this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.js');
-/* @var $magieschule Shop_Model_Schule */
+/* @var $magieschule \Shop\Models\Schule */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $clockTower = '';
@@ -23,9 +23,9 @@ switch ($this->organization) {
         $wanderingSea = 'selected=""';
         break;
 }
-/** @var Shop_Model_Schule[] $organizationSchools */
+/** @var \Shop\Models\Schule[] $organizationSchools */
 $organizationSchools = $this->organizationSchools;
-/** @var Shop_Model_Schule[] $schools */
+/** @var \Shop\Models\Schule[] $schools */
 $schools = $this->schools;
 ?>
 <h1>

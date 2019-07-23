@@ -1,5 +1,7 @@
 <?php
 
+use Shop\Services\Skill;
+
 /**
  * Description of SkillController
  *
@@ -36,7 +38,7 @@ class Shop_SkillController extends Zend_Controller_Action
 
     public function indexAction ()
     {
-        $service = new Shop_Service_Skill();
+        $service = new Skill();
         $this->view->skillarten = $service->getSkillArtenForCharakter($this->charakter);
     }
 
@@ -45,7 +47,7 @@ class Shop_SkillController extends Zend_Controller_Action
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        $service = new Shop_Service_Skill();
+        $service = new Skill();
         $this->view->skills = $service->getUnlearnedSkillsByArtId($this->charakter, $this->getRequest()->getParam('id'));
         $html = $this->view->render('skill/show.phtml');
         echo json_encode(['html' => $html]);
@@ -55,13 +57,13 @@ class Shop_SkillController extends Zend_Controller_Action
     {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
-        $service = new Shop_Service_Skill();
+        $service = new Skill();
         echo json_encode($service->unlockSkill($this->charakter, $this->getRequest()->getParam('id')));
     }
 
     public function previewAction ()
     {
-        $service = new Shop_Service_Skill();
+        $service = new Skill();
         $skill = $service->getSkillById($this->charakter, $this->getRequest()->getParam('id'));
         if ($this->getRequest()->getParam('tooltip') !== null) {
             $this->_helper->viewRenderer->setNoRender(true);

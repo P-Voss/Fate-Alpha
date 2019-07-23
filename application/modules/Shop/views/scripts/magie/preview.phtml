@@ -1,5 +1,5 @@
 <?php
-/* @var $magie Shop_Model_Magie */
+/* @var $magie \Shop\Models\Magie */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $magie = $this->magie;
@@ -11,7 +11,4 @@ $magie = $this->magie;
     <p>
         <?= $purifier->purify($magie->getBeschreibung()) ?>
     </p>
-<!--    <div class="unlock">
-        <button id="<?= $magie->getId() ?>" class="magie">Magie freischalten</button>
-    </div>-->
 </div>

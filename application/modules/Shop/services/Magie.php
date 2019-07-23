@@ -1,37 +1,49 @@
 <?php
 
+namespace Shop\Services;
+
+use Application_Model_Charakter;
+use Application_Model_Schule;
+use Application_Service_Charakter;
+use Exception;
+use Shop\Models\Mappers\MagieMapper;
+use Shop\Models\Mappers\SchuleMapper;
+use Shop\Models\Requirementlist;
+use Shop\Models\Requirement as RequirementModel;
+use Shop\Models\Schule;
+
 /**
- * Description of Shop_Service_Magie
- *
- * @author Voß
+ * Class Magie
+ * @package Shop\Services
  */
-class Shop_Service_Magie
+class Magie
 {
 
     /**
-     * @var Shop_Model_Mapper_SchuleMapper
+     * @var SchuleMapper
      */
     private $mapper;
     /**
-     * @var Shop_Model_Mapper_MagieMapper
+     * @var MagieMapper
      */
     private $magieMapper;
     /**
-     * @var Shop_Service_Requirement
+     * @var Requirement
      */
     private $requirementValidator;
 
+    
     public function __construct ()
     {
-        $this->requirementValidator = new Shop_Service_Requirement();
-        $this->mapper = new Shop_Model_Mapper_SchuleMapper();
-        $this->magieMapper = new Shop_Model_Mapper_MagieMapper();
+        $this->requirementValidator = new Requirement();
+        $this->mapper = new SchuleMapper();
+        $this->magieMapper = new MagieMapper();
     }
 
     /**
      * @param Application_Model_Charakter $charakter
      *
-     * @return Shop_Model_Schule[]
+     * @return Schule[]
      */
     public function getSchoolsWithoutOrganization (Application_Model_Charakter $charakter)
     {
@@ -53,7 +65,7 @@ class Shop_Service_Magie
                 );
                 if ($charakter->getMagischoolId() === $magieschule->getId()) {
                     $magieschule->setLearned(true);
-                    $magieschule->setRequirementList(new Shop_Model_Requirementlist());
+                    $magieschule->setRequirementList(new Requirementlist());
                 } else {
                     $magieschule->setRequirementList($this->mapper->getRequirements($magieschule->getId()));
                     $magieschule->setLearned(false);
@@ -74,7 +86,7 @@ class Shop_Service_Magie
     /**
      * @param Application_Model_Charakter $charakter
      *
-     * @return Shop_Model_Schule[]
+     * @return Schule[]
      */
     public function getSchoolsFromOrganization (Application_Model_Charakter $charakter)
     {
@@ -97,7 +109,7 @@ class Shop_Service_Magie
                 );
                 if ($charakter->getMagischoolId() === $magieschule->getId()) {
                     $magieschule->setLearned(true);
-                    $magieschule->setRequirementList(new Shop_Model_Requirementlist());
+                    $magieschule->setRequirementList(new Requirementlist());
                 } else {
                     $magieschule->setRequirementList($this->mapper->getRequirements($magieschule->getId()));
                     $magieschule->setLearned(false);
@@ -130,7 +142,7 @@ class Shop_Service_Magie
      */
     public function getSchoolsByCharacter ($characterId)
     {
-        $schoolMapper = new Application_Model_Mapper_SchuleMapper();
+        $schoolMapper = new \Application_Model_Mapper_SchuleMapper();
         return $schoolMapper->getSchoolsByCharacter($characterId);
     }
 
@@ -142,7 +154,7 @@ class Shop_Service_Magie
      */
     public function getSchoolByOrganization ($organizationId)
     {
-        $schoolMapper = new Application_Model_Mapper_SchuleMapper();
+        $schoolMapper = new \Application_Model_Mapper_SchuleMapper();
         return $schoolMapper->getSchoolByOrganization($organizationId);
     }
 
@@ -150,7 +162,7 @@ class Shop_Service_Magie
      * @param int $charakterId
      * @param Application_Model_Schule $schule
      *
-     * @return Application_Model_Magie[]
+     * @return \Application_Model_Magie[]
      */
     public function getLearnedMagieBySchule ($charakterId, Application_Model_Schule $schule)
     {
@@ -185,10 +197,10 @@ class Shop_Service_Magie
             $kosten = 40;
         }
 
-        $organizationRequirement = new Shop_Model_Requirement();
+        $organizationRequirement = new RequirementModel();
         $organizationRequirement->setArt('Organization')->setRequiredValue($magieschule->getMagiOrganization());
 
-        $fpRequirement = new Shop_Model_Requirement();
+        $fpRequirement = new RequirementModel();
         $fpRequirement->setArt('FP')->setRequiredValue($kosten);
         $requirements->addRequirement($fpRequirement);
         $requirements->addRequirement($organizationRequirement);
@@ -248,7 +260,7 @@ class Shop_Service_Magie
      * @param Application_Model_Charakter $charakter
      * @param int $magieschuleId
      *
-     * @return array
+     * @return \Shop\Models\Magie[]
      * @throws Exception
      */
     public function getUnlearnedMagienBySchulId (Application_Model_Charakter $charakter, $magieschuleId)
@@ -273,7 +285,7 @@ class Shop_Service_Magie
      * @param Application_Model_Charakter $charakter
      * @param int $magieId
      *
-     * @return Shop_Model_Magie
+     * @return \Shop\Models\Magie
      * @throws Exception
      */
     public function getMagieById (Application_Model_Charakter $charakter, $magieId)

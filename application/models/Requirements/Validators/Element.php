@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Shop_Model_Requirements_Validators_Element
+ * Description of Application_Model_Requirements_Validators_Element
  *
  * @author Voß
  */

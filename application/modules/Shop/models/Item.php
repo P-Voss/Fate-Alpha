@@ -1,9 +1,13 @@
 <?php
 
+namespace Shop\Models;
+
+use Exception;
+
 /**
- * Class Shop_Model_Item
+ * Class Item
  */
-class Shop_Model_Item extends Application_Model_Item
+class Item extends \Application_Model_Item
 {
 
     /**
@@ -11,7 +15,7 @@ class Shop_Model_Item extends Application_Model_Item
      */
     private $learned = false;
     /**
-     * @var Shop_Model_Requirementlist
+     * @var Requirementlist
      */
     private $requirementList;
 
@@ -32,7 +36,7 @@ class Shop_Model_Item extends Application_Model_Item
     }
 
     /**
-     * @return Shop_Model_Requirementlist
+     * @return Requirementlist
      */
     public function getRequirementList ()
     {
@@ -40,9 +44,9 @@ class Shop_Model_Item extends Application_Model_Item
     }
 
     /**
-     * @param Shop_Model_Requirementlist $requirementList
+     * @param Requirementlist $requirementList
      */
-    public function setRequirementList (Shop_Model_Requirementlist $requirementList)
+    public function setRequirementList (Requirementlist $requirementList)
     {
         $this->requirementList = $requirementList;
     }
@@ -65,7 +69,7 @@ class Shop_Model_Item extends Application_Model_Item
     public function activeDiscountDay ()
     {
         try {
-            $date = new DateTime();
+            $date = new \DateTime();
             $currentDay = $date->format('N');
             return in_array($currentDay, $this->discountDays);
         } catch (Exception $exception) {
@@ -74,14 +78,14 @@ class Shop_Model_Item extends Application_Model_Item
     }
 
     /**
-     * @param Application_Model_Charakter $character
+     * @param \Application_Model_Charakter $character
      *
      * @return int
      * @throws Exception
      */
-    public function getActualCost (Application_Model_Charakter $character)
+    public function getActualCost (\Application_Model_Charakter $character)
     {
-        $date = new DateTime();
+        $date = new \DateTime();
         $currentDay = $date->format('N');
 
         $discountByWealth = 0;

@@ -1,14 +1,16 @@
 <?php
 
+namespace Shop\Models;
+
 /**
  * Description of Skillart
  *
  * @author Voß
  */
-class Shop_Model_Skillart extends Application_Model_Skillart {
+class Skillart extends \Application_Model_Skillart {
 
     /**
-     * @var Shop_Model_Requirementlist
+     * @var Requirementlist
      */
     private $requirementList;
     /**
@@ -17,7 +19,7 @@ class Shop_Model_Skillart extends Application_Model_Skillart {
     private $learned = false;
     
     /**
-     * @return Shop_Model_Requirementlist
+     * @return Requirementlist
      */
     public function getRequirementList() {
         return $this->requirementList;
@@ -31,9 +33,9 @@ class Shop_Model_Skillart extends Application_Model_Skillart {
     }
 
     /**
-     * @param Shop_Model_Requirementlist $requirementList
+     * @param Requirementlist $requirementList
      */
-    public function setRequirementList(Shop_Model_Requirementlist $requirementList) {
+    public function setRequirementList(Requirementlist $requirementList) {
         $this->requirementList = $requirementList;
     }
 

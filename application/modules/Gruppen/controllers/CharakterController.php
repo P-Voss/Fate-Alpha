@@ -45,7 +45,7 @@ class Gruppen_CharakterController extends Zend_Controller_Action
             $charakter = $this->charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
             $this->view->charakter = $charakter;
 
-            $magieService = new Shop_Service_Magie();
+            $magieService = new \Shop\Services\Magie();
             $magieschulen = $magieService->getMagieschulenForCharakter($charakter);
             $schulen = [];
             foreach ($magieschulen as $schule) {
@@ -56,7 +56,7 @@ class Gruppen_CharakterController extends Zend_Controller_Action
             }
             $this->view->magieschulen = $schulen;
 
-            $skillService = new Shop_Service_Skill();
+            $skillService = new \Shop\Services\Skill();
             $skillarten = $skillService->getSkillArtenForCharakter($charakter);
             foreach ($skillarten as $skillart) {
                 if ($skillart->getLearned()) {

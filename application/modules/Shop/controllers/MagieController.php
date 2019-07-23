@@ -1,5 +1,7 @@
 <?php
 
+use Shop\Services\Magie;
+
 /**
  * Description of MagieController
  *
@@ -33,14 +35,14 @@ class Shop_MagieController extends Zend_Controller_Action {
     
     
     public function indexAction() {
-        $service = new Shop_Service_Magie();
+        $service = new Magie();
         $this->view->schools = $service->getSchoolsWithoutOrganization($this->charakter);
         $this->view->organizationSchools = $service->getSchoolsFromOrganization($this->charakter);
         $this->view->organization = $this->charakter->getMagiOrganization();
     }
     
     public function unlockschoolAction() {
-        $service = new Shop_Service_Magie();
+        $service = new Magie();
         $service->unlockSchool($this->charakter, $this->getRequest()->getPost('magieschuleId'));
         $this->redirect('Shop/magie/index');
     }
@@ -50,7 +52,7 @@ class Shop_MagieController extends Zend_Controller_Action {
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $service = new Shop_Service_Magie();
+        $service = new Magie();
         $this->charakter->setMagieStufe(
             $this->charakterService->getMagieStufe(
                 $this->charakter->getCharakterid(),
@@ -74,12 +76,12 @@ class Shop_MagieController extends Zend_Controller_Action {
         );
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
-        $service = new Shop_Service_Magie();
+        $service = new Magie();
         echo json_encode($service->unlockMagie($this->charakter, $this->getRequest()->getParam('id')));
     }
     
     public function previewAction() {
-        $service = new Shop_Service_Magie();
+        $service = new Magie();
         $magie = $service->getMagieById($this->charakter, $this->getRequest()->getParam('id'));
         if($this->getRequest()->getParam('tooltip') !== null){
             $this->_helper->viewRenderer->setNoRender(true);

@@ -1,9 +1,11 @@
 <?php
 
+namespace Shop\Models;
+
 /**
- * Class Shop_Model_Itemtypes
+ * Class Itemtypes
  */
-class Shop_Model_Itemtypes
+class Itemtypes
 {
 
     const ITEMTYPE_WEAPON_MELEE = 1;

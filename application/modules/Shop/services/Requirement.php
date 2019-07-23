@@ -1,19 +1,25 @@
 <?php
 
+namespace Shop\Services;
+
+use Application_Model_Charakter;
+use Shop\Models\Requirementlist;
+use Shop\Models\Requirements\Factory;
+
+
 /**
- * Description of Requirement
- *
- * @author Voß
+ * Class Requirement
+ * @package Shop\Services
  */
-class Shop_Service_Requirement
+class Requirement
 {
 
     /**
-     * @var Application_Model_Charakter
+     * @var \Application_Model_Charakter
      */
     private $charakter;
     /**
-     * @var Shop_Model_Requirements_Factory
+     * @var Factory
      */
     private $factory;
     /**
@@ -29,7 +35,7 @@ class Shop_Service_Requirement
         if ($charakter !== null) {
             $this->charakter = $charakter;
         }
-        $this->factory = new Shop_Model_Requirements_Factory();
+        $this->factory = new Factory();
     }
 
     /**
@@ -41,12 +47,12 @@ class Shop_Service_Requirement
     }
 
     /**
-     * @param Shop_Model_Requirementlist $requirementList
+     * @param Requirementlist $requirementList
      *
      * @return boolean
-     * @throws Exception
+     * @throws \Exception
      */
-    public function validate (Shop_Model_Requirementlist $requirementList)
+    public function validate (Requirementlist $requirementList)
     {
         $this->lastErrors = [];
         $requirements = $requirementList->getRequirements();

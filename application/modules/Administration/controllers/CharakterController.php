@@ -41,12 +41,12 @@ class Administration_CharakterController extends Zend_Controller_Action
         $informationService = new Erstellung_Service_Information();
         $this->view->creationParams = $informationService->getCreationParams();
 
-        $magieService = new Shop_Service_Magie();
+        $magieService = new \Shop\Services\Magie();
         $this->view->magieschulen = $magieService->getSchoolsByCharacter($charakter->getCharakterid());
         $this->view->schoolsToChoose = $magieService->getSchoolByOrganization($charakter->getMagiOrganization());
         $this->view->magien = $charakter->getMagien();
 
-        $skillService = new Shop_Service_Skill();
+        $skillService = new \Shop\Services\Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($charakter);
         foreach ($skillarten as $skillart) {
             if (!$skillart->getLearned()) {

@@ -5,25 +5,25 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tooltipster/js/jquery.t
 $this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/shop/items.js'));
 /* @var $purifier HTMLPurifier */
-/** @var $item Shop_Model_Item */
+/** @var $item \Shop\Models\Item */
 /** @var $character Application_Model_Charakter */
 $purifier = $this->purifier;
 $character = $this->character;
 $itemCategoryNames = [
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Schöne Waffen zum Draufhauen'],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Pfeile, Bolzen, Patronen'],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_CONCEPT => ['name' => 'Konzeptwaffen', 'descr' => 'Laser?'],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MYSTIC => ['name' => 'Mystic Codes', 'descr' => 'Dunno'],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RECIPE => ['name' => 'Rezepte', 'descr' => 'Was zu futtern.'],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MISC => ['name' => 'Sonstiges', 'descr' => 'Alles mögliche'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Schöne Waffen zum Draufhauen'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Pfeile, Bolzen, Patronen'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT => ['name' => 'Konzeptwaffen', 'descr' => 'Laser?'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC => ['name' => 'Mystic Codes', 'descr' => 'Dunno'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE => ['name' => 'Rezepte', 'descr' => 'Was zu futtern.'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC => ['name' => 'Sonstiges', 'descr' => 'Alles mögliche'],
 ];
 $itemCategories = [
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MELEE => [],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RANGED => [],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_CONCEPT => [],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MYSTIC => [],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_RECIPE => [],
-    Shop_Model_Itemtypes::ITEMTYPE_WEAPON_MISC => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE => [],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC => [],
 ];
 foreach ($this->items as $item) {
     $itemCategories[$item->getType()][] = $item;
@@ -35,7 +35,7 @@ foreach ($itemCategories as $key => $category):
     if (count($category) === 0) {
         continue;
     }
-    usort($category, function (Shop_Model_Item $previous, Shop_Model_Item $next) {
+    usort($category, function (\Shop\Models\Item $previous, \Shop\Models\Item $next) {
         return $previous->getRank() <=> $next->getRank();
     })
 ?>

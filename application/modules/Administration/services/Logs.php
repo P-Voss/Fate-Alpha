@@ -92,9 +92,9 @@ class Administration_Service_Logs extends Log {
      */
     public function acceptEpisode($episodeId) {
         $storyEpisodeService = new Story_Service_Episode();
-        $skillMapper = new Shop_Model_Mapper_SkillMapper();
-        $magieMapper = new Shop_Model_Mapper_MagieMapper();
-        $itemMapper = new Shop_Model_Mapper_ItemMapper();
+        $skillMapper = new \Shop\Models\Mappers\SkillMapper();
+        $magieMapper = new \Shop\Models\Mappers\MagieMapper();
+        $itemMapper = new \Shop\Models\Mappers\ItemMapper();
         $achievementMapper = new Application_Model_Mapper_CharakterMapper();
 
         $participants = $storyEpisodeService->getParticipantsByEpisode($episodeId);

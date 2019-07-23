@@ -1,12 +1,15 @@
 <?php
 
+namespace Shop\Models;
+
 /**
  * Description of Requirement
  *
  * @author Voß
  */
-class Shop_Model_Requirement {
-    
+class Requirement
+{
+
     /**
      * @var string
      */
@@ -15,23 +18,43 @@ class Shop_Model_Requirement {
      * @var int
      */
     private $requiredValue;
-    
-    public function getArt() {
+
+    /**
+     * @return string
+     */
+    public function getArt ()
+    {
         return $this->art;
     }
 
-    public function getRequiredValue() {
+    /**
+     * @return int
+     */
+    public function getRequiredValue ()
+    {
         return $this->requiredValue;
     }
 
-    public function setArt($art) {
+    /**
+     * @param $art
+     *
+     * @return $this
+     */
+    public function setArt ($art)
+    {
         $this->art = $art;
         return $this;
     }
 
-    public function setRequiredValue($requiredValue) {
+    /**
+     * @param $requiredValue
+     *
+     * @return $this
+     */
+    public function setRequiredValue ($requiredValue)
+    {
         $this->requiredValue = $requiredValue;
         return $this;
     }
-    
+
 }

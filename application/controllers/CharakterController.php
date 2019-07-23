@@ -76,11 +76,11 @@ class CharakterController extends Zend_Controller_Action
         if ($this->charakter === false) {
             $this->redirect('Erstellung/creation');
         }
-        $magieService = new Shop_Service_Magie();
+        $magieService = new \Shop\Services\Magie();
         $this->view->magieschulen = $magieService->getSchoolsByCharacter($this->charakter->getCharakterid());
         $this->view->magien = $this->charakter->getMagien();
 
-        $skillService = new Shop_Service_Skill();
+        $skillService = new \Shop\Services\Skill();
         $skillarten = $skillService->getSkillArtenForCharakter($this->charakter);
         foreach ($skillarten as $skillart) {
             if ($skillart->getLearned() === false) {

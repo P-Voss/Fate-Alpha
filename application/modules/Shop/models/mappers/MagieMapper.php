@@ -1,6 +1,17 @@
 <?php
 
-class Shop_Model_Mapper_MagieMapper
+namespace Shop\Models\Mappers;
+
+use \Exception;
+use Shop\Models\Magie;
+use Shop\Models\Requirement;
+use Shop\Models\Requirementlist;
+
+/**
+ * Class MagieMapper
+ * @package Shop\Models\Mappers
+ */
+class MagieMapper
 {
 
     /**
@@ -16,7 +27,7 @@ class Shop_Model_Mapper_MagieMapper
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        if (!$dbTable instanceof \Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
@@ -25,7 +36,7 @@ class Shop_Model_Mapper_MagieMapper
     /**
      * @param int $magieschuleId
      *
-     * @return Shop_Model_Magie[]
+     * @return Magie []
      * @throws Exception
      */
     public function getMagienByMagieschuleId ($magieschuleId)
@@ -36,18 +47,18 @@ class Shop_Model_Mapper_MagieMapper
         $select->from('magien');
         $select->joinLeft(
             'elemente', 'magien.element = elemente.elementId', [
-            'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
+                          'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
         );
         $select->where('magieschuleId = ?', $magieschuleId);
         $result = $this->getDbTable('Magie')->fetchAll($select);
         foreach ($result as $row) {
-            $magie = new Shop_Model_Magie();
+            $magie = new Magie ();
             $magie->setBeschreibung($row->beschreibung);
             $magie->setBezeichnung($row->name);
             $magie->setId($row->magieId);
             $magie->setFp($row->fp);
             $magie->setPrana($row->prana);
-            $element = new Application_Model_Element();
+            $element = new \Application_Model_Element();
             $element->setId($row->elementId);
             $element->setBezeichnung($row->elementName);
             $magie->setElement($element);
@@ -64,7 +75,7 @@ class Shop_Model_Mapper_MagieMapper
     /**
      * @param int $magieschuleId
      *
-     * @return Shop_Model_Magie[]
+     * @return Magie []
      * @throws Exception
      */
     public function getShopMagienByMagieschuleId ($magieschuleId)
@@ -75,18 +86,18 @@ class Shop_Model_Mapper_MagieMapper
         $select->from('magien');
         $select->joinLeft(
             'elemente', 'magien.element = elemente.elementId', [
-            'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
+                          'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
         );
         $select->where('magieschuleId = ? AND lernbedingung = "Standard"', $magieschuleId);
         $result = $this->getDbTable('Magie')->fetchAll($select);
         foreach ($result as $row) {
-            $magie = new Shop_Model_Magie();
+            $magie = new Magie ();
             $magie->setBeschreibung($row->beschreibung);
             $magie->setBezeichnung($row->name);
             $magie->setId($row->magieId);
             $magie->setFp($row->fp);
             $magie->setPrana($row->prana);
-            $element = new Application_Model_Element();
+            $element = new \Application_Model_Element();
             $element->setId($row->elementId);
             $element->setBezeichnung($row->elementName);
             $magie->setElement($element);
@@ -103,18 +114,18 @@ class Shop_Model_Mapper_MagieMapper
     /**
      * @param int $magieId
      *
-     * @return Shop_Model_Magie
+     * @return Magie
      * @throws Exception
      */
     public function getMagieById ($magieId)
     {
-        $magie = new Shop_Model_Magie();
+        $magie = new Magie ();
         $select = $this->getDbTable('Magie')->select();
         $select->setIntegrityCheck(false);
         $select->from('magien');
         $select->joinLeft(
             'elemente', 'magien.element = elemente.elementId', [
-            'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
+                          'elementId' => 'elemente.elementId', 'elementName' => 'elemente.name']
         );
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('Magie')->fetchRow($select);
@@ -125,7 +136,7 @@ class Shop_Model_Mapper_MagieMapper
             $magie->setId($row['magieId']);
             $magie->setFp($row['fp']);
             $magie->setPrana($row['prana']);
-            $element = new Application_Model_Element();
+            $element = new \Application_Model_Element();
             $element->setId($row['element']);
             $element->setBezeichnung($row['elementName']);
             $magie->setElement($element);
@@ -138,13 +149,13 @@ class Shop_Model_Mapper_MagieMapper
     }
 
     /**
-     * @param Application_Model_Charakter $charakter
-     * @param Shop_Model_Magie $magie
+     * @param \Application_Model_Charakter $charakter
+     * @param Magie $magie
      *
      * @return int
      * @throws Exception
      */
-    public function unlockMagie (Application_Model_Charakter $charakter, Shop_Model_Magie $magie)
+    public function unlockMagie (\Application_Model_Charakter $charakter, Magie $magie)
     {
         $data = [
             'charakterId' => $charakter->getCharakterid(),
@@ -212,7 +223,7 @@ class Shop_Model_Mapper_MagieMapper
      */
     public function getKlasse ($klassenId)
     {
-        $klasse = new Application_Model_Klasse();
+        $klasse = new \Application_Model_Klasse();
         if ($klassenId === null) {
             return $klasse;
         }
@@ -239,7 +250,7 @@ class Shop_Model_Mapper_MagieMapper
      */
     private function getKlassengruppe ($klassengruppenId)
     {
-        $klassengruppe = new Application_Model_Klassengruppe();
+        $klassengruppe = new \Application_Model_Klassengruppe();
         if ($klassengruppenId !== null) {
             $select = $this->getDbTable('Klassengruppe')->select();
             $select->where('klassengruppenId = ?', $klassengruppenId);
@@ -257,22 +268,20 @@ class Shop_Model_Mapper_MagieMapper
     /**
      * @param int $magieId
      *
-     * @return \Shop_Model_Requirementlist
+     * @return Requirementlist
      * @throws Exception
      */
     public function getRequirements ($magieId)
     {
-        $requirementList = new Shop_Model_Requirementlist();
+        $requirementList = new Requirementlist();
         $select = $this->getDbTable('MagieCharakterVoraussetzungen')->select();
         $select->where('magieId = ?', $magieId);
         $result = $this->getDbTable('MagieCharakterVoraussetzungen')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $requirement = new Shop_Model_Requirement();
-                $requirement->setArt($row->art);
-                $requirement->setRequiredValue($row->voraussetzung);
-                $requirementList->addRequirement($requirement);
-            }
+        foreach ($result as $row) {
+            $requirement = new Requirement();
+            $requirement->setArt($row->art);
+            $requirement->setRequiredValue($row->voraussetzung);
+            $requirementList->addRequirement($requirement);
         }
         return $requirementList;
     }

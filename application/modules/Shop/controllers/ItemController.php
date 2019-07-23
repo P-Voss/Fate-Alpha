@@ -38,8 +38,8 @@ class Shop_ItemController extends Zend_Controller_Action
 
     public function indexAction ()
     {
-        $requirementService = new Shop_Service_Requirement($this->character);
-        $service = new Shop_Service_Item($requirementService);
+        $requirementService = new \Shop\Services\Requirement($this->character);
+        $service = new \Shop\Services\Item($requirementService);
         try {
             $this->view->items = $service->getItems($this->character->getCharakterid());
         } catch (Exception $exception) {
@@ -53,8 +53,8 @@ class Shop_ItemController extends Zend_Controller_Action
         $layout = $this->_helper->layout();
         $layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        $requirementService = new Shop_Service_Requirement($this->character);
-        $service = new Shop_Service_Item($requirementService);
+        $requirementService = new \Shop\Services\Requirement($this->character);
+        $service = new \Shop\Services\Item($requirementService);
         try {
             $service->buy(
                 $this->getRequest()->getPost('id', 0),

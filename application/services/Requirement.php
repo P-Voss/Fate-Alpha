@@ -1,5 +1,7 @@
 <?php
 
+use Shop\Models\Requirements\Factory;
+
 /**
  * Description of Requirement
  *
@@ -25,7 +27,7 @@ class Application_Service_Requirement
         if ($charakter !== null) {
             $this->charakter = $charakter;
         }
-        $this->factory = new Shop_Model_Requirements_Factory();
+        $this->factory = new Factory();
     }
 
     /**

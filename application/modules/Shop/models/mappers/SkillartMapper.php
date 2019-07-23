@@ -1,12 +1,21 @@
 <?php
 
-class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMapper
+namespace Shop\Models\Mappers;
+
+use Exception;
+use Shop\Models\Skillart;
+
+/**
+ * Class SkillartMapper
+ * @package Shop\Models\Mappers
+ */
+class SkillartMapper extends \Application_Model_Mapper_SchuleMapper
 {
 
     /**
      * @param string $tablename
      *
-     * @return Zend_Db_Table_Abstract
+     * @return \Zend_Db_Table_Abstract
      * @throws Exception
      */
     public function getDbTable ($tablename)
@@ -16,14 +25,14 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        if (!$dbTable instanceof \Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
     }
 
     /**
-     * @return Shop_Model_Skillart[]
+     * @return Skillart[]
      * @throws Exception
      */
     public function getSkillArten ()
@@ -31,7 +40,7 @@ class Shop_Model_Mapper_SkillartMapper extends Application_Model_Mapper_SchuleMa
         $returnArray = [];
         $result = $this->getDbTable('Skillart')->fetchAll();
         foreach ($result as $row) {
-            $skillArt = new Shop_Model_Skillart();
+            $skillArt = new Skillart();
             $skillArt->setId($row->skillartId);
             $skillArt->setBezeichnung($row->name);
             $skillArt->setBeschreibung($row->beschreibung);

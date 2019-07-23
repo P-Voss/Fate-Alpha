@@ -1,20 +1,36 @@
 <?php
 
+namespace Shop\Services;
+
+
+use Exception;
+use Shop\Models\Mappers\ItemMapper;
+
 /**
- * Class Shop_Service_Item
+ * Class Item
+ * @package Shop\Services
  */
-class Shop_Service_Item {
+class Item
+{
 
     /**
-     * @var Shop_Model_Mapper_ItemMapper
+     * @var ItemMapper
      */
     private $mapper;
 
+    /**
+     * @var Requirement
+     */
     private $requirementService;
 
-    public function __construct (Shop_Service_Requirement $requirementService)
+    /**
+     * Item constructor.
+     *
+     * @param Requirement $requirementService
+     */
+    public function __construct (Requirement $requirementService)
     {
-        $this->mapper = new Shop_Model_Mapper_ItemMapper;
+        $this->mapper = new ItemMapper;
         $this->requirementService = $requirementService;
     }
 
@@ -47,11 +63,11 @@ class Shop_Service_Item {
 
     /**
      * @param $itemId
-     * @param Application_Model_Charakter $character
+     * @param \Application_Model_Charakter $character
      *
      * @throws Exception
      */
-    public function buy ($itemId, Application_Model_Charakter $character)
+    public function buy ($itemId, \Application_Model_Charakter $character)
     {
         if ($this->mapper->checkIfLearned($character->getCharakterid(), $itemId)) {
             throw new Exception('Der Gegenstand wurde schon gekauft.');

@@ -1,20 +1,22 @@
 <?php
 
+namespace Shop\Models;
+
 /**
  * Description of Requirementlist
  *
  * @author Voß
  */
-class Shop_Model_Requirementlist implements Iterator
+class Requirementlist implements \Iterator
 {
 
     /**
-     * @var Shop_Model_Requirement[]
+     * @var Requirement[]
      */
     private $requirements = [];
 
     /**
-     * @return Shop_Model_Requirement[]
+     * @return Requirement[]
      */
     public function getRequirements ()
     {
@@ -22,7 +24,7 @@ class Shop_Model_Requirementlist implements Iterator
     }
 
     /**
-     * @param Shop_Model_Requirement[] $requirements
+     * @param Requirement[] $requirements
      */
     public function setRequirements (array $requirements)
     {
@@ -32,9 +34,9 @@ class Shop_Model_Requirementlist implements Iterator
     }
 
     /**
-     * @param Shop_Model_Requirement $requirement
+     * @param Requirement $requirement
      */
-    public function addRequirement (Shop_Model_Requirement $requirement)
+    public function addRequirement (Requirement $requirement)
     {
         $this->requirements[] = $requirement;
     }

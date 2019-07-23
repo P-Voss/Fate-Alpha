@@ -1,18 +1,22 @@
 <?php
 
+namespace Shop\Models\Requirements\Validators;
+
+use Shop\Models\Requirements\ValidationInterface;
+
 /**
- * Description of Shop_Model_Requirements_Validators_Character
+ * Description of Character
  *
  * @author Voß
  */
-class Shop_Model_Requirements_Validators_Character implements Shop_Model_Requirements_ValidationInterface {
+class Character implements ValidationInterface {
     
     /**
-     * @param Application_Model_Charakter $charakter
+     * @param \Application_Model_Charakter $charakter
      * @param string $value
      * @return boolean
      */
-    public function check(Application_Model_Charakter $charakter, $value) {
+    public function check(\Application_Model_Charakter $charakter, $value) {
         return in_array($charakter->getCharakterid(), explode('|', $value));
     }
     

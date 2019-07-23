@@ -1,35 +1,54 @@
 <?php
 
+namespace Shop\Models;
+
 /**
  * Description of Schule
  *
  * @author Vosser
  */
-class Shop_Model_Schule extends Application_Model_Schule {
-    
+class Schule extends \Application_Model_Schule
+{
+
     /**
      * @var bool
      */
     private $learned;
     /**
-     * @var Shop_Model_Requirementlist
+     * @var Requirementlist
      */
     private $requirementList;
-    
-    public function getLearned() {
+
+    /**
+     * @return bool
+     */
+    public function getLearned ()
+    {
         return $this->learned;
     }
 
-    public function setLearned($learned) {
+    /**
+     * @param $learned
+     */
+    public function setLearned ($learned)
+    {
         $this->learned = $learned;
     }
-    
-    public function getRequirementList() {
+
+    /**
+     * @return Requirementlist
+     */
+    public function getRequirementList ()
+    {
         return $this->requirementList;
     }
 
-    public function setRequirementList(Shop_Model_Requirementlist $requirementList) {
+    /**
+     * @param Requirementlist $requirementList
+     */
+    public function setRequirementList (Requirementlist $requirementList)
+    {
         $this->requirementList = $requirementList;
     }
-    
+
 }

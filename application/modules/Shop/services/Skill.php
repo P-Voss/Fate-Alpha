@@ -1,38 +1,50 @@
 <?php
 
+namespace Shop\Services;
+
+
+use Application_Model_Charakter;
+use Exception;
+use Shop\Models\Mappers\SkillartMapper;
+use Shop\Models\Mappers\SkillMapper;
+use Shop\Models\Skillart;
+use Shop\Models\Skill as SkillModel;
+
 /**
- * Description of Shop_Service_Skill
- *
- * @author Voß
+ * Class Skill
+ * @package Shop\Services
  */
-class Shop_Service_Skill
+class Skill
 {
 
     /**
-     * @var Shop_Model_Mapper_SkillMapper
+     * @var SkillMapper
      */
     private $mapper;
     /**
-     * @var Shop_Model_Mapper_SkillartMapper
+     * @var SkillartMapper
      */
     private $skillartMapper;
     /**
-     * @var Shop_Service_Requirement
+     * @var Requirement
      */
     private $requirementValidator;
 
+    /**
+     * Skill constructor.
+     */
     public function __construct ()
     {
-        $this->requirementValidator = new Shop_Service_Requirement();
-        $this->mapper = new Shop_Model_Mapper_SkillMapper();
-        $this->skillartMapper = new Shop_Model_Mapper_SkillartMapper();
+        $this->requirementValidator = new Requirement();
+        $this->mapper = new SkillMapper();
+        $this->skillartMapper = new SkillartMapper();
     }
 
     /**
      * @param Application_Model_Charakter $charakter
      *
-     * @return Shop_Model_Skillart[]
-     * @throws Exception
+     * @return Skillart[]
+     * @throws \Exception
      */
     public function getSkillArtenForCharakter (Application_Model_Charakter $charakter)
     {
@@ -42,12 +54,12 @@ class Shop_Service_Skill
 
     /**
      * @param int $charakterId
-     * @param Application_Model_Skillart $skillart
+     * @param Skillart $skillart
      *
-     * @return Shop_Model_Skill[]
+     * @return SkillModel[]
      * @throws Exception
      */
-    public function getLearnedSkillBySkillart ($charakterId, Application_Model_Skillart $skillart)
+    public function getLearnedSkillBySkillart ($charakterId, Skillart $skillart)
     {
         return $this->mapper->getLearnedSkillsBySkillArtId($skillart->getId(), $charakterId);
     }
@@ -56,7 +68,7 @@ class Shop_Service_Skill
      * @param Application_Model_Charakter $charakter
      * @param int $skillartId
      *
-     * @return Shop_Model_Skill[]
+     * @return SkillModel[]
      * @throws Exception
      */
     public function getUnlearnedSkillsByArtId (Application_Model_Charakter $charakter, $skillartId)
@@ -121,7 +133,7 @@ class Shop_Service_Skill
      * @param Application_Model_Charakter $charakter
      * @param int $skillId
      *
-     * @return Shop_Model_Skill
+     * @return SkillModel
      * @throws Exception
      */
     public function getSkillById (Application_Model_Charakter $charakter, $skillId)

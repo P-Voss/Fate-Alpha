@@ -1,43 +1,66 @@
 <?php
 
+namespace Shop\Models;
+
 /**
  * Description of Skill
  *
  * @author Vosser
  */
-class Shop_Model_Skill extends Application_Model_Skill {
-    
+class Skill extends \Application_Model_Skill
+{
+
     /**
      * @var boolean
      */
     private $learned;
     /**
-     * @var Shop_Model_Requirementlist
+     * @var Requirementlist
      */
     private $requirementList;
-    
-    public function getLearned() {
+
+    /**
+     * @return bool
+     */
+    public function getLearned ()
+    {
         return $this->learned;
     }
 
-    public function setLearned($learned) {
+    /**
+     * @param $learned
+     */
+    public function setLearned ($learned)
+    {
         $this->learned = $learned;
     }
-    
-    public function getRequirementList() {
+
+    /**
+     * @return Requirementlist
+     */
+    public function getRequirementList ()
+    {
         return $this->requirementList;
     }
 
-    public function setRequirementList(Shop_Model_Requirementlist $requirementList) {
+    /**
+     * @param Requirementlist $requirementList
+     */
+    public function setRequirementList (Requirementlist $requirementList)
+    {
         $this->requirementList = $requirementList;
     }
-    
-    public function jsonSerialize() {
-        $return = array();
-        foreach (get_object_vars($this) as $key => $property){
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize ()
+    {
+        $return = [];
+        foreach (get_object_vars($this) as $key => $property) {
             $return[$key] = $property;
         }
         return $return;
     }
-    
+
 }

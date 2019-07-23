@@ -1,6 +1,17 @@
 <?php
 
-class Shop_Model_Mapper_SkillMapper
+namespace Shop\Models\Mappers;
+
+use Exception;
+use Shop\Models\Requirement;
+use Shop\Models\Requirementlist;
+use Shop\Models\Skill;
+
+/**
+ * Class SkillMapper
+ * @package Shop\Models\Mappers
+ */
+class SkillMapper
 {
 
     /**
@@ -16,7 +27,7 @@ class Shop_Model_Mapper_SkillMapper
             throw new Exception('Falsche Tabellenadapter angegeben');
         }
         $dbTable = new $className();
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
+        if (!$dbTable instanceof \Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
         return $dbTable;
@@ -25,7 +36,7 @@ class Shop_Model_Mapper_SkillMapper
     /**
      * @param int $skillArtId
      *
-     * @return array
+     * @return Skill[]
      * @throws Exception
      */
     public function getSkillsBySkillArtId ($skillArtId)
@@ -36,7 +47,7 @@ class Shop_Model_Mapper_SkillMapper
         $select->order('name');
         $result = $this->getDbTable('Skill')->fetchAll($select);
         foreach ($result as $row) {
-            $skill = new Shop_Model_Skill();
+            $skill = new Skill();
             $skill->setId($row->skillId);
             $skill->setBezeichnung($row->name);
             $skill->setBeschreibung($row->beschreibung);
@@ -53,7 +64,7 @@ class Shop_Model_Mapper_SkillMapper
      * @param int $skillArtId
      * @param $charakterId
      *
-     * @return Shop_Model_Skill[]
+     * @return Skill[]
      * @throws Exception
      */
     public function getLearnedSkillsBySkillArtId ($skillArtId, $charakterId)
@@ -91,7 +102,7 @@ SQL;
         $stmt->execute([$skillArtId, $charakterId, $skillArtId, $charakterId]);
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-            $skill = new Shop_Model_Skill();
+            $skill = new Skill();
             $skill->setId($row['skillId']);
             $skill->setBezeichnung($row['name']);
             $skill->setBeschreibung($row['beschreibung']);
@@ -108,7 +119,7 @@ SQL;
     /**
      * @param int $skillArtId
      *
-     * @return Shop_Model_Skill[]
+     * @return Skill[]
      * @throws Exception
      */
     public function getShopSkillsBySkillArtId ($skillArtId)
@@ -118,7 +129,7 @@ SQL;
         $select->where('skillartId = ? and lernbedingung = "Standard"', $skillArtId);
         $result = $this->getDbTable('Skill')->fetchAll($select);
         foreach ($result as $row) {
-            $skill = new Shop_Model_Skill();
+            $skill = new Skill();
             $skill->setId($row->skillId);
             $skill->setBezeichnung($row->name);
             $skill->setBeschreibung($row->beschreibung);
@@ -133,12 +144,12 @@ SQL;
     /**
      * @param int $skillId
      *
-     * @return Shop_Model_Skill
+     * @return Skill
      * @throws Exception
      */
     public function getSkillById ($skillId)
     {
-        $skill = new Shop_Model_Skill();
+        $skill = new Skill();
         $select = $this->getDbTable('Skill')->select();
         $select->where('skillId = ?', $skillId);
         $result = $this->getDbTable('Skill')->fetchRow($select);
@@ -157,13 +168,13 @@ SQL;
     }
 
     /**
-     * @param Application_Model_Charakter $charakter
-     * @param Shop_Model_Skill $skill
+     * @param \Application_Model_Charakter $charakter
+     * @param Skill $skill
      *
      * @return int
      * @throws Exception
      */
-    public function unlockSkill (Application_Model_Charakter $charakter, Shop_Model_Skill $skill)
+    public function unlockSkill (\Application_Model_Charakter $charakter, Skill $skill)
     {
         $data = [
             'charakterId' => $charakter->getCharakterid(),
@@ -226,17 +237,17 @@ SQL;
     /**
      * @param int $skillId
      *
-     * @return \Shop_Model_Requirementlist
+     * @return Requirementlist
      * @throws Exception
      */
     public function getRequirements ($skillId)
     {
-        $requirementList = new Shop_Model_Requirementlist();
+        $requirementList = new Requirementlist();
         $select = $this->getDbTable('SkillVoraussetzung')->select();
         $select->where('skillId = ?', $skillId);
         $result = $this->getDbTable('SkillVoraussetzung')->fetchAll($select);
         foreach ($result as $row) {
-            $requirement = new Shop_Model_Requirement();
+            $requirement = new Requirement();
             $requirement->setArt($row->art);
             $requirement->setRequiredValue($row->voraussetzung);
             $requirementList->addRequirement($requirement);

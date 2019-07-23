@@ -11,7 +11,7 @@ class Gruppen_Service_Requirement {
      */
     private $charakter;
     /**
-     * @var Shop_Model_Requirements_Factory
+     * @var \Shop\Models\Requirements\Factory
      */
     private $factory;
 
@@ -22,7 +22,7 @@ class Gruppen_Service_Requirement {
         if($charakter !== null){
             $this->charakter = $charakter;
         }
-        $this->factory = new Shop_Model_Requirements_Factory();
+        $this->factory = new \Shop\Models\Requirements\Factory();
     }
     
     /**
@@ -33,12 +33,12 @@ class Gruppen_Service_Requirement {
     }
 
     /**
-     * @param Shop_Model_Requirementlist $requirementList
+     * @param \Shop\Models\Requirementlist $requirementList
      *
      * @return boolean
      * @throws Exception
      */
-    public function validate(Shop_Model_Requirementlist $requirementList) {
+    public function validate(\Shop\Models\Requirementlist $requirementList) {
         $errors = array();
         $requirements = $requirementList->getRequirements();
         foreach ($requirements as $requirement){

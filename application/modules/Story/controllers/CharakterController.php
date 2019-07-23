@@ -53,11 +53,11 @@ class Story_CharakterController extends Zend_Controller_Action {
             $charakter = $this->charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
             $this->view->charakter = $charakter;
 
-            $magieService = new Shop_Service_Magie();
+            $magieService = new \Shop\Services\Magie();
             $this->view->magieschulen = $magieService->getSchoolsByCharacter($charakter->getCharakterid());
             $this->view->magien = $charakter->getMagien();
 
-            $skillService = new Shop_Service_Skill();
+            $skillService = new \Shop\Services\Skill();
             $skillarten = $skillService->getSkillArtenForCharakter($charakter);
             foreach ($skillarten as $skillart) {
                 if($skillart->getLearned() === false){
