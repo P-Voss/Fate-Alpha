@@ -25,7 +25,7 @@ class Application_Model_Requirements_Types
     const SCHOOL_ANY = 'SchulenAny';
     const GROUP = 'Gruppe';
     const CLASSID = 'Klasse';
-    const TRAIT = 'Trait';
+    const TRAIT = 'Traits';
     const CHARACTER = 'Character';
 
 

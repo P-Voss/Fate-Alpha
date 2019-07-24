@@ -3,6 +3,7 @@
 namespace Notification\Services;
 
 
+use Nachrichten\Services\Message;
 use Notification\Models\NotificationTypes;
 
 /**
@@ -44,7 +45,7 @@ class EventListener implements \Application_Model_Events_Observer
 
         foreach ($subject->getEvents() as $event) {
             switch ($event['event']) {
-                case \Nachrichten_Service_Nachrichten::NEW_MESSAGE_EVENT:
+                case Message::NEW_MESSAGE_EVENT:
                     $this->notificationService->handle(
                         $event['messageId'],
                         NotificationTypes::PERSONAL_MESSAGE
