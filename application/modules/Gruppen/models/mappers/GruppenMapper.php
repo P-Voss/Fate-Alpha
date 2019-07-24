@@ -83,6 +83,7 @@ class Gruppen_Model_Mapper_GruppenMapper
      *
      * @return Gruppen_Model_Gruppe[]
      * @throws Zend_Db_Select_Exception
+     * @throws Exception
      */
     public function getGruppenByUserId ($userId)
     {

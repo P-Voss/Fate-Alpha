@@ -175,7 +175,8 @@ class Gruppen_Service_Gruppen implements Application_Model_Events_Subject
             try {
                 $charakter = $charakterService->getCharakterByUserid($nachricht->getUserId());
                 $nachricht->setCharakter($charakter);
-            } catch (Exception $exception) {}
+            } catch (Exception $exception) {
+            }
         }
         return $nachrichten;
     }

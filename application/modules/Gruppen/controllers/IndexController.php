@@ -160,42 +160,4 @@ class Gruppen_IndexController extends Zend_Controller_Action
         }
     }
 
-    public function uploadAction ()
-    {
-        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        if (!$this->gruppenService->validateAccess(
-            $this->getRequest()->getParam('gruppenId'),
-            $charakterId,
-            $this->auth->userId
-        )) {
-            $this->redirect('Gruppen');
-        }
-        if (!is_null($this->getRequest()->getParam('gruppenId'))) {
-            $service = new Gruppen_Service_File();
-            $service->uploadLog($this->getRequest(), $this->auth->userId);
-            $this->redirect('Gruppen/index/show/id/' . $this->getRequest()->getParam('gruppenId'));
-        } else {
-            $this->redirect('Gruppen');
-        }
-    }
-
-
-    public function downloadAction ()
-    {
-        $charakterId = ($this->charakter !== false) ? $this->charakter->getCharakterid() : 0;
-        if (!$this->gruppenService->validateAccess(
-            $this->getRequest()->getParam('id'),
-            $charakterId,
-            $this->auth->userId
-        )) {
-            $this->redirect('Gruppen');
-        }
-        if (!is_null($this->getRequest()->getParam('id'))) {
-            $service = new Gruppen_Service_File();
-            $service->downloadLog($this->getRequest());
-        } else {
-            $this->redirect('Gruppen');
-        }
-    }
-
 }
