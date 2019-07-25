@@ -135,6 +135,10 @@ class Application_Model_Charakter
      */
     protected $createDate;
     /**
+     * @var string
+     */
+    protected $ferocity;
+    /**
      * @var DateTime
      */
     protected $undeadDate;
@@ -1010,6 +1014,33 @@ class Application_Model_Charakter
     public function getModifiers ()
     {
         return $this->modifiers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFerocity (): string
+    {
+        return $this->ferocity;
+    }
+
+    /**
+     * @param string $ferocity
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setFerocity (string $ferocity): Application_Model_Charakter
+    {
+        $this->ferocity = $ferocity;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFerocity (): bool
+    {
+        return $this->klassengruppe->getId() === 3;
     }
 
     /**

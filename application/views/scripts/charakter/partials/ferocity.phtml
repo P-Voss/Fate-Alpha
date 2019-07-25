@@ -1,0 +1,11 @@
+<?php
+/* @var $charakter Application_Model_Charakter */
+?>
+<fieldset>
+    <legend>Wildheit<span class="indicator"></span></legend>
+    <div class="subContent">
+        <p>
+            <?= $purifier->purify(Application_Model_Ferocity::getDescription($charakter->getFerocity())) ?>
+        </p>
+    </div>
+</fieldset>

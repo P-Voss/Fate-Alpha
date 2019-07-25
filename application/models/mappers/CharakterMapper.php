@@ -52,6 +52,7 @@ class Application_Model_Mapper_CharakterMapper
             $charakter->setNickname($row->nickname);
             $charakter->setSize($row->size);
             $charakter->setWohnort($row->wohnort);
+            $charakter->setFerocity($row->ferocity);
             $date = new DateTime($row->createDate);
             $charakter->setCreatedate($date);
             $returnArray[] = $charakter;
@@ -167,6 +168,7 @@ class Application_Model_Mapper_CharakterMapper
             $model->setNickname($row->nickname);
             $model->setSize($row->size);
             $model->setWohnort($row->wohnort);
+            $model->setFerocity($row->ferocity);
             $model->setLuck($row->luck);
             $date = new DateTime($row->createDate);
             $model->setCreatedate($date);
@@ -600,6 +602,7 @@ class Application_Model_Mapper_CharakterMapper
         $model->setSexualitaet($row->sexualitaet);
         $model->setNickname($row->nickname);
         $model->setWohnort($row->wohnort);
+        $model->setFerocity($row->ferocity);
         $model->setKillCount($row->npcKills);
         $model->setMagiOrganization($row->magiOrganization);
         $model->setMagischoolId($row->magischoolId);

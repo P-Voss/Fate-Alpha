@@ -18,15 +18,20 @@ $purifier = $this->purifier;
     <div class="contentLeft">
         <?php include __DIR__ . '/partials/charakterdaten.phtml'; ?>
         <?php include __DIR__ . '/partials/circuit.phtml'; ?>
-        <?php include __DIR__ . '/partials/traits.phtml' ?>
+        <?php include __DIR__ . '/partials/traits.phtml'; ?>
     </div>
     <div class="clearRight"></div>
     <div class="contentRight">
-        <?php include __DIR__ . '/partials/statistik.phtml' ?>
-        <?php include __DIR__ . '/partials/charakterwerte.phtml' ?>
-        <?php include __DIR__ . '/partials/hooks.phtml' ?>
-        <?php include __DIR__ . '/partials/vermoegen.phtml' ?>
-        <?php include __DIR__ . '/partials/klasse.phtml' ?>
+        <?php include __DIR__ . '/partials/statistik.phtml'; ?>
+        <?php include __DIR__ . '/partials/charakterwerte.phtml'; ?>
+        <?php include __DIR__ . '/partials/hooks.phtml'; ?>
+        <?php include __DIR__ . '/partials/vermoegen.phtml'; ?>
+        <?php include __DIR__ . '/partials/klasse.phtml'; ?>
+        <?php
+        if ($charakter->hasFerocity()) {
+            include __DIR__ . '/partials/ferocity.phtml';
+        }
+        ?>
     </div>
     <div class="clearBoth"></div>
 </div>
