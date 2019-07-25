@@ -10,19 +10,6 @@ class Application_Model_Charakter
 {
 
     /**
-     * @var array
-     */
-    protected $categories = [
-        1 => 'A',
-        2 => 'B',
-        3 => 'C',
-        4 => 'D',
-        5 => 'E',
-        6 => 'F',
-    ];
-
-
-    /**
      * @var int
      */
     protected $charakterid;
@@ -138,6 +125,10 @@ class Application_Model_Charakter
      * @var string
      */
     protected $ferocity;
+    /**
+     * @var int
+     */
+    protected $kurotama = 0;
     /**
      * @var DateTime
      */
@@ -758,17 +749,6 @@ class Application_Model_Charakter
     }
 
     /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    public function getCategory ($key)
-    {
-        return $this->categories[$key];
-    }
-
-
-    /**
      * @return int
      */
     public function getKillCount ()
@@ -1036,11 +1016,38 @@ class Application_Model_Charakter
     }
 
     /**
+     * @return int
+     */
+    public function getKurotama (): int
+    {
+        return $this->kurotama;
+    }
+
+    /**
+     * @param int $kurotama
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setKurotama (int $kurotama): Application_Model_Charakter
+    {
+        $this->kurotama = $kurotama;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function hasFerocity (): bool
     {
         return $this->klassengruppe->getId() === 3;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasKurotama (): bool
+    {
+        return $this->klasse->getId() === 33;
     }
 
     /**

@@ -15,6 +15,14 @@
         </label>
         <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
     </p>
+    <?php if($charakter->hasKurotama()): ?>
+    <p>
+        <label>
+            Kurotama
+        </label>
+        <?= $charakter->getKurotama() ?>
+    </p>
+    <?php endif; ?>
     <p>
         <label>
             Geschlecht
