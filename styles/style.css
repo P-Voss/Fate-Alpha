@@ -683,3 +683,8 @@ kbd {
     font-weight: bold;
     cursor: pointer;
 }
+
+
+.characterObjectives div {
+    background-color: #FFAA91;
+}

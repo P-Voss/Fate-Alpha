@@ -610,6 +610,7 @@ class Application_Model_Mapper_CharakterMapper
         $model->setMagiOrganization($row->magiOrganization);
         $model->setMagischoolId($row->magischoolId);
         $model->setKillCount($row->npcKills);
+        $model->setSlData($row->slData);
         $date = new DateTime($row->createDate);
         $model->setCreatedate($date);
         $model->setUndead($row->undead === 1);
@@ -689,6 +690,18 @@ class Application_Model_Mapper_CharakterMapper
     public function updateOrganization ($organizationId, $charakterId)
     {
         return $this->getDbTable('Charakter')->update(['magiOrganization' => $organizationId], ['charakterId = ?' => $charakterId]);
+    }
+
+    /**
+     * @param string $objective
+     * @param $charakterId
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function updateObjective (string $objective, $charakterId)
+    {
+        return $this->getDbTable('Charakter')->update(['slData' => $objective], ['charakterId = ?' => $charakterId]);
     }
 
     /**

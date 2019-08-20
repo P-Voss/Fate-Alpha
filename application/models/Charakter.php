@@ -134,6 +134,10 @@ class Application_Model_Charakter
      */
     protected $undeadDate;
     /**
+     * @var string
+     */
+    protected $slData;
+    /**
      * @var
      */
     protected $naturElement;
@@ -1048,6 +1052,25 @@ class Application_Model_Charakter
     public function hasKurotama (): bool
     {
         return $this->klasse->getId() === 33;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlData (): string
+    {
+        return $this->slData;
+    }
+
+    /**
+     * @param string $slData
+     *
+     * @return Application_Model_Charakter
+     */
+    public function setSlData (string $slData): Application_Model_Charakter
+    {
+        $this->slData = $slData;
+        return $this;
     }
 
     /**

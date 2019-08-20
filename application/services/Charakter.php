@@ -320,6 +320,17 @@ HTML;
     }
 
     /**
+     * @param Application_Model_Charakter $charakter
+     * @param string $objective
+     *
+     * @throws Exception
+     */
+    public function updateObjectives (Application_Model_Charakter $charakter, string $objective)
+    {
+        $this->charakterMapper->updateObjective($objective, $charakter->getCharakterid());
+    }
+
+    /**
      * @param $charakterId
      *
      * @return Application_Model_Achievement[]

@@ -37,6 +37,12 @@ $categoryDis = $werte->getCategory('dis');
 <h1>
     <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
 </h1>
+<?php if ($charakter->getSlData() !== '') { ?>
+    <fieldset class="characterObjectives">
+        <legend>Ziele des Charakters</legend>
+        <div><?= $this->purify($charakter->getSlData()) ?></div>
+    </fieldset>
+<?php } ?>
 <div>
     <fieldset style="display: inline-block; width: 49%; float: left">
         <legend><h2>Charakterdaten</h2></legend>

@@ -37,6 +37,20 @@ $charakter = $this->charakter;
 </div>
 <div>
     <fieldset>
+        <legend>Daten für Spielleiter <span class="indicator"></span></legend>
+        <div class="subContent">
+            <p>Derzeitige Ziele, Träume oder andere Informationen die zu einer Story inspirieren könnten</p>
+            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/objectives">
+                <div style="overflow-y: auto; height: 350px;">
+                    <textarea class="data" id="objectives" name="objectives" rows="30"><?= $purifier->purify($charakter->getSlData()) ?></textarea>
+                </div>
+                <input type="submit" class="save" value="Speichern">
+            </form>
+        </div>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
         <legend>Charaktergeschichte <span class="indicator"></span></legend>
         <div class="subContent">
             <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/story">

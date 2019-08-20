@@ -23,5 +23,6 @@ jQuery(document).ready(function () {
 
     CKEDITOR.inline('story');
     CKEDITOR.inline('private');
+    CKEDITOR.inline('objectives');
 
 });
