@@ -22,19 +22,9 @@ class Application_Model_Charakterwerte
         'aus' => 0,
         'dis' => 0,
         'kon' => 0,
+        'pra' => 0,
     ];
     protected $circuitBonus = 0;
-
-
-    private $energieFaktor = [
-        'F' => 1,
-        'E' => 2,
-        'D' => 3,
-        'C' => 4,
-        'B' => 5,
-        'A' => 6,
-    ];
-
 
     /**
      * @return mixed
@@ -212,6 +202,7 @@ class Application_Model_Charakterwerte
             'aus' => $this->ausdauer,
             'kon' => $this->kontrolle,
             'dis' => $this->disziplin,
+            'pra' => $this->uebung,
         ];
         $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
 
@@ -253,6 +244,8 @@ class Application_Model_Charakterwerte
             ['category' => 'A', 'lowerbound' => 2800, 'ueber' => true],
             ['category' => 'A+', 'lowerbound' => 3000, 'ueber' => true],
         ];
+        $activeKey = 0;
+        $activeCategory = $categories[0];
         foreach ($categories as $key => $category) {
             if ($category['lowerbound'] <= $value
                 && ($category['ueber'] === false || $ubermenschMod === true)) {
@@ -261,7 +254,8 @@ class Application_Model_Charakterwerte
             }
         }
         if (in_array($attr, ['dis', 'kon']) && $this->circuitBonus > 0) {
-            $category = $categories[$activeKey + $this->circuitBonus];
+            $activeKey = $activeKey + $this->circuitBonus;
+            $category = $categories[$activeKey];
             if ($category['ueber'] === false || $ubermenschMod === true) {
                 $activeCategory = $category;
             }
@@ -269,6 +263,7 @@ class Application_Model_Charakterwerte
         $werteCategory = new Application_Model_Charakterwertecategory();
         $werteCategory->setCategory($activeCategory['category']);
         $werteCategory->setUebermensch($activeCategory['ueber']);
+        $werteCategory->setNumericValue($activeKey + 1);
         return $werteCategory;
     }
 

@@ -12,6 +12,7 @@ if ($layoutData->getHasChara() !== true) {
     $categoryAus = $werte->getCategory('aus');
     $categoryKon = $werte->getCategory('kon');
     $categoryDis = $werte->getCategory('dis');
+    $categoryPra = $werte->getCategory('pra');
     ?>
     <h3>
         <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
@@ -110,6 +111,9 @@ if ($layoutData->getHasChara() !== true) {
                 </label>
                 <span class="value" title="<?= $werte->getUebung() ?>">
                     <?= floor($werte->getUebung()) ?>
+                </span>
+                <span class="<?= $categoryPra->getUebermensch() ? 'uber' : '' ?>">
+                    <?= $categoryPra->getCategory() ?>
                 </span>
             </p>
             <p>

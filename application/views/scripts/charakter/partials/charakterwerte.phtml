@@ -5,6 +5,7 @@ $categoryAgi = $werte->getCategory('agi');
 $categoryAus = $werte->getCategory('aus');
 $categoryKon = $werte->getCategory('kon');
 $categoryDis = $werte->getCategory('dis');
+$categoryPra = $werte->getCategory('pra');
 ?>
 <fieldset>
     <legend>Werte</legend>
@@ -16,9 +17,9 @@ $categoryDis = $werte->getCategory('dis');
             <span title="<?= $werte->getStaerke() ?>">
                 <?= floor($werte->getStaerke()) ?>
             </span>
-                <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
-                    <?= $categoryStr->getCategory() ?>
-                </span>
+            <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryStr->getCategory() ?> (<?= $categoryStr->getNumericValue() ?>)
+            </span>
         </p>
         <p>
             <label>
@@ -28,7 +29,7 @@ $categoryDis = $werte->getCategory('dis');
                 <?= floor($werte->getAgilitaet()) ?>
             </span>
             <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
-                <?= $categoryAgi->getCategory() ?>
+                <?= $categoryAgi->getCategory() ?> (<?= $categoryAgi->getNumericValue() ?>)
             </span>
         </p>
         <p>
@@ -39,7 +40,7 @@ $categoryDis = $werte->getCategory('dis');
                 <?= floor($werte->getAusdauer()) ?>
             </span>
             <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
-                <?= $categoryAus->getCategory() . ' (' . $werte->getEnergie() . ' HP)' ?>
+                <?= $categoryAus->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>) = <?= $werte->getEnergie() ?> HP
             </span>
         </p>
         <p>
@@ -50,7 +51,7 @@ $categoryDis = $werte->getCategory('dis');
                 <?= floor($werte->getKontrolle()) ?>
             </span>
             <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
-                <?= $categoryKon->getCategory() ?>
+                <?= $categoryKon->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>)
             </span>
         </p>
         <p>
@@ -61,7 +62,7 @@ $categoryDis = $werte->getCategory('dis');
                 <?= floor($werte->getDisziplin()) ?>
             </span>
             <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
-                <?= $categoryDis->getCategory() ?>
+                <?= $categoryDis->getCategory() ?> (<?= $categoryDis->getNumericValue() ?>)
             </span>
         </p>
         <p>
@@ -70,6 +71,9 @@ $categoryDis = $werte->getCategory('dis');
             </label>
             <span title="<?= $werte->getUebung() ?>">
                 <?= floor($werte->getUebung()) ?>
+            </span>
+            <span class="<?= $categoryPra->getUebermensch() ? 'uber' : '' ?>">
+                <?= $categoryPra->getCategory() ?> (<?= $categoryPra->getNumericValue() ?>)
             </span>
         </p>
         <p>
