@@ -24,13 +24,13 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
         $data['sexualitaet'] = $charakter->getSexualitaet();
         $data['wohnort'] = $charakter->getWohnort();
 
-        $data['klassengruppenId'] = $charakter->getKlassengruppe()->getId();
-        $data['klassenId'] = $charakter->getKlasse()->getId();
-        $data['naturelement'] = $charakter->getNaturElement()->getId();
-        $data['odo'] = $charakter->getOdo()->getId();
-        $data['circuit'] = $charakter->getMagiccircuit()->getId();
-        $data['luck'] = $charakter->getLuck()->getId();
-        $data['magiOrganization'] = $charakter->getKlassengruppe()->getId() === 5 ? Application_Model_MagiOrganization::CHURCH : 0;
+        $data['klassengruppenId'] = (int) $charakter->getKlassengruppe()->getId();
+        $data['klassenId'] = (int) $charakter->getKlasse()->getId();
+        $data['naturelement'] = (int) $charakter->getNaturElement()->getId();
+        $data['odo'] = (int) $charakter->getOdo()->getId();
+        $data['circuit'] = (int) $charakter->getMagiccircuit()->getId();
+        $data['luck'] = (int) $charakter->getLuck()->getId();
+        $data['magiOrganization'] = (int) $charakter->getKlassengruppe()->getId() === 5 ? Application_Model_MagiOrganization::CHURCH : 0;
 
         $data['createDate'] = $date->format('Y-m-d H:i:s');
         $data['active'] = 1;

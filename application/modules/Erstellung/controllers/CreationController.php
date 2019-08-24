@@ -92,34 +92,34 @@ class Erstellung_CreationController extends Zend_Controller_Action
 
         $traits = array_map(function($traitId) {
             $trait= new Erstellung_Model_Trait();
-            $trait->setTraitId($traitId);
+            $trait->setTraitId((int) $traitId);
             return $trait;
         }, explode(',', $request->getPost('traits')));
 
         $character->setTraits($traits);
 
         $element = new Erstellung_Model_Element();
-        $element->setId($request->getPost('element'));
+        $element->setId((int) $request->getPost('element'));
         $character->setNaturElement($element);
 
         $class = new Erstellung_Model_Klasse();
-        $class->setId($request->getPost('class'));
+        $class->setId((int) $request->getPost('class'));
         $character->setKlassengruppe($class);
 
         $subclass = new Erstellung_Model_Unterklasse();
-        $subclass->setId($request->getPost('subclass'));
+        $subclass->setId((int) $request->getPost('subclass'));
         $character->setKlasse($subclass);
 
         $odo = new Erstellung_Model_Odo();
-        $odo->setId($request->getPost('odo'));
+        $odo->setId((int) $request->getPost('odo'));
         $character->setOdo($odo);
 
         $circuit = new Erstellung_Model_Circuit();
-        $circuit->setId($request->getPost('circuit'));
+        $circuit->setId((int) $request->getPost('circuit'));
         $character->setMagiccircuit($circuit);
 
         $luck = new Erstellung_Model_Luck();
-        $luck->setId($request->getPost('luck'));
+        $luck->setId((int) $request->getPost('luck'));
         $character->setLuck($luck);
 
         return $character;
