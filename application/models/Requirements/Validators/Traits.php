@@ -5,7 +5,7 @@
  *
  * @author Voß
  */
-class Application_Model_Requirements_Validators_Trait implements Application_Model_Requirements_ValidationInterface {
+class Application_Model_Requirements_Validators_Traits implements Application_Model_Requirements_ValidationInterface {
     
     /**
      * @param Application_Model_Charakter $charakter
@@ -15,17 +15,13 @@ class Application_Model_Requirements_Validators_Trait implements Application_Mod
     public function check(Application_Model_Charakter $charakter, $value) {
         $values = explode(':', $value);
         foreach ($values as $value){
-            $result = false;
             foreach ($charakter->getTraits() as $trait){
                 if($trait->getTraitId() == $value){
-                    $result = true;
+                    return true;
                 }
             }
-            if($result === false){
-                return false;
-            }
         }
-        return true;
+        return false;
     }
     
 }
