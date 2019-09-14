@@ -232,11 +232,14 @@ $categoryPra = $werte->getCategory('pra');
                 <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($schoolMagic as $magie): ?>
-                        <p>
-                        <span class="magie">
-                            <input type="hidden" value="<?= $magie->getId() ?>">
+                        <h3>
                             <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </span>
+                        </h3>
+                        <p>
+                            Rang: <?= $magie->getRang() ?>
+                        </p>
+                        <p>
+                            <?= $purifier->purify($magie->getBeschreibung()) ?>
                         </p>
                     <?php endforeach; ?>
                 </div>
