@@ -13,10 +13,6 @@ class Application_Service_Information
      */
     private $charakter;
     /**
-     * @var Application_Service_Requirement
-     */
-    private $requirementValidator;
-    /**
      * @var Application_Model_Mapper_InformationMapper
      */
     private $informationMapper;
@@ -32,7 +28,6 @@ class Application_Service_Information
     public function setCharakter (Application_Model_Charakter $charakter)
     {
         $this->charakter = $charakter;
-        $this->requirementValidator = new Application_Service_Requirement($charakter);
     }
 
     /**

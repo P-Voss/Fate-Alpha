@@ -20,7 +20,7 @@ class Traits implements ValidationInterface
      */
     public function check (\Application_Model_Charakter $charakter, $value)
     {
-        $values = explode(':', $value);
+        $values = explode('|', $value);
         foreach ($values as $value) {
             foreach ($charakter->getTraits() as $trait) {
                 if ($trait->getTraitId() == $value) {

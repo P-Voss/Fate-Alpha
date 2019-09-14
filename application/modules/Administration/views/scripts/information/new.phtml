@@ -22,132 +22,37 @@ $purifier = $this->purifier;
             <legend>
                 Vorraussetzungen
             </legend>
-            <div>
-                <label for="staerke">Stärke</label>
-                <input type="number" size="30" name="staerke" id="staerke" value="" />
-            </div>
-            <div>
-                <label for="agilitaet">Agilität</label>
-                <input type="number" size="30" name="agilitaet" id="agilitaet" value="" />
-            </div>
-            <div>
-                <label for="ausdauer">Ausdauer</label>
-                <input type="number" size="30" name="ausdauer" id="ausdauer" value="" />
-            </div>
-            <div>
-                <label for="kontrolle">Kontrolle</label>
-                <input type="number" size="30" name="kontrolle" id="kontrolle" value="" />
-            </div>
-            <div>
-                <label for="disziplin">Disziplin</label>
-                <input type="number" size="30" name="disziplin" id="disziplin" />
-            </div>
-            <div>
-                <label for="uebung">Übung</label>
-                <input type="number" size="30" name="uebung" id="uebung" />
-            </div>
+            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
             <div>
                 <div style="width: 50%; display: inline-block;">
-                    <label for="gruppen" style="vertical-align: top">
-                        Klassengruppen:
-                    </label>
-                    <select name="gruppen[]" multiple="true" size="5">
-                        <?php foreach ($this->klassengruppen as $gruppe) { ?>
-                        <option value="<?= $gruppe->getId() ?>">
-                            <?= $purifier->purify($gruppe->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
                 <div style="width: 45%; display: inline-block;">
-                    <label for="klassen" style="vertical-align: top">
-                        Klassen:
-                    </label>
-                    <select name="klassen[]" multiple="true" size="5">
-                        <?php foreach ($this->klassen as $klasse) { ?>
-                        <option value="<?= $klasse->getId() ?>">
-                            <?= $purifier->purify($klasse->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
             </div>
             <div>
-                <label for="trait">
-                    Nicht kombinierbar mit den Traits:
-                </label>
-                <select name="trait[]" multiple="true" size="8">
-                    <?php foreach ($this->traits as $trait) { ?>
-                        <option value="<?= $trait->getTraitId() ?>">
-                            <?= $purifier->purify($trait->getName()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
+                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
             </div>
             <div>
-                <div style="width: 50%; display: inline-block;">
-                    <label for="skills" style="vertical-align: top">
-                        Fähigkeiten:
-                    </label>
-                    <select name="skills[]" id="skills" multiple="true" size="8">
-                        <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                <div style="width: 50%; display: inline-block; vertical-align: top">
+                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
                 <div style="width: 45%; display: inline-block;">
-                    <label for="skillsAny" style="vertical-align: top">
-                        Irgendeine von diesen Fähigkeiten:
-                    </label>
-                    <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
-                        <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
             </div>
             <div>
                 <div style="width: 50%; display: inline-block;">
-                    <label for="skillsIncompatible" style="vertical-align: top">
-                        Nicht kombinierbar mit:
-                    </label>
-                    <select name="skillsIncompatible[]" multiple="true" size="8">
-                        <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <label for="magien" style="vertical-align: top">
-                        Magien:
-                    </label>
-                    <select name="magien[]" id="magien" multiple="true" size="8">
-                        <?php foreach ($this->magien as $magie) { ?>
-                        <option value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
                 <div style="width: 45%; display: inline-block;">
-                    <label for="magienAny" style="vertical-align: top">
-                        Irgendeine von diesen Magien:
-                    </label>
-                    <select name="magienAny[]" id="magienAny" multiple="true" size="8">
-                        <?php foreach ($this->magien as $magie) { ?>
-                        <option value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </option>
-                        <?php } ?>
-                    </select>
+                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+            </div>
+            <div>
+                <div style="width: 50%; display: inline-block;">
+                    <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
             </div>
         </fieldset>

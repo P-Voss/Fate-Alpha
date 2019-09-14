@@ -22,7 +22,7 @@ class Administration_Service_Requirement
             }
             $requirement = new Administration_Model_Requirement();
             if (is_array($value)) {
-                $requirement->setRequiredValue(implode(':', $value));
+                $requirement->setRequiredValue(implode('|', $value));
             } else {
                 $requirement->setRequiredValue($value);
             }
@@ -133,7 +133,7 @@ class Administration_Service_Requirement
             $requirements[Application_Model_Requirements_Types::CLASSID] = implode('|', $request->getParam('klassen'));
         }
         if ($request->getParam('trait') !== null) {
-            $requirements[Application_Model_Requirements_Types::TRAIT] = implode('|', $request->getParam('trait'));
+            $requirements[Application_Model_Requirements_Types::TRAIT] = implode('|', $request->getParam('traits'));
         }
         if ($request->getParam('characters') !== null) {
             $requirements[Application_Model_Requirements_Types::CHARACTER] = implode('|', $request->getParam('characters'));

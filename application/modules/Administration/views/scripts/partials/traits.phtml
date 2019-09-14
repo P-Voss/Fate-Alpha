@@ -5,9 +5,9 @@ $traits = $this->traits;
 $requirementList = $this->requirementList;
 ?>
 <label for="trait">
-    Nicht kombinierbar mit den Traits:
+    Traits:
 </label>
-<select name="trait[]" id="trait" multiple="" size="8">
+<select name="traits[]" id="traits" multiple="" size="8">
     <?php foreach ($this->traits as $trait) {
         $selected = in_array(
             $trait->getTraitId(),

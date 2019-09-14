@@ -13,7 +13,7 @@ class Application_Model_Requirements_Validators_Traits implements Application_Mo
      * @return boolean
      */
     public function check(Application_Model_Charakter $charakter, $value) {
-        $values = explode(':', $value);
+        $values = explode('|', $value);
         foreach ($values as $value){
             foreach ($charakter->getTraits() as $trait){
                 if($trait->getTraitId() == $value){
