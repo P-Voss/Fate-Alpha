@@ -264,6 +264,7 @@ class Application_Model_Charakterwerte
         $werteCategory->setCategory($activeCategory['category']);
         $werteCategory->setUebermensch($activeCategory['ueber']);
         $werteCategory->setNumericValue($activeKey + 1);
+
         return $werteCategory;
     }
 
@@ -312,11 +313,17 @@ class Application_Model_Charakterwerte
     }
 
     /**
-     * @param $uebermenschMods
+     * @param Application_Model_Modifier[] $uebermenschMods
      */
     public function setUebermenschMods ($uebermenschMods)
     {
-        $this->uebermenschMods = $uebermenschMods;
+        $mods = [];
+        foreach ($uebermenschMods as $modifier) {
+            $mods[$modifier->getAttribute()] = ($mods[$modifier->getAttribute()] ?? 0) + $modifier->getValue();
+        }
+        foreach ($mods as $key => $value) {
+            $this->uebermenschMods[$key] = $value;
+        }
     }
 
     /**
@@ -335,6 +342,9 @@ class Application_Model_Charakterwerte
                         break;
                     case 3:
                         $this->uebermenschMods['agi'] = 1;
+                        break;
+                    case 4:
+                        $this->uebermenschMods['pra'] = 1;
                         break;
                     case 5:
                         $this->uebermenschMods['kon'] = 1;
