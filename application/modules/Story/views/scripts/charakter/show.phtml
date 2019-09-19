@@ -34,9 +34,26 @@ $categoryAus = $werte->getCategory('aus');
 $categoryKon = $werte->getCategory('kon');
 $categoryDis = $werte->getCategory('dis');
 $categoryPra = $werte->getCategory('pra');
+
+function getTraitType($key) {
+    switch ($key){
+        case Application_Model_Trait::STORY_TYPE_BIRTH:
+            return 'Geburt';
+        case Application_Model_Trait::STORY_TYPE_RAISED:
+            return 'Erziehung';
+        case Application_Model_Trait::STORY_TYPE_EVENT:
+            return 'Ereignis';
+        case Application_Model_Trait::STORY_TYPE_GAINED:
+            return 'Verdienst';
+        case Application_Model_Trait::STORY_TYPE_FOCUS:
+            return 'Fokus';
+        default:
+            return'';
+    }
+}
 ?>
 <h1>
-    <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+    <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
 </h1>
 <?php if ($charakter->getSlData() !== '') { ?>
     <fieldset class="characterObjectives">
@@ -51,31 +68,31 @@ $categoryPra = $werte->getCategory('pra');
             <label>
                 Name
             </label>
-            <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+            <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
         </p>
         <p>
             <label>
                 Geschlecht
             </label>
-            <?= $purifier->purify($charakter->getGeschlecht()) ?>
+            <?= $this->purify($charakter->getGeschlecht()) ?>
         </p>
         <p>
             <label>
                 Geburtsdatum
             </label>
-            <?= $purifier->purify($charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')') ?>
+            <?= $this->purify($charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')') ?>
         </p>
         <p>
             <label>
                 Wohnort
             </label>
-            <?= $purifier->purify($charakter->getWohnort()) ?>
+            <?= $this->purify($charakter->getWohnort()) ?>
         </p>
         <p>
             <label>
                 Sexuelle Orientierung
             </label>
-            <?= $purifier->purify($charakter->getSexualitaet()) ?>
+            <?= $this->purify($charakter->getSexualitaet()) ?>
         </p>
         <p>
             <label>
@@ -185,13 +202,13 @@ $categoryPra = $werte->getCategory('pra');
     <fieldset>
         <legend><h2>Klasse</h2></legend>
         <h3>
-            <?= $purifier->purify($charakter->getKlassengruppe()->getBezeichnung()) ?>
+            <?= $this->purify($charakter->getKlassengruppe()->getBezeichnung()) ?>
         </h3>
         <p>
-            Unterklasse: <?= $purifier->purify($charakter->getKlasse()->getBezeichnung()) ?>
+            Unterklasse: <?= $this->purify($charakter->getKlasse()->getBezeichnung()) ?>
         </p>
         <p>
-            <?= $purifier->purify($charakter->getKlasse()->getBeschreibung()) ?>
+            <?= $this->purify($charakter->getKlasse()->getBeschreibung()) ?>
         </p>
     </fieldset>
 </div>
@@ -200,17 +217,17 @@ $categoryPra = $werte->getCategory('pra');
         <legend><h2>Fähigkeiten</h2></legend>
         <?php foreach ($skillarten as $skillart): ?>
             <fieldset>
-                <legend><?= $purifier->purify($skillart->getBezeichnung()) ?> <span class="indicator"></span></legend>
+                <legend><?= $this->purify($skillart->getBezeichnung()) ?> <span class="indicator"></span></legend>
                 <div class="subContent">
                     <?php foreach ($skillart->getSkills() as $skill): ?>
                         <h3>
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
+                            <?= $this->purify($skill->getBezeichnung()) ?>
                         </h3>
                         <p>
                             Rang: <?= $skill->getRang() ?>
                         </p>
                         <p>
-                            <?= $purifier->purify($skill->getBeschreibung()) ?>
+                            <?= $this->purify($skill->getBeschreibung()) ?>
                         </p>
                     <?php endforeach; ?>
                 </div>
@@ -233,13 +250,13 @@ $categoryPra = $werte->getCategory('pra');
                 <div class="subContent">
                     <?php foreach ($schoolMagic as $magie): ?>
                         <h3>
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
+                            <?= $this->purify($magie->getBezeichnung()) ?>
                         </h3>
                         <p>
                             Rang: <?= $magie->getRang() ?>
                         </p>
                         <p>
-                            <?= $purifier->purify($magie->getBeschreibung()) ?>
+                            <?= $this->purify($magie->getBeschreibung()) ?>
                         </p>
                     <?php endforeach; ?>
                 </div>
@@ -251,11 +268,15 @@ $categoryPra = $werte->getCategory('pra');
 <div>
     <fieldset>
         <legend><h2>Traits</h2></legend>
-        <?php foreach ($charakter->getTraits() as $trait): ?>
+        <?php foreach ($charakter->getTraits() as $trait):
+            $storyType = $trait->getStoryType() ? ' - ' . getTraitType($trait->getStoryType()) : '';
+            ?>
         <fieldset>
-            <legend><?= $purifier->purify($trait->getName()) ?> <span class="indicator"></span></legend>
+            <legend><?= $this->purify($trait->getName()) . $storyType ?> <span class="indicator"></span></legend>
             <div class="subContent">
-                <?= $purifier->purify($trait->getBeschreibung()) ?>
+                <?= $this->purify($trait->getBeschreibung()) ?>
+                <h3>Story</h3>
+                <p><?= $this->purify($trait->getStory()) ?></p>
             </div>
         </fieldset>
         <?php endforeach; ?>
@@ -265,12 +286,12 @@ $categoryPra = $werte->getCategory('pra');
     <fieldset>
         <legend><h2>Profildaten</h2></legend>
         <h3>Charaktergeschichte</h3>
-        <div><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></div>
+        <div><?= $this->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></div>
         <h3>Private Daten</h3>
-        <div><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></div>
+        <div><?= $this->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></div>
         <h3>Pics</h3>
-        <div style="display: inline-block; width: 45%; float: left"><img width="200px" src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>"/></div>
-        <div style="display: inline-block; width: 45%; float: right"><img width="200px" src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>"/></div>
+        <div style="display: inline-block; width: 45%; float: left"><img width="200px" src="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>"/></div>
+        <div style="display: inline-block; width: 45%; float: right"><img width="200px" src="<?= $this->purify($charakter->getCharakterprofil()->getProfilpic()) ?>"/></div>
         <div style="clear: both"></div>
     </fieldset>
 </div>
