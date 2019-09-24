@@ -373,4 +373,98 @@ SQL;
         $this->getDbTable('CharakterWerte')->update($werte->toArray(), ['charakterId = ?' => $charakterId]);
     }
 
+    /**
+     * @throws Exception
+     */
+    public function startTransaction ()
+    {
+        $this->getDbTable('TrainingLog')->getAdapter()->beginTransaction();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function commit ()
+    {
+        $this->getDbTable('TrainingLog')->getAdapter()->commit();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function rollback ()
+    {
+        $this->getDbTable('TrainingLog')->getAdapter()->rollBack();
+    }
+
+    /**
+     * @param $characterId
+     * @param Application_Model_Training_Attribute[] $values
+     * @param string $programName
+     *
+     * @throws Exception
+     */
+    public function log ($characterId, array $values, $programName)
+    {
+        foreach ($values as $attribute) {
+            $data = [
+                'characterId' => $characterId,
+                'attribute' => $attribute->getAttributeKey(),
+                'value' => $attribute->getValue(),
+                'programName' => $programName
+            ];
+            $this->getDbTable('TrainingLog')->insert($data);
+        }
+    }
+
+    /**
+     * @param int $characterId
+     * @param string $message
+     * @param string $programName
+     */
+    public function logError ($characterId, $message, $programName)
+    {
+        $data = [
+            'characterId' => $characterId,
+            'isError' => 1,
+            'errorMessage' => $message,
+            'programName' => $programName
+        ];
+        try {
+            $this->getDbTable('TrainingLog')->insert($data);
+        } catch (Exception $exception) {}
+    }
+
+    /**
+     * @param int $characterId
+     *
+     * @return Application_Model_TrainingLog[]
+     * @throws Exception
+     */
+    public function fetchLog (int $characterId)
+    {
+        $logentries = [];
+        try {
+            $result = $this->getDbTable('TrainingLog')->fetchAll(
+                $this->getDbTable('TrainingLog')
+                    ->select()
+                    ->where('characterId = ? AND DATEDIFF(date, current_date()) < 15', $characterId)
+                    ->order(' id DESC')
+            );
+        } catch (Exception $exception) {
+            return [];
+        }
+        foreach ($result as $row) {
+            $log = new Application_Model_TrainingLog();
+            $attribute = new Application_Model_Training_Attribute($row->attribute, $row->value);
+
+            $log->addAttribute($attribute);
+            $log->setDate($row->date ?? '');
+            $log->setProgramName($row->programName ?? '');
+            $log->setErrorMessage($row->errorMessage ?? '');
+            $logentries[] = $log;
+        }
+        return $logentries;
+    }
+
 }

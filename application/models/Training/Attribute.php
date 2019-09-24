@@ -56,9 +56,10 @@ class Application_Model_Training_Attribute
      *
      * @throws Exception
      */
-    public function __construct ($key, $value = 0)
+    public function __construct ($key = null, $value = 0)
     {
-        if (!in_array($key, self::getAttributeKeys())) {
+
+        if ($key !== null && !in_array($key, self::getAttributeKeys())) {
             throw new Exception('Attribut ' . $key . ' gibt es nicht.');
         }
         $this->attributeKey = $key;
