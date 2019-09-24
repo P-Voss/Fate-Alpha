@@ -207,34 +207,6 @@ class Application_Model_Mapper_CharakterMapper
     /**
      * @param int $charakterId
      *
-     * @return array
-     * @return array
-     * @throws Exception
-     */
-    public function getCharakterElemente ($charakterId)
-    {
-        $returnArray = [];
-        $select = $this->getDbTable('CharakterElement')->select();
-        $select->setIntegrityCheck(false);
-        $select->from(['zuo' => 'charakterElemente'], []);
-        $select->joinInner('elemente', 'elemente.elementId = zuo.elementId', ['elementId', 'name', 'beschreibung']);
-        $select->where('charakterId = ?', $charakterId);
-        $result = $this->getDbTable('CharakterElement')->fetchAll($select);
-        if ($result->count() > 0) {
-            foreach ($result as $row) {
-                $element = new Application_Model_Element();
-                $element->setId($row->elementId);
-                $element->setBezeichnung($row->name);
-                $element->setBeschreibung($row->beschreibung);
-                $returnArray[] = $element;
-            }
-        }
-        return $returnArray;
-    }
-
-    /**
-     * @param int $charakterId
-     *
      * @return \Application_Model_Element
      * @throws Exception
      */

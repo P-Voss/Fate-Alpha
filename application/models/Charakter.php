@@ -104,10 +104,6 @@ class Application_Model_Charakter
     /**
      * @var array
      */
-    protected $elemente = [];
-    /**
-     * @var array
-     */
     protected $magieschulen = [];
     /**
      * @var array
@@ -284,14 +280,6 @@ class Application_Model_Charakter
     }
 
     /**
-     * @return Application_Model_Element[]
-     */
-    public function getElemente ()
-    {
-        return $this->elemente;
-    }
-
-    /**
      * @return Application_Model_Luck
      */
     public function getLuck ()
@@ -458,32 +446,6 @@ class Application_Model_Charakter
     public function setKlassengruppe (Application_Model_Klassengruppe $klassengruppe)
     {
         $this->klassengruppe = $klassengruppe;
-        return $this;
-    }
-
-    /**
-     * @param array $elemente
-     *
-     * @return $this
-     */
-    public function setElemente ($elemente = [])
-    {
-        foreach ($elemente as $element) {
-            if ($element instanceof Application_Model_Element) {
-                $this->addElement($element);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @param Application_Model_Element $element
-     *
-     * @return $this
-     */
-    public function addElement (Application_Model_Element $element)
-    {
-        $this->elemente[] = $element;
         return $this;
     }
 
