@@ -445,25 +445,32 @@ SQL;
     {
         $logentries = [];
         try {
-            $result = $this->getDbTable('TrainingLog')->fetchAll(
-                $this->getDbTable('TrainingLog')
-                    ->select()
-                    ->where('characterId = ? AND DATEDIFF(date, current_date()) < 15', $characterId)
-                    ->order(' id DESC')
-            );
+            $result = $this->getDbTable('TrainingLog')->getAdapter()->query(
+                'SELECT programName, date, GROUP_CONCAT(CONCAT(attribute, ":", value)) AS attributes
+                        FROM traininglog
+                        WHERE characterId = ?
+                        
+                        GROUP BY characterId, programName, date 
+                        ORDER BY date DESC',
+                $characterId
+            )->fetchAll();
         } catch (Exception $exception) {
             return [];
         }
         foreach ($result as $row) {
             $log = new Application_Model_TrainingLog();
-            $attribute = new Application_Model_Training_Attribute($row->attribute, $row->value);
+            $log->setDate($row['date'] ?? '');
+            $log->setProgramName($row['programName'] ?? '');
+            $log->setErrorMessage($row['errorMessage'] ?? '');
 
-            $log->addAttribute($attribute);
-            $log->setDate($row->date ?? '');
-            $log->setProgramName($row->programName ?? '');
-            $log->setErrorMessage($row->errorMessage ?? '');
+            foreach (explode(',', $row['attributes']) as $attributeString) {
+                $attributeParts = explode(':', $attributeString);
+                $attribute = new Application_Model_Training_Attribute($attributeParts[0], $attributeParts[1]);
+                $log->addAttribute($attribute);
+            }
             $logentries[] = $log;
         }
+
         return $logentries;
     }
 

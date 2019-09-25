@@ -67,7 +67,7 @@ class Application_Model_TrainingLog
     }
 
     /**
-     * @return array
+     * @return Application_Model_Training_Attribute[]
      */
     public function getAttributes (): array
     {
@@ -124,5 +124,17 @@ class Application_Model_TrainingLog
     {
         return $this->errorMessage !== '';
     }
+
+    /**
+     * @return string
+     */
+    public function __toString (): string
+    {
+        if ($this->errorMessage !== '') {
+            return 'Fehler beim Training';
+        }
+//        return '<span>' . $this->attributes . '</span>'
+    }
+
 
 }

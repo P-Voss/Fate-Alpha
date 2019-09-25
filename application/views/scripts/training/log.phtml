@@ -1,0 +1,25 @@
+<?php
+/** @var Application_Model_TrainingLog[] $logs */
+$logs = $this->trainingLogs;
+$lastDate = '';
+?>
+<h1>
+    Trainingscenter - Traingsverlauf
+</h1>
+<div>
+    <?php foreach ($logs as $log): ?>
+        <h2><?= $log->getDate() ?> - <?= $log->getProgramName() ?></h2>
+    <div>
+        <div style="display: inline-block; width: 70%; float: left;">
+            <?php foreach ($log->getAttributes() as $attribute): ?>
+            <span style="margin-left: 10%; display: inline-block; width: 40%; float: left"><?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?></span>
+            <span style="display: inline-block; width: 50%; float: right"><?= $attribute->getValue() ?></span>
+            <?php endforeach; ?>
+        </div>
+        <div style="display: inline-block; width: 40%; float: right">
+
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <?php endforeach; ?>
+</div>

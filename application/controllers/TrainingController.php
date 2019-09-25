@@ -166,6 +166,10 @@ class TrainingController extends Zend_Controller_Action
         $this->redirect('training');
     }
 
+    public function logAction ()
+    {
+        $this->view->trainingLogs = $this->trainingService->fetchTraininglog($this->charakter->getCharakterid());
+    }
 
     public function executeAction ()
     {
