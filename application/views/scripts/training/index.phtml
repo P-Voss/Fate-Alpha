@@ -9,6 +9,9 @@ $purifier = $this->purifier;
 <h1>
     Trainingscenter
 </h1>
+<p>
+    <a href="<?= $this->baseUrl() ?>/training/log">Trainingsverlauf</a>
+</p>
 <?php foreach ($trainingsprograms as $program): ?>
 <fieldset>
     <legend><?= $program->getName() ?> <span class="indicator"></span></legend>

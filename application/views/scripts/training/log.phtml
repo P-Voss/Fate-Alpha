@@ -4,22 +4,88 @@ $logs = $this->trainingLogs;
 $lastDate = '';
 ?>
 <h1>
-    Trainingscenter - Traingsverlauf
+    Traingsverlauf
 </h1>
+<p>
+    <a href="<?= $this->baseUrl() ?>/training">Trainingscenter</a>
+</p>
 <div>
-    <?php foreach ($logs as $log): ?>
-        <h2><?= $log->getDate() ?> - <?= $log->getProgramName() ?></h2>
-    <div>
-        <div style="display: inline-block; width: 70%; float: left;">
-            <?php foreach ($log->getAttributes() as $attribute): ?>
-            <span style="margin-left: 10%; display: inline-block; width: 40%; float: left"><?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?></span>
-            <span style="display: inline-block; width: 50%; float: right"><?= $attribute->getValue() ?></span>
-            <?php endforeach; ?>
-        </div>
-        <div style="display: inline-block; width: 40%; float: right">
+    <?php
+    foreach ($logs as $log):
+        $attributes = array_map(
+            function (Application_Model_Training_Attribute $attribute) {return $attribute->getAttributeKey();},
+            $log->getAttributes()
+        );
+    ?>
+        <h2>
+            <?= $log->getDate() ?> - <?= $log->getProgramName() ?>
+        </h2>
+        <?php if ($log->isError()): ?>
+            <h4 class="error">Fehlerhaftes Training</h4>
+            <p>Tell a mod pls.</p>
+        <?php
+            continue;
+            endif;
+        ?>
+        <div class="logEntry">
+            <div class="header">
+                <span>Trainingseffekt</span>
+                <span>Vorher</span>
+                <span>Nachher</span>
+            </div>
+            <div class="attrBlock" style="">
+                <?php foreach ($log->getAttributes() as $attribute): ?>
+                <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?></span>
+                <span class="value"><?= $attribute->getValue() ?></span>
+                <?php endforeach; ?>
+            </div>
+            <div class="statsBlock">
+                <?php
+                foreach ($log->getStatsBefore()->toArray() as $key => $value):
+                    if (in_array($key, ['fp', 'startpunkte'])) {
+                        continue;
+                    }
+                ?>
+                    <div>
+                        <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($key) ?></span>
+                        <span class="value"><?= number_format($value, 1, '.', '') ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="statsBlock">
+                <?php
+                foreach ($log->getStatsAfter()->toArray() as $key => $value):
+                    if (in_array($key, ['fp', 'startpunkte'])) {
+                        continue;
+                    }
+                    $active = '';
+                    $direction = 'neutral';
+                    if (in_array($key, $attributes)) {
+                        $active = 'active';
 
+                        foreach ($log->getAttributes() as $attr) {
+                            if ($attr->getAttributeKey() !== $key) {
+                                continue;
+                            }
+                            if ($attr->getValue() > 0) {
+                                $direction = 'positive';
+                                continue;
+                            }
+                            if ($attr->getValue() < 0) {
+                                $direction = 'negative';
+                                continue;
+                            }
+                        }
+                    }
+
+                ?>
+                    <div class="<?= $active ?> <?= $direction ?>">
+                        <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($key) ?></span>
+                        <span class="value"><?=  number_format($value, 1, '.', '') ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div style="clear: both;"></div>
         </div>
-        <div style="clear: both;"></div>
-    </div>
     <?php endforeach; ?>
 </div>

@@ -58,3 +58,71 @@ fieldset {
     width: 20%;
     box-sizing: border-box;
 }
+
+.logEntry {
+    margin: 25px auto;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.header span {
+    display: inline-block;
+    width: 30%;
+    text-align: center
+}
+
+.attrBlock {
+    display: inline-block;
+    width: 30%;
+    float: left;
+}
+
+.attrBlock .label {
+    margin-left: 10%;
+    display: inline-block;
+    width: 40%;
+    float: left
+}
+
+.attrBlock .value {
+    display: inline-block;
+    width: 50%;
+    float: right
+}
+
+.statsBlock {
+    display: inline-block;
+    width: 35%;
+    float: left
+}
+
+.statsBlock .label {
+    width: 40%;
+    display: inline-block;
+    float: left
+}
+
+.statsBlock .value {
+    width: 60%;
+    display: inline-block;
+    float: right;
+}
+
+.statsBlock .active {
+    font-weight: bold;
+}
+
+.statsBlock .positive {
+    color: green;
+}
+
+.statsBlock .negative {
+    color: red;
+}
+
+.error {
+    color: red;
+}
