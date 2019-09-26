@@ -379,4 +379,33 @@ class Application_Model_Charakterwerte
         }
     }
 
+    /**
+     * @param array $stats
+     */
+    public function fromArray ($stats = [])
+    {
+        foreach ($stats as $key => $value) {
+            switch ($key) {
+                case 'staerke':
+                    $this->staerke = $value;
+                    break;
+                case 'agilitaet':
+                    $this->agilitaet = $value;
+                    break;
+                case 'ausdauer':
+                    $this->ausdauer = $value;
+                    break;
+                case 'kontrolle':
+                    $this->kontrolle = $value;
+                    break;
+                case 'disziplin':
+                    $this->disziplin = $value;
+                    break;
+                case 'uebung':
+                    $this->uebung = $value;
+                    break;
+            }
+        }
+    }
+
 }

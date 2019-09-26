@@ -399,22 +399,16 @@ SQL;
 
     /**
      * @param $characterId
-     * @param Application_Model_Training_Attribute[] $values
-     * @param string $programName
+     * @param Application_Model_TrainingLog $log
      *
      * @throws Exception
      */
-    public function log ($characterId, array $values, $programName)
+    public function log ($characterId, Application_Model_TrainingLog $log)
     {
-        foreach ($values as $attribute) {
-            $data = [
-                'characterId' => $characterId,
-                'attribute' => $attribute->getAttributeKey(),
-                'value' => $attribute->getValue(),
-                'programName' => $programName
-            ];
-            $this->getDbTable('TrainingLog')->insert($data);
-        }
+        $data = $log->toArray();
+        $data['characterId'] = $characterId;
+        $data['date'] = date('Y-m-d H:i:s');
+        $this->getDbTable('TrainingLog')->insert($data);
     }
 
     /**
@@ -446,31 +440,49 @@ SQL;
         $logentries = [];
         try {
             $result = $this->getDbTable('TrainingLog')->getAdapter()->query(
-                'SELECT programName, date, GROUP_CONCAT(CONCAT(attribute, ":", value)) AS attributes
+                'SELECT programName, date, attributes, statsBefore, statsAfter, errorMessage
                         FROM traininglog
                         WHERE characterId = ?
-                        
-                        GROUP BY characterId, programName, date 
-                        ORDER BY date DESC',
+                        ORDER BY id DESC',
                 $characterId
             )->fetchAll();
+            foreach ($result as $row) {
+                $log = new Application_Model_TrainingLog();
+                $log->setDate($row['date'] ?? '');
+                $log->setProgramName($row['programName'] ?? '');
+                $log->setErrorMessage($row['errorMessage'] ?? '');
+
+                foreach (explode(',', $row['attributes']) as $attr) {
+                    $parts = explode(':', $attr);
+                    $log->addAttribute(
+                        new Application_Model_Training_Attribute($parts[0], $parts[1])
+                    );
+                }
+
+                $statsBefore = [];
+                foreach (explode(',', $row['statsBefore']) as $stats) {
+                    $parts = explode(':', $stats);
+                    $statsBefore[$parts[0]] = $parts[1];
+                }
+                $werteBefore = new Application_Model_Charakterwerte();
+                $werteBefore->fromArray($statsBefore);
+
+                $statsAfter = [];
+                foreach (explode(',', $row['statsAfter']) as $stats) {
+                    $parts = explode(':', $stats);
+                    $statsAfter[$parts[0]] = $parts[1];
+                }
+                $werteAfter = new Application_Model_Charakterwerte();
+                $werteAfter->fromArray($statsAfter);
+
+                $log->setStatsBefore($werteBefore);
+                $log->setStatsAfter($werteAfter);
+
+                $logentries[] = $log;
+            }
         } catch (Exception $exception) {
             return [];
         }
-        foreach ($result as $row) {
-            $log = new Application_Model_TrainingLog();
-            $log->setDate($row['date'] ?? '');
-            $log->setProgramName($row['programName'] ?? '');
-            $log->setErrorMessage($row['errorMessage'] ?? '');
-
-            foreach (explode(',', $row['attributes']) as $attributeString) {
-                $attributeParts = explode(':', $attributeString);
-                $attribute = new Application_Model_Training_Attribute($attributeParts[0], $attributeParts[1]);
-                $log->addAttribute($attribute);
-            }
-            $logentries[] = $log;
-        }
-
         return $logentries;
     }
 

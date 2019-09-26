@@ -147,6 +147,7 @@ class Application_Service_Training
 
                 $charakter = $this->initCharakter($id);
                 $werte = $charakter->getCharakterwerte();
+                $werteLog = clone $werte;
                 $currentProgram = $this->trainingsMapper->getCurrentTraining($id);
 
                 $program = $this->getCharakterTrainingProgramById($charakter, $currentProgram->getProgramId());
@@ -163,17 +164,17 @@ class Application_Service_Training
 
                 $this->trainingsMapper->updateCharakterwerte($id, $werte);
                 $this->trainingsMapper->updateTraining($id, $program);
-                $this->trainingsMapper->log(
-                    $id,
-                    [
-                        $program->getPrimaryAttribute(),
-                        $program->getSecondaryAttribute(),
-                        $optionalAttributeToTrain,
-                        $decreasingAttribute,
-                    ],
-                    $program->getName()
-                );
 
+                $log = new Application_Model_TrainingLog();
+                $log->setProgramName($program->getName())
+                    ->setStatsBefore($werteLog)
+                    ->setStatsAfter($werte)
+                    ->addAttribute($program->getPrimaryAttribute())
+                    ->addAttribute($program->getSecondaryAttribute())
+                    ->addAttribute($optionalAttributeToTrain)
+                    ->addAttribute($decreasingAttribute);
+
+                $this->trainingsMapper->log($id, $log);
                 $this->trainingsMapper->commit();
             } catch (Exception $exception)
             {
@@ -195,28 +196,30 @@ class Application_Service_Training
         $program = $this->getCharakterTrainingProgramById($charakter, $currentProgramId);
         try {
             $this->trainingsMapper->startTransaction();
+            $werte = $charakter->getCharakterwerte();
+            $werteLog = clone $werte;
 
-            $charakter->getCharakterwerte()->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
-            $charakter->getCharakterwerte()->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
+            $werte->addTraining($program->getPrimaryAttribute(), $charakter->getKlassengruppe()->getId());
+            $werte->addTraining($program->getSecondaryAttribute(), $charakter->getKlassengruppe()->getId());
 
             $optionalAttributeToTrain = $program->getRandomOptionalAttribute();
             $decreasingAttribute = $program->getRandomDecreasingAttribute([$optionalAttributeToTrain->getAttributeKey()]);
 
-            $charakter->getCharakterwerte()->addTraining($optionalAttributeToTrain, $charakter->getKlassengruppe()->getId());
-            $charakter->getCharakterwerte()->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
-            $charakter->getCharakterwerte()->setStartpunkte($charakter->getCharakterwerte()->getStartpunkte() - 1);
+            $werte->addTraining($optionalAttributeToTrain, $charakter->getKlassengruppe()->getId());
+            $werte->addTraining($decreasingAttribute, $charakter->getKlassengruppe()->getId());
+            $werte->setStartpunkte($werte->getStartpunkte() - 1);
 
-            $this->trainingsMapper->updateCharakterwerte($charakter->getCharakterid(), $charakter->getCharakterwerte());
-            $this->trainingsMapper->log(
-                $charakter->getCharakterid(),
-                [
-                    $program->getPrimaryAttribute(),
-                    $program->getSecondaryAttribute(),
-                    $optionalAttributeToTrain,
-                    $decreasingAttribute,
-                ],
-                $program->getName()
-            );
+            $this->trainingsMapper->updateCharakterwerte($charakter->getCharakterid(), $werte);
+            $log = new Application_Model_TrainingLog();
+            $log->setProgramName($program->getName())
+                ->setStatsBefore($werteLog)
+                ->setStatsAfter($werte)
+                ->addAttribute($program->getPrimaryAttribute())
+                ->addAttribute($program->getSecondaryAttribute())
+                ->addAttribute($optionalAttributeToTrain)
+                ->addAttribute($decreasingAttribute);
+
+            $this->trainingsMapper->log($charakter->getCharakterid(), $log);
             $this->trainingsMapper->commit();
         } catch (Exception $exception) {
             $this->trainingsMapper->rollback();

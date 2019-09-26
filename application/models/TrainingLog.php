@@ -20,9 +20,17 @@ class Application_Model_TrainingLog
      * @var Application_Model_Training_Attribute[]
      */
     private $attributes = [];
+    /**
+     * @var Application_Model_Charakterwerte
+     */
+    private $statsBefore;
+    /**
+     * @var Application_Model_Charakterwerte
+     */
+    private $statsAfter;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProgramName ()
     {
@@ -30,7 +38,7 @@ class Application_Model_TrainingLog
     }
 
     /**
-     * @param mixed $programName
+     * @param string $programName
      *
      * @return Application_Model_TrainingLog
      */
@@ -56,7 +64,7 @@ class Application_Model_TrainingLog
     }
 
     /**
-     * @param mixed $date
+     * @param string $date
      *
      * @return Application_Model_TrainingLog
      */
@@ -126,15 +134,66 @@ class Application_Model_TrainingLog
     }
 
     /**
-     * @return string
+     * @return Application_Model_Charakterwerte
      */
-    public function __toString (): string
+    public function getStatsBefore (): Application_Model_Charakterwerte
     {
-        if ($this->errorMessage !== '') {
-            return 'Fehler beim Training';
-        }
-//        return '<span>' . $this->attributes . '</span>'
+        return $this->statsBefore;
     }
 
+    /**
+     * @param Application_Model_Charakterwerte $statsBefore
+     *
+     * @return Application_Model_TrainingLog
+     */
+    public function setStatsBefore (Application_Model_Charakterwerte $statsBefore): Application_Model_TrainingLog
+    {
+        $this->statsBefore = $statsBefore;
+        return $this;
+    }
+
+    /**
+     * @return Application_Model_Charakterwerte
+     */
+    public function getStatsAfter (): Application_Model_Charakterwerte
+    {
+        return $this->statsAfter;
+    }
+
+    /**
+     * @param Application_Model_Charakterwerte $statsAfter
+     *
+     * @return Application_Model_TrainingLog
+     */
+    public function setStatsAfter (Application_Model_Charakterwerte $statsAfter): Application_Model_TrainingLog
+    {
+        $this->statsAfter = $statsAfter;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray ()
+    {
+        $statsBefore = [];
+        foreach ($this->statsBefore->toArray() as $key => $value) {
+            $statsBefore[] = $key . ':' . $value;
+        }
+        $statsAfter = [];
+        foreach ($this->statsAfter->toArray() as $key => $value) {
+            $statsAfter[] = $key . ':' . $value;
+        }
+        return [
+            'programName' => $this->programName,
+            'errorMessage' => $this->errorMessage,
+            'date' => $this->date,
+            'attributes' => implode(',', array_map(function (Application_Model_Training_Attribute $attribute) {
+                return $attribute->getAttributeKey() . ':' . $attribute->getValue();
+            }, $this->attributes)),
+            'statsBefore' => implode(',', $statsBefore),
+            'statsAfter' => implode(',', $statsAfter),
+        ];
+    }
 
 }
