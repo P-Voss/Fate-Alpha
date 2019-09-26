@@ -52,14 +52,15 @@ class Application_Model_TrainingLog
      * @param string $format
      *
      * @return string
-     * @throws Exception
      */
     public function getDate ($format = 'd.m.Y')
     {
-        if ($this->date !== '') {
-            $date = new DateTime($this->date);
-            return $date->format($format);
-        }
+        try {
+            if ($this->date !== '') {
+                $date = new DateTime($this->date);
+                return $date->format($format);
+            }
+        } catch (Exception $exception) {}
         return '';
     }
 
