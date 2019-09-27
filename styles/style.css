@@ -73,7 +73,7 @@ html, body {
     padding-left: 15px;
     padding-top: 10px;
     width: 180px;
-    /* height: 300px; */
+    height: 380px;
     background-color: #9cdce2;
     border-top: 1px solid black;
     border-right: 1px solid black;
@@ -687,4 +687,14 @@ kbd {
 
 .characterObjectives div {
     background-color: #FFAA91;
+}
+
+.compact {
+    display: none;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    margin-top: 30%;
+    letter-spacing: 4px;
+    cursor: pointer;
+    font-weight: bold;
 }
