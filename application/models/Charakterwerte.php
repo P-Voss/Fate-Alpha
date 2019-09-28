@@ -16,14 +16,7 @@ class Application_Model_Charakterwerte
     protected $uebung;
     protected $fp;
     protected $startpunkte;
-    protected $uebermenschMods = [
-        'str' => 0,
-        'agi' => 0,
-        'aus' => 0,
-        'dis' => 0,
-        'kon' => 0,
-        'pra' => 0,
-    ];
+
     protected $circuitBonus = 0;
 
     /**
@@ -192,7 +185,6 @@ class Application_Model_Charakterwerte
      */
     public function getCategory ($attr)
     {
-        $ubermenschMod = $this->uebermenschMods[$attr] === 1;
         $attributes = [
             'str' => $this->staerke,
             'agi' => $this->agilitaet,
@@ -244,19 +236,12 @@ class Application_Model_Charakterwerte
         $activeKey = 0;
         $activeCategory = $categories[0];
         foreach ($categories as $key => $category) {
-            if ($category['lowerbound'] <= $value
-                && ($category['ueber'] === false || $ubermenschMod === true)) {
+            if ($category['lowerbound'] <= $value) {
                 $activeCategory = $category;
                 $activeKey = $key;
             }
         }
-        if (in_array($attr, ['dis', 'kon']) && $this->circuitBonus > 0) {
-            $activeKey = $activeKey + $this->circuitBonus;
-            $category = $categories[$activeKey];
-            if ($category['ueber'] === false || $ubermenschMod === true) {
-                $activeCategory = $category;
-            }
-        }
+
         $werteCategory = new Application_Model_Charakterwertecategory();
         $werteCategory->setCategory($activeCategory['category']);
         $werteCategory->setUebermensch($activeCategory['ueber']);
@@ -282,98 +267,13 @@ class Application_Model_Charakterwerte
     public function toArray ()
     {
         $returnArray = [];
-        $nonArrayMethods = ['getCategory', 'getEnergie', 'getUebermenschMods'];
+        $nonArrayMethods = ['getCategory', 'getEnergie'];
         foreach (get_class_methods(get_class($this)) as $method) {
             if (substr($method, 0, 3) === 'get' AND !in_array($method, $nonArrayMethods)) {
                 $returnArray[lcfirst(substr($method, 3))] = $this->{$method}();
             }
         }
         return $returnArray;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUebermenschMods ()
-    {
-        return $this->uebermenschMods;
-    }
-
-    /**
-     * @param $mod
-     *
-     * @return mixed
-     */
-    public function addUebermenschMods ($mod)
-    {
-        return $this->uebermenschMods[] = $mod;
-    }
-
-    /**
-     * @param Application_Model_Modifier[] $uebermenschMods
-     */
-    public function setUebermenschMods ($uebermenschMods)
-    {
-        $mods = [];
-        foreach ($uebermenschMods as $modifier) {
-            $mods[$modifier->getAttribute()] = ($mods[$modifier->getAttribute()] ?? 0) + $modifier->getValue();
-        }
-        foreach ($mods as $key => $value) {
-            $this->uebermenschMods[$key] = $value;
-        }
-    }
-
-    /**
-     * @param Application_Model_Trait[] $traits
-     */
-    public function traitsToUebermenschMod ($traits = [])
-    {
-        foreach ($traits as $trait) {
-            if ($trait instanceof Application_Model_Trait) {
-                switch ((int)$trait->getTraitId()) {
-                    case 1:
-                        $this->uebermenschMods['str'] = 1;
-                        break;
-                    case 2:
-                        $this->uebermenschMods['aus'] = 1;
-                        break;
-                    case 3:
-                        $this->uebermenschMods['agi'] = 1;
-                        break;
-                    case 4:
-                        $this->uebermenschMods['pra'] = 1;
-                        break;
-                    case 5:
-                        $this->uebermenschMods['kon'] = 1;
-                        break;
-                    case 6:
-                        $this->uebermenschMods['dis'] = 1;
-                        break;
-                }
-            }
-        }
-    }
-
-
-    /**
-     * @param $circuitKategorie
-     */
-    public function setCircuitMod ($circuitKategorie)
-    {
-        switch ($circuitKategorie) {
-            case 'A':
-                $this->circuitBonus = 1;
-                break;
-            case 'B':
-                $this->circuitBonus = 1;
-                break;
-            case 'C':
-                $this->circuitBonus = 1;
-                break;
-            default:
-                $this->circuitBonus = 0;
-                break;
-        }
     }
 
     /**

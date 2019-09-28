@@ -111,16 +111,6 @@ class Application_Service_CharakterBuilder
     public function setWerte ()
     {
         $this->charakter->setCharakterwerte($this->charakterMapper->getCharakterwerte($this->charakterId));
-        if (count($this->charakter->getTraits()) === 0) {
-            $this->setTraits();
-        }
-        $this->charakter->getCharakterwerte()->traitsToUebermenschMod($this->charakter->getTraits());
-        if ($this->charakter->getMagiccircuit() === null) {
-            $this->setCircuit();
-        }
-        if (in_array($this->charakter->getMagiccircuit()->getKategorie(), ['A', 'B', 'C'])) {
-            $this->charakter->getCharakterwerte()->setCircuitMod($this->charakter->getMagiccircuit()->getKategorie());
-        }
         return $this;
     }
 

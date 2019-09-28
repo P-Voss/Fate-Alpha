@@ -215,7 +215,15 @@ class Application_Model_Training_Program
         if (empty($this->decreasingAttributes)) {
             $this->decreasingAttributes = $this->getDecreasingAttributes();
         }
-        return $this->decreasingAttributes[mt_rand(0, count($this->decreasingAttributes) - 1)];
+        if (count($this->decreasingAttributes) === 1) {
+            return $this->decreasingAttributes[0];
+        }
+        $decreatingAttribute = $this->decreasingAttributes[mt_rand(0, count($this->decreasingAttributes) - 1)];
+        while (in_array($decreatingAttribute->getAttributeKey(), $excludedAttributes)) {
+            $decreatingAttribute = $this->decreasingAttributes[mt_rand(0, count($this->decreasingAttributes) - 1)];
+        }
+
+        return $decreatingAttribute;
     }
 
 
