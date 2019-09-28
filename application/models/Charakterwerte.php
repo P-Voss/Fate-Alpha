@@ -172,9 +172,6 @@ class Application_Model_Charakterwerte
                 break;
             case 'disziplin':
                 $this->setDisziplin($this->getDisziplin() + $attribute->getValue());
-                if ($klassengruppe === 2) {
-                    $this->setUebung($this->getUebung() + $attribute->getValue());
-                }
                 break;
             case 'kontrolle':
                 $this->setKontrolle($this->getKontrolle() + $attribute->getValue());

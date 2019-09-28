@@ -83,24 +83,32 @@ class Application_Service_Training
             [
                 $primaryAttribute,
                 $secondaryAttribute,
-            ], $optionalAttributes, $decreasingAttributes
+            ],
+            $optionalAttributes,
+            $decreasingAttributes
         );
 
 
         array_walk(
             $mods, function (Application_Model_Training_Mods $mod) use ($trainingAttributes)
-        {
-            /** @var $attribute Application_Model_Training_Attribute */
-            foreach ($trainingAttributes as $attribute)
             {
-                if ($attribute->getAttributeKey() !== $mod->getAttribute())
+                /** @var $attribute Application_Model_Training_Attribute */
+                foreach ($trainingAttributes as $attribute)
                 {
-                    continue;
+                    if ($attribute->getAttributeKey() !== $mod->getAttribute())
+                    {
+                        continue;
+                    }
+                    $attribute->setValue($attribute->getValue() + $mod->getValue());
                 }
-                $attribute->setValue($attribute->getValue() + $mod->getValue());
             }
-        }
         );
+        foreach ($decreasingAttributes as $decreasingAttribute) {
+            /** @var $decreasingAttribute Application_Model_Training_Attribute */
+            $decreasingAttribute->setValue(
+                min($decreasingAttribute->getValue(), 0)
+            );
+        }
         $program->setDecreasingAttributes($decreasingAttributes);
         return $program;
     }
@@ -194,7 +202,8 @@ class Application_Service_Training
     public function executeBonusTraining (Application_Model_Charakter $charakter, $currentProgramId)
     {
         $program = $this->getCharakterTrainingProgramById($charakter, $currentProgramId);
-        try {
+        try
+        {
             $this->trainingsMapper->startTransaction();
             $werte = $charakter->getCharakterwerte();
             $werteLog = clone $werte;
@@ -221,7 +230,8 @@ class Application_Service_Training
 
             $this->trainingsMapper->log($charakter->getCharakterid(), $log);
             $this->trainingsMapper->commit();
-        } catch (Exception $exception) {
+        } catch (Exception $exception)
+        {
             $this->trainingsMapper->rollback();
             $this->trainingsMapper->logError($charakter->getCharakterid(), $exception->getMessage(), $program->getName());
         }
