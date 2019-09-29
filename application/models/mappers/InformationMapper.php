@@ -254,6 +254,29 @@ SQL;
     }
 
     /**
+     * @throws Exception
+     */
+    public function insertAdminInformationZuo ()
+    {
+        $sql = <<<SQL
+INSERT INTO benutzerInformationen (informationId, userId)
+SELECT informationen.infoId, admins.userId
+FROM informationen
+INNER JOIN admins 
+LEFT JOIN (
+
+SELECT informationen.infoId, admins.userId
+FROM informationen
+INNER JOIN benutzerInformationen ON benutzerInformationen.informationId = informationen.infoId
+INNER JOIN admins ON benutzerInformationen.userId = admins.userId
+) AS existing ON informationen.infoId = existing.infoId
+
+WHERE existing.userId is null 
+SQL;
+        $this->getDbTable('UserInfos')->getAdapter()->query($sql);
+    }
+
+    /**
      * @param $characterId
      *
      * @return Application_Model_Information[]

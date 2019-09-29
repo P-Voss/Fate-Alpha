@@ -90,6 +90,7 @@ class Application_Service_Information
         }
         $this->informationMapper->truncateBenutzerinformationen();
         $this->informationMapper->saveBenutzerinformationen($informationZuo);
+        $this->informationMapper->insertAdminInformationZuo();
     }
 
     /**
