@@ -35,23 +35,26 @@ class Item
     }
 
     /**
-     * @param $characterId
+     * @param \Application_Model_Charakter $character
      *
      * @return array
-     * @throws Exception
      */
-    public function getItems ($characterId)
+    public function getItems (\Application_Model_Charakter $character)
     {
         $itemsToBuy = [];
         try {
             $items = $this->mapper->getItems();
             foreach ($items as $item) {
-                if ($this->mapper->checkIfLearned($characterId, $item->getId())) {
+                if ($this->mapper->checkIfLearned($character->getCharakterid(), $item->getId())) {
                     continue;
                 }
                 if (!$this->requirementService->validate($this->mapper->getRequirements($item->getId()))) {
                     continue;
                 }
+                if ($character->getKlasse()->getId() === 39) {
+                    $item->setCost(ceil($item->getCost() * .75));
+                }
+
                 $itemsToBuy[] = $item;
             }
         } catch (Exception $exception) {
@@ -78,6 +81,9 @@ class Item
         $item = $this->mapper->getItem($itemId);
         if ($character->getCharakterwerte()->getFp() < $item->getActualCost($character)) {
             throw new Exception('Nicht genug FP um den Gegenstand zu kaufen.');
+        }
+        if ($character->getKlasse()->getId() === 39) {
+            $item->setCost(ceil($item->getCost() * .75));
         }
         if ($item->getBedingung() === 'Standard') {
             $this->mapper->unlock($character, $item);

@@ -41,7 +41,7 @@ class Shop_ItemController extends Zend_Controller_Action
         $requirementService = new \Shop\Services\Requirement($this->character);
         $service = new \Shop\Services\Item($requirementService);
         try {
-            $this->view->items = $service->getItems($this->character->getCharakterid());
+            $this->view->items = $service->getItems($this->character);
         } catch (Exception $exception) {
             $this->view->items = [];
         }
