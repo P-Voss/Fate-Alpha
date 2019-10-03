@@ -102,7 +102,6 @@ class Administration_Service_Requirement
             $requirements[Application_Model_Requirements_Types::CONTR] = $request->getParam('kontrolle');
         }
         if ($request->getParam('skills') !== null) {
-            //            $requirements['Faehigkeit'] = $request->getParam('skills');
             $requirements[Application_Model_Requirements_Types::SKILL] = implode('|', $request->getParam('skills'));
         }
         if ($request->getParam('skillsAny') !== null) {
@@ -132,7 +131,7 @@ class Administration_Service_Requirement
         if ($request->getParam('klassen') !== null) {
             $requirements[Application_Model_Requirements_Types::CLASSID] = implode('|', $request->getParam('klassen'));
         }
-        if ($request->getParam('trait') !== null) {
+        if ($request->getParam('traits') !== null) {
             $requirements[Application_Model_Requirements_Types::TRAIT] = implode('|', $request->getParam('traits'));
         }
         if ($request->getParam('characters') !== null) {
