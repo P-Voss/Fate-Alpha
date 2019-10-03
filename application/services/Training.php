@@ -228,7 +228,7 @@ class Application_Service_Training
                 ->addAttribute($optionalAttributeToTrain)
                 ->addAttribute($decreasingAttribute);
 
-            $this->trainingsMapper->log($charakter->getCharakterid(), $log);
+            $this->trainingsMapper->log($charakter->getCharakterid(), $log, true);
             $this->trainingsMapper->commit();
         } catch (Exception $exception)
         {

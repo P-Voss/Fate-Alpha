@@ -403,11 +403,12 @@ SQL;
      *
      * @throws Exception
      */
-    public function log ($characterId, Application_Model_TrainingLog $log)
+    public function log ($characterId, Application_Model_TrainingLog $log, $isBonus = false)
     {
         $data = $log->toArray();
         $data['characterId'] = $characterId;
         $data['date'] = date('Y-m-d H:i:s');
+        $data['isBonus'] = $isBonus ? 1 : 0;
         $this->getDbTable('TrainingLog')->insert($data);
     }
 
@@ -443,7 +444,8 @@ SQL;
                 'SELECT programName, date, attributes, statsBefore, statsAfter, errorMessage
                         FROM traininglog
                         WHERE characterId = ?
-                        ORDER BY id DESC',
+                        ORDER BY id DESC
+                        LIMIT 20',
                 $characterId
             )->fetchAll();
             foreach ($result as $row) {
