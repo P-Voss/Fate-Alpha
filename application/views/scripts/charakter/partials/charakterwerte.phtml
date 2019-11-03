@@ -40,7 +40,7 @@ $categoryPra = $werte->getCategory('pra');
                 <?= floor($werte->getAusdauer()) ?>
             </span>
             <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
-                <?= $categoryAus->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>) = <?= $werte->getEnergie() ?> HP
+                <?= $categoryAus->getCategory() ?> (<?= $categoryAus->getNumericValue() ?>) = <?= $werte->getEnergie() ?> HP
             </span>
         </p>
         <p>

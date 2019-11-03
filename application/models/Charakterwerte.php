@@ -245,7 +245,7 @@ class Application_Model_Charakterwerte
         $werteCategory = new Application_Model_Charakterwertecategory();
         $werteCategory->setCategory($activeCategory['category']);
         $werteCategory->setUebermensch($activeCategory['ueber']);
-        $werteCategory->setNumericValue($activeKey + 1);
+        $werteCategory->setNumericValue($activeKey);
 
         return $werteCategory;
     }
