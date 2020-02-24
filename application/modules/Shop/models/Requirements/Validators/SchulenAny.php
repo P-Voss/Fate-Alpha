@@ -17,8 +17,13 @@ class SchulenAny implements ValidationInterface {
      * @return boolean
      */
     public function check(\Application_Model_Charakter $charakter, $value) {
+        return null;
+    }
+
+    public function successfulWildcard (\Application_Model_Charakter $charakter, $value)
+    {
         $values = explode('|', $value);
         return in_array($charakter->getMagischoolId(), $values);
     }
-    
+
 }

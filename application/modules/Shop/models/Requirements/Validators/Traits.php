@@ -31,4 +31,14 @@ class Traits implements ValidationInterface
         return false;
     }
 
+    /**
+     * @param \Application_Model_Charakter $charakter
+     * @param mixed $value
+     * @return boolean
+     */
+    public function successfulWildcard (\Application_Model_Charakter $charakter, $value)
+    {
+        return false;
+    }
+
 }

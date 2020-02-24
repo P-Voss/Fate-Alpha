@@ -14,7 +14,7 @@ class Factory {
     /**
      * @param $validator
      *
-     * @return mixed
+     * @return ValidationInterface
      * @throws Exception
      */
     public function getValidator($validator) {

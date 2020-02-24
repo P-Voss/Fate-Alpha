@@ -18,7 +18,7 @@ class Shop_MagieController extends Zend_Controller_Action
     /**
      * @var Character;
      */
-    private $characterService;
+    private $charakterService;
 
     public function init ()
     {
@@ -27,11 +27,11 @@ class Shop_MagieController extends Zend_Controller_Action
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->characterService = new Character();
+        $this->charakterService = new Character();
 
         $auth = Zend_Auth::getInstance()->getIdentity();
         try {
-            $this->charakter = $this->characterService->getCharakterByUserid($auth->userId);
+            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
             $this->view->charakter = $this->charakter;
         } catch (Exception $exception) {
             $this->redirect('index/index');
