@@ -1,5 +1,6 @@
 <?php
 
+use Shop\Services\Character;
 use Shop\Services\Magie;
 
 /**
@@ -15,27 +16,26 @@ class Shop_MagieController extends Zend_Controller_Action
      */
     private $charakter;
     /**
-     * @var Application_Service_Charakter;
+     * @var Character;
      */
-    private $charakterService;
+    private $characterService;
 
     public function init ()
     {
-        if (!$this->_helper->logincheck())
-        {
-            $this->redirect('index/index');
-        }
-        $this->charakterService = new Application_Service_Charakter();
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        try
-        {
-            $this->charakter = $this->charakterService->getCharakterByUserid($auth->userId);
-        } catch (Exception $exception)
-        {
+        if (!$this->_helper->logincheck()) {
             $this->redirect('index/index');
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
+        $this->characterService = new Character();
+
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        try {
+            $this->charakter = $this->characterService->getCharakterByUserid($auth->userId);
+            $this->view->charakter = $this->charakter;
+        } catch (Exception $exception) {
+            $this->redirect('index/index');
+        }
     }
 
 

@@ -58,6 +58,9 @@ class Requirement
         $requirements = $requirementList->getRequirements();
         foreach ($requirements as $requirement) {
             $validator = $this->factory->getValidator($requirement->getArt());
+            if ($validator->successfulWildcard($this->charakter, $requirement->getRequiredValue())) {
+                return true;
+            }
             if ($validator->check($this->charakter, $requirement->getRequiredValue()) === false) {
                 $this->lastErrors[] = [
                     'art' => $requirement->getArt(),

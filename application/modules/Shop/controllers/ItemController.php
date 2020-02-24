@@ -1,5 +1,7 @@
 <?php
 
+use Shop\Services\Character;
+
 /**
  * Description of ItemController
  *
@@ -13,7 +15,7 @@ class Shop_ItemController extends Zend_Controller_Action
      */
     private $character;
     /**
-     * @var Application_Service_Charakter;
+     * @var Character;
      */
     private $characterService;
 
@@ -24,7 +26,7 @@ class Shop_ItemController extends Zend_Controller_Action
         }
         $config = HTMLPurifier_Config::createDefault();
         $this->view->purifier = new HTMLPurifier($config);
-        $this->characterService = new Application_Service_Charakter();
+        $this->characterService = new Character();
 
         $auth = Zend_Auth::getInstance()->getIdentity();
         try {

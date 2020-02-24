@@ -24,7 +24,7 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
      * @return Application_Model_Charakter
      * @throws Exception
      */
-    private function buildCharakter($charakterId) {
+    protected function buildCharakter($charakterId) {
         $charakterBuilder = new Application_Service_CharakterBuilder();
         if ($charakterBuilder->initCharakterByCharakterId($charakterId)) {
             $charakterBuilder

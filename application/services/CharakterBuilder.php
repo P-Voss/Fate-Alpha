@@ -197,6 +197,34 @@ class Application_Service_CharakterBuilder
     }
 
     /**
+     * @throws Exception
+     */
+    public function setCompleteSkills ()
+    {
+        $skillMapper = new \Shop\Models\Mappers\SkillMapper();
+        $totalSkills = [];
+        $currentSkills = $this->charakterMapper->getCharakterSkills($this->charakterId);
+
+        foreach ($currentSkills as $skill) {
+            $ancestorDepth = 0;
+            $hasAncestor = $skill->getAncestorId();
+            while($hasAncestor) {
+                if ($ancestorDepth > 10) {
+                    break;
+                }
+                $ancestorSkill = $skillMapper->getSkillById($hasAncestor);
+                $hasAncestor = $ancestorSkill->getAncestorId();
+                $totalSkills[$ancestorSkill->getId()] = $ancestorSkill;
+                $ancestorDepth++;
+            }
+            $totalSkills[$skill->getId()] = $skill;
+        }
+        $this->charakter->setSkills($totalSkills);
+
+        return $this;
+    }
+
+    /**
      * @return $this
      * @throws Exception
      */

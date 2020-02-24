@@ -161,6 +161,7 @@ SQL;
             $skill->setSkillArt($row['skillartId']);
             $skill->setRequirementList($this->getRequirements($skillId));
             $skill->setRang($row['rang']);
+            $skill->setAncestorId($row['replacesSkillId']);
             $skill->setFp($row['fp']);
             $skill->setLernbedingung($row['lernbedingung']);
         }

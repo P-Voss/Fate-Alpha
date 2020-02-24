@@ -5,8 +5,9 @@
  *
  * @author Vosser
  */
-class Application_Model_Skill implements JsonSerializable {
-    
+class Application_Model_Skill implements JsonSerializable
+{
+
     protected $id;
     /**
      * @var string
@@ -21,86 +22,126 @@ class Application_Model_Skill implements JsonSerializable {
     protected $rang;
     protected $uebung;
     protected $disziplin;
+    protected $ancestorId;
     /**
-     * @var string 
+     * @var string
      */
     protected $lernbedingung;
-    
-    public function getId() {
+
+    public function getId ()
+    {
         return $this->id;
     }
 
-    public function getBezeichnung() {
+    public function getBezeichnung ()
+    {
         return $this->bezeichnung;
     }
 
-    public function getBeschreibung() {
+    public function getBeschreibung ()
+    {
         return $this->beschreibung;
     }
 
-    public function getFp() {
+    public function getFp ()
+    {
         return $this->fp;
     }
 
-    public function getRang() {
+    public function getRang ()
+    {
         return $this->rang;
     }
 
-    public function setId($id) {
+    public function setId ($id)
+    {
         $this->id = $id;
     }
 
-    public function setBezeichnung($bezeichnung) {
+    public function setBezeichnung ($bezeichnung)
+    {
         $this->bezeichnung = $bezeichnung;
     }
 
-    public function setBeschreibung($beschreibung) {
+    public function setBeschreibung ($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setFp($fp) {
+    public function setFp ($fp)
+    {
         $this->fp = $fp;
     }
 
-    public function setRang($rang) {
+    public function setRang ($rang)
+    {
         $this->rang = $rang;
     }
-    
-    public function getSkillArt() {
+
+    public function getSkillArt ()
+    {
         return $this->skillArt;
     }
 
-    public function setSkillArt($skillArt) {
+    public function setSkillArt ($skillArt)
+    {
         $this->skillArt = $skillArt;
     }
-    
-    public function getUebung() {
+
+    public function getUebung ()
+    {
         return $this->uebung;
     }
 
-    public function getDisziplin() {
+    public function getDisziplin ()
+    {
         return $this->disziplin;
     }
 
-    public function setUebung($uebung) {
+    public function setUebung ($uebung)
+    {
         $this->uebung = $uebung;
     }
 
-    public function setDisziplin($disziplin) {
+    public function setDisziplin ($disziplin)
+    {
         $this->disziplin = $disziplin;
     }
-    
-    public function getLernbedingung() {
+
+    public function getLernbedingung ()
+    {
         return $this->lernbedingung;
     }
 
-    public function setLernbedingung($lernbedingung) {
+    public function setLernbedingung ($lernbedingung)
+    {
         $this->lernbedingung = $lernbedingung;
     }
-    
-    public function jsonSerialize() {
-        $return = array();
-        foreach (get_object_vars($this) as $key => $property){
+
+    /**
+     * @return mixed
+     */
+    public function getAncestorId ()
+    {
+        return $this->ancestorId;
+    }
+
+    /**
+     * @param mixed $ancestorId
+     *
+     * @return Application_Model_Skill
+     */
+    public function setAncestorId ($ancestorId)
+    {
+        $this->ancestorId = $ancestorId;
+        return $this;
+    }
+
+    public function jsonSerialize ()
+    {
+        $return = [];
+        foreach (get_object_vars($this) as $key => $property)
+        {
             $return[$key] = $property;
         }
         return $return;
