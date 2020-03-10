@@ -39,4 +39,15 @@ class FaehigkeitAny implements ValidationInterface {
         return false;
     }
 
+    /**
+     * @param \Application_Model_Charakter $charakter
+     * @param $value
+     *
+     * @return bool
+     */
+    public function isIncompatible (\Application_Model_Charakter $charakter, $value)
+    {
+        return false;
+    }
+
 }

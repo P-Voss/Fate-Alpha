@@ -20,14 +20,6 @@ class TraitInc implements ValidationInterface
      */
     public function check (\Application_Model_Charakter $charakter, $value)
     {
-        $values = explode('|', $value);
-        foreach ($values as $value){
-            foreach ($charakter->getTraits() as $trait){
-                if($trait->getTraitId() == $value){
-                    return false;
-                }
-            }
-        }
         return true;
     }
 
@@ -38,6 +30,25 @@ class TraitInc implements ValidationInterface
      */
     public function successfulWildcard (\Application_Model_Charakter $charakter, $value)
     {
+        return false;
+    }
+
+    /**
+     * @param \Application_Model_Charakter $charakter
+     * @param $value
+     *
+     * @return bool
+     */
+    public function isIncompatible (\Application_Model_Charakter $charakter, $value)
+    {
+        $values = explode('|', $value);
+        foreach ($values as $value){
+            foreach ($charakter->getTraits() as $trait){
+                if($trait->getTraitId() == $value){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

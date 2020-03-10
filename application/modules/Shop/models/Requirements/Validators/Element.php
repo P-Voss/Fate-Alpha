@@ -17,18 +17,6 @@ class Element implements ValidationInterface {
      * @return boolean
      */
     public function check(\Application_Model_Charakter $charakter, $value){
-        $values = explode(':', $value);
-        foreach ($values as $value){
-            $result = false;
-            foreach ($charakter->getElemente() as $element){
-                if($element->getId() == $value){
-                    $result = true;
-                }
-            }
-            if($result === false){
-                return false;
-            }
-        }
         return true;
     }
 
@@ -38,6 +26,17 @@ class Element implements ValidationInterface {
      * @return boolean
      */
     public function successfulWildcard (\Application_Model_Charakter $charakter, $value)
+    {
+        return false;
+    }
+
+    /**
+     * @param \Application_Model_Charakter $charakter
+     * @param $value
+     *
+     * @return bool
+     */
+    public function isIncompatible (\Application_Model_Charakter $charakter, $value)
     {
         return false;
     }
