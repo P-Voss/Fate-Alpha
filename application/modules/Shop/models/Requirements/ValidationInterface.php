@@ -22,5 +22,13 @@ interface ValidationInterface {
      * @return bool
      */
     public function successfulWildcard (\Application_Model_Charakter $charakter, $value);
+
+    /**
+     * @param \Application_Model_Charakter $charakter
+     * @param $value
+     *
+     * @return bool
+     */
+    public function isIncompatible (\Application_Model_Charakter $charakter, $value);
     
 }

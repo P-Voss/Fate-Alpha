@@ -40,7 +40,7 @@ class Administration_SchuleController extends Zend_Controller_Action {
     
     public function showAction() {
         $this->view->schule = $this->schulService->getSchuleById($this->getRequest()->getParam('id'));
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();
@@ -51,7 +51,7 @@ class Administration_SchuleController extends Zend_Controller_Action {
     }
     
     public function newAction() {
-        $this->view->magieList = $this->skillService->getMagieList();
+        $this->view->magien = $this->skillService->getMagieList();
         $this->view->schulen = $this->schulService->getSchulList();
         $this->view->elemente = $this->erstellungService->getElementList();
         $this->view->klassengruppen = $this->erstellungService->getKlassengruppenList();

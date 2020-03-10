@@ -10,7 +10,6 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             <label for="name">Name</label>
             <input type="text" size="30" name="name" id="name" />
         </p>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
         <fieldset>
             <legend>
                 Vorraussetzungen
@@ -25,84 +24,51 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
                     <option value="<?= Application_Model_MagiOrganization::CHURCH ?>">Glaubenstypen</option>
                 </select>
             </p>
-            <p>
-                <label for="staerke">Stärke</label>
-                <input type="checkbox" name="str" id="str">
-                <input type="text" size="30" name="staerke" id="staerke" disabled="true" />
-            </p>
-            <p>
-                <label for="agilitaet">Agilität</label>
-                <input type="checkbox" name="agi" id="agi">
-                <input type="text" size="30" name="agilitaet" id="agilitaet" disabled="true" />
-            </p>
-            <p>
-                <label for="ausdauer">Ausdauer</label>
-                <input type="checkbox" name="aus" id="aus">
-                <input type="text" size="30" name="ausdauer" id="ausdauer" disabled="true" />
-            </p>
-            <p>
-                <label for="uebung">Übung</label>
-                <input type="checkbox" name="pra" id="pra">
-                <input type="text" size="30" name="uebung" id="uebung" disabled="true" />
-            </p>
-            <p>
-                <label for="kontrolle">Kontrolle</label>
-                <input type="checkbox" name="kon" id="kon">
-                <input type="text" size="30" name="kontrolle" id="kontrolle" disabled="true" />
-            </p>
-            <p>
-                <label for="disziplin">Disziplin</label>
-                <input type="checkbox" name="dis" id="dis">
-                <input type="text" size="30" name="disziplin" id="disziplin" disabled="true" />
-            </p>
-            <p>
-            <label for="gruppen">
-                Klassengruppen:
-            </label>
-            <select name="gruppen[]" multiple="true" size="8">
-                <?php foreach ($this->klassengruppen as $gruppe) { ?>
-                <option value="<?= $gruppe->getId() ?>">
-                    <?= $gruppe->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-            <br />
-            <label for="klassen">
-                Klassen:
-            </label>
-            <select name="klassen[]" multiple="true" size="8">
-                <?php foreach ($this->klassen as $klasse) { ?>
-                <option value="<?= $klasse->getId() ?>">
-                    <?= $klasse->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-            <br />
-            <label for="skills">
-                Fähigkeiten:
-            </label>
-            <select name="skills[]" multiple="true" size="8">
-                <?php foreach ($this->skills as $skill) { ?>
-                <option value="<?= $skill->getId() ?>">
-                    <?= $skill->getBezeichnung() ?>
-                </option>
-                <?php } ?>
-            </select>
-        </p>
-        <p>
-            <label for="trait">
-                Nicht kombinierbar mit den Traits:
-            </label>
-            <select name="trait[]" multiple="true" size="8">
-                <?php foreach ($this->traits as $trait) { ?>
-                    <option value="<?= $trait->getTraitId() ?>">
-                        <?= $trait->getName() ?>
-                    </option>
-                <?php } ?>
-            </select>
-        </p>
+            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+            <div>
+                <div style="width: 50%; display: inline-block;">
+                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+                <div style="width: 45%; display: inline-block;">
+                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+            </div>
+            <div>
+                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+            </div>
+            <div>
+                <div style="width: 50%; display: inline-block; vertical-align: top">
+                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+                <div style="width: 45%; display: inline-block;">
+                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+            </div>
+            <div>
+                <div style="width: 50%; display: inline-block;">
+                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+                <div style="width: 45%; display: inline-block;">
+                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+                </div>
+            </div>
+            <div>
+                <div style="width: 50%; display: inline-block;">
+                    <label for="trait">
+                        Nicht kombinierbar mit den Traits:
+                    </label>
+                    <select name="trait[]" multiple="true" size="8">
+                        <?php foreach ($this->traits as $trait) { ?>
+                            <option value="<?= $trait->getTraitId() ?>">
+                                <?= $trait->getName() ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
         </fieldset>
     </fieldset>
+    <textarea name="beschreibung" cols="80" rows="10"></textarea>
     <div align="center">
         <input type="submit" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
     </div>
