@@ -31,6 +31,14 @@ class FaehigkeitInc implements ValidationInterface {
     }
 
     /**
+     * @return bool
+     */
+    public function isWildcard ()
+    {
+        return false;
+    }
+
+    /**
      * @param \Application_Model_Charakter $charakter
      * @param $value
      *

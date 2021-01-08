@@ -56,6 +56,8 @@ class Requirement
     {
         $this->lastErrors = [];
         $requirements = $requirementList->getRequirements();
+        $validWildcard = false;
+        $hasWildcard = false;
         foreach ($requirements as $requirement) {
             $validator = $this->factory->getValidator($requirement->getArt());
             if ($validator->isIncompatible($this->charakter, $requirement->getRequiredValue())) {
@@ -65,8 +67,15 @@ class Requirement
                 ];
                 return false;
             }
-            if ($validator->successfulWildcard($this->charakter, $requirement->getRequiredValue())) {
-                return true;
+            if ($validator->isWildcard()) {
+                $hasWildcard = true;
+                if ($validWildcard) {
+                    continue;
+                }
+                if ($validator->successfulWildcard($this->charakter, $requirement->getRequiredValue())) {
+                    $validWildcard = true;
+                    continue;
+                }
             }
             if ($validator->check($this->charakter, $requirement->getRequiredValue()) === false) {
                 $this->lastErrors[] = [
@@ -74,6 +83,10 @@ class Requirement
                     'wert' => $requirement->getRequiredValue(),
                 ];
             }
+        }
+
+        if ($hasWildcard && $validWildcard === false) {
+            return false;
         }
         return count($this->lastErrors) === 0;
     }

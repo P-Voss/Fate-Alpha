@@ -27,6 +27,14 @@ class SchulenAny implements ValidationInterface {
     }
 
     /**
+     * @return bool
+     */
+    public function isWildcard ()
+    {
+        return true;
+    }
+
+    /**
      * @param \Application_Model_Charakter $charakter
      * @param $value
      *
