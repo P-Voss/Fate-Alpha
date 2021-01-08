@@ -178,7 +178,7 @@ FROM
     )
     AS infos 
 ORDER BY
-    source ASC, `kategorie` ASC, informationId
+    source ASC, `kategorie`, name ASC, informationId
 SQL;
         $stmt = $this->getDbTable('UserInfos')->getDefaultAdapter()->prepare($sql);
         $stmt->execute([$userId, $userId]);
