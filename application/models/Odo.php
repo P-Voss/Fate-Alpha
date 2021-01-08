@@ -106,7 +106,7 @@ class Application_Model_Odo
     {
         $actualAmount = $this->amount;
         $actualAmount += $this->calculateCircuitOdo($circuit);
-        $actualAmount += $this->calculateControlOdo($controlCategory);
+        $actualAmount += $controlCategory->getNumericValue() * 5;
         if ($klassengruppe->getId() === 5) {
             $actualAmount = $actualAmount * 1.5;
         }
@@ -124,57 +124,6 @@ class Application_Model_Odo
             'A' => 250, 'B' => 200, 'C' => 150, 'D' => 100, 'E' => 50, 'F' => 0,
         ];
         return isset($bonusByCategory[$circuit->getKategorie()]) ? $bonusByCategory[$circuit->getKategorie()] : 0;
-    }
-
-    /**
-     * @param Application_Model_Charakterwertecategory $controlCategory
-     *
-     * @return int
-     */
-    private function calculateControlOdo (Application_Model_Charakterwertecategory $controlCategory)
-    {
-        $actualCategory = substr($controlCategory->getCategory(), 0, 1);
-        if ($controlCategory->getUebermensch()) {
-            return $this->getOdoUeber($actualCategory);
-        } else {
-            return $this->getOdoNormal($actualCategory);
-        }
-    }
-
-    /**
-     * @param string $kategorie
-     *
-     * @return int
-     */
-    private function getOdoUeber ($kategorie)
-    {
-        $bonusOdo = [
-            'F' => 200,
-            'E' => 240,
-            'D' => 290,
-            'C' => 350,
-            'B' => 420,
-            'A' => 500,
-        ];
-        return isset($bonusOdo[$kategorie]) ? $bonusOdo[$kategorie] : 200;
-    }
-
-    /**
-     * @param string $kategorie
-     *
-     * @return int
-     */
-    private function getOdoNormal ($kategorie)
-    {
-        $bonusOdo = [
-            'F' => 0,
-            'E' => 30,
-            'D' => 60,
-            'C' => 95,
-            'B' => 130,
-            'A' => 170,
-        ];
-        return isset($bonusOdo[$kategorie]) ? $bonusOdo[$kategorie] : 0;
     }
 
 }

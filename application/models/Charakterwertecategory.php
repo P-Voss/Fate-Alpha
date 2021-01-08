@@ -9,7 +9,6 @@ class Application_Model_Charakterwertecategory
 {
 
     private $category;
-    private $uebermensch;
     private $numericValue = 1;
 
     public function getCategory ()
@@ -17,19 +16,9 @@ class Application_Model_Charakterwertecategory
         return $this->category;
     }
 
-    public function getUebermensch ()
-    {
-        return $this->uebermensch === true;
-    }
-
     public function setCategory ($category)
     {
         $this->category = $category;
-    }
-
-    public function setUebermensch ($uebermensch)
-    {
-        $this->uebermensch = $uebermensch;
     }
 
     /**

@@ -196,42 +196,42 @@ class Application_Model_Charakterwerte
         $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
 
         $categories = [
-            ['category' => 'F-', 'lowerbound' => -10000000, 'ueber' => false],
-            ['category' => 'F', 'lowerbound' => -1, 'ueber' => false],
-            ['category' => 'F+', 'lowerbound' => 0, 'ueber' => false],
-            ['category' => 'E-', 'lowerbound' => 40, 'ueber' => false],
-            ['category' => 'E', 'lowerbound' => 80, 'ueber' => false],
-            ['category' => 'E+', 'lowerbound' => 120, 'ueber' => false],
-            ['category' => 'D-', 'lowerbound' => 160, 'ueber' => false],
-            ['category' => 'D', 'lowerbound' => 200, 'ueber' => false],
-            ['category' => 'D+', 'lowerbound' => 250, 'ueber' => false],
-            ['category' => 'C-', 'lowerbound' => 300, 'ueber' => false],
-            ['category' => 'C', 'lowerbound' => 350, 'ueber' => false],
-            ['category' => 'C+', 'lowerbound' => 400, 'ueber' => false],
-            ['category' => 'B-', 'lowerbound' => 460, 'ueber' => false],
-            ['category' => 'B', 'lowerbound' => 520, 'ueber' => false],
-            ['category' => 'B+', 'lowerbound' => 580, 'ueber' => false],
-            ['category' => 'A-', 'lowerbound' => 650, 'ueber' => false],
-            ['category' => 'A', 'lowerbound' => 720, 'ueber' => false],
-            ['category' => 'A+', 'lowerbound' => 800, 'ueber' => false],
-            ['category' => 'F-', 'lowerbound' => 800, 'ueber' => true],
-            ['category' => 'F', 'lowerbound' => 880, 'ueber' => true],
-            ['category' => 'F+', 'lowerbound' => 960, 'ueber' => true],
-            ['category' => 'E-', 'lowerbound' => 1050, 'ueber' => true],
-            ['category' => 'E', 'lowerbound' => 1150, 'ueber' => true],
-            ['category' => 'E+', 'lowerbound' => 1250, 'ueber' => true],
-            ['category' => 'D-', 'lowerbound' => 1400, 'ueber' => true],
-            ['category' => 'D', 'lowerbound' => 1500, 'ueber' => true],
-            ['category' => 'D+', 'lowerbound' => 1600, 'ueber' => true],
-            ['category' => 'C-', 'lowerbound' => 1800, 'ueber' => true],
-            ['category' => 'C', 'lowerbound' => 1900, 'ueber' => true],
-            ['category' => 'C+', 'lowerbound' => 2000, 'ueber' => true],
-            ['category' => 'B-', 'lowerbound' => 2200, 'ueber' => true],
-            ['category' => 'B', 'lowerbound' => 2300, 'ueber' => true],
-            ['category' => 'B+', 'lowerbound' => 2400, 'ueber' => true],
-            ['category' => 'A-', 'lowerbound' => 2600, 'ueber' => true],
-            ['category' => 'A', 'lowerbound' => 2800, 'ueber' => true],
-            ['category' => 'A+', 'lowerbound' => 3000, 'ueber' => true],
+            ['category' => 'F-', 'lowerbound' => -10000000],
+            ['category' => 'F', 'lowerbound' => -1],
+            ['category' => 'F+', 'lowerbound' => 0],
+            ['category' => 'E-', 'lowerbound' => 40],
+            ['category' => 'E', 'lowerbound' => 80],
+            ['category' => 'E+', 'lowerbound' => 120],
+            ['category' => 'D-', 'lowerbound' => 160],
+            ['category' => 'D', 'lowerbound' => 200],
+            ['category' => 'D+', 'lowerbound' => 250],
+            ['category' => 'C-', 'lowerbound' => 300],
+            ['category' => 'C', 'lowerbound' => 350],
+            ['category' => 'C+', 'lowerbound' => 400],
+            ['category' => 'B-', 'lowerbound' => 460],
+            ['category' => 'B', 'lowerbound' => 520],
+            ['category' => 'B+', 'lowerbound' => 580],
+            ['category' => 'A-', 'lowerbound' => 650],
+            ['category' => 'A', 'lowerbound' => 720],
+            ['category' => 'A+', 'lowerbound' => 800],
+            ['category' => 'EF-', 'lowerbound' => 800],
+            ['category' => 'EF', 'lowerbound' => 880],
+            ['category' => 'EF+', 'lowerbound' => 960],
+            ['category' => 'EE-', 'lowerbound' => 1050],
+            ['category' => 'EE', 'lowerbound' => 1150],
+            ['category' => 'EE+', 'lowerbound' => 1250],
+            ['category' => 'ED-', 'lowerbound' => 1400],
+            ['category' => 'ED', 'lowerbound' => 1500],
+            ['category' => 'ED+', 'lowerbound' => 1600],
+            ['category' => 'EC-', 'lowerbound' => 1800],
+            ['category' => 'EC', 'lowerbound' => 1900],
+            ['category' => 'EC+', 'lowerbound' => 2000],
+            ['category' => 'EB-', 'lowerbound' => 2200],
+            ['category' => 'EB', 'lowerbound' => 2300],
+            ['category' => 'EB+', 'lowerbound' => 2400],
+            ['category' => 'EA-', 'lowerbound' => 2600],
+            ['category' => 'EA', 'lowerbound' => 2800],
+            ['category' => 'EA+', 'lowerbound' => 3000],
         ];
         $activeKey = 0;
         $activeCategory = $categories[0];
@@ -244,7 +244,6 @@ class Application_Model_Charakterwerte
 
         $werteCategory = new Application_Model_Charakterwertecategory();
         $werteCategory->setCategory($activeCategory['category']);
-        $werteCategory->setUebermensch($activeCategory['ueber']);
         $werteCategory->setNumericValue($activeKey);
 
         return $werteCategory;
@@ -257,8 +256,7 @@ class Application_Model_Charakterwerte
     public function getEnergie ()
     {
         $category = $this->getCategory('aus');
-        $energie = new Application_Model_Lebensenergie();
-        return $energie->getEnergiewert($category->getCategory(), $category->getUebermensch());
+        return (17 + $category->getNumericValue()) * 2;
     }
 
     /**

@@ -136,7 +136,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getStaerke() ?>">
                 <?= floor($werte->getStaerke()) ?>
             </span>
-            <span class="<?= $categoryStr->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryStr->getCategory() ?> (<?= $categoryStr->getNumericValue() ?>)
             </span>
         </p>
@@ -147,7 +147,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getAgilitaet() ?>">
                 <?= floor($werte->getAgilitaet()) ?>
             </span>
-            <span class="<?= $categoryAgi->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryAgi->getCategory() ?> (<?= $categoryAgi->getNumericValue() ?>)
             </span>
         </p>
@@ -158,7 +158,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getAusdauer() ?>">
                 <?= floor($werte->getAusdauer()) ?>
             </span>
-            <span class="<?= $categoryAus->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryAus->getCategory() ?> (<?= $categoryAus->getNumericValue() ?>) = <?= $werte->getEnergie() ?> HP
             </span>
         </p>
@@ -169,7 +169,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getKontrolle() ?>">
                 <?= floor($werte->getKontrolle()) ?>
             </span>
-            <span class="<?= $categoryKon->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryKon->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>)
             </span>
         </p>
@@ -180,7 +180,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getDisziplin() ?>">
                 <?= floor($werte->getDisziplin()) ?>
             </span>
-            <span class="<?= $categoryDis->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryDis->getCategory() ?> (<?= $categoryDis->getNumericValue() ?>)
             </span>
         </p>
@@ -191,7 +191,7 @@ function getTraitType($key) {
             <span title="<?= $werte->getUebung() ?>">
                 <?= floor($werte->getUebung()) ?>
             </span>
-            <span class="<?= $categoryPra->getUebermensch() ? 'uber' : '' ?>">
+            <span>
                 <?= $categoryPra->getCategory() ?> (<?= $categoryPra->getNumericValue() ?>)
             </span>
         </p>

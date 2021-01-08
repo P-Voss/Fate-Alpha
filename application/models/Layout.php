@@ -13,7 +13,7 @@ class Application_Model_Layout
     /**
      * @var boolean
      */
-    public $hasChara;
+    public $hasChara = false;
     /**
      * @var Application_Model_Charakter
      */
