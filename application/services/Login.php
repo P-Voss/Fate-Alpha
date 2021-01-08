@@ -25,6 +25,7 @@ class Application_Service_Login{
         $authAdapter->setCredential($request->getPost('passwort'));
         $auth = Zend_Auth::getInstance();
         $result = $auth->authenticate($authAdapter);
+
         if($result->isValid()){
             $auth->getStorage()->write($authAdapter->getResultRowObject());
             $this->mapper->logAction($auth->getIdentity()->userId);

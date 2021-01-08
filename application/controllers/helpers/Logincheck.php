@@ -15,18 +15,22 @@ class Application_Controller_Helpers_Logincheck extends Zend_Controller_Action_H
     protected $layoutService;
     
     function direct(){
-        $this->layoutService = new Application_Service_Layout();
-        
         $layout = Zend_Controller_Action_HelperBroker::getExistingHelper('layout');
-        $viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('ViewRenderer');
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        if($auth === null){
+        try {
+            $this->layoutService = new Application_Service_Layout();
+            $viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('ViewRenderer');
+            $auth = Zend_Auth::getInstance()->getIdentity();
+            if($auth === null){
+                $layout->setLayout('offline');
+                return false;
+            } else {
+                $layout->setLayout('online');
+                $viewRenderer->view->layoutData = $this->layoutService->getLayoutData($auth);
+                return true;
+            }
+        } catch (Exception $exception) {
             $layout->setLayout('offline');
             return false;
-        } else {
-            $layout->setLayout('online');
-            $viewRenderer->view->layoutData = $this->layoutService->getLayoutData($auth);
-            return true;
         }
     }
     
