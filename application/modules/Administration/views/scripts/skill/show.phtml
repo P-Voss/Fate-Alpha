@@ -8,10 +8,10 @@ $lernbedingungen = [
 ];
 /* @var $skill Administration_Model_Skill */
 $skill = $this->skill;
-/** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $skill->getRequirementList();
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
+$raenge = ['EX','A','B','C','D','E','F','EA','EB','EC','ED','EE','EF',];
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
@@ -34,23 +34,19 @@ $characters = $this->characters;
                 Fähigkeitenart
             </label>
             <select name="skillart">
-                <option value="1" <?= ($skill->getSkillArt() === 1) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
-                <option value="2" <?= ($skill->getSkillArt() === 2) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
-                <option value="3" <?= ($skill->getSkillArt() === 3) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
-                <option value="4" <?= ($skill->getSkillArt() === 4) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
+                <option value="1" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_SCHUETZE) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
+                <option value="2" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_KAMPF) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
+                <option value="3" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_UEBUNG) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
+                <option value="4" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_SPECIAL) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
             </select>
         </span>
         <label for="rang">
             Rang
         </label>
-        <select id="rang" name="rang">
-            <option <?= ($skill->getRang() === 'EX') ? 'selected="true"' : '' ?>>EX</option>
-            <option <?= ($skill->getRang() === 'A') ? 'selected="true"' : '' ?>>A</option>
-            <option <?= ($skill->getRang() === 'B') ? 'selected="true"' : '' ?>>B</option>
-            <option <?= ($skill->getRang() === 'C') ? 'selected="true"' : '' ?>>C</option>
-            <option <?= ($skill->getRang() === 'D') ? 'selected="true"' : '' ?>>D</option>
-            <option <?= ($skill->getRang() === 'E') ? 'selected="true"' : '' ?>>E</option>
-            <option <?= ($skill->getRang() === 'F') ? 'selected="true"' : '' ?>>F</option>
+        <select name="rang">
+            <?php foreach($raenge as $rang): ?>
+                <option <?= ($skill->getRank() === $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+            <?php endforeach; ?>
         </select>
     </div>
     <div>

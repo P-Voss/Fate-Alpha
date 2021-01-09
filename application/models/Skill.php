@@ -8,6 +8,11 @@
 class Application_Model_Skill implements JsonSerializable
 {
 
+    const TYPE_SCHUETZE = 1;
+    const TYPE_KAMPF = 2;
+    const TYPE_UEBUNG = 3;
+    const TYPE_SPECIAL = 4;
+
     protected $id;
     /**
      * @var string
