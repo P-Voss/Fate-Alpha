@@ -196,55 +196,53 @@ class Application_Model_Charakterwerte
         $value = isset($attributes[$attr]) ? $attributes[$attr] : 0;
 
         $categories = [
-            ['category' => 'F-', 'lowerbound' => -10000000],
-            ['category' => 'F', 'lowerbound' => -1],
-            ['category' => 'F+', 'lowerbound' => 0],
-            ['category' => 'E-', 'lowerbound' => 40],
-            ['category' => 'E', 'lowerbound' => 80],
-            ['category' => 'E+', 'lowerbound' => 120],
-            ['category' => 'D-', 'lowerbound' => 160],
-            ['category' => 'D', 'lowerbound' => 200],
-            ['category' => 'D+', 'lowerbound' => 250],
-            ['category' => 'C-', 'lowerbound' => 300],
-            ['category' => 'C', 'lowerbound' => 350],
-            ['category' => 'C+', 'lowerbound' => 400],
-            ['category' => 'B-', 'lowerbound' => 460],
-            ['category' => 'B', 'lowerbound' => 520],
-            ['category' => 'B+', 'lowerbound' => 580],
-            ['category' => 'A-', 'lowerbound' => 650],
-            ['category' => 'A', 'lowerbound' => 720],
-            ['category' => 'A+', 'lowerbound' => 800],
-            ['category' => 'EF-', 'lowerbound' => 800],
-            ['category' => 'EF', 'lowerbound' => 880],
-            ['category' => 'EF+', 'lowerbound' => 960],
-            ['category' => 'EE-', 'lowerbound' => 1050],
-            ['category' => 'EE', 'lowerbound' => 1150],
-            ['category' => 'EE+', 'lowerbound' => 1250],
-            ['category' => 'ED-', 'lowerbound' => 1400],
-            ['category' => 'ED', 'lowerbound' => 1500],
-            ['category' => 'ED+', 'lowerbound' => 1600],
-            ['category' => 'EC-', 'lowerbound' => 1800],
-            ['category' => 'EC', 'lowerbound' => 1900],
-            ['category' => 'EC+', 'lowerbound' => 2000],
-            ['category' => 'EB-', 'lowerbound' => 2200],
-            ['category' => 'EB', 'lowerbound' => 2300],
-            ['category' => 'EB+', 'lowerbound' => 2400],
-            ['category' => 'EA-', 'lowerbound' => 2600],
-            ['category' => 'EA', 'lowerbound' => 2800],
-            ['category' => 'EA+', 'lowerbound' => 3000],
+            ['category' => 'F-', 'lowerbound' => -10000000, 'numeric' => 0],
+            ['category' => 'F', 'lowerbound' => -1, 'numeric' => 0],
+            ['category' => 'F+', 'lowerbound' => 0, 'numeric' => 0],
+            ['category' => 'E-', 'lowerbound' => 40, 'numeric' => 1],
+            ['category' => 'E', 'lowerbound' => 80, 'numeric' => 1],
+            ['category' => 'E+', 'lowerbound' => 120, 'numeric' => 1],
+            ['category' => 'D-', 'lowerbound' => 160, 'numeric' => 2],
+            ['category' => 'D', 'lowerbound' => 200, 'numeric' => 2],
+            ['category' => 'D+', 'lowerbound' => 250, 'numeric' => 2],
+            ['category' => 'C-', 'lowerbound' => 300, 'numeric' => 3],
+            ['category' => 'C', 'lowerbound' => 350, 'numeric' => 3],
+            ['category' => 'C+', 'lowerbound' => 400, 'numeric' => 3],
+            ['category' => 'B-', 'lowerbound' => 460, 'numeric' => 4],
+            ['category' => 'B', 'lowerbound' => 520, 'numeric' => 4],
+            ['category' => 'B+', 'lowerbound' => 580, 'numeric' => 4],
+            ['category' => 'A-', 'lowerbound' => 650, 'numeric' => 5],
+            ['category' => 'A', 'lowerbound' => 720, 'numeric' => 5],
+            ['category' => 'A+', 'lowerbound' => 800, 'numeric' => 5],
+            ['category' => 'EF-', 'lowerbound' => 800, 'numeric' => 6],
+            ['category' => 'EF', 'lowerbound' => 880, 'numeric' => 6],
+            ['category' => 'EF+', 'lowerbound' => 960, 'numeric' => 6],
+            ['category' => 'EE-', 'lowerbound' => 1050, 'numeric' => 7],
+            ['category' => 'EE', 'lowerbound' => 1150, 'numeric' => 7],
+            ['category' => 'EE+', 'lowerbound' => 1250, 'numeric' => 7],
+            ['category' => 'ED-', 'lowerbound' => 1400, 'numeric' => 8],
+            ['category' => 'ED', 'lowerbound' => 1500, 'numeric' => 8],
+            ['category' => 'ED+', 'lowerbound' => 1600, 'numeric' => 8],
+            ['category' => 'EC-', 'lowerbound' => 1800, 'numeric' => 9],
+            ['category' => 'EC', 'lowerbound' => 1900, 'numeric' => 9],
+            ['category' => 'EC+', 'lowerbound' => 2000, 'numeric' => 9],
+            ['category' => 'EB-', 'lowerbound' => 2200, 'numeric' => 10],
+            ['category' => 'EB', 'lowerbound' => 2300, 'numeric' => 10],
+            ['category' => 'EB+', 'lowerbound' => 2400, 'numeric' => 10],
+            ['category' => 'EA-', 'lowerbound' => 2600, 'numeric' => 11],
+            ['category' => 'EA', 'lowerbound' => 2800, 'numeric' => 11],
+            ['category' => 'EA+', 'lowerbound' => 3000, 'numeric' => 11],
         ];
-        $activeKey = 0;
         $activeCategory = $categories[0];
         foreach ($categories as $key => $category) {
             if ($category['lowerbound'] <= $value) {
                 $activeCategory = $category;
-                $activeKey = $key;
             }
         }
 
         $werteCategory = new Application_Model_Charakterwertecategory();
         $werteCategory->setCategory($activeCategory['category']);
-        $werteCategory->setNumericValue($activeKey);
+        $werteCategory->setNumericValue($activeCategory['numeric']);
 
         return $werteCategory;
     }
