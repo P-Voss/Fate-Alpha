@@ -2,6 +2,8 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $profile = $this->profile;
+/** @var Application_Model_Charakter $ownCharacter */
+$ownCharacter = $this->ownCharacter;
 ?>
 <div class="Zentriert">
     <form method="post" action="<?= $this->baseUrl() ?>/Freunde/Add">
@@ -36,16 +38,17 @@ $profile = $this->profile;
 <hr>
 <h1>Dir bekannte Charaktere</h1>
 <ul class="userlist">
-    <li class="charakter" id="<?= $this->eigenerCharakter->getCharakterId(); ?>">
-        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $this->eigenerCharakter->getCharakterId() ?>">
-            <?= $purifier->purify($this->eigenerCharakter->getVorname() . ' ' . ($this->eigenerCharakter->getNachname())) ?>
+    <li class="charakter" id="<?= $ownCharacter->getUuid(); ?>">
+        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $ownCharacter->getUuid() ?>">
+            <?= $purifier->purify($ownCharacter->getVorname() . ' ' . ($ownCharacter->getNachname())) ?>
         </a>
     </li>
 <?php
 foreach ($this->friendlist as $charakter) {
+    /** @var Application_Model_Charakter $charakter */
 ?>
-    <li class="charakter" id="<?= $charakter->getCharakterId() ?>">
-        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getCharakterId() ?>">
+    <li class="charakter" id="<?= $charakter->getUuid() ?>">
+        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getUuid() ?>">
             <?= $purifier->purify($charakter->getVorname()) . ' ' . ($charakter->getNachname()) ?>
         </a>
     </li>

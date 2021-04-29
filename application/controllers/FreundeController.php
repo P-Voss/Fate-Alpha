@@ -22,7 +22,7 @@ class FreundeController extends Zend_Controller_Action {
     /**
      * @var Application_Model_Charakter
      */
-    protected $_charakter;
+    protected $character;
 
 
     public function init() {
@@ -38,7 +38,7 @@ class FreundeController extends Zend_Controller_Action {
             $this->redirect('index');
         }  else {
             try {
-                $this->_charakter = $this->_charakterService->getCharakterByUserid($auth->userId);
+                $this->character = $this->_charakterService->getCharakterByUserid($auth->userId);
                 $this->view->layoutData = $this->_layoutService->getLayoutData($auth);
                 $layout->setLayout('online');
             } catch (Throwable $exception) {
@@ -48,39 +48,43 @@ class FreundeController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $this->view->eigenerCharakter = $this->_charakter;
-        $this->view->profile = $this->_charakterService->getProfile($this->_charakter->getCharakterid());
-        $this->view->friendlist = $this->_charakterService->getAssociates($this->_charakter->getCharakterid());
+        $this->view->ownCharacter = $this->character;
+        $this->view->profile = $this->_charakterService->getProfile($this->character->getCharakterid());
+        $this->view->friendlist = $this->_charakterService->getAssociates($this->character->getCharakterid());
     }
     
     public function previewAction() {
         $this->_helper->layout()->disableLayout();
         $this->_helper-> viewRenderer-> setNoRender();
-        $preview = $this->_charakterService->getPreview($this->getRequest());
+        $preview = $this->_charakterService->getPreview($this->getRequest()->getPost('id'));
         echo $preview;
     }
     
     public function addAction() {
-        $this->_charakterService->addAssociate($this->getRequest(), $this->_charakter->getCharakterid());
+        $this->_charakterService->addAssociate($this->getRequest(), $this->character->getCharakterid());
         $this->redirect('freunde');
     }
     
     public function profilAction() {
         $valid = false;
-        if($this->getRequest()->getParam('charakter') === null || (int)$this->getRequest()->getParam('charakter') <= 0){
+        if($this->getRequest()->getParam('charakter') === null){
             $this->redirect('freunde');
         }
-        $charakter = $this->_charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
-		if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
-			$charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
-			$valid = true;
-		}
-        if($charakter->getCharakterid() !== null && $this->_charakterService->isAssociated($this->_charakter, $charakter)) {
-			$charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid()));
-			$valid = true;
-        }
-		$this->view->charakter = $charakter;
-		if($valid === false){
+        try {
+            $charakter = $this->_charakterService->getCharakterByUUID($this->getRequest()->getParam('charakter', 0));
+            if($charakter->getCharakterid() === $this->character->getCharakterid()){
+                $charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
+                $valid = true;
+            }
+            if($charakter->getCharakterid() !== null && $this->_charakterService->isAssociated($this->character, $charakter)) {
+                $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->character->getCharakterid()));
+                $valid = true;
+            }
+            $this->view->charakter = $charakter;
+            if($valid === false){
+                $this->redirect('freunde');
+            }
+        } catch (Exception $exception) {
             $this->redirect('freunde');
         }
     }
@@ -90,12 +94,12 @@ class FreundeController extends Zend_Controller_Action {
         $layout->setLayout('partials');
         $charakter = $this->_charakterService->getCharakterById($this->getRequest()->getParam('charakter', 0));
         if($charakter->getCharakterid() !== null && 
-                ($this->_charakterService->isAssociated($this->_charakter, $charakter) 
-                    || $charakter->getCharakterid() === $this->_charakter->getCharakterid()
+                ($this->_charakterService->isAssociated($this->character, $charakter)
+                    || $charakter->getCharakterid() === $this->character->getCharakterid()
                 )
             ) {
-            $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->_charakter->getCharakterid()));
-            if($charakter->getCharakterid() === $this->_charakter->getCharakterid()){
+            $charakter->setCharakterprofil($this->_charakterService->getVisibleProfile($this->getRequest(), $this->character->getCharakterid()));
+            if($charakter->getCharakterid() === $this->character->getCharakterid()){
                 $charakter->setCharakterprofil($this->_charakterService->getProfile($charakter->getCharakterid()));
             }
             $this->view->charakter = $charakter;

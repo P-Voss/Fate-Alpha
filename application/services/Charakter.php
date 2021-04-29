@@ -67,6 +67,17 @@ class Application_Service_Charakter {
     }
 
     /**
+     * @param string $uuid
+     * @return Application_Model_Charakter
+     * @throws Exception
+     */
+    public function getCharakterByUUID(string $uuid) {
+        $charakter = $this->charakterMapper->getCharakterByUUID($uuid);
+        $charakter->setCharakterprofil($this->charakterMapper->getCharakterProfil($charakter->getCharakterid()));
+        return $charakter;
+    }
+
+    /**
      * @param int $charakterId
      *
      * @return Application_Model_Charakter
@@ -162,13 +173,12 @@ class Application_Service_Charakter {
     }
 
     /**
-     * @param Zend_Controller_Request_Http $request
-     *
+     * @param string $uuid
      * @return string
      * @throws Exception
      */
-    public function getPreview(Zend_Controller_Request_Http $request) {
-        $charakter = $this->charakterMapper->getCharakter($request->getPost('id'));
+    public function getPreview(string $uuid) {
+        $charakter = $this->charakterMapper->getCharakterByUUID($uuid);
         $charakter->setCharakterprofil($this->charakterMapper->getCharakterProfil($charakter->getCharakterid()));
         return $this->buildPreviewHtml($charakter);
     }
