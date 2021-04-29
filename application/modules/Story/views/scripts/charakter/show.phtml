@@ -1,7 +1,6 @@
 <?php
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/story/charakter.js'));
-/* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
+
 /* @var $gruppe Gruppen_Model_Gruppe */
 $gruppe = $this->gruppe;
 /* @var $charakter Application_Model_Charakter */
@@ -70,6 +69,14 @@ function getTraitType($key) {
             </label>
             <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
         </p>
+        <?php if($charakter->getOrigin() !== ''): ?>
+            <p>
+                <label>
+                    Origin
+                </label>
+                <?= $this->purify($charakter->getOrigin()) ?>
+            </p>
+        <?php endif; ?>
         <p>
             <label>
                 Geschlecht

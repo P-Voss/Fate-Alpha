@@ -60,6 +60,7 @@ class Administration_Service_Charakter extends Application_Service_Charakter {
         
         $charakter->setVorname($request->getPost('vorname'));
         $charakter->setNachname($request->getPost('nachname'));
+        $charakter->setOrigin($request->getPost('origin'));
         $charakter->setNickname($request->getPost('nickname'));
         $charakter->setAugenfarbe($request->getPost('augenfarbe'));
         $charakter->setGeburtsdatum($request->getPost('geburtsdatum'));

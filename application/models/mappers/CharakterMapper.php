@@ -45,22 +45,23 @@ class Application_Model_Mapper_CharakterMapper
         $returnArray = [];
         foreach ($result as $row)
         {
-            $charakter = new Application_Model_Charakter();
-            $charakter->setVorname($row->vorname);
-            $charakter->setNachname($row->nachname);
-            $charakter->setCharakterid($row->charakterId);
-            $charakter->setAugenfarbe($row->augenfarbe);
-            $charakter->setGeburtsdatum($row->geburtsdatum);
-            $charakter->setGeschlecht($row->geschlecht);
-            $charakter->setSexualitaet($row->sexualitaet);
-            $charakter->setMagiccircuit($row->circuit);
-            $charakter->setNickname($row->nickname);
-            $charakter->setSize($row->size);
-            $charakter->setWohnort($row->wohnort);
-            $charakter->setFerocity($row->ferocity);
-            $charakter->setKurotama($row->kurotama);
             $date = new DateTime($row->createDate);
-            $charakter->setCreatedate($date);
+            $charakter = new Application_Model_Charakter();
+            $charakter->setVorname($row->vorname)
+                ->setNachname($row->nachname)
+                ->setCharakterid($row->charakterId)
+                ->setAugenfarbe($row->augenfarbe)
+                ->setGeburtsdatum($row->geburtsdatum)
+                ->setGeschlecht($row->geschlecht)
+                ->setSexualitaet($row->sexualitaet)
+                ->setMagiccircuit($row->circuit)
+                ->setNickname($row->nickname)
+                ->setSize($row->size)
+                ->setWohnort($row->wohnort)
+                ->setFerocity($row->ferocity)
+                ->setKurotama($row->kurotama)
+                ->setUuid($row->uuid)
+                ->setCreatedate($date);
             $returnArray[] = $charakter;
         }
         return $returnArray;
@@ -77,52 +78,6 @@ class Application_Model_Mapper_CharakterMapper
             ['active' => 0],
             ['charakterId = ?' => $charakter->getCharakterid()]
         );
-    }
-
-    /**
-     * @param int $elementId
-     * @param int $charakterId
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function saveCharakterElement ($elementId, $charakterId)
-    {
-        $data = [];
-        $data['charakterId'] = $charakterId;
-        $data['elementId'] = $elementId;
-        return $this->getDbTable('CharakterElement')->insert($data);
-    }
-
-    /**
-     * @param $traitId
-     * @param $characterId
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function addCharacterTrait ($traitId, $characterId)
-    {
-        $data = [
-            'characterId' => $characterId,
-            'traitId' => $traitId,
-        ];
-        return $this->getDbTable('CharacterTraits')->insert($data);
-    }
-
-    /**
-     * @param int $nachteilId
-     * @param int $charakterId
-     *
-     * @return int
-     * @throws Exception
-     */
-    public function saveCharakterNachteil ($nachteilId, $charakterId)
-    {
-        $data = [];
-        $data['charakterId'] = $charakterId;
-        $data['nachteilId'] = $nachteilId;
-        return $this->getDbTable('CharakterNachteil')->insert($data);
     }
 
     /**
@@ -163,30 +118,31 @@ class Application_Model_Mapper_CharakterMapper
         $row = $this->getDbTable('Charakter')->fetchRow($select);
         if ($row !== null)
         {
-            $model = new Application_Model_Charakter();
-            $model->setCharakterid($row->charakterId);
-            $model->setVorname($row->vorname);
-            $model->setNachname($row->nachname);
-            $model->setCharakterid($row->charakterId);
-            $model->setAugenfarbe($row->augenfarbe);
-            $model->setGeburtsdatum($row->geburtsdatum);
-            $model->setGeschlecht($row->geschlecht);
-            $model->setSexualitaet($row->sexualitaet);
-            $model->setNickname($row->nickname);
-            $model->setSize($row->size);
-            $model->setWohnort($row->wohnort);
-            $model->setFerocity($row->ferocity);
-            $model->setKurotama($row->kurotama);
-            $model->setLuck($row->luck);
             $date = new DateTime($row->createDate);
-            $model->setCreatedate($date);
-            $model->setUndead($row->undead === 1);
-            if ($model->getUndead())
+            $charakter = new Application_Model_Charakter();
+            $charakter->setVorname($row->vorname)
+                ->setNachname($row->nachname)
+                ->setOrigin($row->origin)
+                ->setCharakterid($row->charakterId)
+                ->setAugenfarbe($row->augenfarbe)
+                ->setGeburtsdatum($row->geburtsdatum)
+                ->setGeschlecht($row->geschlecht)
+                ->setSexualitaet($row->sexualitaet)
+                ->setMagiccircuit($row->circuit)
+                ->setNickname($row->nickname)
+                ->setSize($row->size)
+                ->setWohnort($row->wohnort)
+                ->setFerocity($row->ferocity)
+                ->setKurotama($row->kurotama)
+                ->setUuid($row->uuid)
+                ->setCreatedate($date);
+            $charakter->setUndead($row->undead === 1);
+            if ($charakter->getUndead())
             {
                 $undeadDate = new DateTime($row->undeadDate);
-                $model->setUndeadDate($undeadDate);
+                $charakter->setUndeadDate($undeadDate);
             }
-            return $model;
+            return $charakter;
         } else
         {
             throw new Exception('No Character');
@@ -644,34 +600,72 @@ class Application_Model_Mapper_CharakterMapper
         {
             throw new Exception('Character does not exist');
         }
-        $model = new Application_Model_Charakter();
-        $model->setUserid($row->userId);
-        $model->setVorname($row->vorname);
-        $model->setNachname($row->nachname);
-        $model->setCharakterid($row->charakterId);
-        $model->setSize($row->size);
-        $model->setAugenfarbe($row->augenfarbe);
-        $model->setGeburtsdatum($row->geburtsdatum);
-        $model->setGeschlecht($row->geschlecht);
-        $model->setSexualitaet($row->sexualitaet);
-        $model->setNickname($row->nickname);
-        $model->setWohnort($row->wohnort);
-        $model->setFerocity($row->ferocity);
-        $model->setKurotama($row->kurotama);
-        $model->setKillCount($row->npcKills);
-        $model->setMagiOrganization($row->magiOrganization);
-        $model->setMagischoolId($row->magischoolId);
-        $model->setKillCount($row->npcKills);
-        $model->setSlData($row->slData);
         $date = new DateTime($row->createDate);
-        $model->setCreatedate($date);
-        $model->setUndead($row->undead === 1);
-        if ($model->getUndead())
+        $charakter = new Application_Model_Charakter();
+        $charakter->setVorname($row->vorname)
+            ->setNachname($row->nachname)
+            ->setCharakterid($row->charakterId)
+            ->setAugenfarbe($row->augenfarbe)
+            ->setGeburtsdatum($row->geburtsdatum)
+            ->setGeschlecht($row->geschlecht)
+            ->setSexualitaet($row->sexualitaet)
+            ->setMagiccircuit($row->circuit)
+            ->setNickname($row->nickname)
+            ->setSize($row->size)
+            ->setWohnort($row->wohnort)
+            ->setFerocity($row->ferocity)
+            ->setKurotama($row->kurotama)
+            ->setUuid($row->uuid)
+            ->setOrigin($row->origin)
+            ->setCreatedate($date);
+        $charakter->setUndead($row->undead === 1);
+        if ($charakter->getUndead())
         {
             $undeadDate = new DateTime($row->undeadDate);
-            $model->setUndeadDate($undeadDate);
+            $charakter->setUndeadDate($undeadDate);
         }
-        return $model;
+        return $charakter;
+    }
+
+    /**
+     * @param string $uuid
+     * @return Application_Model_Charakter
+     * @throws Exception
+     */
+    public function getCharakterByUUID(string $uuid)
+    {
+        $select = $this->getDbTable('Charakter')->select();
+        $select->where('uuid = ? AND active = 1', $uuid);
+        $row = $this->getDbTable('Charakter')->fetchRow($select);
+        if ($row === null)
+        {
+            throw new Exception('Character does not exist');
+        }
+        $date = new DateTime($row->createDate);
+        $charakter = new Application_Model_Charakter();
+        $charakter->setVorname($row->vorname)
+            ->setNachname($row->nachname)
+            ->setOrigin($row->origin)
+            ->setCharakterid($row->charakterId)
+            ->setAugenfarbe($row->augenfarbe)
+            ->setGeburtsdatum($row->geburtsdatum)
+            ->setGeschlecht($row->geschlecht)
+            ->setSexualitaet($row->sexualitaet)
+            ->setMagiccircuit($row->circuit)
+            ->setNickname($row->nickname)
+            ->setSize($row->size)
+            ->setWohnort($row->wohnort)
+            ->setFerocity($row->ferocity)
+            ->setKurotama($row->kurotama)
+            ->setUuid($row->uuid)
+            ->setCreatedate($date);
+        $charakter->setUndead($row->undead === 1);
+        if ($charakter->getUndead())
+        {
+            $undeadDate = new DateTime($row->undeadDate);
+            $charakter->setUndeadDate($undeadDate);
+        }
+        return $charakter;
     }
 
     /**
@@ -1158,6 +1152,7 @@ SQL;
         $data = [
             'vorname' => $charakter->getVorname(),
             'nachname' => $charakter->getNachname(),
+            'origin' => $charakter->getOrigin(),
             'nickname' => $charakter->getNickname(),
             'augenfarbe' => $charakter->getAugenfarbe(),
             'geburtsdatum' => $charakter->getGeburtsdatum(),

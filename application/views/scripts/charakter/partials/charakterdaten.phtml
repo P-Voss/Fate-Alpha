@@ -9,6 +9,14 @@
         </label>
         <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
     </p>
+    <?php if($charakter->getOrigin() !== ''): ?>
+    <p>
+        <label>
+            Origin
+        </label>
+        <?= $purifier->purify($charakter->getOrigin()) ?>
+    </p>
+    <?php endif; ?>
     <p>
         <label>
             Geburtsdatum

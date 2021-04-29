@@ -33,6 +33,10 @@ switch ($charakter->getMagiOrganization()) {
             <input type="text" name="nachname" value="<?= $purifier->purify($charakter->getNachname()) ?>">
         </p>
         <p>
+            <label>Origin</label>
+            <input type="text" name="origin" value="<?= $purifier->purify($charakter->getOrigin()) ?>">
+        </p>
+        <p>
             <label>
                 Künstlername
             </label>

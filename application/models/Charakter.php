@@ -165,7 +165,32 @@ class Application_Model_Charakter
      * @var Application_Model_Schule
      */
     protected $magischool;
+    /**
+     * @var string
+     */
+    protected $uuid;
+    /**
+     * @var string
+     */
+    protected $origin;
 
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     * @return Application_Model_Charakter
+     */
+    public function setUuid(string $uuid): Application_Model_Charakter
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
 
     /**
      * @return int
@@ -680,6 +705,7 @@ class Application_Model_Charakter
     public function setSexualitaet ($sexualitaet)
     {
         $this->sexualitaet = $sexualitaet;
+        return $this;
     }
 
     /**
@@ -749,7 +775,7 @@ class Application_Model_Charakter
     /**
      * @return Application_Model_Trait[]
      */
-    public function getTraits (): array
+    public function getTraits ()
     {
         return $this->traits;
     }
@@ -759,7 +785,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setTraits (array $traits): Application_Model_Charakter
+    public function setTraits (array $traits)
     {
         foreach ($traits as $trait) {
             $this->addTrait($trait);
@@ -772,7 +798,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function addTrait (Application_Model_Trait $trait): Application_Model_Charakter
+    public function addTrait (Application_Model_Trait $trait)
     {
         $this->traits[] = $trait;
         return $this;
@@ -857,7 +883,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setAchievements (array $achievements): Application_Model_Charakter
+    public function setAchievements (array $achievements)
     {
         foreach ($achievements as $achievement) {
             $this->addAchievement($achievement);
@@ -879,7 +905,7 @@ class Application_Model_Charakter
     /**
      * @return int
      */
-    public function getMagiOrganization (): int
+    public function getMagiOrganization ()
     {
         return $this->magiOrganization;
     }
@@ -889,7 +915,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setMagiOrganization (int $magiOrganization): Application_Model_Charakter
+    public function setMagiOrganization ($magiOrganization)
     {
         $this->magiOrganization = $magiOrganization;
         return $this;
@@ -898,7 +924,7 @@ class Application_Model_Charakter
     /**
      * @return int
      */
-    public function getMagischoolId (): int
+    public function getMagischoolId ()
     {
         return $this->magischoolId;
     }
@@ -908,7 +934,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setMagischoolId (int $magischool): Application_Model_Charakter
+    public function setMagischoolId ($magischool)
     {
         $this->magischoolId = $magischool;
         return $this;
@@ -965,7 +991,7 @@ class Application_Model_Charakter
     /**
      * @return string
      */
-    public function getFerocity (): string
+    public function getFerocity ()
     {
         return $this->ferocity;
     }
@@ -975,7 +1001,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setFerocity (string $ferocity): Application_Model_Charakter
+    public function setFerocity ($ferocity)
     {
         $this->ferocity = $ferocity;
         return $this;
@@ -994,7 +1020,7 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setKurotama (int $kurotama): Application_Model_Charakter
+    public function setKurotama ($kurotama)
     {
         $this->kurotama = $kurotama;
         return $this;
@@ -1003,7 +1029,7 @@ class Application_Model_Charakter
     /**
      * @return bool
      */
-    public function hasFerocity (): bool
+    public function hasFerocity ()
     {
         return $this->klassengruppe->getId() === 3;
     }
@@ -1011,7 +1037,7 @@ class Application_Model_Charakter
     /**
      * @return bool
      */
-    public function hasKurotama (): bool
+    public function hasKurotama ()
     {
         return $this->klasse->getId() === 33;
     }
@@ -1019,7 +1045,7 @@ class Application_Model_Charakter
     /**
      * @return string
      */
-    public function getSlData (): string
+    public function getSlData ()
     {
         return $this->slData;
     }
@@ -1029,9 +1055,27 @@ class Application_Model_Charakter
      *
      * @return Application_Model_Charakter
      */
-    public function setSlData (string $slData): Application_Model_Charakter
+    public function setSlData ($slData)
     {
         $this->slData = $slData;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrigin()
+    {
+        return $this->origin ? $this->origin : '';
+    }
+
+    /**
+     * @param string $origin
+     * @return Application_Model_Charakter
+     */
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
         return $this;
     }
 
