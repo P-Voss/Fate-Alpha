@@ -1,0 +1,22 @@
+<?php
+/** @var Application_Model_Schule[] $school */
+$schools = $this->schulen;
+/** @var Administration_Model_Requirementlist $requirementList */
+$requirementList = $this->requirementList;
+?>
+<label for="schule">
+    Magieschule
+</label>
+<select name="schule" id="schule">
+    <?php foreach ($schools as $school) {
+    $selected = in_array(
+        $school->getId(),
+        $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::SCHOOL)
+    ) ? 'selected' : '';
+    ?>
+    <?php foreach ($this->schulen as $schule) { ?>
+        <option <?= $selected ?>  value="<?= $schule->getId() ?>">
+            <?= $this->purify($schule->getBezeichnung()) ?>
+        </option>
+    <?php } ?>
+</select>

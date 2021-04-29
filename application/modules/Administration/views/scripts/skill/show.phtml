@@ -45,7 +45,7 @@ $raenge = ['EX','A','B','C','D','E','F','EA','EB','EC','ED','EE','EF',];
         </label>
         <select name="rang">
             <?php foreach($raenge as $rang): ?>
-                <option <?= ($skill->getRank() === $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+                <option <?= ($skill->getRang() === $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
             <?php endforeach; ?>
         </select>
     </div>

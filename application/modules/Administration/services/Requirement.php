@@ -119,8 +119,8 @@ class Administration_Service_Requirement
         if ($request->getParam('magienAny') !== null) {
             $requirements[Application_Model_Requirements_Types::MAGIC_ANY] = implode('|', $request->getParam('magienAny'));
         }
-        if ($request->getParam('magieschule') !== null) {
-            $requirements[Application_Model_Requirements_Types::SCHOOL] = $request->getParam('magieschule');
+        if ($request->getParam('schule') !== null) {
+            $requirements[Application_Model_Requirements_Types::SCHOOL] = $request->getParam('schule');
         }
         if ($request->getParam('magieschulenAny') !== null) {
             $requirements[Application_Model_Requirements_Types::SCHOOL_ANY] = implode('|', $request->getParam('magieschulenAny'));

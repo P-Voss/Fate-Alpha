@@ -8,7 +8,7 @@ $groups = $this->groups;
 <select name="gruppen[]" id="gruppen" multiple="" size="5">
     <?php
     foreach ($groups as $group) {
-        $selected = in_array($group->getId(), $this->ids) ? 'selected' : '';
+        $selected = in_array($group->getId(), $this->requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::GROUP)) ? 'selected' : '';
         ?>
         <option <?= $selected ?> value="<?= $group->getId() ?>">
             <?= $this->purify($group->getBezeichnung()) ?>
