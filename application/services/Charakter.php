@@ -155,14 +155,14 @@ class Application_Service_Charakter {
     }
 
     /**
-     * @param Zend_Controller_Request_Http $request
-     * @param int $charakterId
+     * @param $idToCheck
+     * @param $charakterId
      * @return Application_Model_Charakterprofil
      * @throws Exception
      */
-    public function getVisibleProfile(Zend_Controller_Request_Http $request, $charakterId) {
-        $profil = $this->charakterMapper->getCharakterProfil($request->getParam('charakter'));
-        $freigabe = $this->charakterMapper->getDatenfreigabe($request->getParam('charakter'), $charakterId);
+    public function getVisibleProfile($idToCheck, $charakterId) {
+        $profil = $this->charakterMapper->getCharakterProfil($idToCheck);
+        $freigabe = $this->charakterMapper->getDatenfreigabe($idToCheck, $charakterId);
         if($freigabe['public'] !== 1){
             $profil->setCharaktergeschichte(null);
         }
