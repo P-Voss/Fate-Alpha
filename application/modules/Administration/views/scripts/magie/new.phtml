@@ -134,10 +134,6 @@ $characters = $this->characters;
                 <div style="width: 50%; display: inline-block;">
                     <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
                 </div>
-            </div>>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/school.phtml', ['school' => $this->schulen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
             </div>
         </fieldset>
         <textarea name="beschreibung" cols="80" rows="10"></textarea>

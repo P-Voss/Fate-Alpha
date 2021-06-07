@@ -140,11 +140,6 @@ $characters = $this->characters;
                     <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
                 </div>
             </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/schools.phtml', ['school' => $this->schulen, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
         </fieldset>
         <textarea name="beschreibung" cols="80" rows="10">
             <?= $this->purifier->purify($magie->getBeschreibung()) ?>
