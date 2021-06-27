@@ -18,8 +18,8 @@
     width: 23%;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 500px;
-    font-size: 0.8em;
+    max-height: 60vh;
+    /*font-size: 0.8em;*/
 }
 
 #informationNavigation h4 {

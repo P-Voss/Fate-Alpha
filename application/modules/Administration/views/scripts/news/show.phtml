@@ -19,7 +19,7 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
             </td>
             <td colspan="20">
                 <textarea name="Nachricht" id="Nachricht" cols="80" rows="20">
-                    <?= $purifier->purify($this->news->getNachricht()) ?>
+                    <?= $this->purify($this->news->getNachricht()) ?>
                 </textarea>
             </td>
         </tr>

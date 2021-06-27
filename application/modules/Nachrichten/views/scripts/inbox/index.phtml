@@ -1,59 +1,55 @@
 <?php
-/* @var $nachrichten \Nachrichten\Models\Message */
+/* @var $nachrichten \Nachrichten\Models\Message[] */
 $nachrichten = $this->nachrichten;
-/* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
+
 ?>
 <h1>
     Nachrichteneingang
 </h1>
-<div class="submenu">
-    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
-</div>
-<br />
-<div>
-    <fieldset id="nachrichtencenter">
-        <div class="head">
-            <span class="status">
+<?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+<div class="row m-2 g-0 p-1">
+    <div class="col-1">
 
-            </span>
-            <span class="betreff">
-                Betreff
-            </span>
-            <span class="user">
-                Verfasser
-            </span>
-            <span class="date">
-                Datum
-            </span>
-            <span class="actions">
-                
-            </span>
-        </div>
-        <div class="body">
-            <?php foreach ($nachrichten as $nachricht): ?>
-                <div>
-                    <span class="status">
-                        <?= ($nachricht->getStatus() === 'ungelesen') ? '! ! !' : '' ?>
-                    </span>
-                    <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>/read/true">
-                        <span class="betreff"><?= $purifier->purify($nachricht->getBetreff()) ?></span>
-                    </a>
-                    <span class="user">
-                        <?= ($nachricht->getAdmin() === false) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
-                    </span>
-                    <span class="date">
-                        <?= $nachricht->getCreationDate() ?>
-                    </span>
-                    <span class="actions">
-                        <a href="<?= $this->baseUrl() ?>/Nachrichten/index/delete/id/<?= $nachricht->getId() ?>">
-                            <button>
-                                löschen
-                            </button>
-                        </a>
-                    </span>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </fieldset>
+    </div>
+    <div class="col-4">
+        Betreff
+    </div>
+    <div class="col-3">
+        Verfasser
+    </div>
+    <div class="col-3">
+        Datum
+    </div>
+    <div class="col-1">
+
+    </div>
 </div>
+<?php
+foreach ($nachrichten as $nachricht):
+    $subject = $nachricht->getBetreff() !== ''
+        ? $this->purify($nachricht->getBetreff())
+        : 'Nachricht von: ' . $this->purify($nachricht->getVerfasser()->getProfilname());
+    ?>
+    <div class="row m-2 g-0 p-1">
+        <div class="col-1">
+            <?= ($nachricht->getStatus() === 'ungelesen') ? '! ! !' : '' ?>
+        </div>
+        <div class="col-4">
+            <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>/read/true">
+                <?= $subject ?>
+            </a>
+        </div>
+        <div class="col-3">
+            <?= ($nachricht->getAdmin() === false) ? $this->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
+        </div>
+        <div class="col-3">
+            <?= $nachricht->getCreationDate() ?>
+        </div>
+        <div class="col-1">
+            <a class="btn btn-danger" href="<?= $this->baseUrl() ?>/Nachrichten/index/delete/id/<?= $nachricht->getId() ?>">
+                löschen
+            </a>
+        </div>
+        <hr />
+    </div>
+<?php endforeach; ?>

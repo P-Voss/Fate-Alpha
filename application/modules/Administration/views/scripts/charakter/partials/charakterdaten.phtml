@@ -24,23 +24,23 @@ switch ($charakter->getMagiOrganization()) {
             <label>
                 Vorname
             </label>
-            <input type="text" name="vorname" value="<?= $purifier->purify($charakter->getVorname()) ?>">
+            <input type="text" name="vorname" value="<?= $this->purify($charakter->getVorname()) ?>">
         </p>
         <p>
             <label>
                 Nachname
             </label>
-            <input type="text" name="nachname" value="<?= $purifier->purify($charakter->getNachname()) ?>">
+            <input type="text" name="nachname" value="<?= $this->purify($charakter->getNachname()) ?>">
         </p>
         <p>
             <label>Origin</label>
-            <input type="text" name="origin" value="<?= $purifier->purify($charakter->getOrigin()) ?>">
+            <input type="text" name="origin" value="<?= $this->purify($charakter->getOrigin()) ?>">
         </p>
         <p>
             <label>
                 Künstlername
             </label>
-            <input type="text" name="nickname" value="<?= $purifier->purify($charakter->getNickname()) ?>">
+            <input type="text" name="nickname" value="<?= $this->purify($charakter->getNickname()) ?>">
         </p>
         <p>
             <label>

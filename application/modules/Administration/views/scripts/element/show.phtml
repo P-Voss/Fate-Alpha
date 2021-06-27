@@ -8,7 +8,7 @@ $element = $this->element;
     <fieldset>
         <p>
             <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $purifier->purify($element->getBezeichnung()) ?>" />
+            <input type="text" size="30" name="name" value="<?= $this->purify($element->getBezeichnung()) ?>" />
             <label for="kosten">Kosten</label>
             <input type="number" name="kosten" value="<?= $element->getKosten() ?>" />
         </p>
@@ -16,13 +16,13 @@ $element = $this->element;
             Beschreibung
         </label>
         <textarea name="beschreibung" cols="80" rows="10">
-            <?= $purifier->purify($element->getBeschreibung()) ?>
+            <?= $this->purify($element->getBeschreibung()) ?>
         </textarea>
         <label for="charakter">
             Charakter
         </label>
         <textarea name="charakter" cols="80" rows="10">
-            <?= $purifier->purify($element->getCharakterisierung()) ?>
+            <?= $this->purify($element->getCharakterisierung()) ?>
         </textarea>
     </fieldset>
     <div align="center">

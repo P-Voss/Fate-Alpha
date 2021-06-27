@@ -1,57 +1,40 @@
 <?php
-/* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
-/* @var $nachrichten \Nachrichten\Models\Message */
+/* @var $nachrichten \Nachrichten\Models\Message[] */
 $nachrichten = $this->nachrichten;
 ?>
 <h1>
     Archiv
 </h1>
-<div class="submenu">
-    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+<?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+<div class="row m-2 g-0 p-1">
+    <div class="col-4">
+        Betreff
+    </div>
+    <div class="col-4">
+        Empfänger
+    </div>
+    <div class="col-4">
+        Datum
+    </div>
 </div>
-<br />
-<div>
-    <fieldset id="nachrichtencenter">
-        <div class="head">
-            <span class="status">
-
-            </span>
-            <span class="betreff">
-                Betreff
-            </span>
-            <span class="user">
-                Empfänger
-            </span>
-            <span class="date">
-                Datum
-            </span>
-            <span class="actions">
-                
-            </span>
+<?php
+foreach ($nachrichten as $nachricht):
+    $subject = $nachricht->getBetreff() !== ''
+        ? $this->purify($nachricht->getBetreff())
+        : 'Nachricht von: ' . $this->purify($nachricht->getVerfasser()->getProfilname());
+    ?>
+    <div class="row m-2 g-0 p-1">
+        <div class="col-4">
+            <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>">
+                <?= $subject ?>
+            </a>
         </div>
-        <div class="body">
-            <?php foreach ($nachrichten as $nachricht): ?>
-                <div>
-                    <span class="status">
-                        
-                    </span>
-                    <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>">
-                        <span class="betreff">
-                            <?= $purifier->purify($nachricht->getBetreff()) ?>
-                        </span>
-                    </a>
-                    <span class="user">
-                        <?= ($nachricht->getAdmin() === false) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
-                    </span>
-                    <span class="date">
-                        <?= $nachricht->getCreationDate() ?>
-                    </span>
-                    <span class="actions">
-                        
-                    </span>
-                </div>
-            <?php endforeach; ?>
+        <div class="col-4">
+            <?= $this->purify($nachricht->getEmpfaenger()->getProfilname()) ?>
         </div>
-    </fieldset>
-</div>
+        <div class="col-4">
+            <?= $nachricht->getCreationDate() ?>
+        </div>
+        <hr />
+    </div>
+<?php endforeach; ?>

@@ -177,14 +177,28 @@ class Application_Model_TrainingLog
      */
     public function toArray ()
     {
-        $statsBefore = [];
-        foreach ($this->statsBefore->toArray() as $key => $value) {
-            $statsBefore[] = $key . ':' . $value;
-        }
-        $statsAfter = [];
-        foreach ($this->statsAfter->toArray() as $key => $value) {
-            $statsAfter[] = $key . ':' . $value;
-        }
+        $statsBefore = [
+            'staerke:' . $this->statsBefore->getStaerke(),
+            'agilitaet:' . $this->statsBefore->getAgilitaet(),
+            'ausdauer:' . $this->statsBefore->getAusdauer(),
+            'kontrolle:' . $this->statsBefore->getKontrolle(),
+            'disziplin:' . $this->statsBefore->getDisziplin(),
+            'uebung:' . $this->statsBefore->getUebung(),
+            'fp:' . $this->statsBefore->getFp(),
+            'startpunkte:' . $this->statsBefore->getStartpunkte(),
+        ];
+
+        $statsAfter = [
+            'staerke:' . $this->statsAfter->getStaerke(),
+            'agilitaet:' . $this->statsAfter->getAgilitaet(),
+            'ausdauer:' . $this->statsAfter->getAusdauer(),
+            'kontrolle:' . $this->statsAfter->getKontrolle(),
+            'disziplin:' . $this->statsAfter->getDisziplin(),
+            'uebung:' . $this->statsAfter->getUebung(),
+            'fp:' . $this->statsAfter->getFp(),
+            'startpunkte:' . $this->statsAfter->getStartpunkte(),
+        ];
+
         return [
             'programName' => $this->programName,
             'errorMessage' => $this->errorMessage,

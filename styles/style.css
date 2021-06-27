@@ -1,7 +1,7 @@
 html, body {
     text-align: left;
     font-family: Kalinga;
-    font-size: 10pt;
+    font-size: 12pt;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -9,58 +9,27 @@ html, body {
     background-color: white;
 }
 
-#seitenbereich1 {
-    position: relative;
-    height: auto;
-    min-height: 720px;
-    text-align: center;
-    width: 100%;
-    background-color: white;
-}
-
-#seitenbereich2 {
-    position: relative;
-    height: auto;
-    min-height: 720px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 800px;
-    background-color: white;
-    z-index: 1;
-    padding-bottom: 20px;
-}
-
-#seitenbereich3 {
-    position: relative;
-    height: auto;
-    min-height: 720px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 800px;
-    background-color: white;
-    z-index: 1;
-    padding-bottom: 20px;
-}
-
-#header {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    height: 240px;
-    background-color: white;
-}
 
 #header-logo {
     margin-left: auto;
     margin-right: auto;
-    width: 800px;
+    /*width: 800px;*/
     background-image: url(../images/fp_forum_logo_custom2.jpg);
+    /*background-image: url(../images/header.svg);*/
     background-repeat: no-repeat;
-    width: 800px;
-    height: 240px;
+    background-size: cover;
+    height: 30vh;
+    width: 100%;
+    /*height: 240px;*/
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    #navigation {
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
 }
 
 #navigation {
@@ -70,19 +39,10 @@ html, body {
     z-index: 2;
     left: 0px;
     top: 140px;
-    padding-left: 15px;
-    padding-top: 10px;
-    width: 180px;
-    height: 380px;
+    width: 10vw;
     background-color: #9cdce2;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
 }
 
-#navigation ul {
-    padding: 0;
-}
 
 #navigationrechts {
     position: fixed;
@@ -535,70 +495,6 @@ form {
     height: 0;
 }
 
-#nachrichtencenter .head {
-    border-bottom: 1px solid black;
-}
-
-#nachrichtencenter .head .status {
-    width: 15%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .head .date {
-    width: 15%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .head .betreff {
-    width: 35%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .head .user {
-    width: 15%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .body .status {
-    width: 5%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .body .date {
-    width: 15%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .body .betreff {
-    width: 45%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .body .user {
-    width: 15%;
-    display: inline-block;
-    padding: 1px;
-}
-
-#nachrichtencenter .details span {
-    display: inline-block;
-    width: 33%;
-}
-
-.userSelect {
-    width: 200px;
-}
-
-.betreffInput {
-    width: 200px;
-}
 
 .message {
     width: 100%;

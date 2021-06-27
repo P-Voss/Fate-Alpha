@@ -3,10 +3,10 @@
 <?php foreach($charakter->getTraits() as $trait): ?>
     <div>
         <legend>
-            <?= $purifier->purify($trait->getName()) ?> <span class="indicator"></span>
+            <?= $this->purify($trait->getName()) ?> <span class="indicator"></span>
         </legend>
         <div class="subContent">
-            <?= $purifier->purify($trait->getBeschreibung()) ?>
+            <?= $this->purify($trait->getBeschreibung()) ?>
         </div>
     </div>
 <?php endforeach; ?>

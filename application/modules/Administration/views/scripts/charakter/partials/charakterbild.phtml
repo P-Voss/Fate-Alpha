@@ -2,9 +2,9 @@
     <legend>Charakterbild <span class="indicator"></span></legend>
     <div class="subContent">
         <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
-            <input type="text" name="charpic"  placeholder="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
+            <input type="text" name="charpic"  placeholder="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
             <input type="submit" value="Charakterbild speichern">
         </form>
-        <img src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
+        <img src="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
     </div>
 </fieldset>

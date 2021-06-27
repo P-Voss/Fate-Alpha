@@ -12,10 +12,10 @@ foreach ($this->gruppenchat as $nachricht) :
 ?>
             <fieldset class="messageSet">
                 <legend style="font-weight: normal">
-                    <a id="<?= $nachricht->getId() ?>"><?= $purifier->purify($name) ?> schrieb am <?= $nachricht->getCreateDate() ?></a>
+                    <a id="<?= $nachricht->getId() ?>"><?= $this->purify($name) ?> schrieb am <?= $nachricht->getCreateDate() ?></a>
                 </legend>
                 <div class="message">
-                    <?= $purifier->purify($nachricht->getNachricht()) ?>
+                    <?= $this->purify($nachricht->getNachricht()) ?>
                 </div>
             </fieldset>
 <?php endforeach; ?>

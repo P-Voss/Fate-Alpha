@@ -16,7 +16,7 @@
                                 continue;
                             }
                         ?>
-                        <option value="<?= $charakter->getCharakterId() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+                        <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
@@ -28,7 +28,7 @@
                 <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/remove">
                     <select name="charaktere[]" size="5" multiple="">
                         <?php foreach($gruppe->getMitglieder() as $charakter): ?>
-                        <option value="<?= $charakter->getCharakterId() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+                        <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
@@ -54,7 +54,7 @@
                             </label>
                             <input type="text" name="passwort" id="passwort" value="<?= $gruppe->getPasswort() ?>">
                         </span>
-                        <textarea name="beschreibung"><?= $purifier->purify($gruppe->getBeschreibung()) ?></textarea>
+                        <textarea name="beschreibung"><?= $this->purify($gruppe->getBeschreibung()) ?></textarea>
                         <input type="submit" value="speichern" />
                     </form>
                 </div>

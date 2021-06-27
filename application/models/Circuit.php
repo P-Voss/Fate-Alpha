@@ -8,6 +8,9 @@
 class Application_Model_Circuit
 {
 
+    const MANA_KONTROLLE = 22;
+    const MANA_BAENDIGER = 104;
+
     /**
      * @var int
      */
@@ -46,11 +49,25 @@ class Application_Model_Circuit
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getMenge ()
     {
         return $this->menge;
+    }
+
+    /**
+     * @param Application_Model_Charakter $character
+     * @return int
+     */
+    public function getMana(Application_Model_Charakter $character)
+    {
+        foreach ($character->getTraits() as $trait) {
+            if (in_array($trait->getTraitId(), [self::MANA_KONTROLLE, self::MANA_BAENDIGER])) {
+                return $this->getMenge() + $character->getCharakterwerte()->getCategory('pra')->getNumericValue() * 25;
+            }
+        }
+        return $this->getMenge();
     }
 
     /**

@@ -1,11 +1,9 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 ?>
-<fieldset>
-    <legend>Vermögen <span class="indicator"></span></legend>
-    <div class="subContent">
-        <p>
-            <?= $purifier->purify($charakter->getVermoegen()->getBeschreibung()) ?>
-        </p>
+<div class="card bg-info m-2">
+    <h5 class="toggleLegend">Vermögen</h5>
+    <div class="card-body">
+        <?= $this->purify($charakter->getVermoegen()->getBeschreibung()) ?>
     </div>
-</fieldset>
+</div>

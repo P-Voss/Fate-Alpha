@@ -1,59 +1,306 @@
-<div id="usermenu">
-    <ul>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/index">News</a>
-            <ul>
-                <li><a href="<?= $this->baseUrl() ?>/Feedback/wishes">Feedback</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="" onclick="return false;">
-                Profil
-            </a>
-            <ul>
-                <li><a href="<?= $this->baseUrl() ?>/charakter">Charakter</a></li>
-                <li><a href="<?= $this->baseUrl() ?>/user">Spieler</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="http://alpha.mainchat.de/" target="_blank">Chat</a>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/Story">Plots und Logs</a>
-            <ul>
-                <li><a href="<?= $this->baseUrl() ?>/Story">Storycenter</a></li>
-                <li><a href="<?= $this->baseUrl() ?>/Logs">Logs lesen</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/Gruppen">Community</a>
-            <ul>
-                <li><a href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a></li>
-                <li><a href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a></li>
-                <li><a href="https://discord.gg/CWw2JeR" target="_blank">Discord</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="<?= $this->baseUrl() ?>/login/logout">Logout</a>
-        </li>
-    </ul>
+<?php
+/** @var $charaData Application_Model_Charakter */
+$hasChara = $layoutData->getHasChara();
+
+if ($hasChara) {
+    $werte = $charaData->getCharakterWerte();
+    $categoryStr = $werte->getCategory('str');
+    $categoryAgi = $werte->getCategory('agi');
+    $categoryAus = $werte->getCategory('aus');
+    $categoryKon = $werte->getCategory('kon');
+    $categoryDis = $werte->getCategory('dis');
+    $categoryPra = $werte->getCategory('pra');
+
+    $training = $layoutData->getCharakterTraining() === null
+        ? '-'
+        : $layoutData->getCharakterTraining()->getName() . ' (' . $layoutData->getCharakterTraining()->getRemainingDuration() . ' Tage)';
+}
+$dayWeather = $layoutData->getWeather();
+$currentDateTime = new DateTime();
+if ($currentDateTime->format('H') <= 11) {
+    $currentWeather = $dayWeather->getWetterVormittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 11 && $currentDateTime->format('H') <= 14) {
+    $currentWeather = $dayWeather->getWetterMittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 14 && $currentDateTime->format('H') <= 18) {
+    $currentWeather = $dayWeather->getWetterNachmittag();
+    $time = 'Tag';
+}
+if ($currentDateTime->format('H') > 18 && $currentDateTime->format('H') <= 21) {
+    $currentWeather = $dayWeather->getWetterAbend();
+    $time = 'Abend';
+}
+if ($currentDateTime->format('H') > 21 && $currentDateTime->format('H') <= 24) {
+    $currentWeather = $dayWeather->getWetterNacht();
+    $time = 'Nacht';
+}
+?>
+<div class="row g-0">
+    <div class="col col-lg-12">
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <div class="container-fluid p-0">
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#menu"
+                        aria-controls="navigation"
+                        aria-expanded="false"
+                        aria-label="navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between bg-dark container-fluid" id="menu">
+                    <ul class="navbar-nav text-light">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/index">News</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/Feedback/wishes">Feedback</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle text-light"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                Profil
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/charakter">Charakter</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/user">Spieler</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle text-light"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                Chat
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="http://alpha.mainchat.de/" target="_blank">Chat</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/chat" target="_blank">Chat (Beta)</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle text-light"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                Plots und Logs
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/Story">Storycenter</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/Logs">Logs lesen</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                    class="nav-link dropdown-toggle text-light"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                            >
+                                Community
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= $this->baseUrl() ?>/Gruppen">Spielergruppen</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="http://fate-alpha.forumprofi.de/index.php" target="_blank">Forum</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://discord.gg/CWw2JeR" target="_blank">Discord</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <button class="btn btn-danger"><a class="text-light" href="<?= $this->baseUrl() ?>/login/logout">Logout</a></button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <div class="col col-12 d-block d-xl-none bg-secondary p-0">
+        <?php if (!$hasChara): ?>
+            <div class="row">
+                <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>
+                <p class="Meldung"><a href="<?= $this->baseUrl() ?>/Erstellung/creation">Zur Charaktererstellung</a></p>
+            </div>
+        <?php endif; ?>
+        <?php if ($hasChara): ?>
+            <div class="row">
+                <div class="col-4">
+                    <h3>
+                        <a href="<?= $this->baseUrl() ?>/charakter"><?= $charaData->getVorname() . ' ' . $charaData->getNachname(); ?></a>
+                    </h3>
+                </div>
+                <div class="col-8">
+                    Aktuelles Training: <?= $training ?>
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-3 m-2">
+                    <div class="row">
+                        <a id="training" href="<?= $this->baseUrl() ?>/training">Training</a>
+                    </div>
+                    <div class="row">
+                        <a id="magic" href="<?= $this->baseUrl() ?>/Shop/magie">Magie</a>
+                    </div>
+                    <div class="row">
+                        <a id="skill" href="<?= $this->baseUrl() ?>/Shop/skill">Fähigkeiten</a>
+                    </div>
+                    <div class="row">
+                        <a id="items" href="<?= $this->baseUrl() ?>/Shop/item">Shop</a>
+                    </div>
+                    <div class="row">
+                        <a id="friends" href="<?= $this->baseUrl() ?>/freunde">Freunde</a>
+                    </div>
+                </div>
+                <div class="col-3 m-2">
+                    <div class="row">
+                        <a href="<?= $this->baseUrl() ?>/index/news">Fuyuki-News</a>
+                    </div>
+                    <div class="row">
+                        <a href="<?= $this->baseUrl() ?>/index/wetter">Wetterbericht</a>
+                    </div>
+<!--                    <div class="row">-->
+<!--                        <a href="#" id="showMap">Stadtkarte</a>-->
+<!--                    </div>-->
+                    <div class="row">
+                        <a href="<?= $this->baseUrl() ?>/Nachrichten">
+                            Nachrichtencenter <?= ($layoutData->getUnreadPmCount() > 0) ? ' (' . $layoutData->getUnreadPmCount() . '&#9993;)' : '' ?>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <a href="<?= $this->baseUrl() ?>/information">Informationen</a>
+                    </div>
+                </div>
+                <div class="col-3 m-2">
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Stärke
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getStaerke()) ?> <?= $categoryStr->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Agilität
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getAgilitaet()) ?> <?= $categoryAgi->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Ausdauer
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getAusdauer()) ?> <?= $categoryAus->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Kontrolle
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getKontrolle()) ?> <?= $categoryKon->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Disziplin
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getDisziplin()) ?> <?= $categoryDis->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            Übung
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getUebung()) ?> <?= $categoryPra->getCategory() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-md-6 col-sm-12">
+                            FP
+                        </div>
+                        <div class="col col-md-6 col-sm-12">
+                            <?= floor($werte->getFp()) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
+        <div class="col col-lg-12 bg-primary p-0 m-0">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                <div class="container-fluid p-0">
+                    <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#adminmenu"
+                            aria-controls="navigation"
+                            aria-expanded="false"
+                            aria-label="navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between bg-primary container-fluid" id="adminmenu">
+                        <ul class="navbar-nav text-light">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/Administration/Logs">Logs bestätigen</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/Administration/charakter/birthdays">Geburtstage</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/Administration/charakter">Charakterliste</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/cron/refresh">Informationen aktualisieren</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    <?php } ?>
 </div>
-<?php if ($layoutData->getUsergruppe() === 'Admin') { ?>
-<div id="adminmenu">
-    <span>
-        <a href="<?= $this->baseUrl() ?>/Administration">Admincenter</a>
-    </span>
-    <span>
-        <a href="<?= $this->baseUrl() ?>/Administration/Logs">Logs bestätigen</a>
-    </span>
-    <span>
-        <a href="<?= $this->baseUrl() ?>/Administration/charakter/birthdays">Geburtstage</a>
-    </span>
-    <span>
-        <a href="<?= $this->baseUrl() ?>/Administration/charakter">Charakterliste</a>
-    </span>
-    <span>
-        <a href="<?= $this->baseUrl() ?>/cron/refresh">Informationen aktualisieren</a>
-    </span>
-</div>
-<?php } ?> 

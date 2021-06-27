@@ -1,32 +1,6 @@
 <h1>
     Registrieren
 </h1>
-<style type="text/css">
-    .container{
-        width: 500px;
-        margin: 0 auto;
-    }
-    fieldset{
-        padding: 5px 10px;
-    }
-    .row2ColumnsLabel{
-        width: 150px;
-        display: inline-block;
-    }
-    .row2ColumnsInput{
-        width: 250px;
-        display: inline-block;
-        float: right;
-    }
-    .submit{
-        width: 200px;
-        margin: 5px auto;
-        display: block;
-    }
-    ol{
-        list-style-position:inside;
-    }
-</style>
 <?php
 if ($this->message !== null) {
     ?>
@@ -45,73 +19,83 @@ if ($this->message !== null) {
     insbesondere die fiktive Stadt Fuyuki, in welcher sich der Gro&szlig;teil des Abenteuers abspielt.
 </p>
 <form method="post" action="<?= $this->baseUrl() ?>/user/create">
-    <div class="container">
-        <fieldset>
-            <label class="row2ColumnsLabel">
+    <div class="row m-3 justify-content-center">
+        <div class=" col-6 mb-3">
+            <label class="form-label" for="loginname">
                 Loginname
             </label>
-            <input class="row2ColumnsInput" name="loginname" type="text" required="true" placeholder="Wird nur zum Login verwendet.">
-        </fieldset>
-        <fieldset>
-            <label class="row2ColumnsLabel">
+            <input class="form-control" name="loginname" id="loginname" type="text" required placeholder="Wird nur zum Login verwendet.">
+        </div>
+    </div>
+    <div class="row m-3 justify-content-center">
+        <div class=" col-6 mb-3">
+            <label class="form-label" for="profilname">
                 Profilname
             </label>
-            <input class="row2ColumnsInput" name="profilname" type="text" required="true" placeholder="Name, den andere Spieler sehen.">
-        </fieldset>
-        <fieldset>
-            <label class="row2ColumnsLabel">
-                E-Mail
+            <input class="form-control" name="profilname" id="profilname" type="text" required placeholder="Name, den andere Spieler sehen.">
+        </div>
+    </div>
+    <div class="row m-3 justify-content-center">
+        <div class=" col-6 mb-3">
+            <label class="form-label" for="mail">
+                E-Mail (dient Ausschließlich dem Anfordern eines neuen Passworts)
             </label>
-            <input class="row2ColumnsInput" name="mail" type="text" required="true" placeholder="Wird anderen nicht angezeigt.">
-        </fieldset>
-        <fieldset>
-            <label class="row2ColumnsLabel">
+            <input class="form-control" name="mail" id="mail" type="text" required >
+        </div>
+    </div>
+    <div class="row m-3 justify-content-center">
+        <div class=" col-6 mb-3">
+            <label class="form-label" for="password">
                 Passwort
             </label>
-            <input class="row2ColumnsInput" name="password" type="password" required="true">
-        </fieldset>
-        <fieldset>
-            <label class="row2ColumnsLabel">
+            <input class="form-control" name="password" id="password" type="password" required >
+        </div>
+    </div>
+    <div class="row m-3 justify-content-center">
+        <div class=" col-6 mb-3">
+            <label class="form-label" for="passwordVerified">
                 Passwort bestätigen
             </label>
-            <input class="row2ColumnsInput" name="passwordVerified" type="password" required="true">
-        </fieldset>
+            <input class="form-control" name="passwordVerified" id="passwordVerified" type="password" required >
+        </div>
+    </div>
+    <div class="row m-3">
         <fieldset>
             <legend>
                 Anmeldebedingungen
             </legend>
             <div style="margin-left: 15px; max-height: 400px; overflow: auto">
                 <p style="margin-bottom: 0cm;">
-                    Mit der Anmeldung verpflichtet sich jeder Spieler dazu die Spielregeln dieses Rollenspiels nach bestem 
+                    Mit der Anmeldung verpflichtet sich jeder Spieler dazu die Spielregeln dieses Rollenspiels nach bestem
                     Wissen und Gewissen einzuhalten und sie nicht bewusst zu brechen, was den Ausschluss aus diesem Spiel zur Folge haben kann.
                 </p>
                 <p>&nbsp;</p>
                 <ol start="1">
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Von jedem Spieler wird erwartet, sich an die Einhaltung geltender Jugendschutzvorschriften und Gesetze der 
-                            Bundesrepublik Deutschland zu halten. 
+                            Von jedem Spieler wird erwartet, sich an die Einhaltung geltender Jugendschutzvorschriften und Gesetze der
+                            Bundesrepublik Deutschland zu halten.
                         </p>
                         <p>
-                            Die Mitteilung extremistischen Gedankengutes wird in diesem Spiel nicht erwünscht 
+                            Die Mitteilung extremistischen Gedankengutes wird in diesem Spiel nicht erwünscht
                             oder toleriert und kann den Ausschluss aus diesem Spiel zur Folge haben.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Das Mindestalter dieses Spiels liegt bei 16 Jahren. Von jedem Spieler wird eine gewisse Reife im Rollenspiel 
-                            erwartet, sowie die Fähigkeit das Spiel von der Realität zu trennen. 
+                            Das Mindestalter dieses Spiels liegt bei 16 Jahren. Von jedem Spieler wird eine gewisse Reife im Rollenspiel
+                            erwartet, sowie die Fähigkeit das Spiel von der Realität zu trennen.
                         </p>
                         <p>
-                            Sollten Fälle auftreten in denen diese Fähigkeit angezweifelt wird, 
+                            Sollten Fälle auftreten in denen diese Fähigkeit angezweifelt wird,
                             kann dies zum Ausschluss aus diesem Spiel führen.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Der Tod und auch sexuelle Aktivitäten sind Themen, die in diesem Rollenspiel behandelt werden können, 
-                            wenngleich jedem Spieler die Möglichkeit zusteht sich von dieser Thematik zu distanzieren. Spieler die darin ein 
-                            Problem sehen, wird geraten sich nicht in Fate/Alpha anzumelden. 
+                            Der Tod und auch sexuelle Aktivitäten sind Themen, die in diesem Rollenspiel behandelt werden können,
+                            wenngleich jedem Spieler die Möglichkeit zusteht sich von dieser Thematik zu distanzieren. Spieler die darin ein
+                            Problem sehen, wird geraten sich nicht in Fate/Alpha anzumelden.
                         </p>
                         <p>
                             Spieler, die in diesen Themenbereichen in unnatürlichem Ma&szlig;e aufgehen, kann nach einer Warnung der Ausschluss aus diesem Spiel drohen.
@@ -119,50 +103,59 @@ if ($this->message !== null) {
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. 
-                            Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) 
-                            erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. 
-                            Diese Daten werden nicht an Dritte weitergegeben. 
+                            Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich.
+                            Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen)
+                            erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis.
+                            Diese Daten werden nicht an Dritte weitergegeben.
                         </p>
-                            Diese Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.
+                        Diese Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.
                         <p>
                             Mit dem Akzeptieren der Nutzungsbedingungen und Regeln erklärt sich der Spieler mit der Verwendung von Cookies einverstanden.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Wir übernehmen keine Haftung für die Richtigkeit, Vollständigkeit oder Aktualität der 
+                            Wir übernehmen keine Haftung für die Richtigkeit, Vollständigkeit oder Aktualität der
                             Inhalte dieser Internetseite, werden Hinweisen auf mögliche Probleme jedoch immer nachgehen.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. 
-                            Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. 
+                            Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben.
+                            Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
                             Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Wir behalten uns das Recht vor, Änderungen an den Nutzungsbedingungen vorzunehmen. 
+                            Wir behalten uns das Recht vor, Änderungen an den Nutzungsbedingungen vorzunehmen.
                             In einem solchen Fall werden wir die Spieler 2 Wochen vorher über die Änderungen informieren.
                         </p>
                     </li>
                     <li>
                         <p style="margin-bottom: 0cm;">
-                            Es ist nicht gestattet Inhalte aus dieser Seite ohne Zustimmung der Administration dieses 
+                            Es ist nicht gestattet Inhalte aus dieser Seite ohne Zustimmung der Administration dieses
                             Spiels zu kopieren oder anderswie zu übernehmen.
                         </p>
                     </li>
                 </ol>
             </div>
         </fieldset>
-        <fieldset>
-                Ich bin mindestens 16 Jahre alt, habe die Regeln gelesen und erkläre mich mit ihnen einverstanden
-            <input class="row2ColumnsInput" name="rules" type="checkbox" required="true">
-        </fieldset>
-        <fieldset>
-            <input class="submit" name="Submit" type="submit" value="Registrieren">
-        </fieldset>
     </div>
+    <div class="row m-3 ">
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" id="rules" name="rules" type="checkbox" />
+                <label class="form-check-label" for="rules">
+                    Ich bin mindestens 16 Jahre alt, habe die Regeln gelesen und erkläre mich mit ihnen einverstanden
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row m-3 justify-content-center">
+        <div class="col-3">
+            <input class="btn btn-primary" name="Submit" type="submit" value="Registrieren">
+        </div>
+    </div>
+
 </form>

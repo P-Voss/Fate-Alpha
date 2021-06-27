@@ -40,14 +40,14 @@ foreach ($layoutData->getInformations() as $information) {
         endif;
         foreach ($informations as $information):
             ?>
+        <div class="row m-2">
             <a class="information"
                href="<?= $this->baseurl() ?>/information/index/id/<?= $information->getInformationId() ?>"
                data-id="<?= $information->getInformationId() ?>"
             >
-                <h4 title="<?= $this->purifier->purify($information->getName()) ?>">
-                    <?= $this->purifier->purify($information->getName()) ?>
-                </h4>
+                <?= $this->purifier->purify($information->getName()) ?>
             </a>
+        </div>
         <?php
         endforeach;
     endforeach;

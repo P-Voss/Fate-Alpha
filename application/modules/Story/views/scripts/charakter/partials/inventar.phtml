@@ -41,12 +41,12 @@ foreach ($charakter->getItems() as $item) {
             <div class="subContent">
                 <?php foreach ($category as $item): ?>
                     <div class="item">
-                        <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
+                        <p style="font-weight: bold; margin-top: 10px;"><?= $this->purify($item->getName()) ?></p>
                         <p>
-                            Rang: <span style="font-weight: bold"><?= $purifier->purify($item->getRank()) ?></span>
+                            Rang: <span style="font-weight: bold"><?= $this->purify($item->getRank()) ?></span>
                         </p>
                         <p>
-                            <?= $purifier->purify($item->getDescription()) ?>
+                            <?= $this->purify($item->getDescription()) ?>
                         </p>
                         <hr/>
                     </div>

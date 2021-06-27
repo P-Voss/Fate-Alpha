@@ -7,82 +7,42 @@ $categoryKon = $werte->getCategory('kon');
 $categoryDis = $werte->getCategory('dis');
 $categoryPra = $werte->getCategory('pra');
 ?>
-<fieldset>
-    <legend>Werte</legend>
-    <div>
-        <p>
-            <label>
-                Stärke
-            </label>
-            <span title="<?= $werte->getStaerke() ?>">
-                <?= floor($werte->getStaerke()) ?>
-            </span>
-            <span>
-                <?= $categoryStr->getCategory() ?> (<?= $categoryStr->getNumericValue() ?>)
-            </span>
-        </p>
-        <p>
-            <label>
-                Agilität
-            </label>
-            <span title="<?= $werte->getAgilitaet() ?>">
-                <?= floor($werte->getAgilitaet()) ?>
-            </span>
-            <span>
-                <?= $categoryAgi->getCategory() ?> (<?= $categoryAgi->getNumericValue() ?>)
-            </span>
-        </p>
-        <p>
-            <label>
-                Ausdauer
-            </label>
-            <span title="<?= $werte->getAusdauer() ?>">
-                <?= floor($werte->getAusdauer()) ?>
-            </span>
-            <span>
-                <?= $categoryAus->getCategory() ?> (<?= $categoryAus->getNumericValue() ?>) = <?= $werte->getEnergie() ?> HP
-            </span>
-        </p>
-        <p>
-            <label>
-                Kontrolle
-            </label>
-            <span title="<?= $werte->getKontrolle() ?>">
-                <?= floor($werte->getKontrolle()) ?>
-            </span>
-            <span>
-                <?= $categoryKon->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>)
-            </span>
-        </p>
-        <p>
-            <label>
-                Disziplin
-            </label>
-            <span title="<?= $werte->getDisziplin() ?>">
-                <?= floor($werte->getDisziplin()) ?>
-            </span>
-            <span>
-                <?= $categoryDis->getCategory() ?> (<?= $categoryDis->getNumericValue() ?>)
-            </span>
-        </p>
-        <p>
-            <label>
-                Übung
-            </label>
-            <span title="<?= $werte->getUebung() ?>">
-                <?= floor($werte->getUebung()) ?>
-            </span>
-            <span>
-                <?= $categoryPra->getCategory() ?> (<?= $categoryPra->getNumericValue() ?>)
-            </span>
-        </p>
-        <p>
-            <label>
-                FP
-            </label>
-            <span>
-                <?= floor($werte->getFp()) ?>
-            </span>
-        </p>
+<div class="card bg-info m-2">
+    <h5 class="card-title">Werte</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">Stärke</div>
+            <div title="<?= $werte->getStaerke() ?>" class="col-3"><?= floor($werte->getStaerke()) ?></div>
+            <div class="col-3"><?= $categoryStr->getCategory() ?> (<?= $categoryStr->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Agilität</div>
+            <div title="<?= $werte->getAgilitaet() ?>" class="col-3"><?= floor($werte->getAgilitaet()) ?></div>
+            <div class="col-3"><?= $categoryAgi->getCategory() ?> (<?= $categoryAgi->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Ausdauer</div>
+            <div title="<?= $werte->getAusdauer() ?>" class="col-3"><?= floor($werte->getAusdauer()) ?></div>
+            <div class="col-3"><?= $categoryAus->getCategory() ?> (<?= $categoryAus->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Agilität</div>
+            <div title="<?= $werte->getKontrolle() ?>" class="col-3"><?= floor($werte->getKontrolle()) ?></div>
+            <div class="col-3"><?= $categoryKon->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Disziplin</div>
+            <div title="<?= $werte->getDisziplin() ?>" class="col-3"><?= floor($werte->getDisziplin()) ?></div>
+            <div class="col-3"><?= $categoryDis->getCategory() ?> (<?= $categoryDis->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Übung</div>
+            <div title="<?= $werte->getUebung() ?>" class="col-3"><?= floor($werte->getUebung()) ?></div>
+            <div class="col-3"><?= $categoryPra->getCategory() ?> (<?= $categoryPra->getNumericValue() ?>)</div>
+        </div>
+        <div class="row">
+            <div class="col-6">FP</div>
+            <div class="col-3"><?= floor($werte->getFp()) ?></div>
+        </div>
     </div>
-</fieldset>
+</div>

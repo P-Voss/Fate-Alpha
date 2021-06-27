@@ -1,14 +1,14 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 ?>
-<fieldset>
-    <legend>Hooks <span class="indicator"></span></legend>
-    <div class="subContent">
+<div class="card bg-info m-2">
+    <h5 class="toggleLegend">Hooks <span class="indicator"></span></h5>
+    <div class="card-body subContent">
         <?php foreach ($charakter->getAchievements() as $achievement): ?>
-            <h4><?= $purifier->purify($achievement->getTitle()) ?></h4>
+            <h4><?= $this->purify($achievement->getTitle()) ?></h4>
             <p>
-                <?= $purifier->purify($achievement->getDescription()) ?>
+                <?= $this->purify($achievement->getDescription()) ?>
             </p>
         <?php endforeach; ?>
     </div>
-</fieldset>
+</div>

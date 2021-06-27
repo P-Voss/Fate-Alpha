@@ -8,48 +8,55 @@ $purifier = $this->purifier;
 $wish = $this->wish;
 /** @var Application_Model_User[] $users */
 $users = $this->users;
+$respondTo = $wish->getUserId();
+
 ?>
 <h1>
     Nachricht verfassen
 </h1>
-<div class="submenu">
-    <?php include __DIR__ . '/../partials/submenu.phtml'; ?>
-</div>
-<br />
-<fieldset>
-    <form method="post" action="<?= $this->baseUrl() ?>/Nachrichten/index/send">
-        <p>
-            <label for="user">
+<?php include __DIR__ . '/../partials/submenu.phtml'; ?>
+<form method="post" action="<?= $this->baseUrl() ?>/Nachrichten/index/send">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="user">
                 An:
             </label>
-            <select class="userSelect" id="user" name="user" <?= ($respondTo !== null) ?  'disabled=""' : '' ?>>
-                <?php foreach ($users as $user) : ?>
-                <option <?= ($wish->getUserId() === $user->getId()) ? 'selected=""' : '' ?> value="<?= $user->getId() ?>">
-                    <?php 
-                    if($user->getCharakter() !== null){
-                        $name = $user->getProfilname() . ' - ' . $user->getCharakter()->getVorname();
-                    } else {
-                        $name = $user->getProfilname();
+            <select class="form-control" name="user" <?= ($respondTo !== null) ?  'disabled=""' : '' ?>>
+                <?php foreach ($users as $user) :
+                    if ((int) $user->getId() !== (int) $respondTo) {
+                        continue;
                     }
                     ?>
-                    <?= $purifier->purify($name) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
-                </option>
+                    <option selected="" value="<?= $user->getId() ?>">
+                        <?php
+                        if($user->getCharakter() !== null){
+                            $name = $user->getCharakter()->getVorname() . ' - ' . $user->getProfilname();
+                        } else {
+                            $name = $user->getProfilname();
+                        }
+                        ?>
+                        <?= $this->purify($name) ?> <?= ($user->getUsergruppe() === 'Admin') ? '- Administrator' : '' ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
-        </p>
-        <p>
-            <label for="betreff">Betreff</label>
-            <input class="betreffInput"
-                   type="text"
-                   name="betreff"
-                   value="RE: <?= $purifier->purify($wish->getTitle()) ?>"
-            >
-        </p>
-        <p>
-            <label for="admin">Als Admin anonym versenden: </label>
-            <input type="checkbox" name="admin" />
-        </p>
-        <textarea rows="20" cols="95" name="nachricht"></textarea>
-        <input type="submit" value="Nachricht senden">
-    </form>
-</fieldset>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="betreff">Betreff</label>
+            <input class="form-control" type="text" name="betreff" value="RE: <?= $purifier->purify($wish->getTitle()) ?>">
+        </div>
+    </div>
+    <?php if(Zend_Auth::getInstance()->getIdentity()->usergruppe === 'Admin'): ?>
+        <div class="row m-3">
+            <div class="col-4">
+                <div class="form-check">
+                    <label class="form-check-label" style="margin-left: 50px; width: 200px;" for="admin">Als Admin anonym versenden: </label>
+                    <input class="form-check-input" type="checkbox" id="admin" name="admin" />
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <textarea rows="10" cols="95" name="nachricht"></textarea>
+    <input class="btn btn-primary" type="submit" value="Nachricht senden">
+</form>

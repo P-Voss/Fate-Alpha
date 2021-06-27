@@ -17,8 +17,8 @@ jQuery(document).ready(function () {
         }
     }
     
-    jQuery("legend").on('click', function(){
-        element = jQuery(this).parent().children(".subContent");
+    jQuery(".toggleLegend").on('click', function(){
+        var element = jQuery(this).parent().children(".subContent");
         if(element.length !== 0){
             indicator = jQuery(this).children(".indicator");
             if(element.height() > 0){
@@ -34,7 +34,7 @@ jQuery(document).ready(function () {
     });
     
     jQuery('.details.skills').click(function(){
-        val = jQuery(this).attr('data-id');
+        var val = jQuery(this).attr('data-id');
         jQuery("#dialog").dialog({
             height: 350,
             width: 720,
@@ -45,7 +45,7 @@ jQuery(document).ready(function () {
     });
     
     jQuery('.details.magic').click(function(){
-        val = jQuery(this).attr('data-id');
+        var val = jQuery(this).attr('data-id');
         jQuery("#dialog").dialog({
             height: 350,
             width: 720,

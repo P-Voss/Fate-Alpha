@@ -106,7 +106,7 @@ class Application_Model_Odo
     {
         $actualAmount = $this->amount;
         $actualAmount += $this->calculateCircuitOdo($circuit);
-        $actualAmount += $controlCategory->getNumericValue() * 5;
+        $actualAmount += $controlCategory->getNumericValue() * 25;
         if ($klassengruppe->getId() === 5) {
             $actualAmount = $actualAmount * 1.5;
         }

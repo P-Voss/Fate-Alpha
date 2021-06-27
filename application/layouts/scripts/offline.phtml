@@ -3,49 +3,112 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Fate/Alpha</title>
+        <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+                rel="stylesheet"
+                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                crossorigin="anonymous"
+        />
         <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/style.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Admin.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Changelog.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Charakter.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/PM.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Profil.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Skills.css') ?>" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/Wetter.css') ?>" />
         <link rel="stylesheet" type="text/css" media="screen" href="<?= $this->autoVersion($this->baseUrl() . '/styles/login.css') ?>" />
         <?= $this->headLink() ?>
         <?= $this->headScript() ?>
     </head>
     <body>
-        <div id="header">
-            <div id="header-logo">
 
+    <div class="container">
+        <div id="row m-3 ">
+            <div id="header-logo"></div>
+        </div>
+        <div class="d-block d-lg-none bg-dark">
+            <div class="row">
+                <form class="d-flex" method="post" action="<?= $this->baseUrl(); ?>/login/login">
+                    <input class="form-control" type="text" id="username" name="username" placeholder="Loginname" />
+                    <input class="form-control" id="passwort" type="password" name="passwort" placeholder="Passwort" />
+                    <input class="btn btn-primary" id="login" type="submit" name="Login" value="Login" />
+                </form>
             </div>
+            <nav class="navbar navbar-expand">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse justify-content-between" id="menu">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link text-light"
+                                        href="<?= $this->baseUrl(); ?>/login/passwort"
+                                >
+                                    Passwort vergessen
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link text-light"
+                                        href="<?= $this->baseUrl(); ?>/login/registrierung"
+                                >
+                                    Registrieren
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link text-light"
+                                        href="<?= $this->baseUrl(); ?>/index"
+                                >
+                                    Startseite
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link text-light"
+                                        href="<?= $this->baseUrl(); ?>/index/intro"
+                                >
+                                    Für Einsteiger
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
         <div id="seitenbereich1">
-            <div id="navigation">
-                <form name="Login" method="post" action="<?= $this->baseUrl(); ?>/login/login">
-                    <label for="username">Benutzername</label>
-                    <input type="text" id="username" name="username" /><br />
-                    <label for="passwort">Passwort</label>
-                    <input id="passwort" type="password" name="passwort" />
-                    <br />
-                    <input id="login" type="submit" name="Login" value="Login" />   <a href="<?= $this->baseUrl(); ?>/login/passwort">Passwort vergessen</a> <br />
-                </form>
-                <input class="Button" type="button" onclick="window.location.href = '<?= $this->baseUrl(); ?>/login/registrierung';" value="Registrieren"/>
-                <br />
-                <br />
-                <p>
-                    <a href="<?= $this->baseUrl(); ?>/index">Startseite</a>
-                </p>
-                <p>
-                    <a href="http://alpha.mainchat.de/">Chat</a>
-                </p>
-                <p>
-                    Informationen
-                </p>
-                <p>
-                    <a href="<?= $this->baseUrl(); ?>/index/intro">Für Einsteiger</a>
-                </p>
+            <div class="d-none d-lg-block" id="navigation">
+                <div class="container">
+                    <form name="Login" method="post" action="<?= $this->baseUrl(); ?>/login/login">
+                        <div class="row">
+                            <div class="mb-1">
+                                <label class="form-label" for="username">Benutzername</label>
+                                <input class="form-control" type="text" id="username" name="username" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-1">
+                                <label class="form-label" for="passwort">Passwort</label>
+                                <input class="form-control" id="passwort" type="password" name="passwort" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input class="btn btn-primary" id="login" type="submit" name="Login" value="Login" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="<?= $this->baseUrl(); ?>/login/passwort">Passwort vergessen</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a href="<?= $this->baseUrl(); ?>/login/registrierung">Registrieren</a>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <a href="<?= $this->baseUrl(); ?>/index">Startseite</a>
+                    </div>
+                    <div class="row">
+                        <a href="http://alpha.mainchat.de/">Chat</a>
+                    </div>
+                    <div class="row">
+                        <a href="<?= $this->baseUrl(); ?>/index/intro">Für Einsteiger</a>
+                    </div>
+                </div>
             </div>
             <div id="seitenbereich2">
                 <div id="inhalt">
@@ -58,5 +121,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </body>
 </html>

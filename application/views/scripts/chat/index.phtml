@@ -2,7 +2,7 @@
 $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styles/chat.css'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/chat/chatmin.js'));
 /* @var $purifier HTMLPurifier */
-$purifier = $this->purifier;
+$this = $this->purifier;
 ?>
 <h1>
     Noch ein Chat (Beta)

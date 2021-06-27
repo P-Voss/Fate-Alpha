@@ -4,6 +4,8 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/formular.js'));
 /* @var $schule Administration_Model_Schule */
 $schule = $this->schule;
+
+$traitReq = [];
 foreach ($schule->getRequirementList()->getRequirements() as $requirement) {
     if($requirement->getArt() === 'Trait'){
         $traitReq = explode('|', $requirement->getRequiredValue());

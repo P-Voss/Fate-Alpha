@@ -61,6 +61,8 @@ class Application_Model_Mapper_CharakterMapper
                 ->setFerocity($row->ferocity)
                 ->setKurotama($row->kurotama)
                 ->setUuid($row->uuid)
+                ->setMagiOrganization($row->magiOrganization)
+                ->setMagischoolId($row->magischoolId)
                 ->setCreatedate($date);
             $returnArray[] = $charakter;
         }
@@ -135,6 +137,8 @@ class Application_Model_Mapper_CharakterMapper
                 ->setFerocity($row->ferocity)
                 ->setKurotama($row->kurotama)
                 ->setUuid($row->uuid)
+                ->setMagiOrganization($row->magiOrganization)
+                ->setMagischoolId($row->magischoolId)
                 ->setCreatedate($date);
             $charakter->setUndead($row->undead === 1);
             if ($charakter->getUndead())
@@ -617,6 +621,8 @@ class Application_Model_Mapper_CharakterMapper
             ->setKurotama($row->kurotama)
             ->setUuid($row->uuid)
             ->setOrigin($row->origin)
+            ->setMagiOrganization($row->magiOrganization)
+            ->setMagischoolId($row->magischoolId)
             ->setCreatedate($date);
         $charakter->setUndead($row->undead === 1);
         if ($charakter->getUndead())
@@ -644,6 +650,7 @@ class Application_Model_Mapper_CharakterMapper
         $date = new DateTime($row->createDate);
         $charakter = new Application_Model_Charakter();
         $charakter->setVorname($row->vorname)
+            ->setCharakterid($row->charakterId)
             ->setNachname($row->nachname)
             ->setOrigin($row->origin)
             ->setCharakterid($row->charakterId)
@@ -658,6 +665,8 @@ class Application_Model_Mapper_CharakterMapper
             ->setFerocity($row->ferocity)
             ->setKurotama($row->kurotama)
             ->setUuid($row->uuid)
+            ->setMagiOrganization($row->magiOrganization)
+            ->setMagischoolId($row->magischoolId)
             ->setCreatedate($date);
         $charakter->setUndead($row->undead === 1);
         if ($charakter->getUndead())

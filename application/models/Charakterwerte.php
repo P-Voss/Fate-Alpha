@@ -254,7 +254,7 @@ class Application_Model_Charakterwerte
     public function getEnergie ()
     {
         $category = $this->getCategory('aus');
-        return (17 + $category->getNumericValue()) * 2;
+        return (17 + ($category->getNumericValue() * 3)) * 2;
     }
 
     /**

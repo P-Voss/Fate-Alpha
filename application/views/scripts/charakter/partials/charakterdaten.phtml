@@ -1,84 +1,126 @@
 <?php
 /* @var $charakter Application_Model_Charakter */
 ?>
-<fieldset>
-    <legend>Charakterdaten</legend>
-    <p>
-        <label>
-            Name
-        </label>
-        <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
-    </p>
-    <?php if($charakter->getOrigin() !== ''): ?>
-    <p>
-        <label>
-            Origin
-        </label>
-        <?= $purifier->purify($charakter->getOrigin()) ?>
-    </p>
-    <?php endif; ?>
-    <p>
-        <label>
-            Geburtsdatum
-        </label>
-        <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
-    </p>
-    <?php if($charakter->hasKurotama()): ?>
-    <p>
-        <label>
-            Kurotama
-        </label>
-        <?= $charakter->getKurotama() ?>
-    </p>
-    <?php endif; ?>
-    <p>
-        <label>
-            Geschlecht
-        </label>
-        <?= $purifier->purify($charakter->getGeschlecht()) ?>
-    </p>
-    <p>
-        <label>
-            Wohnort
-        </label>
-        <?= $charakter->getWohnort() ?>
-    </p>
-    <p>
-        <label>
-            Vermögen
-        </label>
-        <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
-    </p>
-    <p>
-        <label>
-            Sexuelle Orientierung
-        </label>
-        <?= $charakter->getSexualitaet() ?>
-    </p>
-    <p>
-        <label>
-            Odo
-        </label>
-        <?= $charakter->getOdo()->getActualAmount() . '(' . $charakter->getOdo()->getKategorie() . ')' ?>
-    </p>
-    <p>
-        <label>
-            Naturelement
-        </label>
-        <?= $charakter->getNaturElement()->getBezeichnung(); ?>
-    </p>
-    <p>
-        <label>
-            Glück
-        </label>
-        <?= $charakter->getLuck()->getKategorie() ?>
-    </p>
-    <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
-    <p>
-        <label>
-            Magic Circuit
-        </label>
-        <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
-    </p>
-    <?php endif; ?>
-</fieldset>
+<div class="card bg-info m-2">
+    <h5 class="card-title">Charakterdaten</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4">
+                Name
+            </div>
+            <div class="col-8">
+                <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+            </div>
+        </div>
+        <?php if($charakter->getOrigin() !== ''): ?>
+            <div class="row">
+                <div class="col-4">
+                    Origin
+                </div>
+                <div class="col-8">
+                    <?= $this->purify($charakter->getOrigin()) ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-4">
+                Geburtsdatum
+            </div>
+            <div class="col-8">
+                <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Geschlecht
+            </div>
+            <div class="col-8">
+                <?= $this->purify($charakter->getGeschlecht()) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Wohnort
+            </div>
+            <div class="col-8">
+                <?= $this->purify($charakter->getWohnort()) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Vermögen
+            </div>
+            <div class="col-8">
+                <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Sexuelle Orientierung
+            </div>
+            <div class="col-8">
+                <?= $charakter->getSexualitaet() ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Odo-Kategorie
+            </div>
+            <div class="col-8">
+                <?= $charakter->getOdo()->getKategorie() ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Odo
+            </div>
+            <div class="col-8">
+                <?= $charakter->getOdo()->getActualAmount() ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Naturelement
+            </div>
+            <div class="col-8">
+                <?= $charakter->getNaturElement()->getBezeichnung(); ?>
+            </div>
+        </div>
+        <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
+            <div class="row">
+                <div class="col-4">
+                    Magic-Circuit
+                </div>
+                <div class="col-8">
+                    <?= $charakter->getMagiccircuit()->getKategorie() ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Mana
+                </div>
+                <div class="col-8">
+                    <?= $charakter->getMagiccircuit()->getMana($charakter) ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-4">
+                Glück
+            </div>
+            <div class="col-8">
+                <?= $charakter->getLuck()->getKategorie() ?>
+            </div>
+        </div>
+        <?php if($charakter->hasKurotama()): ?>
+            <div class="row">
+                <div class="col-4">
+                    Kurotama
+                </div>
+                <div class="col-8">
+                    <?= $charakter->getKurotama() ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

@@ -22,7 +22,7 @@
         <ul>
             <?php foreach($gruppe->getMitglieder() as $charakter) : ?>
                 <li>
-                    <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+                    <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -1,29 +1,29 @@
-<ul>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/charakter">
+<div class="row m-3 ">
+    <div class="col-lg-2 col-sm-12">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/charakter">
             Charakterdaten
         </a>
-    </li>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/charakter/profil">
+    </div>
+    <div class="col-lg-2 col-sm-12">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/charakter/profil">
             Charakterprofil
         </a>
-    </li>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/charakter/abilities">
+    </div>
+    <div class="col-lg-3 col-sm-12">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/charakter/abilities">
             Magien und Fähigkeiten
         </a>
-    </li>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/charakter/inventar">
+    </div>
+    <div class="col-lg-2 col-sm-12">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/charakter/inventar">
             Ausrüstung
         </a>
-    </li>
-<?php if($this->charakter->getCharakterwerte()->getStartpunkte() > 0): ?>
-    <li>
-        <a href="<?= $this->baseUrl() ?>/charakter/bonus">
-            Bonustage verteilen
-        </a>
-    </li>
-<?php endif; ?>
-</ul>
+    </div>
+    <?php if($this->charakter->getCharakterwerte()->getStartpunkte() > 0): ?>
+        <div class="col-lg-2 col-sm-12">
+            <a class="btn btn-primary" href="<?= $this->baseUrl() ?>/charakter/bonus">
+                Bonustage verteilen
+            </a>
+        </div>
+    <?php endif; ?>
+</div>

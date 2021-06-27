@@ -6,7 +6,7 @@ if($charakter->getMagiccircuit()->getKategorie() !== 'F'){
     <legend>Magic Circuits <span class="indicator"></span></legend>
     <div class="subContent">
         <p>
-            <?= $purifier->purify($charakter->getMagiccircuit()->getBeschreibung()) ?>
+            <?= $this->purify($charakter->getMagiccircuit()->getBeschreibung()) ?>
         </p>
     </div>
 </fieldset>
