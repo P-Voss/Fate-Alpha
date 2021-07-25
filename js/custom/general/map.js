@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
 
-    jQuery('#showMap').click(function(event){
+    jQuery('.showMap').click(function(event){
         event.preventDefault();
         jQuery('#dialog').removeAttr("title");
         jQuery('#dialog').attr('title', 'Fuyuki');

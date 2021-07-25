@@ -5,119 +5,119 @@
     <h5 class="card-title">Charakterdaten</h5>
     <div class="card-body">
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Name
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
             </div>
         </div>
         <?php if($charakter->getOrigin() !== ''): ?>
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     Origin
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <?= $this->purify($charakter->getOrigin()) ?>
                 </div>
             </div>
         <?php endif; ?>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Geburtsdatum
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getGeburtsdatum('d.m.Y') . ' (' . $charakter->getAlter() . ')' ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Geschlecht
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $this->purify($charakter->getGeschlecht()) ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Wohnort
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $this->purify($charakter->getWohnort()) ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Vermögen
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Sexuelle Orientierung
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getSexualitaet() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Odo-Kategorie
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getOdo()->getKategorie() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Odo
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getOdo()->getActualAmount() ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Naturelement
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getNaturElement()->getBezeichnung(); ?>
             </div>
         </div>
         <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     Magic-Circuit
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <?= $charakter->getMagiccircuit()->getKategorie() ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     Mana
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <?= $charakter->getMagiccircuit()->getMana($charakter) ?>
                 </div>
             </div>
         <?php endif; ?>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 Glück
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <?= $charakter->getLuck()->getKategorie() ?>
             </div>
         </div>
         <?php if($charakter->hasKurotama()): ?>
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     Kurotama
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <?= $charakter->getKurotama() ?>
                 </div>
             </div>

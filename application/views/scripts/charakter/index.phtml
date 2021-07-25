@@ -14,18 +14,18 @@ $purifier = $this->purifier;
     <?php include __DIR__ . '/partials/submenu.phtml'; ?>
 
     <div class="row m-3">
-        <div class="col-lg-4 col-sm-12 g-4">
+        <div class="col-xl-4 col-lg-6 col-sm-12 g-4">
             <?php include __DIR__ . '/partials/charakterdaten.phtml'; ?>
             <?php include __DIR__ . '/partials/vermoegen.phtml'; ?>
             <?php include __DIR__ . '/partials/statistik.phtml'; ?>
         </div>
-        <div class="col-lg-4 col-sm-12 g-4">
+        <div class="col-xl-4 col-lg-6 col-sm-12 g-4">
             <?php include __DIR__ . '/partials/charakterwerte.phtml'; ?>
             <?php include __DIR__ . '/partials/traits.phtml'; ?>
-        </div>
-        <div class="col-lg-4 col-sm-12 g-4">
-            <?php include __DIR__ . '/partials/klasse.phtml'; ?>
             <?php include __DIR__ . '/partials/circuit.phtml'; ?>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-sm-12 g-4">
+            <?php include __DIR__ . '/partials/klasse.phtml'; ?>
             <?php include __DIR__ . '/partials/hooks.phtml'; ?>
             <?php if ($charakter->hasFerocity()): ?>
                 <div class="col-lg-4 col-sm-12 g-4">

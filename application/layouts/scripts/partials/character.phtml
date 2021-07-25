@@ -51,32 +51,52 @@ if ($hasChara) {
         <hr/>
         <ul class="list-group-flush p-0">
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Stärke</span>
-                <span><?= floor($werte->getStaerke()) ?> <?= $categoryStr->getCategory() ?></span>
+                <div class="col-6">Stärke</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getStaerke()) ?></span>
+                    <span><?= $categoryStr->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Agilität</span>
-                <span><?= floor($werte->getAgilitaet()) ?> <?= $categoryAgi->getCategory() ?></span>
+                <div class="col-6">Agilität</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getAgilitaet()) ?></span>
+                    <span><?= $categoryAgi->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Ausdauer</span>
-                <span><?= floor($werte->getAusdauer()) ?> <?= $categoryAus->getCategory() ?></span>
+                <div class="col-6">Ausdauer</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getAusdauer()) ?></span>
+                    <span><?= $categoryAus->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Kontrolle</span>
-                <span><?= floor($werte->getKontrolle()) ?> <?= $categoryKon->getCategory() ?></span>
+                <div class="col-6">Kontrolle</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getKontrolle()) ?></span>
+                    <span><?= $categoryKon->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Disziplin</span>
-                <span><?= floor($werte->getDisziplin()) ?> <?= $categoryDis->getCategory() ?></span>
+                <div class="col-6">Disziplin</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getDisziplin()) ?></span>
+                    <span><?= $categoryDis->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>Übung</span>
-                <span><?= floor($werte->getUebung()) ?> <?= $categoryPra->getCategory() ?></span>
+                <div class="col-6">Übung</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getUebung()) ?></span>
+                    <span><?= $categoryPra->getCategory() ?></span>
+                </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start p-0 bg-transparent">
-                <span>FP</span>
-                <span><?= floor($werte->getFp()) ?></span>
+                <div class="col-6">FP</div>
+                <div class="col-6">
+                    <span class="w-50 d-inline-block"><?= floor($werte->getFp()) ?></span>
+                </div>
             </li>
         </ul>
     <?php endif; ?>
