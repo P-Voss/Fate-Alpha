@@ -24,6 +24,7 @@ class Erstellung_Model_Mapper_CharakterMapper extends Application_Model_Mapper_C
         $data['sexualitaet'] = $charakter->getSexualitaet();
         $data['wohnort'] = $charakter->getWohnort();
 
+        $data['slData'] = '';
         $data['klassengruppenId'] = (int) $charakter->getKlassengruppe()->getId();
         $data['klassenId'] = (int) $charakter->getKlasse()->getId();
         $data['naturelement'] = (int) $charakter->getNaturElement()->getId();

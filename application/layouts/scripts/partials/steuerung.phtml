@@ -53,7 +53,7 @@ if ($currentDateTime->format('H') > 21 && $currentDateTime->format('H') <= 24) {
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between bg-dark container-fluid" id="menu">
+                <div class="collapse navbar-collapse justify-content-between bg-dark container-fluid p-2" id="menu">
                     <ul class="navbar-nav text-light">
                         <li class="nav-item">
                             <a class="nav-link text-light" href="<?= $this->baseUrl() ?>/index">News</a>
@@ -148,7 +148,7 @@ if ($currentDateTime->format('H') > 21 && $currentDateTime->format('H') <= 24) {
     </div>
 
 
-    <div class="col col-12 d-block d-xl-none bg-secondary p-0">
+    <div id="menudata" class="col col-12 bg-secondary p-0">
         <?php if (!$hasChara): ?>
             <div class="row">
                 <p class="Meldung">Du hast noch keinen Charakter erstellt.</p>

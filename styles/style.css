@@ -1,11 +1,5 @@
 html, body {
     text-align: left;
-    font-family: Kalinga;
-    font-size: 12pt;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
     background-color: white;
 }
 
@@ -13,31 +7,19 @@ html, body {
 #header-logo {
     margin-left: auto;
     margin-right: auto;
-    /*width: 800px;*/
     background-image: url(../images/fp_forum_logo_custom2.jpg);
-    /*background-image: url(../images/header.svg);*/
     background-repeat: no-repeat;
     background-size: cover;
     height: 30vh;
     width: 100%;
-    /*height: 240px;*/
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {
-    #navigation {
-        border-top: 1px solid black;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
-    }
 }
 
 #navigation {
+    display: none;
     position: fixed;
     text-align: left;
-    font-family: Arial;
     z-index: 2;
-    left: 0px;
+    left: 0;
     top: 140px;
     width: 10vw;
     background-color: #9cdce2;
@@ -45,22 +27,48 @@ html, body {
 
 
 #navigationrechts {
+    display: none;
     position: fixed;
     z-index: 2;
     text-align: left;
-    font-family: Arial;
-    right: 0px;
+    right: 0;
     top: 140px;
     padding-left: 5px;
     padding-right: 15px;
     padding-bottom: 5px;
     width: 180px;
     background-color: #9cdce2;
-    border-top: 1px solid black;
-    border-right: 0px solid black;
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
 }
+#menudata {
+    display: block;
+}
+#loginmenu {
+    display: block;
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 1650px) {
+    #navigation {
+        display: block;
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    #navigationrechts {
+        display: block;
+        border-top: 1px solid black;
+        border-right: 0 solid black;
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+    }
+    #menudata {
+        display: none;
+    }
+    #loginmenu {
+        display: none;
+    }
+}
+
 
 #navigationrechts ul {
     padding: 0;
@@ -70,7 +78,7 @@ html, body {
     position: fixed;
     z-index: 2;
     text-align: left;
-    right: 0px;
+    right: 0;
     top: 140px;
     padding-left: 5px;
     padding-right: 15px;
@@ -79,7 +87,7 @@ html, body {
     max-height: 600px;
     background-color: #9cdce2;
     border-top: 1px solid black;
-    border-right: 0px solid black;
+    border-right: 0;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
     overflow: auto;
@@ -89,7 +97,7 @@ html, body {
     position: fixed;
     z-index: 2;
     text-align: left;
-    left: 0px;
+    left: 0;
     top: 140px;
     padding-left: 5px;
     padding-right: 15px;
@@ -100,14 +108,13 @@ html, body {
     border-top: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    border-left: 0px solid black;
+    border-left: 0;
     overflow: auto;
 }
 
 #steuerung {
     background-color: #b22222;
     text-align: left;
-    font-family: Candara;
     font-size: 12pt;
 }
 
@@ -140,8 +147,8 @@ html, body {
 #steuerung #usermenu ul {
     list-style-type: none;
     list-style-image: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 #steuerung #usermenu li {
@@ -160,8 +167,8 @@ html, body {
 
 #steuerung #usermenu li ul li {
     float: left;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #steuerung #usermenu li ul li:hover {
@@ -171,13 +178,13 @@ html, body {
 
 #steuerung #usermenu ul ul {
     position: absolute;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 #steuerung #usermenu ul ul li {
     float: none;
     background-color: silver;
-    height: 0px;
+    height: 0;
     border-top: 1px black solid;
     border-left: 1px black solid;
     border-bottom: 1px black solid;
@@ -248,72 +255,12 @@ ul {
     padding-left: 2em;
 }
 
-.submenu {
-    text-align: center;
-    font-family: Candara;
-    font-size: 10pt;
-    width: auto;
-}
-
-.submenu ul {
-    list-style-type: none;
-    list-style-image: none;
-}
-
-.submenu li {
-    display: inline-block;
-    /*float:left;*/
-    /*margin-right: 15px;*/
-    background-color: silver;
-    margin: 2px;
-    padding: 0 2px;
-    border-top: 1px black solid;
-    border-left: 1px black solid;
-    border-bottom: 1px black solid;
-    border-right: 1px red solid;
-    transition: background-color 0.7s ease-out;
-}
-
-.submenu ul ul {
-    position: absolute;
-    margin-left: 0px;
-}
-
-.submenu ul ul li {
-    float: none;
-    background-color: silver;
-    border-top: 1px black solid;
-    border-left: 1px black solid;
-    border-bottom: 1px black solid;
-    border-right: 1px red solid;
-    transition: height 0.5s ease-in-out 0s;
-    -webkit-transition: height 0.5s ease-in-out 0s;
-    -moz-transition: height 0.5s ease-in-out 0s;
-    -o-transition: height 0.5s ease-in-out 0s;
-    overflow: hidden;
-    border: hidden;
-}
-
-.submenu li:hover {
-    transition: background-color 0.7s ease-out;
-    background-color: #9cdce2;
-    color: red;
-}
-
-.submenu ul ul li:hover {
-    background-color: #9cdce2;
-}
-
-.submenu li a {
-    text-decoration: none;
-    display: block;
-}
 
 /* ############################################################# */
 .News {
     width: auto;
     text-align: left;
-    border: 0px;
+    border: 0;
     margin: 50px;
     padding: 15px;
     background-color: transparent;

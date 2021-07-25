@@ -26,7 +26,11 @@ $categoryPra = $werte->getCategory('pra');
             <div class="col-3"><?= $categoryAus->getCategory() ?> (<?= $categoryAus->getNumericValue() ?>)</div>
         </div>
         <div class="row">
-            <div class="col-6">Agilität</div>
+            <div class="col-6">Lebenspunkte</div>
+            <div title="<?= $werte->getEnergie() ?>" class="col-3"><?= $werte->getEnergie() ?> HP</div>
+        </div>
+        <div class="row">
+            <div class="col-6">Kontrolle</div>
             <div title="<?= $werte->getKontrolle() ?>" class="col-3"><?= floor($werte->getKontrolle()) ?></div>
             <div class="col-3"><?= $categoryKon->getCategory() ?> (<?= $categoryKon->getNumericValue() ?>)</div>
         </div>

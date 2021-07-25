@@ -20,14 +20,18 @@
         <div id="row m-3 ">
             <div id="header-logo"></div>
         </div>
-        <div class="d-block d-lg-none bg-dark">
-            <div class="row">
-                <form class="d-flex" method="post" action="<?= $this->baseUrl(); ?>/login/login">
+        <div id="loginmenu" class="bg-dark">
+            <form class="d-flex row" method="post" action="<?= $this->baseUrl(); ?>/login/login">
+                <div class="col-4">
                     <input class="form-control" type="text" id="username" name="username" placeholder="Loginname" />
+                </div>
+                <div class="col-4">
                     <input class="form-control" id="passwort" type="password" name="passwort" placeholder="Passwort" />
+                </div>
+                <div class="col-4">
                     <input class="btn btn-primary" id="login" type="submit" name="Login" value="Login" />
-                </form>
-            </div>
+                </div>
+            </form>
             <nav class="navbar navbar-expand">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse justify-content-between" id="menu">
@@ -70,7 +74,7 @@
             </nav>
         </div>
         <div id="seitenbereich1">
-            <div class="d-none d-lg-block" id="navigation">
+            <div id="navigation">
                 <div class="container">
                     <form name="Login" method="post" action="<?= $this->baseUrl(); ?>/login/login">
                         <div class="row">

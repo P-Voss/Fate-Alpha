@@ -8,53 +8,125 @@ $this->headScript()->appendScript("var baseUrl ='{$this->baseUrl()}';", 'text/ja
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/user/profile.js'));
 ?>
 <div id='dialog'></div>
-<h1>
-    Deine Benutzerdaten
-</h1>
-<div>
-    <p>
-        <span style="float: left; width: 50%">
-            <label>
-                Profilname
-            </label>
-            <span>
-                <?= $purifier->purify($user->getProfilname()) ?>
-            </span>
-        </span>
-        <span style="float: right; width: 50%">
-            <label>
-                Loginname
-            </label>
-            <span>
-                <?= $purifier->purify($user->getUsername()) ?>
-            </span>
-        </span>
-    </p>
-</div>
-<div style="clear: both">
-    <button id="password">
-        Passwort ändern
-    </button>
-    <button id="mail">
-        E-Mail ändern
-    </button>
-    <button id="charakter">
-        Charakter löschen
-    </button>
-    <button id="account">
-        Account löschen
-    </button>
-</div>
-<hr />
-<div>
-    <hr />
-    <p>
-        <label>
+<div class="container">
+    <h1>
+        Deine Benutzerdaten
+    </h1>
+    <div class="row">
+        <div class="col-3">
+            Profilname
+        </div>
+        <div class="col-3">
+            <?= $this->purify($user->getProfilname()) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            Loginname
+        </div>
+        <div class="col-3">
+            <?= $this->purify($user->getUsername()) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
             aktuelle Email-Adresse
-        </label>
-        <span>
-            <?= $purifier->purify($user->getEmail()) ?>
-        </span>
-    </p>
+        </div>
+        <div class="col-3">
+            <?= $this->purify($user->getEmail()) ?>
+        </div>
+    </div>
     <hr />
+    <div class="row">
+        <div class="col-6">
+            <div class="row m-3">
+                <h2>Passwort ändern</h2>
+                <form action="<?= $this->baseUrl() ?>/user/password" method="POST">
+                    <div class="row">
+                        <label class="form-label" for="passwordNew">
+                            Neues Passwort
+                        </label>
+                        <input class="form-control" type="password" id="passwordNew" name="passwordNew" />
+                    </div>
+                    <div class="row">
+                        <label class="form-label" for="passwortNewConfirm">
+                            Neues Passwort bestätigen
+                        </label>
+                        <input class="form-control" type="password" id="passwortNewConfirm" name="passwordNewConfirm" />
+                    </div>
+                    <div class="row">
+                        <label class="form-label" for="passwordOld">
+                            Altes Passwort
+                        </label>
+                        <input class="form-control" type="password" id="passwordOld" name="passwordOld" />
+                    </div>
+                    <div class="row">
+                        <input type="submit" class="btn btn-primary" name="newPw" value="speichern" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row m-3">
+                <h2>E-Mail ändern</h2>
+                <form action="<?= $this->baseUrl() ?>/user/mail" method="POST">
+                    <div class="row">
+                        <label class="form-label" for="email">
+                            neue Email-Adresse
+                        </label>
+                        <input class="form-control" type="email" id="email" name="mail" />
+                    </div>
+                    <div class="row">
+                        <input class="btn btn-primary" type="submit" name="newMail" value="speichern" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="row m-3">
+                <h2>Charakter löschen</h2>
+                <form method="POST" action="<?= $this->baseUrl() ?>/user/charakter">
+                    <div class="row">
+                        <label class="form-label" for="characterPassword">
+                            Passwort eingeben
+                        </label>
+                        <input class="form-control" id="characterPassword" type="password" name="password" />
+                    </div>
+                    <div class="row">
+                        <label class="form-label" for="characterPasswordConfirm">
+                            Passwort bestätigen
+                        </label>
+                        <input class="form-control" id="characterPasswordConfirm" type="password" name="passwordConfirm" />
+                    </div>
+                    <div class="row">
+                        <input class="btn btn-danger" type="submit" value="Charakter löschen" name="deleteCharakter" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row m-3">
+                <h2>Account löschen</h2>
+                <form method="POST" action="<?= $this->baseUrl() ?>/user/account">
+                    <div class="row">
+                        <label class="form-label" for="accountPassword">
+                            Passwort eingeben
+                        </label>
+                        <input class="form-control" id="accountPassword" type="password" name="password" />
+                    </div>
+                    <div class="row">
+                        <label class="form-label" for="accountPasswordConfirm">
+                            Passwort bestätigen
+                        </label>
+                        <input class="form-control" id="accountPasswordConfirm" type="password" name="passwordConfirm" />
+                    </div>
+                    <div class="row">
+                        <input class="btn btn-danger" type="submit" value="Account löschen" name="deleteAccount" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
