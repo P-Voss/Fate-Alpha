@@ -623,6 +623,7 @@ class Application_Model_Mapper_CharakterMapper
             ->setOrigin($row->origin)
             ->setMagiOrganization($row->magiOrganization)
             ->setMagischoolId($row->magischoolId)
+            ->setSlData($row->slData)
             ->setCreatedate($date);
         $charakter->setUndead($row->undead === 1);
         if ($charakter->getUndead())
@@ -667,6 +668,7 @@ class Application_Model_Mapper_CharakterMapper
             ->setUuid($row->uuid)
             ->setMagiOrganization($row->magiOrganization)
             ->setMagischoolId($row->magischoolId)
+            ->setSlData($row->slData)
             ->setCreatedate($date);
         $charakter->setUndead($row->undead === 1);
         if ($charakter->getUndead())

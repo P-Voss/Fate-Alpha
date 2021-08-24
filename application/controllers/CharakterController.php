@@ -162,6 +162,7 @@ class CharakterController extends Zend_Controller_Action
         $layout->disableLayout();
         $this->charakterService->updateObjectives($this->charakter, $this->getRequest()->getPost('objectives', ''));
         $this->redirect('charakter/profil');
+        exit;
     }
 
     /**
