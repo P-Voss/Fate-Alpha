@@ -13,32 +13,15 @@ $lernbedingungen = [
     'Lehrer',
 ];
 $raenge = ['EX','A','B','C','D','E','F','EA','EB','EC','ED','EE','EF',];
-foreach ($item->getRequirementList()->getRequirements() as $requirement) {
-    if($requirement->getArt() === 'Element'){
-        $elementReq = $requirement->getRequiredValue();
-    }
-    if($requirement->getArt() === 'Magie'){
-        $magienReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Schule'){
-        $schuleReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Faehigkeit'){
-        $faehigkeitenReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Gruppe'){
-        $gruppenReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Klasse'){
-        $klasseReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Trait'){
-        $traitReq = explode('|', $requirement->getRequiredValue());
-    }
-    if($requirement->getArt() === 'Character'){
-        $characterReq = explode('|', $requirement->getRequiredValue());
-    }
-}
+
+$elementReq = explode('|', $item->getRequirementList()->getRequirementByKey('Element')->getRequiredValue());
+$magienReq = explode('|', $item->getRequirementList()->getRequirementByKey('Magie')->getRequiredValue());
+$schuleReq = explode('|', $item->getRequirementList()->getRequirementByKey('Schule')->getRequiredValue());
+$faehigkeitenReq = explode('|', $item->getRequirementList()->getRequirementByKey('Faehigkeit')->getRequiredValue());
+$gruppenReq = explode('|', $item->getRequirementList()->getRequirementByKey('Gruppe')->getRequiredValue());
+$klasseReqitReq = explode('|', $item->getRequirementList()->getRequirementByKey('Klasse')->getRequiredValue());
+$traitReq = explode('|', $item->getRequirementList()->getRequirementByKey('Trait')->getRequiredValue());
+$characterReq = explode('|', $item->getRequirementList()->getRequirementByKey('Character')->getRequiredValue());
 $skillsAny = explode('|', $item->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $item->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
 $magieschulenAny = explode('|', $item->getRequirementList()->getRequirementByKey('SchulenAny')->getRequiredValue());

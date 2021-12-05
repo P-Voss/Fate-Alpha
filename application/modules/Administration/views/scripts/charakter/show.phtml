@@ -4,7 +4,6 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/charakter/charakter.js'));
 /* @var $charakter Application_Model_Charakter */
 $charakter = $this->charakter;
-/* @var $werte Application_Model_Charakterwerte */
 $werte = $charakter->getCharakterwerte();
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
@@ -48,7 +47,6 @@ $magien = $this->magien;
         <?php include __DIR__ . '/partials/charakterwerte.phtml' ?>
         <?php include __DIR__ . '/partials/individualTraits.phtml' ?>
         <?php include __DIR__ . '/partials/informations.phtml' ?>
-        <?php include __DIR__ . '/partials/vermoegen.phtml' ?>
         <?php include __DIR__ . '/partials/klasse.phtml' ?>
     </div>
     <div class="clearBoth"></div>

@@ -16,148 +16,151 @@ switch ($charakter->getMagiOrganization()) {
         break;
 }
 ?>
-<form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" style="margin: 0">
+<form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" class="container" >
     <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
-    <fieldset>
-        <legend>Charakterdaten</legend>
-        <p>
-            <label>
-                Vorname
-            </label>
-            <input type="text" name="vorname" value="<?= $this->purify($charakter->getVorname()) ?>">
-        </p>
-        <p>
-            <label>
-                Nachname
-            </label>
-            <input type="text" name="nachname" value="<?= $this->purify($charakter->getNachname()) ?>">
-        </p>
-        <p>
-            <label>Origin</label>
-            <input type="text" name="origin" value="<?= $this->purify($charakter->getOrigin()) ?>">
-        </p>
-        <p>
-            <label>
-                Künstlername
-            </label>
-            <input type="text" name="nickname" value="<?= $this->purify($charakter->getNickname()) ?>">
-        </p>
-        <p>
-            <label>
-                Geburtsdatum
-            </label>
-            <input type="text" name="geburtsdatum" value="<?= $charakter->getGeburtsdatum('d.m.Y') ?>"><?= '(' . $charakter->getAlter() . ')' ?>
-        </p>
-        <p>
-            <label>
-                Augenfarbe
-            </label>
-            <select name="augenfarbe">
-                <option <?= $charakter->getAugenfarbe() === 'Blau' ? 'selected' : '' ?>>Blau</option>
-                <option <?= $charakter->getAugenfarbe() === 'Grün' ? 'selected' : '' ?>>Grün</option>
-                <option <?= $charakter->getAugenfarbe() === 'Braun' ? 'selected' : '' ?>>Braun</option>
-                <option <?= $charakter->getAugenfarbe() === 'Grau' ? 'selected' : '' ?>>Grau</option>
-                <option <?= $charakter->getAugenfarbe() === 'Schwarz' ? 'selected' : '' ?>>Schwarz</option>
-                <option <?= $charakter->getAugenfarbe() === 'Rot' ? 'selected' : '' ?>>Rot</option>
-                <option <?= $charakter->getAugenfarbe() === 'Lila' ? 'selected' : '' ?>>Lila</option>
-                <option <?= $charakter->getAugenfarbe() === 'Gelb' ? 'selected' : '' ?>>Gelb</option>
-                <option <?= $charakter->getAugenfarbe() === 'Türkis' ? 'selected' : '' ?>>Türkis</option>
-            </select>
-        </p>
-        <p>
-            <label>
-                Geschlecht
-            </label>
-            <select name="geschlecht">
-                <option <?= $charakter->getGeschlecht() === 'm' ? 'selected' : '' ?>>m</option>
-                <option <?= $charakter->getGeschlecht() === 'w' ? 'selected' : '' ?>>w</option>
-            </select>
-        </p>
-        <p>
-            <label>
-                Körpergröße
-            </label>
-            <input type="number" name="size" value="<?= $charakter->getSize() ?>"> cm
-        </p>
-        <p>
-            <label>
-                Wohnort
-            </label>
-            <?= $charakter->getWohnort() ?>
-        </p>
-        <p>
-            <label>
-                Vermögen
-            </label>
-            <?= $charakter->getVermoegen()->getMenge() . '(' . $charakter->getVermoegen()->getKategorie() . ')' ?>
-        </p>
-        <p>
-            <label>
-                Sexuelle Orientierung
-            </label>
-            <select name="sex">
-                <option <?= $charakter->getSexualitaet() === 'Heterosexuell' ? 'selected' : '' ?>>Heterosexuell</option>
-                <option <?= $charakter->getSexualitaet() === 'Homosexuell' ? 'selected' : '' ?>>Homosexuell</option>
-                <option <?= $charakter->getSexualitaet() === 'Bisexuell' ? 'selected' : '' ?>>Bisexuell</option>
-            </select>
-        </p>
-        <p>
-            <label>
-                Odo
-            </label>
-            <select name="odo">
-                <?php foreach($this->creationParams['odo'] as $odo): ?>
+    <h2>Charakterdaten</h2>
+    <div class="row">
+        <label class="form-label" for="vorname">
+            Vorname
+        </label>
+        <input type="text" class="form-control" id="vorname" name="vorname" value="<?= $this->purify($charakter->getVorname()) ?>">
+    </div>
+    <div class="row">
+        <label class="form-label" for="nachname">
+            Nachname
+        </label>
+        <input type="text" class="form-control" id="nachname" name="nachname" value="<?= $this->purify($charakter->getNachname()) ?>">
+    </div>
+    <div class="row">
+        <label class="form-label" for="origin">
+            Origin
+        </label>
+        <input type="text" class="form-control" id="origin" name="origin" value="<?= $this->purify($charakter->getOrigin()) ?>">
+    </div>
+    <div class="row">
+        <label class="form-label" for="nickname">
+            Künstlername
+        </label>
+        <input type="text" class="form-control" id="nickname" name="nickname" value="<?= $this->purify($charakter->getNickname()) ?>">
+    </div>
+    <div class="row">
+        <label class="form-label" for="geburtsdatum">
+            Geburtsdatum <?= '(aktuelles Alter: ' . $charakter->getAlter() . ')' ?>
+        </label>
+        <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum" value="<?= $charakter->getGeburtsdatum('d.m.Y') ?>">
+    </div>
+    <div class="row">
+        <label class="form-label" for="augenfarbe">
+            Augenfarbe
+        </label>
+        <select name="augenfarbe" id="augenfarbe" class="form-control">
+            <option <?= $charakter->getAugenfarbe() === 'Blau' ? 'selected' : '' ?>>Blau</option>
+            <option <?= $charakter->getAugenfarbe() === 'Grün' ? 'selected' : '' ?>>Grün</option>
+            <option <?= $charakter->getAugenfarbe() === 'Braun' ? 'selected' : '' ?>>Braun</option>
+            <option <?= $charakter->getAugenfarbe() === 'Grau' ? 'selected' : '' ?>>Grau</option>
+            <option <?= $charakter->getAugenfarbe() === 'Schwarz' ? 'selected' : '' ?>>Schwarz</option>
+            <option <?= $charakter->getAugenfarbe() === 'Rot' ? 'selected' : '' ?>>Rot</option>
+            <option <?= $charakter->getAugenfarbe() === 'Lila' ? 'selected' : '' ?>>Lila</option>
+            <option <?= $charakter->getAugenfarbe() === 'Gelb' ? 'selected' : '' ?>>Gelb</option>
+            <option <?= $charakter->getAugenfarbe() === 'Türkis' ? 'selected' : '' ?>>Türkis</option>
+        </select>
+    </div>
+    <div class="row">
+        <label class="form-label" for="geschlecht">
+            Geschlecht
+        </label>
+        <select name="geschlecht" id="geschlecht" class="form-control">
+            <option <?= $charakter->getGeschlecht() === 'm' ? 'selected' : '' ?>>m</option>
+            <option <?= $charakter->getGeschlecht() === 'w' ? 'selected' : '' ?>>w</option>
+        </select>
+    </div>
+    <div class="row input-group">
+        <label class="form-label" for="size">
+            Körpergröße
+        </label>
+        <div class="input-group m-0 p-0">
+            <input type="number" class="form-control" id="size" name="size" value="<?= $charakter->getSize() ?>">
+            <span class="input-group-text">cm</span>
+        </div>
+    </div>
+    <div class="row">
+        <label class="form-label">
+            Wohnort
+        </label>
+        <?= $charakter->getWohnort() ?>
+    </div>
+    <div class="row">
+        <label class="form-label">
+            Vermögen
+        </label>
+        <?= $charakter->getVermoegen()->getKategorie() ?>
+    </div>
+    <div class="row">
+        <label class="form-label" for="sex">
+            Sexuelle Orientierung
+        </label>
+        <select name="sex" id="sex" class="form-control">
+            <option <?= $charakter->getSexualitaet() === 'Heterosexuell' ? 'selected' : '' ?>>Heterosexuell</option>
+            <option <?= $charakter->getSexualitaet() === 'Homosexuell' ? 'selected' : '' ?>>Homosexuell</option>
+            <option <?= $charakter->getSexualitaet() === 'Bisexuell' ? 'selected' : '' ?>>Bisexuell</option>
+        </select>
+    </div>
+    <div class="row">
+        <label class="form-label" for="odo">
+            Odo
+        </label>
+        <select name="odo" id="odo" class="form-control">
+            <?php foreach($this->creationParams['odo'] as $odo): ?>
                 <option value="<?= $odo->getId() ?>" <?= $odo->getKategorie() == $charakter->getOdo()->getKategorie() ? 'selected' : '' ?>>
-                        <?= $odo->getAmount() . '(' . $odo->getKategorie() . ')' ?>
+                    <?= $odo->getAmount() . ' (' . $odo->getKategorie() . ')' ?>
                 </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label>
-                Naturelement
-            </label>
-            <select name="element">
-                <?php foreach($this->creationParams['elements'] as $element):
-                    if($element->getCharakterisierung() === null){
-                        continue;
-                    }
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="row">
+        <label class="form-label" for="element">
+            Naturelement
+        </label>
+        <select name="element" id="element" class="form-control">
+            <?php foreach($this->creationParams['elements'] as $element):
+                if($element->getCharakterisierung() === null){
+                    continue;
+                }
                 ?>
                 <option value="<?= $element->getId() ?>" <?= $element->getId() == $charakter->getNaturElement()->getId() ? 'selected' : '' ?>>
-                        <?= $element->getBezeichnung(); ?>
+                    <?= $element->getBezeichnung(); ?>
                 </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label>
-                Glück
-            </label>
-            <select name="luck">
-                <?php foreach($this->creationParams['luck'] as $luck): ?>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="row">
+        <label class="form-label" for="luck">
+            Glück
+        </label>
+        <select name="luck" id="luck" class="form-control">
+            <?php foreach($this->creationParams['luck'] as $luck): ?>
                 <option value="<?= $luck->getId() ?>" <?= $luck->getId() == $charakter->getLuck()->getId() ? 'selected' : '' ?>>
-                        <?= $luck->getKategorie() ?>
+                    <?= $luck->getKategorie() ?>
                 </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label for="organization">Magiorganisation</label>
-            <select id="organization" name="organization">
-                <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?> value="0">Keine</option>
-                <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
-                <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
-                <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
-            </select>
-        </p>
-        <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
-        <p>
-            <label>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="row">
+        <label class="form-label" for="organization">Magiorganisation</label>
+        <select id="organization" name="organization" class="form-control">
+            <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?> value="0">Keine</option>
+            <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+            <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+            <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+        </select>
+    </div>
+    <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
+        <div class="row">
+            <label class="form-label">
                 Magic Circuit
             </label>
             <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
-        </p>
-        <?php endif; ?>
-        <input type="submit" value="Daten ändern">
-    </fieldset>
+        </div>
+    <?php endif; ?>
+    <input type="submit" value="Daten ändern">
 </form>
