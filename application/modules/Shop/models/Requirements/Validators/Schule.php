@@ -17,7 +17,7 @@ class Schule implements ValidationInterface {
      * @return boolean
      */
     public function check(\Application_Model_Charakter $charakter, $value) {
-        return $charakter->getMagischoolId() === (int) $value;
+        return $charakter->getMagischoolId() === (int) $value or (int) $value === 0;
     }
 
     /**
