@@ -31,7 +31,7 @@ $application = new Zend_Application(
 try {
     $application->bootstrap()->run();
 } catch (Throwable $throwable) {
-    Zend_Debug::dump('$throwable');
+    Zend_Debug::dump($throwable);
     exit;
 }
 
