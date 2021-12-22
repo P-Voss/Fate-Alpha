@@ -10,11 +10,11 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $purifier = $this->purifier;
 $character = $this->character;
 $itemCategoryNames = [
-    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Schöne Waffen zum Draufhauen'],
-    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Pfeile, Bolzen, Patronen'],
-    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT => ['name' => 'Konzeptwaffen', 'descr' => 'Laser?'],
-    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC => ['name' => 'Mystic Codes', 'descr' => 'Dunno'],
-    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE => ['name' => 'Rezepte', 'descr' => 'Was zu futtern.'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE => ['name' => 'Nahkampfwaffen', 'descr' => 'Waffen für den Nahkampf'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED => ['name' => 'Distanzwaffen', 'descr' => 'Waffen für den Fernkampf'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT => ['name' => 'Konzeptwaffen', 'descr' => 'Konzept-basierte Waffen'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC => ['name' => 'Mystic Codes', 'descr' => 'Magische Items'],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE => ['name' => 'Rezepte', 'descr' => 'Kochrezepte'],
     \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC => ['name' => 'Sonstiges', 'descr' => 'Alles mögliche'],
 ];
 $itemCategories = [
