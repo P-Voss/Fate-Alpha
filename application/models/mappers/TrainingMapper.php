@@ -330,18 +330,9 @@ class Application_Model_Mapper_TrainingMapper
      */
     public function addFp ()
     {
-        $this->getDbTable('Training')->
-        getDefaultAdapter()->
-        query('UPDATE charakterWerte SET fp = fp +2');
-        $this->getDbTable('Training')->
-        getDefaultAdapter()->
-        query(
-            'UPDATE charakterWerte
-                        INNER JOIN charakter 
-                            ON charakter.charakterId = charakterWerte.charakterId 
-                            AND charakter.klassenId = 4
-                        SET fp = fp + 1'
-        );
+        $this->getDbTable('Training')
+            ->getDefaultAdapter()
+            ->query('UPDATE charakterWerte SET fp = fp +3');
     }
 
 
@@ -357,7 +348,7 @@ INNER JOIN
     charakter 
         ON charakter.charakterId = werte.charakterId 
         AND DATE_FORMAT(charakter.geburtsdatum, "%m-%d") = DATE_FORMAT(CURDATE(), "%m-%d")
-SET fp = fp + 50
+SET fp = fp + 150
 SQL;
         $this->getDbTable('CharakterWerte')->getDefaultAdapter()->query($sql);
     }

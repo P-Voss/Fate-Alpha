@@ -172,7 +172,7 @@ class Application_Model_Charakterwerte
             case 'uebung':
                 $this->setUebung($this->getUebung() + $attribute->getValue());
                 if ($attribute->getValue() > 0) {
-                    $this->setFp($this->getFp() + ceil($attribute->getValue()));
+                    $this->setFp($this->getFp() + (2 * ceil($attribute->getValue())));
                 }
                 break;
         }
@@ -232,6 +232,24 @@ class Application_Model_Charakterwerte
             ['category' => 'EA-', 'lowerbound' => 2600, 'numeric' => 11],
             ['category' => 'EA', 'lowerbound' => 2800, 'numeric' => 11],
             ['category' => 'EA+', 'lowerbound' => 3000, 'numeric' => 11],
+            ['category' => 'DF-', 'lowerbound' => 3250, 'numeric' => 12],
+            ['category' => 'DF', 'lowerbound' => 3500, 'numeric' => 12],
+            ['category' => 'DF+', 'lowerbound' => 3750, 'numeric' => 12],
+            ['category' => 'DE-', 'lowerbound' => 4000, 'numeric' => 13],
+            ['category' => 'DE', 'lowerbound' => 4250, 'numeric' => 13],
+            ['category' => 'DE+', 'lowerbound' => 4500, 'numeric' => 13],
+            ['category' => 'DD-', 'lowerbound' => 4750, 'numeric' => 14],
+            ['category' => 'DD', 'lowerbound' => 5000, 'numeric' => 14],
+            ['category' => 'DD+', 'lowerbound' => 5500, 'numeric' => 14],
+            ['category' => 'DC-', 'lowerbound' => 6000, 'numeric' => 15],
+            ['category' => 'DC', 'lowerbound' => 6500, 'numeric' => 15],
+            ['category' => 'DC+', 'lowerbound' => 70000, 'numeric' => 15],
+            ['category' => 'DB-', 'lowerbound' => 7500, 'numeric' => 16],
+            ['category' => 'DB', 'lowerbound' => 8250, 'numeric' => 16],
+            ['category' => 'DB+', 'lowerbound' => 9000, 'numeric' => 16],
+            ['category' => 'DA-', 'lowerbound' => 9750, 'numeric' => 17],
+            ['category' => 'DA', 'lowerbound' => 10500, 'numeric' => 17],
+            ['category' => 'DA+', 'lowerbound' => 11000, 'numeric' => 17],
         ];
         $activeCategory = $categories[0];
         foreach ($categories as $key => $category) {
