@@ -64,7 +64,7 @@ class Application_Model_Circuit
     {
         foreach ($character->getTraits() as $trait) {
             if (in_array($trait->getTraitId(), [self::MANA_KONTROLLE, self::MANA_BAENDIGER])) {
-                return $this->getMenge() + $character->getCharakterwerte()->getCategory('pra')->getNumericValue() * 25;
+                return $this->getMenge() + $character->getCharakterwerte()->getCategory('kon')->getNumericValue() * 25;
             }
         }
         return $this->getMenge();
