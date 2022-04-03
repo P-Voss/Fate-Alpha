@@ -2,46 +2,59 @@
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 ?>
-<h1>Klasse erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/klasse/create" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" />
-            <label for="kosten">Kosten</label>
-            <input type="number" name="kosten" />
-            <label for="klassengruppe">
+<h1 class="fs-1">Klasse erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/klasse/create" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" size="30" name="name" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input class="form-control" id="kosten" type="number" name="kosten" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="familienname">Familienname</label>
+            <input class="form-control" id="familienname" type="text" size="30" name="familienname" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="klassengruppe">
                 Klassengruppe:
             </label>
-            <select name="klassengruppe">
+            <select class="form-select" id="klassengruppe" name="klassengruppe">
                 <?php foreach ($this->klassengruppen as $gruppe) { ?>
-                <option value="<?= $gruppe->getId() ?>">
-                    <?= $gruppe->getBezeichnung() ?>
-                </option>
+                    <option value="<?= $gruppe->getId() ?>">
+                        <?= $gruppe->getBezeichnung() ?>
+                    </option>
                 <?php } ?>
             </select>
-            <br />
-            <label for="familienname">Familienname</label>
-            <input type="text" size="30" name="familienname" />
-        </p>
-        <p>
-            <label for="traits">
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="traits">
                 Traits:
             </label>
-            <select name="traits[]" multiple="true" size="8">
+            <select class="form-select" id="traits" name="traits[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
-                <option value="<?= $trait->getTraitId() ?>">
-                    <?= $trait->getName() ?>
-                </option>
+                    <option value="<?= $trait->getTraitId() ?>">
+                        <?= $trait->getName() ?>
+                    </option>
                 <?php } ?>
             </select>
-        </p>
-        <label for="beschreibung">
-            Beschreibung
-        </label>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Klasse erstellen" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Klasse erstellen" />
+        </div>
     </div>
 </form>

@@ -4,10 +4,10 @@ $skills = $this->skills;
 /** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $this->requirementList;
 ?>
-<label for="skills" style="vertical-align: top">
+<label class="form-label" for="skills">
     Fähigkeiten:
 </label>
-<select name="skills[]" multiple="true" size="8">
+<select name="skills[]" class="form-select" id="skills" multiple="true" size="8">
     <?php foreach ($skills as $listedSkill) {
         $selected = in_array(
             $listedSkill->getId(),

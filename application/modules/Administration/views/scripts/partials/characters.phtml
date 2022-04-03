@@ -4,8 +4,8 @@ $characters = $this->characters;
 /** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $this->requirementList;
 ?>
-<label for="characters">Nur für</label>
-<select name="characters[]" id="characters" multiple size="7">
+<label class="form-label" for="characters">Nur für</label>
+<select class="form-select" name="characters[]" id="characters" multiple size="7">
     <?php
     foreach ($characters as $character):
         $selected = '';

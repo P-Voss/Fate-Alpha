@@ -1,37 +1,87 @@
 <?php
+/* @var $firstCharacter Application_Model_Charakter */
 /* @var $charakter Application_Model_Charakter */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $currentDate = new DateTime();
-?>
-<h1>
-    Charakter
-</h1>
-<?php
-foreach ($this->charakters as $charakter){
-    $birthDate = new DateTime();
-    if($currentDate->format('m') < $charakter->getGeburtsdatum('m')
-        || ($currentDate->format('m') === $charakter->getGeburtsdatum('m') && $currentDate->format('d') <= $charakter->getGeburtsdatum('d'))
-    ) {
-        $birthDate->setDate($currentDate->format('Y'), $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
-    } else {
-        $birthDate->setDate($currentDate->format('Y') + 1, $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
-    }
-    $diff = date_diff($currentDate, $birthDate);
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
-    <div>
-        <p style="font-weight: bold">
-            Geburtstag in: <?= $diff->format("%m Monaten und %d Tagen") ?>
-        </p>
-        <p>
-            am: <?= $birthDate->format('d.m.Y') ?>
-        </p>
-        <p style="width: 200px; display: inline-block; font-weight: bold">
-            <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
-        </p>
-    </div>
-</a>
-<hr />
-<?php
+$characters = $this->charakters;
+$firstCharacter = array_shift($characters);
+
+$birthDate = new DateTime();
+if($currentDate->format('m') < $firstCharacter->getGeburtsdatum('m')
+    || ($currentDate->format('m') === $firstCharacter->getGeburtsdatum('m') && $currentDate->format('d') <= $firstCharacter->getGeburtsdatum('d'))
+) {
+    $birthDate->setDate($currentDate->format('Y'), $firstCharacter->getGeburtsdatum('m'), $firstCharacter->getGeburtsdatum('d'));
+} else {
+    $birthDate->setDate($currentDate->format('Y') + 1, $firstCharacter->getGeburtsdatum('m'), $firstCharacter->getGeburtsdatum('d'));
 }
+$diff = date_diff($currentDate, $birthDate);
+?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Geburtstagsliste
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 p-2">
+            <a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $firstCharacter->getCharakterid() ?>">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title fs-bold">
+                            <?= $firstCharacter->getVorname() . ' ' . $firstCharacter->getNachname() ?>
+                        </div>
+                        <div class="card-subtitle text-muted">
+                            <?= $firstCharacter->getNickname() . ' Geboren am ' . $firstCharacter->getGeburtsdatum('d.m.Y') ?>
+                        </div>
+                        <div class="row">
+                            <div class="col fs-2 fw-bold">
+                                Geburtstag in: <?= $diff->format("%m Monaten und %d Tagen") ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <?php
+        foreach ($characters as $charakter){
+            $birthDate = new DateTime();
+            if($currentDate->format('m') < $charakter->getGeburtsdatum('m')
+                || ($currentDate->format('m') === $charakter->getGeburtsdatum('m') && $currentDate->format('d') <= $charakter->getGeburtsdatum('d'))
+            ) {
+                $birthDate->setDate($currentDate->format('Y'), $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
+            } else {
+                $birthDate->setDate($currentDate->format('Y') + 1, $charakter->getGeburtsdatum('m'), $charakter->getGeburtsdatum('d'));
+            }
+            $diff = date_diff($currentDate, $birthDate);
+            ?>
+            <div class="col-3 p-2">
+                <a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title fs-bold">
+                                <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+                            </div>
+                            <div class="card-subtitle text-muted">
+                                <?= $charakter->getNickname() . ' Geboren am ' . $charakter->getGeburtsdatum('d.m.Y') ?>
+                            </div>
+                            <div class="row">
+                                <div class="col fs-6 fw-bold">
+                                    Geburtstag in: <?= $diff->format("%m Monaten und %d Tagen") ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>

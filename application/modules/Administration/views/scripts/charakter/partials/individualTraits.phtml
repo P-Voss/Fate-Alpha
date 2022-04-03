@@ -8,7 +8,7 @@ $characterTraitIds = array_map(function (Administration_Model_Trait $trait) {
 <fieldset>
     <legend>Individuelle Traits</legend>
     <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/traits">
-        <select name="traitIds[]" multiple size="5">
+        <select class="form-select" name="traitIds[]" multiple size="5">
             <?php
             foreach($individualTraits as $trait):
                 $selected = '';
@@ -21,6 +21,6 @@ $characterTraitIds = array_map(function (Administration_Model_Trait $trait) {
         </select>
         <br />
         <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
-        <input type="submit" value="Traits eintragen" />
+        <input class="btn btn-primary" type="submit" value="Traits eintragen" />
     </form>
 </fieldset>

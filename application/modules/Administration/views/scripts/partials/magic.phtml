@@ -4,10 +4,10 @@ $magics = $this->magic;
 /** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $this->requirementList;
 ?>
-<label for="magien" style="vertical-align: top">
+<label class="form-label" for="magien">
     Magien:
 </label>
-<select name="magien[]" id="magien" multiple="true" size="8">
+<select class="form-select" name="magien[]" id="magien" multiple="true" size="8">
     <?php foreach ($magics as $magic) {
         $selected = in_array(
             $magic->getId(),

@@ -1,10 +1,14 @@
 <fieldset>
     <legend>Charakterbild <span class="indicator"></span></legend>
-    <div class="subContent">
-        <form method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
-            <input type="text" name="charpic"  placeholder="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
-            <input type="submit" value="Charakterbild speichern">
-        </form>
-        <img src="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
-    </div>
+    <form class="subContent row" method="post" action="<?= $this->baseUrl() ?>/charakter/charpic">
+        <div class="col-12">
+            <input type="text" class="form-control" name="charpic" placeholder="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
+        </div>
+        <div class="col-12">
+            <input class="btn btn-danger" type="submit" value="Charakterbild speichern">
+        </div>
+        <div class="col-12">
+            <img src="<?= $this->purify($charakter->getCharakterprofil()->getCharpic()) ?>" height="400px" width="300px">
+        </div>
+    </form>
 </fieldset>

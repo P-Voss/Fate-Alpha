@@ -4,10 +4,10 @@ $schools = $this->schulen;
 /** @var Administration_Model_Requirementlist $requirementList */
 $requirementList = $this->requirementList;
 ?>
-<label for="schule">
+<label class="form-label" for="schule">
     Magieschule
 </label>
-<select name="schule" id="schule">
+<select class="form-select" name="schule" id="schule">
     <?php foreach ($schools as $school) {
     $selected = in_array(
         $school->getId(),

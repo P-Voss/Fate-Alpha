@@ -1,24 +1,39 @@
 <?php
-/* @var $schule Administration_Model_Schule */
+/* @var $school Application_Model_Schule  */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+
+$schools = $this->list;
+usort($schools, function (Application_Model_Schule   $a, Application_Model_Schule   $b) {
+    return strcmp($a->getBezeichnung(), $b->getBezeichnung());
+});
+
 ?>
-<h1>
+<h1 class="fs-1">
     Magieschulen
 </h1>
-<?php
-foreach ($this->list as $schule){
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/schule/show/id/<?= $schule->getId() ?>">
-    <fieldset>
-        <p>
-            <?= $purifier->purify($schule->getBezeichnung()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify(substr($schule->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($schule->getBeschreibung()) > 100) ? '...' : '' ?>
-        </p>
-    </fieldset>
-</a>
-<?php
-}
+<div class="container">
+    <div class="row">
+        <?php
+        foreach ($schools as $school){
+            ?>
+            <div class="col-4 p-2">
+                <div class="card" style="height: 15rem; overflow: auto">
+                    <a href="<?= $this->baseUrl() ?>/Administration/schule/show/id/<?= $school->getId() ?>">
+                        <div class="card-body">
+                            <div class="card-title fw-bold fs-3">
+                                <?= $purifier->purify($school->getBezeichnung()) ?>
+                            </div>
+                            <div>
+                                <?= $purifier->purify(substr($school->getBeschreibung(), 0, 300)) ?>
+                                <?= (strlen($school->getBeschreibung()) > 300) ? '...' : '' ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+</div>

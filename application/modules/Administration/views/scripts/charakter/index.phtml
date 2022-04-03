@@ -2,20 +2,41 @@
 /* @var $charakter Application_Model_Charakter */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+$characters = $this->charakters;
+usort($characters, function (Application_Model_Charakter $a, Application_Model_Charakter $b) {
+    return strcmp(lcfirst($a->getVorname()), lcfirst($b->getVorname()));
+});
+
 ?>
-<h1>
+<h1 class="fs-1">
     Charakter
 </h1>
-<?php
-foreach ($this->charakters as $charakter){
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
-    <div>
-        <p style="width: 200px; display: inline-block"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></p>
-        <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
-        <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
-    </div>
-</a>
-<hr />
-<?php
-}
+<div class="row">
+    <?php
+    foreach ($characters as $charakter){
+    ?>
+    <div class="col-3 p-2">
+        <a href="<?= $this->baseUrl() ?>/Administration/charakter/show/charakter/<?= $charakter->getCharakterid() ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title fs-bold">
+                        <?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?>
+                    </div>
+                    <div class="card-subtitle text-muted">
+                        <?= $charakter->getNickname() . ' Geboren am ' . $charakter->getGeburtsdatum('d.m.Y') ?>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getCharpic()) ?>">
+                        </div>
+                        <div class="col-6">
+                            <img style="display: inline-block" height="70" width="70" src="<?= $purifier->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a></div>
+    <?php
+    }
+    ?>
+</div>

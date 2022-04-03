@@ -20,7 +20,7 @@ foreach ($charakter->getItems() as $item) {
     $itemCategories[$item->getType()][] = $item;
 }
 ?>
-<h1>Gegenstände</h1>
+<h1 class="fs-1">Gegenstände</h1>
 <?php
 foreach ($itemCategories as $key => $category):
     if (count($category) === 0) {
@@ -33,23 +33,30 @@ foreach ($itemCategories as $key => $category):
     )
     ?>
     <fieldset>
-        <legend><?= $itemCategoryNames[$key]['name'] ?> <span class="indicator"></span></legend>
+        <legend class="fs-2"><?= $itemCategoryNames[$key]['name'] ?> <span class="indicator"></span></legend>
         <p>
             <?= $itemCategoryNames[$key]['descr'] ?>
         </p>
         <div class="subContent">
-            <?php foreach ($category as $item): ?>
-                <div class="item">
-                    <p style="font-weight: bold; margin-top: 10px;"><?= $this->purify($item->getName()) ?></p>
-                    <p>
-                        Rang: <span style="font-weight: bold"><?= $this->purify($item->getRank()) ?></span>
-                    </p>
-                    <p>
-                        <?= $this->purify($item->getDescription()) ?>
-                    </p>
-                    <hr/>
-                </div>
-            <?php endforeach; ?>
+            <div class="row">
+                <?php foreach ($category as $item): ?>
+                    <div class="col-4 p-2">
+                        <div class="card" style="height: 12rem; overflow: auto">
+                            <div class="card-body">
+                                <div class="card-title fs-5">
+                                    <?= $this->purify($item->getName()) ?>
+                                </div>
+                                <div class="card-subtitle text-muted">
+                                    Rang: <span class="fw-bold"><?= $this->purify($item->getRank()) ?></span>
+                                </div>
+                                <div>
+                                    <?= $this->purify($item->getDescription()) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </fieldset>
 <?php endforeach; ?>

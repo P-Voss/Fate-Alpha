@@ -1,28 +1,47 @@
 <?php
-/* @var $news Administration_Model_News */
+/* @var $news Application_Model_News */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
+//Zend_Debug::dump($this->newsList);
+//exit;
 ?>
-<h1>
-    Nachrichtenarchiv
-</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Nachrichtenarchiv
+            </h1>
+        </div>
+    </div>
+    <div class="row">
 <?php
-foreach ($this->newsList as $news){
-?>
-<fieldset>
-    <a href="<?= $this->baseUrl() ?>/Administration/news/show/id/<?= $news->getId() ?>">
-        <?= $purifier->purify($news->getTitel()) ?>
-    </a>
-    <p>
-        <?= $purifier->purify($news->getNachricht()) ?>
-    </p>
-    <p>
-        von: <?= $news->getVerfasserName() ?>
-    </p>
-    <form method="POST" action="<?= $this->baseUrl() ?>/Administration/news/delete">
-        <input type="hidden" name="newsId" value="<?= $news->getId() ?>">
-        <input type="submit" value="News löschen">
-    </form>
-</fieldset>
+foreach ($this->newsList as $news) {
+    ?>
+        <div class="col-4 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <?= $purifier->purify($news->getTitel()) ?>
+                    </div>
+                    <div class="card-subtitle text-muted">
+                        von: <?= $news->getVerfasserName() ?>
+                    </div>
+                    <div class="row p-3 justify-content-between">
+                        <div class="col-4">
+                            <a class="btn btn-primary" href="<?= $this->baseUrl() ?>/Administration/news/show/id/<?= $news->getId() ?>">
+                                Editieren
+                            </a>
+                        </div>
+                        <form class="col-4" method="POST" action="<?= $this->baseUrl() ?>/Administration/news/delete">
+                            <input type="hidden" name="newsId" value="<?= $news->getId() ?>">
+                            <input class="btn btn-danger" type="submit" value="Löschen">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 <?php
 }
+?>
+    </div>
+</div>

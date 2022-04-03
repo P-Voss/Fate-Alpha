@@ -7,26 +7,35 @@ $purifier = $this->purifier;
 ?>
 <h1>Circuit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/circuits/edit" method="post">
-    <fieldset>
-        <div>
-            <label for="kategorie">Kategorie</label>
-            <input type="text" size="30" id="kategorie" name="kategorie" value="<?= $circuit->getKategorie() ?>" />
-            <label for="kosten">Kosten</label>
-            <input type="number" id="kosten" name="kosten" value="<?= $circuit->getKosten() ?>" />
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="kategorie">Kategorie</label>
+            <input type="text" size="30" id="kategorie" name="kategorie" class="form-control" value="<?= $circuit->getKategorie() ?>" />
         </div>
-        <div>
-            <label for="menge">Odo-Menge</label>
-            <input type="number" id="menge" name="menge" value="<?= $circuit->getMenge() ?>">
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input type="number" id="kosten" name="kosten" class="form-control" value="<?= $circuit->getKosten() ?>" />
         </div>
-        <div>
-            <label for="beschreibung">
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="menge">Odo-Menge</label>
+            <input type="number" id="menge" name="menge" class="form-control" value="<?= $circuit->getMenge() ?>">
+        </div>
+    </div>    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="beschreibung">
                 Beschreibung
             </label>
             <textarea name="beschreibung" id="beschreibung" cols="80" rows="10"><?= $purifier->purify($circuit->getBeschreibung()) ?></textarea>
         </div>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="circuitId" value="<?= $circuit->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Circuit ändern" />
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="circuitId" value="<?= $circuit->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Circuit ändern" />
+        </div>
     </div>
 </form>

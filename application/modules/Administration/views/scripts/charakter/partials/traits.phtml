@@ -1,13 +1,19 @@
 <fieldset>
-    <legend>Traits</legend>
-<?php foreach($charakter->getTraits() as $trait): ?>
-    <div>
-        <legend>
-            <?= $this->purify($trait->getName()) ?> <span class="indicator"></span>
-        </legend>
-        <div class="subContent">
-            <?= $this->purify($trait->getBeschreibung()) ?>
-        </div>
+    <legend>Traits <span class="indicator"></span></legend>
+    <div class="subContent row">
+        <?php foreach($charakter->getTraits() as $trait): ?>
+            <div class="col-12 p-1">
+                <div class="card" style="height: 9rem; overflow: auto">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <?= $this->purify($trait->getName()) ?>
+                        </div>
+                        <div class="text-muted">
+                            <?= $this->purify($trait->getBeschreibung()) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
 </fieldset>

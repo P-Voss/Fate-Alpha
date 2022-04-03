@@ -3,73 +3,87 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/formular.js'));
 ?>
-<h1>Neue Magieschule erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/schule/create" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" id="name" />
-        </p>
-        <fieldset>
-            <legend>
-                Vorraussetzungen
-            </legend>
-            <p>
-                <label for="MagiOrganization">Magi Organisation</label>
-                <select name="MagiOrganization" id="MagiOrganization">
-                    <option value="0">Keine Organisation</option>
-                    <option value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
-                    <option value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
-                    <option value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
-                    <option value="<?= Application_Model_MagiOrganization::CHURCH ?>">Glaubenstypen</option>
-                </select>
-            </p>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <label for="trait">
-                        Nicht kombinierbar mit den Traits:
-                    </label>
-                    <select name="trait[]" multiple="true" size="8">
-                        <?php foreach ($this->traits as $trait) { ?>
-                            <option value="<?= $trait->getTraitId() ?>">
-                                <?= $trait->getName() ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
-        </fieldset>
-    </fieldset>
-    <textarea name="beschreibung" cols="80" rows="10"></textarea>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+<h1 class="fs-1">Neue Magieschule erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/schule/create" method="post">
+    
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" id="name" />
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col">
+            <h2 class="fs-2">Vorraussetzungen</h2>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="MagiOrganization">Magi Organisation</label>
+            <select class="form-select" name="MagiOrganization" id="MagiOrganization">
+                <option value="0">Keine Organisation</option>
+                <option value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+                <option value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+                <option value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+                <option value="<?= Application_Model_MagiOrganization::CHURCH ?>">Glaubenstypen</option>
+            </select>
+        </div>
+    </div>
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="trait">
+                Nicht kombinierbar mit den Traits:
+            </label>
+            <select class="form-select" name="trait[]" multiple="true" size="8">
+                <?php foreach ($this->traits as $trait) { ?>
+                    <option value="<?= $trait->getTraitId() ?>">
+                        <?= $trait->getName() ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+        </div>
     </div>
 </form>

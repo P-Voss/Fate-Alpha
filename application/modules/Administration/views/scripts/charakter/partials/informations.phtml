@@ -9,7 +9,7 @@ $characterInfoIds = array_map(function (Administration_Model_Information $inform
     <legend>Info Freigabe <span class="indicator"></span></legend>
     <div class="subContent">
         <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/informations">
-            <select name="infoIds[]" multiple size="15">
+            <select class="form-select" name="infoIds[]" multiple size="15">
                 <?php
                 foreach($informations as $information):
                     $selected = '';
@@ -20,9 +20,8 @@ $characterInfoIds = array_map(function (Administration_Model_Information $inform
                     <option <?= $selected ?> value="<?= $information->getInformationId() ?>"><?= $information->getName() ?></option>
                 <?php endforeach; ?>
             </select>
-            <br />
             <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
-            <input type="submit" value="Infos freigeben" />
+            <input class="btn btn-primary" type="submit" value="Infos freigeben" />
         </form>
     </div>
 </fieldset>

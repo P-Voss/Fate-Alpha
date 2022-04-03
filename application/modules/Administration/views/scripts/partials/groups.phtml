@@ -2,10 +2,10 @@
 /** @var Application_Model_Klassengruppe[] $groups */
 $groups = $this->groups;
 ?>
-<label for="gruppen" style="vertical-align: top">
+<label class="form-label" for="gruppen" style="vertical-align: top">
     Klassengruppen:
 </label>
-<select name="gruppen[]" id="gruppen" multiple="" size="5">
+<select class="form-select" name="gruppen[]" id="gruppen" multiple="" size="5">
     <?php
     foreach ($groups as $group) {
         $selected = in_array($group->getId(), $this->requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::GROUP)) ? 'selected' : '';

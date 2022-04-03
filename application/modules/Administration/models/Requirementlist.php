@@ -53,6 +53,16 @@ class Administration_Model_Requirementlist
     /**
      * @param $key
      *
+     * @return Administration_Model_Requirement
+     */
+    public function get($key)
+    {
+        return $this->getRequirementByKey($key);
+    }
+
+    /**
+     * @param $key
+     *
      * @return array
      */
     public function getRequirementValuesByKey ($key)

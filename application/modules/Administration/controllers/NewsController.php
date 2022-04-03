@@ -33,8 +33,8 @@ class Administration_NewsController extends Zend_Controller_Action {
     
     public function showAction() {
         $this->view->news = $this->_newsService->getNewsById(
-                    $this->getRequest()->getParam('id')
-                );
+            $this->getRequest()->getParam('id')
+        );
     }
     
     public function indexAction() {

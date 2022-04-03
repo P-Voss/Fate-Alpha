@@ -2,10 +2,10 @@
 /** @var Application_Model_Klasse[] $classes */
 $classes = $this->classes;
 ?>
-<label for="klassen" style="vertical-align: top">
+<label class="form-label" for="klassen">
     Klassen:
 </label>
-<select name="klassen[]" id="klassen" multiple="true" size="5">
+<select class="form-select" name="klassen[]" id="klassen" multiple="true" size="5">
     <?php foreach ($classes as $class) {
         $selected = in_array($class->getId(), $this->requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::SKILL)) ? 'selected' : '';
         ?>

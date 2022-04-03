@@ -3,30 +3,38 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js'
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 $element = $this->element;
 ?>
-<h1>Element anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/element/edit" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $this->purify($element->getBezeichnung()) ?>" />
-            <label for="kosten">Kosten</label>
-            <input type="number" name="kosten" value="<?= $element->getKosten() ?>" />
-        </p>
-        <label for="beschreibung">
-            Beschreibung
-        </label>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $this->purify($element->getBeschreibung()) ?>
-        </textarea>
-        <label for="charakter">
-            Charakter
-        </label>
-        <textarea name="charakter" cols="80" rows="10">
-            <?= $this->purify($element->getCharakterisierung()) ?>
-        </textarea>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="elementId" value="<?= $element->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Element ändern" />
+<h1 class="fs-1">Element anpassen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/element/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" size="35" name="name" value="<?= $this->purify($element->getBezeichnung()) ?>" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input class="form-control" id="kosten" type="number" name="kosten" value="<?= $element->getKosten() ?>" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <label class="form-label" for="beschreibung">
+                Beschreibung
+            </label>
+            <textarea name="beschreibung" id="beschreibung" cols="80" rows="10"><?= $this->purify($element->getBeschreibung()) ?></textarea>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <label class="form-label" for="charakter">
+                Charakter
+            </label>
+            <textarea name="charakter" id="charakter" cols="80" rows="10"><?= $this->purify($element->getCharakterisierung()) ?></textarea>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="elementId" value="<?= $element->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Element ändern" />
+        </div>
     </div>
 </form>

@@ -5,13 +5,13 @@ $traits = $this->traits;
 $requirementList = $this->requirementList;
 ?>
 <label class="form-label" for="trait">
-    Traits:
+    Keinen von diesen Traits:
 </label>
-<select class="form-select" name="traits[]" id="traits" multiple="" size="8">
+<select class="form-select" name="traitIncompatible[]" id="traits" multiple="" size="8">
     <?php foreach ($this->traits as $trait) {
         $selected = in_array(
             $trait->getTraitId(),
-            $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::TRAIT)
+            $requirementList->getRequirementValuesByKey(Application_Model_Requirements_Types::TRAIT_INC)
         ) ? 'selected' : '';
         ?>
         <option <?= $selected ?>  value="<?= $trait->getTraitId() ?>">

@@ -50,158 +50,136 @@ $purifier = $this->purifier;
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
-<h1>Item anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/item/edit" method="post">
-    <fieldset>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" id="name" value="<?= $item->getName() ?>" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="bedingung">Kaufbedingung</label>
-                <select name="bedingung" id="bedingung">
-                    <option <?= $item->getBedingung() === 'Standard' ? 'selected=""' : '' ?>>Standard</option>
-                    <option <?= $item->getBedingung() === 'RPG' ? 'selected=""' : '' ?>>RPG</option>
-                </select>
-            </div>
+<h1 class="fs-2">Item anpassen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/item/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" id="name" value="<?= $item->getName() ?>" />
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="characters">Nur für</label>
-                <select name="characters[]" id="characters" multiple size="7">
-                    <?php
-                    foreach ($characters as $character):
-                        $selected = '';
-                        if (in_array($character->getCharakterid(), $characterReq)) {
-                            $selected = 'selected=""';
-                        }
-                        ?>
-                        <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="bedingung">Kaufbedingung</label>
+            <select class="form-select" name="bedingung" id="bedingung">
+                <option <?= $item->getBedingung() === 'Standard' ? 'selected=""' : '' ?>>Standard</option>
+                <option <?= $item->getBedingung() === 'RPG' ? 'selected=""' : '' ?>>RPG</option>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="discountDays">Rabatt-Tage</label>
-                <select name="discountDays[]" id="discountDays" multiple size="7">
-                    <?php
-                    foreach ($days as $key => $day):
-                        $selected = in_array($key, $item->getDiscountDays()) ? 'selected=""' : '';
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="characters">Nur für</label>
+            <select class="form-select" name="characters[]" id="characters" multiple size="7">
+                <?php
+                foreach ($characters as $character):
+                    $selected = '';
+                    if (in_array($character->getCharakterid(), $characterReq)) {
+                        $selected = 'selected=""';
+                    }
                     ?>
-                        <option <?= $selected ?> value="<?= $key ?>"><?= $day ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                    <option <?= $selected ?> value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="type">Item Art</label>
-                <select name="type">
-                    <?php
-                    foreach ($types as $key => $type):
-                        $selected = $key === $item->getType() ? 'selected=""' : '';
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="discountDays">Rabatt-Tage</label>
+            <select class="form-select" name="discountDays[]" id="discountDays" multiple size="7">
+                <?php
+                foreach ($days as $key => $day):
+                    $selected = in_array($key, $item->getDiscountDays()) ? 'selected=""' : '';
+                ?>
+                    <option <?= $selected ?> value="<?= $key ?>"><?= $day ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="type">Item Art</label>
+            <select class="form-select" id="type" name="type">
+                <?php
+                foreach ($types as $key => $type):
+                    $selected = $key === $item->getType() ? 'selected=""' : '';
+                ?>
+                <option <?= $selected ?> value="<?= $key ?>"><?= $type ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="fp">FP-Kosten</label>
+            <input class="form-control" id="fp" type="number" name="fp" value="<?= $item->getCost() ?>"/>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
+            </label>
+            <select class="form-select" id="rang" name="rang">
+                <?php foreach($raenge as $rang): ?>
+                    <option <?= ($item->getRank() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => $item->getRequirementList()]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magieschule">
+                Eine von diesen Magieschulen:
+            </label>
+            <select class="form-select" id="magieschule" name="magieschulenAny[]" multiple="true" size="5">
+                <?php foreach ($this->schulen as $schule):
+                    $selected = in_array($schule->getId(), $magieschulenAny) ? 'selected=""' : '';
                     ?>
-                    <option <?= $selected ?> value="<?= $key ?>"><?= $type ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="fp">FP-Kosten</label>
-                <input type="number" name="fp" value="<?= $item->getCost() ?>"/>
-            </div>
+                    <option value="<?= $schule->getId() ?>" <?= $selected ?>>
+                        <?= $schule->getBezeichnung() ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="uebung">benötigte Übung</label>
-                <input type="number" name="uebung" value="<?= $item->getRequirementList()->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="disziplin">benötigte Disziplin</label>
-                <input type="number" name="disziplin" value="<?= $item->getRequirementList()->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="gruppen" style="vertical-align: top">
+                Klassengruppen:
+            </label>
+            <select class="form-select" id="gruppen" name="gruppen[]" multiple="true" size="5">
+                <?php
+                foreach ($this->klassengruppen as $gruppe) {
+                    $selected = in_array($gruppe->getId(), $reqGroups) ? 'selected' : '';
+                    ?>
+                    <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
+                        <?= $gruppe->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="rang">
-                    Rang
-                </label>
-                <select name="rang">
-                    <?php foreach($raenge as $rang): ?>
-                        <option <?= ($item->getRank() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="klassen" style="vertical-align: top">
+                Klassen:
+            </label>
+            <select class="form-select" id="klassen" name="klassen[]" multiple="true" size="5">
+                <?php foreach ($this->klassen as $klasse) {
+                    $selected = in_array($klasse->getId(), $reqClasses) ? 'selected' : '';
+                    ?>
+                    <option <?= $selected ?> value="<?= $klasse->getId() ?>">
+                        <?= $klasse->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <label for="staerke">Stärke</label>
-            <input type="number" size="30" name="staerke" id="staerke" value="<?= $item->getRequirementList()->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="agilitaet">Agilität</label>
-            <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $item->getRequirementList()->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="ausdauer">Ausdauer</label>
-            <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $item->getRequirementList()->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <label for="kontrolle">Kontrolle</label>
-            <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $item->getRequirementList()->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magieschule">
-                    Eine von diesen Magieschulen:
-                </label>
-                <select name="magieschulenAny[]" multiple="true" size="5">
-                    <?php foreach ($this->schulen as $schule):
-                        $selected = in_array($schule->getId(), $magieschulenAny) ? 'selected=""' : '';
-                        ?>
-                        <option value="<?= $schule->getId() ?>" <?= $selected ?>>
-                            <?= $schule->getBezeichnung() ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="gruppen" style="vertical-align: top">
-                    Klassengruppen:
-                </label>
-                <select name="gruppen[]" multiple="true" size="5">
-                    <?php
-                    foreach ($this->klassengruppen as $gruppe) {
-                        $selected = in_array($gruppe->getId(), $reqGroups) ? 'selected' : '';
-                        ?>
-                        <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
-                            <?= $gruppe->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="klassen" style="vertical-align: top">
-                    Klassen:
-                </label>
-                <select name="klassen[]" multiple="true" size="5">
-                    <?php foreach ($this->klassen as $klasse) {
-                        $selected = in_array($klasse->getId(), $reqClasses) ? 'selected' : '';
-                        ?>
-                        <option <?= $selected ?> value="<?= $klasse->getId() ?>">
-                            <?= $klasse->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <label for="trait">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select name="trait[]" multiple="true" size="8">
+            <select class="form-select" id="trait" name="trait[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) {
                     $selected = in_array($trait->getTraitId(), $traitReq) ? 'selected' : '';
                     ?>
@@ -211,109 +189,113 @@ $characters = $this->characters;
                 <?php } ?>
             </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block; vertical-align: top">
-                <label for="skills" style="vertical-align: top">
-                    Fähigkeiten:
-                </label>
-                <select name="skills[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        foreach ($item->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                        ?>
-                        <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                            <?= $listedSkill->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="skillsAny" style="vertical-align: top">
-                    Irgendeine von diesen Fähigkeiten:
-                </label>
-                <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        if(in_array($listedSkill->getId(), $skillsAny)){
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skills" style="vertical-align: top">
+                Fähigkeiten:
+            </label>
+            <select class="form-select" id="skills" name="skills[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    foreach ($item->getRequirementList()->getRequirementArrayByKey('Faehigkeit') as $reqSkill) {
+                        if($reqSkill->getRequiredValue() == $listedSkill->getId()){
                             $selected = 'selected="true"';
                         }
-                        ?>
-                        <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
-                            <?= $listedSkill->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+                    }
+                    ?>
+                    <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="skillsIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit:
-                </label>
-                <select name="skillsIncompatible[]" multiple="true" size="8">
-                    <?php foreach ($this->skills as $listedSkill) {
-                        $selected = '';
-                        foreach ($item->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedSkill->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                        ?>
-                        <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
-                            <?= $listedSkill->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="skillsAny" style="vertical-align: top">
+                Irgendeine von diesen Fähigkeiten:
+            </label>
+            <select class="form-select" name="skillsAny[]" id="skillsAny" multiple="true" size="8">
+                <?php foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    if(in_array($listedSkill->getId(), $skillsAny)){
+                        $selected = 'selected="true"';
+                    }
+                    ?>
+                    <option <?= $selected ?> value="<?= $listedSkill->getId() ?>">
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magien" style="vertical-align: top">
-                    Magien:
-                </label>
-                <select name="magien[]" id="magien" multiple="true" size="8">
-                    <?php foreach ($this->magien as $listedMagie) {
-                        $selected = '';
-                        foreach ($item->getRequirementList()->getRequirementArrayByKey('Magie') as $reqSkill) {
-                            if($reqSkill->getRequiredValue() == $listedMagie->getId()){
-                                $selected = 'selected="true"';
-                            }
-                        }
-                        ?>
-                        <option <?= $selected ?> value="<?= $listedMagie->getId() ?>">
-                            <?= $listedMagie->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="magienAny" style="vertical-align: top">
-                    Irgendeine von diesen Magien:
-                </label>
-                <select name="magienAny[]" id="magienAny" multiple="true" size="8">
-                    <?php foreach ($this->magien as $listedMagie) {
-                        $selected = '';
-                        if(in_array($listedMagie->getId(), $magieAny)){
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skillsIncompatible" style="vertical-align: top">
+                Nicht kombinierbar mit:
+            </label>
+            <select class="form-select" id="skillsIncompatible" name="skillsIncompatible[]" multiple="true" size="8">
+                <?php foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    foreach ($item->getRequirementList()->getRequirementArrayByKey('FaehigkeitInc') as $reqSkill) {
+                        if($reqSkill->getRequiredValue() == $listedSkill->getId()){
                             $selected = 'selected="true"';
                         }
-                        ?>
-                        <option <?= $selected ?> value="<?= $listedMagie->getId() ?>">
-                            <?= $listedMagie->getBezeichnung() ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+                    }
+                    ?>
+                    <option <?= $selected ?>  value="<?= $listedSkill->getId() ?>">
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $this->purifier->purify($item->getDescription()) ?>
-        </textarea>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="itemId" value="<?= $item->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Item ändern" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magien" style="vertical-align: top">
+                Magien:
+            </label>
+            <select class="form-select" name="magien[]" id="magien" multiple="true" size="8">
+                <?php foreach ($this->magien as $listedMagie) {
+                    $selected = '';
+                    foreach ($item->getRequirementList()->getRequirementArrayByKey('Magie') as $reqSkill) {
+                        if($reqSkill->getRequiredValue() == $listedMagie->getId()){
+                            $selected = 'selected="true"';
+                        }
+                    }
+                    ?>
+                    <option <?= $selected ?> value="<?= $listedMagie->getId() ?>">
+                        <?= $listedMagie->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="magienAny" style="vertical-align: top">
+                Irgendeine von diesen Magien:
+            </label>
+            <select class="form-select" name="magienAny[]" id="magienAny" multiple="true" size="8">
+                <?php foreach ($this->magien as $listedMagie) {
+                    $selected = '';
+                    if(in_array($listedMagie->getId(), $magieAny)){
+                        $selected = 'selected="true"';
+                    }
+                    ?>
+                    <option <?= $selected ?> value="<?= $listedMagie->getId() ?>">
+                        <?= $listedMagie->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"><?= $purifier->purify($item->getDescription()) ?></textarea>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="klassenId" value="<?= $item->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Item ändern" />
+        </div>
     </div>
 </form>

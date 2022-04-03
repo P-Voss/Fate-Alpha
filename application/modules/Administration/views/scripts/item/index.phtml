@@ -1,25 +1,98 @@
 <?php
-
 /* @var $item Administration_Model_Item */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
-?>
-    <h1>
-        Items
-    </h1>
-<?php
-foreach ($this->items as $item){
-    ?>
-    <a href="<?= $this->baseUrl() ?>/Administration/item/show/id/<?= $item->getId() ?>">
-        <fieldset>
-            <p>
-                <?= $purifier->purify($item->getName()) ?>
-            </p>
-            <p>
-                <?= $purifier->purify(substr($item->getDescription(), 0, 100)) ?>
-                <?= (strlen($item->getDescription()) > 100) ? '...' : '' ?>
-            </p>
-        </fieldset>
-    </a>
-    <?php
+$itemCategories = [
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE => [
+        'name' => 'Nahkampfwaffen',
+        'items' => []
+    ],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED => [
+        'name' => 'Distanzwaffen',
+        'items' => []
+    ],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT => [
+        'name' => 'Konzeptwaffen',
+        'items' => []
+    ],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC => [
+        'name' => 'Mystic Codes',
+        'items' => []
+    ],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE => [
+        'name' => 'Rezepte',
+        'items' => []
+    ],
+    \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC => [
+        'name' => 'Sonstiges',
+        'items' => []
+    ],
+];
+foreach ($this->items as $item) {
+    $itemCategories[$item->getType()]['items'][] = $item;
 }
+$linkList = [];
+foreach ($itemCategories as $key => $category) {
+    if (count($category['items']) === 0) {
+        continue;
+    }
+    $linkList[] = '<a href="#' . $key . '">#' . $category['name'] . '</a>';
+}
+?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Items
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2 class="fs-2" id="categoryList">
+                Kategorien
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <?= implode(', ', $linkList) ?>
+        </div>
+    </div>
+    <?php
+    foreach ($itemCategories as $key => $category) {
+        $items = $category['items'];
+        usort($items, function (Administration_Model_Item  $a, Administration_Model_Item  $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+        ?>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="fs-2" id="<?= $key ?>">
+                    <?= $category['name'] ?>
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($items as $item): ?>
+                <div class="col-4 p-2">
+                    <div class="card" style="height: 10rem; overflow: auto">
+                        <a href="<?= $this->baseUrl() ?>/Administration/item/show/id/<?= $item->getId() ?>">
+                            <div class="card-body">
+                                <div class="card-title fs-3">
+                                    <?= $purifier->purify($item->getName()) ?>
+                                </div>
+                                <div class="text-muted">
+                                    <?= $purifier->purify(substr($item->getDescription(), 0, 300)) ?>
+                                    <?= (strlen($item->getDescription()) > 300) ? '...' : '' ?>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php
+    }
+    ?>
+</div>

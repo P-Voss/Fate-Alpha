@@ -23,152 +23,130 @@ $purifier = $this->purifier;
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
-<h1>Gegenstand erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/item/create" method="post" >
-    <fieldset>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" id="name" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="bedingung">Kaufbedingung</label>
-                <select name="bedingung" id="bedingung">
-                    <option>Standard</option>
-                    <option>RPG</option>
-                </select>
-            </div>
+<h1 class="fs-1">Gegenstand erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/item/create" method="post" >
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" id="name" />
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="characters">Nur für</label>
-                <select name="characters[]" id="characters" multiple size="7">
-                    <?php foreach ($characters as $character): ?>
-                        <option value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="bedingung">Kaufbedingung</label>
+            <select class="form-select" name="bedingung" id="bedingung">
+                <option>Standard</option>
+                <option>RPG</option>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="discountDays">Rabatt-Tage</label>
-                <select name="discountDays[]" id="discountDays" multiple size="7">
-                    <?php foreach ($days as $key => $day): ?>
-                    <option value="<?= $key ?>"><?= $day ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="characters">Nur für</label>
+            <select class="form-select" name="characters[]" id="characters" multiple size="7">
+                <?php foreach ($characters as $character): ?>
+                    <option value="<?= $character->getCharakterid() ?>"><?= $purifier->purify($character) ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="type">Item Art</label>
-                <select name="type" id="type">
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE ?>">Waffe - Nahkampf</option>
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED ?>">Waffe - Fernkampf</option>
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT ?>">Waffe - Konzept</option>
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC ?>">Waffe - Mystic Codes</option>
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE ?>">Rezepte</option>
-                    <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC ?>">Sonstiges</option>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="fp">FP-Kosten</label>
-                <input type="number" id="fp" name="fp"/>
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="discountDays">Rabatt-Tage</label>
+            <select class="form-select" name="discountDays[]" id="discountDays" multiple size="7">
+                <?php foreach ($days as $key => $day): ?>
+                <option value="<?= $key ?>"><?= $day ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="uebung">benötigte Übung</label>
-                <input type="number" id="uebung" name="uebung" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="disziplin">benötigte Disziplin</label>
-                <input type="number" name="disziplin" id="disziplin" />
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="type">Item Art</label>
+            <select class="form-select" name="type" id="type">
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MELEE ?>">Waffe - Nahkampf</option>
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RANGED ?>">Waffe - Fernkampf</option>
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_CONCEPT ?>">Waffe - Konzept</option>
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MYSTIC ?>">Waffe - Mystic Codes</option>
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_RECIPE ?>">Rezepte</option>
+                <option value="<?= \Shop\Models\Itemtypes::ITEMTYPE_WEAPON_MISC ?>">Sonstiges</option>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="rang">
-                    Rang
-                </label>
-                <select name="rang" id="rang">
-                    <option>EX</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    <option>D</option>
-                    <option>E</option>
-                    <option>F</option>
-                    <option>EA</option>
-                    <option>EB</option>
-                    <option>EC</option>
-                    <option>ED</option>
-                    <option>EE</option>
-                    <option>EF</option>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="fp">FP-Kosten</label>
+            <input class="form-control" type="number" id="fp" name="fp"/>
         </div>
-        <div>
-            <label for="staerke">Stärke</label>
-            <input type="number" size="30" name="staerke" id="staerke" value="" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
+            </label>
+            <select class="form-select" name="rang" id="rang">
+                <option>EX</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+                <option>EA</option>
+                <option>EB</option>
+                <option>EC</option>
+                <option>ED</option>
+                <option>EE</option>
+                <option>EF</option>
+            </select>
         </div>
-        <div>
-            <label for="agilitaet">Agilität</label>
-            <input type="number" size="30" name="agilitaet" id="agilitaet" value="" />
+    </div>
+
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magieschule">
+                Eine von diesen Magieschulen:
+            </label>
+            <select class="form-select" name="magieschulenAny[]" id="magieschule" multiple="true" size="5">
+                <?php foreach ($this->schulen as $schule): ?>
+                    <option value="<?= $schule->getId() ?>">
+                        <?= $schule->getBezeichnung() ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <label for="ausdauer">Ausdauer</label>
-            <input type="number" size="30" name="ausdauer" id="ausdauer" value="" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="gruppen" style="vertical-align: top">
+                Klassengruppen:
+            </label>
+            <select class="form-select" name="gruppen[]"  id="gruppen" multiple="true" size="5">
+                <?php foreach ($this->klassengruppen as $gruppe) { ?>
+                    <option value="<?= $gruppe->getId() ?>">
+                        <?= $purifier->purify($gruppe->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <label for="kontrolle">Kontrolle</label>
-            <input type="number" size="30" name="kontrolle" id="kontrolle" value="" />
+        <div class="col-4">
+            <label class="form-label" for="klassen" style="vertical-align: top">
+                Klassen:
+            </label>
+            <select class="form-select" name="klassen[]" id="klassen" multiple="true" size="5">
+                <?php foreach ($this->klassen as $klasse) { ?>
+                    <option value="<?= $klasse->getId() ?>">
+                        <?= $purifier->purify($klasse->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magieschule">
-                    Eine von diesen Magieschulen:
-                </label>
-                <select name="magieschulenAny[]" id="magieschule" multiple="true" size="5">
-                    <?php foreach ($this->schulen as $schule): ?>
-                        <option value="<?= $schule->getId() ?>">
-                            <?= $schule->getBezeichnung() ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="gruppen" style="vertical-align: top">
-                    Klassengruppen:
-                </label>
-                <select name="gruppen[]"  id="gruppen" multiple="true" size="5">
-                    <?php foreach ($this->klassengruppen as $gruppe) { ?>
-                        <option value="<?= $gruppe->getId() ?>">
-                            <?= $purifier->purify($gruppe->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="klassen" style="vertical-align: top">
-                    Klassen:
-                </label>
-                <select name="klassen[]" id="klassen" multiple="true" size="5">
-                    <?php foreach ($this->klassen as $klasse) { ?>
-                        <option value="<?= $klasse->getId() ?>">
-                            <?= $purifier->purify($klasse->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div>
-            <label for="trait">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select name="trait[]" id="trait" multiple="true" size="8">
+            <select class="form-select" name="trait[]" id="trait" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) { ?>
                     <option value="<?= $trait->getTraitId() ?>">
                         <?= $purifier->purify($trait->getName()) ?>
@@ -176,75 +154,83 @@ $characters = $this->characters;
                 <?php } ?>
             </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="skills" style="vertical-align: top">
-                    Fähigkeiten:
-                </label>
-                <select name="skills[]" id="skills" multiple="true" size="8">
-                    <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="skillsAny" style="vertical-align: top">
-                    Irgendeine von diesen Fähigkeiten:
-                </label>
-                <select name="skillsAny[]" id="skillsAny" multiple="true" size="8">
-                    <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skills" style="vertical-align: top">
+                Fähigkeiten:
+            </label>
+            <select class="form-select" name="skills[]" id="skills" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="skillsIncompatible" style="vertical-align: top">
-                    Nicht kombinierbar mit:
-                </label>
-                <select name="skillsIncompatible[]" id="skillsIncompatible" multiple="true" size="8">
-                    <?php foreach ($this->skills as $skill) { ?>
-                        <option value="<?= $skill->getId() ?>">
-                            <?= $purifier->purify($skill->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="skillsAny" style="vertical-align: top">
+                Irgendeine von diesen Fähigkeiten:
+            </label>
+            <select class="form-select" name="skillsAny[]" id="skillsAny" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magien" style="vertical-align: top">
-                    Magien:
-                </label>
-                <select name="magien[]" id="magien" multiple="true" size="8">
-                    <?php foreach ($this->magien as $magie) { ?>
-                        <option value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="magienAny" style="vertical-align: top">
-                    Irgendeine von diesen Magien:
-                </label>
-                <select name="magienAny[]" id="magienAny" multiple="true" size="8">
-                    <?php foreach ($this->magien as $magie) { ?>
-                        <option value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skillsIncompatible" style="vertical-align: top">
+                Nicht kombinierbar mit:
+            </label>
+            <select class="form-select" name="skillsIncompatible[]" id="skillsIncompatible" multiple="true" size="8">
+                <?php foreach ($this->skills as $skill) { ?>
+                    <option value="<?= $skill->getId() ?>">
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magie speichern" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magien" style="vertical-align: top">
+                Magien:
+            </label>
+            <select class="form-select" name="magien[]" id="magien" multiple="true" size="8">
+                <?php foreach ($this->magien as $magie) { ?>
+                    <option value="<?= $magie->getId() ?>">
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="magienAny" style="vertical-align: top">
+                Irgendeine von diesen Magien:
+            </label>
+            <select class="form-select" name="magienAny[]" id="magienAny" multiple="true" size="8">
+                <?php foreach ($this->magien as $magie) { ?>
+                    <option value="<?= $magie->getId() ?>">
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Item speichern" />
+        </div>
     </div>
 </form>

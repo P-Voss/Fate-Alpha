@@ -15,116 +15,131 @@ $raenge = ['EX','A','B','C','D','E','F','EA','EB','EC','ED','EE','EF',];
 ?>
 <h1>Fähigkeit anpassen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/skill/edit" method="post">
-    <div>
-        <span style="width: 50%; display: inline-block">
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
-        </span>
-        <label for="kosten">FP-Kosten</label>
-        <input type="number" name="fp" value="<?= $skill->getFp() ?>" />
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" value="<?= $skill->getBezeichnung() ?>" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">FP-Kosten</label>
+            <input class="form-control" type="number" name="fp" value="<?= $skill->getFp() ?>" />
+        </div>
     </div>
-    <div>
-        <div style="width: 50%; display: inline-block;">
+    <div class="row m-3">
+        <div class="col-4">
             <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => $requirementList]) ?>
         </div>
     </div>
-    <div>
-        <span style="width: 50%; display: inline-block">
-            <label for="skillart">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skillart">
                 Fähigkeitenart
             </label>
-            <select name="skillart">
+            <select class="form-select" id="skillart" name="skillart">
                 <option value="1" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_SCHUETZE) ? 'selected="true"' : '' ?>>Schützenfähigkeit</option>
                 <option value="2" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_KAMPF) ? 'selected="true"' : '' ?>>Kämpferfähigkeit</option>
                 <option value="3" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_UEBUNG) ? 'selected="true"' : '' ?>>Übungsfähigkeit</option>
                 <option value="4" <?= ($skill->getSkillArt() === Administration_Model_Skill::TYPE_SPECIAL) ? 'selected="true"' : '' ?>>Spezialfähigkeit</option>
             </select>
-        </span>
-        <label for="rang">
-            Rang
-        </label>
-        <select name="rang">
-            <?php foreach($raenge as $rang): ?>
-                <option <?= ($skill->getRang() === $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <div>
-        <label for="replaces">
-            Ersetzt Fähigkeit
-        </label>
-        <select name="replaces" id="replaces">
-            <option value="">keine</option>
-            <?php 
-            foreach ($this->skills as $listedSkill) { 
-                $selected = '';
-                if ($listedSkill->getId() === $skill->getId()) {
-                    continue;
-                }
-                if ($listedSkill->getId() === $skill->getReplacesSkillId()) {
-                    $selected = 'selected=""';
-                }
-            ?>
-            <option value="<?= $listedSkill->getId() ?>" <?= $selected ?>>
-                    <?= $listedSkill->getBezeichnung() ?>
-            </option>
-            <?php } ?>
-        </select>
-    </div>
-    <fieldset>
-        <legend>Voraussetzungen</legend>
-        <div>
-            <label for="lernbedingung">
-                Lernbedingung
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
             </label>
-            <select id="lernbedingung" name="lernbedingung">
-                <?php foreach($lernbedingungen as $bedingung): ?>
-                <option <?= ($skill->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+            <select class="form-select" id="rang" name="rang">
+                <?php foreach($raenge as $rang): ?>
+                    <option <?= ($skill->getRang() === $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="replaces">
+                Ersetzt Fähigkeit
+            </label>
+            <select class="form-select" name="replaces" id="replaces">
+                <option value="">keine</option>
+                <?php
+                foreach ($this->skills as $listedSkill) {
+                    $selected = '';
+                    if ($listedSkill->getId() === $skill->getId()) {
+                        continue;
+                    }
+                    if ($listedSkill->getId() === $skill->getReplacesSkillId()) {
+                        $selected = 'selected=""';
+                    }
+                    ?>
+                    <option value="<?= $listedSkill->getId() ?>" <?= $selected ?>>
+                        <?= $listedSkill->getBezeichnung() ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <fieldset>
+        <legend>Voraussetzungen</legend>
+        <div class="row m-3">
+            <div class="col-4">
+                <label class="form-label" for="lernbedingung">
+                    Lernbedingung
+                </label>
+                <select class="form-select" id="lernbedingung" name="lernbedingung">
+                    <?php foreach($lernbedingungen as $bedingung): ?>
+                        <option <?= ($skill->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
         <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
-        <div>
-            <div style="width: 50%; display: inline-block;">
+        <div class="row m-3">
+            <div class="col-4">
                 <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
             </div>
-            <div style="width: 45%; display: inline-block;">
+            <div class="col-4">
                 <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
-        <div>
-            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
+        <div class="row m-3">
+            <div class="col-4">
+                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
+            </div>
+            <div class="col-4">
+                <?= $this->partial('partials/traitsIncompatible.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
+            </div>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block; vertical-align: top">
+        <div class="row m-3">
+            <div class="col-4">
                 <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
-            <div style="width: 45%; display: inline-block;">
+            <div class="col-4">
                 <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
+        <div class="row m-3">
+            <div class="col-4">
                 <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
             </div>
-            <div style="width: 45%; display: inline-block;">
+            <div class="col-4">
                 <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
+        <div class="row m-3">
+            <div class="col-4">
                 <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
             </div>
         </div>
     </fieldset>
-    <label for="beschreibung">
-        Beschreibung
-    </label>
-    <textarea name="beschreibung" id="beschreibung" cols="80" rows="10">
-        <?= $this->purify($skill->getBeschreibung()) ?>
-    </textarea>
-    <div align="center">
-        <input type="hidden" name="skillId" value="<?= $this->skill->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Speichern" />
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"><?= $this->purifier->purify($skill->getBeschreibung()) ?></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input class="form-control" type="hidden" name="skillId" value="<?= $this->skill->getId() ?>">
+            <input class="form-control" type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Fähigkeit speichern" />
+        </div>
     </div>
 </form>

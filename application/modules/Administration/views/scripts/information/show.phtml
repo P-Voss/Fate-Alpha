@@ -13,64 +13,76 @@ foreach ($information->getRequirementList()->getRequirements() as $requirement) 
 $skillsAny = explode('|', $information->getRequirementList()->getRequirementByKey('FaehigkeitAny')->getRequiredValue());
 $magieAny = explode('|', $information->getRequirementList()->getRequirementByKey('MagieAny')->getRequiredValue());
 $purifier = $this->purifier;
-/** @var Administration_Model_Requirementlist $requirementList */
+
 $requirementList = $information->getRequirementList();
 ?>
-<h1>Information ändern</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/information/edit" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $this->purifier->purify($information->getName()) ?>" />
-            <label for="kategorie">Kategorie</label>
-            <select name="kategorie" id="kategorie">
+<h1 class="fs-1">Information ändern</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/information/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" id="name" value="<?= $this->purifier->purify($information->getName()) ?>" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kategorie">Kategorie</label>
+            <select class="form-select" name="kategorie" id="kategorie">
                 <?php foreach($this->kategorien as $kategorie): ?>
-                <option <?= $information->getKategorie() === $kategorie ? 'selected=""' : '' ?>><?= $kategorie ?></option>
+                    <option <?= $information->getKategorie() === $kategorie ? 'selected=""' : '' ?>><?= $kategorie ?></option>
                 <?php endforeach; ?>
             </select>
-        </p>
-        <textarea name="inhalt" cols="80" rows="10"><?= $this->purifier->purify($information->getInhalt()) ?></textarea>
-        <fieldset>
-            <legend>
-                Vorraussetzungen
-            </legend>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-        </fieldset>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="informationId" value="<?= $information->getInformationId() ?>" />
-        <input type="submit" name="Abschicken" id="Abschicken" value="Information speichern" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"><?= $this->purifier->purify($information->getInhalt()) ?></textarea>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <h2 class="fs-2">Vorraussetzungen</h2>
+        </div>
+    </div>
+    <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="informationId" value="<?= $information->getInformationId() ?>" />
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Information ändern" />
+        </div>
     </div>
 </form>

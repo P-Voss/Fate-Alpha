@@ -3,22 +3,35 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 ?>
-<h1>
-    Klassen
-</h1>
-<?php
-foreach ($this->klassen as $klasse){
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/klasse/show/id/<?= $klasse->getId() ?>">
-    <fieldset>
-        <p>
-            <?= $purifier->purify($klasse->getBezeichnung()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify(substr($klasse->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($klasse->getBeschreibung()) > 100) ? '...' : '' ?>
-        </p>
-    </fieldset>
-</a>
-<?php
-}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Klassen
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <?php
+        foreach ($this->klassen as $klasse){
+        ?>
+            <div class="col-4 p-2">
+                <div class="card" style="height: 10rem; overflow: auto">
+                    <a href="<?= $this->baseUrl() ?>/Administration/klasse/show/id/<?= $klasse->getId() ?>">
+                        <div class="card-body">
+                            <div class="card-title fs-3">
+                                <?= $purifier->purify($klasse->getBezeichnung()) ?>
+                            </div>
+                            <div class="text-muted">
+                                <?= $purifier->purify(substr($klasse->getBeschreibung(), 0, 100)) ?>
+                                <?= (strlen($klasse->getBeschreibung()) > 100) ? '...' : '' ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>

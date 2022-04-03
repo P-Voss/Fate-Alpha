@@ -2,30 +2,59 @@
 /* @var $skill Administration_Model_Skill */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
-$skillartArray = array();
-$skillarten = array(
-    1 => 'Schützenfähigkeiten',
-    2 => 'Kämpferfähigkeiten',
-    3 => 'Übungsfähigkeiten',
-    4 => 'Spezialfähigkeiten',
-);
-foreach ($this->list as $skill){ ?>
-    <?php if(!in_array($skill->getSkillArt(), $skillartArray)){ ?>
-    <h2 id="<?= $skill->getSkillArt() ?>">
-        <?= $skillarten[$skill->getSkillArt()] ?>
-    </h2>
-    <?php } ?>
-<a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
-    <fieldset>
-        <legend>
-            <?= $purifier->purify($skill->getBezeichnung()) ?>
-        </legend>
-        <div>
-            <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($skill->getBeschreibung()) > 100) ? '...' : '' ?>
-        </div>
-    </fieldset>
-</a>
-<?php
-$skillartArray[] = $skill->getSkillArt();
+$skillarten = [
+    1 => [
+        'name' => 'Schützenfähigkeiten',
+        'skills' => []
+    ],
+    2 => [
+        'name' => 'Kämpferfähigkeiten',
+        'skills' => []
+    ],
+    3 => [
+        'name' => 'Übungsfähigkeiten',
+        'skills' => []
+    ],
+    4 => [
+        'name' => 'Spezialfähigkeiten',
+        'skills' => []
+    ],
+];
+foreach ($this->list as $skill) {
+    $skillarten[$skill->getSkillArt()]['skills'][] = $skill;
 }
+
+foreach ($skillarten as $key => $skillart) {
+    if (count($skillart['skills']) === 0) {
+        continue;
+    }
+    ?>
+    <div class="row">
+        <div class="col-12">
+            <h2 class="fs-2" id="<?= $key ?>">
+                <?= $skillart['name'] ?>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <?php foreach ($skillart['skills'] as $skill): ?>
+            <div class="col-4 p-2">
+                <div class="card" style="height: 10rem; overflow: auto">
+                    <a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
+                        <div class="card-body">
+                            <div class="card-title fs-3">
+                                <?= $purifier->purify($skill->getBezeichnung()) ?>
+                            </div>
+                            <div class="text-muted">
+                                <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 200)) ?>
+                                <?= (strlen($purifier->purify($skill->getBeschreibung())) > 200) ? '...' : '' ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php
+}
+?>

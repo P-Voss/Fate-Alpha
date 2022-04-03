@@ -1,10 +1,14 @@
 <fieldset>
     <legend>Profilbild <span class="indicator"></span></legend>
-    <div class="subContent">
-        <form method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
-            <input type="text" name="profilpic" placeholder="<?= $this->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
-            <input type="submit" value="Profilbild speichern">
-        </form>
-        <img src="<?= $this->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" height="200px" width="200px">
-    </div>
+    <form class="subContent row" method="post" action="<?= $this->baseUrl() ?>/charakter/profilpic">
+        <div class="col-12">
+            <input type="text" class="form-control" name="profilpic" placeholder="<?= $this->purify($charakter->getCharakterprofil()->getProfilpic()) ?>">
+        </div>
+        <div class="col-12">
+            <input class="btn btn-danger" type="submit" value="Profilbild speichern">
+        </div>
+        <div class="col-12">
+            <img src="<?= $this->purify($charakter->getCharakterprofil()->getProfilpic()) ?>" height="200px" width="200px">
+        </div>
+    </form>
 </fieldset>

@@ -9,119 +9,147 @@ $lernbedingungen = [
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
-<h1>Fähigkeit erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/skill/create" method="post">
-    <div>
-        <span style="width: 50%; display: inline-block">
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="" />
-        </span>
-        <label for="kosten">FP-Kosten</label>
-        <input type="number" name="fp" value="" />
+<h1 class="fs-1">Fähigkeit erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/skill/create" method="post">
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" value="" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">FP-Kosten</label>
+            <input class="form-control" type="number" name="fp" value="" />
+        </div>
     </div>
-    <div>
-        <div style="width: 50%; display: inline-block;">
-            <label for="characters">Nur für</label>
-            <select name="characters[]" id="characters" multiple size="7">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="characters">Nur für</label>
+            <select class="form-select" name="characters[]" id="characters" multiple size="7">
                 <?php foreach ($characters as $character): ?>
                     <option value="<?= $character->getCharakterid() ?>"><?= $this->purify($character) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
     </div>
-    <div>
-        <span style="width: 50%; display: inline-block">
-            <label for="skillart">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="skillart">
                 Fähigkeitenart
             </label>
-            <select name="skillart">
+            <select class="form-select" id="skillart" name="skillart">
                 <option value="1">Schützenfähigkeit</option>
                 <option value="2">Kämpferfähigkeit</option>
                 <option value="3">Übungsfähigkeit</option>
                 <option value="4">Spezialfähigkeit</option>
             </select>
-        </span>
-        <label for="rang">
-            Rang
-        </label>
-        <select name="rang">
-            <option>EX</option>
-            <option>A</option>
-            <option>B</option>
-            <option>C</option>
-            <option>D</option>
-            <option>E</option>
-            <option>F</option>
-            <option>EA</option>
-            <option>EB</option>
-            <option>EC</option>
-            <option>ED</option>
-            <option>EE</option>
-            <option>EF</option>
-        </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
+            </label>
+            <select class="form-select" id="rang" name="rang">
+                <option>EX</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+                <option>EA</option>
+                <option>EB</option>
+                <option>EC</option>
+                <option>ED</option>
+                <option>EE</option>
+                <option>EF</option>
+            </select>
+        </div>
     </div>
-    <div>
-        <label for="replaces">
-            Ersetzt Fähigkeit
-        </label>
-        <select name="replaces" id="replaces">
-            <option value="">keine</option>
-            <?php foreach ($this->skills as $listedSkill) { ?>
-            <option value="<?= $listedSkill->getId() ?>"><?= $this->purify($listedSkill->getBezeichnung()) ?></option>
-            <?php } ?>
-        </select>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="replaces">
+                Ersetzt Fähigkeit
+            </label>
+            <select class="form-select" name="replaces" id="replaces">
+                <option value="">keine</option>
+                <?php foreach ($this->skills as $listedSkill) { ?>
+                    <option value="<?= $listedSkill->getId() ?>"><?= $this->purify($listedSkill->getBezeichnung()) ?></option>
+                <?php } ?>
+            </select>
+        </div>
     </div>
-    <fieldset>
-        <legend>Voraussetzungen</legend>
-        <div>
-            <label for="lernbedingung">
+
+
+    <div class="row"><div class="col"><h2 class="fs-2">Voraussetzungen</h2></div></div>
+
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="lernbedingung">
                 Lernbedingung
             </label>
-            <select name="lernbedingung">
+            <select class="form-select" name="lernbedingung">
                 <?php foreach($lernbedingungen as $bedingung): ?>
-                <option><?= $bedingung ?></option>
+                    <option><?= $bedingung ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-        <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
+    </div>
+
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
         </div>
-        <div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-4">
             <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block; vertical-align: top">
-                <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
+        <div class="col-4">
+            <?= $this->partial('partials/traitsIncompatible.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-        </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-        </div>
-    </fieldset>
-    <label for="beschreibung">
-        Beschreibung
-    </label>
-    <textarea name="beschreibung" cols="80" rows="10"></textarea>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="speichern" />
     </div>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Fähigkeit speichern" />
+        </div>
+    </div>
+
 </form>

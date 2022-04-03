@@ -2,30 +2,25 @@
 $this->headScript()->prependFile($this->baseUrl() . '/js/tinymce/tinymce.min.js');
 $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/custom/Administration/editor.js'));
 ?>
-<h1>Nachrichten editieren</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/news/edit" method="post" name="News" id="News">
-    <table cellspacing="25" cellpadding="5">
-        <tr>
-            <td>
-                <b>Titel</b>
-            </td>
-            <td>
-                <input type="text" size="40" name="Titel" id="Titel" value="<?= $this->news->getTitel() ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td valign="top">
-                <b>Nachricht</b>
-            </td>
-            <td colspan="20">
-                <textarea name="Nachricht" id="Nachricht" cols="80" rows="20">
-                    <?= $this->purify($this->news->getNachricht()) ?>
-                </textarea>
-            </td>
-        </tr>
-    </table>
-    <div align="center">
-        <input type="hidden" name="newsId" value="<?= $this->news->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Nachricht eintragen" />
+<h1 class="fs-1">Nachrichten editieren</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/news/edit" method="post" name="News" id="News">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-floating mb-3">
+                <input class="form-control" type="text" size="40" placeholder="Titel" name="Titel" id="Titel" value="<?= $this->news->getTitel() ?>" />
+                <label class="form-label" for="Titel">Titel</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <textarea name="Nachricht" id="Nachricht" cols="80" rows="20"><?= $this->purify($this->news->getNachricht()) ?></textarea>
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="newsId" value="<?= $this->news->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Edit speichern" />
+        </div>
     </div>
 </form>

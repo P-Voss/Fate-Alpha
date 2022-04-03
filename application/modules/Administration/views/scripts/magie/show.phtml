@@ -16,137 +16,151 @@ $requirementList = $magie->getRequirementList();
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
-<h1>Magie anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/magie/edit" method="post">
-    <fieldset>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="fp">FP-Kosten</label>
-                <input type="number" name="fp" value="<?= $magie->getFp() ?>" />
-            </div>
+<h1 class="fs-1">Magie anpassen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/magie/edit" method="post">
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" value="<?= $magie->getBezeichnung() ?>" />
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => $requirementList]) ?>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="fp">FP-Kosten</label>
+            <input class="form-control" type="number" name="fp" value="<?= $magie->getFp() ?>" />
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magieschule">
-                    Magieschule
-                </label>
-                <select name="magieschule">
-                    <?php foreach ($this->schulen as $schule):
-                        $selected = ($schule->getId() === $magie->getMagieschuleId()) ? 'selected=""' : '';
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magieschule">
+                Magieschule
+            </label>
+            <select class="form-select" id="magieschule" name="magieschule">
+                <?php foreach ($this->schulen as $schule):
+                    $selected = ($schule->getId() === $magie->getMagieschuleId()) ? 'selected=""' : '';
                     ?>
                     <option value="<?= $schule->getId() ?>" <?= $selected ?>>
                         <?= $schule->getBezeichnung() ?>
                     </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="element">
-                    Element
-                </label>
-                <select name="element">
-                    <?php foreach ($this->elemente as $element):
-                        $selected = '';
-                        if($magie->getElement()->getId() == $element->getId()){
-                            $selected = 'selected="true"';
-                        }
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="element">
+                Element
+            </label>
+            <select class="form-select" id="element" name="element">
+                <?php foreach ($this->elemente as $element):
+                    $selected = '';
+                    if($magie->getElement()->getId() == $element->getId()){
+                        $selected = 'selected="true"';
+                    }
                     ?>
                     <option value="<?= $element->getId() ?>" <?= $selected ?>>
                         <?= $element->getBezeichnung() ?>
                     </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <label for="rang">
-                        Rang
-                    </label>
-                    <select name="rang">
-                        <?php foreach($raenge as $rang): ?>
-                            <option <?= ($magie->getRang() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="stufe">
-                    Stufe
-                </label>
-                <select name="stufe">
-                    <?php foreach($stufen as $stufe): ?>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
+            </label>
+            <select class="form-select" id="rang" name="rang">
+                <?php foreach($raenge as $rang): ?>
+                    <option <?= ($magie->getRang() == $rang) ? 'selected=""' : '' ?>><?= $rang ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="stufe">
+                Stufe
+            </label>
+            <select class="form-select" id="stufe" name="stufe">
+                <?php foreach($stufen as $stufe): ?>
                     <option <?= ($magie->getStufe() == $stufe) ? 'selected=""' : '' ?>><?= $stufe ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div style="width: 50%; display: inline-block;">
-            <label for="prana">Prana-Kosten</label>
-            <input type="number" name="prana" value="<?= $magie->getPrana() ?>" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="prana">Prana-Kosten</label>
+            <input class="form-control" type="number" name="prana" value="<?= $magie->getPrana() ?>" />
         </div>
-        <fieldset>
-            <legend>Voraussetzungen</legend>
-            <div>
-                <label for="lernbedingung">
-                    Lernbedingung
-                </label>
-                <select id="lernbedingung" name="lernbedingung">
-                    <?php foreach($lernbedingungen as $bedingung): ?>
-                        <option <?= ($magie->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
-                </div>
-            </div>
-        </fieldset>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $this->purifier->purify($magie->getBeschreibung()) ?>
-        </textarea>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="magieId" value="<?= $magie->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magie ändern" />
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2 class="fs-2">Voraussetzungen</h2>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="lernbedingung">
+                Lernbedingung
+            </label>
+            <select class="form-select" id="lernbedingung" name="lernbedingung">
+                <?php foreach($lernbedingungen as $bedingung): ?>
+                    <option <?= ($magie->getLernbedingung() == $bedingung) ? 'selected=""' : '' ?>><?= $bedingung ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => $requirementList]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => $requirementList]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"><?= $this->purifier->purify($magie->getBeschreibung()) ?></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input class="form-control" type="hidden" name="magieId" value="<?= $magie->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Magie ändern" />
+        </div>
     </div>
 </form>

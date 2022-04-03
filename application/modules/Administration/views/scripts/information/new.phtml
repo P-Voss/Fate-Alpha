@@ -6,58 +6,71 @@ $purifier = $this->purifier;
 ?>
 <h1>Informationen anlegen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/information/create" method="post" name="information" id="information">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input required="" type="text" size="30" name="name" id="name" />
-            <label for="kategorie">Kategorie</label>
-            <select name="kategorie" id="kategorie">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" id="name" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kategorie">Kategorie</label>
+            <select class="form-select" name="kategorie" id="kategorie">
                 <?php foreach($this->kategorien as $kategorie): ?>
-                <option><?= $kategorie ?></option>
+                    <option><?= $kategorie ?></option>
                 <?php endforeach; ?>
             </select>
-        </p>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
-        <fieldset>
-            <legend>
-                Vorraussetzungen
-            </legend>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-        </fieldset>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Information speichern" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <h2 class="fs-2">Vorraussetzungen</h2>
+        </div>
+    </div>
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Information speichern" />
+        </div>
     </div>
 </form>

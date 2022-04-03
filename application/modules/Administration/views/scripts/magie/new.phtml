@@ -10,135 +10,194 @@ $lernbedingungen = [
 /** @var Application_Model_Charakter $characters */
 $characters = $this->characters;
 ?>
-<h1>Magie erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
-    <fieldset>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="name">Name</label>
-                <input type="text" size="30" name="name" />
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="fp">FP-Kosten</label>
-                <input type="number" name="fp"/>
-            </div>
+<h1 class="fs-1">Magie erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/magie/create" method="post" name="News" id="News">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" />
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
+        <div class="col-4">
+            <label class="form-label" for="fp">FP-Kosten</label>
+            <input class="form-control" type="number" name="fp"/>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="magieschule">
-                    Magieschule
-                </label>
-                <select name="magieschule">
-                    <?php foreach ($this->schulen as $schule) { ?>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/characters.phtml', ['characters' => $characters, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="magieschule">
+                Magieschule
+            </label>
+            <select class="form-select" name="magieschule">
+                <?php foreach ($this->schulen as $schule) { ?>
                     <option value="<?= $schule->getId() ?>">
                         <?= $this->purify($schule->getBezeichnung()) ?>
                     </option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="element">
-                    Element
-                </label>
-                <select name="element">
-                    <?php foreach ($this->elemente as $element) { ?>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="element">
+                Element
+            </label>
+            <select class="form-select" name="element">
+                <?php foreach ($this->elemente as $element) { ?>
                     <option value="<?= $element->getId() ?>">
                         <?= $this->purify($element->getBezeichnung()) ?>
                     </option>
-                    <?php } ?>
-                </select>
-            </div>
+                <?php } ?>
+            </select>
         </div>
-        <div>
-            <div style="width: 50%; display: inline-block;">
-                <label for="rang">
-                    Rang
-                </label>
-                <select name="rang">
-                    <option>EX</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    <option>D</option>
-                    <option>E</option>
-                    <option>F</option>
-                    <option>EA</option>
-                    <option>EB</option>
-                    <option>EC</option>
-                    <option>ED</option>
-                    <option>EE</option>
-                    <option>EF</option>
-                </select>
-            </div>
-            <div style="width: 45%; display: inline-block;">
-                <label for="stufe">
-                    Stufe
-                </label>
-                <select name="stufe">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                </select>
-            </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="rang">
+                Rang
+            </label>
+            <select class="form-select" id="rang" name="rang">
+                <option>EX</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>F</option>
+                <option>EA</option>
+                <option>EB</option>
+                <option>EC</option>
+                <option>ED</option>
+                <option>EE</option>
+                <option>EF</option>
+            </select>
         </div>
-        <div style="width: 50%; display: inline-block;">
-            <label for="prana">Prana-Kosten</label>
-            <input type="number" name="prana" />
+        <div class="col-4">
+            <label class="form-label" for="stufe">
+                Stufe
+            </label>
+            <select class="form-select" id="stufe" name="stufe">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
         </div>
-        <fieldset>
-            <legend>Voraussetzungen</legend>
-            <div>
-                <label for="lernbedingung">
-                    Lernbedingung
-                </label>
-                <select name="lernbedingung">
-                    <?php foreach($lernbedingungen as $bedingung): ?>
-                        <option><?= $bedingung ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/skillsNone.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-        </fieldset>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magie speichern" />
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="prana">Prana-Kosten</label>
+            <input class="form-control" type="number" id="prana" name="prana" />
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col">
+            <h2>Voraussetzungen</h2>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="lernbedingung">
+                Lernbedingung
+            </label>
+            <select class="form-select" id="lernbedingung" name="lernbedingung">
+                <?php foreach($lernbedingungen as $bedingung): ?>
+                    <option><?= $bedingung ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+
+
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml',
+                [
+                    'groups' => $this->klassengruppen,
+                    'requirementList' => new Administration_Model_Requirementlist()
+                ]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/classes.phtml',
+                    [
+                        'classes' => $this->klassen,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/traits.phtml',
+                    [
+                        'traits' => $this->traits,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/skills.phtml',
+                    [
+                        'skills' => $this->skills,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/skillsAny.phtml',
+                    [
+                        'skills' => $this->skills,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/magic.phtml',
+                    [
+                        'magic' => $this->magien,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/magicAny.phtml',
+                    [
+                        'magic' => $this->magien,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial(
+                    'partials/skillsNone.phtml',
+                    [
+                        'skills' => $this->skills,
+                        'requirementList' => new Administration_Model_Requirementlist()
+                    ]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Magie speichern" />
+        </div>
     </div>
 </form>

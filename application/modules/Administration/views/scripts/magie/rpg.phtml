@@ -3,34 +3,72 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $schoolArray = [];
+foreach ($this->list as $magie) {
+    $schoolArray[$magie->getSchule()->getId()] = [
+        'name' => $magie->getSchule()->getBezeichnung(),
+        'descr' => $magie->getSchule()->getBeschreibung(),
+        'magien' => [],
+    ];
+}
+foreach ($this->list as $magie) {
+    $schoolArray[$magie->getSchule()->getId()]['magien'][] = $magie;
+}
+$linkList = [];
+foreach ($schoolArray as $key => $school) {
+    $linkList[] = '<a href="#' . $key . '">#' . $school['name'] . '</a>';
+}
 ?>
-    <h1>
-        Magien
-    </h1>
-<?php
-for ($i = 0; $i < count($this->schulen); $i++) {
-    echo '<a href="#' . $this->schulen[$i]->getId() . '">' . $this->schulen[$i]->getBezeichnung() . '</a>';
-    if ($i < count($this->schulen) - 1) {
-        echo ', ';
-    }
-}
-foreach ($this->list as $magie) { ?>
-    <?php if (!in_array($magie->getSchule()->getId(), $schoolArray)) { ?>
-        <h2 id="<?= $magie->getSchule()->getId() ?>">
-            <?= $purifier->purify($magie->getSchule()->getBezeichnung()) ?>
-        </h2>
-    <?php } ?>
-    <a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
-        <fieldset>
-            <p>
-                <?= $purifier->purify($magie->getBezeichnung()) ?>
-            </p>
-            <p>
-                <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 100)) ?>
-                <?= (strlen($purifier->purify($magie->getBeschreibung())) > 100) ? '...' : '' ?>
-            </p>
-        </fieldset>
-    </a>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                RPG-Magien
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2 class="fs-2">
+                Magieschulen
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <?= implode(', ', $linkList) ?>
+        </div>
+    </div>
+
     <?php
-    $schoolArray[] = $magie->getSchule()->getId();
-}
+    foreach ($schoolArray as $key => $schoolArray) {
+        ?>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="fs-2" id="<?= $key ?>">
+                    <?= $schoolArray['name'] ?>
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($schoolArray['magien'] as $magie): ?>
+                <div class="col-4 p-2">
+                    <div class="card" style="height: 10rem; overflow: auto">
+                        <a href="<?= $this->baseUrl() ?>/Administration/magie/show/id/<?= $magie->getId() ?>">
+                            <div class="card-body">
+                                <div class="card-title fs-3">
+                                    <?= $purifier->purify($magie->getBezeichnung()) ?>
+                                </div>
+                                <div class="text-muted">
+                                    <?= $purifier->purify(substr($magie->getBeschreibung(), 0, 200)) ?>
+                                    <?= (strlen($purifier->purify($magie->getBeschreibung())) > 200) ? '...' : '' ?>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php
+    }
+    ?>
+</div>

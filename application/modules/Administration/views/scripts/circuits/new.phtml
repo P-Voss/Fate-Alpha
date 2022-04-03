@@ -5,25 +5,35 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/Administration/editor.j
 ?>
 <h1>Magic Circuit erstellen</h1>
 <form action="<?= $this->baseUrl() ?>/Administration/circuits/create" method="post">
-    <fieldset>
-        <div>
-            <label for="kategorie">Kategorie</label>
-            <input type="text" size="30" id="kategorie" name="kategorie" />
-            <label for="kosten">Kosten</label>
-            <input type="number" id="kosten" name="kosten" />
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="kategorie">Kategorie</label>
+            <input type="text" size="30" id="kategorie" name="kategorie" class="form-control" />
         </div>
-        <div>
-            <label for="menge">Odo-Menge</label>
-            <input type="number" id="menge" name="menge">
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input type="number" id="kosten" name="kosten" class="form-control" />
         </div>
-        <div>
-            <label for="beschreibung">
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="menge">Odo-Menge</label>
+            <input type="number" id="menge" name="menge" class="form-control">
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-8">
+            <label class="form-label" for="beschreibung">
                 Beschreibung
             </label>
-            <textarea id="beschreibung" name="beschreibung" cols="80" rows="10"></textarea>
+            <textarea id="beschreibung" name="beschreibung" cols="80" rows="10" class="form-control"></textarea>
         </div>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Circuit erstellen" />
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Circuit erstellen" />
+        </div>
     </div>
 </form>

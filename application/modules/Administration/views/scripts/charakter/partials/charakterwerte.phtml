@@ -7,90 +7,75 @@ $categoryKon = $werte->getCategory('kon');
 $categoryDis = $werte->getCategory('dis');
 ?>
 <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editstats" style="margin: 0">
-    <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
-    <fieldset>
-        <legend>Werte</legend>
-        <div>
-            <p>
-                <label>
-                    Stärke
-                </label>
-                <span>
-                    <input type="number" name="staerke" value="<?= $werte->getStaerke() ?>">
-                </span>
-                <span>
-                    <?= $categoryStr->getCategory() ?>
-                </span>
-            </p>
-            <p>
-                <label>
-                    Agilität
-                </label>
-                <span>
-                    <input type="number" name="agilitaet" value="<?= $werte->getAgilitaet() ?>">
-                </span>
-                <span>
-                    <?= $categoryAgi->getCategory() ?>
-                </span>
-            </p>
-            <p>
-                <label>
-                    Ausdauer
-                </label>
-                <span>
-                    <input type="number" name="ausdauer" value="<?= $werte->getAusdauer() ?>">
-                </span>
-                <span>
-                    <?= $categoryAus->getCategory() ?>
-                </span>
-            </p>
-            <p>
-                <label>
-                    Kontrolle
-                </label>
-                <span>
-                    <input type="number" name="kontrolle" value="<?= $werte->getKontrolle() ?>">
-                </span>
-                <span>
-                    <?= $categoryKon->getCategory() ?>
-                </span>
-            </p>
-            <p>
-                <label>
-                    Disziplin
-                </label>
-                <span>
-                    <input type="number" name="disziplin" value="<?= $werte->getDisziplin() ?>">
-                </span>
-                <span>
-                    <?= $categoryDis->getCategory() ?>
-                </span>
-            </p>
-            <p>
-                <label>
-                    Übung
-                </label>
-                <span>
-                    <input type="number" name="uebung" value="<?= $werte->getUebung() ?>">
-                </span>
-            </p>
-            <p>
-                <label>
-                    FP
-                </label>
-                <span>
-                    <input type="number" name="fp" value="<?= $werte->getFp() ?>">
-                </span>
-            </p>
-            <p>
-                <label>
-                    Bonustage
-                </label>
-                <span>
-                    <input type="number" name="bonustage" value="<?= $werte->getStartpunkte() ?>">
-                </span>
-            </p>
+    <input class="form-control" type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
+    <h2 class="fs-2">Werte</h2>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Stärke - Aktuelle Kategorie: <?= $categoryStr->getCategory() ?>
+            </label>
+            <input class="form-control" type="number" name="staerke" value="<?= $werte->getStaerke() ?>">
         </div>
-        <input type="submit" value="Werte ändern">
-    </fieldset>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Agilität - Aktuelle Kategorie: <?= $categoryAgi->getCategory() ?>
+            </label>
+            <input class="form-control" type="number" name="agilitaet" value="<?= $werte->getAgilitaet() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Ausdauer - Aktuelle Kategorie: <?= $categoryAus->getCategory() ?>
+            </label>
+            <input class="form-control" type="number" name="ausdauer" value="<?= $werte->getAusdauer() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Kontrolle - Aktuelle Kategorie: <?= $categoryKon->getCategory() ?>
+            </label>
+            <input class="form-control" type="number" name="kontrolle" value="<?= $werte->getKontrolle() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Disziplin - Aktuelle Kategorie: <?= $categoryDis->getCategory() ?>
+            </label>
+            <input class="form-control" type="number" name="disziplin" value="<?= $werte->getDisziplin() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Übung
+            </label>
+            <input class="form-control" type="number" name="uebung" value="<?= $werte->getUebung() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                FP
+            </label>
+            <input class="form-control" type="number" name="fp" value="<?= $werte->getFp() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <label class="form-label" >
+                Bonustage
+            </label>
+            <input class="form-control" type="number" name="bonustage" value="<?= $werte->getStartpunkte() ?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 justify-content-between">
+            <input class="btn btn-danger" type="submit" value="Werte ändern">
+        </div>
+    </div>
 </form>

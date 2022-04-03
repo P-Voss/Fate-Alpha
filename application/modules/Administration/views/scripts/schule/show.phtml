@@ -21,63 +21,78 @@ $organizations = [
     Application_Model_MagiOrganization::CHURCH => 'Glaubenstypen',
 ];
 ?>
-<h1>Magieschule anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/schule/edit" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $schule->getBezeichnung() ?>" />
-        </p>
-        <p>
-            <label for="MagiOrganization">Magi Organisation</label>
-            <select name="MagiOrganization" id="MagiOrganization">
+<h1 class="fs-1">Magieschule anpassen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/schule/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" size="30" name="name" value="<?= $schule->getBezeichnung() ?>" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="MagiOrganization">Magi Organisation</label>
+            <select class="form-select" name="MagiOrganization" id="MagiOrganization">
                 <?php foreach ($organizations as $key => $organization) {
                     $selected = '';
                     if ($key === $schule->getMagiOrganization()) {
                         $selected = 'selected=""';
                     }
-                ?>
+                    ?>
                     <option value="<?= $key ?>" <?= $selected ?>><?= $organization ?></option>
                 <?php } ?>
             </select>
-        </p>
-        <textarea name="beschreibung" cols="80" rows="10"><?= $schule->getBeschreibung() ?></textarea>
-        <fieldset>
-            <legend>
-                Vorraussetzungen
-            </legend>
-            <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block; vertical-align: top">
-                    <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <div>
-                <div style="width: 50%; display: inline-block;">
-                    <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-                <div style="width: 45%; display: inline-block;">
-                    <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
-                </div>
-            </div>
-            <label for="trait">
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea name="beschreibung" cols="80" rows="10"><?= $schule->getBeschreibung() ?></textarea>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col">
+            <div class="fs-2">Vorraussetzungen</div>
+        </div>
+    </div>
+
+    <?= $this->partial('partials/values.phtml', ['requirementList' => new Administration_Model_Requirementlist()]) ?>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/groups.phtml', ['groups' => $this->klassengruppen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/classes.phtml', ['classes' => $this->klassen, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/traits.phtml', ['traits' => $this->traits, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/skills.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/skillsAny.phtml', ['skills' => $this->skills, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <?= $this->partial('partials/magic.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+        <div class="col-4">
+            <?= $this->partial('partials/magicAny.phtml', ['magic' => $this->magien, 'requirementList' => new Administration_Model_Requirementlist()]) ?>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select name="trait[]" multiple="true" size="8">
+            <select class="form-select" name="trait[]" multiple="true" size="8">
                 <?php foreach ($this->traits as $trait) {
                     $selected = in_array($trait->getTraitId(), $traitReq) ? 'selected' : '';
                     ?>
@@ -86,11 +101,12 @@ $organizations = [
                     </option>
                 <?php } ?>
             </select>
-        </p>
-        </fieldset>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="schuleId" value="<?= $schule->getId() ?>" />
-        <input type="submit" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+        </div>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input class="form-control" type="hidden" name="schuleId" value="<?= $schule->getId() ?>" />
+            <input class="form-control" type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Magieschule speichern" />
+        </div>
     </div>
 </form>

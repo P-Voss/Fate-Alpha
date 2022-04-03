@@ -1,32 +1,39 @@
 <?php
-/** @var Administration_Model_Requirementlist $requirementList */
-$requirementList = $this->requirementList;
+/** @var Administration_Model_Requirementlist $rl */
+$rl = $this->requirementList;
 ?>
-<div>
-    <span style="width: 50%; display: inline-block">
-        <label for="uebung">
+<div class="row m-3">
+    <div class="col-4">
+        <label class="form-label" for="uebung">
             benötigte Übung
         </label>
-        <input id="uebung" type="number" name="uebung" value="<?= $requirementList->getRequirementByKey('Uebung')->getRequiredValue() ?>" />
-    </span>
-    <label for="disziplin">
-        benötigte Disziplin
-    </label>
-    <input id="disziplin" type="number" name="disziplin" value="<?= $requirementList->getRequirementByKey('Disziplin')->getRequiredValue() ?>" />
+        <input class="form-control" id="uebung" type="number" name="uebung" value="<?= $rl->get('Uebung')->getRequiredValue() ?>" />
+    </div>
+    <div class="col-4">
+        <label class="form-label" for="disziplin">
+            benötigte Disziplin
+        </label>
+        <input class="form-control" id="disziplin" type="number" name="disziplin" value="<?= $rl->get('Disziplin')->getRequiredValue() ?>" />
+    </div>
 </div>
-<div>
-    <label for="staerke">Stärke</label>
-    <input type="number" size="30" name="staerke" id="staerke" value="<?= $requirementList->getRequirementByKey('Staerke')->getRequiredValue() ?>" />
+
+<div class="row m-3">
+    <div class="col-4">
+        <label class="form-label" for="staerke">Stärke</label>
+        <input class="form-control" type="number" size="30" name="staerke" id="staerke" value="<?= $rl->get('Staerke')->getRequiredValue() ?>" />
+    </div>
+    <div class="col-4">
+        <label class="form-label" for="agilitaet">Agilität</label>
+        <input class="form-control" type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $rl->get('Agilitaet')->getRequiredValue() ?>" />
+    </div>
 </div>
-<div>
-    <label for="agilitaet">Agilität</label>
-    <input type="number" size="30" name="agilitaet" id="agilitaet" value="<?= $requirementList->getRequirementByKey('Agilitaet')->getRequiredValue() ?>" />
-</div>
-<div>
-    <label for="ausdauer">Ausdauer</label>
-    <input type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $requirementList->getRequirementByKey('Ausdauer')->getRequiredValue() ?>" />
-</div>
-<div>
-    <label for="kontrolle">Kontrolle</label>
-    <input type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $requirementList->getRequirementByKey('Kontrolle')->getRequiredValue() ?>" />
+<div class="row m-3">
+    <div class="col-4">
+        <label class="form-label" for="ausdauer">Ausdauer</label>
+        <input class="form-control" type="number" size="30" name="ausdauer" id="ausdauer" value="<?= $rl->get('Ausdauer')->getRequiredValue() ?>" />
+    </div>
+    <div class="col-4">
+        <label class="form-label" for="kontrolle">Kontrolle</label>
+        <input class="form-control" type="number" size="30" name="kontrolle" id="kontrolle" value="<?= $rl->get('Kontrolle')->getRequiredValue() ?>" />
+    </div>
 </div>

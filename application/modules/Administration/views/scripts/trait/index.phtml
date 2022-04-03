@@ -4,18 +4,34 @@
 $purifier = $this->purifier;
 ?>
 <div class="container">
-<h1>
-    Traits
-</h1>
-<?php
-foreach ($this->list as $trait){
-?>
     <div class="row">
-        <a href="<?= $this->baseUrl() ?>/Administration/trait/show/id/<?= $trait->getTraitId() ?>">
-            <?= $purifier->purify($trait->getName()) ?>
-        </a>
+        <div class="col">
+            <h1 class="fs-1">
+                Traits
+            </h1>
+        </div>
     </div>
-<?php
-}
-?>
+    <div class="row">
+        <?php
+        foreach ($this->list as $trait){
+        ?>
+            <div class="col-4 p-2">
+                <div class="card" style="height: 10rem; overflow: auto">
+                    <a href="<?= $this->baseUrl() ?>/Administration/trait/show/id/<?= $trait->getTraitId() ?>">
+                        <div class="card-body">
+                            <div class="card-title fs-3">
+                                <?= $purifier->purify($trait->getName()) ?>
+                            </div>
+                            <div class="text-muted">
+                                <?= $purifier->purify(substr($trait->getBeschreibung(), 0, 200)) ?>
+                                <?= (strlen($purifier->purify($trait->getBeschreibung())) > 200) ? '...' : '' ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
 </div>

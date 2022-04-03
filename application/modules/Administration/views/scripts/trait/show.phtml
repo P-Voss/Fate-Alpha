@@ -13,31 +13,39 @@ $incompatibleTraitIds = array_map(function (Application_Model_Trait $trait) {
 $focustraits = $this->focustraits;
 ?>
 <h1>Trait anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/trait/edit" method="post">
-    <div class="container">
-        <div class="row m-3">
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/trait/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" type="text" size="30" id="name" name="name" value="<?= $trait->getName() ?>" />
+        </div>
+        <div class="col-4">
             <label class="form-label" for="kosten">Kosten</label>
             <input class="form-control" type="number" id="kosten" name="kosten" value="<?= $trait->getKosten() ?>" />
         </div>
-        <div class="row m-3">
-            <label class="form-label" for="isIndividual">Individueller Trait?</label>
-            <select class="form-control" name="isIndividual" id="isIndividual">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="isIndividual">Ist Individueller Trait?</label>
+            <select class="form-select" name="isIndividual" id="isIndividual">
                 <option value="0" <?= $individual ? '' : 'selected=""' ?>>Nein</option>
                 <option value="1" <?= $individual ? 'selected=""' : '' ?>>Ja</option>
             </select>
         </div>
-        <div class="row m-3">
-            <label class="form-label" for="isFocusTrait">Fokustrait?</label>
-            <select class="form-control" name="isFocusTrait" id="isFocusTrait">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="isFocusTrait">Ist Fokustrait?</label>
+            <select class="form-select" name="isFocusTrait" id="isFocusTrait">
                 <option value="0" <?= $focus ? '' : 'selected=""' ?>>Nein</option>
                 <option value="1" <?= $focus ? 'selected=""' : '' ?>>Ja</option>
             </select>
         </div>
-        <div class="row m-3">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
             <label class="form-label" for="focustrait">Fokustrait</label>
-            <select class="form-control" name="focustraitId" id="focustrait">
+            <select class="form-select" name="focustraitId" id="focustrait">
                 <option value="0">Keiner</option>
                 <?php
                 foreach ($focustraits as $focustrait):
@@ -45,21 +53,23 @@ $focustraits = $this->focustraits;
                     if ($focustrait->getTraitId() === $trait->getFocustraitId()) {
                         $selected = 'selected=""';
                     }
-                ?>
+                    ?>
                     <option <?= $selected ?> value="<?= $focustrait->getTraitId() ?>"><?= $focustrait->getName() ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="row m-3">
-        <textarea class="form-control" name="beschreibung" cols="140" rows="8">
-            <?= $trait->getBeschreibung() ?>
-        </textarea>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="140" rows="8"><?= $trait->getBeschreibung() ?></textarea>
         </div>
-        <div class="row m-3">
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
             <label class="form-label" for="trait">
                 Nicht kombinierbar mit den Traits:
             </label>
-            <select class="form-control" id="trait" name="trait[]" multiple size="8">
+            <select class="form-select" id="trait" name="trait[]" multiple size="8">
                 <?php
                 foreach ($this->traits as $traitOption) {
                     /** @var $traitOption Administration_Model_Trait */
@@ -74,7 +84,9 @@ $focustraits = $this->focustraits;
                 <?php } ?>
             </select>
         </div>
-        <div class="row m-3">
+    </div>
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
             <input type="hidden" name="traitId" value="<?= $trait->getTraitId() ?>">
             <input type="submit" class="btn btn-primary" name="Abschicken" id="Abschicken" value="Trait ändern" />
         </div>

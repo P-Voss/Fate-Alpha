@@ -18,42 +18,42 @@ switch ($charakter->getMagiOrganization()) {
 ?>
 <form method="post" action="<?= $this->baseUrl() ?>/Administration/charakter/editdata" class="container" >
     <input type="hidden" name="charakterId" value="<?= $charakter->getCharakterid() ?>">
-    <h2>Charakterdaten</h2>
-    <div class="row">
+    <h2 class="fs-2">Charakterdaten</h2>
+    <div class="row m-3">
         <label class="form-label" for="vorname">
             Vorname
         </label>
         <input type="text" class="form-control" id="vorname" name="vorname" value="<?= $this->purify($charakter->getVorname()) ?>">
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="nachname">
             Nachname
         </label>
         <input type="text" class="form-control" id="nachname" name="nachname" value="<?= $this->purify($charakter->getNachname()) ?>">
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="origin">
             Origin
         </label>
         <input type="text" class="form-control" id="origin" name="origin" value="<?= $this->purify($charakter->getOrigin()) ?>">
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="nickname">
             Künstlername
         </label>
         <input type="text" class="form-control" id="nickname" name="nickname" value="<?= $this->purify($charakter->getNickname()) ?>">
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="geburtsdatum">
             Geburtsdatum <?= '(aktuelles Alter: ' . $charakter->getAlter() . ')' ?>
         </label>
         <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum" value="<?= $charakter->getGeburtsdatum('d.m.Y') ?>">
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="augenfarbe">
             Augenfarbe
         </label>
-        <select name="augenfarbe" id="augenfarbe" class="form-control">
+        <select name="augenfarbe" id="augenfarbe" class="form-select">
             <option <?= $charakter->getAugenfarbe() === 'Blau' ? 'selected' : '' ?>>Blau</option>
             <option <?= $charakter->getAugenfarbe() === 'Grün' ? 'selected' : '' ?>>Grün</option>
             <option <?= $charakter->getAugenfarbe() === 'Braun' ? 'selected' : '' ?>>Braun</option>
@@ -65,51 +65,57 @@ switch ($charakter->getMagiOrganization()) {
             <option <?= $charakter->getAugenfarbe() === 'Türkis' ? 'selected' : '' ?>>Türkis</option>
         </select>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="geschlecht">
             Geschlecht
         </label>
-        <select name="geschlecht" id="geschlecht" class="form-control">
+        <select name="geschlecht" id="geschlecht" class="form-select">
             <option <?= $charakter->getGeschlecht() === 'm' ? 'selected' : '' ?>>m</option>
             <option <?= $charakter->getGeschlecht() === 'w' ? 'selected' : '' ?>>w</option>
         </select>
     </div>
-    <div class="row input-group">
-        <label class="form-label" for="size">
-            Körpergröße
-        </label>
-        <div class="input-group m-0 p-0">
-            <input type="number" class="form-control" id="size" name="size" value="<?= $charakter->getSize() ?>">
-            <span class="input-group-text">cm</span>
+    <div class="row m-3">
+        <div class="col-12">
+            <label class="form-label" for="size">
+                Körpergröße
+            </label>
+            <div class="input-group m-0 p-0">
+                <input type="number" class="form-control" id="size" name="size" value="<?= $charakter->getSize() ?>">
+                <span class="input-group-text">cm</span>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <label class="form-label">
-            Wohnort
-        </label>
-        <?= $charakter->getWohnort() ?>
+    <div class="row m-3">
+        <div class="col-10">
+            <label class="form-label">
+                Wohnort
+            </label>
+            <?= $charakter->getWohnort() ?>
+        </div>
     </div>
-    <div class="row">
-        <label class="form-label">
-            Vermögen
-        </label>
-        <?= $charakter->getVermoegen()->getKategorie() ?>
+    <div class="row m-3">
+        <div class="col">
+            <label class="form-label">
+                Vermögen
+            </label>
+            <?= $charakter->getVermoegen()->getKategorie() ?>
+        </div>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="sex">
             Sexuelle Orientierung
         </label>
-        <select name="sex" id="sex" class="form-control">
+        <select name="sex" id="sex" class="form-select">
             <option <?= $charakter->getSexualitaet() === 'Heterosexuell' ? 'selected' : '' ?>>Heterosexuell</option>
             <option <?= $charakter->getSexualitaet() === 'Homosexuell' ? 'selected' : '' ?>>Homosexuell</option>
             <option <?= $charakter->getSexualitaet() === 'Bisexuell' ? 'selected' : '' ?>>Bisexuell</option>
         </select>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="odo">
             Odo
         </label>
-        <select name="odo" id="odo" class="form-control">
+        <select name="odo" id="odo" class="form-select">
             <?php foreach($this->creationParams['odo'] as $odo): ?>
                 <option value="<?= $odo->getId() ?>" <?= $odo->getKategorie() == $charakter->getOdo()->getKategorie() ? 'selected' : '' ?>>
                     <?= $odo->getAmount() . ' (' . $odo->getKategorie() . ')' ?>
@@ -117,11 +123,11 @@ switch ($charakter->getMagiOrganization()) {
             <?php endforeach; ?>
         </select>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="element">
             Naturelement
         </label>
-        <select name="element" id="element" class="form-control">
+        <select name="element" id="element" class="form-select">
             <?php foreach($this->creationParams['elements'] as $element):
                 if($element->getCharakterisierung() === null){
                     continue;
@@ -133,11 +139,11 @@ switch ($charakter->getMagiOrganization()) {
             <?php endforeach; ?>
         </select>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="luck">
             Glück
         </label>
-        <select name="luck" id="luck" class="form-control">
+        <select name="luck" id="luck" class="form-select">
             <?php foreach($this->creationParams['luck'] as $luck): ?>
                 <option value="<?= $luck->getId() ?>" <?= $luck->getId() == $charakter->getLuck()->getId() ? 'selected' : '' ?>>
                     <?= $luck->getKategorie() ?>
@@ -145,9 +151,9 @@ switch ($charakter->getMagiOrganization()) {
             <?php endforeach; ?>
         </select>
     </div>
-    <div class="row">
+    <div class="row m-3">
         <label class="form-label" for="organization">Magiorganisation</label>
-        <select id="organization" name="organization" class="form-control">
+        <select id="organization" name="organization" class="form-select">
             <option <?= $charakter->getMagiOrganization() === 0 ? 'selected=""' : '' ?> value="0">Keine</option>
             <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
             <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
@@ -155,12 +161,16 @@ switch ($charakter->getMagiOrganization()) {
         </select>
     </div>
     <?php if($charakter->getMagiccircuit()->getKategorie() !== 'F'): ?>
-        <div class="row">
+        <div class="row m-3">
             <label class="form-label">
                 Magic Circuit
             </label>
             <?= $charakter->getMagiccircuit()->getMenge() . '(' . $charakter->getMagiccircuit()->getKategorie() . ')' ?>
         </div>
     <?php endif; ?>
-    <input type="submit" value="Daten ändern">
+    <div class="row m-3">
+        <div class="col">
+            <input class="btn btn-primary" type="submit" value="Daten ändern">
+        </div>
+    </div>
 </form>

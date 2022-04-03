@@ -3,22 +3,31 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 ?>
-<h1>
+<h1 class="fs-1">
     Magic Circuits
 </h1>
+<div class="container">
+    <div class="row">
 <?php
 foreach ($this->list as $circuit){
 ?>
-<a href="<?= $this->baseUrl() ?>/Administration/circuits/show/id/<?= $circuit->getId() ?>">
-    <fieldset>
-        <p>
-            <?= $purifier->purify($circuit->getKategorie()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify(substr($circuit->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($circuit->getBeschreibung()) > 100) ? '...' : '' ?>
-        </p>
-    </fieldset>
-</a>
+    <div class="col-4 p-2">
+        <div class="card" style="height: 15rem; overflow: auto">
+                <a href="<?= $this->baseUrl() ?>/Administration/circuits/show/id/<?= $circuit->getId() ?>">
+                <div class="card-body">
+                    <div class="card-title fw-bold fs-3">
+                            Kategorie <?= $purifier->purify($circuit->getKategorie()) ?>
+                    </div>
+                    <div>
+                        <?= $purifier->purify(substr($circuit->getBeschreibung(), 0, 300)) ?>
+                        <?= (strlen($circuit->getBeschreibung()) > 300) ? '...' : '' ?>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
 <?php
 }
+?>
+    </div>
+</div>

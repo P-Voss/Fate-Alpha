@@ -5,52 +5,65 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $klasse = $this->klasse;
 $purifier = $this->purifier
 ?>
-<h1>Klasse anpassen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/klasse/edit" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input type="text" size="30" name="name" value="<?= $purifier->purify($klasse->getBezeichnung()) ?>" />
-            <label for="kosten">Kosten</label>
-            <input type="number" name="kosten" value="<?= $klasse->getKosten() ?>" />
-            <label for="klassengruppe">
+<h1 class="fs-1">Klasse anpassen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/klasse/edit" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" size="30" name="name" value="<?= $purifier->purify($klasse->getBezeichnung()) ?>" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input class="form-control" id="kosten" type="number" name="kosten" value="<?= $klasse->getKosten() ?>" />
+        </div>
+        <div class="col-4">
+            <label class="form-label" for="familienname">Familienname</label>
+            <input class="form-control" id="familienname" type="text" size="30" name="familienname" value="<?= $purifier->purify($klasse->getFamilienname()) ?>" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="klassengruppe">
                 Klassengruppe:
             </label>
-            <select name="klassengruppe">
-                <?php 
-                foreach ($this->klassengruppen as $gruppe) { 
+            <select class="form-select" id="klassengruppe" name="klassengruppe">
+                <?php
+                foreach ($this->klassengruppen as $gruppe) {
                     $selected = ($gruppe->getId() === $klasse->getGruppe()) ? 'selected="true"' : '';
                 ?>
-                <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
-                    <?= $purifier->purify($gruppe->getBezeichnung()) ?>
-                </option>
+                    <option <?= $selected ?> value="<?= $gruppe->getId() ?>">
+                        <?= $purifier->purify($gruppe->getBezeichnung()) ?>
+                    </option>
                 <?php } ?>
             </select>
-            <br />
-            <label for="familienname">Familienname</label>
-            <input type="text" size="30" name="familienname" value="<?= $purifier->purify($klasse->getFamilienname()) ?>" />
-        </p>
-        <p>
-            <label for="traits">
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="traits">
                 Traits:
             </label>
-            <select name="traits[]" multiple="true" size="8">
-                <?php foreach ($this->traits as $trait) { ?>
+            <select class="form-select" id="traits" name="traits[]" multiple="true" size="8">
+                <?php
+                foreach ($this->traits as $trait) {
+                ?>
                     <option value="<?= $trait->getTraitId() ?>">
                         <?= $purifier->purify($trait->getName()) ?>
                     </option>
                 <?php } ?>
             </select>
-        </p>
-        <label for="beschreibung">
-            Beschreibung
-        </label>
-        <textarea name="beschreibung" cols="80" rows="10">
-            <?= $purifier->purify($klasse->getBeschreibung()) ?>
-        </textarea>
-    </fieldset>
-    <div align="center">
-        <input type="hidden" name="klassenId" value="<?= $klasse->getId() ?>">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Klasse ändern" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea class="form-control" name="beschreibung" cols="80" rows="10"><?= $purifier->purify($klasse->getBeschreibung()) ?></textarea>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="hidden" name="klassenId" value="<?= $klasse->getId() ?>">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Klasse ändern" />
+        </div>
     </div>
 </form>

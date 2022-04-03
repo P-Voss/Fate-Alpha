@@ -1,13 +1,25 @@
 <fieldset>
     <legend>Klasse <span class="indicator"></span></legend>
     <div class="subContent">
-        <h4>Klasse - <?= $this->purify($charakter->getKlassengruppe()->getBezeichnung()) ?></h4>
-        <p>
-            <?= $this->purify($charakter->getKlassengruppe()->getBeschreibung()) ?>
-        </p>
-        <h4>Unterklasse - <?= $this->purify($charakter->getKlasse()->getBezeichnung()) ?></h4>
-        <p>
-            <?= $this->purify($charakter->getKlasse()->getBeschreibung()) ?>
-        </p>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title fs-4">
+                    Klasse - <?= $this->purify($charakter->getKlassengruppe()->getBezeichnung()) ?>
+                </div>
+                <div class="text-muted">
+                    <?= $this->purify($charakter->getKlassengruppe()->getBeschreibung()) ?>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title fs-4">
+                    Unterklasse - <?= $this->purify($charakter->getKlasse()->getBezeichnung()) ?>
+                </div>
+                <div class="text-muted">
+                    <?= $this->purify($charakter->getKlasse()->getBeschreibung()) ?>
+                </div>
+            </div>
+        </div>
     </div>
 </fieldset>

@@ -3,22 +3,35 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 ?>
-<h1>
+<h1 class="fs-1">
     Elemente
 </h1>
-<?php
-foreach ($this->list as $element){
-?>
-<a href="<?= $this->baseUrl() ?>/Administration/element/show/id/<?= $element->getId() ?>">
-    <fieldset>
-        <p>
-            <?= $purifier->purify($element->getBezeichnung()) ?>
-        </p>
-        <p>
-            <?= $purifier->purify(substr($element->getBeschreibung(), 0, 100)) ?>
-            <?= (strlen($element->getBeschreibung()) > 100) ? '...' : '' ?>
-        </p>
-    </fieldset>
-</a>
-<?php
-}
+<div class="container">
+    <div class="row">
+        <?php
+        foreach ($this->list as $element){
+        ?>
+            <div class="col-3">
+                <div class="card">
+                    <a href="<?= $this->baseUrl() ?>/Administration/element/show/id/<?= $element->getId() ?>">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <?= $purifier->purify($element->getBezeichnung()) ?>
+                            </div>
+                            <div class="text-muted">
+                                <?= $purifier->purify(substr($element->getBeschreibung(), 0, 100)) ?>
+                                <?= (strlen($element->getBeschreibung()) > 100) ? '...' : '' ?>
+                            </div>
+                            <div class="text-muted">
+                                <?= $purifier->purify(substr($element->getCharakterisierung(), 0, 100)) ?>
+                                <?= (strlen($element->getCharakterisierung()) > 100) ? '...' : '' ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>

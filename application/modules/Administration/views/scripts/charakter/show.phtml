@@ -27,119 +27,144 @@ usort($skillarten, $order);
 $magieschulen = $this->magieschulen;
 $magien = $this->magien;
 ?>
-<h1>
-    Charakterdaten
-</h1>
-<div>
-    <div class="contentLeft">
-        <?php include __DIR__ . '/partials/charakterdaten.phtml'; ?>
-        <?php include __DIR__ . '/partials/circuit.phtml'; ?>
-        <?php include __DIR__ . '/partials/traits.phtml' ?>
-    </div>
-    <div class="clearRight"></div>
-    <div class="contentRight">
-        <form action="<?= $this->baseUrl() ?>/Administration/charakter/delete" method="post">
-            <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
-            <input type="hidden" name="adminId" value="<?= Zend_Auth::getInstance()->getIdentity()->userId ?>"/>
-            <input type="submit" value="Charakter löschen" />
-        </form>
-        <?php include __DIR__ . '/partials/statistik.phtml' ?>
-        <?php include __DIR__ . '/partials/charakterwerte.phtml' ?>
-        <?php include __DIR__ . '/partials/individualTraits.phtml' ?>
-        <?php include __DIR__ . '/partials/informations.phtml' ?>
-        <?php include __DIR__ . '/partials/klasse.phtml' ?>
-    </div>
-    <div class="clearBoth"></div>
-</div>
-<h1>
-    Profil
-</h1>
-<div>
-    <div class="contentLeft">
-        <?php include __DIR__ . '/partials/profilbild.phtml' ?>
-    </div>
-    <div class="clearRight"></div>
-    <div class="contentRight">
-        <?php include __DIR__ . '/partials/charakterbild.phtml' ?>
-    </div>
-    <div class="clearBoth"></div>
-</div>
-<div>
-    <fieldset>
-        <legend>Charaktergeschichte <span class="indicator"></span></legend>
-        <div class="subContent">
-            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/story">
-                <textarea class="data" id="story" name="story" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></textarea>
-                <br />
-                <input type="submit" class="save" value="Charaktergeschichte speichern">
-            </form>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Charakterdaten
+            </h1>
         </div>
-    </fieldset>
-</div>
-<div>
-    <fieldset>
-        <legend>Private Charakterdaten <span class="indicator"></span></legend>
-        <div class="subContent">
-            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/private">
-                <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>
-                <br />
-                <input type="submit" class="save" value="Charaktergeschichte speichern">
-            </form>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <?php include __DIR__ . '/partials/charakterdaten.phtml'; ?>
+            <?php include __DIR__ . '/partials/circuit.phtml'; ?>
+            <?php include __DIR__ . '/partials/traits.phtml' ?>
         </div>
-    </fieldset>
-</div>
-<h1>
-    Fähigkeiten
-</h1>
-<div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <form action="<?= $this->baseUrl() ?>/Administration/charakter/delete" method="post">
+                        <input type="hidden" name="characterId" value="<?= $charakter->getCharakterid() ?>" />
+                        <input type="hidden" name="adminId" value="<?= Zend_Auth::getInstance()->getIdentity()->userId ?>"/>
+                        <input class="btn btn-danger" type="submit" value="Charakter löschen" />
+                    </form>
+                </div>
+                <div class="col-12">
+                    <?php include __DIR__ . '/partials/statistik.phtml' ?>
+                    <?php include __DIR__ . '/partials/charakterwerte.phtml' ?>
+                    <?php include __DIR__ . '/partials/individualTraits.phtml' ?>
+                    <?php include __DIR__ . '/partials/informations.phtml' ?>
+                    <?php include __DIR__ . '/partials/klasse.phtml' ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Profil
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <?php include __DIR__ . '/partials/profilbild.phtml' ?>
+            <div class="row">
+                <div class="col">
+                    <fieldset>
+                        <legend>Charaktergeschichte <span class="indicator"></span></legend>
+                        <div class="subContent">
+                            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/story">
+                                <textarea class="data" id="story" name="story" rows="10"><?= $purifier->purify($charakter->getCharakterprofil()->getCharaktergeschichte()) ?></textarea>
+                                <input type="submit" class="save btn btn-danger" value="Charaktergeschichte speichern">
+                            </form>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <?php include __DIR__ . '/partials/charakterbild.phtml' ?>
+            <div class="row">
+                <div class="col">
+                    <fieldset>
+                        <legend>Private Charakterdaten <span class="indicator"></span></legend>
+                        <div class="subContent">
+                            <form class="profil" method="post" action="<?= $this->baseUrl() ?>/charakter/private">
+                                <textarea class="data" id="private" name="private" rows="30"><?= $purifier->purify($charakter->getCharakterprofil()->getPrivatdaten()) ?></textarea>
+                                <input type="submit" class="save btn btn-danger" value="Daten speichern">
+                            </form>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Fähigkeiten und Magie
+            </h1>
+        </div>
+    </div>
     <fieldset>
-        <legend>Fähigkeiten</legend>
+        <legend class="fs-2">Fähigkeiten</legend>
         <?php foreach ($skillarten as $skillart):
             if(count($skillart->getSkills()) === 0){
                 continue;
             }
-        ?>
-        <fieldset>
-            <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
-            <div class="subContent">
-                <?php foreach ($skillart->getSkills() as $skill): ?>
-                <p>
-                    <span class="skill">
-                        <input type="hidden" value="<?= $skill->getId() ?>">
-                        <?= $purifier->purify($skill->getBezeichnung()) ?>
-                    </span>
-                </p>
-                <?php endforeach; ?>
-            </div>
-        </fieldset>
+            ?>
+            <fieldset>
+                <legend class="fs-3"><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <div class="subContent">
+                    <div class="row">
+                        <?php foreach ($skillart->getSkills() as $skill): ?>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </fieldset>
         <?php endforeach; ?>
     </fieldset>
-</div>
-<div>
     <fieldset>
-        <legend>Besondere Fähigkeiten</legend>
+        <legend class="fs-2">Besondere Fähigkeiten</legend>
         <?php
         foreach ($magieschulen as $schule):
             /** @var Application_Model_Schule $schoolMagic */
             $schoolMagic = array_filter($magien, function (Application_Model_Magie $magie) use ($schule) {
                 return $magie->getSchule()->getId() === $schule->getId();
             });
-        ?>
+            ?>
             <fieldset>
-                <legend><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
+                <legend class="fs-3"><?= $schule->getBezeichnung() ?> <span class="indicator"></span></legend>
                 <div class="subContent">
-                    <?php foreach ($schoolMagic as $magie): ?>
-                    <p>
-                        <span class="magie">
-                            <input type="hidden" value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </span>
-                    </p>
-                    <?php endforeach; ?>
+                    <div class="row">
+                        <?php foreach ($schule->getMagien() as $magie): ?>
+                            <div class="col-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <?= $purifier->purify($magie->getBezeichnung()) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </fieldset>
         <?php endforeach; ?>
     </fieldset>
 </div>
+
 <?php include __DIR__ . '/partials/inventar.phtml' ?>
 <div id="dialog"></div>

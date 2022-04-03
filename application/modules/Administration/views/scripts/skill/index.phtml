@@ -5,59 +5,103 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /* @var $klasse Application_Model_Klasse */
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
-$skillartArray = array();
-$skillarten = array(
-    1 => 'Schützenfähigkeiten',
-    2 => 'Kämpferfähigkeiten',
-    3 => 'Übungsfähigkeiten',
-    4 => 'Spezialfähigkeiten',
-);
+$skillarten = [
+    1 => [
+        'name' => 'Schützenfähigkeiten',
+        'skills' => []
+    ],
+    2 => [
+        'name' => 'Kämpferfähigkeiten',
+        'skills' => []
+    ],
+    3 => [
+        'name' => 'Übungsfähigkeiten',
+        'skills' => []
+    ],
+    4 => [
+        'name' => 'Spezialfähigkeiten',
+        'skills' => []
+    ],
+];
+
+foreach ($this->list as $skill) {
+    $skillarten[$skill->getSkillArt()]['skills'][] = $skill;
+}
+
 ?>
-<h1>
-    Fähigkeiten
-</h1>
-<fieldset>
-    <legend>Filter</legend>
-    <div>
-        <select id="skillarten" multiple size="4" style="vertical-align: top">
-            <?php foreach ($skillarten as $key => $skillart) : ?>
-            <option value="<?= $key ?>"><?= $skillart ?></option>
-            <?php endforeach; ?>
-        </select>
-        <select id="gruppen" multiple size="5" style="vertical-align: top">
-            <?php foreach ($this->klassengruppen as $gruppe) : ?>
-            <option value="<?= $gruppe->getId() ?>"><?= $gruppe->getBezeichnung() ?></option>
-            <?php endforeach; ?>
-        </select>
-        <select id="klassen" multiple size="7" style="vertical-align: top">
-            <?php foreach ($this->klassen as $klasse) : ?>
-            <option value="<?= $klasse->getId() ?>"><?= $klasse->getBezeichnung() ?></option>
-            <?php endforeach; ?>
-        </select>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Fähigkeiten
+            </h1>
+        </div>
     </div>
-    <button id="filterExecute">Suchen</button>
-</fieldset>
-<div id="list">
-    <?php
-    foreach ($this->list as $skill){ ?>
-        <?php if(!in_array($skill->getSkillArt(), $skillartArray)){ ?>
-        <h2 id="<?= $skill->getSkillArt() ?>">
-            <?= $skillarten[$skill->getSkillArt()] ?>
-        </h2>
-        <?php } ?>
-    <a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
-        <fieldset>
-            <legend>
-                <?= $purifier->purify($skill->getBezeichnung()) ?>
-            </legend>
-            <div>
-                <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 100)) ?>
-                <?= (strlen($skill->getBeschreibung()) > 100) ? '...' : '' ?>
+    <div class="row">
+        <div class="col-12">
+            <h2 class="fs-2">Filter</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <select class="form-select" id="skillarten" multiple size="4">
+                <?php foreach ($skillarten as $key => $skillart) : ?>
+                    <option value="<?= $key ?>"><?= $skillart['name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-3">
+            <select class="form-select" id="gruppen" multiple size="5">
+                <?php foreach ($this->klassengruppen as $gruppe) : ?>
+                    <option value="<?= $gruppe->getId() ?>"><?= $gruppe->getBezeichnung() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-3">
+            <select class="form-select" id="klassen" multiple size="7">
+                <?php foreach ($this->klassen as $klasse) : ?>
+                    <option value="<?= $klasse->getId() ?>"><?= $klasse->getBezeichnung() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-secondary" id="filterExecute">Suchen</button>
+        </div>
+    </div>
+    <div id="list">
+        <?php
+        foreach ($skillarten as $key => $skillart) {
+            ?>
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="fs-2" id="<?= $key ?>">
+                        <?= $skillart['name'] ?>
+                    </h2>
+                </div>
             </div>
-        </fieldset>
-    </a>
-    <?php
-    $skillartArray[] = $skill->getSkillArt();
-    }
-    ?>
+            <div class="row">
+                <?php foreach ($skillart['skills'] as $skill): ?>
+                    <div class="col-4 p-2">
+                        <div class="card" style="height: 10rem; overflow: auto">
+                            <a href="<?= $this->baseUrl() ?>/Administration/skill/show/id/<?= $skill->getId() ?>">
+                                <div class="card-body">
+                                    <div class="card-title fs-3">
+                                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                                    </div>
+                                    <div class="text-muted">
+                                        <?= $purifier->purify(substr($skill->getBeschreibung(), 0, 200)) ?>
+                                        <?= (strlen($purifier->purify($skill->getBeschreibung())) > 200) ? '...' : '' ?>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
 </div>

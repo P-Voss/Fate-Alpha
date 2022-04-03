@@ -4,51 +4,67 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 /** @var Administration_Model_Trait $focustraits */
 $focustraits = $this->focustraits;
 ?>
-<h1>Neuen Trait erstellen</h1>
-<form action="<?= $this->baseUrl() ?>/Administration/trait/create" method="post">
-    <fieldset>
-        <p>
-            <label for="name">Name</label>
-            <input id="name" type="text" size="30" name="name" />
-            <label for="kosten">Kosten</label>
-            <input id="kosten" type="number" name="kosten" />
-        </p>
-        <p>
-            <label for="isIndividual">Individueller Trait?</label>
-            <select name="isIndividual" id="isIndividual">
+<h1 class="fs-1">Neuen Trait erstellen</h1>
+<form class="container" action="<?= $this->baseUrl() ?>/Administration/trait/create" method="post">
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" size="30" name="name" /></div>
+        <div class="col-4">
+            <label class="form-label" for="kosten">Kosten</label>
+            <input class="form-control" id="kosten" type="number" name="kosten" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="isIndividual">Individueller Trait?</label>
+            <select class="form-select" name="isIndividual" id="isIndividual">
                 <option value="0">Nein</option>
                 <option value="1">Ja</option>
-            </select>
-        </p>
-        <p>
-            <label for="isFocusTrait">Fokustrait?</label>
-            <select name="isFocusTrait" id="isFocusTrait">
+            </select></div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="isFocusTrait">Ist Fokustrait?</label>
+            <select class="form-select" name="isFocusTrait" id="isFocusTrait">
                 <option value="0">Nein</option>
                 <option value="1">Ja</option>
-            </select>
-        </p>
-        <p>
-            <label for="focustrait">Fokustrait</label>
-            <select name="focustraitId" id="focustrait">
+            </select></div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="focustrait">Fokustrait</label>
+            <select class="form-select" name="focustraitId" id="focustrait">
                 <option value="0">Keiner</option>
                 <?php foreach ($focustraits as $trait): ?>
-                <option value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
+                    <option value="<?= $trait->getTraitId() ?>"><?= $trait->getName() ?></option>
                 <?php endforeach; ?>
             </select>
-        </p>
-        <textarea name="beschreibung" cols="80" rows="10"></textarea>
-        <label for="trait">
-            Nicht kombinierbar mit den Traits:
-        </label>
-        <select name="trait[]" multiple="true" size="8" id="trait">
-            <?php foreach ($this->traits as $traitOption) { ?>
-            <option value="<?= $traitOption->getTraitId() ?>">
-                <?= $traitOption->getName() ?>
-            </option>
-            <?php } ?>
-        </select>
-    </fieldset>
-    <div align="center">
-        <input type="submit" name="Abschicken" id="Abschicken" value="Trait speichern" />
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-12">
+            <textarea name="beschreibung" cols="80" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col-4">
+            <label class="form-label" for="trait">
+                Nicht kombinierbar mit den Traits:
+            </label>
+            <select class="form-select" name="trait[]" multiple="true" size="8" id="trait">
+                <?php foreach ($this->traits as $traitOption) { ?>
+                    <option value="<?= $traitOption->getTraitId() ?>">
+                        <?= $traitOption->getName() ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-3 p-3">
+            <input type="submit" class="btn btn-primary btn-block" name="Abschicken" id="Abschicken" value="Trait erstellen" />
+        </div>
     </div>
 </form>
