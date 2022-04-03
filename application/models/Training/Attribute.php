@@ -51,6 +51,17 @@ class Application_Model_Training_Attribute
     }
 
     /**
+     * @param $key
+     *
+     * @return string
+     */
+    public static function name($key)
+    {
+        $attributes = self::getAttributes();
+        return $attributes[$key];
+    }
+
+    /**
      * @param string $key
      * @param int $value
      *

@@ -6,78 +6,118 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/custom/training/indicat
 $trainingsprograms = $this->trainingsprograms;
 $purifier = $this->purifier;
 ?>
-<h1>
-    Trainingscenter
-</h1>
-<p>
-    <a href="<?= $this->baseUrl() ?>/training/log">Trainingsverlauf</a>
-</p>
-<?php foreach ($trainingsprograms as $program): ?>
-<fieldset>
-    <legend><?= $program->getName() ?> <span class="indicator"></span></legend>
-    <p>
-        <?= $program->getDescription() ?>
-    </p>
-    <div class="subContent">
-        <p class="trainingDescription"></p>
-        <div class="trainingInformation">
-            <p class="trainingDescription">
-                Diese Werte werden auf jeden Fall trainiert
-            </p>
-            <p>
-            <span class="trainingAttribute">
-                <?= Application_Model_Training_Attribute::getAttributeName($program->getPrimaryAttribute()->getAttributeKey()) ?>
-            </span>
-                <span class="trainingValue">
-                <?= $program->getPrimaryAttribute()->getValue() ?>
-            </span>
-            </p>
-            <p>
-            <span class="trainingAttribute">
-                <?= Application_Model_Training_Attribute::getAttributeName($program->getSecondaryAttribute()->getAttributeKey()) ?>
-            </span>
-                <span class="trainingValue">
-                <?= $program->getSecondaryAttribute()->getValue() ?>
-            </span>
-            </p>
-            <p class="trainingDescription">
-                Jeden Tag wird einer von diesen Werten zusätzlich trainiert
-            </p>
-            <?php foreach ($program->getOptionalAttributes() as $attribute): ?>
-                <p>
-                <span class="trainingAttribute">
-                    <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
-                </span>
-                    <span class="trainingValue">
-                    <?= $attribute->getValue() ?>
-                </span>
-                </p>
-            <?php endforeach; ?>
-            <p class="trainingDescription">
-                Jeden Tag wird einer von diesen Werten vernachlässigt
-            </p>
-            <?php foreach ($program->getDecreasingAttributes() as $attribute): ?>
-                <p>
-                <span class="trainingAttribute">
-                    <?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?>
-                </span>
-                    <span class="trainingValue">
-                    <?= $attribute->getValue() ?>
-                </span>
-                </p>
-            <?php endforeach; ?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Trainingscenter
+            </h1>
         </div>
     </div>
-    <form method="post" action="<?= $this->baseUrl() ?>/training/set">
-        <div class="trainingControl">
-            <span>
-                <input class="trainingInput" type="number" name="days" placeholder="0" min="0"> Tage
-            </span>
-            <span>
-                <input type="hidden" name="program" value="<?= $program->getProgramId() ?>">
-                <input type="submit" value="Training eintragen">
-            </span>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-info" href="<?= $this->baseUrl() ?>/training/log">Trainingsverlauf</a>
         </div>
-    </form>
-</fieldset>
-<?php endforeach; ?>
+    </div>
+
+    <div class="row">
+        <?php foreach ($trainingsprograms as $program): ?>
+            <div class="col-4 p-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title fs-3">
+                            <?= $program->getName() ?>
+                        </div>
+                        <div class="card-subtitle text-muted">
+                            <?= $program->getDescription() ?>
+                        </div>
+                        <div class="row">
+                            <fieldset>
+                                <legend>Details <span class="indicator"></span></legend>
+                                <div class="subContent">
+
+                                    <div class="card-header">Garantiertes Training</div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <?= Application_Model_Training_Attribute::name($program->getPrimaryAttribute()->getAttributeKey()) ?>
+                                                </div>
+                                                <div class="col-4">
+                                                    <?= $program->getPrimaryAttribute()->getValue() ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <?= Application_Model_Training_Attribute::name($program->getSecondaryAttribute()->getAttributeKey()) ?>
+                                                </div>
+                                                <div class="col-4">
+                                                    <?= $program->getSecondaryAttribute()->getValue() ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div class="card-header">Zusätzliches Training (Ein Wert)</div>
+                                    <ul class="list-group list-group-flush">
+                                        <?php foreach ($program->getOptionalAttributes() as $attribute): ?>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <?= Application_Model_Training_Attribute::name($attribute->getAttributeKey()) ?>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <?= $attribute->getValue() ?>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+
+                                    <div class="card-header">Vernachlässigtes Training (Ein Wert)</div>
+                                    <ul class="list-group list-group-flush">
+                                        <?php foreach ($program->getDecreasingAttributes() as $attribute): ?>
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <?= Application_Model_Training_Attribute::name($attribute->getAttributeKey()) ?>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <?= $attribute->getValue() ?>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <form class="row" method="post" action="<?= $this->baseUrl() ?>/training/set">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        name="days"
+                                        class="form-control"
+                                        placeholder="0"
+                                        aria-label="0"
+                                        aria-describedby="<?= $program->getProgramId() ?>_duration"
+                                    />
+                                    <span class="input-group-text" id="<?= $program->getProgramId() ?>_duration">Tage</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <input type="hidden" name="program" value="<?= $program->getProgramId() ?>">
+                                <input class="btn btn-primary" type="submit" value="Training eintragen">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+</div>

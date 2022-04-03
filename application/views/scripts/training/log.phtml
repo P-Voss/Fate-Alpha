@@ -2,40 +2,51 @@
 /** @var Application_Model_TrainingLog[] $logs */
 $logs = $this->trainingLogs;
 ?>
-<h1>
-    Traingsverlauf
-</h1>
-<p>
-    <a href="<?= $this->baseUrl() ?>/training">Trainingscenter</a>
-</p>
-<div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="fs-1">
+                Traingsverlauf
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-info" href="<?= $this->baseUrl() ?>/training">Trainingscenter</a>
+        </div>
+    </div>
     <?php
     foreach ($logs as $log):
         $attributes = array_map(
             function (Application_Model_Training_Attribute $attribute) {return $attribute->getAttributeKey();},
             $log->getAttributes()
         );
-    ?>
-        <h2>
-            <?= $log->getDate() ?> - <?= $log->getProgramName() ?>
-        </h2>
+        ?>
+    <div class="row">
+        <div class="col">
+            <h2>
+                <?= $log->getDate() ?> - <?= $log->getProgramName() ?>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
         <?php if ($log->isError()): ?>
             <h4 class="error">Fehlerhaftes Training</h4>
             <p>Tell a mod pls.</p>
-        <?php
+            <?php
             continue;
-            endif;
+        endif;
         ?>
-        <div class="logEntry">
-            <div class="header">
+        <div class="logEntry col-12">
+            <div class="header row">
                 <span>Trainingseffekt</span>
                 <span>Vorher</span>
                 <span>Nachher</span>
             </div>
             <div class="attrBlock" style="">
                 <?php foreach ($log->getAttributes() as $attribute): ?>
-                <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?></span>
-                <span class="value"><?= $attribute->getValue() ?></span>
+                    <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($attribute->getAttributeKey()) ?></span>
+                    <span class="value"><?= $attribute->getValue() ?></span>
                 <?php endforeach; ?>
             </div>
             <div class="statsBlock">
@@ -44,7 +55,7 @@ $logs = $this->trainingLogs;
                     if (in_array($key, ['fp', 'startpunkte'])) {
                         continue;
                     }
-                ?>
+                    ?>
                     <div>
                         <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($key) ?></span>
                         <span class="value"><?= number_format($value, 1, '.', '') ?></span>
@@ -77,7 +88,7 @@ $logs = $this->trainingLogs;
                         }
                     }
 
-                ?>
+                    ?>
                     <div class="<?= $active ?> <?= $direction ?>">
                         <span class="label"><?= Application_Model_Training_Attribute::getAttributeName($key) ?></span>
                         <span class="value"><?=  number_format($value, 1, '.', '') ?></span>
@@ -86,5 +97,6 @@ $logs = $this->trainingLogs;
             </div>
             <div style="clear: both;"></div>
         </div>
+    </div>
     <?php endforeach; ?>
 </div>
