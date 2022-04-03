@@ -1,24 +1,26 @@
-<div>
+<div class="row">
 <?php if($this->exposed !== false): ?>
-    <fieldset style="display: inline-block; width: 45%; float: left">
-        <legend>
+    <div class="col-6">
+        <h4 class="fs-4">
             Charakter
-        </legend>
+        </h4>
         <div>
             <div>
                 <form style="display: inline" method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/exit">
                     <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="submit" value="Gruppe verlassen">
+                    <input class="btn btn-danger" type="submit" value="Gruppe verlassen">
                 </form>
             </div>
         </div>
         <p>
-            Gruppenmitglied seit: 
+            Gruppenmitglied seit:
         </p>
-    </fieldset>
-    <?php endif; ?>
-    <fieldset style="display: inline-block; width: 45%; float: right; max-height: 150px; overflow: auto">
-        <legend>Gruppenmitglieder</legend>
+    </div>
+<?php endif; ?>
+    <div class="col-6">
+        <h4 class="fs-4">
+            Gruppenmitglieder
+        </h4>
         <ul>
             <?php foreach($gruppe->getMitglieder() as $charakter) : ?>
                 <li>
@@ -26,6 +28,5 @@
                 </li>
             <?php endforeach; ?>
         </ul>
-    </fieldset>
-    <div style="clear: both"></div>
+    </div>
 </div>

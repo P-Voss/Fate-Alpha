@@ -1,65 +1,93 @@
 <?php if($this->eigeneGruppe === true): 
 /* @var $gruppe Gruppen_Model_Gruppe */    
 ?>
-<div>
-    <fieldset>
-        <legend>
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">
             Gruppenleiter
-        </legend>
-        <div>
-            <fieldset style="display: inline-block; width: 45%; float: left">
-                <legend>Charakter einladen</legend>
+        </h2>
+    </div>
+</div>
+<div class="row justify-content-between">
+    <div class="col-4">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="fs-3">Charakter einladen</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/add">
-                    <select name="charaktere[]" size="5" multiple="">
-                        <?php foreach($this->charaktere as $charakter): 
+                    <select class="form-select" name="charaktere[]" size="5" multiple="">
+                        <?php foreach($this->charaktere as $charakter):
                             if(in_array($charakter->getCharakterid(), $mitgliedArray)){
                                 continue;
                             }
-                        ?>
-                        <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+                            ?>
+                            <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
                         <?php endforeach; ?>
                     </select>
                     <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="submit" value="In Gruppe einladen">
+                    <input class="btn btn-primary" type="submit" value="In Gruppe einladen">
                 </form>
-            </fieldset>
-            <fieldset style="display: inline-block; width: 45%; float: right">
-                <legend>Charakter kicken</legend>
-                <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/remove">
-                    <select name="charaktere[]" size="5" multiple="">
-                        <?php foreach($gruppe->getMitglieder() as $charakter): ?>
-                        <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                    <input type="submit" value="Aus Gruppe kicken">
-                </form>
-            </fieldset>
+            </div>
         </div>
-        <div>
-            <fieldset>
-                <legend>Gruppendaten ändern <span class="indicator"></span></legend>
-                <div class="subContent">
-                    <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/edit">
-                        <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
-                        <span>
-                            <label for="gruppenname">
+    </div>
+    <div class="col-4">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="fs-3">Charakter kicken</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/remove">
+                    <select class="form-select" name="charaktere[]" size="5" multiple="">
+                        <?php foreach($gruppe->getMitglieder() as $charakter): ?>
+                            <option value="<?= $charakter->getCharakterId() ?>"><?= $this->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                    <input class="btn btn-danger" type="submit" value="Aus Gruppe kicken">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <fieldset>
+            <legend>Gruppendaten ändern <span class="indicator"></span></legend>
+            <div class="subContent">
+                <form method="post" action="<?= $this->baseUrl() ?>/Gruppen/index/edit">
+                    <input type="hidden" name="gruppenId" value="<?= $gruppe->getId() ?>">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-label" for="gruppenname">
                                 Gruppenname
                             </label>
-                            <input type="text" name="gruppenname" id="gruppenname" value="<?= $gruppe->getName() ?>">
-                        </span>
-                        <span>
-                            <label for="passwort">
+                            <input class="form-control" type="text" name="gruppenname" id="gruppenname" value="<?= $gruppe->getName() ?>">
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label" for="passwort">
                                 Passwort
                             </label>
-                            <input type="text" name="passwort" id="passwort" value="<?= $gruppe->getPasswort() ?>">
-                        </span>
-                        <textarea name="beschreibung"><?= $this->purify($gruppe->getBeschreibung()) ?></textarea>
-                        <input type="submit" value="speichern" />
-                    </form>
-                </div>
-            </fieldset>
-        </div>
-    </fieldset>
+                            <input class="form-control" type="text" name="passwort" id="passwort" value="<?= $gruppe->getPasswort() ?>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <textarea name="beschreibung"><?= $this->purify($gruppe->getBeschreibung()) ?></textarea>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around">
+                        <div class="col-5">
+                            <input class="btn btn-primary btn-block" type="submit" value="speichern" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
 </div>
 <?php endif; ?>
