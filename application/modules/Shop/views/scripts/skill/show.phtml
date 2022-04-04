@@ -9,18 +9,31 @@ foreach ($this->skills as $skill):
         continue;
     }
 ?>
-<div>
-    <p style="font-weight: bold; margin-top: 10px;">
-        <?= $purifier->purify($skill->getBezeichnung()) ?>
-    </p>
-    <p>
-        <?= $purifier->purify($skill->getBeschreibung()) ?>
-    </p>
-    <div class="unlock">
-        <button id="<?= $skill->getId() ?>" class="skill">Fähigkeit lernen - <?= $skill->getFp() ?> FP</button>
+<div class="col-12 p-2">
+    <div class="card">
+        <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col-9">
+                    <div class="card-title fs-4">
+                        <?= $purifier->purify($skill->getBezeichnung()) ?>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <button id="<?= $skill->getId() ?>" class="skill btn btn-primary">
+                        Lernen - <?= $skill->getFp() ?> FP
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="m-1 text-muted">
+                        <?= $purifier->purify($skill->getBeschreibung()) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<hr />
 <?php endforeach;
 if(count($this->skills) === $countGelernt){
 ?>

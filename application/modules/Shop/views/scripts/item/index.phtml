@@ -29,7 +29,7 @@ foreach ($this->items as $item) {
     $itemCategories[$item->getType()][] = $item;
 }
 ?>
-<h1>Shop</h1>
+<h1 class="fs-1">Shop</h1>
 <?php
 foreach ($itemCategories as $key => $category):
     if (count($category) === 0) {
@@ -40,31 +40,42 @@ foreach ($itemCategories as $key => $category):
     })
 ?>
 <fieldset>
-    <legend><?= $itemCategoryNames[$key]['name'] ?> <span class="indicator"></span></legend>
-    <p>
+    <legend class="fs-3"><?= $itemCategoryNames[$key]['name'] ?> <span class="indicator"></span></legend>
+    <p class="fs-5">
         <?= $itemCategoryNames[$key]['descr'] ?>
     </p>
     <div class="subContent">
-        <?php foreach ($category as $item): ?>
-            <div class="item">
-                <p style="font-weight: bold; margin-top: 10px;"><?= $purifier->purify($item->getName()) ?></p>
-                <?php if ($item->activeDiscountDay()): ?>
-                    <p style="font-weight: bold; color: red">20% Tagesrabatt</p>
-                <?php endif; ?>
-                <p>
-                    Rang: <span style="font-weight: bold"><?= $purifier->purify($item->getRank()) ?></span>
-                </p>
-                <p>
-                    <?= $purifier->purify($item->getDescription()) ?>
-                </p>
-                <p>
-                    <button class="buy" data-id="<?= $item->getId() ?>">
-                        Gegenstand kaufen - <?= $item->getActualCost($character) ?> FP
-                    </button>
-                </p>
-                <hr />
-            </div>
-        <?php endforeach; ?>
+        <div class="row">
+            <?php foreach ($category as $item): ?>
+                <div class="col-6 p-2">
+                    <div class="card" style="height: 17rem; overflow: auto">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card-title fs-4">
+                                        <?= $purifier->purify($item->getName()) ?>
+                                    </div>
+                                    <?php if ($item->activeDiscountDay()): ?>
+                                        <div class="card-subtitle">20% Tagesrabatt</div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-6">
+                                    <button class="buy btn btn-primary" data-id="<?= $item->getId() ?>">
+                                        Kaufen - <?= $item->getActualCost($character) ?> FP
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                Rang: <span class="fw-bold"><?= $purifier->purify($item->getRank()) ?></span>
+                            </div>
+                            <div class="m-1 text-muted">
+                                <?= $purifier->purify($item->getDescription()) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </fieldset>
 <?php endforeach; ?>

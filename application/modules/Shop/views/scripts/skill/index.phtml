@@ -8,7 +8,7 @@ $this->headScript()->prependFile($this->baseUrl() . '/js/sweetalert/sweetalert2.
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 ?>
-<h1>
+<h1 class="fs-1">
     Fähigkeiten
 </h1>
 <?php
@@ -22,14 +22,14 @@ foreach ($this->skillarten as $skillart):
     endif;
     ?>
     <fieldset style="margin-bottom: 1.5em">
-        <legend>
+        <legend class="fs-2">
             <?= $purifier->purify($skillart->getBezeichnung()) ?>
         </legend>
         <p>
             <?= $purifier->purify($skillart->getBeschreibung()) ?>
         </p>
         <fieldset>
-            <legend class="skillart" data-id="<?= $skillart->getId() ?>">Fähigkeiten anzeigen</legend>
+            <legend class="skillart fs-5" data-id="<?= $skillart->getId() ?>">Fähigkeiten anzeigen</legend>
             <div class="subContent"></div>
         </fieldset>
     </fieldset>
