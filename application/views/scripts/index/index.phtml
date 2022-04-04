@@ -10,40 +10,38 @@ if ($this->message !== null) {
     <?php
 }
 ?>
-<div class="container">
-    <h1>
-        Neuigkeiten
-    </h1>
-    <?php
-    foreach ($news as $nachricht){
-        /* @var $nachricht Application_Model_News */
-        ?>
-        <div class="row m-3">
-            <div class="container">
-                <div class="row">
-                    <h2><?= $this->purify($nachricht->getTitel()); ?></h2>
+<h1>
+    Neuigkeiten
+</h1>
+<?php
+foreach ($news as $nachricht){
+    /* @var $nachricht Application_Model_News */
+    ?>
+    <div class="row m-3">
+        <div class="container">
+            <div class="row">
+                <h2><?= $this->purify($nachricht->getTitel()); ?></h2>
+            </div>
+            <div class="row p-3">
+                <?= $this->purify($nachricht->getNachricht()) ?>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    Verfasst von: <?= $this->purify($nachricht->getVerfasserName()); ?>
                 </div>
-                <div class="row p-3">
-                    <?= $this->purify($nachricht->getNachricht()) ?>
+                <div class="col-3">
+                    <?php if($nachricht->getEditorName() !== null): ?>
+                        Editiert von: <?= $this->purify($nachricht->getEditorName()) ?>
+                        am <?= $nachricht->getEditdatum() ?>
+                    <?php endif ?>
                 </div>
-                <div class="row justify-content-between">
-                    <div class="col-3">
-                        Verfasst von: <?= $this->purify($nachricht->getVerfasserName()); ?>
-                    </div>
-                    <div class="col-3">
-                        <?php if($nachricht->getEditorName() !== null): ?>
-                            Editiert von: <?= $this->purify($nachricht->getEditorName()) ?>
-                            am <?= $nachricht->getEditdatum() ?>
-                        <?php endif ?>
-                    </div>
-                    <div class="col-3">
-                        Verfasst am <?= $nachricht->getDatum(); ?>
-                    </div>
+                <div class="col-3">
+                    Verfasst am <?= $nachricht->getDatum(); ?>
                 </div>
             </div>
-            <hr />
         </div>
-        <?php
-    }
-    ?>
-</div>
+        <hr />
+    </div>
+    <?php
+}
+?>

@@ -2,7 +2,9 @@ html, body {
     text-align: left;
     background-color: white;
 }
-
+header {
+    overflow: hidden;
+}
 
 #header-logo {
     margin-left: auto;
