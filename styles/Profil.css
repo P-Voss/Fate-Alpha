@@ -1,5 +1,4 @@
 
-
 #Titel{
     font-weight: bold;
 }
@@ -20,41 +19,4 @@
 fieldset p {
     margin-left: 1em;
     margin-right: 1em;
-}
-
-.magie {
-    display: inline-block;
-    width: 40%;
-}
-
-.magicRank {
-    display: inline-block;
-    width: 15%;
-}
-
-.magicLevel {
-    display: inline-block;
-    width: 15%;
-}
-
-.magicDetail {
-    display: inline-block;
-    float: right;
-    width: 10%;
-}
-
-.skill {
-    display: inline-block;
-    width: 40%;
-}
-
-.skillRank {
-    display: inline-block;
-    width: 30%;
-}
-
-.skillDetail {
-    display: inline-block;
-    float: right;
-    width: 10%;
 }

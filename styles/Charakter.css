@@ -92,9 +92,3 @@ h1{
     display: block;
     cursor: pointer;
 }
-
-legend{
-    padding: 5px;
-    cursor: default;
-    font-weight: bold;
-}

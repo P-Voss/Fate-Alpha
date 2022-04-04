@@ -28,80 +28,89 @@ usort($skillarten, $order);
 $magieschulen = $this->magieschulen;
 $magien = $this->magien;
 ?>
-<h1>
-    Fähigkeiten
-</h1>
-<div class="submenu">
-    <?php include __DIR__ . '/partials/submenu.phtml'; ?>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">
+            Fähigkeiten
+        </h1>
+    </div>
 </div>
-<br/>
-<div>
-    <fieldset>
-        <legend>Fähigkeiten</legend>
-        <?php foreach ($skillarten as $skillart):
-            if (count($skillart->getSkills()) === 0) {
-                continue;
-            }
-            ?>
-            <fieldset>
-                <legend><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
-                <div class="subContent">
-                    <?php foreach ($skillart->getSkills() as $skill): ?>
-                        <p>
-                    <span class="skill">
-                        <input type="hidden" value="<?= $skill->getId() ?>">
-                        <?= $purifier->purify($skill->getBezeichnung()) ?>
-                    </span>
-                            <span class="skillRank">
-                        Rang: <?= $skill->getRang() ?>
-                    </span>
-                            <span class="skillDetail">
-                        <a class="details skills" data-id="<?= $skill->getId() ?>">
-                            Details
-                        </a>
-                    </span>
-                        </p>
-                    <?php endforeach; ?>
-                </div>
-            </fieldset>
-        <?php endforeach; ?>
-    </fieldset>
+<div class="row">
+    <div class="col">
+        <div class="submenu">
+            <?php include __DIR__ . '/partials/submenu.phtml'; ?>
+        </div>
+    </div>
 </div>
-<div>
-    <fieldset>
-        <legend>Magieschulen und Magien</legend>
-        <?php
-        foreach ($magieschulen as $schule):
-            /** @var Application_Model_Schule $schoolMagic */
-            $schoolMagic = array_filter($magien, function (Application_Model_Magie $magie) use ($schule) {
-                return $magie->getSchule()->getId() === $schule->getId();
-            });
+<div class="row">
+    <div class="col fs-2">
+        Fähigkeiten
+    </div>
+</div>
+<div class="row">
+    <?php foreach ($skillarten as $skillart):
+        if (count($skillart->getSkills()) === 0) {
+            continue;
+        }
         ?>
-            <fieldset>
-                <legend><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
-                <div class="subContent">
-                    <?php foreach ($schoolMagic as $magie): ?>
-                        <p>
-                        <span class="magie">
-                            <input type="hidden" value="<?= $magie->getId() ?>">
-                            <?= $purifier->purify($magie->getBezeichnung()) ?>
-                        </span>
-                            <span class="magicRank">
-                            Rang: <?= $magie->getRang() ?>
-                        </span>
-                            <span class="magicLevel">
-                            Stufe: <?= $magie->getStufe() ?>
-                        </span>
-                            <span class="magicDetail">
-                            <a class="details magic" data-id="<?= $magie->getId() ?>">
+        <fieldset class="col-12 col-lg-4">
+            <legend class="fs-3"><?= $skillart->getBezeichnung() ?> <span class="indicator"></span></legend>
+            <div class="subContent">
+                <?php foreach ($skillart->getSkills() as $skill): ?>
+                    <div class="row m-1">
+                        <div class="col-6">
+                            <input type="hidden" value="<?= $skill->getId() ?>">
+                            <?= $purifier->purify($skill->getBezeichnung()) ?>
+                        </div>
+                        <div class="col-3">
+                            Rang: <?= $skill->getRang() ?>
+                        </div>
+                        <div class="col-3">
+                            <a class="details skills btn btn-info" data-id="<?= $skill->getId() ?>">
                                 Details
                             </a>
-                        </span>
-                        </p>
-                    <?php endforeach; ?>
-                </div>
-            </fieldset>
-        <?php endforeach; ?>
-    </fieldset>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </fieldset>
+    <?php endforeach; ?>
+</div>
+
+<div class="row">
+    <div class="col fs-2">
+        Magieschulen und Magien
+    </div>
+</div>
+<div class="row">
+    <?php
+    foreach ($magieschulen as $schule):
+        /** @var Application_Model_Schule $schoolMagic */
+        $schoolMagic = array_filter($magien, function (Application_Model_Magie $magie) use ($schule) {
+            return $magie->getSchule()->getId() === $schule->getId();
+        });
+    ?>
+        <fieldset class="col-12 col-lg-4">
+            <legend class="fs-3"><?= $purifier->purify($schule->getBezeichnung()) ?> <span class="indicator"></span></legend>
+            <div class="subContent">
+                <?php foreach ($schoolMagic as $magie): ?>
+                    <div class="row m-1">
+                        <div class="col-6">
+                            <input type="hidden" value="<?= $magie->getId() ?>">
+                            <?= $purifier->purify($magie->getBezeichnung()) ?>
+                        </div>
+                        <div class="col-3">
+                            Rang: <?= $magie->getRang() ?>
+                        </div>
+                        <div class="col-3">
+                            <a class="details magic btn btn-info" data-id="<?= $magie->getId() ?>">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </fieldset>
+    <?php endforeach; ?>
 </div>
 <div id="dialog"></div>
