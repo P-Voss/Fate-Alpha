@@ -17,7 +17,7 @@ class Organization implements ValidationInterface {
      * @return boolean
      */
     public function check(\Application_Model_Charakter $charakter, $value){
-        return $charakter->getMagiOrganization() === $value;
+        return (int) $charakter->getMagiOrganization() === (int) $value;
     }
 
     /**

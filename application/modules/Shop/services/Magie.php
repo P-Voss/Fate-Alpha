@@ -97,7 +97,7 @@ class Magie
         try {
             $magieschulen = $this->mapper->getAllSchools();
             foreach ($magieschulen as $magieschule) {
-                if ($charakter->getMagiOrganization() !== $magieschule->getMagiOrganization() || $magieschule->getMagiOrganization() === 0) {
+                if ((int) $charakter->getMagiOrganization() !== $magieschule->getMagiOrganization() || $magieschule->getMagiOrganization() === 0) {
                     continue;
                 }
                 $characterService = new Application_Service_Charakter();
@@ -272,9 +272,12 @@ class Magie
             if ($magie->getElement()->getId() === $charakter->getNaturElement()->getId()) {
                 $magie->setFp($magie->getFp() * 0.9);
             }
-            $magie->setLearned($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId()));
-            if (!$this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))) {
+            if ($this->magieMapper->checkIfLearned($charakter->getCharakterid(), $magie->getId())) {
                 continue;
+            }
+            $magie->setLearned(false);
+            if (!$this->requirementValidator->validate($this->magieMapper->getRequirements($magie->getId()))) {
+//                continue;
             }
             $returnMagien[] = $magie;
         }

@@ -170,6 +170,7 @@ class Administration_Service_Skill
         $magie->setPrana($request->getPost('prana', 0) !== 0 ? (int)$request->getPost('prana', 0) : 0);
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
+        $magie->setProvenance($request->getPost('provenance', ''));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
 
         $magie->setRequirementList(
@@ -208,6 +209,7 @@ class Administration_Service_Skill
         $magie->setPrana($request->getPost('prana', 0) !== 0 ? (int)$request->getPost('prana', 0) : 0);
         $magie->setStufe($request->getPost('stufe'));
         $magie->setRang($request->getPost('rang'));
+        $magie->setProvenance($request->getPost('provenance', ''));
         $magie->setLernbedingung($request->getPost('lernbedingung'));
 
         $magie->setRequirementList(
@@ -253,6 +255,7 @@ class Administration_Service_Skill
         $skill->setFp($request->getPost('fp', 0) !== 0 ? (int)$request->getPost('fp') : 0);
         $skill->setSkillArt($request->getPost('skillart'));
         $skill->setRang($request->getPost('rang'));
+        $skill->setProvenance($request->getPost('provenance', ''));
         $skill->setUebung($request->getPost('uebung', 0) !== 0 ? (int)$request->getPost('uebung', 0) : 0);
         $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ? (int)$request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));
@@ -284,6 +287,7 @@ class Administration_Service_Skill
         $skill->setFp($request->getPost('fp', 0) !== 0 ? (int)$request->getPost('fp') : 0);
         $skill->setSkillArt($request->getPost('skillart'));
         $skill->setRang($request->getPost('rang'));
+        $skill->setProvenance($request->getPost('provenance', ''));
         $skill->setUebung($request->getPost('uebung', 0) !== 0 ? (int)$request->getPost('uebung', 0) : 0);
         $skill->setDisziplin($request->getPost('disziplin', 0) !== 0 ? (int)$request->getPost('disziplin', 0) : 0);
         $skill->setLernbedingung($request->get('lernbedingung'));

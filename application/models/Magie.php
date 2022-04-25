@@ -56,6 +56,10 @@ class Application_Model_Magie implements JsonSerializable
      * @var string
      */
     protected $lernbedingung;
+    /**
+     * @var string
+     */
+    protected $provenance;
 
     /**
      * @return mixed
@@ -247,6 +251,24 @@ class Application_Model_Magie implements JsonSerializable
     public function setLernbedingung ($lernbedingung)
     {
         $this->lernbedingung = $lernbedingung;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvenance()
+    {
+        return $this->provenance;
+    }
+
+    /**
+     * @param string $provenance
+     * @return Application_Model_Magie
+     */
+    public function setProvenance($provenance)
+    {
+        $this->provenance = $provenance;
+        return $this;
     }
 
     /**

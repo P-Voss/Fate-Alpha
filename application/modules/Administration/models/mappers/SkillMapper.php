@@ -43,6 +43,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setBeschreibung($row->beschreibung);
             $model->setFp($row->fp);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setSkillArt($row->skillartId);
             $model->setDisziplin($row->disziplin);
             $model->setUebung($row->uebung);
@@ -95,6 +96,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setBeschreibung($row->beschreibung);
             $model->setFp($row->fp);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setSkillArt($row->skillartId);
             $model->setDisziplin($row->disziplin);
             $model->setUebung($row->uebung);
@@ -122,6 +124,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setBeschreibung($row->beschreibung);
             $model->setFp($row->fp);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setSkillArt($row->skillartId);
             $model->setDisziplin($row->disziplin);
             $model->setUebung($row->uebung);
@@ -150,6 +153,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setUebung($row['uebung']);
             $model->setFp($row['fp']);
             $model->setRang($row['rang']);
+            $model->setProvenance($row['provenance']);
             $model->setSkillArt($row['skillartId']);
             $model->setLernbedingung($row['lernbedingung']);
             $model->setReplacesSkillId($row['replacesSkillId']);
@@ -173,6 +177,7 @@ class Administration_Model_Mapper_SkillMapper
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();
+        $data['provenance'] = $skill->getProvenance();
         $data['lernbedingung'] = $skill->getLernbedingung();
         $data['createDate'] = $skill->getCreateDate('Y-m-d H:i:s');
         $data['creator'] = $skill->getCreator();
@@ -200,6 +205,7 @@ class Administration_Model_Mapper_SkillMapper
         $data['uebung'] = $skill->getUebung();
         $data['disziplin'] = $skill->getDisziplin();
         $data['rang'] = $skill->getRang();
+        $data['provenance'] = $skill->getProvenance();
         $data['lernbedingung'] = $skill->getLernbedingung();
         $data['editDate'] = $skill->getEditDate('Y-m-d H:i:s');
         $data['editor'] = $skill->getEditor();
@@ -287,6 +293,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setFp($row->fp);
             $model->setPrana($row->prana);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setStufe($row->stufe);
             $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
             $model->setLernbedingung($row->lernbedingung);
@@ -341,6 +348,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setFp($row->fp);
             $model->setPrana($row->prana);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setStufe($row->stufe);
             $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
             $model->setLernbedingung($row->lernbedingung);
@@ -370,6 +378,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setFp($row->fp);
             $model->setPrana($row->prana);
             $model->setRang($row->rang);
+            $model->setProvenance($row->provenance);
             $model->setStufe($row->stufe);
             $model->setSchule($schuleMapper->getSchuleById($row->magieschuleId));
             $model->setLernbedingung($row->lernbedingung);
@@ -398,6 +407,7 @@ class Administration_Model_Mapper_SkillMapper
             $model->setFp($row['fp']);
             $model->setPrana($row['prana']);
             $model->setRang($row['rang']);
+            $model->setProvenance($row['provenance']);
             $model->setStufe($row['stufe']);
             $model->setLernbedingung($row['lernbedingung']);
             $model->setMagieschuleId($row['magieschuleId']);
@@ -419,6 +429,7 @@ class Administration_Model_Mapper_SkillMapper
         $data['fp'] = $magie->getFp();
         $data['prana'] = $magie->getPrana();
         $data['rang'] = $magie->getRang();
+        $data['provenance'] = $magie->getProvenance();
         $data['element'] = $magie->getElement()->getId();
         $data['stufe'] = $magie->getStufe();
         $data['magieschuleId'] = $magie->getSchule()->getId();
@@ -443,6 +454,7 @@ class Administration_Model_Mapper_SkillMapper
         $data['fp'] = $magie->getFp();
         $data['prana'] = $magie->getPrana();
         $data['rang'] = $magie->getRang();
+        $data['provenance'] = $magie->getProvenance();
         $data['element'] = $magie->getElement()->getId();
         $data['stufe'] = $magie->getStufe();
         $data['magieschuleId'] = $magie->getSchule()->getId();

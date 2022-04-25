@@ -24,6 +24,10 @@ $raenge = ['EX','A','B','C','D','E','F','EA','EB','EC','ED','EE','EF',];
             <label class="form-label" for="kosten">FP-Kosten</label>
             <input class="form-control" type="number" name="fp" value="<?= $skill->getFp() ?>" />
         </div>
+        <div class="col-4">
+            <label class="form-label" for="provenance">Gruppe / Herkunft</label>
+            <input class="form-control" type="text" id="provenance" name="provenance" value="<?= $skill->getProvenance() ?>" />
+        </div>
     </div>
     <div class="row m-3">
         <div class="col-4">

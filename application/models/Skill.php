@@ -27,6 +27,7 @@ class Application_Model_Skill implements JsonSerializable
     protected $rang;
     protected $uebung;
     protected $disziplin;
+    protected $provenance;
     protected $ancestorId;
     /**
      * @var string
@@ -139,6 +140,24 @@ class Application_Model_Skill implements JsonSerializable
     public function setAncestorId ($ancestorId)
     {
         $this->ancestorId = $ancestorId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProvenance()
+    {
+        return $this->provenance;
+    }
+
+    /**
+     * @param mixed $provenance
+     * @return Application_Model_Skill
+     */
+    public function setProvenance($provenance)
+    {
+        $this->provenance = $provenance;
         return $this;
     }
 

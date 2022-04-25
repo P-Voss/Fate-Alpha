@@ -28,73 +28,103 @@ $organizationSchools = $this->organizationSchools;
 /** @var \Shop\Models\Schule[] $schools */
 $schools = $this->schools;
 ?>
-<h1 class="fs-1">
-    Magieschulen
-</h1>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">
+            Magieschulen
+        </h1>
+    </div>
+</div>
 <img src="http://i.imgur.com/eJTNdlH.jpg"/>
-<?php if($this->organization === 0 && $this->layoutData->getCharakter()->getKlassengruppe()->getId() === 1): ?>
-<div>
-    <h2>Organisation</h2>
-    <form method="post" action="<?= $this->baseUrl() ?>/Shop/magie/organization">
-        <p>
-            <label for="organization">Tritt einer Organisation bei: </label>
-        </p>
-        <select id="organization" name="organization">
-            <option>Bitte wählen</option>
-            <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
-            <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
-            <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
-        </select>
-        <input type="submit" value="Speichern" />
+<?php if((int) $this->organization === 0 && (int) $this->layoutData->getCharakter()->getKlassengruppe()->getId() === 1): ?>
+<div class="row">
+    <div class="col">
+    <h2 class="fs-2">Organisation</h2>
+    <form class="row" method="post" action="<?= $this->baseUrl() ?>/Shop/magie/organization">
+        <div class="col-3">
+            <label class="form-label" for="organization">Tritt einer Organisation bei: </label>
+        </div>
+        <div class="col-3">
+            <select class="form-select" id="organization" name="organization">
+                <option>Bitte wählen</option>
+                <option <?= $clockTower ?> value="<?= Application_Model_MagiOrganization::CLOCK_TOWER ?>">Clock Tower</option>
+                <option <?= $atlas ?> value="<?= Application_Model_MagiOrganization::ATLAS ?>">Atlas</option>
+                <option <?= $wanderingSea ?> value="<?= Application_Model_MagiOrganization::WANDERING_SEA ?>">Wandering Sea</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <input class="btn btn-primary" type="submit" value="Organisation Beitreten" />
+        </div>
     </form>
+    </div>
 </div>
 <?php
 endif;
 if (count($organizationSchools) > 0):
 ?>
-<div>
-    <h2>Magieschulen deiner Organisation</h2>
-    <?php
-    $lockedSchools = [];
-    foreach ($organizationSchools as $organizationSchool) {
-        if ($organizationSchool->getLearned() === false) {
-            $lockedSchools[] = $organizationSchool;
-            continue;
-        }
-    ?>
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">Magieschulen deiner Organisation</h2>
+    </div>
+</div>
+<?php
+$lockedSchools = [];
+foreach ($organizationSchools as $organizationSchool) {
+    if ($organizationSchool->getLearned() === false) {
+        $lockedSchools[] = $organizationSchool;
+        continue;
+    }
+?>
+<div class="row">
+    <div class="col">
         <fieldset style="margin-bottom: 1.5em">
-            <legend>
+            <legend class="fs-3">
                 <?= $purifier->purify($organizationSchool->getBezeichnung()) ?> <span class="indicator">+</span>
             </legend>
             <div class="subContent">
-                <p>
+                <p class="text-muted">
                     <?= $purifier->purify($organizationSchool->getBeschreibung()) ?>
                 </p>
             </div>
             <fieldset>
-                <legend class="school" data-id="<?= $organizationSchool->getId() ?>">Magien dieser Schule anzeigen</legend>
+                <legend class="school fs-4" data-id="<?= $organizationSchool->getId() ?>">Magien dieser Schule anzeigen</legend>
                 <div class="subContent"></div>
             </fieldset>
         </fieldset>
+    </div>
+</div>
+<?php
+}
+?>
+<div class="row">
     <?php
-    }
     foreach ($lockedSchools as $magieschule):
     ?>
-    <fieldset style="margin-bottom: 1.5em">
-        <legend>
-            <?= $purifier->purify($magieschule->getBezeichnung()) ?> <span class="indicator">+</span>
-        </legend>
-        <div class="subContent">
-            <p>
-                <?= $purifier->purify($magieschule->getBeschreibung()) ?>
-            </p>
+    <div class="col-12 col-lg-4 p-2">
+        <div class="card" style="height: 20rem; overflow: auto;">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <div class="card-title fs-4">
+                            <?= $purifier->purify($magieschule->getBezeichnung()) ?>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
+                            <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
+                            <input type="submit" class="unlockSchool btn btn-primary"
+                                   value="Freischalten - <?= $magieschule->getKosten() ?>FP">
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col ">
+                        <?= $purifier->purify($magieschule->getBeschreibung()) ?>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form method="POST" action="<?= $this->baseUrl() ?>/Shop/magie/unlockschool">
-            <input type="hidden" value="<?= $magieschule->getId() ?>" name="magieschuleId">
-            <input type="submit" class="unlockSchool btn btn-primary"
-                   value="Magieschule freischalten - <?= $magieschule->getKosten() ?>FP">
-        </form>
-    </fieldset>
+    </div>
     <?php
 endforeach;
 ?>
@@ -103,17 +133,22 @@ endforeach;
 endif;
 if (count($schools) > 0):
 ?>
-<div>
-    <h2>Allgemeine Magieschulen</h2>
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">Allgemeine Magieschulen</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
     <?php
     foreach ($schools as $school) {
         ?>
         <fieldset style="margin-bottom: 1.5em">
-            <legend>
+            <legend class="fs-3">
                 <?= $purifier->purify($school->getBezeichnung()) ?> <span class="indicator">+</span>
             </legend>
             <div class="subContent">
-                <p>
+                <p class="text-muted">
                     <?= $purifier->purify($school->getBeschreibung()) ?>
                 </p>
             </div>
@@ -125,6 +160,7 @@ if (count($schools) > 0):
     <?php
     }
     ?>
+    </div>
 </div>
 <?php
 endif;

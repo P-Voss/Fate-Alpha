@@ -10,67 +10,45 @@ foreach ($magien as $magie):
         continue;
     }
 ?>
-<div class="magien">
-    <p class="magieHeader" data-id="<?= $magie->getId() ?>">
-        <span class="name">
-            <?= $purifier->purify($magie->getBezeichnung()) ?>
-        </span>
-        <span class="kosten">
-            Kosten: <?= $purifier->purify($magie->getFp()) ?> FP
-        </span>
-    </p>
-    <div class="magieDetails" style="display: none">
-        <p>
-            <?= $purifier->purify($magie->getBeschreibung()) ?>
-        </p>
-        <div>
-            <table>
-                <colgroup>
-                    <col width="200px">
-                    <col width="100px">
-                    <col width="100px">
-                    <col width="100px">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>
-                            Anwendungskosten
-                        </th>
-                        <th>
-                            Element
-                        </th>
-                        <th>
-                            Stufe
-                        </th>
-                        <th>
-                            Rang
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <?= $purifier->purify($magie->getPrana()) ?>
-                        </td>
-                        <td>
-                            <?= $magie->getElement()->getBezeichnung() ?>
-                        </td>
-                        <td>
-                            <?= $purifier->purify($magie->getStufe()) ?>
-                        </td>
-                        <td>
-                            <?= $purifier->purify($magie->getRang()) ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="unlock">
-            <button id="<?= $magie->getId() ?>" class="magie btn btn-primary">Magie freischalten - <?= $purifier->purify($magie->getFp()) ?> FP</button>
+<div class="col-12 p-2">
+    <div class="card" style="height: 20rem; overflow: auto;">
+        <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col-9">
+                    <div class="card-title fs-4">
+                        <?= $purifier->purify($magie->getBezeichnung()) ?>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <button id="<?= $magie->getId() ?>" class="magie btn btn-primary">
+                        Lernen - <?= $purifier->purify($magie->getFp()) ?> FP
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 col-lg-2">
+                    Rang: <span class="fw-bold"><?= $purifier->purify($magie->getRang()) ?></span>
+                </div>
+                <div class="col-8 col-lg-4">
+                    Anwendungskosten: <span class="fw-bold"><?= $purifier->purify($magie->getPrana()) ?></span>
+                </div>
+                <div class="col-4 col-lg-3">
+                    Element: <span class="fw-bold"><?= $purifier->purify($magie->getElement()->getBezeichnung()) ?></span>
+                </div>
+                <div class="col-4 col-lg-3">
+                    Stufe: <span class="fw-bold"><?= $purifier->purify($magie->getStufe()) ?></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="m-1 text-muted">
+                        <?= $purifier->purify($magie->getBeschreibung()) ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<hr />
 <?php 
 endforeach; 
 if(count($magien) === $countGelernt){

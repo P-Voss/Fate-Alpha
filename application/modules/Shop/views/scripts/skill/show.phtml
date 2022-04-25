@@ -26,6 +26,11 @@ foreach ($this->skills as $skill):
             </div>
             <div class="row">
                 <div class="col">
+                    Rang: <span class="fw-bold"><?= $purifier->purify($skill->getRang()) ?></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="m-1 text-muted">
                         <?= $purifier->purify($skill->getBeschreibung()) ?>
                     </div>
