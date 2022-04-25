@@ -32,10 +32,10 @@ foreach ($nachrichten as $nachricht):
     ?>
     <div class="row m-2 g-0 p-1">
         <div class="col-1">
-            <?= ($nachricht->getStatus() === 'ungelesen') ? '! ! !' : '' ?>
+            <?= ($nachricht->getStatus() === 'ungelesen') ? '&#9993;' : '' ?>
         </div>
         <div class="col-4">
-            <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>/read/true">
+            <a href="<?= $this->baseUrl() ?>/Nachrichten/index/show/id/<?= $nachricht->getId() ?>">
                 <?= $subject ?>
             </a>
         </div>

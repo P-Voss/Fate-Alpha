@@ -45,7 +45,7 @@ if ($currentDateTime->format('H') > 21 && $currentDateTime->format('H') <= 24) {
     </div>
     <div class="row">
         <a href="<?= $this->baseUrl() ?>/Nachrichten">
-            Nachrichtencenter <?= ($layoutData->getUnreadPmCount() > 0) ? ' (' . $layoutData->getUnreadPmCount() . '&#9993;)' : '' ?>
+            Nachrichten <?= ($layoutData->getUnreadPmCount() > 0) ? ' (' . $layoutData->getUnreadPmCount() . '&#9993;)' : '' ?>
         </a>
     </div>
     <div class="row">

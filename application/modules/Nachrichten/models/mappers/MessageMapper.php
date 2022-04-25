@@ -156,7 +156,7 @@ class MessageMapper
         $select->setIntegrityCheck(false);
         $select->from('benutzerdaten', ['profilname', 'username', 'mail', 'usergruppe']);
         $select->joinLeft(
-            'charakter', 'charakter.userId = benutzerdaten.userId', [
+            'charakter', 'charakter.userId = benutzerdaten.userId AND charakter.active = 1', [
             'vorname', 'nachname', 'charakterId']
         );
         $select->where('benutzerdaten.userId = ?', $userId);

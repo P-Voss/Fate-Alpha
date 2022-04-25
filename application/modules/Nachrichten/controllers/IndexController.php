@@ -33,14 +33,14 @@ class Nachrichten_IndexController extends Zend_Controller_Action {
     }
     
     public function showAction() {
-        if($this->getRequest()->getParam('read')){
-            $this->service->readMessage($this->getRequest()->getParam('id'));
-        }
         $userId = Zend_Auth::getInstance()->getIdentity()->userId;
         try {
             $nachricht = $this->service->getNachrichtById($this->getRequest()->getParam('id'));
             if ($nachricht->getEmpfaengerId() !== $userId && $nachricht->getVerfasserId() !== $userId) {
                 $this->redirect('Nachrichten/inbox/');
+            }
+            if ($nachricht->getEmpfaengerId() === $userId) {
+                $this->service->readMessage($this->getRequest()->getParam('id'));
             }
             $this->view->nachricht = $nachricht;
         } catch (Exception $exception) {

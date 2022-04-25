@@ -33,7 +33,7 @@ $purifier = $this->purifier;
     </div>
     <?php if($nachricht->getAdmin() === false): ?>
     <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/id/<?= $nachricht->getId() ?>">
-        <button>
+        <button class="btn btn-primary">
             Antworten
         </button>
     </a>
