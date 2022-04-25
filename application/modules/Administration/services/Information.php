@@ -80,7 +80,7 @@ class Administration_Service_Information
         $information->setEditDate($date->format('Y-m-d H:i:s'));
         $information->setName($request->getPost('name'));
         $information->setKategorie($request->getPost('kategorie'));
-        $information->setInhalt($request->getPost('inhalt'));
+        $information->setInhalt($request->getPost('beschreibung'));
         $information->setEditor($userId);
 
         $information->setRequirementList(
