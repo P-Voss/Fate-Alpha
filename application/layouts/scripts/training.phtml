@@ -72,10 +72,10 @@ $purifier = $this->purifier;
     <header>
         <picture>
             <source media="(max-width: 576px)"
-                    srcset="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
+                    srcset="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
             <source media="(min-width: 577px)"
-                    srcset="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
-            <img style="width: 100%;" src="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
+                    srcset="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
+            <img style="width: 100%;" src="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
         </picture>
     </header>
 
@@ -84,7 +84,7 @@ $purifier = $this->purifier;
             <div id="steuerung">
                 <?php include __DIR__ . '/partials/steuerung.phtml'; ?>
             </div>
-            <div id="inhalt">
+            <div id="inhalt" class="mt-1">
                 <?php if (count($layoutData->getNotifications()) > 0) : ?>
                     <div id="notifications">
                         <?php

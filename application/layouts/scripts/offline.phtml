@@ -20,10 +20,10 @@
         <header>
             <picture>
                 <source media="(max-width: 576px)"
-                        srcset="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
+                        srcset="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
                 <source media="(min-width: 577px)"
-                        srcset="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
-                <img style="width: 100%;" src="<?= $this->baseUrl() ?>images/fp_forum_logo_custom2.jpg">
+                        srcset="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
+                <img style="width: 100%;" src="<?= $this->baseUrl() ?>/images/fp_forum_logo_custom2.jpg">
             </picture>
         </header>
         <div id="loginmenu" class="bg-dark">
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div id="seitenbereich2">
-                <div id="inhalt">
+                <div id="inhalt" class="mt-1">
 
                     <?php echo $this->layout()->content; ?>
 
