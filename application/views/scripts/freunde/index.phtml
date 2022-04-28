@@ -5,55 +5,134 @@ $profile = $this->profile;
 /** @var Application_Model_Charakter $ownCharacter */
 $ownCharacter = $this->ownCharacter;
 ?>
-<div class="Zentriert">
-    <form method="post" action="<?= $this->baseUrl() ?>/Freunde/Add">
-        <input type="text" name="Charaktercode" >
-        <input type="submit" name="Freischalten" value="Charakter freischalten">
-    </form>
-    <p>
-        Der Code für deine grundlegenden Charakterdaten: 
-        <strong>
-            <?= $purifier->purify($profile->getKennenlerncode()) ?>
-        </strong>.
-        <br />
-        Der Code für deine privaten Charakterdaten: 
-        <strong>
-            <?= $purifier->purify($profile->getPrivatcode()) ?>
-        </strong>.
-    </p>
-    <div style="text-align: left">
-        <p>
+<div class="container">
+    <div class="row p-3 m-3">
+        <div class="col-12 col-md-4">
+            <form class="input-group" method="post" action="<?= $this->baseUrl() ?>/Freunde/Add">
+                <input
+                    type="text"
+                    name="Charaktercode"
+                    class="form-control"
+                    placeholder="Code"
+                    aria-label="Code"
+                    aria-describedby="button-addon2"
+                >
+                <input type="submit" class="btn btn-primary" id="button-addon2" value="Daten Freischalten" />
+            </form>
+        </div>
+        <div class="col-12 col-md-8">
+            <div>
+                Der Code für deine grundlegenden Charakterdaten:
+                <span class="fw-bold">
+                    <?= $purifier->purify($profile->getKennenlerncode()) ?>
+                </span>
+            </div>
+            <div>
+                Der Code für deine privaten Charakterdaten:
+                <span class="fw-bold">
+                    <?= $purifier->purify($profile->getPrivatcode()) ?>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
             Hier findet ihr die Codes für eure grundlegenden und eure privaten Charakterdaten.
             Eure grundlegenden Charakterdaten beinhalten euer Charakterbild und eure öffentliche Charakterbeschreibung.
-            Eure privaten Charakterdaten beinhalten eine zweite, geheime Charakterbeschreibung, die für Spieler gedacht ist die mehr über euren Charakter wissen dürfen. 
-        </p>
-        <p>
-            Eure grundlegenden Charakterdaten gebt ihr an Spieler denen ihr im RPG begegnet, eure privaten Charakterdaten gebt ihr an Spieler mit denen ihr sehr viel rpgt. 
-        </p>
-        <p>
+            Eure privaten Charakterdaten beinhalten eine zweite, geheime Charakterbeschreibung, die für Spieler gedacht ist die mehr über euren Charakter wissen dürfen.
+        </div>
+        <div class="col-12">
+            Eure grundlegenden Charakterdaten gebt ihr an Spieler denen ihr im RPG begegnet, eure privaten Charakterdaten gebt ihr an Spieler mit denen ihr sehr viel rpgt.
+        </div>
+        <div class="col-12">
             Die Codes werden nach einmaliger Benutzung neu generiert.
-        </p>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <div class="col-12">
+            <h1 class="fs-1">Dir bekannte Charaktere</h1>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <a class="card-body" href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $ownCharacter->getUuid() ?>">
+                    <div class="row">
+                        <div class="col-2">
+                            <img height="100" src="<?= $ownCharacter->getCharakterprofil()->getProfilpic() ?>">
+                        </div>
+                        <div class="col-2">
+                            <div class="card-title fw-bold">
+                                <?= $purifier->purify($ownCharacter->getVorname() . ' ' . ($ownCharacter->getNachname())) ?>
+                            </div>
+                            <div class="row card-subtitle text-muted">
+                                (Dein Charakter)
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-2">Alter</div>
+                                <div class="col-3"><?= $ownCharacter->getAlter('y') ?> Jahre</div>
+                                <div class="col-4">Geburtstag</div>
+                                <div class="col-3"><?= $ownCharacter->getGeburtsdatum('d.m.Y') ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">Größe</div>
+                                <div class="col-3"><?= $ownCharacter->getSize() ?>cm</div>
+                                <div class="col-4">Augenfarbe</div>
+                                <div class="col-3"><?= $ownCharacter->getAugenfarbe() ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <?php
+        foreach ($this->friendlist as $charakter) {
+        /** @var Application_Model_Charakter $charakter */
+        ?>
+            <div class="col-6 p-1">
+                <div class="card">
+                    <a class="card-body" href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getUuid() ?>">
+                        <div class="row">
+                            <div class="col-3">
+                                <img height="80" src="<?= $charakter->getCharakterprofil()->getProfilpic() ?>">
+                            </div>
+                            <div class="col-4">
+                                <div class="card-title fw-bold">
+                                    <?= $purifier->purify($charakter->getVorname() . ' ' . ($charakter->getNachname())) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">Alter</div>
+                            <div class="col-3"><?= $charakter->getAlter('y') ?> Jahre</div>
+                            <div class="col-4">Geburtstag</div>
+                            <div class="col-3"><?= $charakter->getGeburtsdatum('d.m.Y') ?></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">Größe</div>
+                            <div class="col-3"><?= $charakter->getSize() ?>cm</div>
+                            <div class="col-4">Augenfarbe</div>
+                            <div class="col-3"><?= $charakter->getAugenfarbe() ?></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+
 </div>
-<hr>
-<h1>Dir bekannte Charaktere</h1>
-<ul class="userlist">
-    <li class="charakter" id="<?= $ownCharacter->getUuid(); ?>">
-        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $ownCharacter->getUuid() ?>">
-            <?= $purifier->purify($ownCharacter->getVorname() . ' ' . ($ownCharacter->getNachname())) ?>
-        </a>
-    </li>
-<?php
-foreach ($this->friendlist as $charakter) {
-    /** @var Application_Model_Charakter $charakter */
-?>
-    <li class="charakter" id="<?= $charakter->getUuid() ?>">
-        <a href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getUuid() ?>">
-            <?= $purifier->purify($charakter->getVorname()) . ' ' . ($charakter->getNachname()) ?>
-        </a>
-    </li>
-<?php
-}
-?>
-</ul>
+
 <img src="http://i.imgur.com/fjIL23b.jpg">

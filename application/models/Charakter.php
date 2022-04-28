@@ -528,6 +528,9 @@ class Application_Model_Charakter
      */
     public function getCharakterprofil ()
     {
+        if (!$this->charakterprofil) {
+            return new Application_Model_Charakterprofil();
+        }
         return $this->charakterprofil;
     }
 

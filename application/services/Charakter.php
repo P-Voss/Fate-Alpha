@@ -142,7 +142,11 @@ class Application_Service_Charakter {
      * @throws Exception
      */
     public function getAssociates($charakterId) {
-        return $this->charakterMapper->getFriendlist($charakterId);
+        $characters = $this->charakterMapper->getFriendlist($charakterId);
+        foreach ($characters as $character) {
+            $character->setCharakterprofil($this->getProfile($character->getCharakterid()));
+        }
+        return $characters;
     }
 
     /**
