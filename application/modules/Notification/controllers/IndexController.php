@@ -26,7 +26,7 @@ class Notification_IndexController extends \Zend_Controller_Action
             $id = $this->getRequest()->getParam('id', 0);
             $mapper = new General();
             $notification = $mapper->load($id);
-            if ($notification->getUserId() !== Zend_Auth::getInstance()->getIdentity()->userId) {
+            if ($notification->getUserId() !== (int) Zend_Auth::getInstance()->getIdentity()->userId) {
                 $this->redirect('index');
             }
             $mapper->remove($notification->getNotificationId());
@@ -70,7 +70,7 @@ class Notification_IndexController extends \Zend_Controller_Action
             $id = $this->getRequest()->getPost('id', 0);
             $mapper = new General();
             $notification = $mapper->load($id);
-            if ($notification->getUserId() !== Zend_Auth::getInstance()->getIdentity()->userId) {
+            if ($notification->getUserId() !== (int) Zend_Auth::getInstance()->getIdentity()->userId) {
                 echo json_encode(
                     [
                         'success' => false,
