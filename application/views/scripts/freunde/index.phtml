@@ -57,36 +57,30 @@ $ownCharacter = $this->ownCharacter;
     </div>
 
     <div class="row justify-content-around">
-        <div class="col-12">
-            <h1 class="fs-1">Dir bekannte Charaktere</h1>
-        </div>
-        <div class="col-8">
+        <div class="col-12 col-xl-10">
             <div class="card">
                 <a class="card-body" href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $ownCharacter->getUuid() ?>">
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-4 col-md-2">
                             <img height="100" src="<?= $ownCharacter->getCharakterprofil()->getProfilpic() ?>">
                         </div>
-                        <div class="col-2">
+                        <div class="col-8 col-md-2">
                             <div class="card-title fw-bold">
                                 <?= $purifier->purify($ownCharacter->getVorname() . ' ' . ($ownCharacter->getNachname())) ?>
                             </div>
-                            <div class="row card-subtitle text-muted">
-                                (Dein Charakter)
-                            </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-12 col-md-6">
                             <div class="row">
-                                <div class="col-2">Alter</div>
-                                <div class="col-3"><?= $ownCharacter->getAlter('y') ?> Jahre</div>
-                                <div class="col-4">Geburtstag</div>
-                                <div class="col-3"><?= $ownCharacter->getGeburtsdatum('d.m.Y') ?></div>
+                                <div class="col-6 col-xl-2">Alter</div>
+                                <div class="col-6 col-xl-3"><?= $ownCharacter->getAlter('y') ?> Jahre</div>
+                                <div class="col-6 col-xl-4">Geburtstag</div>
+                                <div class="col-6 col-xl-3"><?= $ownCharacter->getGeburtsdatum('d.m.Y') ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-2">Größe</div>
-                                <div class="col-3"><?= $ownCharacter->getSize() ?>cm</div>
-                                <div class="col-4">Augenfarbe</div>
-                                <div class="col-3"><?= $ownCharacter->getAugenfarbe() ?></div>
+                                <div class="col-6 col-xl-2">Größe</div>
+                                <div class="col-6 col-xl-3"><?= $ownCharacter->getSize() ?> cm</div>
+                                <div class="col-6 col-xl-4">Augenfarbe</div>
+                                <div class="col-6 col-xl-3"><?= $ownCharacter->getAugenfarbe() ?></div>
                             </div>
                         </div>
                     </div>
@@ -95,35 +89,40 @@ $ownCharacter = $this->ownCharacter;
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fs-1">Dir bekannte Charaktere</h1>
+        </div>
+    </div>
     <div class="row mt-3">
         <?php
         foreach ($this->friendlist as $charakter) {
         /** @var Application_Model_Charakter $charakter */
         ?>
-            <div class="col-6 p-1">
+            <div class="col-12 col-xl-6 p-1">
                 <div class="card">
                     <a class="card-body" href="<?= $this->baseUrl() ?>/Freunde/profil/charakter/<?= $charakter->getUuid() ?>">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-5 col-xl-3">
                                 <img height="80" src="<?= $charakter->getCharakterprofil()->getProfilpic() ?>">
                             </div>
-                            <div class="col-4">
+                            <div class="col-7 col-xl-9">
                                 <div class="card-title fw-bold">
                                     <?= $purifier->purify($charakter->getVorname() . ' ' . ($charakter->getNachname())) ?>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-2">Alter</div>
-                            <div class="col-3"><?= $charakter->getAlter('y') ?> Jahre</div>
-                            <div class="col-4">Geburtstag</div>
-                            <div class="col-3"><?= $charakter->getGeburtsdatum('d.m.Y') ?></div>
+                            <div class="col-6 col-xl-2">Alter</div>
+                            <div class="col-6 col-xl-3"><?= $charakter->getAlter('y') ?> Jahre</div>
+                            <div class="col-6 col-xl-4">Geburtstag</div>
+                            <div class="col-6 col-xl-3"><?= $charakter->getGeburtsdatum('d.m.Y') ?></div>
                         </div>
                         <div class="row">
-                            <div class="col-2">Größe</div>
-                            <div class="col-3"><?= $charakter->getSize() ?>cm</div>
-                            <div class="col-4">Augenfarbe</div>
-                            <div class="col-3"><?= $charakter->getAugenfarbe() ?></div>
+                            <div class="col-6 col-xl-2">Größe</div>
+                            <div class="col-6 col-xl-3"><?= $charakter->getSize() ?> cm</div>
+                            <div class="col-6 col-xl-4">Augenfarbe</div>
+                            <div class="col-6 col-xl-3"><?= $charakter->getAugenfarbe() ?></div>
                         </div>
                     </a>
                 </div>
