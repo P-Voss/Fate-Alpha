@@ -502,29 +502,6 @@ kbd {
     background-color: orange;
 }
 
-#notifications {
-    padding: 8px 15px;
-    margin: 20px auto;
-    border: 1px solid black;
-    background-color: #77ee77;
-    width: 55%;
-}
-
-.notification .text {
-    width: 90%;
-    display: inline-block;
-}
-
-.notification .dismiss {
-    float: right;
-    display: inline-block;
-    width: 8%;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
 .characterObjectives div {
     background-color: #FFAA91;
 }

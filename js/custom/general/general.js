@@ -35,7 +35,6 @@ $(document).ready(function () {
 
 
     jQuery(".dismiss").on('click', function () {
-        var notificationId = jQuery(this).data('id')
         var element = jQuery(this)
         jQuery.ajax({
             method: "POST",
@@ -49,10 +48,8 @@ $(document).ready(function () {
                 if (jQuery('.notification').length === 0) {
                     jQuery('#notifications').remove()
                 }
-                console.log(response)
             },
             error: function (error) {
-                console.log(error)
             }
         })
     })
