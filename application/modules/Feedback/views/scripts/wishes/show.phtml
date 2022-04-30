@@ -4,8 +4,30 @@ $wish = $this->wish;
 /** @var HTMLPurifier $purifier */
 $purifier = $this->purifier;
 ?>
-<h1>Spielerwunsch</h1>
-<h2><?= $purifier->purify($wish->getTitle()) ?></h2>
-<p>Eingereicht von: <?= $wish->getSender() ?> am: <?= $wish->getDate() ?></p>
-<div><?= $purifier->purify($wish->getDescription()) ?></div>
-<p><a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/wish/<?= $wish->getId() ?>"><button>User antworten</button></a></p>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">Spielerwunsch</h1>
+    </div>
+</div>
+<div class="row m-3">
+    <div class="col-12 col-md-4">
+        Eingereicht von: <span class="fw-bold"><?= $wish->getSender() ?></span> am: <?= $wish->getDate() ?>
+    </div>
+    <div class="col-8 fw-bold fs-4">
+        <?= $purifier->purify($wish->getTitle()) ?>
+    </div>
+</div>
+<div class="row m-3 justify-content-around">
+    <div class="col-8 bg-light p-3">
+        <?= $purifier->purify($wish->getDescription()) ?>
+    </div>
+</div>
+<div class="row m-3 justify-content-around">
+    <div class="col-8">
+        <a href="<?= $this->baseUrl() ?>/Nachrichten/outbox/new/wish/<?= $wish->getId() ?>">
+            <button class="btn btn-primary">
+                Antworten
+            </button>
+        </a>
+    </div>
+</div>

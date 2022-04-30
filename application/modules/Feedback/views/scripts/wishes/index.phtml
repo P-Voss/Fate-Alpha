@@ -11,29 +11,35 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
         color: #000;
     }
 </style>
-<h1>Deine Wünsche für das Spiel</h1>
-<p>
-    Hallo!
-</p>
-<p>
-    Du kannst hier eintragen was du so für die Zukunft von Fate/Alpha wünschst.
-</p>
-<p>
-    Was du hier einträgst können nur die Administratoren (Kirika, Heinrich) sehen.<br />
-    Die Einträge sind nicht anonym.
-</p>
-<div>
-    <form method="post" action="<?= $this->baseUrl()?>/Feedback/wishes/create">
-        <p>
-            <label for="title">Titel</label>
-            <input type="text" name="title" id="title" />
-        </p>
-        <p>
-            <label for="description">Dein Wunsch</label>
-            <textarea name="description" id="description"></textarea>
-        </p>
-        <p>
-            <input type="submit"/>
-        </p>
-    </form>
+<div class="row m-3">
+    <div class="col">
+        <h1 fs-1>Deine Wünsche für das Spiel</h1>
+    </div>
 </div>
+<div class="row m-3">
+    <div class="col">
+        <p>
+            Hallo!
+        </p>
+        <p>
+            Du kannst hier eintragen was du so für die Zukunft von Fate/Alpha wünschst.
+        </p>
+        <p>
+            Was du hier einträgst können nur die Administratoren (Kirika, Heinrich) sehen.<br />
+            Die Einträge sind nicht anonym.
+        </p>
+    </div>
+</div>
+<form class="row m-3" method="post" action="<?= $this->baseUrl()?>/Feedback/wishes/create">
+    <div class="col-6 col-md-3">
+        <label class="form-label" for="title">Titel</label>
+        <input class="form-control" type="text" name="title" id="title" />
+    </div>
+    <div class="col-12">
+        <label class="form-label" for="description">Dein Wunsch</label>
+        <textarea class="form-control" name="description" id="description"></textarea>
+    </div>
+    <div class="col-12">
+        <input class="btn btn-primary" type="submit"/>
+    </div>
+</form>
