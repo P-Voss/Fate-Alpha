@@ -19,13 +19,16 @@ $purifier = $this->purifier;
     </legend>
     <p class="details">
         <span>
-            von: <?= ($nachricht->getAdmin() === false) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
+            von:
+            <span class="fw-bold">
+                <?= (!$nachricht->getAdmin()) ? $purifier->purify($nachricht->getVerfasser()->getProfilname()) : 'Admin' ?>
+            </span>
         </span>
         <span>
-            gesendet am: <?= $nachricht->getCreationDate() ?>
-        </span>
-        <span>
-            an: <?= $purifier->purify($nachricht->getEmpfaenger()->getProfilname()) ?>
+            gesendet am:
+            <span class="fw-bold">
+                <?= $nachricht->getCreationDate() ?>
+            </span>
         </span>
     </p>
     <div class="message">
