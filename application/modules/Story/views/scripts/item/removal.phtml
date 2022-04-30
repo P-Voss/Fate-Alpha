@@ -4,18 +4,20 @@ $purifier = $this->purifier;
 /* @var $item Story_Model_Item */
 $items = $this->items;
 ?>
-<fieldset>
-    <legend>Gegenstände entfernen</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Gegenstände entfernen
+    </div>
+    <div class="col-4">
         <?php if(count($items) > 0){ ?>
-            <select id="removeItems" multiple="" size="5">
+            <select class="form-select" id="removeItems" multiple="" size="5">
                 <?php foreach($items as $item): ?>
                     <option value="<?= $item->getId() ?>"><?= $purifier->purify($item->getName()) ?></option>
                 <?php endforeach; ?>
             </select>
-            <input class="removeItems" type="submit" value="Speichern">
+            <input class="removeItems btn btn-danger" type="submit" value="Speichern">
         <?php } else { ?>
             Der Charakter hat keine Items die er abgeben kann.
         <?php } ?>
     </div>
-</fieldset>
+</div>

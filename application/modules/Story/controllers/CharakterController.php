@@ -33,17 +33,17 @@ class Story_CharakterController extends Zend_Controller_Action {
     
     
     public function removeAction() {
-        if((int)$this->getRequest()->getParam('plot') <= 0
+        if((int)$this->getRequest()->getPost('plot') <= 0
                 ||
-            (int)$this->getRequest()->getParam('charakter') <= 0){
+            (int)$this->getRequest()->getPost('charakter') <= 0){
             $this->redirect('index');
         }
-        $plotId = (int)$this->getRequest()->getParam('plot');
+        $plotId = (int)$this->getRequest()->getPost('plot');
         if(!$this->plotService->isSL($plotId, Zend_Auth::getInstance()->getIdentity()->userId)){
             $this->redirect('index');
         }
-        $this->plotService->removeParticipant((int)$this->getRequest()->getParam('charakter'), $plotId);
-        $this->redirect('Story/plots/sl/id/' . $this->getRequest()->getParam('plot'));
+        $this->plotService->removeParticipant((int)$this->getRequest()->getPost('charakter'), $plotId);
+        $this->redirect('Story/plots/sl/id/' . $this->getRequest()->getPost('plot'));
     }
     
     public function showAction() {

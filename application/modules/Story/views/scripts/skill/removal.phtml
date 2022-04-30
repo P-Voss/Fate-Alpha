@@ -5,18 +5,20 @@ $purifier = $this->purifier;
 $skills = $this->skills;
 $charakterId = $this->charakterId;
 ?>
-<fieldset>
-    <legend>Fähigkeiten verlernen</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Fähigkeiten verlernen
+    </div>
+    <div class="col-4">
         <?php if(count($skills) > 0){ ?>
-            <select id="learnMagien" multiple="" size="5">
+            <select class="form-select" id="learnMagien" multiple="" size="5">
                 <?php foreach($skills as $skill): ?>
                     <option value="<?= $skill->getId() ?>"><?= $purifier->purify($skill->getBezeichnung()) ?></option>
                 <?php endforeach; ?>
             </select>
-            <input class="removeSkills" type="submit" value="Speichern">
+            <input class="removeSkills btn btn-danger" type="submit" value="Speichern">
         <?php } else { ?>
             Der Charakter hat keine Fähigkeiten die er verlernen kann.
         <?php } ?>
     </div>
-</fieldset>
+</div>

@@ -4,18 +4,20 @@ $purifier = $this->purifier;
 /* @var $magien Story_Model_Magie */
 $magien = $this->magien;
 ?>
-<fieldset>
-    <legend>Magien eintragen</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Magien eintragen
+    </div>
+    <div class="col-4">
         <?php if(count($magien) > 0){ ?>
-            <select id="learnMagien" multiple="" size="5">
+            <select class="form-select" id="learnMagien" multiple="" size="5">
                 <?php foreach($magien as $magie): ?>
                     <option value="<?= $magie->getId() ?>"><?= $purifier->purify($magie->getBezeichnung()) ?></option>
                 <?php endforeach; ?>
             </select>
-            <input data-request="remove" class="saveMagic" type="submit" value="Speichern">
+            <input class="saveMagic btn btn-primary" type="submit" value="Speichern">
         <?php } else { ?>
             Der Charakter kann im Moment keine Magien per RPG erlernen.
         <?php } ?>
     </div>
-</fieldset>
+</div>

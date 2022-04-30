@@ -4,18 +4,20 @@ $purifier = $this->purifier;
 /* @var $item Story_Model_Item */
 $items = $this->items;
 ?>
-<fieldset>
-    <legend>Items eintragen</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Items eintragen
+    </div>
+    <div class="col-4">
         <?php if(count($items) > 0){ ?>
-            <select id="acquireItems" multiple="" size="<?= min(count($items), 5) ?>">
+            <select class="form-select" id="learnMagien" multiple="" size="5">
                 <?php foreach($items as $item): ?>
                     <option value="<?= $item->getId() ?>"><?= $purifier->purify($item->getName()) ?></option>
                 <?php endforeach; ?>
             </select>
-            <input class="saveItems" type="submit" value="Speichern">
+            <input class="saveItems btn btn-primary" type="submit" value="Speichern">
         <?php } else { ?>
-            Der Charakter kann aktuell keine Gegenstände per RPG erlangen.
+            Der Charakter kann im Moment keine Gegenstände per RPG erhalten.
         <?php } ?>
     </div>
-</fieldset>
+</div>

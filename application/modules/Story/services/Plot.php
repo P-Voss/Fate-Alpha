@@ -33,11 +33,11 @@ class Story_Service_Plot extends Application_Service_Story {
         $plot->setSlId(Zend_Auth::getInstance()->getIdentity()->userId);
         $plot->setName($request->getPost('plotname'));
         $plot->setBeschreibung($request->getPost('beschreibung'));
+        $plot->setCreateDate(new DateTime());
         $plot->setIsSecret((int) $request->getPost('secret', 0) === 1);
+        $plot->setGenres($request->get('genre', []));
         $plotId = $this->plotMapper->createPlot($plot);
-        if(!is_null($request->getPost('genre'))){
-            $this->plotMapper->setGenres($plotId, $request->getPost('genre'));
-        }
+
         $plot->setId($plotId);
         $this->plotMapper->setPlotDescription($plot);
         $this->plotMapper->connectGroupToPlot($plotId, $request->getPost('gruppenId'));
@@ -74,7 +74,13 @@ class Story_Service_Plot extends Application_Service_Story {
      * @throws Exception
      */
     public function getPlotsBySLId($slId) {
-        return $this->plotMapper->getPlotsBySLId($slId);
+        $plots = $this->plotMapper->getPlotsBySLId($slId);
+
+        foreach ($plots as $plot) {
+            $plot->setCharacters($this->getParticipantsByPlotId($plot->getId()));
+        }
+
+        return $plots;
     }
 
     /**
@@ -83,7 +89,13 @@ class Story_Service_Plot extends Application_Service_Story {
      * @throws Exception
      */
     public function getPlotsByPlayerId($playerId) {
-        return $this->plotMapper->getPlotsByPlayerId($playerId);
+        $plots = $this->plotMapper->getPlotsByPlayerId($playerId);
+
+        foreach ($plots as $plot) {
+            $plot->setCharacters($this->getParticipantsByPlotId($plot->getId()));
+        }
+
+        return $plots;
     }
 
     /**

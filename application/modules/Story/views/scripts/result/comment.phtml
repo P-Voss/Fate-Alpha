@@ -4,10 +4,12 @@ $purifier = $this->purifier;
 /* @var $charakter Story_Model_Charakter */
 $charakter = $this->charakter;
 ?>
-<fieldset>
-    <legend>Kommentar zum Charakter für diese Episode</legend>
-    <div>
-        <textarea id="comment<?= $charakter->getCharakterid() ?>" class="kommentar"><?= $purifier->purify($charakter->getResult()->getComment()) ?></textarea>
-        <input type="submit" class="saveComment" data-id="<?= $charakter->getCharakterid() ?>">
+<div class="row">
+    <div class="col-12 fs-4">
+        Kommentar zum Charakter für diese Episode
     </div>
-</fieldset>
+    <div class="col-12">
+        <textarea id="comment<?= $charakter->getCharakterid() ?>" class="kommentar"><?= $purifier->purify($charakter->getResult()->getComment()) ?></textarea>
+        <input type="submit" class="saveComment btn btn-primary" data-id="<?= $charakter->getCharakterid() ?>">
+    </div>
+</div>

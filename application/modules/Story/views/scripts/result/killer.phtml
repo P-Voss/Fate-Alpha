@@ -2,26 +2,28 @@
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 $charakterId = $this->charakterId;
-/* @var $participants Story_Model_Charakter */
+/* @var $participants Story_Model_Charakter[] */
 $participants = $this->participants;
-$selectCount = count($participants)-1 > 5 ? 5 : count($participants)-1;
+$selectCount = min(count($participants) - 1, 5);
 ?>
-<fieldset>
-    <legend>Andere Charaktere getötet</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Andere Charaktere getötet
+    </div>
+    <div class="col-6">
         <?php if(count($participants) > 1){ ?>
-        <select multiple="" size="<?= $selectCount ?>">
-        <?php foreach($participants as $charakter): 
-            if($charakter->getCharakterid() === (int)$charakterId){
-                continue;
-            }
-        ?>
-            <option value="<?= $charakter->getCharakterid() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
-        <?php endforeach; ?>
-        </select>
-        <input data-id="<?= $charakterId ?>" class="saveKills" type="submit" value="Speichern">
+            <select class="form-select" multiple="" size="<?= $selectCount ?>">
+                <?php foreach($participants as $charakter):
+                    if($charakter->getCharakterid() === (int)$charakterId){
+                        continue;
+                    }
+                    ?>
+                    <option value="<?= $charakter->getCharakterid() ?>"><?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <input data-id="<?= $charakterId ?>" class="saveKills btn btn-primary" type="submit" value="Speichern">
         <?php } else { ?>
-        Selbstmord zählt nicht.
+            Selbstmord zählt nicht.
         <?php } ?>
     </div>
-</fieldset>
+</div>

@@ -7,51 +7,68 @@ $participantsPending = $this->participantsPending;
 /* @var $episode Story_Model_Episode */
 $episode = $this->episode;
 ?>
-<h2>Status: <?= $episode->getName() ?></h2>
-<div>
-    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
-        Zurück zum Plot
-    </a>
-    <a href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
-        Episode bearbeiten
-    </a>
-</div>
-<hr />
-<div>
-    <div>
-        <fieldset id="inviteList">
-            <legend>Offen</legend>
-            <div>
-                <ul>
-                    <?php foreach($participantsPending as $charakter): ?>
-                    <li class="listRow" >
-                        <span class="charaktername">
-                            <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
-                        </span>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </fieldset>
-        <fieldset id="participantList">
-            <legend>Bereit zum Start</legend>
-            <div>
-                <ul>
-                    <?php foreach($participantsReady as $charakter): ?>
-                    <li class="listRow" >
-                        <span class="charaktername">
-                            <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
-                        </span>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </fieldset>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">Status: <?= $episode->getName() ?></h1>
     </div>
-    <fieldset>
-        <legend>Beschreibung</legend>
-        <div>
-            <?= $purifier->purify($episode->getBeschreibung()) ?>
+</div>
+
+<div class="row">
+    <div class="col-2">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
+            Zurück zum Plot
+        </a>
+    </div>
+    <div class="col-2">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
+            Episode bearbeiten
+        </a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">Offen</h2>
+    </div>
+</div>
+<div class="row">
+    <?php foreach($participantsPending as $charakter): ?>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                </div>
+            </div>
         </div>
-    </fieldset>
+    <?php endforeach; ?>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">Bereit</h2>
+    </div>
+</div>
+<div class="row">
+    <?php foreach($participantsReady as $charakter): ?>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+<div class="row">
+    <h3 class="fs-3">
+        Beschreibung
+    </h3>
+    <div class="col-12 text-muted">
+        <?= $purifier->purify($episode->getBeschreibung()) ?>
+    </div>
 </div>

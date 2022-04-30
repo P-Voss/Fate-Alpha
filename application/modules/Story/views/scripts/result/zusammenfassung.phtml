@@ -8,90 +8,126 @@ $charakterId = $charakter->getCharakterId();
 $result = $charakter->getResult();
 
 ?>
-<div style="display: inline-block; width: 50%; vertical-align: top;">
+<div class="col-3">
     <?= $purifier->purify($charakter->getResult()->getComment()) ?>
 </div>
-<div style="display: inline-block; width: 45%; vertical-align: top;">
-    <?php if(count($result->getSkillsToAdd()) > 0): ?>
-        <p>
-            Gelernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
-                return $skill->getBezeichnung();
-            }, $result->getRequestedSkills()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getSkillsToRemove()) > 0): ?>
-        <p>
-            Verlernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
-                return $skill->getBezeichnung();
-            }, $result->getSkillsToRemove()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getMagicToAdd()) > 0): ?>
-        <p>
-            Gelernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
-                return $magie->getBezeichnung();
-            }, $result->getMagicToAdd()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getMagicToRemove()) > 0): ?>
-        <p>
-            Verlernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
-                return $magie->getBezeichnung();
-            }, $result->getMagicToRemove()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getItemsToAdd()) > 0): ?>
-        <p>
-            Neue Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
-                return $item->getName();
-            }, $result->getItemsToAdd()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getItemsToRemove()) > 0): ?>
-        <p>
-            Verlorene Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
-                return $item->getName();
-            }, $result->getItemsToRemove()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if(count($result->getCharaktersKilled()) > 0): ?>
-        <p>
-            Getötete Spielercharaktere: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Charakter $charakter) {
-                return $charakter->getVorname() . ' ' . $charakter->getNachname();
-            }, $result->getCharaktersKilled()))) ?>
-        </p>
-    <?php endif; ?>
-    <?php if (count($result->getAchievementsToAdd()) > 0): ?>
-        <div>
-            <h4>Neue Erfolge:</h4>
-            <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
-                <div>
-                    <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
-                    <button
-                            class="removeAchievementRequest"
-                            data-id="<?= $achievement->getId() ?>"
-                    >
-                        Löschen
-                    </button>
-                    <p><?= $purifier->purify($achievement->getDescription()) ?></p>
-                </div>
-            <?php endforeach; ?>
+<div class="col-9">
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getSkillsToAdd()) > 0): ?>
+                <p>
+                    Gelernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
+                        return $skill->getBezeichnung();
+                    }, $result->getRequestedSkills()))) ?>
+                </p>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-    <?php if (count($result->getAchievementsToRemove()) > 0): ?>
-        <div>
-            <h4>Entfernte Erfolge:</h4>
-            <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
-                <div>
-                    <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?></span>
-                    <button
-                            class="removeAchievementRequest"
-                            data-id="<?= $achievement->getId() ?>"
-                    >
-                        Löschen
-                    </button>
-                </div>
-            <?php endforeach; ?>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getSkillsToRemove()) > 0): ?>
+                <p>
+                    Verlernte Fähigkeiten: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Skill $skill) {
+                        return $skill->getBezeichnung();
+                    }, $result->getSkillsToRemove()))) ?>
+                </p>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getMagicToAdd()) > 0): ?>
+                <p>
+                    Gelernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
+                        return $magie->getBezeichnung();
+                    }, $result->getMagicToAdd()))) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getMagicToRemove()) > 0): ?>
+                <p>
+                    Verlernte Magien: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Magie $magie) {
+                        return $magie->getBezeichnung();
+                    }, $result->getMagicToRemove()))) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getItemsToAdd()) > 0): ?>
+                <p>
+                    Neue Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
+                        return $item->getName();
+                    }, $result->getItemsToAdd()))) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getItemsToRemove()) > 0): ?>
+                <p>
+                    Verlorene Gegenstände: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Item $item) {
+                        return $item->getName();
+                    }, $result->getItemsToRemove()))) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if(count($result->getCharaktersKilled()) > 0): ?>
+                <p>
+                    Getötete Spielercharaktere: <?= $purifier->purify(implode(', ', array_map(function (Application_Model_Charakter $charakter) {
+                        return $charakter->getVorname() . ' ' . $charakter->getNachname();
+                    }, $result->getCharaktersKilled()))) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if (count($result->getAchievementsToAdd()) > 0): ?>
+                <div>
+                    <h4>Neue Erfolge:</h4>
+                    <?php foreach ($result->getAchievementsToAdd() as $achievement): ?>
+                        <div>
+                            <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?>:</span>
+                            <button
+                                    class="removeAchievementRequest"
+                                    data-id="<?= $achievement->getId() ?>"
+                            >
+                                Löschen
+                            </button>
+                            <p><?= $purifier->purify($achievement->getDescription()) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php if (count($result->getAchievementsToRemove()) > 0): ?>
+                <div>
+                    <h4>Entfernte Erfolge:</h4>
+                    <?php foreach ($result->getAchievementsToRemove() as $achievement): ?>
+                        <div>
+                            <span style="font-weight: bold"><?= $purifier->purify($achievement->getTitle()) ?></span>
+                            <button
+                                    class="removeAchievementRequest"
+                                    data-id="<?= $achievement->getId() ?>"
+                            >
+                                Löschen
+                            </button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>

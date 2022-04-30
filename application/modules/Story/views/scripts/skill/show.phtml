@@ -5,18 +5,20 @@ $purifier = $this->purifier;
 $skills = $this->skills;
 $charakterId = $this->charakterId;
 ?>
-<fieldset>
-    <legend>Fähigkeiten eintragen</legend>
-    <div>
+<div class="row">
+    <div class="col-12 fs-4">
+        Fähigkeiten eintragen
+    </div>
+    <div class="col-4">
         <?php if(count($skills) > 0){ ?>
-            <select id="learnMagien" multiple="" size="5">
+            <select class="form-select" id="learnMagien" multiple="" size="5">
                 <?php foreach($skills as $skill): ?>
                     <option value="<?= $skill->getId() ?>"><?= $purifier->purify($skill->getBezeichnung()) ?></option>
                 <?php endforeach; ?>
             </select>
-            <input class="saveSkills" type="submit" value="Speichern">
+            <input class="saveSkills btn btn-primary" type="submit" value="Speichern">
         <?php } else { ?>
-            Der Charakter kann aktuell keine Fähigkeiten per RPG lernen.
+            Der Charakter kann im Moment keine Fähigkeiten per RPG erlernen.
         <?php } ?>
     </div>
-</fieldset>
+</div>

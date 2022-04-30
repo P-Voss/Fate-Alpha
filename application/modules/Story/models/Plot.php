@@ -17,9 +17,16 @@ class Story_Model_Plot extends Application_Model_Plot {
      */
     protected $editDate;
     protected $status;
+    /**
+     * @var Application_Model_Charakter[]
+     */
+    protected $characters = [];
     
     
     public function getCreateDate($format = 'd.m.Y H:i:s') {
+        if ($this->creationdate instanceof DateTime) {
+            return $this->creationdate->format($format);
+        }
         $date = new DateTime($this->creationdate);
         return $date->format($format);
     }
@@ -28,7 +35,7 @@ class Story_Model_Plot extends Application_Model_Plot {
         return $this->editDate;
     }
 
-    public function setCreateDate($creationdate) {
+    public function setCreateDate(DateTime $creationdate) {
         $this->creationdate = $creationdate;
     }
 
@@ -42,6 +49,34 @@ class Story_Model_Plot extends Application_Model_Plot {
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+    /**
+     * @return Application_Model_Charakter[]
+     */
+    public function getCharacters()
+    {
+        return $this->characters;
+    }
+
+    /**
+     * @param Application_Model_Charakter[] $characters
+     * @return Story_Model_Plot
+     */
+    public function setCharacters(array $characters)
+    {
+        $this->characters = $characters;
+        return $this;
+    }
+
+    /**
+     * @param Application_Model_Charakter $character
+     * @return $this
+     */
+    public function addCharacter(Application_Model_Charakter $character)
+    {
+        $this->characters[] = $character;
+        return $this;
     }
     
 }

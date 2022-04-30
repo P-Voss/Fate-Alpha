@@ -13,50 +13,77 @@ foreach ($this->participants as $participant) {
 $episode = $this->episode;
 /* @var $episode Story_Model_Episode */
 ?>
-<h2>Episode für <?= $purifier->purify($this->plot->getName()) ?> ändern</h2>
-<?php if($this->editSuccess === true): ?>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">Episode für <?= $purifier->purify($this->plot->getName()) ?> ändern</h1>
+    </div>
+</div>
+<?php if($this->editSuccess): ?>
 <p>
     Änderungen Gespeichert.
 </p>
 <?php endif; ?>
-<div>
-    <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
-        Zurück zum Plot
-    </a>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $episode->getPlotId() ?>">
+            Zurück zum Plot
+        </a>
+    </div>
 </div>
+
 <hr />
-<div>
-    <form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/edit">
-        <div style="display: inline-block; width: 40%; vertical-align: top">
-            <p>
-                <label for="episodename">Episode:</label><br />
-                <input type="text" id="episodename" name="episodename" size="35" required="" value="<?= $purifier->purify($this->episode->getName()) ?>">
-            </p>
+
+
+<form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/edit">
+
+    <div class="row m-3">
+        <div class="col-6">
+            <label class="form-label" for="episodename">Episode</label>
+            <input
+                class="form-control"
+                type="text"
+                id="episodename"
+                name="episodename"
+                required=""
+                value="<?= $purifier->purify($this->episode->getName()) ?>" />
         </div>
-        <div style="display: inline-block; width: 40%">
-            <p style="vertical-align: top">
-                <label for="participants">Teilnehmer:</label><br />
-                <select class="charakterSelect" id="participants" name="participants[]" multiple="" size="<?= $participantsSize ?>">
-                    <?php foreach($this->possibleParticipants as $charakter): 
-                        $selected = in_array($charakter->getCharakterId(), $charakterIds) ? 'selected=""' : '';
+    </div>
+    <div class="row m-3">
+        <div class="col-6">
+            <label class="form-label" for="participants">Teilnehmer</label>
+            <select class="charakterSelect form-select" id="participants" name="participants[]" multiple size="<?= $participantsSize ?>">
+                <?php foreach($this->possibleParticipants as $charakter):
+                    $selected = in_array($charakter->getCharakterId(), $charakterIds) ? 'selected=""' : '';
                     ?>
                     <option <?= $selected ?> value="<?= $charakter->getCharakterId() ?>"><?= $charakter->getVorname() . ' ' . $charakter->getNachname() ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </p>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <p>
-            <label for="beschreibung">Darum gehts:</label><br />
+    </div>
+
+    <div class="row m-3">
+        <div class="col-12">
+            <label class="form-label" for="beschreibung">Darum gehts</label><br />
             <textarea name="beschreibung"><?= $purifier->purify($episode->getBeschreibung()) ?></textarea>
-        </p>
-        <input type="hidden" name="episodeId" value="<?= $episode->getId() ?>">
-        <input type="submit" value="Speichern">
-    </form>
-</div>
+        </div>
+    </div>
+
+    <div class="row m-3">
+        <div class="col-6">
+            <input type="hidden" name="episodeId" value="<?= $episode->getId() ?>">
+            <input class="btn btn-primary" type="submit" value="Speichern">
+        </div>
+    </div>
+
+</form>
+
 <hr>
-<div>
-    <form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/delete">
-        <input type="hidden" name="episodeId" value="<?= $episode->getId() ?>">
-        <input type="submit" value="Diese Episode löschen">
-    </form>
+
+<div class="row m-3">
+    <div class="col-12">
+        <form method="post" action="<?= $this->baseUrl() ?>/Story/episoden/delete">
+            <input type="hidden" name="episodeId" value="<?= $episode->getId() ?>">
+            <input class="btn btn-danger" type="submit" value="Diese Episode löschen">
+        </form>
+    </div>
 </div>

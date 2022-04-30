@@ -5,71 +5,93 @@
  *
  * @author Voß
  */
-class Application_Model_Plot {
-    
+class Application_Model_Plot
+{
+
     protected $id;
     protected $slId;
     protected $name;
     protected $beschreibung;
     protected $zusammenfassung;
-    protected $genres = array();
+    protected $genres = [];
     protected $isSecret;
 
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getBeschreibung() {
+    public function getBeschreibung()
+    {
         return $this->beschreibung;
     }
 
-    public function getGenres() {
+    public function getGenres()
+    {
         return $this->genres;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setBeschreibung($beschreibung) {
+    public function setBeschreibung($beschreibung)
+    {
         $this->beschreibung = $beschreibung;
     }
 
-    public function setGenres($genres) {
+    public function setGenres($genres)
+    {
         $this->genres = $genres;
     }
-    
-    public function getSlId() {
+
+    public function getSlId()
+    {
         return $this->slId;
     }
 
-    public function setSlId($slId) {
+    public function setSlId($slId)
+    {
         $this->slId = $slId;
     }
-    
-    public function getZusammenfassung() {
+
+    public function getZusammenfassung()
+    {
         return $this->zusammenfassung;
     }
 
-    public function setZusammenfassung($zusammenfassung) {
+    public function setZusammenfassung($zusammenfassung)
+    {
         $this->zusammenfassung = $zusammenfassung;
     }
-    
-    public function getIsSecret() {
+
+    /**
+     * @return bool
+     */
+    public function getIsSecret()
+    {
         return $this->isSecret === true;
     }
 
-    public function setIsSecret($isSecret) {
-        $this->isSecret = $isSecret;
+    /**
+     * @param bool $isSecret
+     * @return void
+     */
+    public function setIsSecret($isSecret)
+    {
+        $this->isSecret = (bool) $isSecret;
     }
-    
+
 }

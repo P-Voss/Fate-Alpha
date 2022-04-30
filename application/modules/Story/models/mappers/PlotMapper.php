@@ -67,7 +67,7 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper
             $plot->setName($result['name']);
             $plot->setBeschreibung($result['description']);
             $plot->setSlId($result['userId']);
-            $plot->setCreateDate($result['creationdate']);
+            $plot->setCreateDate(new DateTime($result['creationdate']));
             $plot->setZusammenfassung($result['outcome']);
         }
         return $plot;
@@ -84,8 +84,9 @@ class Story_Model_Mapper_PlotMapper extends Application_Model_Mapper_PlotMapper
         $data = [
             'userId' => $plot->getSlId(),
             'name' => $plot->getName(),
-            'isSecret' => $plot->getIsSecret(),
-//            'creationdate' => $plot->getCreateDate('Y-m-d H:i:s'),
+            'isSecret' => (int) $plot->getIsSecret(),
+            'creationdate' => $plot->getCreateDate('Y-m-d H:i:s'),
+            'genres' => json_encode($plot->getGenres())
         ];
         return $this->getDbTable('Plots')->insert($data);
     }
@@ -258,8 +259,8 @@ SQL;
             $charakter->setCharakterid($row->charakterId);
             $charakter->setVorname($row->vorname);
             $charakter->setNachname($row->nachname);
-            $charakter->setDatenFreigabe($row->freigabe === 1);
-            $charakter->setInvolved($row->isInvolved === 1);
+            $charakter->setDatenFreigabe((bool) $row->freigabe);
+            $charakter->setInvolved((bool) $row->isInvolved);
             $returnArray[] = $charakter;
         }
         return $returnArray;
@@ -279,9 +280,10 @@ SQL;
         $select->from('plotToGruppe');
         $select->joinInner('charakterGruppen', 'charakterGruppen.gruppenId = plotToGruppe.gruppenId');
         $select->joinLeft('charakterPlots', 'charakterPlots.plotId = plotToGruppe.plotId AND charakterPlots.charakterId = charakterGruppen.charakterId');
-        $select->joinLeft('charakter', 'charakterGruppen.charakterId = charakter.charakterId AND charakter.active = 1');
+        $select->joinInner('charakter', 'charakterGruppen.charakterId = charakter.charakterId AND charakter.active = 1');
         $select->where('plotToGruppe.plotId = ? AND charakterPlots.charakterId IS NULL', $plotId);
         $select->order('charakter.vorname ASC');
+
         $result = $this->getDbTable('Charakter')->fetchAll($select);
         foreach ($result as $row) {
             $charakter = new Story_Model_Charakter();
@@ -296,22 +298,32 @@ SQL;
     /**
      * @param int $slId
      *
-     * @return Gruppen_Model_Plot[]
+     * @return Story_Model_Plot[]
      * @throws Exception
      */
     public function getPlotsBySLId ($slId)
     {
         $returnArray = [];
         $select = $this->getDbTable('Plots')->select();
+        $select->setIntegrityCheck(false);
         $select->from('plots');
+        $select->joinInner(
+            'plotDescriptions',
+            'plotDescriptions.plotId = plots.plotId',
+            ['description']
+        );
         $select->where('userId = ? AND plots.isActive = 1', $slId);
         $result = $this->getDbTable('Plots')->fetchAll($select);
         foreach ($result as $row) {
-            $plot = new Gruppen_Model_Plot();
+            $plot = new Story_Model_Plot();
             $plot->setId($row->plotId);
             $plot->setSlId($slId);
             $plot->setName($row->name);
-            $plot->setCreateDate($row->creationdate);
+            $plot->setBeschreibung($row->description);
+            $plot->setCreateDate(new DateTime($row->creationdate));
+            if (json_decode($row->genres)) {
+                $plot->setGenres(json_decode($row->genres));
+            }
             $returnArray[] = $plot;
         }
         return $returnArray;
@@ -320,7 +332,7 @@ SQL;
     /**
      * @param int $playerId
      *
-     * @return Gruppen_Model_Plot[]
+     * @return Story_Model_Plot[]
      * @throws Exception
      */
     public function getPlotsByPlayerId ($playerId)
@@ -331,14 +343,23 @@ SQL;
         $select->from('plots');
         $select->joinInner('charakterPlots', 'charakterPlots.plotId = plots.plotId', []);
         $select->joinInner('charakter', 'charakter.charakterId = charakterPlots.charakterId AND charakter.active = 1', []);
+        $select->joinInner(
+            'plotDescriptions',
+            'plotDescriptions.plotId = plots.plotId',
+            ['description']
+        );
         $select->where('charakter.userId = ? AND plots.isActive = 1', $playerId);
         $result = $this->getDbTable('Plots')->fetchAll($select);
         foreach ($result as $row) {
-            $plot = new Gruppen_Model_Plot();
+            $plot = new Story_Model_Plot();
             $plot->setId($row->plotId);
             $plot->setSlId($row->userId);
             $plot->setName($row->name);
-            $plot->setCreateDate($row->creationdate);
+            $plot->setBeschreibung($row->description);
+            $plot->setCreateDate(new DateTime($row->creationdate));
+            if (json_decode($row->genres)) {
+                $plot->setGenres(json_decode($row->genres));
+            }
             $returnArray[] = $plot;
         }
         return $returnArray;

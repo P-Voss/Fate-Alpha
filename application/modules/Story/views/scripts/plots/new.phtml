@@ -5,53 +5,118 @@ $this->headScript()->prependFile($this->autoVersion($this->baseUrl() . '/js/cust
 $purifier = $this->purifier;
 /* @var $gruppe Gruppen_Model_Gruppe */
 ?>
-<h1>Neuen Plot erstellen</h1>
-<div>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">Neuen Plot erstellen</h1>
+    </div>
+</div>
+
+
     <?php if(count($this->eigeneGruppen) > 0) { ?>
     <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/create">
-        <p>
-            <label for="plotname">Plotname:</label>
-            <input type="text" id="plotname" name="plotname" required="">
-        </p>
-        <p>
-            <label for="gruppe">Für Gruppe:</label>
-            <select name="gruppenId" id="gruppe">
-                <?php
-                foreach ($this->eigeneGruppen as $gruppe):
-                    $gruppenArray[] = $gruppe->getId();
-                ?>
-                    <option value="<?= $gruppe->getId() ?>">
-                    <?= $gruppe->getName() ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </p>
-        <p>
-            <label for="secret">Privater Plot</label>
-            <input type="checkbox" id="secret" name="secret" checked="" value="1" />
-        <p>
-            Private Plots werden nur von offiziellen Loglesern bearbeitet. Nicht private Plots können von allen Usern eingesehen und ausgewertet werden.
-        </p>
-        <p class="genres">
-            <h2>Genres</h2>
-            <input type="checkbox" name="genre[]" name="Horror" id="Horror" value="Horror"> <label for="Horror">Horror</label>
-            <input type="checkbox" name="genre[]" name="Mystery" id="Mystery" value="Mystery"> <label for="Mystery">Mystery</label>
-            <input type="checkbox" name="genre[]" name="Action" id="Action" value="Action"> <label for="Action">Action</label>
-            <input type="checkbox" name="genre[]" name="Comedy" id="Comedy" value="Comedy"> <label for="Comedy">Comedy</label><br />
-            <input type="checkbox" name="genre[]" name="Romance" id="Romance" value="Romance"> <label for="Romance">Romance</label>
-            <input type="checkbox" name="genre[]" name="Slice of Life" id="Slice of Life" value="Slice of Life"> <label for="Slice of Life">Slice of Life</label>
-            <input type="checkbox" name="genre[]" name="Sport" id="Sport" value="Sport"> <label for="Sport">Sport</label>
-            <input type="checkbox" name="genre[]" name="Drama" id="Drama" value="Drama"> <label for="Drama">Drama</label><br />
-            <input type="checkbox" name="genre[]" name="Krimi" id="Krimi" value="Krimi"> <label for="Krimi">Krimi</label>
-            <input type="checkbox" name="genre[]" name="Forschung" id="Forschung" value="Forschung"> <label for="Forschung">Forschung</label>
-        </p>
-        <h2>Beschreibung</h2>
-        <textarea title="Beschreibung des Plots" name="beschreibung"></textarea>
-        <input type="submit" value="Storyline erstellen">
+        <div class="row m-3">
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="plotname">Name</label>
+                <input class="form-control" type="text" id="plotname" name="plotname" required="">
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="gruppe">Für Gruppe</label>
+                <select class="form-select" name="gruppenId" id="gruppe">
+                    <?php
+                    foreach ($this->eigeneGruppen as $gruppe):
+                        $gruppenArray[] = $gruppe->getId();
+                        ?>
+                        <option value="<?= $gruppe->getId() ?>">
+                            <?= $gruppe->getName() ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div class="row m-3 mb-0">
+            <div class="form-check ms-3">
+                <input class="form-check-input" type="checkbox" id="secret" name="secret" checked="" value="1" />
+                <label class="form-check-label" for="secret">Privater Plot</label>
+            </div>
+        </div>
+        <div class="row m-3 mt-0">
+            <div class="col-12 text-muted">
+                Private Plots werden nur von offiziellen Loglesern bearbeitet. Nicht private Plots können von allen Usern eingesehen und ausgewertet werden.
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="col-12">
+                <h3 class="fs-3">Genres</h3>
+            </div>
+            <div class="col-3">
+                <div class="form-check">
+                    <label class="form-check-label" for="Horror">Horror</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Horror" value="Horror">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Mystery">Mystery</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Mystery" value="Mystery">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Action">Action</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Action" value="Action">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-check">
+                    <label class="form-check-label" for="Comedy">Comedy</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Comedy" value="Comedy">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Romance">Romance</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Romance" value="Romance">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Slice of Life">Slice of Life</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Slice of Life" value="Slice of Life">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-check">
+                    <label class="form-check-label" for="Sport">Sport</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Sport" value="Sport">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Drama">Drama</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Drama" value="Drama">
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="Krimi">Krimi</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Krimi" value="Krimi">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-check">
+                    <label class="form-check-label" for="Forschung">Forschung</label>
+                    <input class="form-check-input" type="checkbox" name="genre[]" id="Forschung" value="Forschung">
+                </div>
+            </div>
+        </div>
+        <div class="row m-3">
+            <div class="col">
+                <h3 class="fs-3">Beschreibung</h3>
+            </div>
+        </div>
+        <div class="row m-3">
+            <div class="col">
+                <textarea title="Beschreibung des Plots" name="beschreibung"></textarea>
+            </div>
+        </div>
+        <div class="row m-3 justify-content-around">
+            <div class="col-3">
+                <input class="btn btn-primary btn-block" type="submit" value="Storyline erstellen">
+            </div>
+        </div>
+
     </form>
     <?php } else { ?>
     <p>
         Du musst Mitglied einer Spielergruppe sein um einen Plot zu starten.
     </p>
     <?php } ?>
-</div>

@@ -68,15 +68,22 @@ class Story_ResultController extends Zend_Controller_Action {
     
     
     public function attributesAction() {
-        $episodeId = (int)$this->getRequest()->getParam('episode');
-        $characterId = $this->getRequest()->getPost('characterId');
-        if(!$this->episodenService->isPlayer($episodeId, $characterId) || !$this->episodenService->isSL($episodeId, $this->userId)){
-            echo json_encode([]);
+        try {
+            $episodeId = (int) $this->getRequest()->getParam('episodeId');
+            $characterId = (int) $this->getRequest()->getParam('characterId');
+            if(!$this->episodenService->isPlayer($episodeId, $characterId)
+                || !$this->episodenService->isSL($episodeId, $this->userId))
+            {
+                echo json_encode([]);
+                exit;
+            }
+            $this->view->characterId = $this->getRequest()->getPost('characterId');
+            $html = $this->view->render('result/attribute.phtml');
+            echo json_encode(['html' => $html]);
+        } catch (Throwable $exception) {
+            \Zend_Debug::dump($exception);
             exit;
         }
-        $this->view->characterId = $this->getRequest()->getPost('characterId');
-        $html = $this->view->render('result/attribute.phtml');
-        echo json_encode(['html' => $html]);
     }
     
     

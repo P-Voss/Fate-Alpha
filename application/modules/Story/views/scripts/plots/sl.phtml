@@ -16,18 +16,19 @@ $submitDescriptions = [
 ];
 $participantCount = count($this->participants);
 foreach ($submitDescriptions as $key => $text) {
-    if($key <= $participantCount){
+    if ($key <= $participantCount) {
         $submitDescription = $text;
     }
 }
-$invitablesSize = count($this->invitables) > 10 ? 10 : count($this->invitables);
-$changableEpisodes = array();
-$fixedEpisodes = array();
+$invitablesSize = min(count($this->invitables), 10);
+
+$changableEpisodes = [];
+$fixedEpisodes = [];
 $episodeCount = count($this->episodes);
 /* @var $episode Story_Model_Episode */
-if($episodeCount > 0){
+if ($episodeCount > 0) {
     foreach ($this->episodes as $episode) {
-        if(in_array($episode->getStatus()->getId(), [1, 2])){
+        if (in_array($episode->getStatus()->getId(), [1, 2])) {
             $changableEpisodes[] = $episode;
         } else {
             $fixedEpisodes[] = $episode;
@@ -36,216 +37,289 @@ if($episodeCount > 0){
 }
 unset($this->episodes);
 ?>
-<h1>
-    Spielleitung - <?= $purifier->purify($plot->getName()) ?>
-</h1>
-<?php if($episodeCount === 0): ?>
-<p>
-    Dem Plot fehlen Episoden: <a href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>">Episode planen</a>
-</p>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">
+            Spielleitung - <?= $purifier->purify($plot->getName()) ?>
+        </h1>
+    </div>
+</div>
+<?php if ($episodeCount === 0): ?>
+<div class="row">
+    <div class="col-2">
+        Dem Plot fehlen Episoden:
+    </div>
+    <div class="col-8">
+        <a class="btn btn-info" href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>">Episode planen</a>
+    </div>
+</div
 <?php endif; ?>
-<div>
-    <fieldset id="participantFieldset" style="text-align: center">
-        <legend>
-            Teilnehmer
-        </legend>
-        <?php if($invitablesSize > 0){ ?>
-        <div id="inviteList" style="text-align: left">
-            <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/add">
-                <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
-                <label for="invites">
-                    <?= $submitDescription ?>:
-                </label><br />
-                <select id="invites" class="charakterSelect" name="invites[]" multiple="" size="<?= $invitablesSize ?>">
-                    <?php foreach($this->invitables as $invites): ?>
-                    <option value="<?= $invites->getCharakterid() ?>">
-                        <?= $purifier->purify($invites->getVorname() . ' ' . $invites->getNachname()) ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-                <br />
-                <input type="submit" value="Einladen">
-            </form>
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">Teilnehmer</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <?php if (count($this->participants) > 0) { ?>
+        <div class="row justify-content-around">
+            <?php foreach ($this->participants as $charakter): ?>
+                <div class="col-12 col-md-9 p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title fw-bold">
+                            <?= $purifier->purify($charakter->getVorname() . ' ' . $charakter->getNachname()) ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <?php if ($charakter->getDatenFreigabe()): ?>
+                                    <a target="blank"
+                                       class="btn btn-info"
+                                       href="<?= $this->baseUrl() ?>/Story/charakter/show/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>"
+                                    >
+                                        Daten
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-6">
+                                <?php if (!$charakter->getInvolved()): ?>
+                                    <form action="<?= $this->baseUrl() ?>/Story/charakter/remove" method="post">
+                                        <input type="hidden" name="plot" value="<?= $plot->getId() ?>" />
+                                        <input type="hidden" name="charakter" value="<?= $charakter->getCharakterid() ?>" />
+                                        <input class="btn btn-danger" type="submit" value="Entfernen" />
+                                    </form>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
         </div>
         <?php } ?>
-        <div id="participantList" style="text-align: left">
-            <ul>
-                <?php foreach($this->participants as $charakter): ?>
-                <li class="listRow" >
-                    <span class="charaktername">
-                        <?= $purifier->purify($charakter->getVorname() . ' '  . $charakter->getNachname()) ?>
-                    </span>
-                    <span class="action">
-                        <?php if($charakter->getDatenFreigabe()): ?>
-                        <a target="blank" href="<?= $this->baseUrl() ?>/Story/charakter/show/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>">
-                            <div class="information">
-                                Daten
-                            </div>
-                        </a>
-                        <?php endif; ?>
-                    </span>
-                    <span class="action">
-                        <?php if(!$charakter->getInvolved()): ?>
-                        <a href="<?= $this->baseUrl() ?>/Story/charakter/remove/charakter/<?= $charakter->getCharakterid() ?>/plot/<?= $plot->getId() ?>">
-                            <span class="episodeLink">
-                                Entfernen
-                            </span>
-                        </a>
-                        <?php endif; ?>
-                    </span>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </fieldset>
+    </div>
+    <div class="col-3">
+        <?php if ($invitablesSize > 0) { ?>
+            <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/add">
+                <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+                <label class="form-label" for="invites">
+                    <?= $submitDescription ?>:
+                </label>
+                <select id="invites" class="form-select" name="invites[]" multiple=""
+                        size="<?= $invitablesSize ?>">
+                    <?php foreach ($this->invitables as $invites): ?>
+                        <option value="<?= $invites->getCharakterid() ?>">
+                            <?= $purifier->purify($invites->getVorname() . ' ' . $invites->getNachname()) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <input class="btn btn-primary" type="submit" value="Einladen">
+            </form>
+        <?php } ?>
+    </div>
 </div>
-<?php if($episodeCount > 0): ?>
-<div>
-    <fieldset id="episodesFieldset">
-        <legend>Episoden</legend>
-        <p>
-            <a href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>">Weitere Episode planen</a>
-        </p>
-        <div id="openEpisodes">
-            <?php if(count($changableEpisodes) > 0): ?>
-            <label>Geplante Episoden:</label>
-            <ul>
-            <?php foreach($changableEpisodes as $episode): ?>
-                <li class="episode">
-                    <p>
-                        <span class="episodeName">
+
+<?php if ($episodeCount > 0): ?>
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">
+            Episoden
+            <a
+                class="btn btn-primary text-light Fs-6"
+                href="<?= $this->baseUrl() ?>/Story/episoden/new/plot/<?= $plot->getId() ?>"
+            >
+                + Neue Episode
+            </a>
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <?php if (count($changableEpisodes) > 0): ?>
+        <div class="row">
+            <div class="col">
+                <h3 class="fs-3">
+                    Geplante Episoden
+                </h3>
+            </div>
+        </div>
+        <div class="row justify-content-around" style="height: 20rem; overflow: auto">
+            <?php foreach ($changableEpisodes as $episode): ?>
+            <div class="col-12 col-md-9 p-3">
+                <div class="card" style="width: 100%">
+                    <div class="card-body">
+                        <div class="card-title fw-bold">
                             <?= $purifier->purify($episode->getName()); ?>
-                        </span>
-                    </p>
-                    <p>
-                        <span class="episodeStatus" style="background-color: <?= $episode->getStatus()->getColorCode() ?>">
-                            <?= $episode->getStatus()->getStatus() ?>
-                        </span>
-                        <span class="episodeAction">
-                            <a href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>">
-                                <span class="episodeLink">
-                                    Bearbeiten
-                                </span>
-                            </a>
-                        </span>
-                        <span class="episodeStart">
-                        <?php if($episode->getStatus()->getId() === 1){ ?>
-                            <a href="<?= $this->baseUrl() ?>/Story/episoden/start/episode/<?= $episode->getId() ?>">
-                                <span class="episodeLink">
-                                    Start
-                                </span>
-                            </a>
-                        <?php } else { ?>
-                            <a href="<?= $this->baseUrl() ?>/Story/episoden/status/episode/<?= $episode->getId() ?>">
-                                <span class="episodeLink">
-                                    Status
-                                </span>
-                            </a>
-                        <?php } ?>
-                        </span>
-                    </p>
-                </li>
+                        </div>
+                        <div class="row">
+                            <div
+                                class="col-6 align-middle text-center fw-bold"
+                                style="background-color: <?= $episode->getStatus()->getColorCode() ?>"
+                            >
+                                <?= $episode->getStatus()->getStatus() ?>
+                            </div>
+                            <div class="col-3">
+                                <div class="d-grid">
+                                    <a
+                                        class="btn btn-info"
+                                        href="<?= $this->baseUrl() ?>/Story/episoden/review/episode/<?= $episode->getId() ?>"
+                                    >
+                                        Bearbeiten
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <?php if ($episode->getStatus()->getId() === 1) { ?>
+                                    <form
+                                        method="post"
+                                        action="<?= $this->baseUrl() ?>/Story/episoden/start"
+                                    >
+                                        <input type="hidden" value="<?= $episode->getId() ?>" name="episode" />
+
+                                        <div class="d-grid">
+                                            <input class="btn btn-primary btn-block" type="submit" value="Start" />
+                                        </div>
+                                    </form>
+                                <?php } else { ?>
+                                    <div class="d-grid">
+                                        <a class="btn btn-info btn-block" href="<?= $this->baseUrl() ?>/Story/episoden/status/episode/<?= $episode->getId() ?>">
+                                            Status
+                                        </a>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
         </div>
-        <div id="closedEpisodes">
-            <?php if(count($fixedEpisodes) > 0): ?>
-                <label>Episoden in Aktion</label>
-                <ul>
-                <?php foreach($fixedEpisodes as $episode): ?>
-                    <li class="episodeActive <?= $episode->getStatus()->getId() === 7 ? 'episodeRejected' : '' ?>">
-                        <div class="data">
-                            <span class="episodeName">
-                                <?= $purifier->purify($episode->getName()); ?>
-                            </span>
-                            <div>
-                                <span class="episodeStatus" style="background-color: <?= $episode->getStatus()->getColorCode() ?>">
-                                    <?= $episode->getStatus()->getStatus() ?>
-                                </span>
+        <?php endif; ?>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col">
+                <h3 class="fs-3">
+                    Aktive Episoden
+                </h3>
+            </div>
+        </div>
+        <?php foreach ($fixedEpisodes as $episode): ?>
+            <div class="col-12 col-md-9 p-3">
+                <div class="card" style="width: 100%">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card-title fw-bold">
+                                            <?= $purifier->purify($episode->getName()); ?>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-12 align-middle text-center fw-bold"
+                                        style="background-color: <?= $episode->getStatus()->getColorCode() ?>"
+                                    >
+                                        <?= $episode->getStatus()->getStatus() ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row g-2">
+                                    <?php if (in_array($episode->getStatus()->getId(), [7])): ?>
+                                        <div class="col-12 d-grid">
+                                            <a
+                                                class="btn btn-info"
+                                                style="background-color: <?= $episode->getStatus()->getId() === 7 ? 'yellow' : '' ?>"
+                                                href="<?= $this->baseUrl() ?>/Story/episoden/feedback/episode/<?= $episode->getId() ?>"
+                                            >
+                                                Ablehnungsgrund
+                                            </a>
+                                        </div>
+                                    <?php
+                                    endif;
+                                    ?>
+                                    <div class="col-12 d-grid">
+                                        <a
+                                            class="btn btn-info"
+                                            href="<?= $this->baseUrl() ?>/Story/episoden/logs/episode/<?= $episode->getId() ?>"
+                                        >
+                                            Logs
+                                        </a>
+                                    </div>
+                                    <?php if (in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
+                                        <div class="col-12 d-grid">
+                                            <a
+                                                class="btn btn-info"
+                                                href="<?= $this->baseUrl() ?>/Story/episoden/result/episode/<?= $episode->getId() ?>"
+                                            >
+                                                Episode auswerten
+                                            </a>
+                                        </div>
+                                    <?php
+                                    endif;
+                                    ?>
+                                    <?php if (in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
+                                        <div class="col-12 d-grid">
+                                            <a
+                                                class="btn btn-primary"
+                                                href="<?= $this->baseUrl() ?>/Story/episoden/finish/episode/<?= $episode->getId() ?>"
+                                            >
+                                                Episode abschließen
+                                            </a>
+                                        </div>
+                                    <?php
+                                    endif;
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                        <div class="actions">
-                            <?php if(in_array($episode->getStatus()->getId(), [7])): ?>
-                            <div class="listDiv">
-                                <a href="<?= $this->baseUrl() ?>/Story/episoden/feedback/episode/<?= $episode->getId() ?>">
-                                    <span class="episodeAction <?= $episode->getStatus()->getId() === 7 ? 'episodeStatusRejected' : '' ?>">
-                                        Ablehnungsgrund
-                                    </span>
-                                </a>
-                            </div>
-                            <?php
-                            endif;
-                            ?>
-                            <div class="listDiv">
-                                <a href="<?= $this->baseUrl() ?>/Story/episoden/logs/episode/<?= $episode->getId() ?>">
-                                    <span class="episodeAction">
-                                        Logs
-                                    </span>
-                                </a>
-                            </div>
-                            <?php if(in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
-                            <div class="listDiv">
-                                <a href="<?= $this->baseUrl() ?>/Story/episoden/result/episode/<?= $episode->getId() ?>">
-                                    <span class="episodeAction">
-                                        Episode auswerten
-                                    </span>
-                                </a>
-                            </div>
-                            <?php
-                            endif;
-                            ?>
-                            <?php if(in_array($episode->getStatus()->getId(), [3, 4, 7])): ?>
-                            <div class="listDiv">
-                                <a href="<?= $this->baseUrl() ?>/Story/episoden/finish/episode/<?= $episode->getId() ?>">
-                                    <span class="episodeAction">
-                                        Episode abschließen
-                                    </span>
-                                </a>
-                            </div>
-                            <?php
-                            endif;
-                            ?>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
-        </div>
-    </fieldset>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
 <?php endif; ?>
-<fieldset>
-    <legend>
-        Beschreibung
-    </legend>
-    <div>
-        <?= $purifier->purify($plot->getBeschreibung()) ?>
+
+<div class="row">
+    <div class="col">
+        <h2 class="fs-2">
+            Administration
+        </h2>
     </div>
-</fieldset>
-<fieldset>
-    <legend>Plot ändern <span class="indicator"></span></legend>
-    <div class="subContent">
-        <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/edit">
-            <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
-            <span>
-                <label for="plotname">
+</div>
+<div class="row m-3">
+    <div class="col-8">
+        <form class="row" method="post" action="<?= $this->baseUrl() ?>/Story/plots/edit">
+            <div class="col-12">
+                <h3 class="fs-3">
+                    Plot ändern
+                </h3>
+            </div>
+            <div class="col-1 m-1">
+                <label class="form-label" for="plotname">
                     Plotname
                 </label>
-                <input type="text" name="plotname" id="plotname" value="<?= $plot->getName() ?>">
-            </span>
-            <textarea name="beschreibung"><?= $purifier->purify($plot->getBeschreibung()) ?></textarea>
-            <input type="submit" value="speichern" />
+            </div>
+            <div class="col-4 m-1">
+                <input class="form-control" type="text" name="plotname" id="plotname" value="<?= $plot->getName() ?>">
+            </div>
+            <div class="col-6 m-1">
+                <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+                <input class="btn btn-primary" type="submit" value="speichern"/>
+            </div>
+            <div class="col-12">
+                <textarea name="beschreibung"><?= $purifier->purify($plot->getBeschreibung()) ?></textarea>
+            </div>
         </form>
     </div>
-</fieldset>
-<fieldset>
-    <legend>Plot löschen <span class="indicator"></span></legend>
-    <div class="subContent">
+    <div class="col-4">
+        <h3 class="fs-3">Plot löschen</h3>
         <p>Plots können nur gelöscht werden, solange keine Episoden gestartet wurden.</p>
         <form method="post" action="<?= $this->baseUrl() ?>/Story/plots/delete">
             <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
-            <input type="submit" value="Plot löschen" />
+            <input class="btn btn-danger" type="submit" value="Plot löschen"/>
         </form>
     </div>
-</fieldset>
+</div>

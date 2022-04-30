@@ -35,24 +35,36 @@ if($episodeCount > 0){
 }
 unset($this->episodes);
 ?>
-<h1>
-    <?= $purifier->purify($plot->getName()) ?>
-</h1>
-<div>
-    Charakterdaten für den Spielleiter freigeben?
-    <form method="post" action="<?= $this->baseUrl() ?>/Story/charakter/freigabe">
-        <span>
-            <input type="radio" id="ja" value="1" name="freigabe" <?= $this->freigabe ? 'checked=""' : '' ?>> <label for="ja">Ja</label>
-        </span>
-        <span style="margin-left: 2em">
-            <input type="radio" id="nein" value="0" name="freigabe" <?= $this->freigabe ? '' : 'checked=""' ?>> <label for="nein">Nein</label>
-        </span>
-        <span style="margin-left: 2em">
-            <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
-            <input type="submit" value="Auswahl speichern">
-        </span>
-    </form>
+<div class="row">
+    <div class="col">
+        <h1 class="fs-1">
+            <?= $purifier->purify($plot->getName()) ?>
+        </h1>
+    </div>
 </div>
+
+<form class="row" method="post" action="<?= $this->baseUrl() ?>/Story/charakter/freigabe">
+
+    <div class="col-12">
+        <label class="form-label" for="freigabe">
+            Charakterdaten für den Spielleiter freigeben?
+        </label>
+    </div>
+
+    <div class="col-2">
+        <select class="form-select" id="freigabe" name="freigabe" size="2">
+            <option value="0" <?= $this->freigabe ? '' : 'selected=""' ?>>Nein</option>
+            <option value="1"<?= $this->freigabe ? 'selected=""' : '' ?>>Ja</option>
+        </select>
+    </div>
+
+    <div class="col-4">
+        <input type="hidden" name="plotId" value="<?= $plot->getId() ?>">
+        <input class="btn btn-primary" type="submit" value="Auswahl speichern">
+    </div>
+
+</form>
+
 <fieldset>
     <legend>
         Beschreibung

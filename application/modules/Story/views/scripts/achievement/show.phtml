@@ -3,19 +3,29 @@
 $purifier = $this->purifier;
 $charakterId = $this->charakterId;
 ?>
-<fieldset>
-    <legend>Errungenschaften eintragen</legend>
-    <div>
-        <label for="title_<?= $charakterId ?>">
+<div class="row">
+    <div class="col-12 fs-4">
+        Errungenschaften eintragen
+    </div>
+</div>
+<div class="row">
+    <div class="col-1">
+        <label class="form-label" for="title_<?= $charakterId ?>">
             Titel
         </label>
-        <input type="text" id="title_<?= $charakterId ?>" />
     </div>
-    <div>
-        <label for="description_<?= $charakterId ?>">
+    <div class="col-3">
+        <input class="form-control" type="text" id="title_<?= $charakterId ?>" />
+    </div>
+    <div class="col-4">
+        <input type="submit" class="saveAchievement btn btn-primary" value="Speichern" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-8">
+        <label class="form-label" for="description_<?= $charakterId ?>">
             Beschreibung
         </label>
-        <textarea id="description_<?= $charakterId ?>" />
+        <textarea id="description_<?= $charakterId ?>" ></textarea>
     </div>
-    <input type="submit" class="saveAchievement" />
-</fieldset>
+</div>

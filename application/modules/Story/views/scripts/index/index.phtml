@@ -3,47 +3,72 @@ $this->headLink()->appendStylesheet($this->autoVersion($this->baseUrl() . '/styl
 /* @var $purifier HTMLPurifier */
 $purifier = $this->purifier;
 /* @var $plot Story_Model_Plot */
+//\Zend_Debug::dump($this->leadPlots);
+//exit;
 ?>
-<h1>
-    Storycenter
-</h1>
-<div>
-    <a href="<?= $this->baseUrl() ?>/Story/plots/new">Neuen Plot starten</a>
+<div class="row">
+    <div class="col-12">
+        <h1 class="fs-1">
+            Storycenter
+            <a class="btn btn-primary text-light fs-6" href="<?= $this->baseUrl() ?>/Story/plots/new">Neuen Plot starten</a>
+        </h1>
+    </div>
 </div>
-<fieldset>
-    <legend>Deine Plots</legend>
-    <?php if(count($this->leadPlots) > 0): ?>
-    <div id="slPlots">
-        <h2>
-            Als Spielleiter
-        </h2>
-        <ul>
-            <?php foreach($this->leadPlots as $plot): ?>
-            <li>
-                <a href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $plot->getId() ?>">
-                    <?= $purifier->purify($plot->getName()) ?>
+
+<div class="row">
+    <div class="col-6">
+        <?php if(count($this->leadPlots) > 0): ?>
+        <div class="row">
+            <div class="col">
+                <h2 class="fs-2">Als Spielleiter</h2>
+            </div>
+        </div>
+        <div class="row">
+        <?php foreach($this->leadPlots as $plot): ?>
+            <div class="col-12 p-2">
+                <a class="card" href="<?= $this->baseUrl() ?>/Story/plots/sl/id/<?= $plot->getId() ?>">
+                    <div class="card-body" style="height: 13rem; overflow: auto;">
+                        <div class="card-title fs-3">
+                            <?= $purifier->purify($plot->getName()) ?>
+                            <span class="fs-6">(<?= count($plot->getCharacters()) ?> Spieler)</span>
+                        </div>
+                        <div class="card-subtitle text-muted">
+                            <?= $purifier->purify(implode(', ', $plot->getGenres())) ?>
+                        </div>
+                        <div class="card-subtitle text-muted">
+                            <?= $purifier->purify($plot->getBeschreibung()) ?>
+                        </div>
+                    </div>
                 </a>
-            </li>
-            <?php endforeach; ?>
-        </ul>
+            </div>
+        <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </div>
-    <?php 
-    endif;
-    if(count($this->playerPlots) > 0):
-    ?>
-    <div id="playerPlots">
-        <h2>Als Spieler</h2>
-        <ul>
+    <div class="col-6">
+        <div class="row">
+            <div class="col">
+                <h2 class="fs-2">Als Spieler</h2>
+            </div>
+        </div>
+        <div class="row">
             <?php foreach($this->playerPlots as $plot): ?>
-            <li>
-                <a href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $plot->getId() ?>">
-                    <?= $purifier->purify($plot->getName()) ?>
-                </a>
-            </li>
+                <div class="col-12 p-2">
+                    <a class="card" href="<?= $this->baseUrl() ?>/Story/plots/show/id/<?= $plot->getId() ?>">
+                        <div class="card-body" style="height: 13rem; overflow: auto;">
+                            <div class="card-title fs-3">
+                                <?= $purifier->purify($plot->getName()) ?>
+                            </div>
+                            <div class="card-subtitle text-muted">
+                                <?= $purifier->purify(implode(', ', $plot->getGenres())) ?>
+                            </div>
+                            <div class="card-subtitle text-muted">
+                                <?= $purifier->purify($plot->getBeschreibung()) ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             <?php endforeach; ?>
-        </ul>
+        </div>
     </div>
-    <?php 
-    endif;
-    ?>
-</fieldset>
+</div>
