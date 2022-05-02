@@ -1115,23 +1115,33 @@ class Application_Model_Mapper_CharakterMapper
     {
         $returnArray = [];
         $sql = <<<SQL
-    SELECT * FROM (
-        SELECT skillToEigenschaft.*, charakterId 
-            FROM charakterSkills 
-            INNER JOIN skillToEigenschaft 
-                USING (skillId)
-        UNION 
-            SELECT effectId, traitId, traitToAttribute.attribute as eigenschaft, traitToAttribute.value as effekt, '' as effektart, characterId AS charakterId 
-                FROM characterTraits 
-                INNER JOIN traitToAttribute 
-                    USING (traitId)
-        UNION 
-            SELECT klasseToEigenschaft.*, charakterId 
-                FROM charakter 
-                INNER JOIN klasseToEigenschaft 
-                    USING (klassenId)
-        ) AS modifications
-    WHERE charakterId = ?
+SELECT * FROM (
+    SELECT skillToEigenschaft.*, charakterId 
+        FROM charakterSkills 
+        INNER JOIN skillToEigenschaft 
+            USING (skillId)
+    UNION 
+        SELECT
+            IF(focusTraitAttribute.traitId IS NOT NULL, focusTraitAttribute.effectId, traitToAttribute.effectId) AS effectId,
+            IF(focusTraitAttribute.traitId IS NOT NULL, traits.focustraitId, characterTraits.traitId) AS traitId,
+            IF(focusTraitAttribute.traitId IS NOT NULL, focusTraitAttribute.attribute, traitToAttribute.attribute) AS attribute,
+            IF(focusTraitAttribute.traitId IS NOT NULL, focusTraitAttribute.value, traitToAttribute.value) AS value,
+            '' as effektart,
+            characterTraits.characterId AS charakterId
+        FROM characterTraits
+        
+        INNER JOIN traitToAttribute
+            USING (traitId)
+        
+        LEFT JOIN traits ON characterTraits.storyType = 5 AND characterTraits.traitId = traits.traitId
+        LEFT JOIN traitToAttribute as focusTraitAttribute ON focusTraitAttribute.traitId = traits.focustraitId
+    UNION 
+        SELECT klasseToEigenschaft.*, charakterId 
+            FROM charakter 
+            INNER JOIN klasseToEigenschaft 
+                USING (klassenId)
+) AS modifications
+WHERE charakterId = ?
 SQL;
 
         try
