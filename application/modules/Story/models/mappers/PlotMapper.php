@@ -304,25 +304,31 @@ SQL;
     public function getPlotsBySLId ($slId)
     {
         $returnArray = [];
-        $select = $this->getDbTable('Plots')->select();
-        $select->setIntegrityCheck(false);
-        $select->from('plots');
-        $select->joinInner(
-            'plotDescriptions',
-            'plotDescriptions.plotId = plots.plotId',
-            ['description']
-        );
-        $select->where('userId = ? AND plots.isActive = 1', $slId);
-        $result = $this->getDbTable('Plots')->fetchAll($select);
+
+        $sql = <<<SQL
+SELECT plots.*, plotDescriptions.description
+FROM plots
+LEFT JOIN (
+    SELECT max(creationdate) AS datetime, plotId
+    FROM plotDescriptions
+    GROUP BY plotId
+) AS plotDescriptionDate ON plotDescriptionDate.plotId = plots.plotId
+LEFT JOIN plotDescriptions ON plotDescriptionDate.plotId = plotDescriptions.plotId AND plotDescriptionDate.datetime = plotDescriptions.creationdate
+WHERE userId = ? AND isActive = 1
+SQL;
+        $select = $this->getDbTable('Plots')->getAdapter()->prepare($sql);
+        $select->execute([$slId]);
+        $result = $select->fetchAll();
+
         foreach ($result as $row) {
             $plot = new Story_Model_Plot();
-            $plot->setId($row->plotId);
+            $plot->setId($row['plotId']);
             $plot->setSlId($slId);
-            $plot->setName($row->name);
-            $plot->setBeschreibung($row->description);
-            $plot->setCreateDate(new DateTime($row->creationdate));
-            if (json_decode($row->genres)) {
-                $plot->setGenres(json_decode($row->genres));
+            $plot->setName($row['name']);
+            $plot->setBeschreibung($row['description']);
+            $plot->setCreateDate(new DateTime($row['creationdate']));
+            if (json_decode($row['genres'])) {
+                $plot->setGenres(json_decode($row['genres']));
             }
             $returnArray[] = $plot;
         }
